@@ -11,7 +11,7 @@ const recursosData = [
         formato: "pdf",
         dificultad: "Básico",
         tecnologia: "LinkedIn",
-        url: "static/recursos/empleabilidad/MANUAL - Perfil LinkedIn.pdf"
+        url: "static/recursos/empleabilidad/MANUAL - Optimizar Perfil LinkedIn.pdf"
     },
     {
         id: 2,
