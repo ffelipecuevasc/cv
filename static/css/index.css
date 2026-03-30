@@ -68,6 +68,15 @@ body {
     animation: scale-in 0.5s ease-out forwards;
 }
 
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+.badge-float {
+    animation: float 3s ease-in-out infinite;
+}
+
 /* =========================================
    7. Custom Scrollbar (Webkit)
    ========================================= */
