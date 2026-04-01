@@ -132,3 +132,22 @@ body {
         height: 600px !important;
     }
 }
+
+/* =========================================
+   9. Component: Portfolio Spotlight
+   ========================================= */
+.pf-card {
+    transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.pf-card.pf-dimmed {
+    opacity: 0.22;
+    filter: blur(2px) grayscale(1);
+    transform: scale(0.975);
+    pointer-events: none;
+}
+
+.pf-card.pf-active {
+    box-shadow: 0 0 0 2px var(--color-primary), 0 12px 40px rgba(var(--color-primary-rgb), 0.22);
+    transform: translateY(-3px);
+}
