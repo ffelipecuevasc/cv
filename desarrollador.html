@@ -317,14 +317,21 @@
                 </div>
 
                 <!-- Magnetic Filter Tags -->
-                <div class="flex gap-3 shrink-0" data-aos="fade-left" data-aos-delay="100">
-                    <button id="pf-btn-front"
-                            class="group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary/40 bg-white dark:bg-orient-950 text-orient-600 dark:text-orient-300 text-sm font-bold tracking-wide shadow-sm transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
+                <div class="flex gap-3 shrink-0 overflow-x-auto pb-2 md:pb-0" data-aos="fade-left" data-aos-delay="100">
+                    <button id="pf-btn-all" data-filter="all"
+                            class="filter-btn active group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary bg-primary text-white text-sm font-bold tracking-wide shadow-lg shadow-primary/30 -translate-y-0.5 transition-all duration-300">
+                        <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:rotate-12">apps</span>
+                        Todos
+                    </button>
+
+                    <button id="pf-btn-front" data-filter="frontend"
+                            class="filter-btn group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-orient-300 dark:border-orient-700 bg-white dark:bg-orient-950 text-orient-600 dark:text-orient-300 text-sm font-bold tracking-wide shadow-sm transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
                         <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:rotate-12">web</span>
                         Front-End
                     </button>
-                    <button id="pf-btn-back"
-                            class="group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-orient-300 dark:border-orient-700 bg-white dark:bg-orient-950 text-orient-600 dark:text-orient-300 text-sm font-bold tracking-wide shadow-sm transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
+
+                    <button id="pf-btn-back" data-filter="backend"
+                            class="filter-btn group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-orient-300 dark:border-orient-700 bg-white dark:bg-orient-950 text-orient-600 dark:text-orient-300 text-sm font-bold tracking-wide shadow-sm transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
                         <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:rotate-12">api</span>
                         Back-End
                     </button>
