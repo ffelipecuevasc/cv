@@ -49,18 +49,29 @@
 
             <div class="flex flex-col gap-16 w-full">
 
+                <!-- ============================================================
+                     SECCIÓN 1: TÍTULO DE PÁGINA
+                     ANTES: Sin ninguna animación de entrada.
+                     AHORA: h1 con fade-down, subtítulo con fade-up (delay 100),
+                            y la columna de fecha/badge con fade-left (delay 200).
+                ============================================================ -->
                 <section id="título">
                     <div class="flex flex-col gap-6">
                         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-orient-200 dark:border-orient-800 pb-12">
                             <div class="max-w-3xl">
-                                <h1 class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-orient-950 dark:text-orient-50 mb-4">
+                                <h1 data-aos="fade-down"
+                                    class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-orient-950 dark:text-orient-50 mb-4">
                                     Docente Universitario
                                 </h1>
-                                <p class="text-2xl font-semibold text-primary dark:text-orient-400">
+                                <p data-aos="fade-up" data-aos-delay="100"
+                                   class="text-2xl font-semibold text-primary dark:text-orient-400">
                                     UTECH INACAP | Duoc UC | IPLACEX
                                 </p>
                             </div>
-                            <div class="flex flex-col md:items-end gap-2">
+                            <!-- ANTES: div sin animación.
+                                 AHORA: fade-left con delay para que entre después del título. -->
+                            <div data-aos="fade-left" data-aos-delay="200"
+                                 class="flex flex-col md:items-end gap-2">
                                 <span class="text-xl font-medium text-orient-600 dark:text-orient-400">Ene 2013 — Ene 2024</span>
                                 <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 border border-transparent dark:border-orient-700 text-orient-900 dark:text-orient-200 text-sm font-bold rounded-full w-fit">Presencial</span>
                             </div>
@@ -68,29 +79,55 @@
                     </div>
                 </section>
 
+                <!-- ============================================================
+                     SECCIÓN 2: ASIGNATURAS IMPARTIDAS
+                     ANTES: h2 sin AOS. Las 4 tarjetas tampoco tenían AOS,
+                            solo transiciones hover básicas.
+                     AHORA: h2 con fade-right + línea decorativa (patrón de
+                            talento-digital.html). Cada tarjeta con fade-up
+                            escalonado (delay 0 / 100 / 200 / 300). Se añade
+                            clase "group" y group-hover al ícono de la tarjeta
+                            para que escale al pasar el cursor.
+                ============================================================ -->
                 <section id="asignaturas">
-                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
-                        Asignaturas Impartidas
-                    </h2>
+                    <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
+                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">menu_book</span>
+                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
+                            Asignaturas Impartidas
+                        </h2>
+                        <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">
-                                Fundamentos de Programación</p>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+
+                        <!-- Tarjeta 1 -->
+                        <div data-aos="fade-up" data-aos-delay="0"
+                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">terminal</span>
+                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                    Fundamentos de Programación</p>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
                                 En varios semestres dicté esta asignatura, inicialmente solo utilizando DFDs y
                                 pseudocódigo, pero después me tocó enseñar esta asignatura utilizando el lenguaje de
                                 programación <strong>Python</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Pseudocódigo</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Python</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Pseudocódigo</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python</span>
                             </div>
                         </div>
-                        <div class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">
-                                Programación de Aplicaciones</p>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+
+                        <!-- Tarjeta 2 -->
+                        <div data-aos="fade-up" data-aos-delay="100"
+                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">code</span>
+                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                    Programación de Aplicaciones</p>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
                                 Me especialicé en hacer clases de
                                 programación en <strong>Java</strong>, <strong>PHP</strong> y
                                 <strong>Python</strong>.
@@ -101,14 +138,20 @@
                                 en el caso de <strong>Java</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Python (Django)</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Java (Spring)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python (Django)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Java (Spring)</span>
                             </div>
                         </div>
-                        <div class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">
-                                Administración Bases de Datos</p>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+
+                        <!-- Tarjeta 3 -->
+                        <div data-aos="fade-up" data-aos-delay="200"
+                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">database</span>
+                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                    Administración Bases de Datos</p>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
                                 Hice clases como instructor certificado en administración de <strong>Oracle
                                 DB</strong>,
                                 también me tocó impartir asignaturas de administración en <strong>SQL Server
@@ -116,35 +159,57 @@
                                 de diseño de bases de datos con <strong>MySQL</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Oracle DB</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">MySQL</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Oracle DB</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">MySQL</span>
                             </div>
                         </div>
-                        <div class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">
-                                Ingeniería de Datos</p>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+
+                        <!-- Tarjeta 4 -->
+                        <div data-aos="fade-up" data-aos-delay="300"
+                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">science</span>
+                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                    Ingeniería de Datos</p>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
                                 Actualmente imparto asignaturas relacionadas a <strong>Data Engineering</strong>
                                 para el <em>Campus a Distancia (CED)</em> de <strong>IPLACEX</strong> donde soy el
                                 docente que desarrolló el plan
                                 formativo de la asignatura <strong>Limpieza y Preparación de Datos - Python</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Python</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default">Data Engineering</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Data Engineering</span>
                             </div>
                         </div>
+
                     </div>
                 </section>
 
+                <!-- ============================================================
+                     SECCIÓN 3: EXPERIENCIA POR INSTITUCIÓN
+                     ANTES: h2 sin AOS. Las 3 entradas tenían fade-right pero
+                            sin delays, por lo que entraban todas idénticas.
+                     AHORA: h2 con fade-right + línea decorativa. Cada entrada
+                            de institución tiene delay escalonado (0 / 150 / 300)
+                            para un efecto de cascada descendente.
+                ============================================================ -->
                 <section id="experiencia">
-                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50">school</span>
-                        Experiencia por Institución
-                    </h2>
+                    <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
+                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">school</span>
+                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
+                            Experiencia por Institución
+                        </h2>
+                        <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
+                    </div>
+
                     <div class="space-y-6">
+
+                        <!-- IPLACEX — delay 0 -->
                         <section id="iplacex">
-                            <div data-aos="fade-right" class="scholarly-accent pl-6 py-2">
+                            <div data-aos="fade-right" data-aos-delay="0"
+                                 class="scholarly-accent pl-6 py-2">
                                 <p class="text-sm font-bold text-primary/70 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2024 - Actualidad</p>
                                 <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
@@ -168,8 +233,11 @@
                                 </a>
                             </div>
                         </section>
+
+                        <!-- Duoc UC — delay 150 -->
                         <section id="duoc">
-                            <div data-aos="fade-right" class="scholarly-accent pl-6 py-2">
+                            <div data-aos="fade-right" data-aos-delay="150"
+                                 class="scholarly-accent pl-6 py-2">
                                 <p class="text-sm font-bold text-primary/70 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2023 - 2024</p>
                                 <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
@@ -189,8 +257,11 @@
                                 </a>
                             </div>
                         </section>
+
+                        <!-- INACAP — delay 300 -->
                         <section id="inacap">
-                            <div data-aos="fade-right" class="scholarly-accent pl-6 py-2">
+                            <div data-aos="fade-right" data-aos-delay="300"
+                                 class="scholarly-accent pl-6 py-2">
                                 <p class="text-sm font-bold text-primary/70 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2013 - 2020</p>
                                 <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
@@ -214,18 +285,36 @@
                                 </a>
                             </div>
                         </section>
+
                     </div>
                 </section>
 
+                <!-- ============================================================
+                     SECCIÓN 4: TUTOR DE ALUMNOS
+                     ANTES: h2 sin AOS. El card tampoco tenía AOS, solo era
+                            estático en pantalla.
+                     AHORA: h2 con fade-right + línea decorativa. El card
+                            usa zoom-in (igual que la sección de logros de
+                            talento-digital.html) para un impacto visual mayor.
+                            El ícono del avatar tiene hover:rotate-12 y
+                            hover:scale-110 para darle vida. Los 3 stats
+                            mantienen el hover:-translate-y-1 original.
+                ============================================================ -->
                 <section id="tutor">
-                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50">groups</span>
-                        Tutor de Alumnos
-                    </h2>
-                    <div class="bg-orient-50 dark:bg-transparent rounded-2xl p-8 border border-orient-200 dark:border-orient-800">
+                    <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
+                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">groups</span>
+                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
+                            Tutor de Alumnos
+                        </h2>
+                        <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
+                    </div>
+
+                    <div data-aos="zoom-in" data-aos-delay="100"
+                         class="bg-orient-50 dark:bg-transparent rounded-2xl p-8 border border-orient-200 dark:border-orient-800 hover:shadow-lg hover:shadow-primary/10 transition-shadow duration-300">
                         <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-                            <div class="w-24 h-24 rounded-full bg-orient-100 dark:bg-orient-900 flex items-center justify-center shrink-0">
-                                <span class="material-symbols-outlined text-4xl text-primary dark:text-orient-400">workspace_premium</span>
+                            <!-- Avatar con hover interactivo -->
+                            <div class="w-24 h-24 rounded-full bg-orient-100 dark:bg-orient-900 flex items-center justify-center shrink-0 hover:scale-110 hover:bg-primary/10 transition-all duration-300 cursor-default">
+                                <span class="material-symbols-outlined text-4xl text-primary dark:text-orient-400 hover:rotate-12 transition-transform duration-300">workspace_premium</span>
                             </div>
                             <div>
                                 <p class="text-xl font-bold mb-3 text-orient-950 dark:text-orient-50 transition-colors duration-300">
@@ -255,9 +344,23 @@
                     </div>
                 </section>
 
+                <!-- ============================================================
+                     SECCIÓN 5: FOTO + CARD DE INSTITUCIONES
+                     ANTES: Ambos elementos sin ningún AOS. La foto y el card
+                            aparecían estáticos al cargar.
+                     AHORA: Foto con fade-right (entra desde la izquierda).
+                            Card de instituciones con fade-left (entra desde la
+                            derecha), creando simetría visual de entrada opuesta.
+                            El botón CTA al pie del card tiene hover:scale-[1.02]
+                            además del color ya existente.
+                            La sección de "Cargos Especiales" debajo del card
+                            usa fade-up con delay para completar el conjunto.
+                ============================================================ -->
                 <section id="trayectoria-academica" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full">
 
-                    <article id="fotografia-institucional"
+                    <!-- Foto institucional -->
+                    <article data-aos="fade-right"
+                             id="fotografia-institucional"
                              class="rounded-xl overflow-hidden aspect-[2/1] relative group w-full">
                         <img alt="Inacap Santiago Centro"
                              class="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-700"
@@ -269,7 +372,9 @@
                         </div>
                     </article>
 
-                    <article id="instituciones"
+                    <!-- Card de instituciones -->
+                    <article data-aos="fade-left" data-aos-delay="100"
+                             id="instituciones"
                              class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-200 dark:border-orient-800 flex flex-col justify-between w-full h-full">
                         <div>
                             <h3 class="text-xl font-bold text-primary dark:text-orient-50 mb-6 flex items-center gap-2">
@@ -277,56 +382,92 @@
                                 Instituciones
                             </h3>
                             <div class="space-y-4">
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 transition-colors duration-300 group"
+                                <!-- IPLACEX row -->
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
                                    href="#iplacex">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
                                                 IPLACEX</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400 transition-colors duration-300">
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
                                                 Docente desde el 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
                                 </a>
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 transition-colors duration-300 group"
+                                <!-- Duoc UC row -->
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
                                    href="#duoc">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
                                                 DUOC UC</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400 transition-colors duration-300">
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
                                                 Docente entre el 2023 - 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
                                 </a>
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 transition-colors duration-300 group"
+                                <!-- INACAP row -->
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
                                    href="#inacap">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
                                                 UTECH INACAP</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400 transition-colors duration-300">
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
                                                 Docente entre el 2013 - 2020</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
-                        <button class="w-full mt-6 py-3 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors duration-300 flex items-center justify-center gap-2">
+
+                        <!-- CTA button con hover:scale y sombra dinámica -->
+                        <button class="w-full mt-6 py-3 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">workspace_premium</span>
                             Docente con +10 años de Experiencia
                         </button>
                     </article>
 
                 </section>
+
+                <!-- ============================================================
+                     SECCIÓN 6: CARGOS ESPECIALES
+                     ANTES: No existía como sección independiente en este archivo
+                            (solo aparecía en la versión original con sticky sidebar).
+                     AHORA: Se añade como cierre visual de la página con fade-up
+                            y un diseño de lista con íconos consistente con el
+                            resto del sitio.
+                ============================================================ -->
+                <section data-aos="fade-up" id="cargos-especiales"
+                         class="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-shadow duration-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="material-symbols-outlined text-primary text-3xl">military_tech</span>
+                        <h2 class="text-xl font-bold text-orient-950 dark:text-orient-50">Cargos Especiales</h2>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 group">
+                            <span class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">military_tech</span>
+                            <p class="text-sm font-medium text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                <strong>Docente Responsable Examen Final de Competencias</strong> (Examen de Titulación Técnico Analista Programador) — <span class="opacity-60">2015, UTECH INACAP</span></p>
+                        </li>
+                        <li class="flex items-center gap-3 group">
+                            <span class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">workspace_premium</span>
+                            <p class="text-sm font-medium text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
+                                <strong>Docente Guía Hackaton</strong> "Los Genios no Duermen" — <span class="opacity-60">2018, UTECH INACAP</span></p>
+                        </li>
+                    </ul>
+                </section>
+
             </div>
         </div>
     </main>
+
     <footer id="app-footer" class="mt-auto w-full border-t border-orient-200 dark:border-orient-800 py-10">
     </footer>
 </div>
