@@ -37,7 +37,8 @@
     <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 dark:border-orient-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
     </header>
 
-    <main class="flex-1 flex justify-center py-12">
+    <main class="flex-1 flex flex-col items-center py-12">
+
         <div class="w-full max-w-[1200px] px-6 md:px-10 flex flex-col gap-12">
             <div class="flex flex-wrap justify-between items-end gap-6 border-b border-orient-200 dark:border-orient-800 pb-8">
                 <div class="flex flex-col gap-3">
@@ -125,131 +126,40 @@
                     </div>
                 </div>
             </section>
+        </div>
 
-            <section class="mt-8">
-                <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
-                    <span class="material-symbols-outlined text-primary text-3xl">verified</span>
-                    <h2 class="text-orient-950 dark:text-orient-50 text-2xl font-bold leading-tight tracking-[-0.015em]">
-                        Certificaciones Profesionales
+        <section class="w-full bg-orient-50 dark:bg-orient-950/30 border-y border-orient-100 dark:border-orient-800 py-24 mt-12 relative overflow-hidden">
+
+            <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
+            <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+            <div class="max-w-[1000px] mx-auto px-6 md:px-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <div class="inline-flex items-center gap-3 mb-4">
+                        <div class="h-px w-8 bg-primary"></div>
+                        <span class="text-primary text-xs font-bold tracking-[0.2em] uppercase">Validación Oficial</span>
+                        <div class="h-px w-8 bg-primary"></div>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight">
+                        <span class="text-orient-950 dark:text-white">Certificaciones</span>
+                        <span class="text-primary">Profesionales</span>
                     </h2>
+                    <p class="mt-6 text-orient-600 dark:text-orient-400 max-w-2xl mx-auto text-lg">
+                        Mi evolución técnica respaldada por certificaciones oficiales y aprendizaje continuo.
+                    </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    <div data-aos="fade-up" data-aos-delay="0" data-cert-id="aws-cloud" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional AWS"
-                                 src="static/img/logos/aws_cloud_practitioner.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - AWS Cloud Practitioner</h4>
-                            <p class="text-primary text-sm font-semibold">Amazon Web Services</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Ene. 2026 • Tecnología de la Nube
-                            </p>
-                        </div>
-                    </div>
+                <div class="relative w-full">
+                    <div class="absolute left-6 md:left-12 w-1 bg-gradient-to-b from-primary via-orient-300 dark:via-orient-700 to-transparent h-full transform -translate-x-1/2 rounded-full z-0"></div>
 
-                    <div data-aos="fade-up" data-aos-delay="50" data-cert-id="aws-ai" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional AWS"
-                                 src="static/img/logos/aws_ai_practitioner.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - AWS AI Practitioner</h4>
-                            <p class="text-primary text-sm font-semibold">Amazon Web Services</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Ene. 2026 • Inteligencia Artificial
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="100" data-cert-id="oracle-ai-pro" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Oracle"
-                                 src="static/img/logos/oracle_ai_professional.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Oracle AI Professional</h4>
-                            <p class="text-primary text-sm font-semibold">Oracle</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Ago. 2025 • Inteligencia Artificial Generativa
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="150" data-cert-id="oracle-dev-pro" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Oracle"
-                                 src="static/img/logos/oracle_developer_professional.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Oracle Developer Professional</h4>
-                            <p class="text-primary text-sm font-semibold">Oracle</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Sep. 2025 • Desarrollo de Aplicaciones
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="200" data-cert-id="oracle-oci-assoc" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Oracle"
-                                 src="static/img/logos/oracle_cloud_associate.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Oracle OCI Associate</h4>
-                            <p class="text-primary text-sm font-semibold">Oracle</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Ago. 2025 • Tecnología en la Nube Oracle
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="250" data-cert-id="oracle-ai-assoc" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Oracle"
-                                 src="static/img/logos/oracle_ai_associate.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Oracle AI Associate</h4>
-                            <p class="text-primary text-sm font-semibold">Oracle</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Sep. 2025 • Inteligencia Artificial Aprendizaje de Máquina
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="300" data-cert-id="oracle-data-pro" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Oracle"
-                                 src="static/img/logos/oracle_data_science_professional.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Oracle Data Science Professional</h4>
-                            <p class="text-primary text-sm font-semibold">Oracle</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Oct. 2025 • Ciencia de Datos IA
-                            </p>
-                        </div>
-                    </div>
-
-                    <div data-aos="fade-up" data-aos-delay="350" data-cert-id="python-pcep" class="modal-trigger cert-card flex items-start gap-4 p-6 rounded-xl border border-orient-200 dark:border-orient-800 bg-white dark:bg-orient-900 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer group">
-                        <div class="size-16 flex-shrink-0 bg-background-light dark:bg-background-dark rounded-lg p-2 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <img class="w-full h-full object-contain" data-alt="Logo Certificación Profesional Python Institute"
-                                 src="static/img/logos/python_pcep.png"/>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <h4 class="text-orient-950 dark:text-orient-50 font-bold text-lg leading-tight group-hover:text-primary transition-colors duration-300">Certificación - Python Institute PCEP</h4>
-                            <p class="text-primary text-sm font-semibold">Python</p>
-                            <p class="text-orient-600 dark:text-orient-400 text-xs">
-                                Otorgada: Dic. 2025 • Desarrollador Python
-                            </p>
-                        </div>
+                    <div id="certificaciones-timeline" class="relative z-10 pt-4">
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <div data-aos="zoom-in" data-aos-delay="100" class="mt-12 p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="w-full max-w-[1200px] px-6 md:px-10 flex flex-col gap-12 mt-16">
+            <div data-aos="zoom-in" data-aos-delay="100" class="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
                 <div class="flex-shrink-0 p-4 bg-primary/10 rounded-full transition-transform hover:rotate-12 duration-300 cursor-default">
                     <span class="material-symbols-outlined text-primary text-5xl">military_tech</span>
                 </div>
@@ -291,43 +201,13 @@
                 </div>
             </div>
         </div>
-
-        <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-orient-950/80 backdrop-blur-sm p-4 transition-opacity duration-300 opacity-0">
-            <div id="cert-modal-content" class="relative w-full max-w-lg scale-95 transform overflow-hidden rounded-2xl bg-white dark:bg-orient-900 border border-orient-200 dark:border-orient-800 p-8 shadow-2xl transition-all duration-300">
-
-                <button id="close-modal-btn" class="absolute right-4 top-4 rounded-full p-2 text-orient-500 hover:bg-orient-100 dark:hover:bg-orient-800 hover:text-orient-900 dark:hover:text-white transition-colors focus:outline-none">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-
-                <div class="flex flex-col items-center text-center mt-2">
-                    <div class="mb-6 flex h-24 w-24 items-center justify-center rounded-xl bg-background-light dark:bg-background-dark p-3 shadow-inner">
-                        <img id="cert-modal-img" class="h-full w-full object-contain" src="" alt="Logo Certificación" />
-                    </div>
-
-                    <h3 id="cert-modal-title" class="mb-2 text-2xl font-black text-orient-950 dark:text-orient-50 leading-tight"></h3>
-
-                    <p class="mb-4 text-sm font-bold text-primary dark:text-orient-400">
-                        <span id="cert-modal-issuer"></span> • <span id="cert-modal-date" class="text-orient-600 dark:text-orient-300 font-medium"></span>
-                    </p>
-
-                    <div class="mb-8 w-full rounded-lg bg-orient-50 dark:bg-orient-950 border border-orient-100 dark:border-orient-800 p-4 text-left">
-                        <p class="text-xs font-bold uppercase tracking-widest text-orient-500 dark:text-orient-400 mb-2">Habilidades Validadas</p>
-                        <p id="cert-modal-skills" class="text-sm font-medium text-orient-800 dark:text-orient-200"></p>
-                    </div>
-
-                    <a id="cert-modal-url" href="" target="_blank" rel="noopener noreferrer" class="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:shadow-primary/40 duration-300">
-                        <span class="material-symbols-outlined text-lg">verified</span>
-                        Verificar Credencial Oficial
-                        <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1 duration-300">arrow_forward</span>
-                    </a>
-                </div>
-            </div>
-        </div>
     </main>
+
     <footer id="app-footer" class="mt-auto w-full border-t border-orient-200 dark:border-orient-800 py-10">
     </footer>
 </div>
 <script src="static/js/index.js"></script>
 <script src="static/js/aos.js"></script>
+<script src="static/js/certificaciones.js"></script>
 </body>
 </html>
