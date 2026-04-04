@@ -165,6 +165,95 @@
         </div>
     </main>
 
+    <!-- ============================================================
+     SECCIÓN: MÉTRICAS Y EXPERTITUD — va entre </main> y la
+     sección de testimonios. Fondo de extremo a extremo con
+     bg-orient-900 para contrastar con el hero blanco y la
+     franja orient-50 de los testimonios.
+============================================================ -->
+    <section id="expertitud-metricas"
+             class="w-full bg-orient-900 dark:bg-orient-950 border-y border-orient-800 dark:border-orient-900 py-14 relative overflow-hidden">
+
+        <!-- Decoración de fondo: círculo de luz sutil -->
+        <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-[1200px] mx-auto px-6 md:px-10">
+
+            <!-- Eyebrow label -->
+            <div data-aos="fade-up" class="flex items-center justify-center gap-3 mb-10">
+                <div class="h-px w-8 bg-primary"></div>
+                <span class="text-primary text-xs font-black uppercase tracking-[0.2em]">Trayectoria Profesional</span>
+                <div class="h-px w-8 bg-primary"></div>
+            </div>
+
+            <!-- Grid de métricas: 2 cols en móvil, 5 en desktop con separadores -->
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-y-10 lg:gap-y-0">
+
+                <!-- ── MÉTRICA 1: Certificaciones ── -->
+                <div data-aos="fade-up" data-aos-delay="0"
+                     class="group flex flex-col items-center text-center px-4 lg:border-r lg:border-orient-700/50">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/15 mb-4 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-2xl text-primary">verified</span>
+                    </div>
+                    <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">8+</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Certificaciones</span>
+                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Oracle, AWS &amp; Python Institute</p>
+                </div>
+
+                <!-- ── MÉTRICA 2: Relator REUF ── -->
+                <div data-aos="fade-up" data-aos-delay="100"
+                     class="group flex flex-col items-center text-center px-4 lg:border-r lg:border-orient-700/50">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/15 mb-4 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-2xl text-primary">workspace_premium</span>
+                    </div>
+                    <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">3+</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Años Relator REUF</span>
+                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Instructor Talento Digital para Chile — SENCE</p>
+                </div>
+
+                <!-- ── MÉTRICA 3: Módulos REUF ── -->
+                <div data-aos="fade-up" data-aos-delay="200"
+                     class="group flex flex-col items-center text-center px-4 lg:border-r lg:border-orient-700/50 col-span-2 lg:col-span-1">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-accent-gold/15 mb-4 group-hover:bg-accent-gold/30 group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-2xl text-accent-gold">menu_book</span>
+                    </div>
+                    <span class="text-4xl font-black text-white mb-1 group-hover:text-accent-gold transition-colors duration-300">150+</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Módulos REUF</span>
+                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Planes formativos aprobados por SENCE</p>
+                </div>
+
+                <!-- ── MÉTRICA 4: Experiencia docente ── -->
+                <div data-aos="fade-up" data-aos-delay="300"
+                     class="group flex flex-col items-center text-center px-4 lg:border-r lg:border-orient-700/50">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/15 mb-4 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-2xl text-primary">school</span>
+                    </div>
+                    <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">10+</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Años Docente</span>
+                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">INACAP, Duoc UC &amp; IPLACEX</p>
+                </div>
+
+                <!-- ── MÉTRICA 5: Alumnos formados ── -->
+                <div data-aos="fade-up" data-aos-delay="400"
+                     class="group flex flex-col items-center text-center px-4">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/15 mb-4 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-2xl text-primary">groups</span>
+                    </div>
+                    <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">2.000+</span>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Alumnos</span>
+                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Formados en Java, Python, IA y Datos</p>
+                </div>
+
+            </div>
+
+            <!-- Separador horizontal visible solo en móvil entre filas -->
+            <div class="mt-10 lg:hidden h-px w-full bg-orient-700/50"></div>
+
+        </div>
+    </section>
+
     <section class="w-full bg-orient-50 dark:bg-orient-700 border-t border-orient-100 dark:border-orient-800 py-20 relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-6 md:px-10">
 
