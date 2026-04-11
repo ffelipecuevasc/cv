@@ -11,6 +11,7 @@
 :root {
     --color-primary: #007EA7;
     --color-primary-rgb: 0, 126, 167;
+    --color-primary-vibrant-rgb: 0, 176, 232;
     --color-gold: #f8cd46;
     --transition-speed: 0.3s;
 }
@@ -178,4 +179,30 @@ body.dark::before {
     transition-property: background-color, border-color, backdrop-filter, box-shadow, color !important;
     transition-duration: 400ms !important;
     transition-timing-function: ease-in-out !important;
+}
+
+/* =========================================
+   12. Neon Accent System (Dark Mode Only)
+   ========================================= */
+
+/* Brillo sutil para iconos y badges (Foco puntual) */
+.dark .neon-glow-sm {
+    box-shadow: 0 0 15px rgba(var(--color-primary-vibrant-rgb), 0.3) !important;
+}
+
+/* Brillo medio para Botones CTA (Foco principal) */
+.dark .neon-glow-md {
+    box-shadow: 0 0 25px rgba(var(--color-primary-vibrant-rgb), 0.4) !important;
+}
+
+/* Sistema interactivo para Tarjetas Glassmorphism */
+.dark .neon-glow-interactive {
+    transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out !important;
+    will-change: box-shadow, border-color; /* Aceleración por hardware (GPU) */
+}
+
+/* Estado encendido al pasar el cursor */
+.dark .neon-glow-interactive:hover {
+    box-shadow: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.15) !important;
+    border-color: rgba(var(--color-primary-vibrant-rgb), 0.5) !important;
 }
