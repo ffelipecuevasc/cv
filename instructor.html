@@ -37,7 +37,8 @@
     <div class="layout-container flex h-full grow flex-col">
         <div class="flex flex-1 justify-center">
             <div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
-                <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 dark:border-orient-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+
+                <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 bg-background-light/80 backdrop-blur-md dark:glass-low">
                 </header>
 
                 <div class="flex flex-wrap justify-between gap-3 px-6 md:px-10 py-10">
@@ -52,9 +53,11 @@
                     </div>
                 </div>
 
+                <!-- Contenedor Principal DESTACADO - Instructor Titular REUF -->
+
                 <div data-aos="fade-up" data-aos-delay="200" class="px-6 md:px-10 mb-12">
-                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary-vibrant to-primary dark:from-orient-900 dark:to-background-dark border border-accent-gold/30 p-8 shadow-2xl transition-transform duration-500 hover:scale-[1.01]">
-                        <div class="absolute -right-16 -top-16 opacity-10 animate-pulse">
+                    <div class="relative overflow-hidden rounded-3xl p-8 md:p-12 bg-gradient-to-r from-primary-vibrant to-primary dark:bg-none dark:glass-mid dark:bg-primary/20 border border-accent-gold/30 shadow-2xl transition-transform duration-500 hover:scale-[1.01]">
+                        <div class="absolute -right-16 -top-16 opacity-10 animate-pulse dark:bg-white/5 dark:border dark:border-white/10 rounded-full flex items-center justify-center p-8">
                             <span class="material-symbols-outlined text-[200px] text-accent-gold">verified</span>
                         </div>
                         <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -98,12 +101,13 @@
 
                 <div class="flex flex-col gap-12 px-6 md:px-10 pb-20">
                     <div>
-                        <h4 data-aos="fade-right" class="text-xl font-bold mb-6 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-orient-800 pb-4">
+                        <h4 data-aos="fade-right" class="text-xl font-bold mb-6 dark:mb-0 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-transparent pb-4">
                             <span class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
                             Principales Cursos
                         </h4>
+                        <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent mb-6"></div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">terminal</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Full Stack Java</p>
@@ -113,7 +117,7 @@
                                     tengo certificaciones oficiales de <strong>Oracle</strong> como instructor REUF.
                                 </p>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="100" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">terminal</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Full Stack Python</p>
@@ -123,7 +127,7 @@
                                     soy instructor REUF con certificación oficial de <strong>Python</strong>.
                                 </p>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="200" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">science</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Ingeniería de Datos</p>
@@ -133,7 +137,7 @@
                                     donde además cuento con certificaciones oficiales de <strong>AWS</strong>.
                                 </p>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="300" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">science</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Ciencia de Datos</p>
@@ -143,7 +147,7 @@
                                     donde tengo certificaciones oficiales de <strong>AWS</strong>.
                                 </p>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="400" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">cloud</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Tecnología de la Nube</p>
@@ -154,7 +158,7 @@
                                     <strong>OCI</strong>.
                                 </p>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="500" class="group bg-white dark:bg-orient-900 p-5 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                            <div data-aos="fade-up" data-aos-delay="0" class="group bg-white dark:glass-mid p-5 rounded-xl border border-orient-100 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">robot_2</span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">Inteligencia Artificial</p>
@@ -168,20 +172,21 @@
                     </div>
 
                     <div class="mt-4">
-                        <h4 data-aos="fade-right" class="text-xl font-bold mb-6 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-orient-800 pb-4">
+                        <h4 data-aos="fade-right" class="text-xl font-bold mb-6 dark:mb-0 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-transparent pb-4">
                             <span class="material-symbols-outlined text-primary dark:text-orient-50">assignment_turned_in</span>
                             Último Planes Formativos SENCE Aprobados
                         </h4>
+                        <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent mb-6"></div>
 
                         <div class="space-y-4">
 
-                            <div data-aos="fade-left" data-aos-delay="0" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:bg-orient-900 border-y border-r border-orient-200 dark:border-orient-800 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <div data-aos="fade-left" data-aos-delay="0" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:glass-mid border-y border-r border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                                         <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
                                             Programación de <span class="text-primary dark:text-orient-400">Inteligencia Artificial</span>
                                         </p>
-                                        <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
+                                        <span class="px-3 py-1 bg-orient-100 dark:bg-white/5 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
                                     </div>
                                     <p class="text-sm text-orient-700 dark:text-orient-300 leading-relaxed transition-colors duration-300 cursor-default">
                                         Plan Formativo aprobado por SENCE (REUF) enfocado en el desarrollo de modelos de IA, procesos de monitoreo de funcionalidades, selección de características de datos y configuración de entornos de desarrollo con Inteligencia Artificial.
@@ -189,13 +194,13 @@
                                 </div>
                             </div>
 
-                            <div data-aos="fade-left" data-aos-delay="100" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:bg-orient-900 border-y border-r border-orient-200 dark:border-orient-800 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <div data-aos="fade-left" data-aos-delay="0" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:glass-mid border-y border-r border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                                         <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
                                             Gestión de Datos para <span class="text-primary dark:text-orient-400">Inteligencia Artificial</span>
                                         </p>
-                                        <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
+                                        <span class="px-3 py-1 bg-orient-100 dark:bg-white/5 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
                                     </div>
                                     <p class="text-sm text-orient-700 dark:text-orient-300 leading-relaxed transition-colors duration-300 cursor-default">
                                         Módulos oficiales aprobados para la enseñanza del manejo de datos, aseguramiento de la calidad y seguridad de la información crítica para el entrenamiento eficaz de modelos de Inteligencia Artificial.
@@ -203,13 +208,13 @@
                                 </div>
                             </div>
 
-                            <div data-aos="fade-left" data-aos-delay="200" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:bg-orient-900 border-y border-r border-orient-200 dark:border-orient-800 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <div data-aos="fade-left" data-aos-delay="0" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:glass-mid border-y border-r border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                                         <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
                                             Transformación Digital basadas en <span class="text-primary dark:text-orient-400">IA</span>
                                         </p>
-                                        <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
+                                        <span class="px-3 py-1 bg-orient-100 dark:bg-white/5 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
                                     </div>
                                     <p class="text-sm text-orient-700 dark:text-orient-300 leading-relaxed transition-colors duration-300 cursor-default">
                                         Acreditación REUF para impartir y guiar procesos de adopción tecnológica. Centrado en el diseño de planes estratégicos y la facilitación para la implementación de Inteligencia Artificial en organizaciones y empresas.
@@ -217,13 +222,13 @@
                                 </div>
                             </div>
 
-                            <div data-aos="fade-left" data-aos-delay="300" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:bg-orient-900 border-y border-r border-orient-200 dark:border-orient-800 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <div data-aos="fade-left" data-aos-delay="0" class="group flex gap-4 p-5 border-l-4 border-primary bg-white dark:glass-mid border-y border-r border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 rounded-r-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                                         <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
                                             Procesos de Interacción con <span class="text-primary dark:text-orient-400">IA Generativa</span>
                                         </p>
-                                        <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Noviembre 2025 - SENCE</span>
+                                        <span class="px-3 py-1 bg-orient-100 dark:bg-white/5 text-primary dark:text-orient-300 text-xs font-bold rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
                                     </div>
                                     <p class="text-sm text-orient-700 dark:text-orient-300 leading-relaxed transition-colors duration-300 cursor-default">
                                         Certificación para la enseñanza avanzada del diseño de estrategias de interacción, integración de modelos de IA de última generación y la gestión de consultas e interacciones generadas (Prompt Engineering).
@@ -234,8 +239,10 @@
                         </div>
                     </div>
                 </div>
-                <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-orient-800 py-10">
+
+                <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-white/5 py-10">
                 </footer>
+
             </div>
         </div>
     </div>

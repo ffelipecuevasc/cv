@@ -40,8 +40,8 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
 <div class="relative flex min-h-screen flex-col">
-    <header id="app-header"
-            class="sticky top-0 z-50 w-full border-b border-orient-200 dark:border-orient-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+
+    <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 bg-background-light/80 backdrop-blur-md dark:glass-low">
     </header>
 
     <main class="mx-auto flex w-full max-w-[1200px] flex-1 items-center justify-center px-6 py-12 lg:py-20">
@@ -52,7 +52,7 @@
 
                     <div data-aos="fade-left" data-aos-delay="400"
                          class="absolute -top-6 -right-4 md:-top-8 md:-right-8 z-10 badge-float">
-                        <div class="flex items-center justify-center gap-3 md:gap-4 rounded-2xl bg-badge-light/90 dark:bg-orient-900/80 backdrop-blur-md border border-orient-200 dark:border-orient-800 shadow-xl shadow-orient-200/50 dark:shadow-black/20 p-2.5 md:p-3">
+                        <div class="flex items-center justify-center gap-3 md:gap-4 rounded-2xl bg-badge-light/90 dark:glass-high shadow-xl shadow-orient-200/50 dark:shadow-black/20 p-2.5 md:p-3">
                             <div class="group relative transition-transform hover:-translate-y-1 duration-300"
                                  title="Oracle Certified">
                                 <div class="relative h-9 w-9 md:h-11 md:w-11 flex items-center justify-center">
@@ -125,7 +125,8 @@
                     </a>
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-6 lg:gap-8 pt-8 mt-4 border-t border-orient-100 dark:border-orient-800 w-full">
+                <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent mt-4"></div>
+                <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-6 lg:gap-8 pt-8 border-t border-orient-100 dark:border-transparent w-full">
                     <a class="flex items-center gap-3 group w-full lg:w-auto justify-center lg:justify-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
                        href="https://www.linkedin.com/in/ffelipecuevasc/" target="_blank" rel="noopener noreferrer">
                         <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-orient-50 dark:bg-orient-900 border border-orient-100 dark:border-orient-800 group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors duration-300">
@@ -165,14 +166,14 @@
         </div>
     </main>
 
-    <!-- ============================================================
+<!-- ============================================================
      SECCIÓN: MÉTRICAS Y EXPERTITUD — va entre </main> y la
      sección de testimonios. Fondo de extremo a extremo con
      bg-orient-900 para contrastar con el hero blanco y la
      franja orient-50 de los testimonios.
 ============================================================ -->
-    <section id="expertitud-metricas"
-             class="w-full bg-orient-900 dark:bg-orient-950 border-y border-orient-800 dark:border-orient-900 py-14 relative overflow-hidden">
+    <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent"></div>
+    <section id="expertitud-metricas" class="w-full bg-orient-900 dark:bg-orient-950 border-y border-orient-800 dark:border-transparent py-14 relative overflow-hidden">
 
         <!-- Decoración de fondo: círculo de luz sutil -->
         <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -198,8 +199,8 @@
                         <span class="material-symbols-outlined text-2xl text-primary">verified</span>
                     </div>
                     <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">8+</span>
-                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Certificaciones</span>
-                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Oracle, AWS &amp; Python Institute</p>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 dark:text-orient-300 mb-2">Certificaciones</span>
+                    <p class="text-xs leading-relaxed text-orient-500 dark:text-orient-300 max-w-[140px]">Oracle, AWS &amp; Python Institute</p>
                 </div>
 
                 <!-- ── MÉTRICA 2: Relator REUF ── -->
@@ -209,8 +210,8 @@
                         <span class="material-symbols-outlined text-2xl text-primary">workspace_premium</span>
                     </div>
                     <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">3+</span>
-                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Años Relator REUF</span>
-                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Instructor Talento Digital para Chile — SENCE</p>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 dark:text-orient-300 mb-2">Años Relator REUF</span>
+                    <p class="text-xs leading-relaxed text-orient-500 dark:text-orient-300 max-w-[140px]">Instructor Talento Digital para Chile — SENCE</p>
                 </div>
 
                 <!-- ── MÉTRICA 3: Módulos REUF ── -->
@@ -220,8 +221,8 @@
                         <span class="material-symbols-outlined text-2xl text-accent-gold">menu_book</span>
                     </div>
                     <span class="text-4xl font-black text-white mb-1 group-hover:text-accent-gold transition-colors duration-300">150+</span>
-                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Módulos REUF</span>
-                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Planes formativos aprobados por SENCE</p>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 dark:text-orient-300 mb-2">Módulos REUF</span>
+                    <p class="text-xs leading-relaxed text-orient-500 dark:text-orient-300 max-w-[140px]">Planes formativos aprobados por SENCE</p>
                 </div>
 
                 <!-- ── MÉTRICA 4: Experiencia docente ── -->
@@ -231,8 +232,8 @@
                         <span class="material-symbols-outlined text-2xl text-primary">school</span>
                     </div>
                     <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">10+</span>
-                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Años Docente</span>
-                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">INACAP, Duoc UC &amp; IPLACEX</p>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 dark:text-orient-300 mb-2">Años Docente</span>
+                    <p class="text-xs leading-relaxed text-orient-500 dark:text-orient-300 max-w-[140px]">INACAP, Duoc UC &amp; IPLACEX</p>
                 </div>
 
                 <!-- ── MÉTRICA 5: Alumnos formados ── -->
@@ -242,8 +243,8 @@
                         <span class="material-symbols-outlined text-2xl text-primary">groups</span>
                     </div>
                     <span class="text-4xl font-black text-white mb-1 group-hover:text-primary transition-colors duration-300">2.000+</span>
-                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 mb-2">Alumnos</span>
-                    <p class="text-xs leading-relaxed text-orient-500 max-w-[140px]">Formados en Java, Python, IA y Datos</p>
+                    <span class="text-xs font-black uppercase tracking-widest text-orient-400 dark:text-orient-300 mb-2">Alumnos</span>
+                    <p class="text-xs leading-relaxed text-orient-500 dark:text-orient-300 max-w-[140px]">Formados en Java, Python, IA y Datos</p>
                 </div>
 
             </div>
@@ -254,13 +255,15 @@
         </div>
     </section>
 
-    <section class="w-full bg-orient-50 dark:bg-orient-700 border-t border-orient-100 dark:border-orient-800 py-20 relative overflow-hidden">
+    <!-- ── Sección de Testimonios ── -->
+    <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent"></div>
+    <section class="w-full bg-orient-50 dark:bg-orient-700 border-t border-orient-100 dark:border-transparent py-20 relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-6 md:px-10">
 
             <div class="flex flex-col md:flex-row items-center justify-between mb-24 gap-6" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-black tracking-tight text-center md:text-left">
                     <span class="text-orient-950 dark:text-white">Testimonios de</span>
-                    <span class="text-primary dark:text-orient-950">Alumnos</span>
+                    <span class="text-primary dark:text-orient-100">Alumnos</span>
                 </h2>
 
                 <div class="flex gap-3">
@@ -279,8 +282,9 @@
         </div>
     </section>
 
-    <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-orient-900 py-10">
+    <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-white/5 py-10">
     </footer>
+
 </div>
 <script src="static/js/testimonios.js"></script>
 <script src="static/js/index.js"></script>

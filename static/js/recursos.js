@@ -114,9 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const diffUI = uiConfig.dificultad[item.dificultad];
             const delay = (index % 6) * 100;
 
-            // Se elimina el bg-white/60 y el backdrop-blur de la tarjeta para mantener coherencia visual plana
+            // FASE 3: APLICACIÓN DEL MATERIAL GLASS-MID
+            // - Se eliminan: dark:bg-orient-900 y dark:border-orient-800
+            // - Se inyectan: dark:glass-mid y dark:ring-1 dark:ring-orient-300/10
             const cardHTML = `
-                <div data-aos="fade-up" data-aos-delay="${delay}" class="group flex flex-col bg-white dark:bg-orient-900 rounded-2xl border border-orient-200 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <div data-aos="fade-up" data-aos-delay="${delay}" class="group flex flex-col bg-white rounded-2xl border border-orient-200 shadow-sm dark:bg-orient-900/60 dark:ring-1 dark:ring-orient-300/10 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                     <div class="p-6 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center justify-center w-12 h-12 rounded-xl ${formatUI.bgClass} ${formatUI.textClass} shadow-inner group-hover:scale-110 transition-transform">

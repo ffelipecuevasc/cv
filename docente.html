@@ -40,8 +40,7 @@
 <body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
 <div class="relative flex h-auto min-h-screen w-full flex-col">
 
-    <header id="app-header"
-            class="sticky top-0 z-50 w-full border-b border-orient-200 dark:border-orient-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+    <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 bg-background-light/80 backdrop-blur-md dark:glass-low">
     </header>
 
     <main class="flex flex-1 flex-col items-center">
@@ -57,7 +56,7 @@
                 ============================================================ -->
                 <section id="título">
                     <div class="flex flex-col gap-6">
-                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-orient-200 dark:border-orient-800 pb-12">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-orient-200 dark:border-transparent pb-12">
                             <div class="max-w-3xl">
                                 <h1 data-aos="fade-down"
                                     class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-orient-950 dark:text-orient-50 mb-4">
@@ -76,6 +75,7 @@
                                 <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 border border-transparent dark:border-orient-700 text-orient-900 dark:text-orient-200 text-sm font-bold rounded-full w-fit">Presencial</span>
                             </div>
                         </div>
+                        <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent mt-6"></div>
                     </div>
                 </section>
 
@@ -90,100 +90,55 @@
                             para que escale al pasar el cursor.
                 ============================================================ -->
                 <section id="asignaturas">
-                    <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">menu_book</span>
-                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
-                            Asignaturas Impartidas
-                        </h2>
-                        <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
-                    </div>
-
+                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
+                        Asignaturas Impartidas
+                    </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <!-- Tarjeta 1 -->
-                        <div data-aos="fade-up" data-aos-delay="0"
-                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
-                            <div class="flex items-center gap-3 mb-3">
-                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">terminal</span>
-                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                    Fundamentos de Programación</p>
-                            </div>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
-                                En varios semestres dicté esta asignatura, inicialmente solo utilizando DFDs y
-                                pseudocódigo, pero después me tocó enseñar esta asignatura utilizando el lenguaje de
-                                programación <strong>Python</strong>.
+                        <div class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-100 dark:border-transparent shadow-sm dark:ring-1 dark:ring-orient-300/10 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">Fundamentos de Programación</p>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+                                En varios semestres dicté esta asignatura, inicialmente solo utilizando DFDs y pseudocódigo, pero después me tocó enseñar esta asignatura utilizando el lenguaje de programación <strong>Python</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Pseudocódigo</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Pseudocódigo</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Python</span>
                             </div>
                         </div>
 
-                        <!-- Tarjeta 2 -->
-                        <div data-aos="fade-up" data-aos-delay="100"
-                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
-                            <div class="flex items-center gap-3 mb-3">
-                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">code</span>
-                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                    Programación de Aplicaciones</p>
-                            </div>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
-                                Me especialicé en hacer clases de
-                                programación en <strong>Java</strong>, <strong>PHP</strong> y
-                                <strong>Python</strong>.
-                                Enseñé a programar en frameworks como <strong>Django</strong> y
-                                <strong>Flask</strong>
-                                en el caso de <strong>Python</strong>, y <strong>Spring</strong> y <strong>Spring
-                                Boot</strong>
-                                en el caso de <strong>Java</strong>.
+                        <div class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-100 dark:border-transparent shadow-sm dark:ring-1 dark:ring-orient-300/10 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">Programación de Aplicaciones</p>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+                                Me especialicé en hacer clases de programación en <strong>Java</strong>, <strong>PHP</strong> y <strong>Python</strong>. Enseñé a programar en frameworks como <strong>Django</strong> y <strong>Flask</strong> en el caso de Python, y <strong>Spring</strong> y <strong>Spring Boot</strong> en el caso de Java.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python (Django)</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Java (Spring)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Python (Django)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Java (Spring)</span>
                             </div>
                         </div>
 
-                        <!-- Tarjeta 3 -->
-                        <div data-aos="fade-up" data-aos-delay="200"
-                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
-                            <div class="flex items-center gap-3 mb-3">
-                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">database</span>
-                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                    Administración Bases de Datos</p>
-                            </div>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
-                                Hice clases como instructor certificado en administración de <strong>Oracle
-                                DB</strong>,
-                                también me tocó impartir asignaturas de administración en <strong>SQL Server
-                                2019</strong> y asignaturas
-                                de diseño de bases de datos con <strong>MySQL</strong>.
+                        <div class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-100 dark:border-transparent shadow-sm dark:ring-1 dark:ring-orient-300/10 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">Administración Bases de Datos</p>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+                                Hice clases como instructor certificado en administración de <strong>Oracle DB</strong>, también me tocó impartir asignaturas de administración en <strong>SQL Server 2019</strong> y asignaturas de diseño de bases de datos con <strong>MySQL</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Oracle DB</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">MySQL</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Oracle DB</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">MySQL</span>
                             </div>
                         </div>
 
-                        <!-- Tarjeta 4 -->
-                        <div data-aos="fade-up" data-aos-delay="300"
-                             class="group bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-100 dark:border-orient-800 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
-                            <div class="flex items-center gap-3 mb-3">
-                                <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">science</span>
-                                <p class="text-lg font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                    Ingeniería de Datos</p>
-                            </div>
-                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300">
-                                Actualmente imparto asignaturas relacionadas a <strong>Data Engineering</strong>
-                                para el <em>Campus a Distancia (CED)</em> de <strong>IPLACEX</strong> donde soy el
-                                docente que desarrolló el plan
-                                formativo de la asignatura <strong>Limpieza y Preparación de Datos - Python</strong>.
+                        <div class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-100 dark:border-transparent shadow-sm dark:ring-1 dark:ring-orient-300/10 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg font-bold mb-2 text-orient-950 dark:text-orient-50 transition-colors duration-300">Ingeniería de Datos</p>
+                            <p class="text-sm opacity-80 leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
+                                Actualmente imparto asignaturas relacionadas a <strong>Data Engineering</strong> para el <em>Campus a Distancia (CED)</em> de <strong>IPLACEX</strong> donde soy el docente que desarrolló el plan formativo de la asignatura <strong>Limpieza y Preparación de Datos - Python</strong>.
                             </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Python</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-orient-800 rounded border border-orient-200 dark:border-orient-700 text-orient-900 dark:text-orient-200 hover:bg-orient-100 dark:hover:bg-orient-700 cursor-default transition-colors duration-200">Data Engineering</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Python</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 bg-orient-50 dark:bg-white/5 rounded border border-orient-200 dark:border-white/10 text-orient-900 dark:text-orient-200 transition-colors duration-300 hover:bg-orient-100 dark:hover:bg-white/10 cursor-default">Data Engineering</span>
                             </div>
                         </div>
-
                     </div>
                 </section>
 
@@ -301,42 +256,34 @@
                             mantienen el hover:-translate-y-1 original.
                 ============================================================ -->
                 <section id="tutor">
-                    <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">groups</span>
-                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
-                            Tutor de Alumnos
-                        </h2>
-                        <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
-                    </div>
-
-                    <div data-aos="zoom-in" data-aos-delay="100"
-                         class="bg-orient-50 dark:bg-transparent rounded-2xl p-8 border border-orient-200 dark:border-orient-800 hover:shadow-lg hover:shadow-primary/10 transition-shadow duration-300">
+                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary dark:text-orient-50">groups</span>
+                        Tutor de Alumnos
+                    </h2>
+                    <div class="bg-orient-50 dark:glass-mid rounded-2xl p-8 border border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10">
                         <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-                            <!-- Avatar con hover interactivo -->
-                            <div class="w-24 h-24 rounded-full bg-orient-100 dark:bg-orient-900 flex items-center justify-center shrink-0 hover:scale-110 hover:bg-primary/10 transition-all duration-300 cursor-default">
-                                <span class="material-symbols-outlined text-4xl text-primary dark:text-orient-400 hover:rotate-12 transition-transform duration-300">workspace_premium</span>
+
+                            <div class="w-24 h-24 rounded-full bg-orient-100 dark:bg-white/5 flex items-center justify-center shrink-0 border dark:border-white/10">
+                                <span class="material-symbols-outlined text-4xl text-primary dark:text-orient-300">workspace_premium</span>
                             </div>
+
                             <div>
-                                <p class="text-xl font-bold mb-3 text-orient-950 dark:text-orient-50 transition-colors duration-300">
-                                    Docente Tutor</p>
+                                <p class="text-xl font-bold mb-3 text-orient-950 dark:text-orient-50 transition-colors duration-300">Docente Tutor</p>
                                 <p class="text-base opacity-80 leading-relaxed mb-6 text-orient-700 dark:text-orient-300 transition-colors duration-300">
-                                    Fui el mentor y docente guía de alumnos tesistas en algunas ocasiones para
-                                    cursos de 4°
-                                    año en la Carrera Ingeniería Informática mientras trabajé en <strong>UTECH
-                                    INACAP</strong>.
+                                    Fui el mentor y docente guía de alumnos tesistas en algunas ocasiones para cursos de 4° año en la Carrera Ingeniería Informática mientras trabajé en <strong>UTECH INACAP</strong>.
                                 </p>
                                 <div class="flex flex-wrap gap-x-8 gap-y-4 justify-center md:justify-start">
                                     <div class="flex flex-col hover:-translate-y-1 transition-transform duration-300 cursor-default">
-                                        <span class="text-2xl font-black text-primary dark:text-orient-400">8 Años</span>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-400">Docente Tutor</span>
+                                        <span class="text-2xl font-black text-primary dark:text-orient-300">8 Años</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-300">Docente Tutor</span>
                                     </div>
                                     <div class="flex flex-col hover:-translate-y-1 transition-transform duration-300 cursor-default">
-                                        <span class="text-2xl font-black text-primary dark:text-orient-400">+2000</span>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-400">Alumnos</span>
+                                        <span class="text-2xl font-black text-primary dark:text-orient-300">+2000</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-300">Alumnos</span>
                                     </div>
                                     <div class="flex flex-col hover:-translate-y-1 transition-transform duration-300 cursor-default">
-                                        <span class="text-2xl font-black text-primary dark:text-orient-400">1 Hackaton</span>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-400">Docente Guía</span>
+                                        <span class="text-2xl font-black text-primary dark:text-orient-300">1 Hackaton</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-orient-800 dark:text-orient-300">Docente Guía</span>
                                     </div>
                                 </div>
                             </div>
@@ -373,63 +320,51 @@
                     </article>
 
                     <!-- Card de instituciones -->
-                    <article data-aos="fade-left" data-aos-delay="100"
-                             id="instituciones"
-                             class="bg-white dark:bg-orient-900 p-6 rounded-xl border border-orient-200 dark:border-orient-800 flex flex-col justify-between w-full h-full">
+                    <article id="instituciones" class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-200 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 flex flex-col justify-between w-full h-full">
                         <div>
                             <h3 class="text-xl font-bold text-primary dark:text-orient-50 mb-6 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary dark:text-orient-50">verified</span>
                                 Instituciones
                             </h3>
                             <div class="space-y-4">
-                                <!-- IPLACEX row -->
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#iplacex">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                                IPLACEX</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
-                                                Docente desde el 2024</p>
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">IPLACEX</p>
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-300 transition-colors duration-300">Docente desde el 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
-                                <!-- Duoc UC row -->
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
+
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#duoc">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                                DUOC UC</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
-                                                Docente entre el 2023 - 2024</p>
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">DUOC UC</p>
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-300 transition-colors duration-300">Docente entre el 2023 - 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
-                                <!-- INACAP row -->
-                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-orient-800 hover:bg-orient-50 dark:hover:bg-orient-800 hover:border-primary/30 transition-all duration-300 group"
+
+                                <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#inacap">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
-                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
-                                                UTECH INACAP</p>
-                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-400">
-                                                Docente entre el 2013 - 2020</p>
+                                            <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">UTECH INACAP</p>
+                                            <p class="text-[10px] opacity-60 font-medium text-orient-700 dark:text-orient-300 transition-colors duration-300">Docente entre el 2013 - 2020</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 group-hover:translate-x-1 text-orient-950 dark:text-orient-50 transition-all duration-300">arrow_forward</span>
+                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
                             </div>
                         </div>
-
-                        <!-- CTA button con hover:scale y sombra dinámica -->
-                        <button class="w-full mt-6 py-3 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-sm">workspace_premium</span>
+                        <button class="w-full mt-6 py-3 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors duration-300 flex items-center justify-center gap-2">
                             Docente con +10 años de Experiencia
                         </button>
                     </article>
@@ -468,8 +403,9 @@
         </div>
     </main>
 
-    <footer id="app-footer" class="mt-auto w-full border-t border-orient-200 dark:border-orient-800 py-10">
+    <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-white/5 py-10">
     </footer>
+
 </div>
 <script src="static/js/index.js"></script>
 <script src="static/js/aos.js"></script>

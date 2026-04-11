@@ -132,3 +132,50 @@ body {
         height: 600px !important;
     }
 }
+
+/* =========================================
+   10. Glassmorphism System (Dark Mode)
+   ========================================= */
+
+/* FASE 0: Prerrequisito - Fondo base con profundidad lumínica sutil */
+body.dark::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 0%, rgba(var(--color-primary-rgb), 0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* FASES 1 a 5: Definición de los 3 materiales glass */
+@layer components {
+    /* Nivel Bajo: Para Navegación y Footer */
+    .glass-low {
+        @apply backdrop-blur-sm bg-orient-950/70 border-white/5;
+    }
+
+    /* Nivel Medio: Para Tarjetas de Contenido */
+    .glass-mid {
+        @apply backdrop-blur-md bg-orient-900/60 border-orient-300/10;
+    }
+
+    /* Nivel Alto: Para Modales y Elementos Flotantes */
+    .glass-high {
+        @apply backdrop-blur-lg bg-orient-800/50 border-white/10;
+    }
+}
+
+/* =========================================
+   11. Theme Transition (FASE 8 - Glassmorphism)
+   ========================================= */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+    transition-property: background-color, border-color, backdrop-filter, box-shadow, color !important;
+    transition-duration: 400ms !important;
+    transition-timing-function: ease-in-out !important;
+}

@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Inicializar Lógica del Modal de Certificaciones
     initializeModalLogic();
-
-    // 4. Inicializar Lógica del "Smart Header"
-    initializeSmartHeader();
 });
 
 // =========================================
-// 2. Inyección de Componentes HTML
+// 2. Inyección de Componentes HTML (MODIFICADO FASE 2 - GLASSMORPHISM)
 // =========================================
 function injectComponents() {
     // --- A. DEFINICIÓN DEL HEADER ---
+    // Se aplica FASE 2: glass-low al mobile-menu y se prepara la estructura
+    // --- A. DEFINICIÓN DEL HEADER ---
+    // Se aplica FASE 2: glass-low al mobile-menu y se prepara la estructura
     const headerHTML = `
     <div class="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
         <div class="flex items-center gap-2">
@@ -61,16 +61,16 @@ function injectComponents() {
         </div>
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-orient-900 border-b border-orient-200 dark:border-orient-800 shadow-xl">
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 dark:glass-low border-b border-orient-200 dark:border-white/5 shadow-xl">
         <div class="flex flex-col p-4 space-y-4">
             <a class="text-base font-medium hover:text-primary transition-colors" href="index.html">Inicio</a>
             <a class="text-base font-medium hover:text-primary transition-colors" href="educacion.html">Educación</a>
             <a class="text-base font-medium hover:text-primary transition-colors" href="experiencia.html">Experiencia General</a>
-            <div class="pl-4 border-l-2 border-orient-100 dark:border-orient-700 space-y-2">
-                <a class="block text-sm text-orient-500 hover:text-primary" href="desarrollador.html">Desarrollador</a>
-                <a class="block text-sm text-orient-500 hover:text-primary" href="docente.html">Docente</a>
-                <a class="block text-sm text-orient-500 hover:text-primary" href="instructor.html">Instructor REUF</a>
-                <a class="block text-sm text-orient-500 hover:text-primary" href="talento-digital.html">Talento Digital</a>
+            <div class="pl-4 border-l-2 border-orient-100 dark:border-white/10 space-y-2">
+                <a class="block text-sm text-orient-500 hover:text-primary dark:text-orient-300" href="desarrollador.html">Desarrollador</a>
+                <a class="block text-sm text-orient-500 hover:text-primary dark:text-orient-300" href="docente.html">Docente</a>
+                <a class="block text-sm text-orient-500 hover:text-primary dark:text-orient-300" href="instructor.html">Instructor REUF</a>
+                <a class="block text-sm text-orient-500 hover:text-primary dark:text-orient-300" href="talento-digital.html">Talento Digital</a>
             </div>
             <a class="text-base font-medium hover:text-primary transition-colors" href="recursos.html">Recursos</a>
             <a class="text-base font-medium hover:text-primary transition-colors" href="contacto.html">Contacto</a>
@@ -80,6 +80,13 @@ function injectComponents() {
         </div>
     </div>
     `;
+
+    const headerElement = document.getElementById('app-header');
+    if (headerElement) {
+        headerElement.innerHTML = headerHTML;
+        // Centralización de clases del Header: se reemplaza w-full por w-screen y ajuste de margen
+        headerElement.className = "sticky top-0 z-50 w-screen ml-[calc(50%-50vw)] border-b border-orient-200 dark:border-white/5 bg-background-light/80 dark:glass-low transition-transform duration-300 ease-in-out";
+    }
 
     // --- B. DEFINICIÓN DEL FOOTER ---
     const footerHTML = `
@@ -99,6 +106,13 @@ function injectComponents() {
     </div>
     `;
 
+    const footerElement = document.getElementById('app-footer');
+    if (footerElement) {
+        footerElement.innerHTML = footerHTML;
+        // Centralización de clases del Footer: se reemplaza w-full por w-screen y ajuste de margen
+        footerElement.className = "mt-auto w-screen ml-[calc(50%-50vw)] border-t border-orient-200 dark:border-white/5 py-10";
+    }
+
     // --- C. DEFINICIÓN DEL BOTÓN VOLVER ARRIBA ---
     const backToTopHTML = `
     <button id="back-to-top" class="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-primary text-white shadow-lg shadow-primary/30 opacity-0 invisible transition-all duration-300 hover:bg-primary/90 hover:-translate-y-1 focus:outline-none" aria-label="Volver arriba">
@@ -106,15 +120,12 @@ function injectComponents() {
     </button>
     `;
 
-    // --- D. INYECCIÓN EN EL DOM ---
-    const headerElement = document.getElementById('app-header');
-    const footerElement = document.getElementById('app-footer');
-
-    if (headerElement) headerElement.innerHTML = headerHTML;
-    if (footerElement) footerElement.innerHTML = footerHTML;
-
-    // Inyectamos el botón 'Volver Arriba' directamente al final del body
-    document.body.insertAdjacentHTML('beforeend', backToTopHTML);
+    // --- D. INYECCIÓN EN EL DOM (CORREGIDO) ---
+    // El Header y Footer ya fueron inyectados en sus respectivos bloques arriba.
+    // Solo inyectamos el botón 'Volver Arriba' directamente al final del body:
+    if (!document.getElementById('back-to-top')) {
+        document.body.insertAdjacentHTML('beforeend', backToTopHTML);
+    }
 
     // --- E. UX: RESALTAR PÁGINA ACTIVA ---
     const currentPath = window.location.pathname;
@@ -143,12 +154,20 @@ function initializeLogic() {
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
+            // FASE 8: Añadir clase temporal para transición suave
+            htmlElement.classList.add('theme-transitioning');
+
             htmlElement.classList.toggle('dark');
             if (htmlElement.classList.contains('dark')) {
                 localStorage.setItem('theme', 'dark');
             } else {
                 localStorage.setItem('theme', 'light');
             }
+
+            // FASE 8: Remover la clase temporal exactamente después de la transición
+            setTimeout(() => {
+                htmlElement.classList.remove('theme-transitioning');
+            }, 400);
         });
     }
 
@@ -218,43 +237,5 @@ if (typeof AOS !== 'undefined') {
         duration: 600, // Duración de la animación en milisegundos
         once: true,    // La animación ocurre solo una vez al hacer scroll
         easing: 'ease-out-quad', // Curva de animación profesional
-    });
-}
-
-// =========================================
-// 5. Lógica del "Smart Header"
-// =========================================
-function initializeSmartHeader() {
-    const header = document.getElementById('app-header');
-    if (!header) return;
-
-    // 1. Añadir clases de transición para que el movimiento sea fluido
-    header.classList.add('transition-transform', 'duration-300', 'ease-in-out');
-
-    // 2. Variable de estado para registrar la posición anterior del scroll
-    let lastScroll = 0;
-
-    // 3. Listener del evento de scroll
-    window.addEventListener('scroll', () => {
-        // 4. Capturar el scroll actual
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // 5. Validar caso extremo: si el menú móvil está abierto, no hacer nada
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-            return;
-        }
-
-        // 6. Lógica de ocultamiento: scroll hacia abajo y más de 80px
-        if (currentScroll > lastScroll && currentScroll > 80) {
-            header.classList.add('-translate-y-full');
-        } 
-        // 7. Lógica de revelado: scroll hacia arriba
-        else if (currentScroll < lastScroll) {
-            header.classList.remove('-translate-y-full');
-        }
-
-        // 8. Actualizar el estado para la próxima evaluación, evitando números negativos
-        lastScroll = currentScroll <= 0 ? 0 : currentScroll;
     });
 }

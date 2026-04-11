@@ -34,13 +34,14 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
 <div class="relative flex min-h-screen flex-col">
-    <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 dark:border-orient-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+
+    <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 bg-background-light/80 backdrop-blur-md dark:glass-low">
     </header>
 
     <main class="flex-1 flex flex-col items-center py-12">
 
         <div class="w-full max-w-[1200px] px-6 md:px-10 flex flex-col gap-12">
-            <div class="flex flex-wrap justify-between items-end gap-6 border-b border-orient-200 dark:border-orient-800 pb-8">
+            <div class="flex flex-wrap justify-between items-end gap-6 border-b border-orient-200 dark:border-transparent pb-8">
                 <div class="flex flex-col gap-3">
                     <h1 data-aos="fade-down" class="text-orient-950 dark:text-orient-50 text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em]">
                         Educación &amp; <span class="text-primary">Certificaciones</span>
@@ -51,6 +52,7 @@
                     </p>
                 </div>
             </div>
+            <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-orient-700/40 to-transparent"></div>
 
             <section>
                 <div data-aos="fade-right" class="flex items-center gap-3 mb-8">
@@ -128,7 +130,7 @@
             </section>
         </div>
 
-        <section class="w-full bg-orient-50 dark:bg-orient-950/30 border-y border-orient-100 dark:border-orient-800 py-24 mt-12 relative overflow-hidden">
+        <section class="w-full bg-orient-50 dark:bg-orient-700 border-y border-orient-100 dark:border-orient-800 py-24 mt-12 relative overflow-hidden">
 
             <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
             <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
@@ -136,21 +138,21 @@
             <div class="max-w-[1000px] mx-auto px-6 md:px-10">
                 <div class="text-center mb-16" data-aos="fade-up">
                     <div class="inline-flex items-center gap-3 mb-4">
-                        <div class="h-px w-8 bg-primary"></div>
-                        <span class="text-primary text-xs font-bold tracking-[0.2em] uppercase">Validación Oficial</span>
-                        <div class="h-px w-8 bg-primary"></div>
+                        <div class="h-px w-8 bg-primary dark:bg-primary/70"></div>
+                        <span class="text-primary dark:text-primary-vibrant text-xs font-black tracking-[0.2em] uppercase">Validación Oficial</span>
+                        <div class="h-px w-8 bg-primary dark:bg-primary/70"></div>
                     </div>
-                    <h2 class="text-3xl md:text-5xl font-black tracking-tight">
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight drop-shadow-sm">
                         <span class="text-orient-950 dark:text-white">Certificaciones</span>
-                        <span class="text-primary">Profesionales</span>
+                        <span class="text-primary dark:text-primary-vibrant">Profesionales</span>
                     </h2>
-                    <p class="mt-6 text-orient-600 dark:text-orient-400 max-w-2xl mx-auto text-lg">
+                    <p class="mt-6 text-orient-600 dark:text-orient-200 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
                         Mi evolución técnica respaldada por certificaciones oficiales y aprendizaje continuo.
                     </p>
                 </div>
 
                 <div class="relative w-full">
-                    <div class="absolute left-6 md:left-12 w-1 bg-gradient-to-b from-primary via-orient-300 dark:via-orient-700 to-transparent h-full transform -translate-x-1/2 rounded-full z-0"></div>
+                    <div class="absolute left-6 md:left-12 w-1 bg-gradient-to-b from-primary via-orient-300 dark:from-orient-900 dark:via-orient-950 dark:to-transparent h-full transform -translate-x-1/2 rounded-full z-0"></div>
 
                     <div id="certificaciones-timeline" class="relative z-10 pt-4">
                     </div>
@@ -159,8 +161,8 @@
         </section>
 
         <div class="w-full max-w-[1200px] px-6 md:px-10 flex flex-col gap-12 mt-16">
-            <div data-aos="zoom-in" data-aos-delay="100" class="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                <div class="flex-shrink-0 p-4 bg-primary/10 rounded-full transition-transform hover:rotate-12 duration-300 cursor-default">
+            <div data-aos="zoom-in" data-aos-delay="100" class="p-8 bg-primary/5 dark:glass-mid rounded-2xl border border-primary/20 dark:border-transparent dark:ring-1 dark:ring-orient-300/10 flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                <div class="flex-shrink-0 p-4 bg-primary/10 dark:bg-white/5 dark:border dark:border-white/10 rounded-full transition-transform hover:rotate-12 duration-300 cursor-default">
                     <span class="material-symbols-outlined text-primary text-5xl">military_tech</span>
                 </div>
                 <div class="text-center md:text-left">
@@ -203,8 +205,9 @@
         </div>
     </main>
 
-    <footer id="app-footer" class="mt-auto w-full border-t border-orient-200 dark:border-orient-800 py-10">
+    <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-white/5 py-10">
     </footer>
+
 </div>
 <script src="static/js/index.js"></script>
 <script src="static/js/aos.js"></script>
