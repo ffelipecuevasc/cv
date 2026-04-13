@@ -151,21 +151,21 @@ body.dark::before {
     z-index: -1;
 }
 
-/* FASES 1 a 5: Definición de los 3 materiales glass */
+/* FASES 1 a 5: Definición de los 3 materiales glass (Surface Elevation System) */
 @layer components {
-    /* Nivel Bajo: Para Navegación y Footer */
+    /* Nivel 1 (Zonas - La Plataforma): Contenedores base, Navegación y Footer */
     .glass-low {
-        @apply backdrop-blur-sm bg-orient-950/70 border-white/5;
+        @apply backdrop-blur-sm bg-orient-950/80 ring-1 ring-white/5 shadow-md shadow-black/20 border-transparent;
     }
 
-    /* Nivel Medio: Para Tarjetas de Contenido */
+    /* Nivel 2 (Contenido - El Nivel Operativo): Tarjetas de proyectos, experiencia, etc. */
     .glass-mid {
-        @apply backdrop-blur-md bg-orient-900/60 border-orient-300/10;
+        @apply backdrop-blur-md bg-orient-900/80 ring-1 ring-orient-300/10 shadow-lg shadow-black/40 border-transparent;
     }
 
-    /* Nivel Alto: Para Modales y Elementos Flotantes */
+    /* Nivel 3 (Flotante - La Capa Superior): Modales, Dropdowns, Tooltips y Badges */
     .glass-high {
-        @apply backdrop-blur-lg bg-orient-800/50 border-white/10;
+        @apply backdrop-blur-lg bg-orient-800/90 ring-1 ring-orient-200/20 shadow-2xl shadow-black/60 border-transparent;
     }
 }
 
@@ -203,6 +203,10 @@ body.dark::before {
 
 /* Estado encendido al pasar el cursor */
 .dark .neon-glow-interactive:hover {
-    box-shadow: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.15) !important;
+    /* Mantenemos el 'ring' (borde físico) apilando el resplandor en la variable shadow de Tailwind */
+    --tw-shadow: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.15);
+    --tw-shadow-colored: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.15);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+
     border-color: rgba(var(--color-primary-vibrant-rgb), 0.5) !important;
 }
