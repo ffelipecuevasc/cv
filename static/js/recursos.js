@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // - Se eliminan: dark:bg-orient-900 y dark:border-orient-800
             // - Se inyectan: dark:glass-mid y dark:ring-1 dark:ring-orient-300/10
             const cardHTML = `
-                <div data-aos="fade-up" data-aos-delay="${delay}" class="group flex flex-col bg-white rounded-2xl border border-orient-200 shadow-sm dark:bg-orient-900/60 dark:ring-1 dark:ring-orient-300/10 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden neon-glow-interactive">
+                <div data-aos="fade-up" data-aos-delay="${delay}" class="group flex flex-col bg-white dark:glass-mid rounded-2xl border border-orient-200 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden neon-glow-interactive">
                     <div class="p-6 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center justify-center w-12 h-12 rounded-xl ${formatUI.bgClass} ${formatUI.textClass} shadow-inner group-hover:scale-110 transition-transform">

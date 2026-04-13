@@ -197,7 +197,10 @@ body.dark::before {
 
 /* Sistema interactivo para Tarjetas Glassmorphism */
 .dark .neon-glow-interactive {
-    transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out !important;
+    /* Múltiples propiedades para no destruir transform/opacity de AOS */
+    transition-property: all !important;
+    transition-duration: 400ms !important;
+    transition-timing-function: ease-out !important;
     will-change: box-shadow, border-color; /* Aceleración por hardware (GPU) */
 }
 

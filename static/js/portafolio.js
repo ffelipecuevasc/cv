@@ -116,7 +116,7 @@ const renderPortfolio = (filtro = 'all') => {
         // - Se eliminan: dark:border-orient-800 y dark:bg-orient-950
         // - Se inyectan: dark:glass-mid y dark:ring-1 dark:ring-orient-300/10
         htmlContent += `
-            <article id="${item.id}" data-pf-category="${item.category}" class="pf-card ${item.gridSpan} group relative rounded-2xl overflow-hidden border border-orient-200 bg-white shadow-sm dark:glass-mid dark:ring-1 dark:ring-orient-300/10 neon-glow-interactive" data-aos="fade-up" data-aos-delay="${item.delay}">
+            <article id="${item.id}" data-pf-category="${item.category}" class="pf-card ${item.gridSpan} group relative rounded-2xl overflow-hidden border border-orient-200 bg-white shadow-sm dark:glass-mid neon-glow-interactive" data-aos="fade-up" data-aos-delay="${item.delay}">
                 <div class="relative aspect-video overflow-hidden">
                     <img src="${item.image}" alt="${item.alt}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"/>
                     <div class="absolute inset-0 bg-gradient-to-t from-orient-950/80 via-orient-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">

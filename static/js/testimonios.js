@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderStandardCard = (data) => `
-        <div class="relative flex flex-col items-center bg-white dark:bg-orient-900 rounded-[2rem] p-8 shadow-lg border border-orient-200 dark:border-orient-800 transition-transform duration-300 hover:-translate-y-2 h-full neon-glow-interactive">
+        <div class="relative flex flex-col items-center bg-white dark:glass-mid rounded-[2rem] p-8 shadow-lg border border-orient-200 transition-transform duration-300 hover:-translate-y-2 h-full neon-glow-interactive">
             <div class="absolute -top-12 w-24 h-24 rounded-full border-4 border-white dark:border-orient-900 overflow-hidden bg-orient-100 shadow-md">
                 <img src="${data.imagen}" alt="${data.nombre}" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(data.nombre)}&background=007EA7&color=fff'">
             </div>

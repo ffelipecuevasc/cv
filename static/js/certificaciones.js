@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="material-symbols-outlined text-white text-sm md:text-base">workspace_premium</span>
             </div>
 
-            <div class="bg-white dark:bg-white/5 dark:backdrop-blur-md rounded-[2rem] shadow-none hover:shadow-2xl border border-orient-200 dark:border-white/10 dark:ring-1 dark:ring-white/5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/50 overflow-hidden group neon-glow-interactive">
+            <div class="bg-white dark:glass-mid rounded-[2rem] border border-orient-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/50 overflow-hidden group neon-glow-interactive">
                 <div class="flex flex-col md:flex-row">
                     
                     <div class="md:w-1/3 lg:w-1/4 bg-orient-50 dark:bg-white/5 group-hover:bg-orient-500 dark:group-hover:bg-orient-900 transition-colors duration-500 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-orient-100 dark:border-white/5 relative overflow-hidden">
