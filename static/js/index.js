@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLogic();
 
     // 3. Inicializar Lógica del Modal de Certificaciones
-    initializeModalLogic();
+    if (typeof initializeModalLogic === 'function') initializeModalLogic();
+
+    // 4. Inicializar Motor Sensorial del Efecto Linterna (Modo Claro)
+    initializeFlashlightEffect();
 });
 
 // =========================================
@@ -332,4 +335,35 @@ if (typeof AOS !== 'undefined') {
         once: true,    // La animación ocurre solo una vez al hacer scroll
         easing: 'ease-out-quad', // Curva de animación profesional
     });
+}
+
+// =========================================
+// 5. Motor Sensorial: Efecto Linterna (Modo Claro)
+// =========================================
+function initializeFlashlightEffect() {
+    const flashlightLayer = document.getElementById('flashlight-layer');
+
+    // Blindaje: Si el contenedor no existe, no ejecutamos nada.
+    if (!flashlightLayer) return;
+
+    let rafId = null;
+
+    // Escuchador global de movimiento de ratón
+    document.addEventListener('mousemove', (e) => {
+        // Cancelamos el frame anterior si aún no se ha renderizado (evita cuellos de botella)
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+
+        // Delegamos el cálculo al refresco nativo de la pantalla del navegador
+        rafId = requestAnimationFrame(() => {
+            // Capturamos posición física exacta en pixeles
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Inyectamos las coordenadas como variables CSS directamente en la capa
+            flashlightLayer.style.setProperty('--mouse-x', `${x}px`);
+            flashlightLayer.style.setProperty('--mouse-y', `${y}px`);
+        });
+    }, { passive: true }); // passive:true mejora el rendimiento permitiendo un scroll fluido
 }

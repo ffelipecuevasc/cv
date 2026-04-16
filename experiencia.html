@@ -34,6 +34,7 @@
     </script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
+<div id="flashlight-layer" class="bg-texture-dots fixed inset-0 -z-10 pointer-events-none transition-opacity duration-300 dark:hidden"></div>
 <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root">
     <div class="layout-container flex h-full grow flex-col">
 
@@ -59,40 +60,56 @@
                 </div>
 
                 <!-- Resumen Experiencia y Mini Línea de Tiempo -->
-                <div class="relative z-0 py-6 mb-8 border-l-[6px] border-primary dark:border-transparent bg-gradient-to-r from-primary/10 via-primary/5 to-transparent dark:bg-none pr-6 md:pr-10 pl-8 md:pl-12 before:absolute before:inset-0 before:-z-10 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] before:[mask-image:linear-gradient(to_right,black_0%,transparent_40%)] dark:before:hidden">
-                    <div class="grid grid-cols-[40px_1fr] gap-x-6">
-                        <div data-aos="fade-right" data-aos-delay="0" class="flex flex-col items-center gap-1 pt-2">
-                            <div class="text-primary">
-                                <span class="material-symbols-outlined text-[28px]">school</span>
-                            </div>
-                            <div data-aos="fade-down" data-aos-delay="50" class="w-[2px] bg-primary/20 h-12 grow"></div>
-                        </div>
-                        <div data-aos="fade-left" data-aos-delay="0" class="flex flex-1 flex-col pb-10">
-                            <p class="text-primary text-lg font-bold leading-normal">Docente Universitario</p>
-                            <p class="text-orient-500 dark:text-orient-400 text-xs font-bold uppercase tracking-wider mt-1">2013 - Actualidad | IPLACEX</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 md:px-10 mb-12">
 
-                        <div data-aos="fade-right" data-aos-delay="100" class="flex flex-col items-center gap-1 pt-2">
-                            <div class="text-primary">
-                                <span class="material-symbols-outlined text-[28px]">code</span>
-                            </div>
-                            <div data-aos="fade-down" data-aos-delay="150" class="w-[2px] bg-primary/20 h-12 grow"></div>
+                    <div data-aos="fade-up" data-aos-delay="0" class="group flex flex-col items-center text-center bg-white dark:glass-mid rounded-xl border border-orient-200 shadow-sm transition-all duration-300 p-8 hover:-translate-y-2 hover:shadow-lg neon-glow-interactive">
+                        <div class="text-primary mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:text-primary-vibrant">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M9.517 15.558L12 14.052l2.483 1.506l-.66-2.825l2.196-1.885l-2.886-.256L12 7.942l-1.133 2.65l-2.886.256l2.196 1.885zM12 21.916L9.073 19H5v-4.073L2.085 12L5 9.073V5h4.073L12 2.085L14.927 5H19v4.073L21.916 12L19 14.927V19h-4.073z"/>
+                            </svg>
                         </div>
-                        <div data-aos="fade-left" data-aos-delay="100" class="flex flex-1 flex-col pb-10">
-                            <p class="text-primary text-lg font-bold leading-normal">Desarrollador Full Stack Senior</p>
-                            <p class="text-orient-500 dark:text-orient-400 text-xs font-bold uppercase tracking-wider mt-1">2011 - 2020 | UTECH INACAP</p>
-                        </div>
-
-                        <div data-aos="fade-right" data-aos-delay="200" class="flex flex-col items-center gap-1 pt-2">
-                            <div class="text-primary">
-                                <span class="material-symbols-outlined text-[28px]">groups</span>
-                            </div>
-                        </div>
-                        <div data-aos="fade-left" data-aos-delay="200" class="flex flex-1 flex-col pb-4">
-                            <p class="text-primary text-lg font-bold leading-normal">Instructor Certificado</p>
-                            <p class="text-orient-500 dark:text-orient-400 text-xs font-bold uppercase tracking-wider mt-1">2023 - Actualidad | Talento Digital para Chile</p>
-                        </div>
+                        <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold leading-tight mb-2 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary-vibrant">
+                            Instructor Certificado
+                        </h3>
+                        <p class="text-orient-600 dark:text-orient-400 text-xs font-bold uppercase tracking-wider">
+                            <em>2023 - Actualidad</em>
+                            <br>
+                            <strong>Talento Digital para Chile</strong>
+                        </p>
                     </div>
+
+                    <div data-aos="fade-up" data-aos-delay="100" class="group flex flex-col items-center text-center bg-white dark:glass-mid rounded-xl border border-orient-200 shadow-sm transition-all duration-300 p-8 hover:-translate-y-2 hover:shadow-lg neon-glow-interactive">
+                        <div class="text-primary mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:text-primary-vibrant">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M19.923 15.385V9.562L12 13.846L3.077 9L12 4.154L20.923 9v6.385zM12 18.692l-6-3.261v-4.077l6 3.262l6-3.262v4.077z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold leading-tight mb-2 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary-vibrant">
+                            Docente Universitario
+                        </h3>
+                        <p class="text-orient-600 dark:text-orient-400 text-xs font-bold uppercase tracking-wider">
+                            <em>2023 - Actualidad</em>
+                            <br>
+                            <strong>Instituto Iplacex</strong>
+                        </p>
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="200" class="group flex flex-col items-center text-center bg-white dark:glass-mid rounded-xl border border-orient-200 shadow-sm transition-all duration-300 p-8 hover:-translate-y-2 hover:shadow-lg neon-glow-interactive">
+                        <div class="text-primary mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:text-primary-vibrant">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M3 7V4h18v3h-1V5H4v2zm6 13v-2H3v-3h1v2h16v-2h1v3h-6v2zm-4.584-9l2.6-2.6l-.708-.708L3 11l3.308 3.308l.708-.708zm15.169 0l-2.6 2.6l.707.708L21 11l-3.308-3.308l-.707.708z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold leading-tight mb-2 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary-vibrant">
+                            Desarrollador Full Stack
+                        </h3>
+                        <p class="text-orient-600 dark:text-orient-400 text-xs font-bold uppercase tracking-wider">
+                            <em>2011 - Actualidad</em>
+                            <br>
+                            <strong>UTECH Inacap</strong>
+                        </p>
+                    </div>
+
                 </div>
 
                 <!-- Subtítulo - Resumen Experiencia -->
