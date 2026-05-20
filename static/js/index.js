@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================
-// 2. Inyección de Componentes HTML (MODIFICADO FASE 2 - GLASSMORPHISM)
+// 2. Inyección de Componentes HTML (GLASSMORPHISM)
 // =========================================
 function injectComponents() {
     // --- A. DEFINICIÓN DEL HEADER ---

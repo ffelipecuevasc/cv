@@ -67,6 +67,28 @@ const recursosData = [
         dificultad: "Intermedio",
         tecnologia: "Python",
         url: "https://youtu.be/Qrad7LPoJjU"
+    },
+    {
+        id: 7,
+        titulo: "Clase Magistral - Cristián Maureira (Vicepresidente PSF)",
+        descripcion: "Historia de Python, su diferencia con otros lenguajes, por qué es el lenguaje N° 1 para programar y su impacto en el mundo moderno.",
+        categoriaPadre: "Desarrollo Full Stack Python",
+        categoriaFiltro: "Python",
+        formato: "video",
+        dificultad: "Básico",
+        tecnologia: "Python",
+        url: "https://youtu.be/6R2Hly53Zh8"
+    },
+    {
+        id: 8,
+        titulo: "Diferencias entre JS, Java y Python",
+        descripcion: "Análisis conceptual para entender en detalle las diferencias y propósitos principales de cada lenguaje de programación.",
+        categoriaPadre: "Fundamentos de Programación",
+        categoriaFiltro: "Java",
+        formato: "video",
+        dificultad: "Básico",
+        tecnologia: "Java, Python & JS",
+        url: "https://youtu.be/zvegzW_RL9U"
     }
 ];
 
