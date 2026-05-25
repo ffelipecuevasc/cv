@@ -71,7 +71,7 @@ const recursosData = [
     {
         id: 7,
         titulo: "Clase Magistral - Cristián Maureira (Vicepresidente PSF)",
-        descripcion: "Historia de Python, su diferencia con otros lenguajes, por qué es el lenguaje N° 1 para programar y su impacto en el mundo moderno.",
+        descripcion: "Historia de Python y por qué es el lenguaje N° 1 para programar.",
         categoriaPadre: "Desarrollo Full Stack Python",
         categoriaFiltro: "Python",
         formato: "video",
@@ -82,13 +82,24 @@ const recursosData = [
     {
         id: 8,
         titulo: "Diferencias entre JS, Java y Python",
-        descripcion: "Análisis conceptual para entender en detalle las diferencias y propósitos principales de cada lenguaje de programación.",
+        descripcion: "Análisis para entender las diferencias y propósitos de cada lenguaje.",
         categoriaPadre: "Fundamentos de Programación",
         categoriaFiltro: "Java",
         formato: "video",
         dificultad: "Básico",
         tecnologia: "Java, Python & JS",
         url: "https://youtu.be/zvegzW_RL9U"
+    },
+    {
+        id: 9,
+        titulo: "Glosario de HTML5",
+        descripcion: "Documento que define términos y elementos clave de HTML.",
+        categoriaPadre: "Desarrollo Web Frontend",
+        categoriaFiltro: "Frontend",
+        formato: "pdf",
+        dificultad: "Básico",
+        tecnologia: "HTML5",
+        url: "static/recursos/frontend/Glosario HTML5.pdf"
     }
 ];
 
