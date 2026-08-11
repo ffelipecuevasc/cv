@@ -72,7 +72,6 @@ const portafolioData = [
         description: "Portafolio web profesional diseñado a medida para un Contador General. Interfaz corporativa enfocada en la presentación de servicios financieros, trayectoria laboral y captación de clientes. Estructurado con <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Tailwind CSS</strong> para garantizar una experiencia de usuario rápida y 100% adaptable a dispositivos móviles.",
         tags: ["HTML5", "Tailwind CSS", "JavaScript", "GitHub Pages"]
     },
-    ,
     {
         id: "pf-card-gestion",
         category: "backend",
