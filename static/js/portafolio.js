@@ -98,7 +98,7 @@ const renderPortfolio = (filtro = 'all') => {
     let htmlContent = '';
 
     // Lógica de Filtrado: Si es 'all' pasan todos, si no, solo los que coinciden con la categoría
-    const filteredData = portafolioData.filter(item => filtro === 'all' || item.category === filtro);
+    const filteredData = portafolioData.filter(item => item && (filtro === 'all' || item.category === filtro));
 
     filteredData.forEach(item => {
         const overlayHTML = item.link
