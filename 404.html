@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Página no encontrada — Felipe Cuevas</title>
+  <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
+
+  <meta name="description" content="La página que buscas no existe o fue movida. Vuelve al inicio del CV de Felipe Cuevas.">
+  <meta name="robots" content="noindex, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="static/css/tailwind.css"/>
+  <link rel="stylesheet" href="static/css/aos.css"/>
+
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
+<div id="flashlight-layer" class="bg-texture-dots fixed inset-0 -z-10 pointer-events-none transition-opacity duration-300 dark:hidden"></div>
+<div class="relative flex min-h-screen flex-col">
+
+  <header id="app-header" class="sticky top-0 z-50 w-full border-b border-orient-200 bg-background-light/80 backdrop-blur-md dark:glass-low">
+  </header>
+
+  <!-- El contenido crítico de esta página (mensaje + botón) no depende de data-aos:
+       una página de error debe ser legible de inmediato, sin esperar animaciones. -->
+  <main class="mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-center justify-center px-6 py-20 text-center">
+
+    <div class="flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/15 mb-8">
+      <span class="material-symbols-outlined text-5xl text-primary">search_off</span>
+    </div>
+
+    <p class="text-6xl md:text-8xl font-black tracking-tight text-orient-950 dark:text-white mb-4">404</p>
+
+    <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-orient-950 dark:text-white mb-4 text-balance">
+      Página no encontrada
+    </h1>
+
+    <p class="text-base md:text-lg leading-relaxed text-orient-700 dark:text-orient-200 max-w-md mb-10 text-pretty">
+      La página que buscas no existe o fue movida. Revisa que la dirección esté bien escrita, o vuelve al inicio.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <a href="index.html" class="flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-105 transition-all">
+        <span class="material-symbols-outlined text-lg">home</span>
+        Volver al inicio
+      </a>
+      <a href="contacto.html" class="flex items-center justify-center gap-2 rounded-lg border border-orient-200 dark:border-orient-700 px-6 py-3 text-sm font-semibold text-orient-700 dark:text-orient-300 hover:border-primary hover:text-primary transition-all">
+        Contactar
+      </a>
+    </div>
+
+  </main>
+
+  <footer id="app-footer" class="mt-auto w-full border-t border-orient-100 dark:border-white/5 py-10">
+  </footer>
+
+</div>
+<script src="static/js/index.js"></script>
+<script src="static/js/aos.js"></script>
+</body>
+</html>

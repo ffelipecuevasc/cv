@@ -1,0 +1,9 @@
+{
+  "skip": [
+    "fonts\\.(googleapis|gstatic)\\.com",
+    "linkedin\\.com",
+    "github\\.(com|io)",
+    "chilefacilitadores\\.cl",
+    "calendly\\.com"
+  ]
+}
