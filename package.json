@@ -2,6 +2,9 @@
   "name": "cv---felipe-cuevas",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "24.16.0"
+  },
   "scripts": {
     "dev": "tailwindcss -i ./static/css/index.css -o ./static/css/tailwind.css --watch",
     "build": "tailwindcss -i ./static/css/index.css -o ./static/css/tailwind.css --minify"
