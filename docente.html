@@ -4,22 +4,31 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Experiencia Docente - CV Felipe Cuevas</title>
+    <title>Docente Universitario | Felipe Cuevas</title>
     <link href="static/img/favicon.svg" rel="icon" type="image/svg+xml"/>
-    <meta content="CV de Felipe Cuevas: Ingeniero Informático, Docente Universitario y Desarrollador Full Stack (Java/Python). Revisa mi experiencia, proyectos y certificaciones."
+    <meta content="Docencia universitaria en INACAP, Duoc UC e IPLACEX: asignaturas de programación y desarrollo de aplicaciones, tutoría de alumnos y cargos académicos especiales."
           name="description"/>
     <meta content="Felipe Cuevas" name="author"/>
+    <link href="https://felipecuevas.dev/docente" rel="canonical"/>
     <meta content="website" property="og:type"/>
-    <meta content="https://ffelipecuevasc.github.io/cv/" property="og:url"/>
-    <meta content="Felipe Cuevas - Ingeniero Informático &amp; Instructor" property="og:title"/>
-    <meta content="Más de 10 años de experiencia como Instructor Certificado y Desarrollador. Experto en Java, Python, AWS y Educación IT."
+    <meta content="es_CL" property="og:locale"/>
+    <meta content="Felipe Cuevas" property="og:site_name"/>
+    <meta content="https://felipecuevas.dev/docente" property="og:url"/>
+    <meta content="Docente Universitario | Felipe Cuevas" property="og:title"/>
+    <meta content="Docencia universitaria en INACAP, Duoc UC e IPLACEX: asignaturas de programación y desarrollo de aplicaciones, tutoría de alumnos y cargos académicos especiales."
           property="og:description"/>
-    <meta content="https://ffelipecuevasc.github.io/cv/static/img/felipe_cuevas.png" property="og:image"/>
+    <meta content="https://felipecuevas.dev/static/img/felipe_cuevas_cv.png" property="og:image"/>
+    <meta content="1920" property="og:image:width"/>
+    <meta content="1080" property="og:image:height"/>
+    <meta content="Vista del sitio web de Felipe Cuevas, ingeniero informático e instructor certificado"
+          property="og:image:alt"/>
     <meta content="summary_large_image" name="twitter:card"/>
-    <meta content="Felipe Cuevas - Ingeniero Informático" name="twitter:title"/>
-    <meta content="CV En Línea: Instructor Certificado, Desarrollo Full Stack &amp; Inteligencia Artificial."
+    <meta content="Docente Universitario | Felipe Cuevas" name="twitter:title"/>
+    <meta content="Docencia universitaria en INACAP, Duoc UC e IPLACEX: asignaturas de programación y desarrollo de aplicaciones, tutoría de alumnos y cargos académicos especiales."
           name="twitter:description"/>
-    <meta content="https://ffelipecuevasc.github.io/cv/static/img/felipe_cuevas.png" name="twitter:image"/>
+    <meta content="https://felipecuevas.dev/static/img/felipe_cuevas_cv.png" name="twitter:image"/>
+    <meta content="Vista del sitio web de Felipe Cuevas, ingeniero informático e instructor certificado"
+          name="twitter:image:alt"/>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap"
@@ -35,8 +44,10 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
-    </link></link></link></head>
+</head>
 <body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
+<a class="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-orient-950"
+   href="#main-content">Saltar al contenido principal</a>
 <div class="bg-texture-dots fixed inset-0 -z-10 pointer-events-none transition-opacity duration-300 dark:hidden"
      id="flashlight-layer"></div>
 <div class="relative flex h-auto min-h-screen w-full flex-col">
@@ -44,16 +55,16 @@
             id="app-header">
         <div class="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
             <div class="flex items-center gap-3">
-                <div aria-label="Terminal Icon"
-                     class="w-8 h-8 bg-orient-600 dark:bg-orient-400 transition-colors duration-300" role="img"
+                <div aria-hidden="true"
+                     class="w-8 h-8 bg-orient-600 dark:bg-orient-400 transition-colors duration-300"
                      style="-webkit-mask-image: url('static/img/favicon.svg'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url('static/img/favicon.svg'); mask-size: contain; mask-repeat: no-repeat;"></div>
-                <h1 class="text-xl font-bold tracking-tight text-orient-950 dark:text-white">
+                <span class="text-xl font-bold tracking-tight text-orient-950 dark:text-white">
                     Felipe Cuevas
-                </h1>
+                </span>
             </div>
             <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menú"
                     class="md:hidden text-orient-700 dark:text-orient-200 focus:outline-none" id="mobile-menu-btn">
-                <span class="material-symbols-outlined text-3xl transition-transform duration-300"
+                <span aria-hidden="true" class="material-symbols-outlined text-3xl transition-transform duration-300"
                       id="menu-icon">menu</span>
             </button>
             <nav aria-label="Navegación principal" class="hidden md:flex flex-1 justify-center items-center gap-8">
@@ -61,14 +72,16 @@
                    href="index.html">Inicio</a>
                 <a class="nav-link relative py-2 text-sm font-medium text-orient-700 dark:text-orient-300 transition-colors hover:text-primary dark:hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
                    href="educacion.html">Educación</a>
-                <div class="relative group h-full flex items-center">
-                    <a aria-current="page" aria-expanded="false" aria-haspopup="true"
+                <div class="relative group h-full flex items-center" data-dropdown>
+                    <a aria-current="page" aria-controls="menu-experiencia" aria-expanded="false" aria-haspopup="true"
                        class="flex items-center gap-1 rounded-full bg-primary px-4 py-2 text-sm font-medium text-white shadow-md shadow-primary/20 transition-colors cursor-pointer"
                        href="experiencia.html">
                         Experiencia
-                        <span class="material-symbols-outlined text-base leading-none transition-transform duration-200 group-hover:rotate-180">expand_more</span>
+                        <span aria-hidden="true"
+                              class="material-symbols-outlined text-base leading-none transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180">expand_more</span>
                     </a>
-                    <div class="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out z-50">
+                    <div class="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-all duration-300 ease-out z-50"
+                         id="menu-experiencia">
                         <div class="w-52 bg-white/90 dark:bg-orient-900/90 backdrop-blur-xl border border-orient-100 dark:border-white/10 shadow-xl rounded-xl overflow-hidden">
                             <a class="block px-5 py-3 text-sm font-medium text-orient-700 dark:text-orient-300 hover:text-primary dark:hover:text-primary hover:bg-orient-50 dark:hover:bg-white/5 transition-colors"
                                href="desarrollador.html">Desarrollador</a>
@@ -94,7 +107,7 @@
             </div>
         </div>
         <div class="md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out bg-white/95 dark:bg-orient-950/95 backdrop-blur-md border-b-0 dark:border-white/5 shadow-xl"
-             id="mobile-menu">
+             id="mobile-menu" inert>
             <div class="flex flex-col p-6 space-y-5">
                 <a class="mobile-nav-link text-base font-medium text-orient-700 dark:text-orient-200" href="index.html">Inicio</a>
                 <a class="mobile-nav-link text-base font-medium text-orient-700 dark:text-orient-200"
@@ -122,7 +135,7 @@
             </div>
         </div>
     </header>
-    <main class="flex flex-1 flex-col items-center">
+    <main id="main-content" tabindex="-1" class="focus:outline-none flex flex-1 flex-col items-center">
         <div class="w-full max-w-[1200px] px-6 md:px-10 py-16">
             <div class="flex flex-col gap-16 w-full">
                 <!-- ============================================================
@@ -131,11 +144,12 @@
                                      AHORA: h1 con fade-down, subtítulo con fade-up (delay 100),
                                             y la columna de fecha/badge con fade-left (delay 200).
                                 ============================================================ -->
-                <section id="título">
+                <section aria-labelledby="sec-docente-universitario" id="título">
                     <div class="flex flex-col gap-6">
                         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-orient-200 dark:border-transparent pb-12">
                             <div class="max-w-3xl">
-                                <h1 class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-orient-950 dark:text-orient-50 mb-4"
+                                <h1 id="sec-docente-universitario"
+                                    class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-orient-950 dark:text-orient-50 mb-4"
                                     data-aos="fade-down">
                                     Docente <span class="text-primary">Universitario</span>
                                 </h1>
@@ -164,9 +178,10 @@
                                             clase "group" y group-hover al ícono de la tarjeta
                                             para que escale al pasar el cursor.
                                 ============================================================ -->
-                <section id="asignaturas">
-                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
+                <section aria-labelledby="sec-asignaturas-impartidas" id="asignaturas">
+                    <h2 id="sec-asignaturas-impartidas"
+                        class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
+                        <span aria-hidden="true" class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
                         Asignaturas Impartidas
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -238,21 +253,23 @@
                                             de institución tiene delay escalonado (0 / 150 / 300)
                                             para un efecto de cascada descendente.
                                 ============================================================ -->
-                <section id="experiencia">
+                <section aria-labelledby="sec-experiencia-por-institucion" id="experiencia">
                     <div class="flex items-center gap-3 mb-8" data-aos="fade-right">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">school</span>
-                        <h2 class="text-2xl font-bold text-primary dark:text-orient-50">
+                        <span aria-hidden="true"
+                              class="material-symbols-outlined text-primary dark:text-orient-50 text-3xl">school</span>
+                        <h2 id="sec-experiencia-por-institucion"
+                            class="text-2xl font-bold text-primary dark:text-orient-50">
                             Experiencia por Institución
                         </h2>
                         <div class="h-px flex-1 bg-primary/20 hidden md:block"></div>
                     </div>
                     <div class="space-y-6">
                         <!-- IPLACEX — delay 0 -->
-                        <section id="iplacex">
+                        <div id="iplacex">
                             <div class="scholarly-accent pl-6 py-2" data-aos="fade-right" data-aos-delay="0">
                                 <p class="text-[10px] font-bold uppercase tracking-wider text-orient-500 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2024 - Actualidad</p>
-                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
+                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-default text-orient-950 dark:text-orient-50 duration-300">
                                     Instituto Profesional IPLACEX
                                 </p>
                                 <p class="text-base leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
@@ -268,17 +285,17 @@
                                 </p>
                                 <a class="text-sm font-bold flex items-center gap-1 text-primary dark:text-orient-400 hover:text-primary-vibrant transition-colors duration-200 group"
                                    href="https://www.linkedin.com/in/ffelipecuevasc/details/experience/">
-                                    Ver más información <span
-                                        class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
+                                    Ver más información <span aria-hidden="true"
+                                                              class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
                                 </a>
                             </div>
-                        </section>
+                        </div>
                         <!-- Duoc UC — delay 150 -->
-                        <section id="duoc">
+                        <div id="duoc">
                             <div class="scholarly-accent pl-6 py-2" data-aos="fade-right" data-aos-delay="150">
                                 <p class="text-[10px] font-bold uppercase tracking-wider text-orient-500 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2023 - 2024</p>
-                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
+                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-default text-orient-950 dark:text-orient-50 duration-300">
                                     Instituto Profesional Duoc UC
                                 </p>
                                 <p class="text-base leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
@@ -290,17 +307,17 @@
                                 </p>
                                 <a class="text-sm font-bold flex items-center gap-1 text-primary dark:text-orient-400 hover:text-primary-vibrant transition-colors duration-200 group"
                                    href="https://www.linkedin.com/in/ffelipecuevasc/details/experience/">
-                                    Ver más información <span
-                                        class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
+                                    Ver más información <span aria-hidden="true"
+                                                              class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
                                 </a>
                             </div>
-                        </section>
+                        </div>
                         <!-- INACAP — delay 300 -->
-                        <section id="inacap">
+                        <div id="inacap">
                             <div class="scholarly-accent pl-6 py-2" data-aos="fade-right" data-aos-delay="300">
                                 <p class="text-[10px] font-bold uppercase tracking-wider text-orient-500 dark:text-orient-400 mb-1 transition-colors duration-300">
                                     2013 - 2020</p>
-                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-pointer text-orient-950 dark:text-orient-50 duration-300">
+                                <p class="text-xl font-bold mb-2 leading-snug hover:text-primary transition-colors cursor-default text-orient-950 dark:text-orient-50 duration-300">
                                     Universidad Tecnológica de Chile INACAP
                                 </p>
                                 <p class="text-base leading-relaxed mb-4 text-orient-700 dark:text-orient-300 transition-colors duration-300">
@@ -316,26 +333,28 @@
                                 </p>
                                 <a class="text-sm font-bold flex items-center gap-1 text-primary dark:text-orient-400 hover:text-primary-vibrant transition-colors duration-200 group"
                                    href="https://www.linkedin.com/in/ffelipecuevasc/details/experience/">
-                                    Ver más información <span
-                                        class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
+                                    Ver más información <span aria-hidden="true"
+                                                              class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200">open_in_new</span>
                                 </a>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </section>
                 <!-- ============================================================
                                      SECCIÓN 4: TUTOR DE ALUMNOS
                                 ============================================================ -->
-                <section id="tutor">
-                    <h2 class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary dark:text-orient-50">groups</span>
+                <section aria-labelledby="sec-tutor-de-alumnos" id="tutor">
+                    <h2 id="sec-tutor-de-alumnos"
+                        class="text-2xl font-bold text-primary dark:text-orient-50 mb-8 flex items-center gap-3">
+                        <span aria-hidden="true" class="material-symbols-outlined text-primary dark:text-orient-50">groups</span>
                         Tutor de Alumnos
                     </h2>
                     <div class="bg-orient-50 dark:glass-mid rounded-2xl p-8 border border-orient-200"
                          data-aos="zoom-in">
                         <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
                             <div class="w-24 h-24 rounded-full bg-orient-100 dark:bg-white/5 flex items-center justify-center shrink-0 border dark:border-white/10 transition-transform duration-300 hover:rotate-12 hover:scale-110">
-                                <span class="material-symbols-outlined text-4xl text-primary dark:text-orient-300">workspace_premium</span>
+                                <span aria-hidden="true"
+                                      class="material-symbols-outlined text-4xl text-primary dark:text-orient-300">workspace_premium</span>
                             </div>
                             <div>
                                 <p class="text-xl font-bold mb-3 text-orient-950 dark:text-orient-50 transition-colors duration-300">
@@ -366,7 +385,8 @@
                 <!-- ============================================================
                                      SECCIÓN 5: FOTO + CARD DE INSTITUCIONES
                                 ============================================================ -->
-                <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full" id="trayectoria-academica">
+                <section aria-labelledby="sec-instituciones"
+                         class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full" id="trayectoria-academica">
                     <!-- Foto institucional -->
                     <article class="rounded-xl overflow-hidden aspect-[2/1] relative group w-full" data-aos="fade-right"
                              id="fotografia-institucional">
@@ -384,15 +404,18 @@
                             class="bg-white dark:glass-mid p-6 rounded-xl border border-orient-200 flex flex-col justify-between w-full h-full"
                             id="instituciones">
                         <div>
-                            <h3 class="text-xl font-bold text-primary dark:text-orient-50 mb-6 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary dark:text-orient-50">verified</span>
+                            <h3 id="sec-instituciones"
+                                class="text-xl font-bold text-primary dark:text-orient-50 mb-6 flex items-center gap-2">
+                                <span aria-hidden="true"
+                                      class="material-symbols-outlined text-primary dark:text-orient-50">verified</span>
                                 Instituciones
                             </h3>
                             <div class="space-y-4">
                                 <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#iplacex">
                                     <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
+                                        <span aria-hidden="true"
+                                              class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
                                             <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
                                                 IPLACEX</p>
@@ -400,12 +423,14 @@
                                                 Docente desde el 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span aria-hidden="true"
+                                          class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
                                 <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#duoc">
                                     <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
+                                        <span aria-hidden="true"
+                                              class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
                                             <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
                                                 DUOC UC</p>
@@ -413,12 +438,14 @@
                                                 Docente entre el 2023 - 2024</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span aria-hidden="true"
+                                          class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
                                 <a class="flex items-center justify-between p-3 rounded-lg border border-orient-100 dark:border-white/5 hover:bg-orient-50 dark:hover:bg-white/10 transition-colors duration-300 group"
                                    href="#inacap">
                                     <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
+                                        <span aria-hidden="true"
+                                              class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform duration-300 dark:text-orient-400">school</span>
                                         <div>
                                             <p class="text-sm font-bold text-orient-950 dark:text-orient-50 transition-colors duration-300">
                                                 UTECH INACAP</p>
@@ -426,7 +453,8 @@
                                                 Docente entre el 2013 - 2020</p>
                                         </div>
                                     </div>
-                                    <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
+                                    <span aria-hidden="true"
+                                          class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 text-orient-950 dark:text-orient-50 transition-opacity duration-300">verified</span>
                                 </a>
                             </div>
                         </div>
@@ -438,16 +466,19 @@
                 <!-- ============================================================
                                      SECCIÓN 6: CARGOS ESPECIALES
                                 ============================================================ -->
-                <section
-                        class="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-shadow duration-300"
-                        data-aos="fade-up" id="cargos-especiales">
+                <section aria-labelledby="sec-cargos-especiales"
+                         class="p-8 bg-primary/5 dark:bg-primary/10 rounded-2xl border border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-shadow duration-300"
+                         data-aos="fade-up" id="cargos-especiales">
                     <div class="flex items-center gap-3 mb-6">
-                        <span class="material-symbols-outlined text-primary text-3xl">military_tech</span>
-                        <h2 class="text-xl font-bold text-orient-950 dark:text-orient-50">Cargos Especiales</h2>
+                        <span aria-hidden="true"
+                              class="material-symbols-outlined text-primary text-3xl">military_tech</span>
+                        <h2 id="sec-cargos-especiales" class="text-xl font-bold text-orient-950 dark:text-orient-50">
+                            Cargos Especiales</h2>
                     </div>
                     <ul class="space-y-4">
                         <li class="flex items-center gap-3 group">
-                            <span class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">military_tech</span>
+                            <span aria-hidden="true"
+                                  class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">military_tech</span>
                             <p class="text-sm font-medium leading-relaxed text-orient-700 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
                                 <strong>Docente Responsable Examen Final de Competencias</strong> (Examen de Titulación
                                 Técnico Analista Programador) — <span
@@ -455,7 +486,8 @@
                             </p>
                         </li>
                         <li class="flex items-center gap-3 group">
-                            <span class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">workspace_premium</span>
+                            <span aria-hidden="true"
+                                  class="material-symbols-outlined text-primary bg-white dark:bg-orient-800 p-2 rounded-full text-sm shadow-sm group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">workspace_premium</span>
                             <p class="text-sm font-medium leading-relaxed text-orient-700 dark:text-orient-50 group-hover:text-primary transition-colors duration-300">
                                 <strong>Docente Guía Hackaton</strong> "Los Genios no Duermen" — <span
                                     class="text-[10px] font-bold uppercase tracking-wider text-orient-500">2018, UTECH INACAP</span>
@@ -471,8 +503,8 @@
         <div class="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-6 py-12 md:grid-cols-4 md:gap-8">
             <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-2">
-                    <div aria-label="Terminal Icon"
-                         class="h-6 w-6 bg-orient-600 transition-colors duration-300 dark:bg-orient-400" role="img"
+                    <div aria-hidden="true"
+                         class="h-6 w-6 bg-orient-600 transition-colors duration-300 dark:bg-orient-400"
                          style="-webkit-mask-image: url('static/img/favicon.svg'); mask-image: url('static/img/favicon.svg'); -webkit-mask-size: contain; mask-size: contain; mask-repeat: no-repeat;"></div>
                     <span class="text-lg font-bold tracking-tight text-orient-950 dark:text-white">Felipe Cuevas</span>
                 </div>
@@ -505,7 +537,7 @@
                 </div>
             </div>
             <div class="flex flex-col gap-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">Explorar</h3>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">Explorar</h2>
                 <nav class="flex flex-col gap-2">
                     <a class="text-sm text-orient-600 transition-colors hover:text-primary dark:text-orient-400 dark:hover:text-primary"
                        href="index.html">Inicio</a>
@@ -518,7 +550,7 @@
                 </nav>
             </div>
             <div class="flex flex-col gap-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">Tecnologías</h3>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">Tecnologías</h2>
                 <div class="flex flex-col gap-3">
                     <div class="flex items-center gap-3">
                         <svg class="h-6 w-6" viewbox="0 0 128 128">
@@ -562,8 +594,8 @@
                 </div>
             </div>
             <div class="flex flex-col gap-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">
-                    Certificaciones</h3>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-orient-900 dark:text-white">
+                    Certificaciones</h2>
                 <div class="mb-2 flex flex-col gap-3">
                     <div class="flex items-center gap-3">
                         <div class="flex h-8 w-8 items-center justify-center rounded border border-orient-200 bg-white p-1.5 shadow-sm dark:border-white/10 dark:bg-white/5">
@@ -588,7 +620,8 @@
                 </div>
                 <button class="group mt-2 flex w-fit items-center gap-2 rounded-lg border border-orient-200 bg-white px-4 py-2 text-xs font-semibold text-orient-700 shadow-sm transition-all hover:border-primary hover:text-primary dark:border-orient-800 dark:bg-orient-900 dark:text-orient-300 dark:hover:border-primary"
                         id="theme-toggle">
-                    <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180">contrast</span>
+                    <span aria-hidden="true"
+                          class="material-symbols-outlined text-base transition-transform group-hover:rotate-180">contrast</span>
                     Apariencia
                 </button>
             </div>
@@ -605,7 +638,7 @@
 <button aria-label="Volver arriba"
         class="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-primary text-white shadow-lg shadow-primary/30 opacity-0 invisible transition-all duration-300 hover:bg-primary/90 hover:-translate-y-1 focus:outline-none"
         id="back-to-top">
-    <span class="material-symbols-outlined text-2xl font-bold">arrow_upward</span>
+    <span aria-hidden="true" class="material-symbols-outlined text-2xl font-bold">arrow_upward</span>
 </button>
 </body>
 </html>

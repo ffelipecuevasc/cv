@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.length === 0) {
             grid.innerHTML = `
                 <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-10">
-                    <span class="material-symbols-outlined text-5xl text-orient-300 dark:text-orient-700 mb-2">search_off</span>
+                    <span aria-hidden="true" class="material-symbols-outlined text-5xl text-orient-300 dark:text-orient-700 mb-2">search_off</span>
                     <p class="text-orient-600 dark:text-orient-400 font-medium">No se encontraron recursos con esos parámetros.</p>
                 </div>`;
             return;
@@ -155,19 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="p-6 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center justify-center w-12 h-12 rounded-xl ${formatUI.bgClass} ${formatUI.textClass} shadow-inner group-hover:scale-110 transition-transform">
-                                <span class="material-symbols-outlined text-2xl">${formatUI.icon}</span>
+                                <span aria-hidden="true" class="material-symbols-outlined text-2xl">${formatUI.icon}</span>
                             </div>
                             <span class="${diffUI} text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest border">${item.dificultad}</span>
                         </div>
                         <p class="text-[11px] font-bold text-orient-500 uppercase tracking-widest mb-1">${item.categoriaPadre}</p>
-                        <h3 class="text-xl font-bold text-orient-950 dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">${item.titulo}</h3>
+                        <h2 class="text-xl font-bold text-orient-950 dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">${item.titulo}</h2>
                         <p class="text-sm text-orient-600 dark:text-orient-400 line-clamp-2 mb-4 flex-1">${item.descripcion}</p>
                         <div class="pt-4 border-t border-orient-100 dark:border-orient-800 flex items-center justify-between mt-auto">
                             <div class="flex items-center gap-1 text-orient-700 dark:text-orient-300 bg-orient-50 dark:bg-orient-800/50 px-2 py-1 rounded text-xs font-semibold">
-                                <span class="material-symbols-outlined text-[14px]">code</span> ${item.tecnologia}
+                                <span aria-hidden="true" class="material-symbols-outlined text-[14px]">code</span> ${item.tecnologia}
                             </div>
                             <a href="${item.url}" target="_blank" ${item.formato === 'pdf' ? 'download' : ''} class="text-primary hover:text-white hover:bg-primary px-4 py-2 rounded-lg text-sm font-bold transition-all border border-transparent hover:border-primary/50 flex items-center gap-1">
-                                ${formatUI.btnText} <span class="material-symbols-outlined text-sm">${formatUI.btnIcon}</span>
+                                ${formatUI.btnText} <span aria-hidden="true" class="material-symbols-outlined text-sm">${formatUI.btnIcon}</span>
                             </a>
                         </div>
                     </div>
@@ -210,10 +210,13 @@ document.addEventListener('DOMContentLoaded', () => {
             filterBtns.forEach(b => {
                 b.classList.remove('bg-primary', 'text-white', 'shadow-md');
                 b.classList.add('bg-white/50', 'dark:bg-orient-800/50', 'text-orient-700', 'dark:text-orient-200', 'border-orient-200', 'dark:border-orient-700');
+                // FASE 2.3: el estado del filtro deja de ser solo cromático
+                b.setAttribute('aria-pressed', 'false');
             });
 
             e.target.classList.remove('bg-white/50', 'dark:bg-orient-800/50', 'text-orient-700', 'dark:text-orient-200', 'border-orient-200', 'dark:border-orient-700');
             e.target.classList.add('bg-primary', 'text-white', 'shadow-md');
+            e.target.setAttribute('aria-pressed', 'true');
 
             filterAndRender();
         });

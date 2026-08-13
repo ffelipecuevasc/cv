@@ -9,7 +9,7 @@ const portafolioData = [
         gridSpan: "col-span-12 md:col-span-7",
         image: "static/img/felipe_cuevas_cv.png",
         alt: "Sitio Web Presentacional Felipe Cuevas",
-        link: "https://ffelipecuevasc.github.io/ffelipecuevasccv/",
+        link: "https://felipecuevas.dev/",
         overlayBadge: {icon: "open_in_new", text: "Ver Proyecto", bgClass: "bg-primary"},
         categoryPill: {icon: "web", text: "Front-End", bgClass: "bg-primary"},
         title: "CV Online — Este Sitio Web",
@@ -66,8 +66,8 @@ const portafolioData = [
         image: "static/img/benjamin_berna.png",
         alt: "CV Online Benjamín Berna - Contador General",
         link: "https://ffelipecuevasc.github.io/benjaminberna/",
-        overlayBadge: { icon: "open_in_new", text: "Ver Proyecto", bgClass: "bg-primary" },
-        categoryPill: { icon: "web", text: "Front-End", bgClass: "bg-primary" },
+        overlayBadge: {icon: "open_in_new", text: "Ver Proyecto", bgClass: "bg-primary"},
+        categoryPill: {icon: "web", text: "Front-End", bgClass: "bg-primary"},
         title: "CV Online — Benjamín Berna",
         description: "Portafolio web profesional diseñado a medida para un Contador General. Interfaz corporativa enfocada en la presentación de servicios financieros, trayectoria laboral y captación de clientes. Estructurado con <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Tailwind CSS</strong> para garantizar una experiencia de usuario rápida y 100% adaptable a dispositivos móviles.",
         tags: ["HTML5", "Tailwind CSS", "JavaScript", "GitHub Pages"]
@@ -80,8 +80,8 @@ const portafolioData = [
         image: "static/img/gestion_escolar.png",
         alt: "Sistema de Gestión Escolar - Backend Django",
         link: "https://github.com/ffelipecuevasc/GestionEscolar",
-        overlayBadge: { icon: "open_in_new", text: "Ver Repositorio", bgClass: "bg-orient-700" },
-        categoryPill: { icon: "api", text: "Back-End", bgClass: "bg-orient-800 dark:bg-orient-700" },
+        overlayBadge: {icon: "open_in_new", text: "Ver Repositorio", bgClass: "bg-orient-700"},
+        categoryPill: {icon: "api", text: "Back-End", bgClass: "bg-orient-800 dark:bg-orient-700"},
         title: "Sistema de Gestión Escolar",
         description: "Desarrollo backend para la administración integral de instituciones educativas. Arquitectura construida con <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Django y MySQL</strong>, implementando paneles de control, roles de usuario (profesores/alumnos), gestión de asignaturas y registro de calificaciones, con despliegue profesional en <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">AlwaysData</strong>.",
         tags: ["Python", "Django", "MySQL", "AlwaysData"]
@@ -103,10 +103,10 @@ const renderPortfolio = (filtro = 'all') => {
     filteredData.forEach(item => {
         const overlayHTML = item.link
             ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 ${item.overlayBadge.bgClass} text-white text-xs font-bold rounded-lg hover:opacity-90 transition-colors">
-                    <span class="material-symbols-outlined text-sm">${item.overlayBadge.icon}</span> ${item.overlayBadge.text}
+                    <span aria-hidden="true" class="material-symbols-outlined text-sm">${item.overlayBadge.icon}</span> ${item.overlayBadge.text}
                </a>`
             : `<span class="flex items-center gap-2 px-4 py-2 ${item.overlayBadge.bgClass} text-white text-xs font-bold rounded-lg">
-                    <span class="material-symbols-outlined text-sm">${item.overlayBadge.icon}</span> ${item.overlayBadge.text}
+                    <span aria-hidden="true" class="material-symbols-outlined text-sm">${item.overlayBadge.icon}</span> ${item.overlayBadge.text}
                </span>`;
 
         const tagsHTML = item.tags.map(tag => `<span class="px-2 py-1 bg-orient-100 dark:bg-white/5 dark:border dark:border-white/10 text-orient-700 dark:text-orient-300 text-[10px] font-bold rounded uppercase tracking-wider">${tag}</span>`).join('');
@@ -122,7 +122,7 @@ const renderPortfolio = (filtro = 'all') => {
                         ${overlayHTML}
                     </div>
                     <div class="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 ${item.categoryPill.bgClass} text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
-                        <span class="material-symbols-outlined text-xs">${item.categoryPill.icon}</span> ${item.categoryPill.text}
+                        <span aria-hidden="true" class="material-symbols-outlined text-xs">${item.categoryPill.icon}</span> ${item.categoryPill.text}
                     </div>
                 </div>
                 <div class="p-5 md:p-6">
@@ -169,11 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
             filterBtns.forEach(b => {
                 b.classList.remove('active', 'border-primary', 'bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
                 b.classList.add('border-orient-300', 'dark:border-orient-700', 'bg-white', 'dark:bg-orient-950', 'text-orient-600', 'dark:text-orient-300', 'shadow-sm');
+                // FASE 2.3: el estado del filtro deja de ser solo cromático
+                b.setAttribute('aria-pressed', 'false');
             });
 
             // 4. Aplicar el estado visual 'activo' SOLO al botón clickeado
             targetBtn.classList.remove('border-orient-300', 'dark:border-orient-700', 'bg-white', 'dark:bg-orient-950', 'text-orient-600', 'dark:text-orient-300', 'shadow-sm');
             targetBtn.classList.add('active', 'border-primary', 'bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/30');
+            targetBtn.setAttribute('aria-pressed', 'true');
 
             // 5. Re-renderizar la grilla con los proyectos filtrados
             renderPortfolio(filterValue);

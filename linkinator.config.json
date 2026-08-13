@@ -3,7 +3,13 @@
     "fonts\\.(googleapis|gstatic)\\.com",
     "linkedin\\.com",
     "github\\.(com|io)",
+    "felipecuevas\\.dev",
     "chilefacilitadores\\.cl",
-    "calendly\\.com"
+    "calendly\\.com",
+    "credly\\.com",
+    "openedg\\.org",
+    "oracle\\.com",
+    "aws\\.amazon\\.com",
+    "pythoninstitute\\.org"
   ]
 }

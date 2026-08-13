@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeFlashlightEffect();
 });
 
-
-
 // =========================================
 // 3. Inicialización de Lógica General
 // =========================================
@@ -62,6 +60,9 @@ function initializeLogic() {
                 menuIcon.textContent = 'close';
                 menuIcon.classList.add('rotate-90'); // Pequeño giro al icono
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                mobileMenuBtn.setAttribute('aria-label', 'Cerrar menú');
+                // FASE 2.3: el menú vuelve al orden de tabulación al abrirse
+                mobileMenu.removeAttribute('inert');
             } else {
                 // Cerrar menú
                 mobileMenu.classList.add('max-h-0', 'border-b-0');
@@ -69,9 +70,39 @@ function initializeLogic() {
                 menuIcon.textContent = 'menu';
                 menuIcon.classList.remove('rotate-90');
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenuBtn.setAttribute('aria-label', 'Abrir menú');
+                // FASE 2.3: colapsado, sus enlaces salen del orden de tabulación.
+                // Se difiere hasta el término de la transición de altura para no
+                // interrumpir la animación de cierre.
+                setTimeout(() => {
+                    if (mobileMenu.classList.contains('max-h-0')) {
+                        mobileMenu.setAttribute('inert', '');
+                    }
+                }, 500);
             }
         });
     }
+
+    // =========================================
+    // 2.b Estado del desplegable de navegación (FASE 2.3 / H-10)
+    // =========================================
+    // El panel se revela por CSS con group-hover y group-focus-within.
+    // Acá solo se sincroniza el estado declarado para tecnologías asistivas.
+    document.querySelectorAll('[data-dropdown]').forEach((dropdown) => {
+        const trigger = dropdown.querySelector('[aria-haspopup="true"]');
+        if (!trigger) return;
+
+        const setExpanded = (expanded) => trigger.setAttribute('aria-expanded', String(expanded));
+
+        dropdown.addEventListener('mouseenter', () => setExpanded(true));
+        dropdown.addEventListener('mouseleave', () => {
+            if (!dropdown.contains(document.activeElement)) setExpanded(false);
+        });
+        dropdown.addEventListener('focusin', () => setExpanded(true));
+        dropdown.addEventListener('focusout', (event) => {
+            if (!dropdown.contains(event.relatedTarget)) setExpanded(false);
+        });
+    });
 
     // =========================================
     // 3. Año Dinámico

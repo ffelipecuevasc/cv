@@ -116,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3 class="text-lg font-bold text-orient-950 dark:text-white">${data.nombre}</h3>
                 <p class="text-[11px] text-orient-500 dark:text-orient-400 mb-4 font-bold uppercase tracking-wider h-8 flex items-center justify-center">${data.cargo}</p>
                 <div class="flex gap-1 text-accent-gold mb-4">
-                    ${'<span class="material-symbols-outlined text-lg" style="font-variation-settings: \'FILL\' 1;">star</span>'.repeat(5)}
+                    ${'<span aria-hidden="true" class="material-symbols-outlined text-lg" style="font-variation-settings: \'FILL\' 1;">star</span>'.repeat(5)}
                 </div>
-                <span class="material-symbols-outlined text-4xl text-orient-200 dark:text-orient-700 mb-2">format_quote</span>
+                <span aria-hidden="true" class="material-symbols-outlined text-4xl text-orient-200 dark:text-orient-700 mb-2">format_quote</span>
                 <p class="text-orient-600 dark:text-orient-300 text-sm leading-relaxed flex-1 flex items-center">${data.texto}</p>
             </div>
         </div>
@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3 class="text-lg font-bold text-white">${data.nombre}</h3>
                 <p class="text-[11px] text-orient-100 mb-4 font-bold uppercase tracking-wider h-8 flex items-center justify-center">${data.cargo}</p>
                 <div class="flex gap-1 text-white mb-4">
-                    ${'<span class="material-symbols-outlined text-lg" style="font-variation-settings: \'FILL\' 1;">star</span>'.repeat(5)}
+                    ${'<span aria-hidden="true" class="material-symbols-outlined text-lg" style="font-variation-settings: \'FILL\' 1;">star</span>'.repeat(5)}
                 </div>
-                <span class="material-symbols-outlined text-4xl text-white/30 mb-2">format_quote</span>
+                <span aria-hidden="true" class="material-symbols-outlined text-4xl text-white/30 mb-2">format_quote</span>
                 <p class="text-white text-sm leading-relaxed font-medium flex-1 flex items-center">${data.texto}</p>
             </div>
         </div>
@@ -174,8 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
         autoplayInterval = setInterval(nextSlide, AUTOPLAY_TIME);
     };
 
-    btnNext.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
-    btnPrev.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+    btnNext.addEventListener('click', () => {
+        nextSlide();
+        resetAutoplay();
+    });
+    btnPrev.addEventListener('click', () => {
+        prevSlide();
+        resetAutoplay();
+    });
 
     grid.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
     grid.addEventListener('mouseleave', resetAutoplay);

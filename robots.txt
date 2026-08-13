@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Páginas sin valor de indexación
+Disallow: /agradecimiento
+
+Sitemap: https://felipecuevas.dev/sitemap.xml

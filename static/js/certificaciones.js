@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="relative pl-16 md:pl-28 mb-12 w-full" data-aos="fade-left">
             
             <div class="absolute left-6 md:left-12 w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-white dark:border-orient-700 bg-primary z-10 transform -translate-x-1/2 flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110 neon-glow-sm">
-                <span class="material-symbols-outlined text-white text-sm md:text-base">workspace_premium</span>
+                <span aria-hidden="true" class="material-symbols-outlined text-white text-sm md:text-base">workspace_premium</span>
             </div>
 
             <div class="bg-white dark:glass-mid rounded-[2rem] border border-orient-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/50 overflow-hidden group neon-glow-interactive">
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             
                             <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-orient-50 dark:bg-orient-900/50 text-orient-700 dark:text-orient-300 text-xs font-bold uppercase tracking-widest rounded-xl border border-orient-200 dark:border-white/5 shrink-0">
-                                <span class="material-symbols-outlined text-base text-primary">event_available</span>
+                                <span aria-hidden="true" class="material-symbols-outlined text-base text-primary">event_available</span>
                                 ${cert.fecha}
                             </span>
                         </div>
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             
                             <a href="${cert.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 text-sm font-bold text-white bg-primary px-6 py-3 rounded-xl hover:bg-primary-vibrant transition-all shadow-lg hover:shadow-primary/30 hover:-translate-y-1 shrink-0 w-full sm:w-auto neon-glow-md">
-                                <span class="material-symbols-outlined text-lg">verified</span>
+                                <span aria-hidden="true" class="material-symbols-outlined text-lg">verified</span>
                                 Verificar Credencial
                             </a>
                         </div>
