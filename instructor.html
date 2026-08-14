@@ -38,12 +38,39 @@
     <link href="static/css/tailwind.css" rel="stylesheet">
     <link href="static/css/aos.css" rel="stylesheet"/>
     <script>
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
+        // Fase 3.4 / H-06 — Garantía de legibilidad. Va PRIMERO y a prueba de todo:
+        // el contenido animado parte invisible por diseño, así que si el servicio de
+        // animación no alcanza a marcarse como iniciado dentro del margen, se revela
+        // todo. Vive fuera del grafo de módulos para cubrir también el caso de que
+        // los módulos no lleguen a ejecutarse.
+        window.setTimeout(function () {
+            if (!document.documentElement.classList.contains('aos-iniciado')) {
+                document.documentElement.classList.add('animaciones-desactivadas');
+            }
+        }, 1500);
+
+        // Tema: se aplica antes del primer pintado para evitar el parpadeo inicial.
+        // Protegido: en modos de privacidad estrictos el acceso al almacenamiento
+        // puede lanzar una excepción, y eso no puede tumbar nada más.
+        try {
+            var preferencia = localStorage.getItem('theme');
+            var sistemaOscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (preferencia === 'dark' || (preferencia === null && sistemaOscuro)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {
+            /* Sin almacenamiento disponible: se mantiene el tema claro por defecto. */
         }
     </script>
+    <noscript>
+        <!-- Sin JavaScript la librería de animación nunca corre: el contenido debe verse igual. -->
+        <style>[data-aos] {
+            opacity: 1 !important;
+            transform: none !important;
+        }</style>
+    </noscript>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-orient-950 dark:text-orient-50 transition-colors duration-300 overflow-x-hidden">
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-orient-950"
@@ -503,12 +530,12 @@
         </div>
     </footer>
 </div>
-<script src="static/js/index.js"></script>
-<script src="static/js/aos.js"></script>
 <button aria-label="Volver arriba"
         class="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-primary text-white shadow-lg shadow-primary/30 opacity-0 invisible transition-all duration-300 hover:bg-primary/90 hover:-translate-y-1 focus:outline-none"
         id="back-to-top">
     <span aria-hidden="true" class="material-symbols-outlined text-2xl font-bold">arrow_upward</span>
 </button>
+<script src="static/js/aos.js"></script>
+<script type="module" src="static/js/paginas/general.js"></script>
 </body>
 </html>

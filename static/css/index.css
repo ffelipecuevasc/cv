@@ -38,8 +38,14 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px) translateX(-50%); }
-    to { opacity: 1; transform: translateY(0) translateX(-50%); }
+    from {
+        opacity: 0;
+        transform: translateY(5px) translateX(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
 }
 
 /* =========================================
@@ -61,8 +67,14 @@ body {
    6. Component: Animations
    ========================================= */
 @keyframes scale-in {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .icon-animate {
@@ -70,8 +82,12 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .badge-float {
@@ -227,5 +243,48 @@ body.dark::before {
            Usa valores por defecto (50%) por si el JS tarda unos milisegundos en cargar */
         -webkit-mask-image: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
         mask-image: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+    }
+}
+
+/* =========================================
+   14. Fase 3.4 — Resiliencia y movimiento reducido (H-06)
+   ========================================= */
+
+/* Garantía de legibilidad: el contenido animado parte invisible por diseño
+   ([data-aos^=fade] tiene opacity:0). Si la librería de animación no llega a
+   inicializarse, esta clase lo revela todo. La aplica el guardián del <head>
+   o el servicio de animación. La animación es un adorno, nunca una condición. */
+.animaciones-desactivadas [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
+/* Preferencia de movimiento reducido del sistema operativo.
+   Desactiva animaciones de entrada, desplazamientos automáticos y paralaje. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    [data-aos] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    /* El halo del cursor deja de seguir al puntero: queda centrado y quieto. */
+    .bg-texture-dots {
+        -webkit-mask-image: none;
+        mask-image: none;
     }
 }

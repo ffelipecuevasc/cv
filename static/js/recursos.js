@@ -1,128 +1,12 @@
 // =========================================
-// 1. Base de Datos de Recursos Educativos
+// CAPA DE LÓGICA Y VISTA — Bóveda de recursos
+// Expone: iniciarRecursos()
 // =========================================
-const recursosData = [
-    {
-        id: 1,
-        titulo: "Optimización de Perfil LinkedIn para Devs",
-        descripcion: "Manual de estrategia y posicionamiento digital para destacar en LinkedIn.",
-        categoriaPadre: "Empleabilidad",
-        categoriaFiltro: "Empleabilidad",
-        formato: "pdf",
-        dificultad: "Básico",
-        tecnologia: "LinkedIn",
-        url: "static/recursos/empleabilidad/MANUAL - Optimizar Perfil LinkedIn.pdf"
-    },
-    {
-        id: 2,
-        titulo: "Hackatón de Estudio para Django & Python",
-        descripcion: "Actividad en modalidad Hackatón para profundizar en Django y Python.",
-        categoriaPadre: "Desarrollo Full Stack Python",
-        categoriaFiltro: "Python",
-        formato: "pdf",
-        dificultad: "Intermedio",
-        tecnologia: "Python",
-        url: "static/recursos/python/ACTIVIDAD - Hackatón de Estudio.pdf"
-    },
-    {
-        id: 3,
-        titulo: "Taller: Despliega tu CV Online",
-        descripcion: "Actividad guiada para crear tu CV web utilizando la IA Stitch y GitHub.",
-        categoriaPadre: "Empleabilidad",
-        categoriaFiltro: "Empleabilidad",
-        formato: "pdf",
-        dificultad: "Intermedio",
-        tecnologia: "CV Web & GitHub",
-        url: "static/recursos/empleabilidad/TALLER - CV Online.pdf"
-    },
-    {
-        id: 4,
-        titulo: "Taller: Despliegue en AlwaysData",
-        descripcion: "Procedimiento técnico para subir tu Proyecto Web Django en AlwaysData.",
-        categoriaPadre: "Desarrollo Full Stack Python",
-        categoriaFiltro: "Python",
-        formato: "pdf",
-        dificultad: "Intermedio",
-        tecnologia: "Django & MySQL",
-        url: "static/recursos/python/TALLER - Despliegue Plataforma AlwaysData.pdf"
-    },
-    {
-        id: 5,
-        titulo: "Taller: Despliegue en Google Cloud Platform",
-        descripcion: "Taller práctico para el despliegue profesional en Google Cloud.",
-        categoriaPadre: "Desarrollo Full Stack Python",
-        categoriaFiltro: "Python",
-        formato: "pdf",
-        dificultad: "Avanzado",
-        tecnologia: "Google Cloud",
-        url: "static/recursos/python/TALLER - Despliegue Plataforma Google Cloud.pdf"
-    },
-    {
-        id: 6,
-        titulo: "Entrevista a Guido van Rossum",
-        descripcion: "El creador de Python profundiza sobre Python y su rol en la IA.",
-        categoriaPadre: "Desarrollo Full Stack Python",
-        categoriaFiltro: "Python",
-        formato: "video",
-        dificultad: "Intermedio",
-        tecnologia: "Python",
-        url: "https://youtu.be/Qrad7LPoJjU"
-    },
-    {
-        id: 7,
-        titulo: "Clase Magistral - Cristián Maureira (Vicepresidente PSF)",
-        descripcion: "Historia de Python y por qué es el lenguaje N° 1 para programar.",
-        categoriaPadre: "Desarrollo Full Stack Python",
-        categoriaFiltro: "Python",
-        formato: "video",
-        dificultad: "Básico",
-        tecnologia: "Python",
-        url: "https://youtu.be/6R2Hly53Zh8"
-    },
-    {
-        id: 8,
-        titulo: "Diferencias entre JS, Java y Python",
-        descripcion: "Análisis para entender las diferencias y propósitos de cada lenguaje.",
-        categoriaPadre: "Fundamentos de Programación",
-        categoriaFiltro: "Java",
-        formato: "video",
-        dificultad: "Básico",
-        tecnologia: "Java, Python & JS",
-        url: "https://youtu.be/zvegzW_RL9U"
-    },
-    {
-        id: 9,
-        titulo: "Glosario de HTML5",
-        descripcion: "Documento que define términos y elementos clave de HTML.",
-        categoriaPadre: "Desarrollo Web Frontend",
-        categoriaFiltro: "Frontend",
-        formato: "pdf",
-        dificultad: "Básico",
-        tecnologia: "HTML5",
-        url: "static/recursos/frontend/Glosario HTML5.pdf"
-    }
-];
+import {recursosData} from './datos/recursos.datos.js';
+import {recursosUI, recursosTextos, recursosAnimacion} from './config/recursos.config.js';
+import {construirLista, montar, plantillaVacio, soloValidos} from './servicios/renderizado.js';
 
-// =========================================
-// 2. Diccionarios de UI (Colores e Iconos)
-// =========================================
-const uiConfig = {
-    formato: {
-        "pdf": { icon: "picture_as_pdf", bgClass: "bg-red-100 dark:bg-red-900/30", textClass: "text-red-600 dark:text-red-400", btnText: "Descargar", btnIcon: "download" },
-        "github": { icon: "folder_zip", bgClass: "bg-gray-100 dark:bg-gray-800", textClass: "text-gray-700 dark:text-gray-300", btnText: "Ver Repo", btnIcon: "open_in_new" },
-        "video": { icon: "play_circle", bgClass: "bg-blue-100 dark:bg-blue-900/30", textClass: "text-blue-600 dark:text-blue-400", btnText: "Ver Clase", btnIcon: "play_arrow" }
-    },
-    dificultad: {
-        "Básico": "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800/50",
-        "Intermedio": "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800/50",
-        "Avanzado": "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50"
-    }
-};
-
-// =========================================
-// 3. Motor de Renderizado y Filtrado
-// =========================================
-document.addEventListener('DOMContentLoaded', () => {
+export function iniciarRecursos() {
     const grid = document.getElementById('recursos-grid');
     const searchInput = document.getElementById('search-recursos');
     const filterBtns = document.querySelectorAll('.filtro-btn');
@@ -131,26 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSearch = '';
 
     const renderCards = (data) => {
-        grid.innerHTML = '';
-
         if (data.length === 0) {
-            grid.innerHTML = `
-                <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-10">
-                    <span aria-hidden="true" class="material-symbols-outlined text-5xl text-orient-300 dark:text-orient-700 mb-2">search_off</span>
-                    <p class="text-orient-600 dark:text-orient-400 font-medium">No se encontraron recursos con esos parámetros.</p>
-                </div>`;
+            montar(grid, plantillaVacio(recursosTextos.vacio));
             return;
         }
 
-        data.forEach((item, index) => {
-            const formatUI = uiConfig.formato[item.formato];
-            const diffUI = uiConfig.dificultad[item.dificultad];
-            const delay = (index % 6) * 100;
+        const marcado = construirLista(soloValidos(data, 'titulo'), (item, index) => {
+            const formatUI = recursosUI.formato[item.formato];
+            const diffUI = recursosUI.dificultad[item.dificultad];
+            const delay = (index % recursosAnimacion.tarjetasPorCiclo) * recursosAnimacion.retardoPorTarjeta;
 
             // FASE 3: APLICACIÓN DEL MATERIAL GLASS-MID
             // - Se eliminan: dark:bg-orient-900 y dark:border-orient-800
             // - Se inyectan: dark:glass-mid y dark:ring-1 dark:ring-orient-300/10
-            const cardHTML = `
+            return `
                 <div data-aos="fade-up" data-aos-delay="${delay}" class="group flex flex-col bg-white dark:glass-mid rounded-2xl border border-orient-200 shadow-sm hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden neon-glow-interactive">
                     <div class="p-6 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-4">
@@ -173,10 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-            grid.insertAdjacentHTML('beforeend', cardHTML);
         });
 
-        if (typeof AOS !== 'undefined') AOS.refreshHard();
+        montar(grid, marcado, {refrescarAnimaciones: true});
     };
 
     const filterAndRender = () => {
@@ -223,4 +100,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderCards(recursosData);
-});
+}

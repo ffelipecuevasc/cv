@@ -1,0 +1,8 @@
+// =========================================
+// PUNTO DE ENTRADA — Páginas sin motor de contenido
+// (experiencia, docente, instructor, talento-digital, contacto, agradecimiento, 404)
+// Único módulo que carga el documento; declara explícitamente lo que necesita.
+// =========================================
+import {iniciarSitio} from '../servicios/sitio.js';
+
+iniciarSitio();
