@@ -23,7 +23,7 @@ export function iniciarCertificaciones() {
                     <div class="md:w-1/3 lg:w-1/4 bg-orient-50 dark:bg-white/5 group-hover:bg-orient-500 dark:group-hover:bg-orient-900 transition-colors duration-500 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-orient-100 dark:border-white/5 relative overflow-hidden">
                         <div class="absolute inset-0 bg-primary/5 blur-3xl group-hover:bg-primary/20 transition-colors duration-500"></div>
                         
-                        <img src="${cert.imagen}" alt="Logo ${cert.titulo}" class="w-32 h-32 md:w-40 md:h-40 object-contain relative z-10 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl">
+                        <img src="${cert.imagen}" alt="" width="${cert.ancho}" height="${cert.alto}" class="w-32 h-32 md:w-40 md:h-40 object-contain relative z-10 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl" loading="lazy" decoding="async">
                     </div>
 
                     <div class="md:w-2/3 lg:w-3/4 p-6 md:p-8 flex flex-col justify-center">

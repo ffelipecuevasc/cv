@@ -288,3 +288,70 @@ body.dark::before {
         mask-image: none;
     }
 }
+
+
+/* =========================================
+   15. Fase 4.2 — Componentes de patrones repetidos (H-12)
+   =========================================
+   Solo se promueve lo que se repite de forma IDÉNTICA cuatro o más veces.
+   La variación puntual (relleno, estado de foco, color de acento) permanece
+   como utilidad en línea. Cada componente indica cuántas veces se repetía.
+   Ver docs/sistema-de-diseno.md para el catálogo completo de tokens. */
+
+@layer components {
+
+    /* Tarjeta de contenido — 20 usos en desarrollador, instructor y docente.
+       Núcleo común. Fuera quedan: relleno (p-5 / p-6), `group`, `neon-glow-interactive`
+       y los estados de borde propios de cada página. */
+    .tarjeta-contenido {
+        @apply bg-white rounded-xl border border-orient-100 shadow-sm
+        transition-all duration-300 hover:shadow-md hover:-translate-y-1;
+    }
+
+    /* Tarjeta de tecnología — 10 usos en la rejilla de `desarrollador`.
+       Se promueven sus tres piezas internas, no la tarjeta completa: el contenedor
+       reutiliza .tarjeta-contenido. */
+    .tecnologia-icono {
+        @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl
+        bg-orient-100 dark:bg-orient-800 text-orient-700 dark:text-orient-300;
+    }
+
+    .tecnologia-nombre {
+        @apply font-bold text-orient-950 dark:text-white text-sm;
+    }
+
+    .tecnologia-rol {
+        @apply text-[10px] text-orient-500 font-bold uppercase tracking-wider;
+    }
+
+    /* Etiqueta de categoría — 22 usos en experiencia, docente e instructor.
+       Solo el núcleo tipográfico es idéntico en los tres. El color, el relleno y el
+       radio difieren por página y siguen en línea: son variación real, no ruido. */
+    .etiqueta-categoria {
+        @apply text-[10px] font-bold uppercase tracking-wider;
+    }
+
+    /* Botón primario — 22 usos en las 11 páginas (barra superior y menú móvil).
+       Fuera quedan el relleno vertical y los efectos de elevación, que difieren
+       entre la versión de escritorio y la móvil. */
+    .boton-primario {
+        @apply flex items-center justify-center rounded-lg bg-primary px-5
+        text-sm font-semibold text-white;
+    }
+
+    /* Botón secundario — 11 usos, idéntico en las 11 páginas (conmutador de tema
+       del pie). Se promueve completo; solo `group` permanece en línea por ser un
+       enganche estructural, no estilo. */
+    .boton-secundario {
+        @apply mt-2 flex w-fit items-center gap-2 rounded-lg border border-orient-200
+        bg-white px-4 py-2 text-xs font-semibold text-orient-700 shadow-sm transition-all
+        hover:border-primary hover:text-primary
+        dark:border-orient-800 dark:bg-orient-900 dark:text-orient-300 dark:hover:border-primary;
+    }
+
+    /* Bajada de encabezado de sección — 4 usos idénticos en educacion,
+       experiencia, instructor y recursos. */
+    .seccion-bajada {
+        @apply text-orient-700 dark:text-orient-300 text-lg font-normal leading-relaxed max-w-2xl;
+    }
+}

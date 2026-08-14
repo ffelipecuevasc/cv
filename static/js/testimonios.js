@@ -29,7 +29,7 @@ export function iniciarTestimonios() {
     const renderStandardCard = (data) => `
         <div class="relative flex flex-col items-center bg-white dark:glass-mid rounded-[2rem] p-8 shadow-lg border border-orient-200 transition-transform duration-300 hover:-translate-y-2 h-full neon-glow-interactive">
             <div class="absolute -top-12 w-24 h-24 rounded-full border-4 border-white dark:border-orient-900 overflow-hidden bg-orient-100 shadow-md">
-                <img src="${data.imagen}" alt="${data.nombre}" class="w-full h-full object-cover" data-sustituto="avatar" data-sustituto-fondo="${testimoniosUI.avatarSustituto.estandar.fondo}" data-sustituto-texto="${testimoniosUI.avatarSustituto.estandar.texto}">
+                <img src="${data.imagen}" alt="${data.nombre}" width="${data.ancho}" height="${data.alto}" class="w-full h-full object-cover" loading="lazy" decoding="async" data-sustituto="avatar" data-sustituto-fondo="${testimoniosUI.avatarSustituto.estandar.fondo}" data-sustituto-texto="${testimoniosUI.avatarSustituto.estandar.texto}">
             </div>
             <div class="mt-10 text-center flex flex-col items-center w-full h-full">
                 <h3 class="text-lg font-bold text-orient-950 dark:text-white">${data.nombre}</h3>
@@ -46,7 +46,7 @@ export function iniciarTestimonios() {
     const renderSpotlightCard = (data) => `
         <div class="relative flex flex-col items-center bg-primary rounded-[2rem] p-8 shadow-2xl lg:scale-105 border border-primary-vibrant/30 z-10 transition-transform duration-300 hover:-translate-y-2 lg:hover:scale-110 h-full neon-glow-interactive">
             <div class="absolute -top-12 w-24 h-24 rounded-full border-4 border-primary overflow-hidden bg-white shadow-md">
-                <img src="${data.imagen}" alt="${data.nombre}" class="w-full h-full object-cover" data-sustituto="avatar" data-sustituto-fondo="${testimoniosUI.avatarSustituto.destacado.fondo}" data-sustituto-texto="${testimoniosUI.avatarSustituto.destacado.texto}">
+                <img src="${data.imagen}" alt="${data.nombre}" width="${data.ancho}" height="${data.alto}" class="w-full h-full object-cover" loading="lazy" decoding="async" data-sustituto="avatar" data-sustituto-fondo="${testimoniosUI.avatarSustituto.destacado.fondo}" data-sustituto-texto="${testimoniosUI.avatarSustituto.destacado.texto}">
             </div>
             <div class="mt-10 text-center flex flex-col items-center w-full h-full">
                 <h3 class="text-lg font-bold text-white">${data.nombre}</h3>
