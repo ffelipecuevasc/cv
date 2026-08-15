@@ -52,7 +52,7 @@ function plantillaTarjeta(item, indice) {
                     <h3 class="${peso.tamanoTitulo} mt-4 font-bold leading-tight text-orient-950 dark:text-orient-50 transition-colors duration-300 group-hover:text-primary">${item.titulo}</h3>
                     <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">
                         ${item.institucion}
-                        <span class="block text-orient-500 dark:text-orient-400 text-xs uppercase tracking-wide mt-0.5">${item.periodo}</span>
+                        <span class="block text-orient-500 dark:text-orient-400 text-xs uppercase tracking-wide mt-0.5">${item.periodo}${item.duracion ? ` · ${item.duracion}` : ''}</span>
                     </p>
                     ${descripcion}
                     ${logros}

@@ -90,10 +90,6 @@ body {
     }
 }
 
-.badge-float {
-    animation: float 3s ease-in-out infinite;
-}
-
 /* =========================================
    7. Custom Scrollbar (Webkit)
    ========================================= */
