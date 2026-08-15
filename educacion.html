@@ -299,98 +299,76 @@
                 </div>
             </div>
             <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-primary-vibrant/40 to-transparent"></div>
-            <section aria-labelledby="sec-educacion-universitaria">
+            <section aria-labelledby="sec-formacion-academica">
                 <div class="flex items-center gap-3 mb-8" data-aos="fade-right">
                     <span aria-hidden="true" class="material-symbols-outlined text-primary text-3xl">history_edu</span>
-                    <h2 id="sec-educacion-universitaria"
+                    <h2 id="sec-formacion-academica"
                         class="text-orient-950 dark:text-orient-50 text-2xl font-bold leading-tight tracking-[-0.015em]">
-                        Educación Universitaria
+                        Formación Académica
                     </h2>
                 </div>
-                <div class="grid grid-cols-[40px_1fr] gap-x-6">
-                    <div class="flex flex-col items-center gap-1" data-aos="fade-down">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary shadow-lg transition-transform hover:scale-110 duration-300 cursor-default neon-glow-sm">
-                            <span aria-hidden="true" class="material-symbols-outlined text-xl">workspace_premium</span>
-                        </div>
-                        <div class="w-[2px] bg-primary/20 h-full"></div>
+                <!-- Controles del bento (Fase 5.2). Ocultos por omisión: sin JavaScript la rejilla
+                     se muestra completa y sin filtros, nunca una sección vacía con botones inertes. -->
+                <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between" hidden
+                     id="formacion-controles">
+                    <div aria-label="Filtrar por naturaleza de la formación" role="group"
+                         class="flex snap-x snap-mandatory flex-nowrap gap-1 overflow-x-auto rounded-xl border border-orient-200 dark:border-orient-800 bg-white/70 dark:bg-orient-900/60 p-1 shadow-sm backdrop-blur-sm md:flex-wrap md:overflow-x-visible">
+                        <button aria-pressed="true"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-primary text-white shadow-sm"
+                                data-formacion-filtro="todas" type="button">Todas
+                        </button>
+                        <button aria-pressed="false"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-orient-600 dark:text-orient-300 hover:text-primary"
+                                data-formacion-filtro="universitaria" type="button">Universitaria
+                        </button>
+                        <button aria-pressed="false"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-orient-600 dark:text-orient-300 hover:text-primary"
+                                data-formacion-filtro="diplomado" type="button">Diplomado
+                        </button>
+                        <button aria-pressed="false"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-orient-600 dark:text-orient-300 hover:text-primary"
+                                data-formacion-filtro="tecnica" type="button">Técnica
+                        </button>
+                        <button aria-pressed="false"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-orient-600 dark:text-orient-300 hover:text-primary"
+                                data-formacion-filtro="reconocimiento" type="button">Reconocimiento
+                        </button>
                     </div>
-                    <div class="flex flex-1 flex-col pb-12 pt-1 group" data-aos="fade-left" data-aos-delay="50">
-                        <div class="flex flex-wrap items-center justify-between gap-2">
-                            <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold group-hover:text-primary transition-colors duration-300 cursor-default">
-                                Diplomado en Andragogía y Formación Profesional
-                            </h3>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">Titulado</span>
-                        </div>
-                        <p class="text-orient-600 dark:text-orient-300 text-lg mt-1">
-                            <strong class="font-bold text-orient-700 dark:text-orient-200">Universidad de Chile</strong>
-                            <span class="text-orient-500 dark:text-orient-400 text-sm tracking-wide uppercase ml-1">| 2025 - 2026</span>
-                        </p>
-                        <p class="mt-4 text-sm text-orient-700 dark:text-orient-200 leading-relaxed max-w-2xl">
-                            Diplomado centrado en la educación de jóvenes adultos (andragogía). Formación que me
-                            capacitó como líder de grupos de estudiantes y
-                            tutor en el ámbito de empleabilidad para orientar a mis estudiantes en la obtención de
-                            trabajo.
-                        </p>
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-orient-600 dark:text-orient-50 text-[10px] uppercase tracking-wider font-bold rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 cursor-default">Liderazgo</span>
-                            <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-orient-600 dark:text-orient-50 text-[10px] uppercase tracking-wider font-bold rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 cursor-default">Aprendizaje Basado en Proyectos</span>
-                            <span class="px-3 py-1 bg-orient-100 dark:bg-orient-800 text-orient-600 dark:text-orient-50 text-[10px] uppercase tracking-wider font-bold rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 cursor-default">Empleabilidad</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center gap-1" data-aos="fade-down" data-aos-delay="100">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110 duration-300 cursor-default neon-glow-sm">
-                            <span aria-hidden="true" class="material-symbols-outlined text-xl">workspace_premium</span>
-                        </div>
-                        <div class="w-[2px] bg-primary/20 h-full"></div>
-                    </div>
-                    <div class="flex flex-1 flex-col pb-12 pt-1 group" data-aos="fade-left" data-aos-delay="150">
-                        <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold group-hover:text-primary transition-colors duration-300 cursor-default">
-                            Ingeniería en Informática
-                        </h3>
-                        <p class="text-orient-600 dark:text-orient-300 text-lg mt-1">
-                            <strong class="font-bold text-orient-700 dark:text-orient-200">Universidad Tecnológica de
-                                Chile INACAP</strong>
-                            <span class="text-orient-500 dark:text-orient-400 text-sm tracking-wide uppercase ml-1">| 2007 - 2011</span>
-                        </p>
-                        <ul class="mt-4 space-y-2 list-disc list-inside text-sm text-orient-700 dark:text-orient-200">
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default"><strong>Titulado
-                                con Honores</strong> - Mejor Ingeniero
-                            </li>
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default">Tésis:
-                                Sistema de Rastreo GPS de Flota <em>(Head Hunter)</em></li>
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default">Alumno
-                                Tutor Académico
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="flex flex-col items-center gap-1" data-aos="fade-down" data-aos-delay="200">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110 duration-300 cursor-default neon-glow-sm">
-                            <span aria-hidden="true" class="material-symbols-outlined text-xl">workspace_premium</span>
-                        </div>
-                        <div class="w-[2px] bg-primary/20 h-full"></div>
-                    </div>
-                    <div class="flex flex-1 flex-col pt-1 group" data-aos="fade-left" data-aos-delay="250">
-                        <h3 class="text-orient-950 dark:text-orient-50 text-xl font-bold group-hover:text-primary transition-colors duration-300 cursor-default">
-                            Técnico Analista Programador
-                        </h3>
-                        <p class="text-orient-600 dark:text-orient-300 text-lg mt-1">
-                            <strong class="font-bold text-orient-700 dark:text-orient-200">Universidad Tecnológica de
-                                Chile INACAP</strong>
-                            <span class="text-orient-500 dark:text-orient-400 text-sm tracking-wide uppercase ml-1">| 2007 - 2011</span>
-                        </p>
-                        <ul class="mt-4 space-y-2 list-disc list-inside text-sm text-orient-700 dark:text-orient-200">
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default"><strong>Titulado
-                                con Honores</strong> - Mejor Técnico
-                            </li>
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default">Mejor
-                                Calificación en el Examen Final de Competencias (EFC)
-                            </li>
-                            <li class="transition-transform hover:translate-x-1 duration-200 cursor-default">Alumno
-                                Tutor Académico
-                            </li>
-                        </ul>
+                    <div aria-label="Ordenar la formación" role="group"
+                         class="flex shrink-0 flex-nowrap gap-1 rounded-xl border border-orient-200 dark:border-orient-800 bg-white/70 dark:bg-orient-900/60 p-1 shadow-sm backdrop-blur-sm">
+                        <button aria-pressed="true"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-primary text-white shadow-sm"
+                                data-formacion-orden="jerarquia" type="button">Jerarquía
+                        </button>
+                        <button aria-pressed="false"
+                                class="min-h-[44px] shrink-0 snap-start px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-orient-600 dark:text-orient-300 hover:text-primary"
+                                data-formacion-orden="cronologia" type="button">Cronología
+                        </button>
                     </div>
                 </div>
+                <ul class="grid grid-cols-12 gap-4 md:gap-6" id="formacion-bento"></ul>
+                <noscript>
+                    <ul class="grid grid-cols-1 gap-4">
+                        <li class="tarjeta-contenido dark:glass-mid p-5">
+                            <h3 class="text-xl font-bold text-orient-950 dark:text-orient-50">Ingeniería en
+                                Informática</h3>
+                            <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">Universidad Tecnológica de
+                                Chile INACAP | 2007 - 2011</p>
+                        </li>
+                        <li class="tarjeta-contenido dark:glass-mid p-5">
+                            <h3 class="text-xl font-bold text-orient-950 dark:text-orient-50">Diplomado en Andragogía y
+                                Formación Profesional</h3>
+                            <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">Universidad de Chile | 2025 -
+                                2026</p>
+                        </li>
+                        <li class="tarjeta-contenido dark:glass-mid p-5">
+                            <h3 class="text-xl font-bold text-orient-950 dark:text-orient-50">Técnico Analista
+                                Programador</h3>
+                            <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">Universidad Tecnológica de
+                                Chile INACAP | 2007 - 2011</p>
+                        </li>
+                    </ul>
+                </noscript>
             </section>
         </div>
         <section aria-labelledby="sec-certificaciones-profesionales"

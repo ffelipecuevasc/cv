@@ -363,49 +363,54 @@
           class="focus:outline-none mx-auto flex w-full max-w-[1200px] flex-1 items-center justify-center px-6 py-12 lg:py-20">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-8 w-full">
             <div class="order-2 lg:order-none lg:col-span-5 lg:col-start-1 lg:row-start-1 lg:row-span-2 flex flex-col items-center justify-center lg:justify-start mt-8 lg:mt-0">
-                <div class="relative w-full max-w-[280px] md:max-w-[420px]" data-aos="zoom-in" data-aos-delay="50">
-                    <div class="absolute -top-6 -right-4 md:-top-8 md:-right-8 z-10 badge-float" data-aos="fade-left"
-                         data-aos-delay="400">
-                        <div class="flex items-center justify-center gap-3 md:gap-4 rounded-2xl bg-badge-light/90 dark:glass-high shadow-xl shadow-orient-200/50 p-2.5 md:p-3 neon-glow-sm">
-                            <div class="group relative transition-transform hover:-translate-y-1 duration-300"
-                                 title="Oracle Certified">
-                                <div class="relative h-9 w-9 md:h-11 md:w-11 flex items-center justify-center">
-                                    <img alt="Certificación profesional de Oracle" class="h-full w-full object-contain"
-                                         width="400" height="400" loading="lazy" decoding="async"
+                <div class="relative flex w-full max-w-[280px] md:max-w-[420px] flex-col items-center"
+                     data-aos="zoom-in" data-aos-delay="50">
+                    <div class="relative w-full">
+                        <div class="relative photo-glow rounded-[2.5rem] p-px bg-gradient-to-b from-primary/30 to-transparent">
+                            <div class="relative aspect-[3/4] overflow-hidden rounded-[2.4rem] border border-primary/20 bg-orient-50 dark:bg-orient-900">
+                                <img alt="Retrato de Felipe Cuevas" width="420" height="560" fetchpriority="high"
+                                     decoding="async"
+                                     class="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                                     src="static/img/felipe_cuevas.png"/>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 h-24 w-24 border-b-2 border-r-2 border-primary/40 rounded-br-[2.5rem] hidden lg:block"></div>
+                    </div>
+                    <!-- Zócalo de credenciales: banda anclada bajo el retrato, nunca superpuesta.
+                         Sustituye al contenedor flotante y a la animación badge-float. -->
+                    <div class="mt-6 w-full lg:mt-10" data-aos="fade-up" data-aos-delay="300">
+                        <div class="relative overflow-hidden rounded-2xl border border-orient-100 bg-white shadow-sm transition-shadow duration-500 hover:shadow-lg hover:shadow-primary/10 dark:border-transparent dark:glass-mid dark:hover:shadow-black/50 neon-glow-sm">
+                            <span aria-hidden="true"
+                                  class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></span>
+                            <ul aria-label="Certificaciones profesionales vigentes"
+                                class="grid grid-cols-3 divide-x divide-orient-100 dark:divide-white/10">
+                                <li class="group/credencial relative flex cursor-default flex-col items-center justify-start gap-2.5 px-2 py-4 transition-colors duration-500 hover:bg-primary/5 dark:hover:bg-white/5">
+                                    <img alt="" width="400" height="400" loading="lazy" decoding="async"
+                                         class="h-9 w-9 md:h-10 md:w-10 object-contain transition-transform duration-500 ease-out group-hover/credencial:-translate-y-0.5 group-hover/credencial:scale-110"
                                          src="static/img/logos/insignia_oracle.png"/>
-                                </div>
-                            </div>
-                            <div class="w-px h-6 md:h-8 bg-orient-200 dark:bg-orient-800"></div>
-                            <div class="group relative transition-transform hover:-translate-y-1 duration-300"
-                                 title="AWS Certified">
-                                <div class="relative h-9 w-9 md:h-11 md:w-11 flex items-center justify-center">
-                                    <img alt="Certificación profesional de Amazon Web Services"
-                                         class="h-full w-full object-contain" width="400" height="400" loading="lazy"
-                                         decoding="async"
+                                    <span class="etiqueta-categoria flex min-h-[2.2em] items-center text-center leading-tight text-orient-500 transition-colors duration-500 group-hover/credencial:text-primary dark:text-orient-400 dark:group-hover/credencial:text-primary-vibrant">Oracle</span>
+                                    <span aria-hidden="true"
+                                          class="pointer-events-none absolute bottom-0 left-1/2 h-px w-0 -translate-x-1/2 bg-primary transition-all duration-500 ease-out group-hover/credencial:w-10 dark:bg-primary-vibrant"></span>
+                                </li>
+                                <li class="group/credencial relative flex cursor-default flex-col items-center justify-start gap-2.5 px-2 py-4 transition-colors duration-500 hover:bg-primary/5 dark:hover:bg-white/5">
+                                    <img alt="" width="400" height="400" loading="lazy" decoding="async"
+                                         class="h-9 w-9 md:h-10 md:w-10 object-contain transition-transform duration-500 ease-out group-hover/credencial:-translate-y-0.5 group-hover/credencial:scale-110"
                                          src="static/img/logos/insignia_aws.png"/>
-                                </div>
-                            </div>
-                            <div class="w-px h-6 md:h-8 bg-orient-200 dark:bg-orient-800"></div>
-                            <div class="group relative transition-transform hover:-translate-y-1 duration-300"
-                                 title="Python Certified">
-                                <div class="relative h-9 w-9 md:h-11 md:w-11 flex items-center justify-center">
-                                    <img alt="Certificación profesional de Python Institute"
-                                         class="h-full w-full object-contain" width="400" height="400" loading="lazy"
-                                         decoding="async"
+                                    <span class="etiqueta-categoria flex min-h-[2.2em] items-center text-center leading-tight text-orient-500 transition-colors duration-500 group-hover/credencial:text-primary dark:text-orient-400 dark:group-hover/credencial:text-primary-vibrant">Amazon Web Services</span>
+                                    <span aria-hidden="true"
+                                          class="pointer-events-none absolute bottom-0 left-1/2 h-px w-0 -translate-x-1/2 bg-primary transition-all duration-500 ease-out group-hover/credencial:w-10 dark:bg-primary-vibrant"></span>
+                                </li>
+                                <li class="group/credencial relative flex cursor-default flex-col items-center justify-start gap-2.5 px-2 py-4 transition-colors duration-500 hover:bg-primary/5 dark:hover:bg-white/5">
+                                    <img alt="" width="400" height="400" loading="lazy" decoding="async"
+                                         class="h-9 w-9 md:h-10 md:w-10 object-contain transition-transform duration-500 ease-out group-hover/credencial:-translate-y-0.5 group-hover/credencial:scale-110"
                                          src="static/img/logos/insignia_python.png"/>
-                                </div>
-                            </div>
+                                    <span class="etiqueta-categoria flex min-h-[2.2em] items-center text-center leading-tight text-orient-500 transition-colors duration-500 group-hover/credencial:text-primary dark:text-orient-400 dark:group-hover/credencial:text-primary-vibrant">Python Institute</span>
+                                    <span aria-hidden="true"
+                                          class="pointer-events-none absolute bottom-0 left-1/2 h-px w-0 -translate-x-1/2 bg-primary transition-all duration-500 ease-out group-hover/credencial:w-10 dark:bg-primary-vibrant"></span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="relative photo-glow rounded-[2.5rem] p-px bg-gradient-to-b from-primary/30 to-transparent">
-                        <div class="relative aspect-[3/4] overflow-hidden rounded-[2.4rem] border border-primary/20 bg-orient-50 dark:bg-orient-900">
-                            <img alt="Retrato de Felipe Cuevas" width="420" height="560" fetchpriority="high"
-                                 decoding="async"
-                                 class="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-                                 src="static/img/felipe_cuevas.png"/>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 h-24 w-24 border-b-2 border-r-2 border-primary/40 rounded-br-[2.5rem] hidden lg:block"></div>
                 </div>
             </div>
             <div class="order-1 lg:order-none lg:col-span-7 lg:col-start-6 lg:row-start-1 flex flex-col gap-8 items-center text-center lg:items-start lg:text-left">

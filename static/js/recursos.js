@@ -5,12 +5,11 @@
 import {recursosData} from './datos/recursos.datos.js';
 import {recursosUI, recursosTextos, recursosAnimacion} from './config/recursos.config.js';
 import {construirLista, montar, plantillaVacio, soloValidos} from './servicios/renderizado.js';
+import {iniciarGrupoFiltros} from './servicios/filtros.js';
 
 export function iniciarRecursos() {
     const grid = document.getElementById('recursos-grid');
     const searchInput = document.getElementById('search-recursos');
-    const filterBtns = document.querySelectorAll('.filtro-btn');
-
     let currentFilter = 'Todos';
     let currentSearch = '';
 
@@ -80,23 +79,17 @@ export function iniciarRecursos() {
         filterAndRender();
     });
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentFilter = e.target.getAttribute('data-filter');
-
-            filterBtns.forEach(b => {
-                b.classList.remove('bg-primary', 'text-white', 'shadow-md');
-                b.classList.add('bg-white/50', 'dark:bg-orient-800/50', 'text-orient-700', 'dark:text-orient-200', 'border-orient-200', 'dark:border-orient-700');
-                // FASE 2.3: el estado del filtro deja de ser solo cromático
-                b.setAttribute('aria-pressed', 'false');
-            });
-
-            e.target.classList.remove('bg-white/50', 'dark:bg-orient-800/50', 'text-orient-700', 'dark:text-orient-200', 'border-orient-200', 'dark:border-orient-700');
-            e.target.classList.add('bg-primary', 'text-white', 'shadow-md');
-            e.target.setAttribute('aria-pressed', 'true');
-
+    // FASE 5.2.4: el grupo de filtros pasa al servicio compartido, que sincroniza
+    // el estado declarado (aria-pressed) y el intercambio de clases.
+    iniciarGrupoFiltros({
+        selector: '.filtro-btn',
+        atributo: 'data-filter',
+        clasesActivas: ['bg-primary', 'text-white', 'shadow-md'],
+        clasesInactivas: ['bg-white/50', 'dark:bg-orient-800/50', 'text-orient-700', 'dark:text-orient-200', 'border-orient-200', 'dark:border-orient-700'],
+        alElegir: (valor) => {
+            currentFilter = valor;
             filterAndRender();
-        });
+        }
     });
 
     renderCards(recursosData);
