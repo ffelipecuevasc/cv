@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Bóveda de Recursos | Felipe Cuevas</title>
+    <title>Rutas de Aprendizaje | Felipe Cuevas</title>
     <link href="static/img/favicon.svg" rel="icon" type="image/svg+xml"/>
-    <meta content="Manuales, talleres y guías descargables de Java, Python, empleabilidad y desarrollo web, preparados por Felipe Cuevas para sus alumnos y de acceso libre."
+    <meta content="Rutas de aprendizaje con pasos ordenados y progreso marcable: Full Stack Python, Empleabilidad y Full Stack Java. Material preparado por Felipe Cuevas, de acceso libre."
           name="description"/>
     <meta content="Felipe Cuevas" name="author"/>
     <link href="https://felipecuevas.dev/recursos" rel="canonical"/>
@@ -14,8 +14,8 @@
     <meta content="es_CL" property="og:locale"/>
     <meta content="Felipe Cuevas" property="og:site_name"/>
     <meta content="https://felipecuevas.dev/recursos" property="og:url"/>
-    <meta content="Bóveda de Recursos | Felipe Cuevas" property="og:title"/>
-    <meta content="Manuales, talleres y guías descargables de Java, Python, empleabilidad y desarrollo web, preparados por Felipe Cuevas para sus alumnos y de acceso libre."
+    <meta content="Rutas de Aprendizaje | Felipe Cuevas" property="og:title"/>
+    <meta content="Rutas de aprendizaje con pasos ordenados y progreso marcable: Full Stack Python, Empleabilidad y Full Stack Java. Material preparado por Felipe Cuevas, de acceso libre."
           property="og:description"/>
     <meta content="https://felipecuevas.dev/static/img/felipe_cuevas_cv.png" property="og:image"/>
     <meta content="1920" property="og:image:width"/>
@@ -23,8 +23,8 @@
     <meta content="Vista del sitio web de Felipe Cuevas, ingeniero informático e instructor certificado"
           property="og:image:alt"/>
     <meta content="summary_large_image" name="twitter:card"/>
-    <meta content="Bóveda de Recursos | Felipe Cuevas" name="twitter:title"/>
-    <meta content="Manuales, talleres y guías descargables de Java, Python, empleabilidad y desarrollo web, preparados por Felipe Cuevas para sus alumnos y de acceso libre."
+    <meta content="Rutas de Aprendizaje | Felipe Cuevas" name="twitter:title"/>
+    <meta content="Rutas de aprendizaje con pasos ordenados y progreso marcable: Full Stack Python, Empleabilidad y Full Stack Java. Material preparado por Felipe Cuevas, de acceso libre."
           name="twitter:description"/>
     <meta content="https://felipecuevas.dev/static/img/felipe_cuevas_cv.png" name="twitter:image"/>
     <meta content="Vista del sitio web de Felipe Cuevas, ingeniero informático e instructor certificado"
@@ -173,52 +173,58 @@
             </h1>
             <p class="seccion-bajada"
                data-aos="fade-up" data-aos-delay="100">
-                Accede a mi biblioteca personal de material pedagógico. Manuales, repositorios y clases magistrales
-                diseñadas para potenciar tus habilidades tecnológicas.
+                Itinerarios formativos con pasos ordenados. Avanza a tu ritmo y marca lo que vas completando:
+                el progreso queda guardado en tu navegador.
             </p>
         </div>
         <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-primary-vibrant/40 to-transparent mb-10"></div>
-        <div class="relative">
-            <div class="relative z-10 bg-white dark:glass-mid border border-orient-200 rounded-[2rem] shadow-2xl p-6 md:p-10"
-                 data-aos="zoom-in" data-aos-delay="200">
-                <div class="flex flex-col lg:flex-row justify-between items-center gap-6 mb-10 bg-white/60 dark:bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/50 dark:border-white/10"
-                     data-aos="fade-up" data-aos-delay="400">
-                    <div class="relative w-full lg:w-1/3" role="search">
+        <section aria-labelledby="sec-rutas-de-aprendizaje" id="rutas-seccion">
+            <h2 class="sr-only" id="sec-rutas-de-aprendizaje">Rutas de aprendizaje</h2>
+
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+
+                <!-- Selector de rutas: lateral persistente en laptop, fila desplazable en móvil -->
+                <div class="lg:w-72 lg:shrink-0" data-aos="fade-right">
+                    <p class="etiqueta-categoria mb-3 text-orient-500 dark:text-orient-400">Elige tu ruta de
+                        aprendizaje</p>
+                    <div aria-label="Rutas de aprendizaje disponibles" role="group" id="rutas-selector"
+                         class="flex snap-x snap-mandatory flex-nowrap gap-3 overflow-x-auto pb-2 lg:flex-col lg:flex-wrap lg:overflow-x-visible lg:pb-0"></div>
+
+                    <!-- El buscador se mantiene siempre accesible (5.4.4) -->
+                    <div class="relative mt-6" role="search">
                         <span aria-hidden="true"
                               class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-orient-500">search</span>
-                        <label class="sr-only" for="search-recursos">Buscar recursos por título, tecnología o
+                        <label class="sr-only" for="search-recursos">Buscar dentro de la ruta por título, tecnología o
                             descripción</label>
                         <input class="w-full bg-white/80 dark:bg-white/5 border border-orient-200 dark:border-white/10 rounded-xl h-12 pl-12 pr-4 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-300 text-orient-950 dark:text-orient-50 placeholder:text-orient-500 placeholder:tracking-wide"
-                               id="search-recursos" placeholder="Buscar por tecnología o título..." type="text"/>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-center gap-2 w-full lg:w-auto"
-                         aria-label="Filtrar recursos por categoría" id="filtros-container" role="group">
-                        <button class="filtro-btn px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow-md transition-transform duration-300 hover:-translate-y-0.5"
-                                aria-pressed="true" data-filter="Todos">
-                            Todos
-                        </button>
-                        <button class="filtro-btn px-4 py-2 bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-orient-600 dark:text-orient-200 text-xs font-bold uppercase tracking-wider rounded-lg border border-orient-200 dark:border-white/10 transition-all duration-300 hover:-translate-y-0.5"
-                                aria-pressed="false" data-filter="Java">
-                            Java
-                        </button>
-                        <button class="filtro-btn px-4 py-2 bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-orient-600 dark:text-orient-200 text-xs font-bold uppercase tracking-wider rounded-lg border border-orient-200 dark:border-white/10 transition-all duration-300 hover:-translate-y-0.5"
-                                aria-pressed="false" data-filter="Python">
-                            Python
-                        </button>
-                        <button class="filtro-btn px-4 py-2 bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-orient-600 dark:text-orient-200 text-xs font-bold uppercase tracking-wider rounded-lg border border-orient-200 dark:border-white/10 transition-all duration-300 hover:-translate-y-0.5"
-                                aria-pressed="false" data-filter="Ingenieria Datos">
-                            Ingeniería Datos
-                        </button>
-                        <button class="filtro-btn px-4 py-2 bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-orient-600 dark:text-orient-200 text-xs font-bold uppercase tracking-wider rounded-lg border border-orient-200 dark:border-white/10 transition-all duration-300 hover:-translate-y-0.5"
-                                aria-pressed="false" data-filter="Empleabilidad">
-                            Empleabilidad
-                        </button>
+                               id="search-recursos" placeholder="Buscar dentro de la ruta..." type="text"/>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="recursos-grid">
-                </div>
+
+                <!-- Pasos de la ruta activa -->
+                <div class="min-w-0 flex-1" id="rutas-contenido"></div>
             </div>
-        </div>
+
+            <noscript>
+                <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <li class="tarjeta-contenido dark:glass-mid p-5">
+                        <h3 class="text-lg font-bold text-orient-950 dark:text-orient-50">Ruta Full Stack Python</h3>
+                        <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">Seis pasos, desde los fundamentos
+                            del lenguaje hasta el despliegue en producción.</p>
+                    </li>
+                    <li class="tarjeta-contenido dark:glass-mid p-5">
+                        <h3 class="text-lg font-bold text-orient-950 dark:text-orient-50">Ruta Empleabilidad</h3>
+                        <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">Dos pasos: perfil de LinkedIn y CV
+                            en línea publicado.</p>
+                    </li>
+                    <li class="tarjeta-contenido dark:glass-mid p-5">
+                        <h3 class="text-lg font-bold text-orient-950 dark:text-orient-50">Ruta Full Stack Java</h3>
+                        <p class="mt-1 text-sm text-orient-600 dark:text-orient-300">En construcción. Un paso disponible
+                            por ahora.</p>
+                    </li>
+                </ul>
+            </noscript>
+        </section>
     </main>
     <footer class="mt-auto w-full bg-orient-50/80 backdrop-blur-md transition-colors duration-300 dark:bg-orient-950/80 border-t border-orient-200 dark:border-white/10"
             id="app-footer">

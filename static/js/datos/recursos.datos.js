@@ -92,16 +92,5 @@ export const recursosData = [
         dificultad: "Básico",
         tecnologia: "Java, Python & JS",
         url: "https://youtu.be/zvegzW_RL9U"
-    },
-    {
-        id: 9,
-        titulo: "Glosario de HTML5",
-        descripcion: "Documento que define términos y elementos clave de HTML.",
-        categoriaPadre: "Desarrollo Web Frontend",
-        categoriaFiltro: "Frontend",
-        formato: "pdf",
-        dificultad: "Básico",
-        tecnologia: "HTML5",
-        url: "static/recursos/frontend/Glosario HTML5.pdf"
     }
 ];

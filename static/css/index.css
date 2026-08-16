@@ -90,6 +90,10 @@ body {
     }
 }
 
+.badge-float {
+    animation: float 3s ease-in-out infinite;
+}
+
 /* =========================================
    7. Custom Scrollbar (Webkit)
    ========================================= */
@@ -349,5 +353,42 @@ body.dark::before {
        experiencia, instructor y recursos. */
     .seccion-bajada {
         @apply text-orient-700 dark:text-orient-300 text-lg font-normal leading-relaxed max-w-2xl;
+    }
+}
+
+/* =========================================
+   16. Fase 5.3 — Cinta continua de tecnologías (H-11)
+   ========================================= */
+
+/* El desplazamiento opera sobre `transform`, acelerado por hardware, y recorre
+   la mitad de la pista: la segunda mitad es la copia que evita el corte al reiniciar. */
+@keyframes riel-desplazamiento {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.riel-pista {
+    animation: riel-desplazamiento var(--riel-duracion, 70s) linear infinite;
+    will-change: transform;
+}
+
+/* Pausa al posar el cursor, por control explícito, y cuando la sección
+   no está visible en pantalla. */
+.riel:hover .riel-pista,
+.riel:focus-within .riel-pista,
+.riel-pista--pausado,
+.riel-pista--fuera {
+    animation-play-state: paused;
+}
+
+/* Bajo preferencia de movimiento reducido la cinta no se anima nunca.
+   La regla de la Fase 3.4 ya acorta las transiciones; esta la detiene por completo. */
+@media (prefers-reduced-motion: reduce) {
+    .riel-pista {
+        animation: none;
     }
 }

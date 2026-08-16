@@ -11,17 +11,17 @@
 export const jerarquiaUI = {
     mayor: {
         orden: 1,
-        ancho: "col-span-12 md:col-span-8 lg:row-span-2",
-        relleno: "p-6 md:p-8",
-        tamanoTitulo: "text-2xl md:text-3xl",
-        tamanoAnio: "text-3xl md:text-4xl",
+        // Banda a todo el ancho: al ser horizontal en pantallas amplias, no crece en alto.
+        ancho: "col-span-12",
+        plantilla: "destacada",
         muestraDescripcion: true,
         muestraLogros: true,
         muestraEtiquetas: true
     },
     intermedio: {
         orden: 2,
-        ancho: "col-span-12 md:col-span-4",
+        ancho: "col-span-12 md:col-span-6 lg:col-span-4",
+        plantilla: "estandar",
         relleno: "p-5 md:p-6",
         tamanoTitulo: "text-lg md:text-xl",
         tamanoAnio: "text-2xl",
@@ -31,8 +31,9 @@ export const jerarquiaUI = {
     },
     menor: {
         orden: 3,
-        ancho: "col-span-12 md:col-span-4",
-        relleno: "p-4 md:p-5",
+        ancho: "col-span-12 md:col-span-6 lg:col-span-4",
+        plantilla: "compacta",
+        relleno: "p-4",
         tamanoTitulo: "text-sm md:text-base",
         tamanoAnio: "text-lg",
         muestraDescripcion: false,
@@ -46,7 +47,10 @@ export const categoriaUI = {
     universitaria: {etiqueta: "Universitaria", pastilla: "bg-primary/10 text-primary"},
     diplomado: {etiqueta: "Diplomado", pastilla: "bg-primary/10 text-primary"},
     tecnica: {etiqueta: "Técnica", pastilla: "bg-orient-100 dark:bg-white/5 text-orient-600 dark:text-orient-300"},
-    reconocimiento: {etiqueta: "Reconocimiento", pastilla: "bg-accent-gold/15 text-orient-700 dark:text-accent-gold"}
+    reconocimiento: {
+        etiqueta: "Reconocimiento",
+        pastilla: "bg-orient-950/5 dark:bg-white/10 text-orient-700 dark:text-orient-200"
+    }
 };
 
 export const formacionTextos = {

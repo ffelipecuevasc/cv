@@ -13,11 +13,18 @@ const renderPortfolio = (filtro = 'all') => {
     // Lógica de Filtrado: Si es 'all' pasan todos, si no, solo los que coinciden con la categoría
     const filteredData = portafolioData.filter(item => item && item.title && (filtro === 'all' || item.category === filtro));
 
-    const marcado = construirLista(filteredData, (item) => {
+    const marcado = construirLista(filteredData, (item, indice) => {
         const categoria = portafolioUI.categorias[item.category] || portafolioUI.categorias.frontend;
         const pastilla = categoria.pastilla;
-        const accion = portafolioUI.acciones[item.id] || portafolioUI.accionPorDefecto;
-        const maqueta = portafolioUI.maquetacion[item.id] || portafolioUI.maquetacionPorDefecto;
+        // La acción se deriva del destino: repositorio o sitio publicado.
+        const accion = /github\.com/.test(item.link || '')
+            ? portafolioUI.acciones.repositorio
+            : portafolioUI.acciones.sitio;
+        // El ancho sale del patrón repetible, no de una tabla por identificador.
+        const maqueta = {
+            ancho: portafolioUI.patronAncho[indice % portafolioUI.patronAncho.length],
+            retardo: (indice % portafolioUI.tarjetasPorCiclo) * portafolioUI.retardoPorTarjeta
+        };
 
         const overlayHTML = item.link
             ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 ${categoria.accionClase} text-white text-xs font-bold rounded-lg hover:opacity-90 transition-colors">

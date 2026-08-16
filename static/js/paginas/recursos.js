@@ -3,7 +3,7 @@
 // =========================================
 import {iniciarSitio} from '../servicios/sitio.js';
 import {ejecutarSeguro} from '../servicios/resiliencia.js';
-import {iniciarRecursos} from '../recursos.js';
+import {iniciarRutas} from '../rutas.js';
 
 iniciarSitio();
-ejecutarSeguro('motor de recursos', iniciarRecursos);
+ejecutarSeguro('rutas de aprendizaje', iniciarRutas);
