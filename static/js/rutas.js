@@ -14,6 +14,7 @@ import {rutasUI} from './config/rutas.config.js';
 import {recursosUI} from './config/recursos.config.js';
 import {construirLista, montar, plantillaVacio, soloValidos} from './servicios/renderizado.js';
 import {iniciarGrupoFiltros} from './servicios/filtros.js';
+import {montarDiscusion} from './comunidad.js';
 
 const recurso = (id) => recursosData.find((r) => r.id === id);
 
@@ -193,8 +194,42 @@ export function iniciarRutas() {
                </p>`
             : '';
 
-        montar(contenido, plantillaCabecera(activa, hechosDe(activa)) + lista + proximamente,
+        // Hilo contextual: la duda se plantea donde nace (5.5.3). Un hilo por ruta,
+        // identificado por su clave, de modo que las conversaciones no se mezclen.
+        const hilo = `
+                <section aria-labelledby="sec-hilo-${activa.id}" class="mt-12">
+                    <div class="inline-flex items-center gap-3 mb-3">
+                        <div class="h-px w-8 bg-primary"></div>
+                        <p class="etiqueta-categoria text-primary">Dudas de esta ruta</p>
+                    </div>
+                    <h2 class="mb-4 text-xl font-black tracking-tight text-orient-950 dark:text-orient-50"
+                        id="sec-hilo-${activa.id}">¿Te trabaste en algún paso?</h2>
+                    <p class="mb-6 flex items-start gap-2 rounded-xl border border-orient-200 bg-orient-50 p-4 text-sm text-orient-700 dark:border-orient-800 dark:bg-white/5 dark:text-orient-200">
+                        <span aria-hidden="true" class="material-symbols-outlined text-base text-primary">info</span>
+                        <span>La conversación se aloja en GitHub Discussions. Para participar necesitas una cuenta
+                            de GitHub; leer no requiere ninguna.</span>
+                    </p>
+                    <div class="min-h-[420px] rounded-2xl border border-orient-200 bg-white p-4 dark:border-transparent dark:glass-mid md:p-6"
+                         data-comunidad-hilo="ruta-${activa.id}">
+                        <div class="flex min-h-[380px] flex-col items-center justify-center gap-3 text-center"
+                             data-comunidad-marcador>
+                            <span aria-hidden="true"
+                                  class="material-symbols-outlined animate-spin text-4xl text-orient-300 dark:text-orient-700">progress_activity</span>
+                            <p class="text-sm text-orient-600 dark:text-orient-300" role="status" aria-live="polite">Cargando la conversación…</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-center">
+                        <a class="text-sm font-semibold text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:decoration-primary"
+                           href="https://github.com/ffelipecuevasc/comunidad/discussions" target="_blank"
+                           rel="noopener noreferrer">Abrir la conversación completa en GitHub</a>
+                    </p>
+                </section>`;
+
+        montar(contenido, plantillaCabecera(activa, hechosDe(activa)) + lista + proximamente + hilo,
             {refrescarAnimaciones: true});
+
+        const contenedorHilo = contenido.querySelector('[data-comunidad-hilo]');
+        if (contenedorHilo) montarDiscusion(contenedorHilo, contenedorHilo.dataset.comunidadHilo);
     };
 
     const redibujar = () => {

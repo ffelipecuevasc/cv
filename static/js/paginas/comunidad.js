@@ -1,11 +1,9 @@
 // =========================================
-// PUNTO DE ENTRADA — recursos.html
+// PUNTO DE ENTRADA — comunidad.html
 // =========================================
 import {iniciarSitio} from '../servicios/sitio.js';
 import {ejecutarSeguro} from '../servicios/resiliencia.js';
-import {iniciarRutas} from '../rutas.js';
 import {iniciarComunidad} from '../comunidad.js';
 
 iniciarSitio();
-ejecutarSeguro('sincronización del foro', iniciarComunidad);
-ejecutarSeguro('rutas de aprendizaje', iniciarRutas);
+ejecutarSeguro('comunidad', iniciarComunidad);

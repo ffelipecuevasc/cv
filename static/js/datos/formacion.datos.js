@@ -32,8 +32,8 @@ export const formacionData = [
     },
     {
         id: "diploma-formacion-laboral",
-        titulo: "Diploma en Estrategias Metodológicas y Evaluativas para la Formación Laboral",
-        institucion: "Universidad de Chile — Escuela de Postgrado y Educación Continua, FCFM",
+        titulo: "Diplomado en Andragogía",
+        institucion: "Universidad de Chile",
         periodo: "2025 - 2026",
         anioFin: 2026,
         duracion: "120 horas cronológicas",
@@ -41,7 +41,7 @@ export const formacionData = [
         jerarquia: "intermedio",
         categoria: "diplomado",
         icono: "psychology",
-        descripcion: "Programa con patrocinio de SENCE, orientado a fortalecer las competencias teóricas, metodológicas y evaluativas de personas facilitadoras en la formación para el trabajo.",
+        descripcion: "Diplomado orientado a fortalecer las competencias teóricas, metodológicas y evaluativas de instructores enfocados en la formación para el trabajo.",
         logros: [
             "Liderazgo y comunicación en la formación para el trabajo",
             "Diseño de estrategias metodológicas por perfil y contexto",
