@@ -48,7 +48,7 @@ function plantillaSelector(ruta, activa, hechos) {
     const completa = total > 0 && hechos === total;
     return `
                 <button aria-pressed="${activa}" data-ruta="${ruta.id}" type="button"
-                        class="tarjeta-reactiva min-h-[44px] shrink-0 snap-start rounded-xl border px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${activa ? 'border-primary bg-primary text-white shadow-sm' : 'border-orient-200 bg-white text-orient-700 hover:border-primary dark:border-orient-800 dark:bg-orient-900 dark:text-orient-300'}">
+                        class="tarjeta-reactiva neon-glow-interactive min-h-[44px] shrink-0 snap-start rounded-xl border px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${activa ? 'border-primary bg-primary text-white shadow-sm dark:bg-primary/80 dark:glass-high' : 'border-orient-200 bg-white text-orient-700 hover:border-primary dark:glass-mid dark:text-orient-200'}">
                     <span class="flex items-center gap-2">
                         <span aria-hidden="true" class="material-symbols-outlined text-base">${completa ? rutasUI.iconos.completado : ruta.icono}</span>
                         <span class="text-sm font-bold">${ruta.nombre}</span>
