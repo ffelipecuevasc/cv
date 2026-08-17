@@ -392,3 +392,112 @@ body.dark::before {
         animation: none;
     }
 }
+
+/* =========================================
+   17. Spotlight interactivo y volumetría 3D — exclusivo del MODO CLARO
+   =========================================
+   Tres capas de retroalimentación sobre las tarjetas marcadas con
+   .tarjeta-reactiva: foco de luz interno, refracción del borde e inclinación
+   espacial. Todas se alimentan de variables que el motor sensorial inyecta en
+   el atributo style de cada tarjeta: --mouse-x, --mouse-y, --rotate-x y
+   --rotate-y. El CSS nunca consulta al cursor; solo lee esas variables. */
+
+.tarjeta-reactiva {
+    position: relative;
+    transition: transform 500ms ease-out, box-shadow 350ms ease-out;
+}
+
+/* Capa 1 — Foco de luz interno (spotlight radial).
+   Se ancla al cursor y se enciende al posarlo encima. */
+.tarjeta-reactiva::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(340px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(var(--color-primary-rgb), 0.09) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 350ms ease-out;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Capa 2 — Refracción del borde.
+   El mismo gradiente, más concentrado, recortado a un anillo de 1px mediante
+   máscara. Evita duplicar el marcado de cada tarjeta: el resultado visual es
+   el de dos capas separadas por un píxel, sin tocar el DOM. */
+.tarjeta-reactiva::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(220px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(var(--color-primary-rgb), 0.85) 0%, transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 350ms ease-out;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tarjeta-reactiva:hover::before,
+.tarjeta-reactiva:hover::after {
+    opacity: 1;
+}
+
+/* El contenido queda por encima de ambas capas de luz. */
+.tarjeta-reactiva > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Capa 3 — Micro-rotación espacial.
+   La perspectiva viaja dentro de la propia transformación, de modo que no hace
+   falta modificar los contenedores de cada rejilla. Solo actúa al posar el
+   cursor; al retirarlo, la regla deja de aplicar y la transición devuelve la
+   tarjeta a su plano. */
+html:not(.dark) .tarjeta-reactiva:hover {
+    /* La transformación sustituye por completo cualquier translate previo: la
+       retroalimentación deja de ser una subida plana y pasa a ser volumen. */
+    transform: perspective(900px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+    /* La sombra reemplaza a la elevación: la tarjeta no sube, se despega. */
+    box-shadow: 0 22px 45px -18px rgba(0, 19, 29, 0.28);
+}
+
+/* Mientras el cursor está dentro, el seguimiento es instantáneo: la transición
+   solo debe notarse en la salida. */
+html:not(.dark) .tarjeta-reactiva.siguiendo {
+    transition: none;
+}
+
+/* Blindaje del ecosistema oscuro.
+   El modo oscuro tiene su propio lenguaje táctil (Neon Accent System). Las tres
+   capas se anulan por completo para que ambas experiencias no se solapen. */
+.dark .tarjeta-reactiva::before,
+.dark .tarjeta-reactiva::after {
+    display: none;
+}
+
+.dark .tarjeta-reactiva {
+    transform: none;
+    transition-property: none;
+}
+
+/* La volumetría es movimiento gobernado por el puntero: queda anulada bajo
+   preferencia de movimiento reducido (Fase 3.4). */
+@media (prefers-reduced-motion: reduce) {
+    .tarjeta-reactiva,
+    html:not(.dark) .tarjeta-reactiva:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .tarjeta-reactiva::before,
+    .tarjeta-reactiva::after {
+        display: none;
+    }
+}

@@ -48,7 +48,7 @@ function plantillaSelector(ruta, activa, hechos) {
     const completa = total > 0 && hechos === total;
     return `
                 <button aria-pressed="${activa}" data-ruta="${ruta.id}" type="button"
-                        class="min-h-[44px] shrink-0 snap-start rounded-xl border px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${activa ? 'border-primary bg-primary text-white shadow-sm' : 'border-orient-200 bg-white text-orient-700 hover:border-primary dark:border-orient-800 dark:bg-orient-900 dark:text-orient-300'}">
+                        class="tarjeta-reactiva min-h-[44px] shrink-0 snap-start rounded-xl border px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${activa ? 'border-primary bg-primary text-white shadow-sm' : 'border-orient-200 bg-white text-orient-700 hover:border-primary dark:border-orient-800 dark:bg-orient-900 dark:text-orient-300'}">
                     <span class="flex items-center gap-2">
                         <span aria-hidden="true" class="material-symbols-outlined text-base">${completa ? rutasUI.iconos.completado : ruta.icono}</span>
                         <span class="text-sm font-bold">${ruta.nombre}</span>
@@ -185,7 +185,11 @@ export function iniciarRutas() {
         const lista = visibles.length
             ? `<ol class="mt-8 space-y-6">${visibles.map((p) =>
                 plantillaPaso(p, pasos.indexOf(p), hechos.includes(p.id))).join('')}</ol>`
-            : `<div class="mt-8">${plantillaVacio({icono: 'search_off', mensaje: rutasUI.textos.sinResultados, clases: 'text-center py-10'})}</div>`;
+            : `<div class="mt-8">${plantillaVacio({
+                icono: 'search_off',
+                mensaje: rutasUI.textos.sinResultados,
+                clases: 'text-center py-10'
+            })}</div>`;
 
         const proximamente = activa.proximamente && !texto
             ? `<p class="mt-6 flex items-start gap-2 rounded-xl border border-dashed border-orient-300 p-5 text-sm text-orient-600 dark:border-orient-700 dark:text-orient-300">

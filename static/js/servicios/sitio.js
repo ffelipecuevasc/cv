@@ -9,6 +9,7 @@ import {iniciarTema} from './tema.js';
 import {iniciarNavegacion} from './navegacion.js';
 import {iniciarAnimacion, iniciarLinterna} from './animacion.js';
 import {ejecutarSeguro, iniciarImagenesResilientes} from './resiliencia.js';
+import {iniciarTarjetasReactivas} from './reactividad.js';
 
 export function iniciarSitio() {
     ejecutarSeguro('servicio de imágenes', iniciarImagenesResilientes);
@@ -16,4 +17,5 @@ export function iniciarSitio() {
     ejecutarSeguro('servicio de navegación', iniciarNavegacion);
     ejecutarSeguro('servicio de animación', iniciarAnimacion);
     ejecutarSeguro('efecto linterna', iniciarLinterna);
+    ejecutarSeguro('tarjetas reactivas', iniciarTarjetasReactivas);
 }

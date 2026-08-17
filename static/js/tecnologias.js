@@ -29,7 +29,7 @@ function plantillaFicha(item, {duplicada = false} = {}) {
     return `
             <li class="w-44 shrink-0">
                 <button aria-controls="tecnologias-panel" aria-expanded="false"
-                        class="tarjeta-contenido dark:glass-mid group w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                        class="tarjeta-contenido tarjeta-reactiva dark:glass-mid group w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                         data-tecnologia="${item.id}" type="button"${oculto}>
                     <span class="tecnologia-icono">
                         <svg aria-hidden="true" class="w-7 h-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>
@@ -47,7 +47,7 @@ function plantillaRejilla(item) {
     return `
             <li>
                 <button aria-controls="tecnologias-panel" aria-expanded="false"
-                        class="tarjeta-contenido dark:glass-mid group h-full w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                        class="tarjeta-contenido tarjeta-reactiva dark:glass-mid group h-full w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                         data-tecnologia="${item.id}" type="button">
                     <span class="tecnologia-icono">
                         <svg aria-hidden="true" class="w-7 h-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>

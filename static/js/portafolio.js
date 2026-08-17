@@ -37,7 +37,7 @@ const renderPortfolio = (filtro = 'all') => {
         const tagsHTML = item.tags.map(tag => `<span class="${portafolioUI.etiquetaClase}">${tag}</span>`).join('');
 
         return `
-            <article id="${item.id}" data-pf-category="${item.category}" class="pf-card ${maqueta.ancho} group relative rounded-2xl overflow-hidden border border-orient-200 bg-white shadow-sm dark:glass-mid neon-glow-interactive" data-aos="fade-up" data-aos-delay="${maqueta.retardo}">
+            <article id="${item.id}" data-pf-category="${item.category}" class="pf-card tarjeta-reactiva ${maqueta.ancho} group relative rounded-2xl overflow-hidden border border-orient-200 bg-white shadow-sm dark:glass-mid neon-glow-interactive" data-aos="fade-up" data-aos-delay="${maqueta.retardo}">
                 <div class="relative aspect-video overflow-hidden">
                     <img src="${item.image}" alt="${item.alt}" width="${item.ancho}" height="${item.alto}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async"/>
                     <div class="absolute inset-0 bg-gradient-to-t from-orient-950/80 via-orient-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
