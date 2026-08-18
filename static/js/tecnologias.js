@@ -1,60 +1,47 @@
 // =========================================
-// CAPA DE LÓGICA Y VISTA — Riel de tecnologías (Fase 5.3)
+// CAPA DE LÓGICA Y VISTA — Muro de tecnologías (Fase 5.3)
 // Expone: iniciarTecnologias()
 //
-// Estrategia de degradación (5.3.4), en orden de prioridad:
-//   movimiento reducido o sin JavaScript → rejilla estática
-//   ancho < 768 px                       → rejilla estática
-//   768–1023 px                          → cinta desplazable a mano
-//   >= 1024 px                           → cinta en movimiento continuo
+// Una sola presentación en todos los tamaños: rejilla estática con panel de
+// contexto desplegable. Sustituye a la cinta de desplazamiento continuo,
+// retirada por completo (marcado, estilo y lógica).
 //
-// El movimiento nunca es la única vía de acceso: la cinta contiene las mismas
-// fichas que la rejilla y todas son alcanzables con teclado.
+// El marcado de desarrollador.html ya contiene el muro con las diez fichas:
+// este módulo lo reemplaza por su versión interactiva. Sin JavaScript se ve
+// exactamente el mismo muro, sin panel. El movimiento desaparece del alcance,
+// de modo que la degradación por rango de dispositivo deja de ser necesaria.
 // =========================================
 
 import {tecnologiasData} from './datos/tecnologias.datos.js';
 import {tecnologiasUI} from './config/tecnologias.config.js';
 import {portafolioData} from './datos/portafolio.datos.js';
 import {construirLista, montar, soloValidos} from './servicios/renderizado.js';
-import {movimientoReducido} from './servicios/animacion.js';
 
 const ANIO_ACTUAL = new Date().getFullYear();
 
 const proyecto = (id) => portafolioData.find((p) => p.id === id);
 
-/** Ficha de una tecnología: botón accesible que abre el panel de contexto. */
-function plantillaFicha(item, {duplicada = false} = {}) {
-    // La copia que hace posible el bucle continuo no se anuncia ni recibe foco.
-    const oculto = duplicada ? ' aria-hidden="true" tabindex="-1"' : '';
-    return `
-            <li class="w-44 shrink-0">
-                <button aria-controls="tecnologias-panel" aria-expanded="false"
-                        class="tarjeta-contenido tarjeta-reactiva dark:glass-mid group w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                        data-tecnologia="${item.id}" type="button"${oculto}>
-                    <span class="tecnologia-icono">
-                        <svg aria-hidden="true" class="w-7 h-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>
-                    </span>
-                    <span class="mt-4 flex flex-col">
-                        <span class="tecnologia-nombre">${item.nombre}</span>
-                        <span class="tecnologia-rol">${item.rol}</span>
-                    </span>
-                </button>
-            </li>`;
-}
+/** Ficha del muro: botón accesible que abre el panel de contexto. */
+function plantillaTarjeta(item, indice) {
+    // Escalonado corto: a partir de la quinta ficha el retardo se estabiliza
+    // para que la segunda fila no entre notoriamente tarde.
+    const retardo = Math.min(indice, 4) * 60;
 
-/** Rejilla estática: presentación por omisión y respaldo de todas las degradaciones. */
-function plantillaRejilla(item) {
     return `
-            <li>
+            <li data-aos="fade-up" data-aos-delay="${retardo}">
                 <button aria-controls="tecnologias-panel" aria-expanded="false"
-                        class="tarjeta-contenido tarjeta-reactiva dark:glass-mid group h-full w-full p-5 text-left neon-glow-interactive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                        class="tarjeta-contenido tarjeta-reactiva dark:glass-mid neon-glow-interactive tecnologia-tarjeta group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-orient-950"
                         data-tecnologia="${item.id}" type="button">
-                    <span class="tecnologia-icono">
-                        <svg aria-hidden="true" class="w-7 h-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>
+                    <span aria-hidden="true" class="tecnologia-filo"></span>
+                    <span class="tecnologia-icono md:h-14 md:w-14">
+                        <svg aria-hidden="true" class="h-7 w-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>
                     </span>
-                    <span class="mt-4 flex flex-col">
-                        <span class="tecnologia-nombre">${item.nombre}</span>
-                        <span class="tecnologia-rol">${item.rol}</span>
+                    <span class="flex w-full items-end justify-between gap-2">
+                        <span class="flex flex-col">
+                            <span class="tecnologia-nombre">${item.nombre}</span>
+                            <span class="tecnologia-rol">${item.rol}</span>
+                        </span>
+                        <span aria-hidden="true" class="material-symbols-outlined tecnologia-indicador">${tecnologiasUI.iconos.indicador}</span>
                     </span>
                 </button>
             </li>`;
@@ -137,92 +124,19 @@ function plantillaPanel(item) {
 export function iniciarTecnologias() {
     const seccion = document.getElementById('tecnologias-seccion');
     const rejilla = document.getElementById('tecnologias-grid');
-    const riel = document.getElementById('tecnologias-riel');
     const panel = document.getElementById('tecnologias-panel');
-    const controles = document.getElementById('tecnologias-controles');
-    const botonPausa = document.getElementById('tecnologias-pausa');
-    if (!seccion || !rejilla || !riel || !panel) return;
+    if (!seccion || !rejilla || !panel) return;
 
     const items = soloValidos(tecnologiasData, 'nombre');
     if (items.length === 0) return;
 
-    let pista = null;
-    let modo = null;
     let activa = null;
 
-    // ---------------------------------------------------------------
-    // Presentación según el rango de dispositivo
-    // ---------------------------------------------------------------
-    const modoActual = () => {
-        if (movimientoReducido()) return 'rejilla';
-        if (window.matchMedia(tecnologiasUI.consultaRiel).matches) return 'riel';
-        if (window.matchMedia(tecnologiasUI.consultaDeslizar).matches) return 'deslizar';
-        return 'rejilla';
-    };
+    // Sustitución única: el muro del marcado pasa a su versión accionable.
+    montar(rejilla, construirLista(items, plantillaTarjeta), {refrescarAnimaciones: true});
 
-    const dibujarRejilla = () => {
-        montar(rejilla, construirLista(items, plantillaRejilla));
-        rejilla.hidden = false;
-        riel.hidden = true;
-        riel.innerHTML = '';
-        if (controles) controles.hidden = true;
-        pista = null;
-    };
-
-    const dibujarRiel = (conMovimiento) => {
-        const originales = construirLista(items, (item) => plantillaFicha(item));
-        // La pista se duplica para que el bucle no muestre un corte al reiniciarse.
-        const copias = conMovimiento
-            ? construirLista(items, (item) => plantillaFicha(item, {duplicada: true}))
-            : '';
-
-        riel.innerHTML = `
-            <ul class="flex w-max gap-4 md:gap-6 ${conMovimiento ? 'riel-pista' : ''}"
-                style="--riel-duracion: ${tecnologiasUI.duracionVuelta}">${originales}${copias}</ul>`;
-        riel.classList.toggle('overflow-x-auto', !conMovimiento);
-        riel.classList.toggle('overflow-hidden', conMovimiento);
-        riel.hidden = false;
-        rejilla.hidden = true;
-        rejilla.innerHTML = '';
-        pista = riel.querySelector('.riel-pista');
-
-        if (controles) controles.hidden = !conMovimiento;
-        if (botonPausa) marcarPausa(false);
-    };
-
-    const aplicarModo = () => {
-        const nuevo = modoActual();
-        if (nuevo === modo) return;
-        modo = nuevo;
-        if (modo === 'rejilla') dibujarRejilla();
-        else dibujarRiel(modo === 'riel');
-        if (activa) marcarBoton(activa);
-    };
-
-    // ---------------------------------------------------------------
-    // Control explícito de pausa y reanudación (5.3.5)
-    // ---------------------------------------------------------------
-    function marcarPausa(pausado) {
-        if (!botonPausa) return;
-        botonPausa.setAttribute('aria-pressed', String(pausado));
-        const icono = botonPausa.querySelector('[data-icono]');
-        const etiqueta = botonPausa.querySelector('[data-etiqueta]');
-        if (icono) icono.textContent = pausado ? tecnologiasUI.iconos.reanudar : tecnologiasUI.iconos.pausar;
-        if (etiqueta) etiqueta.textContent = pausado ? tecnologiasUI.textos.reanudar : tecnologiasUI.textos.pausar;
-        if (pista) pista.classList.toggle('riel-pista--pausado', pausado);
-    }
-
-    if (botonPausa) {
-        botonPausa.addEventListener('click', () => {
-            marcarPausa(botonPausa.getAttribute('aria-pressed') !== 'true');
-        });
-    }
-
-    // ---------------------------------------------------------------
-    // Panel de contexto
-    // ---------------------------------------------------------------
     function marcarBoton(id) {
-        document.querySelectorAll('[data-tecnologia]').forEach((boton) => {
+        rejilla.querySelectorAll('[data-tecnologia]').forEach((boton) => {
             boton.setAttribute('aria-expanded', String(boton.dataset.tecnologia === id));
         });
     }
@@ -233,8 +147,9 @@ export function iniciarTecnologias() {
         panel.innerHTML = '';
         panel.hidden = true;
         marcarBoton(null);
+
         if (devolverFoco && anterior) {
-            const boton = document.querySelector(`[data-tecnologia="${anterior}"]:not([tabindex="-1"])`);
+            const boton = rejilla.querySelector(`[data-tecnologia="${anterior}"]`);
             if (boton) boton.focus();
         }
     }
@@ -275,20 +190,4 @@ export function iniciarTecnologias() {
     panel.addEventListener('keydown', (evento) => {
         if (evento.key === 'Escape') cerrarPanel();
     });
-
-    // ---------------------------------------------------------------
-    // La animación se detiene cuando la sección no está en pantalla (5.3.4)
-    // ---------------------------------------------------------------
-    if (typeof IntersectionObserver === 'function') {
-        const observador = new IntersectionObserver((entradas) => {
-            entradas.forEach((entrada) => {
-                if (!pista) return;
-                pista.classList.toggle('riel-pista--fuera', !entrada.isIntersecting);
-            });
-        }, {threshold: 0});
-        observador.observe(seccion);
-    }
-
-    aplicarModo();
-    window.addEventListener('resize', aplicarModo, {passive: true});
 }

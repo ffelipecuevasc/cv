@@ -6,9 +6,8 @@
 
 export const perfilesUI = {
     idConmutador: "hero-conmutador",
-    // Decisión 5.1.3: enlace directo por parámetro de consulta
-    // (felipecuevas.dev/?perfil=docente), no por fragmento.
     parametro: "perfil",
     clave: "perfil-hero",
-    porDefecto: "instructor"
+    porDefecto: "instructor",
+    evento: "hero:perfil"
 };

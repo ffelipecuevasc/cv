@@ -391,121 +391,131 @@
                             </h2>
                         </div>
 
-                        <!-- Control de reproducción: solo aparece cuando la cinta se anima. -->
-                        <div class="flex flex-wrap items-center justify-between gap-4" hidden
-                             id="tecnologias-controles">
-                            <p class="text-sm text-orient-600 dark:text-orient-300">Elige una tecnología para ver dónde
-                                la aplico y dónde la enseño.</p>
-                            <button aria-pressed="false" class="boton-secundario shrink-0" id="tecnologias-pausa"
-                                    type="button">
-                                <span aria-hidden="true" class="material-symbols-outlined text-base"
-                                      data-icono>pause</span>
-                                <span data-etiqueta>Pausar</span>
-                            </button>
-                        </div>
+                        <!-- Ayuda de uso. Antes vivía dentro de los controles de la cinta y solo
+     aparecía en escritorio; ahora es permanente, porque el muro es la
+     única presentación en los tres rangos de dispositivo. -->
+                        <p class="text-sm text-orient-600 dark:text-orient-300">
+                            Elige una tecnología para ver dónde la aplico y dónde la enseño.
+                        </p>
 
-                        <!-- Cinta: la construye JavaScript en pantallas anchas. -->
-                        <div class="riel relative" hidden id="tecnologias-riel"></div>
-
-                        <!-- Rejilla estática: presentación por omisión en móvil, bajo movimiento
-                             reducido y sin JavaScript. Contiene las diez tecnologías. -->
-                        <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="tecnologias-grid">
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#python"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Python</span>
-                                    <span class="tecnologia-rol">Lenguaje Core</span>
-                                </span>
+                        <!-- Muro de tecnologías. Diez fichas: 5 x 2 en escritorio, sin huérfanas
+                             en la última fila. Este marcado es el respaldo sin JavaScript; el
+                             motor lo reemplaza por su versión accionable. Los identificadores
+                             llevan el prefijo tec- de la colección de símbolos y de la capa de
+                             datos: sin él, el respaldo no dibuja ningún logotipo. -->
+                        <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5"
+                            id="tecnologias-grid">
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-java"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Java</span>
+                                        <span class="tecnologia-rol">Lenguaje Core</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#java"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Java</span>
-                                    <span class="tecnologia-rol">Lenguaje Core</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-spring"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Spring</span>
+                                        <span class="tecnologia-rol">Framework</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#spring"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Spring</span>
-                                    <span class="tecnologia-rol">Framework</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-python"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Python</span>
+                                        <span class="tecnologia-rol">Lenguaje Core</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#django"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Django</span>
-                                    <span class="tecnologia-rol">Framework</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-django"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Django</span>
+                                        <span class="tecnologia-rol">Framework</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#aws"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">AWS</span>
-                                    <span class="tecnologia-rol">Infraestructura</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-aws"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">AWS</span>
+                                        <span class="tecnologia-rol">Infraestructura</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#oracle-cloud"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Oracle Cloud</span>
-                                    <span class="tecnologia-rol">Infraestructura OCI</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-docker"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Docker</span>
+                                        <span class="tecnologia-rol">Contenedores</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#docker"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Docker</span>
-                                    <span class="tecnologia-rol">Contenedores</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-git"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Git &amp; GitHub</span>
+                                        <span class="tecnologia-rol">Control de Versiones</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#git"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Git & GitHub</span>
-                                    <span class="tecnologia-rol">Control de Versiones</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-alwaysdata"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">AlwaysData</span>
+                                        <span class="tecnologia-rol">Hosting / PaaS</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#oracle-db"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">Oracle DB</span>
-                                    <span class="tecnologia-rol">Base de Datos</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-oracle-cloud"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Oracle Cloud</span>
+                                        <span class="tecnologia-rol">Infraestructura OCI</span>
+                                    </span>
+                                </div>
                             </li>
-                            <li class="tarjeta-contenido dark:glass-mid p-5 flex flex-col justify-between h-full">
-                                <span class="tecnologia-icono">
-                                    <svg aria-hidden="true" class="w-7 h-7"><use href="#alwaysdata"></use></svg>
-                                </span>
-                                <span class="flex flex-col mt-4">
-                                    <span class="tecnologia-nombre">AlwaysData</span>
-                                    <span class="tecnologia-rol">Hosting / PaaS</span>
-                                </span>
+                            <li>
+                                <div class="tarjeta-contenido dark:glass-mid tecnologia-tarjeta">
+                                    <span class="tecnologia-icono md:h-14 md:w-14">
+                                        <svg aria-hidden="true" class="h-7 w-7"><use href="#tec-oracle-db"></use></svg>
+                                    </span>
+                                    <span class="flex flex-col">
+                                        <span class="tecnologia-nombre">Oracle DB</span>
+                                        <span class="tecnologia-rol">Base de Datos</span>
+                                    </span>
+                                </div>
                             </li>
                         </ul>
-
-                        <!-- Panel de contexto en acordeón. -->
-                        <div hidden id="tecnologias-panel" role="region" aria-live="polite"
-                             aria-label="Contexto de la tecnología seleccionada" tabindex="-1"
-                             class="focus:outline-none"></div>
                     </section>
 
                 </div>

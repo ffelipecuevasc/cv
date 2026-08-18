@@ -86,6 +86,9 @@ export function iniciarHero() {
             bloque.piezas.forEach((pieza) => alternarVisibilidad(pieza, visible));
         });
 
+        // El hero no conoce a sus satélites: los avisa y sigue.
+        document.dispatchEvent(new CustomEvent(perfilesUI.evento, {detail: {perfil}}));
+
         if (persistir) {
             recordar(perfil);
             reflejarEnUrl(perfil);

@@ -357,40 +357,57 @@ body.dark::before {
 }
 
 /* =========================================
-   16. Fase 5.3 — Cinta continua de tecnologías (H-11)
-   ========================================= */
+   16. Fase 5.3 — Muro de tecnologías
+   =========================================
+   La rejilla no anima nada por su cuenta: la entrada la gobierna la librería
+   de scroll y, con ella, la preferencia de movimiento reducido de la Fase 3.4. */
 
-/* El desplazamiento opera sobre `transform`, acelerado por hardware, y recorre
-   la mitad de la pista: la segunda mitad es la copia que evita el corte al reiniciar. */
-@keyframes riel-desplazamiento {
-    from {
-        transform: translate3d(0, 0, 0);
+@layer components {
+
+    /* Ficha de tecnología — 10 usos en la rejilla interactiva y 10 en el
+       respaldo sin JavaScript. El contenedor reutiliza .tarjeta-contenido:
+       acá solo vive la caja interna. */
+    .tecnologia-tarjeta {
+        @apply relative flex h-full w-full flex-col justify-between gap-5
+        overflow-hidden p-5 text-left;
     }
-    to {
-        transform: translate3d(-50%, 0, 0);
+
+    /* Filo superior: la misma hairline del panel de contexto, como firma de
+       familia. Va en un <span> real y no en un pseudoelemento porque
+       .tarjeta-reactiva ya ocupa ::before y ::after con el spotlight y la
+       refracción del borde. */
+    .tecnologia-filo {
+        @apply pointer-events-none absolute inset-x-0 top-0 h-px opacity-0
+        bg-gradient-to-r from-transparent via-primary/50 to-transparent
+        transition-opacity duration-300;
+    }
+
+    /* Señal de que la ficha se despliega. Sin ella, nada indicaba que estas
+       tarjetas eran accionables. */
+    .tecnologia-indicador {
+        @apply text-lg text-orient-300 transition-all duration-300
+        group-hover:text-primary dark:text-orient-600 dark:group-hover:text-primary-vibrant;
     }
 }
 
-.riel-pista {
-    animation: riel-desplazamiento var(--riel-duracion, 70s) linear infinite;
-    will-change: transform;
+/* Estado seleccionado. Se deriva de aria-expanded: el estado accesible y el
+   visual son el mismo dato, así que no pueden desincronizarse. */
+.tecnologia-tarjeta[aria-expanded="true"] {
+    @apply -translate-y-1 border-primary shadow-md;
 }
 
-/* Pausa al posar el cursor, por control explícito, y cuando la sección
-   no está visible en pantalla. */
-.riel:hover .riel-pista,
-.riel:focus-within .riel-pista,
-.riel-pista--pausado,
-.riel-pista--fuera {
-    animation-play-state: paused;
+.dark .tecnologia-tarjeta[aria-expanded="true"] {
+    border-color: rgba(var(--color-primary-vibrant-rgb), 0.55);
+    box-shadow: 0 0 25px rgba(var(--color-primary-vibrant-rgb), 0.18);
 }
 
-/* Bajo preferencia de movimiento reducido la cinta no se anima nunca.
-   La regla de la Fase 3.4 ya acorta las transiciones; esta la detiene por completo. */
-@media (prefers-reduced-motion: reduce) {
-    .riel-pista {
-        animation: none;
-    }
+.tecnologia-tarjeta:hover .tecnologia-filo,
+.tecnologia-tarjeta[aria-expanded="true"] .tecnologia-filo {
+    @apply opacity-100;
+}
+
+.tecnologia-tarjeta[aria-expanded="true"] .tecnologia-indicador {
+    @apply rotate-180 text-primary dark:text-primary-vibrant;
 }
 
 /* =========================================
@@ -499,5 +516,88 @@ html:not(.dark) .tarjeta-reactiva.siguiendo {
     .tarjeta-reactiva::before,
     .tarjeta-reactiva::after {
         display: none;
+    }
+}
+
+/* =========================================
+   18. Fase 5.1 — Titular conmutable y máquina de escribir
+   =========================================
+   Solo estilo. La estructura interna (.maquina-medida y .maquina-texto) la
+   construye static/js/maquina-escribir.js: sin JavaScript ninguna de estas
+   reglas llega a aplicarse y el texto se ve como está en el marcado. */
+
+/* --- Altura real del titular ------------------------------------------------
+   Los tres titulares comparten celda para poder fundirse entre sí, pero los
+   ocultos seguían ocupando espacio: el H1 reservaba siempre la altura del
+   perfil más largo y abría un vacío bajo el titular visible. Se sacan del
+   flujo. La clase `invisible` es la que aplica hero.js (constante OCULTO);
+   el H1 debe llevar `relative` para servirles de ancla. */
+h1 > [data-perfil-titulo].invisible {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 100%;
+}
+
+/* --- Máquina de escribir --------------------------------------------------- */
+
+.maquina {
+    display: inline-grid;
+    position: relative; /* ancla el nombre accesible fuera de pantalla */
+}
+
+/* Ambas piezas comparten celda: la medida reserva el espacio de la frase más
+   larga y el texto se teclea encima. Así el titular nunca salta al borrar. */
+.maquina-medida,
+.maquina-texto {
+    grid-area: 1 / 1;
+}
+
+.maquina-medida {
+    visibility: hidden;
+}
+
+/* El logotipo de la barra jamás debe partirse en dos líneas. */
+[data-maquina="logotipo"] .maquina-medida,
+[data-maquina="logotipo"] .maquina-texto {
+    white-space: nowrap;
+}
+
+/* Cursor. Hereda el color del texto mediante currentColor, de modo que respeta
+   la restricción rectora: no introduce ningún color nuevo. */
+.maquina-texto::after {
+    content: "";
+    display: inline-block;
+    width: 0.07em;
+    height: 0.95em;
+    margin-left: 0.06em;
+    vertical-align: -0.1em;
+    border-radius: 1px;
+    background-color: currentColor;
+    animation: maquina-parpadeo 1.05s steps(1, end) infinite;
+}
+
+/* Mientras se teclea el cursor queda fijo: parpadear y escribir a la vez se
+   lee como un defecto, no como un detalle. */
+.maquina--tecleando .maquina-texto::after {
+    animation: none;
+    opacity: 1;
+}
+
+@keyframes maquina-parpadeo {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Movimiento reducido: el motor ni siquiera arranca. Esta regla es la segunda
+   red, por si la estructura ya quedó montada antes del cambio de preferencia. */
+@media (prefers-reduced-motion: reduce) {
+    .maquina-texto::after {
+        animation: none;
+        opacity: 1;
     }
 }

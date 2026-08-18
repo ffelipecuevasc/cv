@@ -4,5 +4,8 @@
 // Único módulo que carga el documento; declara explícitamente lo que necesita.
 // =========================================
 import {iniciarSitio} from '../servicios/sitio.js';
+import {ejecutarSeguro} from '../servicios/resiliencia.js';
+import {iniciarMaquinaEscribir} from '../maquina-escribir.js';
 
 iniciarSitio();
+ejecutarSeguro('máquina de escribir del logotipo', iniciarMaquinaEscribir);
