@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img">
-    <!-- Logotipos: SVG Logos de Gil Barbara — https://github.com/gilbarbara/logos -->
+    <!-- Logotipos: SVG Logos de Gil Barbara — https://github.com/gilbarbara/logos
+         Tratamiento: halo cromatico de marca. Cada chip toma el matiz de su propio
+         logotipo en version clara, con anillo y halo del mismo matiz. Ningun blanco.
+         Los trazos de los logotipos no se modifican. -->
     <defs>
         <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#003B51"/>
@@ -12,16 +15,53 @@
         <pattern id="puntos" width="44" height="44" patternUnits="userSpaceOnUse">
             <circle cx="2" cy="2" r="2" fill="#5DC9FF" fill-opacity="0.09"/>
         </pattern>
+        <radialGradient id="halo-25cef4" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#25CEF4" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#25CEF4" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#25CEF4" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-2ab2ef" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#2AB2EF" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#2AB2EF" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#2AB2EF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-3399e6" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#3399E6" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#3399E6" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#3399E6" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-5393c6" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#5393C6" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#5393C6" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#5393C6" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-53c69a" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#53C69A" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#53C69A" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#53C69A" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-d85440" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#D85440" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#D85440" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#D85440" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo-de3b79" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#DE3B79" stop-opacity="0.34"/>
+            <stop offset="0.5" stop-color="#DE3B79" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#DE3B79" stop-opacity="0"/>
+        </radialGradient>
     </defs>
     <rect width="1600" height="900" fill="url(#fondo)"/>
     <rect width="1600" height="900" fill="url(#puntos)"/>
     <ellipse cx="800" cy="420" rx="720" ry="420" fill="url(#halo)"/>
     <path d="M0 900 L1600 900 L1600 700 Q800 820 0 700 Z" fill="#00131D" fill-opacity="0.22"/>
     <g>
+        <!-- Python -->
+        <ellipse cx="437" cy="329" rx="152" ry="152" fill="url(#halo-5393c6)"/>
         <rect x="333" y="225" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#D1E2F0" fill-opacity="0.93"/>
         <rect x="333" y="225" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#5795C7" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(374.8 267.0) scale(0.4863)">
             <defs>
                 <linearGradient id="pyA" x1="12.959%" x2="79.639%" y1="12.039%" y2="78.201%">
@@ -32,6 +72,41 @@
                     <stop offset="0%" stop-color="#ffe052"/>
                     <stop offset="100%" stop-color="#ffc331"/>
                 </linearGradient>
+                <radialGradient id="halo-25cef4" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#25CEF4" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#25CEF4" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#25CEF4" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-2ab2ef" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#2AB2EF" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#2AB2EF" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#2AB2EF" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-3399e6" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#3399E6" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#3399E6" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#3399E6" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-5393c6" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#5393C6" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#5393C6" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#5393C6" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-53c69a" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#53C69A" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#53C69A" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#53C69A" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-d85440" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#D85440" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#D85440" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#D85440" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-de3b79" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#DE3B79" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#DE3B79" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#DE3B79" stop-opacity="0"/>
+                </radialGradient>
             </defs>
             <path fill="url(#pyA)"
                   d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072M92.802 19.66a11.12 11.12 0 0 1 11.13 11.13a11.12 11.12 0 0 1-11.13 11.13a11.12 11.12 0 0 1-11.13-11.13a11.12 11.12 0 0 1 11.13-11.13"/>
@@ -40,20 +115,24 @@
         </g>
     </g>
     <g>
+        <!-- Django -->
+        <ellipse cx="679" cy="329" rx="152" ry="152" fill="url(#halo-53c69a)"/>
         <rect x="575" y="225" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#D1F0E4" fill-opacity="0.93"/>
         <rect x="575" y="225" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#57C79C" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(600.0 301.4) scale(0.3086)">
             <path fill="#092e20"
                   d="M386.892 41.423c12.001 0 23.093 1.271 36.548 3.998l-9.588 20.198c-7.455-1.455-.597-.195-6.23-.74v2.91l.362 11.816l.18 15.274c.182 3.817.182 7.636.365 11.454v7.637c0 24.001-2 35.273-8 44.545c-8.727 13.638-23.819 20.365-45.273 20.365c-10.91 0-20.363-1.636-30.183-5.455v-25.818h.002c9.82 5.09 19.637 7.453 30 7.453c18.363 0 26.182-7.453 26.182-25.273v-.545c-5.454 2.726-10.91 3.818-18.181 3.818c-24.546 0-40.185-16.182-40.185-41.818c0-31.821 23.093-49.82 64-49.82M132.91 43.24v64.909c0 22.365-1.637 33.091-6.545 42.365c-4.547 8.91-10.548 14.545-22.91 20.728l-26.001-12.364c12.364-5.818 18.363-10.907 22.181-18.729c4.001-8 5.275-17.273 5.275-41.636V43.241zm333.998-2.364c28 0 45.092 17.638 45.092 46.183c0 29.275-17.817 47.638-46.183 47.638c-28.002 0-45.275-17.637-45.275-46c.002-29.458 17.821-47.82 46.366-47.82m-279.993.365c14.364 0 23.818 3.817 28 11.272c2.363 4.182 3.09 9.636 3.09 21.274v56.908c-12.547 1.818-28.364 3.092-40 3.092c-23.454 0-34.002-8.185-34.002-26.365c0-19.638 14-28.728 48.366-31.638v-6.182c0-5.09-2.545-6.907-9.637-6.907c-10.363 0-22 2.908-32.91 8.546V49.604c12.366-5.816 24.183-8.362 37.093-8.362M88.365 0v129.607c-14.363 2.727-24.91 3.818-36.363 3.818C17.818 133.425 0 117.97 0 88.333c0-28.546 18.91-47.09 48.183-47.09c4.545 0 8 .362 12.182 1.453V0zm187.278 41.242c14.364 0 24.728 3.272 30.912 9.636c5.818 5.999 7.635 12.544 7.635 26.546v54.909h-28.001V78.515c0-10.727-3.636-14.729-13.636-14.729c-3.818 0-7.272.364-12.91 2v66.547h-28V47.604c16.545-4.363 30.181-6.362 44-6.362m-82.001 52.909c-18.547 1.818-24.547 4.728-24.547 12c0 5.454 3.456 8 11.092 8c4.182 0 8-.363 13.455-1.272zm272.904-30.728c-11.093 0-17.459 8.91-17.459 24.363c.002 15.456 6.366 24.365 17.273 24.365c10.73 0 17.094-8.91 17.094-24.365c0-15.272-6.183-24.363-16.908-24.363m-415.635.363c-14.182 0-22.365 8.728-22.365 24c0 14.91 7.82 23.092 22.183 23.092c3.09 0 5.636-.182 9.636-.726V65.24c-3.273-1.09-6-1.454-9.454-1.454m310.71 4.18c-6.725 3.82-10.182 10.73-10.182 20.547c0 14.002 6.911 22.001 19.274 22.001c3.818 0 6.91-.728 10.545-1.818v-9.635c0-3.273-.18-6.911-.18-10.728l-.181-12.909l-.183-9.273v-2.183h-2.91c-5.453-.182-11.817 1.272-16.182 3.999M132.91.15v28.728h-28V.149z"/>
         </g>
     </g>
     <g>
+        <!-- MySQL -->
+        <ellipse cx="921" cy="329" rx="152" ry="152" fill="url(#halo-25cef4)"/>
         <rect x="817" y="225" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#C6F1FA" fill-opacity="0.93"/>
         <rect x="817" y="225" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#35C8E9" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(842.0 275.2) scale(0.3086)">
             <path fill="#00758f"
                   d="m152.31 230.297l15.56 50.487c3.496 11.463 4.954 19.465 4.37 24.026q12.765-34.188 17.839-74.513h18.71q-12.069 65.65-31.827 95.41c-10.262 15.289-21.504 22.933-33.746 22.933c-3.264 0-7.288-.986-12.063-2.944v-10.55c2.333.342 5.07.525 8.218.525q8.565-.002 13.816-4.742c4.193-3.849 6.292-8.175 6.292-12.97c0-3.274-1.637-9.993-4.896-20.157l-21.68-67.505zM33.223 199.266l28.5 86.956h.176l28.675-86.956h23.428c5.13 43.124 8.16 82.581 9.09 118.346H103.34q-1.044-50.148-5.768-94.32H97.4l-30.078 94.32H52.28l-29.896-94.32h-.176q-3.325 42.422-4.196 94.32H0c1.164-42.08 4.077-81.525 8.739-118.346z"/>
@@ -64,26 +143,65 @@
         </g>
     </g>
     <g>
+        <!-- Docker -->
+        <ellipse cx="1163" cy="329" rx="152" ry="152" fill="url(#halo-3399e6)"/>
         <rect x="1059" y="225" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#C9E4F8" fill-opacity="0.93"/>
         <rect x="1059" y="225" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#379BE6" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(1084.0 308.8) scale(0.3086)">
             <path fill="#2396ed"
                   d="m140.598 25.715l3.892 2.818c6.77 5.46 10.662 11.625 11.508 18.67c7.277-1.409 16.584-.352 20.646 2.466l3.723 2.29l-.677 1.41c-1.185 2.641-1.523 3.346-1.692 3.698c-6.6 13.21-19.631 13.386-25.723 13.21c-15.4 38.573-48.23 59.885-92.57 59.885c-20.476 0-36.045-6.517-46.538-19.375C-.709 93.88-.709 71.862.475 64.817l.339-1.41h122.353c6.43 0 11.339-1.76 13.708-3.17c-2.539-3.875-3.385-8.278-3.554-10.744c-.508-7.045 1.185-14.443 4.57-19.727zm106.014 8.179q2.048 0 3.468 1.373t1.42 3.467v43.563q0 10.89-7.634 18.43q-7.726 7.633-18.43 7.633q-10.798 0-18.43-7.633q-7.633-7.633-7.633-18.43t7.633-18.43q7.632-7.634 18.43-7.633q9.262 0 16.336 5.724V38.734q0-2.094 1.373-3.467t3.467-1.373m36.49 22.34q10.705 0 18.43 7.632q3.818 3.818 5.702 8.424q1.885 4.608 1.932 10.007q0 10.89-7.633 18.43q-7.725 7.633-18.43 7.633q-10.798 0-18.43-7.633q-7.634-7.633-7.634-18.43t7.633-18.43q7.633-7.634 18.43-7.633m57.574 0q9.82 0 16.988 6.33q1.675 1.488 1.675 3.676q0 2.095-1.373 3.49q-1.373 1.397-3.467 1.397a4.93 4.93 0 0 1-3.165-1.117q-2.373-2.002-4.98-3.025t-5.678-1.024q-3.397 0-6.376 1.28a16.7 16.7 0 0 0-5.213 3.49a16.2 16.2 0 0 0-3.514 5.19q-1.28 2.977-1.28 6.376q0 3.397 1.28 6.376a16.2 16.2 0 0 0 3.514 5.19a16.7 16.7 0 0 0 5.213 3.49q2.979 1.28 6.376 1.28q3.072 0 5.678-1q2.607-1.002 4.933-3.003q1.304-.977 3.072-1.024q2.094 0 3.467 1.373t1.373 3.468q0 2.048-1.535 3.583q-7.214 6.33-16.988 6.33q-10.798 0-18.43-7.633q-7.633-7.633-7.633-18.43t7.633-18.43t18.43-7.633m29.044-22.34q2.001 0 3.42 1.42q1.42 1.418 1.42 3.467v36.302l27.832-18.105q1.163-.744 2.606-.744q1.024 0 1.908.372q.885.372 1.536 1.047t1.047 1.56t.396 1.86q0 2.607-1.862 3.864l-19.5 12.66l20.012 22.525q1.35 1.489 1.35 3.398q0 .977-.396 1.861a5.4 5.4 0 0 1-1.047 1.56q-.651.675-1.536 1.046a4.9 4.9 0 0 1-1.908.373q-1.955 0-3.258-1.257l-21.502-24.155l-5.678 3.724v16.801q0 2.001-1.42 3.444t-3.42 1.443q-2.048 0-3.468-1.443t-1.42-3.444V38.781q0-2.048 1.42-3.468t3.468-1.42m71.489 22.34q10.704 0 18.43 7.632q3.816 3.77 5.725 8.401q1.908 4.63 1.908 10.03q0 2.094-1.42 3.467t-3.467 1.373h-36.86a15.9 15.9 0 0 0 2.327 4.677a16.3 16.3 0 0 0 3.606 3.63a16.7 16.7 0 0 0 4.562 2.351q2.49.838 5.189.838q3.072 0 5.631-.931q2.56-.93 4.748-2.793a5.1 5.1 0 0 1 3.21-1.21q2.095 0 3.468 1.373t1.373 3.468q0 2.047-1.396 3.49q-7.214 6.33-17.034 6.33q-10.798 0-18.43-7.633q-7.633-7.633-7.633-18.43t7.633-18.43t18.43-7.633m57.48 0q2.048 0 4.398.279q2.35.28 4.329 1q1.978.721 3.28 1.978q1.305 1.257 1.304 3.258q0 1.025-.396 1.909a5.4 5.4 0 0 1-1.047 1.559q-.651.675-1.536 1.047a4.9 4.9 0 0 1-1.908.372q-.885 0-2.048-.512q-2.932-1.163-6.376-1.163q-3.397 0-6.376 1.28q-2.978 1.28-5.19 3.49q-2.21 2.211-3.49 5.19q-1.28 2.977-1.28 6.376v21.223q0 2.001-1.42 3.42t-3.42 1.42q-2.048 0-3.467-1.42t-1.42-3.42V61.074q0-2.002 1.42-3.42q1.42-1.42 3.467-1.42q2.001 0 3.42 1.42q1.42 1.418 1.42 3.42v.93a26.7 26.7 0 0 1 7.586-4.281q4.095-1.49 8.75-1.49M225.436 65.96q-3.444 0-6.423 1.303t-5.166 3.514t-3.467 5.19t-1.28 6.329t1.28 6.33t3.467 5.189t5.166 3.514q2.979 1.302 6.423 1.303q3.397 0 6.376-1.303a16.6 16.6 0 0 0 5.19-3.538a16.8 16.8 0 0 0 3.49-5.189q1.28-2.955 1.28-6.306t-1.28-6.307a16.8 16.8 0 0 0-3.49-5.189a16.6 16.6 0 0 0-5.19-3.537q-2.978-1.303-6.376-1.303m57.667 0q-3.444 0-6.423 1.303t-5.166 3.514t-3.468 5.19t-1.28 6.329t1.28 6.33q1.281 2.978 3.468 5.189t5.166 3.514t6.423 1.303q3.397 0 6.376-1.303a16.6 16.6 0 0 0 5.19-3.538a16.8 16.8 0 0 0 3.49-5.189q1.28-2.955 1.28-6.306t-1.28-6.307a16.8 16.8 0 0 0-3.49-5.189a16.6 16.6 0 0 0-5.19-3.537q-2.979-1.303-6.376-1.303m158.106 0q-2.653 0-5.166.837a17 17 0 0 0-4.608 2.35a16.1 16.1 0 0 0-3.63 3.631a15.1 15.1 0 0 0-2.28 4.677h31.368a15.6 15.6 0 0 0-2.35-4.677a16.8 16.8 0 0 0-3.63-3.63a16.7 16.7 0 0 0-4.561-2.35a16 16 0 0 0-5.143-.838M32.629 42.27v17.614H14.014V42.272zm22 0v17.614H36.014V42.272zm22 0v17.614H58.013V42.272zm22 0v17.614H80.013V42.272zm22 0v17.614h-18.616V42.272zm-22-21.135v17.613H80.013V21.136zm-22 0v17.613H58.013V21.136zm-22 0v17.613H36.014V21.136zM98.629 0v17.613H80.013V0z"/>
         </g>
     </g>
     <g>
+        <!-- Tailwind -->
+        <ellipse cx="558" cy="571" rx="152" ry="152" fill="url(#halo-2ab2ef)"/>
         <rect x="454" y="467" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#C6EAFA" fill-opacity="0.93"/>
         <rect x="454" y="467" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#35B1E9" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(479.0 561.1) scale(0.3086)">
             <defs>
                 <linearGradient id="twA" x1="-2.778%" x2="100%" y1="32%" y2="67.556%">
                     <stop offset="0%" stop-color="#2298bd"/>
                     <stop offset="100%" stop-color="#0ed7b5"/>
                 </linearGradient>
+                <radialGradient id="halo-25cef4" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#25CEF4" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#25CEF4" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#25CEF4" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-2ab2ef" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#2AB2EF" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#2AB2EF" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#2AB2EF" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-3399e6" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#3399E6" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#3399E6" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#3399E6" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-5393c6" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#5393C6" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#5393C6" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#5393C6" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-53c69a" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#53C69A" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#53C69A" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#53C69A" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-d85440" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#D85440" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#D85440" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#D85440" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="halo-de3b79" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#DE3B79" stop-opacity="0.34"/>
+                    <stop offset="0.5" stop-color="#DE3B79" stop-opacity="0.10"/>
+                    <stop offset="1" stop-color="#DE3B79" stop-opacity="0"/>
+                </radialGradient>
             </defs>
             <path fill="url(#twA)"
                   d="M52.867 0Q31.72 0 26.433 21.147q7.93-10.575 18.504-7.93c4.021 1.005 6.896 3.923 10.078 7.153c5.183 5.26 11.182 11.35 24.285 11.35q21.147 0 26.433-21.147q-7.93 10.575-18.503 7.93c-4.022-1.005-6.896-3.923-10.078-7.153C71.968 6.09 65.97 0 52.867 0M26.433 31.72Q5.287 31.72 0 52.867q7.93-10.575 18.503-7.93c4.022 1.005 6.897 3.923 10.078 7.152c5.184 5.262 11.183 11.35 24.286 11.35q21.146 0 26.433-21.146q-7.93 10.575-18.503 7.93C56.775 49.218 53.9 46.3 50.718 43.07c-5.183-5.26-11.182-11.35-24.285-11.35"/>
@@ -92,20 +210,24 @@
         </g>
     </g>
     <g>
+        <!-- AlwaysData -->
+        <ellipse cx="800" cy="571" rx="152" ry="152" fill="url(#halo-de3b79)"/>
         <rect x="696" y="467" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#F6CBDB" fill-opacity="0.93"/>
         <rect x="696" y="467" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#DE3F7C" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(738.0 509.0) scale(5.1667)">
             <path fill="#E9568E"
                   d="M23.0536 15.2543c1.2615 1.2625 1.2622 3.3114 0 4.5728-1.2617 1.2621-3.3068 1.2607-4.5687-.0018-.9599-.9598-1.1874-2.3713-.6878-3.5476L12.97 8.9472a2.903 2.903 0 0 1-.765-.0068l-4.6071 6.2009c.2567.7533.0937 1.6183-.5072 2.2176-.8397.8413-2.2063.8399-3.0474-.0017-.6534-.6533-.7916-1.622-.428-2.4164l-2.0027-2.9336c-.0585.0072-.116.0176-.1766.0176-.7923 0-1.4359-.642-1.4359-1.4356 0-.7928.6436-1.4359 1.436-1.4359.7936 0 1.4358.6431 1.4358 1.436 0 .2516-.0703.485-.1838.6904l2.0731 2.5544c.5163-.2096 1.069-.191 1.5494-.0132l3.8572-6.2123c-.686-1.107-.5521-2.5782.4096-3.5401 1.1215-1.1218 2.9412-1.1218 4.0608-.0007.8791.8786 1.0666 2.1881.5676 3.2539l5.24 7.0044c.9312-.0937 1.8947.215 2.608.9282z"/>
         </g>
     </g>
     <g>
+        <!-- Git -->
+        <ellipse cx="1042" cy="571" rx="152" ry="152" fill="url(#halo-d85440)"/>
         <rect x="938" y="467" width="208" height="208" rx="46"
-              fill="#FFFFFF" fill-opacity="0.94"/>
+              fill="#F5D1CC" fill-opacity="0.93"/>
         <rect x="938" y="467" width="208" height="208" rx="46"
-              fill="none" stroke="#5DC9FF" stroke-opacity="0.25" stroke-width="2"/>
+              fill="none" stroke="#D95845" stroke-opacity="0.85" stroke-width="3"/>
         <g transform="translate(963.0 537.7) scale(0.6172)">
             <path fill="#2f2707"
                   d="M152.984 37.214c-5.597 0-9.765 2.748-9.765 9.362c0 4.983 2.747 8.443 9.463 8.443c5.693 0 9.56-3.355 9.56-8.65c0-6-3.46-9.155-9.258-9.155m-11.19 46.701c-1.325 1.625-2.645 3.353-2.645 5.39c0 4.067 5.186 5.291 12.31 5.291c5.9 0 13.938-.414 13.938-5.9c0-3.261-3.867-3.462-8.753-3.768zm30.113-46.394c1.828 2.34 3.764 5.597 3.764 10.276c0 11.292-8.851 17.904-21.667 17.904c-3.259 0-6.209-.406-8.038-.914l-3.359 5.39l9.969.61c17.602 1.122 27.975 1.632 27.975 15.157c0 11.702-10.272 18.311-27.975 18.311c-18.413 0-25.433-4.68-25.433-12.716c0-4.578 2.035-7.015 5.596-10.378c-3.358-1.419-4.476-3.961-4.476-6.71c0-2.24 1.118-4.273 2.952-6.208c1.83-1.93 3.864-3.865 6.306-6.103c-4.984-2.442-8.75-7.732-8.75-15.262c0-11.697 7.733-19.731 23.295-19.731c4.376 0 7.022.402 9.362 1.017h19.84v8.644zm27.259-18.487c-5.8 0-9.157-3.36-9.157-9.161c0-5.793 3.356-8.95 9.157-8.95c5.9 0 9.258 3.157 9.258 8.95c0 5.801-3.357 9.161-9.258 9.161M186.04 80.171v-8.033l5.19-.71c1.425-.205 1.627-.509 1.627-2.038V39.48c0-1.116-.304-1.832-1.325-2.134l-5.492-1.935l1.118-8.238h21.061V69.39c0 1.63.098 1.833 1.629 2.039l5.188.71v8.032zm69.227-3.944c-4.376 2.135-10.785 4.068-16.586 4.068c-12.106 0-16.682-4.878-16.682-16.38V37.264c0-.61 0-1.017-.817-1.017h-7.12V27.19c8.955-1.02 12.513-5.496 13.632-16.585h9.666v14.45c0 .71 0 1.017.815 1.017h14.343v10.173H237.36v24.313c0 6.002 1.426 8.34 6.917 8.34c2.852 0 5.799-.71 8.24-1.626z"/>

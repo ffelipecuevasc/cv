@@ -396,11 +396,6 @@ body.dark::before {
     @apply -translate-y-1 border-primary shadow-md;
 }
 
-.dark .tecnologia-tarjeta[aria-expanded="true"] {
-    border-color: rgba(var(--color-primary-vibrant-rgb), 0.55);
-    box-shadow: 0 0 25px rgba(var(--color-primary-vibrant-rgb), 0.18);
-}
-
 .tecnologia-tarjeta:hover .tecnologia-filo,
 .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-filo {
     @apply opacity-100;
@@ -408,6 +403,38 @@ body.dark::before {
 
 .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-indicador {
     @apply rotate-180 text-primary dark:text-primary-vibrant;
+}
+
+.tecnologia-tarjeta.tarjeta-reactiva {
+    transition: transform 500ms ease-out, box-shadow 350ms ease-out,
+    background-color 300ms ease-out, border-color 300ms ease-out;
+}
+
+/* MODO CLARO — tinte de selección, tomado de la propia escala orient. */
+html:not(.dark) .tecnologia-tarjeta:hover,
+html:not(.dark) .tecnologia-tarjeta[aria-expanded="true"] {
+    @apply border-primary/40 bg-orient-50;
+}
+
+/* El icono invierte su relación con la tarjeta: pasa a ser la pieza clara sobre
+   el tinte y gana presencia, en vez de diluirse contra un fondo del mismo tono. */
+html:not(.dark) .tecnologia-tarjeta:hover .tecnologia-icono,
+html:not(.dark) .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-icono {
+    @apply bg-white text-primary shadow-sm;
+}
+
+.dark .tecnologia-tarjeta:hover,
+.dark .tecnologia-tarjeta[aria-expanded="true"] {
+    --tw-shadow: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.22);
+    --tw-shadow-colored: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.22);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-color: rgba(var(--color-primary-vibrant-rgb), 0.5) !important;
+}
+
+.dark .tecnologia-tarjeta:hover .tecnologia-icono,
+.dark .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-icono {
+    background-color: rgba(var(--color-primary-vibrant-rgb), 0.14);
+    color: rgb(var(--color-primary-vibrant-rgb));
 }
 
 /* =========================================
