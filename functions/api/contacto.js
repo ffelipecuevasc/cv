@@ -2,10 +2,15 @@
 // FUNCIÓN DE BORDE — Formulario de contacto
 // Sustituye a FormSubmit. Valida los campos, verifica que quien envía es una
 // persona mediante Turnstile, y entrega el mensaje por Resend.
+//
+// Variables de entorno requeridas por Cloudflare, en Production y en Preview:
+//   RESEND_API_KEY        clave de Resend, con permiso de solo envío
+//   TURNSTILE_SECRET_KEY  clave privada del widget de Turnstile
+//   CONTACTO_DESTINO      dirección que recibe los mensajes
 // =========================================
 
 const REMITENTE = 'Formulario felipecuevas.dev <formulario@envios.felipecuevas.dev>';
-const LARGO_MAXIMO_NOMBRE = 120;
+const LARGO_MAXIMO_CORTO = 120;
 const LARGO_MAXIMO_MENSAJE = 3000;
 
 function json(datos, estado = 200) {
@@ -16,12 +21,15 @@ function json(datos, estado = 200) {
 }
 
 /** Validación en servidor. La del navegador es comodidad; esta es la que cuenta. */
-function validar({nombre, correo, mensaje}) {
-    if (!nombre || !correo || !mensaje) {
+function validar({nombre, correo, asunto, mensaje}) {
+    if (!nombre || !correo || !asunto || !mensaje) {
         return 'Faltan campos obligatorios.';
     }
-    if (nombre.length > LARGO_MAXIMO_NOMBRE || mensaje.length > LARGO_MAXIMO_MENSAJE) {
-        return 'El contenido enviado excede el largo permitido.';
+    if (nombre.length > LARGO_MAXIMO_CORTO || asunto.length > LARGO_MAXIMO_CORTO) {
+        return 'El nombre o el asunto exceden el largo permitido.';
+    }
+    if (mensaje.length > LARGO_MAXIMO_MENSAJE) {
+        return 'El mensaje excede el largo permitido.';
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
         return 'La dirección de correo no es válida.';
@@ -62,7 +70,7 @@ export async function onRequestPost({request, env}) {
         return json({ok: false, error: 'No pudimos verificar que el envío proviene de una persona.'}, 403);
     }
 
-    const {nombre, correo, mensaje} = campos;
+    const {nombre, correo, asunto, mensaje} = campos;
     const envio = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -73,8 +81,8 @@ export async function onRequestPost({request, env}) {
             from: REMITENTE,
             to: env.CONTACTO_DESTINO,
             reply_to: correo,
-            subject: `Nuevo mensaje de ${nombre} — felipecuevas.dev`,
-            text: `Nombre: ${nombre}\nCorreo: ${correo}\n\n${mensaje}`
+            subject: `[Contacto] ${asunto} — ${nombre}`,
+            text: `Nombre: ${nombre}\nCorreo: ${correo}\nAsunto: ${asunto}\n\n${mensaje}`
         })
     });
 
