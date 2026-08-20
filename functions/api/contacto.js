@@ -2,11 +2,6 @@
 // FUNCIÓN DE BORDE — Formulario de contacto
 // Sustituye a FormSubmit. Valida los campos, verifica que quien envía es una
 // persona mediante Turnstile, y entrega el mensaje por Resend.
-//
-// Variables de entorno requeridas por Cloudflare, en Production y en Preview:
-//   RESEND_API_KEY       clave de Resend, con permiso de solo envío
-//   TURNSTILE_SECRET_KEY  clave privada del widget de Turnstile
-//   CONTACTO_DESTINO      dirección que recibe los mensajes
 // =========================================
 
 const REMITENTE = 'Formulario felipecuevas.dev <formulario@envios.felipecuevas.dev>';
