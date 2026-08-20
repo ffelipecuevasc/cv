@@ -19,8 +19,7 @@ export function iniciarContacto() {
     const aviso = document.getElementById('contacto-aviso');
 
     // Turnstile invoca esta función global ante cualquier fallo del desafío.
-    // Sin ella, un error del widget queda mudo y el visitante no sabe por qué
-    // no puede enviar (ver documentación de errores de cliente de Turnstile).
+    // Sin ella, un error del widget queda mudo.
     window.contactoTurnstileError = (codigo) => {
         console.error('Turnstile:', codigo);
         mostrar(`La verificación de seguridad no está disponible (código ${codigo}). Escríbeme por LinkedIn mientras tanto.`, true);
