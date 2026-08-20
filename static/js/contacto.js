@@ -18,6 +18,15 @@ export function iniciarContacto() {
     const boton = formulario.querySelector('[type="submit"]');
     const aviso = document.getElementById('contacto-aviso');
 
+    // Turnstile invoca esta función global ante cualquier fallo del desafío.
+    // Sin ella, un error del widget queda mudo y el visitante no sabe por qué
+    // no puede enviar (ver documentación de errores de cliente de Turnstile).
+    window.contactoTurnstileError = (codigo) => {
+        console.error('Turnstile:', codigo);
+        mostrar(`La verificación de seguridad no está disponible (código ${codigo}). Escríbeme por LinkedIn mientras tanto.`, true);
+        return true;
+    };
+
     // El formulario nace deshabilitado en el marcado: solo se habilita si este
     // módulo llegó a ejecutarse. Es la garantía de que nadie escribe un mensaje
     // que no tiene forma de enviarse.
