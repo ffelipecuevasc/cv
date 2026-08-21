@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400"
-     role="img" aria-label="Bootcamp Full Stack Python: Python y Django">
+     role="img" aria-label="Bootcamp Full Stack Python: Python y Django"
+     font-family="Lexend, 'Segoe UI', system-ui, sans-serif">
     <title>Bootcamp Full Stack Python: Python y Django</title>
-    <!-- Portada de bootcamp — sistema de halo cromatico de marca, el mismo del
-         portafolio: cada chip toma el matiz de su propio logotipo en version clara,
-         con anillo y halo del mismo matiz. Sin blanco y sin colores ajenos a la paleta.
-         Lienzo 1000x400. Todo el contenido vive dentro de la zona segura x 100..900
-         para sobrevivir al recorte de bg-cover en tarjetas estrechas. -->
+    <!-- Portada de bootcamp — lienzo 1000x400. Fondo, tipografia y conectores usan
+         la paleta de marca (primary #007EA7, orient-950 #00131D, orient-200 #5DC9FF,
+         primary-vibrant #00B0E8); cada tarjeta conserva el matiz de su propio
+         logotipo en version aclarada, el mismo sistema de halo cromatico del sitio.
+         Todo el contenido vive dentro de la zona segura x 170..830 / y 62..334 para
+         sobrevivir al recorte de bg-cover en tarjetas de cualquier proporcion. -->
     <defs>
         <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#007EA7"/>
@@ -18,94 +20,105 @@
         <pattern id="malla" width="40" height="40" patternUnits="userSpaceOnUse">
             <path d="M40 0H0v40" fill="none" stroke="#5DC9FF" stroke-opacity="0.10" stroke-width="1"/>
         </pattern>
-        <radialGradient id="halo-5393c6" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="#5393C6" stop-opacity="0.34"/>
-            <stop offset="0.5" stop-color="#5393C6" stop-opacity="0.10"/>
+        <linearGradient id="cristal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5DC9FF" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#5DC9FF" stop-opacity="0.02"/>
+        </linearGradient>
+        <filter id="sombra-nodo" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#00131D" flood-opacity="0.6"/>
+        </filter>
+        <radialGradient id="brillo-python" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#5393C6" stop-opacity="0.30"/>
             <stop offset="1" stop-color="#5393C6" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="halo-53c69a" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stop-color="#53C69A" stop-opacity="0.34"/>
-            <stop offset="0.5" stop-color="#53C69A" stop-opacity="0.10"/>
+        <filter id="sombra-python" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#5393C6" flood-opacity="0.25"/>
+        </filter>
+        <radialGradient id="brillo-django" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#53C69A" stop-opacity="0.30"/>
             <stop offset="1" stop-color="#53C69A" stop-opacity="0"/>
         </radialGradient>
+        <filter id="sombra-django" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#53C69A" flood-opacity="0.25"/>
+        </filter>
     </defs>
 
+    <!-- 1. Fondo de marca: degradado, malla y resplandor -->
     <rect width="1000" height="400" fill="url(#fondo)"/>
     <rect width="1000" height="400" fill="url(#malla)"/>
     <rect width="1000" height="400" fill="url(#resplandor)"/>
-    <path d="M0 400 L0 330 C 250 300, 420 366, 620 336 C 800 310, 900 340, 1000 322 L1000 400 Z"
-          fill="#00131D" fill-opacity="0.55"/>
 
-    <g>
-        <ellipse cx="414" cy="176" rx="120" ry="120" fill="url(#halo-5393c6)"/>
-        <rect x="348" y="110" width="132" height="132" rx="30"
-              fill="#D1E2F0" fill-opacity="0.93"/>
-        <rect x="348" y="110" width="132" height="132" rx="30"
-              fill="none" stroke="#5795C7" stroke-opacity="0.85" stroke-width="2.5"/>
-        <g transform="translate(373.1 135.1) scale(0.1913)"><defs>
-            <linearGradient id="pyA" x1="12.959%" x2="79.639%" y1="12.039%" y2="78.201%">
-                <stop offset="0%" stop-color="#387eb8"/>
-                <stop offset="100%" stop-color="#366994"/>
-            </linearGradient>
-            <linearGradient id="pyB" x1="19.128%" x2="90.742%" y1="20.579%" y2="88.429%">
-                <stop offset="0%" stop-color="#ffe052"/>
-                <stop offset="100%" stop-color="#ffc331"/>
-            </linearGradient>
-            <radialGradient id="halo-25cef4" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#25CEF4" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#25CEF4" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#25CEF4" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-2ab2ef" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#2AB2EF" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#2AB2EF" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#2AB2EF" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-3399e6" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#3399E6" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#3399E6" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#3399E6" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-5393c6" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#5393C6" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#5393C6" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#5393C6" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-53c69a" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#53C69A" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#53C69A" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#53C69A" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-d85440" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#D85440" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#D85440" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#D85440" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="halo-de3b79" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#DE3B79" stop-opacity="0.34"/>
-                <stop offset="0.5" stop-color="#DE3B79" stop-opacity="0.10"/>
-                <stop offset="1" stop-color="#DE3B79" stop-opacity="0"/>
-            </radialGradient>
-        </defs>
-            <path fill="url(#pyA)"
-                  d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072M92.802 19.66a11.12 11.12 0 0 1 11.13 11.13a11.12 11.12 0 0 1-11.13 11.13a11.12 11.12 0 0 1-11.13-11.13a11.12 11.12 0 0 1 11.13-11.13"/>
-            <path fill="url(#pyB)"
-                  d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.712c0-65.416-36.21-63.096-36.21-63.096h-21.61v30.355s1.165 36.21-35.632 36.21h-61.362s-34.475-.557-34.475 33.32v56.013s-5.235 33.897 62.518 33.897m34.114-19.586a11.12 11.12 0 0 1-11.13-11.13a11.12 11.12 0 0 1 11.13-11.131a11.12 11.12 0 0 1 11.13 11.13a11.12 11.12 0 0 1-11.13 11.13"/></g>
-    </g>
-    <g>
-        <ellipse cx="586" cy="176" rx="120" ry="120" fill="url(#halo-53c69a)"/>
-        <rect x="520" y="110" width="132" height="132" rx="30"
-              fill="#D1F0E4" fill-opacity="0.93"/>
-        <rect x="520" y="110" width="132" height="132" rx="30"
-              fill="none" stroke="#57C79C" stroke-opacity="0.85" stroke-width="2.5"/>
-        <g transform="translate(545.1 135.1) scale(0.1214)"><path fill="#092e20"
-                                                                  d="M386.892 41.423c12.001 0 23.093 1.271 36.548 3.998l-9.588 20.198c-7.455-1.455-.597-.195-6.23-.74v2.91l.362 11.816l.18 15.274c.182 3.817.182 7.636.365 11.454v7.637c0 24.001-2 35.273-8 44.545c-8.727 13.638-23.819 20.365-45.273 20.365c-10.91 0-20.363-1.636-30.183-5.455v-25.818h.002c9.82 5.09 19.637 7.453 30 7.453c18.363 0 26.182-7.453 26.182-25.273v-.545c-5.454 2.726-10.91 3.818-18.181 3.818c-24.546 0-40.185-16.182-40.185-41.818c0-31.821 23.093-49.82 64-49.82M132.91 43.24v64.909c0 22.365-1.637 33.091-6.545 42.365c-4.547 8.91-10.548 14.545-22.91 20.728l-26.001-12.364c12.364-5.818 18.363-10.907 22.181-18.729c4.001-8 5.275-17.273 5.275-41.636V43.241zm333.998-2.364c28 0 45.092 17.638 45.092 46.183c0 29.275-17.817 47.638-46.183 47.638c-28.002 0-45.275-17.637-45.275-46c.002-29.458 17.821-47.82 46.366-47.82m-279.993.365c14.364 0 23.818 3.817 28 11.272c2.363 4.182 3.09 9.636 3.09 21.274v56.908c-12.547 1.818-28.364 3.092-40 3.092c-23.454 0-34.002-8.185-34.002-26.365c0-19.638 14-28.728 48.366-31.638v-6.182c0-5.09-2.545-6.907-9.637-6.907c-10.363 0-22 2.908-32.91 8.546V49.604c12.366-5.816 24.183-8.362 37.093-8.362M88.365 0v129.607c-14.363 2.727-24.91 3.818-36.363 3.818C17.818 133.425 0 117.97 0 88.333c0-28.546 18.91-47.09 48.183-47.09c4.545 0 8 .362 12.182 1.453V0zm187.278 41.242c14.364 0 24.728 3.272 30.912 9.636c5.818 5.999 7.635 12.544 7.635 26.546v54.909h-28.001V78.515c0-10.727-3.636-14.729-13.636-14.729c-3.818 0-7.272.364-12.91 2v66.547h-28V47.604c16.545-4.363 30.181-6.362 44-6.362m-82.001 52.909c-18.547 1.818-24.547 4.728-24.547 12c0 5.454 3.456 8 11.092 8c4.182 0 8-.363 13.455-1.272zm272.904-30.728c-11.093 0-17.459 8.91-17.459 24.363c.002 15.456 6.366 24.365 17.273 24.365c10.73 0 17.094-8.91 17.094-24.365c0-15.272-6.183-24.363-16.908-24.363m-415.635.363c-14.182 0-22.365 8.728-22.365 24c0 14.91 7.82 23.092 22.183 23.092c3.09 0 5.636-.182 9.636-.726V65.24c-3.273-1.09-6-1.454-9.454-1.454m310.71 4.18c-6.725 3.82-10.182 10.73-10.182 20.547c0 14.002 6.911 22.001 19.274 22.001c3.818 0 6.91-.728 10.545-1.818v-9.635c0-3.273-.18-6.911-.18-10.728l-.181-12.909l-.183-9.273v-2.183h-2.91c-5.453-.182-11.817 1.272-16.182 3.999M132.91.15v28.728h-28V.149z"/></g>
-    </g>
-
+    <!-- 2. Llaves de codigo difuminadas y oleaje inferior -->
     <g aria-hidden="true">
-        <line x1="396" y1="300" x2="436" y2="300" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"/>
-        <line x1="564" y1="300" x2="604" y2="300" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"/>
-        <text x="500" y="307" text-anchor="middle" font-family="Lexend, sans-serif"
-              font-size="22" font-weight="700" letter-spacing="6" fill="#B9E2FF" fill-opacity="0.85">PF1164</text>
+        <text x="80" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+              font-size="180" font-weight="700" fill="#5DC9FF" fill-opacity="0.05">{</text>
+        <text x="850" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+              font-size="180" font-weight="700" fill="#5DC9FF" fill-opacity="0.05">}</text>
+        <path d="M0 400 L0 330 C 250 300, 420 366, 620 336 C 800 310, 900 340, 1000 322 L1000 400 Z"
+              fill="#00131D" fill-opacity="0.55"/>
+        <path d="M0 400 L0 358 C 350 328, 650 400, 1000 350 L1000 400 Z"
+              fill="#00131D" fill-opacity="0.75"/>
+    </g>
+
+    <!-- 3. Halos cromaticos detras de cada tarjeta -->
+    <g aria-hidden="true">
+    <circle cx="330" cy="202" r="140" fill="url(#brillo-python)"/>
+    <circle cx="670" cy="202" r="140" fill="url(#brillo-django)"/>
+    </g>
+
+    <!-- 4. Volanta e insignia de tecnologias -->
+    <g aria-hidden="true">
+        <text x="500" y="72" text-anchor="middle" font-size="14" font-weight="700"
+              letter-spacing="8" fill="#5DC9FF">FULLSTACK BOOTCAMP</text>
+        <rect x="417" y="84" width="165" height="26" rx="13"
+              fill="#007EA7" fill-opacity="0.22" stroke="#5DC9FF" stroke-opacity="0.45"/>
+        <text x="500" y="101" text-anchor="middle" font-size="11" font-weight="800"
+              letter-spacing="2" fill="#E4F3FF">PYTHON &amp; DJANGO</text>
+    </g>
+
+    <!-- 5. Conector entre tecnologias -->
+    <g aria-hidden="true">
+    <line x1="330" y1="202" x2="670" y2="202" stroke="#5DC9FF" stroke-opacity="0.30"
+          stroke-width="3" stroke-dasharray="8 6"/>
+    <circle cx="500" cy="202" r="26" fill="#00131D" stroke="#5DC9FF" stroke-opacity="0.35"
+            stroke-width="2" filter="url(#sombra-nodo)"/>
+    <text x="500" y="208" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="16" font-weight="700" fill="#B9E2FF">&lt;/&gt;</text>
+    </g>
+
+    <!-- 6. Tarjetas de cristal con los logotipos oficiales -->
+    <g aria-hidden="true">
+    <g transform="translate(250 122)">
+        <rect width="160" height="160" rx="36" fill="#00131D" fill-opacity="0.55"/>
+        <rect width="160" height="160" rx="36" fill="url(#cristal)"
+              stroke="#5393C6" stroke-opacity="0.5" stroke-width="1.5" filter="url(#sombra-python)"/>
+        <path d="M50 0h60" stroke="#5393C6" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(35.83 36.0) scale(0.3451)"><defs><linearGradient id="grad-python-1" x1="12.959%" x2="79.639%" y1="12.039%" y2="78.201%"><stop offset="0%" stop-color="#387eb8"/><stop offset="100%" stop-color="#366994"/></linearGradient><linearGradient id="grad-python-2" x1="19.128%" x2="90.742%" y1="20.579%" y2="88.429%"><stop offset="0%" stop-color="#ffe052"/><stop offset="100%" stop-color="#ffc331"/></linearGradient></defs><path fill="url(#grad-python-1)" d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072M92.802 19.66a11.12 11.12 0 0 1 11.13 11.13a11.12 11.12 0 0 1-11.13 11.13a11.12 11.12 0 0 1-11.13-11.13a11.12 11.12 0 0 1 11.13-11.13"/><path fill="url(#grad-python-2)" d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.712c0-65.416-36.21-63.096-36.21-63.096h-21.61v30.355s1.165 36.21-35.632 36.21h-61.362s-34.475-.557-34.475 33.32v56.013s-5.235 33.897 62.518 33.897m34.114-19.586a11.12 11.12 0 0 1-11.13-11.13a11.12 11.12 0 0 1 11.13-11.131a11.12 11.12 0 0 1 11.13 11.13a11.12 11.12 0 0 1-11.13 11.13"/></g>
+    </g>
+    <g transform="translate(590 122)">
+        <rect width="160" height="160" rx="36" fill="#00131D" fill-opacity="0.55"/>
+        <rect width="160" height="160" rx="36" fill="url(#cristal)"
+              stroke="#53C69A" stroke-opacity="0.5" stroke-width="1.5" filter="url(#sombra-django)"/>
+        <path d="M50 0h60" stroke="#53C69A" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(38.0 38.0) scale(0.3281)"><rect width="256" height="256" fill="#44B78B" rx="28"/><path fill="#fffffd" d="M186.377 94.198v66.226c0 22.82-1.67 33.764-6.678 43.225c-4.639 9.092-10.761 14.842-23.375 21.15l-26.53-12.615c12.616-5.936 18.738-11.13 22.633-19.11c4.082-8.161 5.382-17.623 5.382-42.481V94.198zm-45.449-44.12v132.239c-14.655 2.782-25.415 3.895-37.102 3.895c-34.877 0-53.057-15.767-53.057-46.007c0-29.126 19.294-48.047 49.16-48.047c4.638 0 8.163.37 12.43 1.483V50.08zm-38.215 65.082c-14.47 0-22.819 8.905-22.819 24.487c0 15.214 7.978 23.561 22.634 23.561c3.152 0 5.75-.185 9.831-.74v-45.825c-3.339-1.112-6.121-1.483-9.646-1.483m83.664-64.93v29.312h-28.568V50.231z"/></g>
+    </g>
+    </g>
+
+    <!-- 7. Codigo del plan formativo -->
+    <g aria-hidden="true">
+        <line x1="390" y1="322" x2="435" y2="322" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"
+              stroke-linecap="round"/>
+        <text x="500" y="329" text-anchor="middle" font-size="22" font-weight="700"
+              letter-spacing="6" fill="#B9E2FF" fill-opacity="0.9">PF1164</text>
+        <line x1="565" y1="322" x2="610" y2="322" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"
+              stroke-linecap="round"/>
+    </g>
+
+    <!-- 8. Particulas de fondo -->
+    <g aria-hidden="true">
+        <circle cx="180" cy="104" r="1.5" fill="#5DC9FF" fill-opacity="0.6"/>
+        <circle cx="828" cy="118" r="2" fill="#00B0E8" fill-opacity="0.7"/>
+        <circle cx="140" cy="252" r="1" fill="#B9E2FF" fill-opacity="0.35"/>
+        <circle cx="864" cy="236" r="1.5" fill="#5DC9FF" fill-opacity="0.5"/>
     </g>
 </svg>
