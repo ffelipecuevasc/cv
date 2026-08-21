@@ -16,17 +16,3 @@ export const recursosUI = {
         "Avanzado": "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50"
     }
 };
-
-// Textos e iconos de los estados de la vista
-export const recursosTextos = {
-    vacio: {
-        icono: "search_off",
-        mensaje: "No se encontraron recursos con esos parámetros."
-    }
-};
-
-// Ritmo de la animación de entrada de las tarjetas
-export const recursosAnimacion = {
-    retardoPorTarjeta: 100,
-    tarjetasPorCiclo: 6
-};
