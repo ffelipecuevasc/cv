@@ -14,7 +14,7 @@ export const recursosData = [
         formato: "pdf",
         dificultad: "Básico",
         tecnologia: "LinkedIn",
-        url: "static/recursos/empleabilidad/MANUAL - Optimizar Perfil LinkedIn.pdf"
+        url: "static/recursos/empleabilidad/manual-optimizar-perfil-linkedin.pdf"
     },
     {
         id: 2,
@@ -25,7 +25,7 @@ export const recursosData = [
         formato: "pdf",
         dificultad: "Intermedio",
         tecnologia: "Python",
-        url: "static/recursos/python/ACTIVIDAD - Hackatón de Estudio.pdf"
+        url: "static/recursos/python/actividad-hackaton-de-estudio.pdf"
     },
     {
         id: 3,
@@ -36,7 +36,7 @@ export const recursosData = [
         formato: "pdf",
         dificultad: "Intermedio",
         tecnologia: "CV Web & GitHub",
-        url: "static/recursos/empleabilidad/TALLER - CV Online.pdf"
+        url: "static/recursos/empleabilidad/taller-cv-online.pdf"
     },
     {
         id: 4,
@@ -47,7 +47,7 @@ export const recursosData = [
         formato: "pdf",
         dificultad: "Intermedio",
         tecnologia: "Django & MySQL",
-        url: "static/recursos/python/TALLER - Despliegue Plataforma AlwaysData.pdf"
+        url: "static/recursos/python/taller-despliegue-plataforma-alwaysdata.pdf"
     },
     {
         id: 5,
@@ -58,7 +58,7 @@ export const recursosData = [
         formato: "pdf",
         dificultad: "Avanzado",
         tecnologia: "Google Cloud",
-        url: "static/recursos/python/TALLER - Despliegue Plataforma Google Cloud.pdf"
+        url: "static/recursos/python/taller-despliegue-plataforma-google-cloud.pdf"
     },
     {
         id: 6,
