@@ -628,3 +628,64 @@ h1 > [data-perfil-titulo].invisible {
         opacity: 1;
     }
 }
+
+/* =========================================
+   19. Fase 5-C — Ergonomía táctil en móvil
+   =========================================
+   Único propósito: llevar las zonas táctiles del armazón compartido —menú
+   móvil, botón de menú y pie— al mínimo recomendado de 44 px. No introduce
+   ningún color, tipografía ni efecto: solo dimensiona áreas activas.
+
+   Vive aquí y no en utilidades del marcado porque la cabecera y el pie están
+   duplicados en las doce páginas, con diez variantes de cabecera. Un bloque
+   con ámbito de identificador las cubre todas sin multiplicar la deuda.
+
+   Todo queda confinado por debajo del punto de ruptura md: en escritorio
+   estas reglas no existen. */
+
+@media (max-width: 767px) {
+
+    /* --- S-01. Enlaces del menú desplegable ---------------------------------
+       Los principales a 44 px; los anidados de la sección Experiencia a 40 px,
+       para conservar su jerarquía visual frente a los de primer nivel.
+       El flex vertical centra el texto sin alterar su posición de línea. */
+    #mobile-menu a.mobile-nav-link {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    #mobile-menu .pl-4 > a {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+    }
+
+    /* --- S-02. Botón de menú -------------------------------------------------
+       Medía 30x42. El inline-flex conserva el icono centrado al ensanchar. */
+    #mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* --- S-03. Iconos sociales del pie ---------------------------------------
+       El <svg> sigue midiendo 24 px: lo que crece es el área activa del enlace,
+       no el dibujo. */
+    #app-footer a[aria-label] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* --- S-04. Enlaces de texto del pie -------------------------------------- */
+    #app-footer nav.flex-col > a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+}
