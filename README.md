@@ -47,7 +47,7 @@ El sitio está construido como una aplicación **100% estática**, sin backend n
 
 ## Puesta en marcha local
 
-Requisitos: Node.js 18 o superior.
+Requisitos: Node.js 24.16.0 o superior.
 
 ```bash
 # Clonar el repositorio
@@ -72,6 +72,14 @@ El sitio se despliega automáticamente en **Cloudflare Pages** ante cada `push` 
 
 Cualquier otra rama genera además su propia URL de vista previa, sin afectar el sitio en producción.
 
+El formulario de contacto corre sobre una función de borde (`functions/api/contacto.js`) y necesita estas variables de entorno, definidas tanto en **Production** como en **Preview**:
+
+| Variable | Descripción |
+|---|---|
+| `RESEND_API_KEY` | Clave de Resend con permiso de solo envío. |
+| `TURNSTILE_SECRET_KEY` | Clave privada del widget de Turnstile. |
+| `CONTACTO_DESTINO` | Dirección que recibe los mensajes: `contacto@felipecuevas.dev`, reenviada por Cloudflare Email Routing. |
+
 ## 🗺️ Hoja de ruta
 
 El proyecto está en un proceso activo de refactorización incremental: migración a HTML5 semántico completo, modularización de JavaScript, y rediseño de cinco secciones clave (hero, certificaciones, stack tecnológico, bóveda de recursos y una nueva sección de comunidad). El trabajo avanza módulo por módulo, verificando cada bloque en producción antes de continuar con el siguiente.
@@ -82,6 +90,7 @@ El proyecto está en un proceso activo de refactorización incremental: migraci�
 Ingeniero Informático · Docente Universitario · Instructor Certificado REUF (SENCE)
 
 - Sitio web: [felipecuevas.dev](https://felipecuevas.dev)
+- Correo: [contacto@felipecuevas.dev](mailto:contacto@felipecuevas.dev)
 - LinkedIn: [ffelipecuevasc](https://www.linkedin.com/in/ffelipecuevasc/)
 - GitHub: [@ffelipecuevasc](https://github.com/ffelipecuevasc)
 

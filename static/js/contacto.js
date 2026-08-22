@@ -9,6 +9,7 @@
 // =========================================
 
 const DESTINO = '/api/contacto';
+const CORREO_ALTERNATIVO = 'contacto@felipecuevas.dev';
 const REDIRECCION = '/agradecimiento';
 
 export function iniciarContacto() {
@@ -22,7 +23,7 @@ export function iniciarContacto() {
     // Sin ella, un error del widget queda mudo.
     window.contactoTurnstileError = (codigo) => {
         console.error('Turnstile:', codigo);
-        mostrar(`La verificación de seguridad no está disponible (código ${codigo}). Escríbeme por LinkedIn mientras tanto.`, true);
+        mostrar(`La verificación de seguridad no está disponible (código ${codigo}). Escríbeme a ${CORREO_ALTERNATIVO} mientras tanto.`, true);
         return true;
     };
 
@@ -79,7 +80,7 @@ export function iniciarContacto() {
 
             mostrar(resultado.error ?? 'No se pudo enviar el mensaje.', true);
         } catch {
-            mostrar('No se pudo conectar. Revisa tu conexión e intenta de nuevo.', true);
+            mostrar(`No se pudo conectar. Revisa tu conexión e intenta de nuevo, o escríbeme a ${CORREO_ALTERNATIVO}.`, true);
         }
 
         // Un token de Turnstile se consume en un solo intento: hay que pedir uno
