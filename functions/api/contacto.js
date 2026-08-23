@@ -1,15 +1,20 @@
 // =========================================
 // FUNCIÓN DE BORDE — Formulario de contacto
-// Sustituye a FormSubmit. Valida los campos, verifica que quien envía es una
-// persona mediante Turnstile, y entrega el mensaje por Resend.
+// Valida los campos, verifica que quien envía es una persona mediante Turnstile,
+// y entrega el mensaje por Cloudflare Email Service (REST API).
 //
 // Variables de entorno requeridas por Cloudflare, en Production y en Preview:
-//   RESEND_API_KEY        clave de Resend, con permiso de solo envío
+//   CF_ACCOUNT_ID         identificador de la cuenta de Cloudflare
+//   CF_EMAIL_TOKEN        token de API con permiso de envío de correo (cifrado)
 //   TURNSTILE_SECRET_KEY  clave privada del widget de Turnstile
-//   CONTACTO_DESTINO      dirección que recibe los mensajes
+//   CONTACTO_DESTINO      dirección que recibe los mensajes; debe estar verificada
+//                         en Email Routing > Destination Addresses
+//
+// El remitente debe pertenecer a un dominio incorporado a Email Routing. Los envíos
+// hacia direcciones de destino verificadas no consumen cuota ni límite diario.
 // =========================================
 
-const REMITENTE = 'Formulario felipecuevas.dev <formulario@envios.felipecuevas.dev>';
+const REMITENTE = 'formulario@felipecuevas.dev';
 const LARGO_MAXIMO_CORTO = 120;
 const LARGO_MAXIMO_MENSAJE = 3000;
 
@@ -51,6 +56,33 @@ async function esHumano(token, ip, secreto) {
     return resultado.success === true;
 }
 
+/** Entrega el mensaje a través de Cloudflare Email Service. */
+async function entregar({nombre, correo, asunto, mensaje}, env) {
+    const url = `https://api.cloudflare.com/client/v4/accounts/${env.CF_ACCOUNT_ID}/email/sending/send`;
+
+    const respuesta = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${env.CF_EMAIL_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            from: REMITENTE,
+            to: env.CONTACTO_DESTINO,
+            replyTo: correo,
+            subject: `[Contacto] ${asunto} — ${nombre}`,
+            text: `Nombre: ${nombre}\nCorreo: ${correo}\nAsunto: ${asunto}\n\n${mensaje}`
+        })
+    });
+
+    // La API responde 200 con success:false ante errores de validación, así que
+    // no basta con mirar el código HTTP.
+    if (!respuesta.ok) return false;
+
+    const resultado = await respuesta.json().catch(() => null);
+    return resultado?.success === true;
+}
+
 export async function onRequestPost({request, env}) {
     let campos;
     try {
@@ -70,23 +102,8 @@ export async function onRequestPost({request, env}) {
         return json({ok: false, error: 'No pudimos verificar que el envío proviene de una persona.'}, 403);
     }
 
-    const {nombre, correo, asunto, mensaje} = campos;
-    const envio = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            from: REMITENTE,
-            to: env.CONTACTO_DESTINO,
-            reply_to: correo,
-            subject: `[Contacto] ${asunto} — ${nombre}`,
-            text: `Nombre: ${nombre}\nCorreo: ${correo}\nAsunto: ${asunto}\n\n${mensaje}`
-        })
-    });
-
-    if (!envio.ok) {
+    const entregado = await entregar(campos, env);
+    if (!entregado) {
         return json({ok: false, error: 'No se pudo entregar el mensaje. Intenta más tarde.'}, 502);
     }
 
