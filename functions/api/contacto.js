@@ -69,7 +69,7 @@ async function entregar({nombre, correo, asunto, mensaje}, env) {
         body: JSON.stringify({
             from: REMITENTE,
             to: env.CONTACTO_DESTINO,
-            replyTo: correo,
+            reply_to: correo,
             subject: `[Contacto] ${asunto} — ${nombre}`,
             text: `Nombre: ${nombre}\nCorreo: ${correo}\nAsunto: ${asunto}\n\n${mensaje}`
         })
