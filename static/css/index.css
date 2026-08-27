@@ -289,7 +289,7 @@ html:not(.dark) .pf-destacado-dorado {
 
 /* Garantía de legibilidad: el contenido animado parte invisible por diseño
    ([data-aos^=fade] tiene opacity:0). Si la librería de animación no llega a
-   inicializarse, esta clase lo revela. La aplica el guardián del <head>
+   inicializarse, esta clase lo revela todo. La aplica el guardián del <head>
    o el servicio de animación. La animación es un adorno, nunca una condición. */
 .animaciones-desactivadas [data-aos] {
     opacity: 1 !important;
@@ -393,33 +393,39 @@ html:not(.dark) .pf-destacado-dorado {
     }
 }
 
-/* Superficie dorada del plan formativo destacado — 1 uso, instructor.html.
+/* Superficie del plan formativo destacado — 1 uso, instructor.html.
 
-   No entra en @layer components a propósito: necesita apilar un color de fondo
-   y un degradado sobre el mismo elemento, algo que @apply no puede expresar.
-   Al quedar fuera de la capa se emite después de las utilidades, así que gana
-   sobre el `bg-white` que hereda de .tarjeta-contenido sin recurrir a
-   !important.
+   No entra en @layer components a propósito: necesita un degradado, algo que
+   @apply no puede expresar. Al quedar fuera de la capa se emite después de las
+   utilidades, así que cubre el `bg-white` que hereda de .tarjeta-contenido sin
+   recurrir a !important.
 
-   MODO CLARO: el mismo dorado al 15 % que ya tenía la mini-tarjeta "2026
-   Vigente", ahora extendido a toda la superficie.
+   La tarjeta invierte el material del resto de la rejilla: donde las demás son
+   blancas, esta es un bloque azul profundo. Esa inversión es la que la destaca;
+   el dorado solo actúa como acento y por eso los colores de texto y relleno son
+   idénticos en ambos temas. Entre modos únicamente cambian la profundidad del
+   degradado y el borde.
 
-   MODO OSCURO: no sirve el mismo valor. Un dorado translúcido sobre la base
-   cian de .glass-mid vira a verde apagado, porque el azul del fondo neutraliza
-   el amarillo. Por eso la base se sustituye por un ámbar oscuro casi opaco y
-   el degradado solo aporta el brillo: el panel resuelve alrededor de #322A10,
-   cálido y nítido frente al cian del resto de la página. */
+   El degradado usa la rampa orient: 600 -> 800 en claro y 800 -> 900 en oscuro,
+   un paso más hondo para no competir con el fondo de la página. */
 
-.tarjeta-destacada-oro {
-    @apply bg-accent-gold/15 border-accent-gold/50;
+.tarjeta-destacada {
+    @apply border-accent-gold/40;
+    background-image: linear-gradient(135deg, theme('colors.orient.600'),
+    theme('colors.orient.800'));
 }
 
-.dark .tarjeta-destacada-oro {
+.dark .tarjeta-destacada {
     @apply backdrop-blur-md ring-1 ring-accent-gold/30 shadow-lg shadow-black/40 border-transparent;
-    background-color: rgba(38, 30, 8, 0.92);
-    background-image: linear-gradient(rgba(var(--color-gold-rgb), 0.10),
-    rgba(var(--color-gold-rgb), 0.03));
+    background-image: linear-gradient(135deg, theme('colors.orient.800'),
+    theme('colors.orient.900'));
 }
+
+/* El spotlight de la sección 17 se alimenta de --color-primary-rgb, que sobre
+   esta superficie sería invisible. La clase .pf-destacado-dorado ya reescribe
+   esa variable al dorado, de modo que el foco que sigue al cursor y la
+   refracción del borde se encienden en ámbar sobre el azul. No hay que tocar
+   la sección 17: solo lee otro valor. */
 
 /* =========================================
    16. Fase 5.3 — Muro de tecnologías
@@ -704,7 +710,9 @@ h1 > [data-perfil-titulo].invisible {
    Vive aquí y no en utilidades del marcado porque la cabecera y el pie están
    duplicados en las doce páginas, con diez variantes de cabecera. Un bloque
    con ámbito de identificador las cubre todas sin multiplicar la deuda.
-*/
+
+   Todo queda confinado por debajo del punto de ruptura md: en escritorio
+   estas reglas no existen. */
 
 @media (max-width: 767px) {
 
