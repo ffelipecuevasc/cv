@@ -349,11 +349,11 @@
                         <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-primary-vibrant/40 to-transparent mb-6"></div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <article aria-labelledby="pf1822-titulo"
-                                     class="group tarjeta-contenido tarjeta-reactiva pf-destacado-dorado tarjeta-destacada relative overflow-hidden p-6 md:p-8 md:col-span-2 lg:col-span-4 neon-glow-gold-interactive"
+                                     class="group tarjeta-contenido tarjeta-reactiva pf-destacado-dorado tarjeta-destacada-oro relative overflow-hidden p-6 md:p-8 md:col-span-2 lg:col-span-4 neon-glow-gold-interactive"
                                      data-aos="fade-up" data-aos-delay="0">
 
-                                <!-- Filo superior. Barra dorada plena: sobre el azul profundo es el
-                                     primer punto de contacto del acento y ancla la lectura. -->
+                                <!-- Filo superior. Barra dorada plena: es el origen del degradado
+                                     que baja por la superficie, así que necesita borde nítido. -->
                                 <span aria-hidden="true"
                                       class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-accent-gold"></span>
 
@@ -361,39 +361,41 @@
 
                                     <!-- Columna de contenido. Cabecera, título y párrafo comparten
                                          un único borde izquierdo, alineado con el separador y las
-                                         píldoras del pie. El icono ya no abre columna propia. -->
+                                         píldoras del pie. El icono no abre columna propia. -->
                                     <div class="flex-1 min-w-0">
 
                                         <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                                            <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-full bg-accent-gold px-3 py-1 text-orient-950 neon-glow-gold">
+                                            <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-white dark:bg-primary-vibrant dark:text-orient-950 neon-glow-sm">
                                                 <svg aria-hidden="true" class="h-4 w-4">
                                                     <use href="#ico-workspace-premium"></use>
                                                 </svg>
                                                 Recién aprobado
                                             </span>
-                                            <span class="etiqueta-categoria text-orient-100 cursor-default">
+                                            <span class="etiqueta-categoria text-accent-gold-deep dark:text-accent-gold cursor-default">
                                                 Plan Formativo 1822
                                             </span>
                                         </div>
 
                                         <!-- Icono y título en la misma hilera. El cuadro mide 44 px
                                              para no competir con el titular: es un acento, no un
-                                             protagonista. -->
+                                             protagonista. El blanco al 85 % lo despega del
+                                             degradado dorado, que en esta franja está en su punto
+                                             más intenso. -->
                                         <div class="mt-4 flex items-center gap-3 md:gap-4">
                                             <span aria-hidden="true"
-                                                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10 text-accent-gold group-hover:scale-110 transition-transform duration-300">
+                                                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/85 text-primary dark:bg-white/10 dark:text-primary-vibrant group-hover:scale-110 transition-transform duration-300">
                                                 <svg class="h-6 w-6">
                                                     <use href="#ico-laptop-chromebook"></use>
                                                 </svg>
                                             </span>
-                                            <h3 class="text-2xl md:text-3xl font-black leading-tight text-white group-hover:text-accent-gold transition-colors duration-300 cursor-default"
+                                            <h3 class="text-2xl md:text-3xl font-black leading-tight text-orient-950 dark:text-orient-50 group-hover:text-primary dark:group-hover:text-primary-vibrant transition-colors duration-300 cursor-default"
                                                 id="pf1822-titulo">
                                                 Especialización en Desarrollo con
-                                                <span class="text-accent-gold">IA</span>
+                                                <span class="text-primary dark:text-primary-vibrant">IA</span>
                                             </h3>
                                         </div>
 
-                                        <p class="mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-orient-100 cursor-default">
+                                        <p class="mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-orient-700 dark:text-orient-100 cursor-default">
                                             Nuevo plan formativo aprobado por <strong>SENCE</strong> en agosto de
                                             2026
                                             para llevar la
@@ -405,26 +407,26 @@
                                         </p>
                                     </div>
 
-                                    <!-- Métricas. Sobre el azul profundo, las tres primeras usan blanco
-                                         translúcido y "2026" conserva el dorado pleno: es la única
-                                         superficie saturada de toda la tarjeta. -->
+                                    <!-- Métricas. Las tres primeras conservan el azul tenue del
+                                         sistema; "2026" toma el dorado pleno con texto oscuro y
+                                         queda como único color saturado de la tarjeta. -->
                                     <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0 lg:w-64">
-                                        <div class="rounded-lg bg-white/10 px-4 py-3">
-                                            <p class="text-2xl font-black leading-none text-white">
+                                        <div class="rounded-lg bg-primary/5 dark:bg-white/5 px-4 py-3">
+                                            <p class="text-2xl font-black leading-none text-primary dark:text-primary-vibrant">
                                                 190</p>
-                                            <p class="etiqueta-categoria mt-1.5 text-orient-100">
+                                            <p class="etiqueta-categoria mt-1.5 text-orient-700 dark:text-orient-100">
                                                 Horas</p>
                                         </div>
-                                        <div class="rounded-lg bg-white/10 px-4 py-3">
-                                            <p class="text-2xl font-black leading-none text-white">
+                                        <div class="rounded-lg bg-primary/5 dark:bg-white/5 px-4 py-3">
+                                            <p class="text-2xl font-black leading-none text-primary dark:text-primary-vibrant">
                                                 9</p>
-                                            <p class="etiqueta-categoria mt-1.5 text-orient-100">
+                                            <p class="etiqueta-categoria mt-1.5 text-orient-700 dark:text-orient-100">
                                                 Módulos</p>
                                         </div>
-                                        <div class="rounded-lg bg-white/10 px-4 py-3">
-                                            <p class="text-2xl font-black leading-none text-white">
+                                        <div class="rounded-lg bg-primary/5 dark:bg-white/5 px-4 py-3">
+                                            <p class="text-2xl font-black leading-none text-primary dark:text-primary-vibrant">
                                                 N4</p>
-                                            <p class="etiqueta-categoria mt-1.5 text-orient-100">
+                                            <p class="etiqueta-categoria mt-1.5 text-orient-700 dark:text-orient-100">
                                                 Cualificación</p>
                                         </div>
                                         <div class="rounded-lg bg-accent-gold px-4 py-3">
@@ -436,56 +438,56 @@
                                     </div>
                                 </div>
 
-                                <ul class="mt-6 pt-5 flex flex-wrap gap-2 border-t border-accent-gold/35">
+                                <ul class="mt-6 pt-5 flex flex-wrap gap-2 border-t border-orient-100 dark:border-white/10">
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-api"></use>
                                             </svg>
                                             Consumo de APIs
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-account-tree"></use>
                                             </svg>
                                             Agentes y orquestación
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-database-search"></use>
                                             </svg>
                                             RAG y vector stores
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-tune"></use>
                                             </svg>
                                             Fine-tuning y LoRA
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-monitoring"></use>
                                             </svg>
                                             MLOps y gobernanza
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-orient-50 cursor-default">
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-100 cursor-default">
                                             <svg aria-hidden="true"
-                                                 class="h-4 w-4 text-accent-gold">
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
                                                 <use href="#ico-cast-for-education"></use>
                                             </svg>
                                             Modalidad e-learning
