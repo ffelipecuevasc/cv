@@ -13,6 +13,7 @@
     --color-primary-rgb: 0, 126, 167;
     --color-primary-vibrant-rgb: 0, 176, 232;
     --color-gold: #f8cd46;
+    --color-gold-rgb: 248, 205, 70;
     --transition-speed: 0.3s;
 }
 
@@ -228,6 +229,38 @@ body.dark::before {
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
 
     border-color: rgba(var(--color-primary-vibrant-rgb), 0.5) !important;
+}
+
+/* Brillo puntual dorado — insignias y sellos del plan destacado. */
+.dark .neon-glow-gold {
+    box-shadow: 0 0 15px rgba(var(--color-gold-rgb), 0.25) !important;
+}
+
+/* Sistema interactivo dorado para la fila destacada del listado SENCE. */
+.dark .neon-glow-gold-interactive {
+    transition-property: all !important;
+    transition-duration: 400ms !important;
+    transition-timing-function: ease-out !important;
+    will-change: box-shadow, border-color;
+}
+
+.dark .neon-glow-gold-interactive:hover {
+    --tw-shadow: 0 0 30px rgba(var(--color-gold-rgb), 0.18);
+    --tw-shadow-colored: 0 0 30px rgba(var(--color-gold-rgb), 0.18);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-color: rgba(var(--color-gold-rgb), 0.55) !important;
+}
+
+/* 3) Opcional — tinte dorado del spotlight en MODO CLARO.
+
+   .tarjeta-reactiva alimenta sus dos capas de luz con --color-primary-rgb. Si
+   quieres que la fila destacada también refracte en dorado al pasar el cursor,
+   basta con reescribir la variable en el propio elemento: el CSS de la sección
+   17 no cambia, solo lee otro valor. Aplicar añadiendo la clase
+   .pf-destacado-dorado al contenedor. */
+
+html:not(.dark) .pf-destacado-dorado {
+    --color-primary-rgb: var(--color-gold-rgb);
 }
 
 /* =========================================

@@ -24,6 +24,7 @@ module.exports = {
         "primary": "#007EA7",
         "primary-vibrant": "#00B0E8",
         "accent-gold": "#f8cd46",
+        "accent-gold-deep": "#7a5c00",
         "background-light": "#ffffff",
         "background-dark": "#00131D",
         "badge-light": "#ecf0ff",
