@@ -167,6 +167,114 @@
         </div>
     </header>
     <main id="main-content" tabindex="-1" class="focus:outline-none layout-container flex h-full grow flex-col">
+        <!-- ============================================================
+     PF1822 — Colección de símbolos Material Symbols Light
+     Fuente: @iconify-json/material-symbols-light v1.2.89 (Apache 2.0)
+     Los trazos van tal cual vienen del paquete: solo cambia dónde
+     residen y cómo se invocan, igual que la colección #tec-* de
+     desarrollador.html.
+
+     Ubicación: instructor.html, como primer hijo de <main>.
+     Uso:  <svg aria-hidden="true" class="h-7 w-7"><use href="#ico-NOMBRE"></use></svg>
+     ============================================================ -->
+        <svg aria-hidden="true" class="hidden" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Panel dossier — icono principal (deja solo el que elijas) -->
+                <symbol id="ico-laptop-chromebook" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M1 18.308v-1h2V4.538h18v12.77h2v1zm9-1h4v-.77h-4z"/>
+                </symbol>
+                <symbol id="ico-laptop-mac" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M2.27 19.27q-.518 0-.894-.377T1 18h3.616q-.691 0-1.153-.462T3 16.384V5.616q0-.691.463-1.153T4.615 4h14.77q.69 0 1.152.463T21 5.616v10.769q0 .69-.463 1.153T19.385 18H23q0 .517-.376.893t-.893.376zm10.164-.683q.182-.181.182-.433t-.182-.434t-.434-.18t-.434.181t-.182.434q0 .252.182.433t.434.182t.434-.181"/>
+                </symbol>
+                <symbol id="ico-laptop-windows" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M1 18.77v-1h3.616V17q-.691 0-1.153-.462T3 15.385v-8.77q0-.69.463-1.152T4.615 5h14.77q.69 0 1.152.463T21 6.615v8.77q0 .69-.463 1.153T19.385 17v.77H23v1z"/>
+                </symbol>
+                <symbol id="ico-computer" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M4.616 17.462q-.691 0-1.153-.463T3 15.846V6.077q0-.69.463-1.153t1.152-.462h14.77q.69 0 1.152.462T21 6.077v9.77q0 .69-.463 1.152t-1.153.463zm-2.847 2v-1h20.462v1z"/>
+                </symbol>
+
+                <!-- Panel dossier — insignia y micro-iconos de los chips -->
+                <symbol id="ico-workspace-premium" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m9.925 13.277l.779-2.58l-2.05-1.505h2.562L12 6.585l.785 2.607h2.561l-2.056 1.504l.78 2.581L12 11.675zM7 21.462v-6.59q-.95-.935-1.475-2.19Q5 11.43 5 10q0-2.927 2.036-4.963T12 3t4.964 2.036T19 10q0 1.429-.525 2.683T17 14.87v6.59l-5-1.5zm9.25-7.212Q18 12.5 18 10t-1.75-4.25T12 4T7.75 5.75T6 10t1.75 4.25T12 16t4.25-1.75"/>
+                </symbol>
+                <symbol id="ico-api" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m12 14l-2-2l2-2l2 2zM9.875 8.471L8.183 6.78L12 2.962l3.817 3.817l-1.692 1.692L12 6.346zm-3.096 7.346L2.962 12l3.817-3.817L8.47 9.875L6.346 12l2.125 2.125zm10.442 0l-1.692-1.692L17.654 12l-2.125-2.125l1.692-1.692L21.038 12zM12 21.038l-3.817-3.817l1.692-1.692L12 17.654l2.125-2.125l1.692 1.692z"/>
+                </symbol>
+                <symbol id="ico-account-tree" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15.5 20.5v-3h-4v-10h-3v3h-6v-7h6v3h7v-3h6v7h-6v-3h-3v9h3v-3h6v7z"/>
+                </symbol>
+                <symbol id="ico-database-search" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M11.896 20q-1.204-.006-2.447-.199t-2.333-.572t-1.91-.94Q4.384 17.73 4 17v-2.942q.346.63 1.04 1.145q.693.514 1.604.89t1.988.606t2.2.316q.053.84.325 1.59q.272.749.74 1.395m-1.006-4.529q-1.126-.087-2.219-.316q-1.093-.23-2.006-.6t-1.616-.887T4 12.52V9.558q.385.7 1.172 1.246q.788.546 1.825.928t2.256.586t2.459.228h.413q.202 0 .414-.019q-.628.57-1.055 1.316q-.428.748-.594 1.628M12 11q-3.34 0-5.68-1.021T3.98 7.5t2.34-2.479T12 4q3.346 0 5.673 1.021T20 7.5t-2.327 2.479T12 11m9.292 11l-2.661-2.642q-.454.286-.977.464T16.577 20q-1.413 0-2.418-1.005t-1.005-2.418t1.005-2.418t2.418-1.005t2.418 1.005T20 16.577q0 .554-.159 1.087q-.158.532-.503.967L22 21.292zm-2.998-3.706q.706-.706.706-1.717t-.706-1.718q-.706-.705-1.717-.705t-1.718.706q-.705.706-.705 1.717t.705 1.717t1.718.706t1.717-.706"/>
+                </symbol>
+                <symbol id="ico-tune" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M11.5 20.5v-5h1v2h8v1h-8v2zm-8-2v-1h5v1zm4-4v-2h-4v-1h4v-2h1v5zm4-2v-1h9v1zm4-4v-5h1v2h4v1h-4v2zm-12-2v-1h9v1z"/>
+                </symbol>
+                <symbol id="ico-monitoring" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m3 20.5l-.173-.635L4.5 18.213V20.5zm4.5 0v-5.288l1-1V20.5zm4 0v-6.288l1 1.025V20.5zm4 0v-5.263l1-1V20.5zm4 0v-9.288l1-1V20.5zm-16-5.886V13.21l6.5-6.5l4 4l6.5-6.5v1.403l-6.5 6.5l-4-4z"/>
+                </symbol>
+                <symbol id="ico-cast-for-education" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m15.77 10.562l3.538-2.031L15.769 6.5l-3.538 2.03zm0 2.857l2.596-1.484V10.18l-2.597 1.523l-2.596-1.523v1.754zM3 19v-1.923q.789 0 1.356.567T4.923 19zm4.308 0q0-1.767-1.261-3.018T3 14.692v-1q2.214 0 3.76 1.545Q8.309 16.782 8.309 19zm3.769 0q0-1.679-.636-3.145q-.635-1.467-1.732-2.564T6.145 11.56T3 10.923v-1q1.89 0 3.538.71T9.42 12.58t1.946 2.883t.71 3.538zm3.385 0q0-2.38-.904-4.463T11.1 10.9T7.464 8.442Q5.38 7.54 3 7.54v-.923q0-.667.475-1.141T4.615 5h14.77q.666 0 1.14.475T21 6.615v10.77q0 .666-.475 1.14t-1.14.475z"/>
+                </symbol>
+
+                <!-- Principales Cursos — las 7 tarjetas estándar -->
+                <symbol id="ico-terminal" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zm0-1h14.769q.23 0 .423-.192t.192-.424V8H4v9.385q0 .23.192.423t.423.192M7.5 16.288l-.689-.688L9.388 13l-2.6-2.6l.713-.688L10.789 13zm5 .212v-1h5v1z"/>
+                </symbol>
+                <symbol id="ico-robot-2" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M5 20v-4.043q0-.667.475-1.139q.474-.472 1.14-.472h10.77q.666 0 1.14.475T19 15.96V20zm4.289-7.423q-1.78 0-3.035-1.255Q5 10.068 5 8.29t1.254-3.035T9.29 4h5.423q1.78 0 3.034 1.254T19 8.29t-1.254 3.034t-3.034 1.254zm.52-3.768q.21-.21.21-.52t-.21-.52t-.52-.211t-.52.21t-.211.52t.21.52t.52.211t.52-.21m5.424 0q.21-.21.21-.52t-.21-.52t-.52-.211t-.52.21t-.211.52t.21.52t.52.211t.52-.21"/>
+                </symbol>
+                <symbol id="ico-code-blocks" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m9.6 14.908l.708-.714L8.114 12l2.174-2.175l-.707-.713L6.692 12zm4.8 0L17.308 12L14.4 9.092l-.708.714L15.887 12l-2.195 2.194zM5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h12.769q.69 0 1.153.463T20 5.616v12.769q0 .69-.462 1.153T18.384 20z"/>
+                </symbol>
+                <symbol id="ico-terminal-2" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M12.5 19v-1h7v1zm-6.77-4l-.707-.688L9.329 10L5.023 5.689L5.731 5l5 5z"/>
+                </symbol>
+                <symbol id="ico-storage" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M3.73 19.577v-3.154h16.54v3.154zm1.54-.77h1.615v-1.615H5.268zM3.73 7.578V4.423h16.54v3.154zm1.54-.77h1.615V5.193H5.268zm-1.54 6.77v-3.154h16.54v3.154zm1.54-.77h1.615v-1.615H5.268z"/>
+                </symbol>
+                <symbol id="ico-query-stats" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M2.817 13.256L2 12.677L6.25 5.85l2.885 3.385l3.807-6.212l2.885 4.346L19.183 2l.778.598l-4.123 6.6l-2.86-4.321l-3.703 6.04l-2.89-3.39zM14.116 18q1.203 0 2.034-.831t.83-2.035t-.83-2.034t-2.035-.83t-2.034.83t-.831 2.035t.831 2.034t2.035.831m5.157 3l-2.815-2.815q-.487.388-1.08.602T14.115 19q-1.61 0-2.737-1.126q-1.128-1.127-1.128-2.736t1.127-2.739t2.735-1.13t2.739 1.128t1.13 2.737q0 .67-.214 1.273q-.213.602-.601 1.09l2.796 2.815z"/>
+                </symbol>
+                <symbol id="ico-cloud" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M6.5 19q-1.871 0-3.185-1.306Q2 16.39 2 14.517q0-1.719 1.175-3.051t2.921-1.431q.337-2.185 2.01-3.61T12 5q2.502 0 4.251 1.749T18 11v1h.616q1.436.046 2.41 1.055T22 15.5q0 1.471-1.014 2.486Q19.97 19 18.5 19z"/>
+                </symbol>
+
+                <!-- Encabezados de sección y listado SENCE -->
+                <symbol id="ico-menu-book" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M13.885 9.592v-.93q.806-.408 1.726-.612t1.889-.204q.554 0 1.064.071q.509.072 1.052.202v.908q-.524-.167-1.02-.232q-.498-.064-1.096-.064q-.97 0-1.892.218q-.924.218-1.724.643m0 5.462v-.97q.768-.407 1.717-.611t1.899-.204q.554 0 1.064.072q.509.07 1.052.201v.908q-.524-.167-1.02-.232q-.498-.064-1.096-.064q-.97 0-1.892.235q-.924.234-1.724.665m0-2.712v-.969q.806-.408 1.726-.611t1.89-.204q.554 0 1.063.07q.51.072 1.052.203v.908q-.523-.168-1.02-.232q-.497-.065-1.095-.065q-.97 0-1.892.238q-.924.237-1.724.662M12.5 17.32q1.216-.678 2.453-.98t2.547-.3q.9 0 1.618.111t1.267.296q.23.096.423-.029t.192-.394V7.008q0-.173-.096-.308q-.096-.134-.327-.23q-.825-.293-1.501-.4T17.5 5.961q-1.31 0-2.613.386q-1.304.387-2.387 1.16zm-.5 1.45q-1.22-.834-2.62-1.282T6.5 17.04q-.78 0-1.534.13q-.753.131-1.466.42q-.544.217-1.022-.131T2 16.496V6.831q0-.371.195-.689t.547-.442q.887-.383 1.836-.56T6.5 4.962q1.47 0 2.866.423q1.398.423 2.634 1.23q1.237-.807 2.634-1.23t2.866-.423q.973 0 1.922.178q.95.177 1.836.56q.352.125.547.442t.195.689v9.665q0 .614-.516.943q-.517.328-1.1.111q-.693-.27-1.418-.39q-.724-.121-1.466-.121q-1.48 0-2.88.448T12 18.769"/>
+                </symbol>
+                <symbol id="ico-military-tech" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M7.385 2.577h9.23v7.08q0 .537-.288.997t-.777.754l-3.358 2.023l.739 2.377h2.877l-2.37 1.661l.931 2.916L12 18.573l-2.37 1.812l.931-2.916l-2.369-1.661h2.877l.739-2.377l-3.397-1.985q-.488-.275-.757-.754q-.27-.479-.27-1.034zm4.115 1v8.512l.5.292l.5-.293v-8.51z"/>
+                </symbol>
+                <symbol id="ico-new-releases" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m9.023 21.23l-1.67-2.814l-3.176-.685l.312-3.277L2.346 12L4.49 9.546L4.177 6.27l3.177-.685L9.023 2.77L12 4.027l2.977-1.258l1.67 2.816l3.176.684l-.312 3.277L21.655 12l-2.142 2.454l.311 3.277l-3.177.684l-1.669 2.816L12 19.973zm1.927-6.372L15.908 9.9l-.708-.72l-4.25 4.25l-2.15-2.138l-.708.708z"/>
+                </symbol>
+                <symbol id="ico-task-alt" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51q.709-1.643 1.924-2.859T8.49 3.709T12 3q1.535 0 2.905.475T17.404 4.8l-.72.744q-.988-.734-2.174-1.14Q13.324 4 12 4Q8.675 4 6.337 6.338T4 12t2.338 5.663T12 20t5.663-2.337T20 12q0-.604-.089-1.184q-.088-.581-.265-1.13l.798-.817q.275.743.416 1.524q.14.78.14 1.607q0 1.868-.708 3.51t-1.924 2.858t-2.856 1.923t-3.509.709m-1.441-5.092L7.004 12.35l.708-.708l2.85 2.85l9.73-9.736l.708.707z"/>
+                </symbol>
+
+            </defs>
+        </svg>
         <div class="flex flex-1 justify-center">
             <div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
                 <div class="flex flex-wrap justify-between gap-3 px-6 md:px-10 py-10">
@@ -233,7 +341,9 @@
                     <div>
                         <h2 class="text-xl font-bold mb-6 dark:mb-0 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-transparent pb-4"
                             data-aos="fade-right">
-                            <span aria-hidden="true" class="material-symbols-outlined text-primary dark:text-orient-50">menu_book</span>
+                            <svg aria-hidden="true" class="h-6 w-6 text-primary dark:text-orient-50">
+                                <use href="#ico-menu-book"></use>
+                            </svg>
                             Principales Cursos
                         </h2>
                         <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-primary-vibrant/40 to-transparent mb-6"></div>
@@ -246,32 +356,45 @@
 
                                 <div class="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-10">
 
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
-                                            <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-white dark:bg-primary-vibrant dark:text-orient-950 neon-glow-sm">
-                                                <span aria-hidden="true" class="material-symbols-outlined text-sm">verified</span>
-                                                Recién aprobado
-                                            </span>
-                                            <span class="etiqueta-categoria text-orient-600 dark:text-orient-300 cursor-default">
-                                                Plan Formativo 1822
-                                            </span>
+                                    <div class="flex flex-1 min-w-0 gap-4 md:gap-5">
+
+                                        <span aria-hidden="true"
+                                              class="hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-primary-vibrant/10 dark:text-primary-vibrant group-hover:scale-110 transition-transform duration-300">
+                                            <svg class="h-8 w-8">
+                                                <use href="#ico-laptop-chromebook"></use>
+                                            </svg>
+                                        </span>
+
+                                        <div class="min-w-0">
+                                            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
+                                                <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-white dark:bg-primary-vibrant dark:text-orient-950 neon-glow-sm">
+                                                    <svg aria-hidden="true" class="h-4 w-4">
+                                                        <use href="#ico-workspace-premium"></use>
+                                                    </svg>
+                                                    Recién aprobado
+                                                </span>
+                                                <span class="etiqueta-categoria text-orient-600 dark:text-orient-300 cursor-default">
+                                                    Plan Formativo 1822
+                                                </span>
+                                            </div>
+
+                                            <h3 class="text-2xl md:text-3xl font-black leading-tight text-orient-950 dark:text-orient-50 group-hover:text-primary dark:group-hover:text-primary-vibrant transition-colors duration-300 cursor-default"
+                                                id="pf1822-titulo">
+                                                Especialización en Desarrollo con
+                                                <span class="text-primary dark:text-primary-vibrant">IA</span>
+                                            </h3>
+
+                                            <p class="mt-3 max-w-2xl text-sm md:text-base leading-relaxed text-orient-700 dark:text-orient-300 cursor-default">
+                                                Nuevo plan formativo aprobado por <strong>SENCE</strong> en agosto de
+                                                2026
+                                                para llevar la
+                                                <strong>IA generativa</strong> a producción: consumo de modelos por API,
+                                                orquestación de agentes,
+                                                recuperación aumentada con almacenamiento vectorial, personalización de
+                                                modelos y despliegue con
+                                                MLOps, seguridad y gobernanza.
+                                            </p>
                                         </div>
-
-                                        <h3 class="text-2xl md:text-3xl font-black leading-tight text-orient-950 dark:text-orient-50 group-hover:text-primary dark:group-hover:text-primary-vibrant transition-colors duration-300 cursor-default"
-                                            id="pf1822-titulo">
-                                            Especialización en Desarrollo con
-                                            <span class="text-primary dark:text-primary-vibrant">IA</span>
-                                        </h3>
-
-                                        <p class="mt-3 max-w-2xl text-sm md:text-base leading-relaxed text-orient-700 dark:text-orient-300 cursor-default">
-                                            Nuevo plan formativo aprobado por <strong>SENCE</strong> en agosto de 2026
-                                            para llevar la
-                                            <strong>IA generativa</strong> a producción: consumo de modelos por API,
-                                            orquestación de agentes,
-                                            recuperación aumentada con almacenamiento vectorial, personalización de
-                                            modelos y despliegue con
-                                            MLOps, seguridad y gobernanza.
-                                        </p>
                                     </div>
 
                                     <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0 lg:w-64">
@@ -304,22 +427,58 @@
 
                                 <ul class="mt-6 pt-5 flex flex-wrap gap-2 border-t border-orient-100 dark:border-white/10">
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">Consumo de APIs</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-api"></use>
+                                            </svg>
+                                            Consumo de APIs
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">Agentes y orquestación</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-account-tree"></use>
+                                            </svg>
+                                            Agentes y orquestación
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">RAG y vector stores</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-database-search"></use>
+                                            </svg>
+                                            RAG y vector stores
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">Fine-tuning y LoRA</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-tune"></use>
+                                            </svg>
+                                            Fine-tuning y LoRA
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">MLOps y gobernanza</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-monitoring"></use>
+                                            </svg>
+                                            MLOps y gobernanza
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="etiqueta-categoria inline-block rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">Modalidad e-learning</span>
+                                        <span class="etiqueta-categoria inline-flex items-center gap-1.5 rounded-md bg-primary/5 dark:bg-white/5 px-2.5 py-1 text-orient-700 dark:text-orient-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-4 w-4 text-primary dark:text-primary-vibrant">
+                                                <use href="#ico-cast-for-education"></use>
+                                            </svg>
+                                            Modalidad e-learning
+                                        </span>
                                     </li>
                                 </ul>
                             </article>
@@ -327,7 +486,11 @@
                                  data-aos="fade-up" data-aos-delay="100">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">terminal</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-terminal"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Full Stack Java</p>
                                 </div>
@@ -340,7 +503,11 @@
                                  data-aos="fade-up" data-aos-delay="200">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">terminal</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-terminal-2"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Full Stack Python</p>
                                 </div>
@@ -353,7 +520,11 @@
                                  data-aos="fade-up" data-aos-delay="300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">science</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-storage"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Ingeniería de Datos</p>
                                 </div>
@@ -366,7 +537,11 @@
                                  data-aos="fade-up" data-aos-delay="100">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">science</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-query-stats"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Ciencia de Datos</p>
                                 </div>
@@ -379,7 +554,11 @@
                                  data-aos="fade-up" data-aos-delay="200">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">cloud</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-cloud"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Tecnología de la Nube</p>
                                 </div>
@@ -394,7 +573,11 @@
                                  data-aos="fade-up" data-aos-delay="300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">robot_2</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-robot-2"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Inteligencia Artificial</p>
                                 </div>
@@ -407,7 +590,11 @@
                                  data-aos="fade-up" data-aos-delay="100">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span aria-hidden="true"
-                                          class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">terminal</span>
+                                          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 cursor-default">
+                                        <svg class="h-6 w-6">
+                                            <use href="#ico-code-blocks"></use>
+                                        </svg>
+                                    </span>
                                     <p class="font-bold text-orient-950 dark:text-orient-50 group-hover:text-primary transition-colors duration-300 cursor-default">
                                         Full Stack JavaScript</p>
                                 </div>
@@ -470,7 +657,9 @@
                     <div class="mt-4">
                         <h2 class="text-xl font-bold mb-6 dark:mb-0 flex items-center gap-2 text-orient-950 dark:text-orient-50 border-b border-orient-200 dark:border-transparent pb-4"
                             data-aos="fade-right">
-                            <span aria-hidden="true" class="material-symbols-outlined text-primary dark:text-orient-50">assignment_turned_in</span>
+                            <svg aria-hidden="true" class="h-6 w-6 text-primary dark:text-orient-50">
+                                <use href="#ico-military-tech"></use>
+                            </svg>
                             Últimos Planes Formativos SENCE Aprobados
                         </h2>
                         <div class="hidden dark:block h-px w-full bg-gradient-to-r from-transparent via-primary-vibrant/40 to-transparent mb-6"></div>
@@ -480,8 +669,10 @@
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                                         <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
-                                            <span aria-hidden="true"
-                                                  class="material-symbols-outlined text-xl text-accent-gold-deep dark:text-accent-gold">workspace_premium</span>
+                                            <svg aria-hidden="true"
+                                                 class="h-6 w-6 shrink-0 text-accent-gold-deep dark:text-accent-gold">
+                                                <use href="#ico-new-releases"></use>
+                                            </svg>
                                             Especialización en Desarrollo con <span
                                                 class="text-primary dark:text-orient-400">IA Generativa</span>
                                         </p>
@@ -501,7 +692,11 @@
                                  data-aos="fade-left" data-aos-delay="50">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                        <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                        <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-5 w-5 shrink-0 text-primary dark:text-orient-400">
+                                                <use href="#ico-task-alt"></use>
+                                            </svg>
                                             Desarrollo de Aplicaciones <span class="text-primary dark:text-orient-400">Full Stack JavaScript</span>
                                         </p>
                                         <span class="etiqueta-categoria px-3 py-1 bg-orient-100 dark:bg-white/5 text-orient-600 dark:text-orient-300 rounded-full whitespace-nowrap shadow-inner cursor-default">Agosto 2026 - SENCE</span>
@@ -518,7 +713,11 @@
                                  data-aos="fade-left" data-aos-delay="100">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                        <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                        <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-5 w-5 shrink-0 text-primary dark:text-orient-400">
+                                                <use href="#ico-task-alt"></use>
+                                            </svg>
                                             Programación de <span class="text-primary dark:text-orient-400">Inteligencia Artificial</span>
                                         </p>
                                         <span class="etiqueta-categoria px-3 py-1 bg-orient-100 dark:bg-white/5 text-orient-600 dark:text-orient-300 rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
@@ -534,7 +733,11 @@
                                  data-aos="fade-left" data-aos-delay="150">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                        <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                        <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-5 w-5 shrink-0 text-primary dark:text-orient-400">
+                                                <use href="#ico-task-alt"></use>
+                                            </svg>
                                             Gestión de Datos para <span class="text-primary dark:text-orient-400">Inteligencia Artificial</span>
                                         </p>
                                         <span class="etiqueta-categoria px-3 py-1 bg-orient-100 dark:bg-white/5 text-orient-600 dark:text-orient-300 rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
@@ -550,7 +753,11 @@
                                  data-aos="fade-left" data-aos-delay="50">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                        <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                        <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-5 w-5 shrink-0 text-primary dark:text-orient-400">
+                                                <use href="#ico-task-alt"></use>
+                                            </svg>
                                             Transformación Digital basadas en <span
                                                 class="text-primary dark:text-orient-400">IA</span>
                                         </p>
@@ -567,7 +774,11 @@
                                  data-aos="fade-left" data-aos-delay="100">
                                 <div class="flex-1">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                        <p class="font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                        <p class="flex items-center gap-2 font-bold text-orient-950 dark:text-orient-50 text-lg leading-tight group-hover:text-primary transition-colors duration-300 cursor-default">
+                                            <svg aria-hidden="true"
+                                                 class="h-5 w-5 shrink-0 text-primary dark:text-orient-400">
+                                                <use href="#ico-task-alt"></use>
+                                            </svg>
                                             Procesos de Interacción con <span class="text-primary dark:text-orient-400">IA Generativa</span>
                                         </p>
                                         <span class="etiqueta-categoria px-3 py-1 bg-orient-100 dark:bg-white/5 text-orient-600 dark:text-orient-300 rounded-full whitespace-nowrap shadow-inner cursor-default">Octubre 2025 - SENCE</span>
