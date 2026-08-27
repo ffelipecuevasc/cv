@@ -289,7 +289,7 @@ html:not(.dark) .pf-destacado-dorado {
 
 /* Garantía de legibilidad: el contenido animado parte invisible por diseño
    ([data-aos^=fade] tiene opacity:0). Si la librería de animación no llega a
-   inicializarse, esta clase lo revela todo. La aplica el guardián del <head>
+   inicializarse, esta clase lo revela. La aplica el guardián del <head>
    o el servicio de animación. La animación es un adorno, nunca una condición. */
 .animaciones-desactivadas [data-aos] {
     opacity: 1 !important;
@@ -391,6 +391,34 @@ html:not(.dark) .pf-destacado-dorado {
     .seccion-bajada {
         @apply text-orient-700 dark:text-orient-300 text-lg font-normal leading-relaxed max-w-2xl;
     }
+}
+
+/* Superficie dorada del plan formativo destacado — 1 uso, instructor.html.
+
+   No entra en @layer components a propósito: necesita apilar un color de fondo
+   y un degradado sobre el mismo elemento, algo que @apply no puede expresar.
+   Al quedar fuera de la capa se emite después de las utilidades, así que gana
+   sobre el `bg-white` que hereda de .tarjeta-contenido sin recurrir a
+   !important.
+
+   MODO CLARO: el mismo dorado al 15 % que ya tenía la mini-tarjeta "2026
+   Vigente", ahora extendido a toda la superficie.
+
+   MODO OSCURO: no sirve el mismo valor. Un dorado translúcido sobre la base
+   cian de .glass-mid vira a verde apagado, porque el azul del fondo neutraliza
+   el amarillo. Por eso la base se sustituye por un ámbar oscuro casi opaco y
+   el degradado solo aporta el brillo: el panel resuelve alrededor de #322A10,
+   cálido y nítido frente al cian del resto de la página. */
+
+.tarjeta-destacada-oro {
+    @apply bg-accent-gold/15 border-accent-gold/50;
+}
+
+.dark .tarjeta-destacada-oro {
+    @apply backdrop-blur-md ring-1 ring-accent-gold/30 shadow-lg shadow-black/40 border-transparent;
+    background-color: rgba(38, 30, 8, 0.92);
+    background-image: linear-gradient(rgba(var(--color-gold-rgb), 0.10),
+    rgba(var(--color-gold-rgb), 0.03));
 }
 
 /* =========================================
@@ -676,9 +704,7 @@ h1 > [data-perfil-titulo].invisible {
    Vive aquí y no en utilidades del marcado porque la cabecera y el pie están
    duplicados en las doce páginas, con diez variantes de cabecera. Un bloque
    con ámbito de identificador las cubre todas sin multiplicar la deuda.
-
-   Todo queda confinado por debajo del punto de ruptura md: en escritorio
-   estas reglas no existen. */
+*/
 
 @media (max-width: 767px) {
 
