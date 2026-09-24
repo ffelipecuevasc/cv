@@ -99,11 +99,15 @@ Resplandores neón (solo aplican en oscuro):
 
 **Enlace simple (escritorio):** subrayado animado con `after:` desde `after:w-0` a `hover:after:w-full`, texto `text-sm font-medium text-orient-700 dark:text-orient-300 hover:text-primary`.
 
-**Desplegable (escritorio):** contenedor `relative group` con `data-dropdown`. El panel se revela solo por CSS con `group-hover` y `group-focus-within` (opacidad, visibilidad y `translate-y`, 300 ms). Panel interno: `w-52 bg-white/90 dark:bg-orient-900/90 backdrop-blur-xl border border-orient-100 dark:border-white/10 shadow-xl rounded-xl overflow-hidden`. Ítems: `block px-5 py-3 text-sm font-medium … hover:bg-orient-50 dark:hover:bg-white/5`. El ícono `expand_more` rota 180° al abrir.
+**Desplegable (escritorio):** contenedor `relative group h-full flex items-center` con `data-dropdown`. El disparador es un `<button type="button">` (nunca `<a>`: no navega a ningún archivo) con `aria-haspopup="true"`, `aria-controls` y `aria-expanded`. El panel se revela solo por CSS con `group-hover` y `group-focus-within` (opacidad, visibilidad y `translate-y`, 300 ms) — no depende de JavaScript para mostrarse, solo para sincronizar `aria-expanded`. Panel interno: `w-52 bg-white/90 dark:bg-orient-900/90 backdrop-blur-xl border border-orient-100 dark:border-white/10 shadow-xl rounded-xl overflow-hidden`. Ítems: `block px-5 py-3 text-sm font-medium … hover:bg-orient-50 dark:hover:bg-white/5`. El ícono `expand_more` rota 180° al abrir; en la variante activa lleva además `leading-none`.
 
-**Estado activo:** pastilla `rounded-full bg-primary px-4 py-2 text-white shadow-md shadow-primary/20`. En un desplegable, la pastilla va en el disparador padre y `aria-current="page"` en el enlace hijo correspondiente.
+Grupos actuales: **Experiencia** (General, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital) y **Comunidad** (Eventos, Foro). Ninguno de los dos disparadores tiene `href` propio.
 
-**Menú móvil:** columna con `space-y-5`; subgrupos indentados con `pl-4 border-l-2 border-orient-100 dark:border-white/10 space-y-3` y enlaces `text-sm text-orient-500 dark:text-orient-400`.
+**Estado activo:** pastilla `rounded-full bg-primary px-4 py-2 text-white shadow-md shadow-primary/20` en el disparador (botón), sin `aria-current` ahí — es un botón, no un enlace a una página. `aria-current="page"` va en el enlace hijo correspondiente, dentro del panel.
+
+**Menú móvil:** columna con `space-y-5`. Los grupos con desplegable en escritorio (Experiencia, Comunidad) se ven como una etiqueta no interactiva — `<p>` sin `href`, con `text-xs font-bold uppercase tracking-wider text-orient-500 dark:text-orient-400 pt-2` — seguida de sus hijos indentados con `pl-4 border-l-2 border-orient-100 dark:border-white/10 space-y-3` y enlaces `text-sm text-orient-500 dark:text-orient-400`. A diferencia del desplegable de escritorio, en móvil ningún hijo lleva `aria-current`: ni el grupo ni sus hijos se marcan como activos ahí, es una limitación conocida y aceptada, no un error.
+
+**Nota de compatibilidad:** en Safari/macOS, un clic con mouse no siempre enfoca un `<button>` (a diferencia de un `<a>`). El panel igual se abre por `group-hover` mientras el cursor está encima, y la navegación por teclado (Tab) funciona normal; el caso límite es un clic que no queda "sostenido" por hover. Si en el futuro se reporta como problema real, la solución pasa por JavaScript en `navegacion.js`, no por volver el disparador a `<a>`.
 
 ## 8. Movimiento (AOS)
 
@@ -112,7 +116,11 @@ Resplandores neón (solo aplican en oscuro):
 - Respeta `prefers-reduced-motion`: ya está resuelto en CSS y en `servicios/animacion.js`; no agregues animaciones que lo ignoren.
 - Efectos existentes adicionales: `badge-float` (flotación suave) e `icon-animate` (aparición a escala).
 
-## 9. Imágenes
+## 9. Categorías del portafolio
+
+Tres categorías, cada una con su propia pastilla y color de botón de acción: `frontend` (azul, `bg-primary`), `backend` (gris oscuro, `bg-orient-800`/`bg-orient-700`) y `fullstack` (`bg-primary-vibrant`). Las etiquetas de tecnología (`etiquetaClase`) pueden llevar un ícono de 10 px antes del texto (`static/img/tecnologias/<slug>.svg`, `inline-block w-2.5 h-2.5 mr-1 align-[-1px]`), según un diccionario texto-exacto → ícono en `portafolioUI.iconosTecnologia`. Una tecnología sin entrada en ese diccionario se ve solo como texto — es el comportamiento esperado, no un ícono faltante por corregir.
+
+## 10. Imágenes
 
 - WEBP con `width` y `height` explícitos, `object-cover` dentro de contenedores con proporción fija.
 - Portafolio: 16:9, 1600 × 900. Eventos: proporción original de la portada.
