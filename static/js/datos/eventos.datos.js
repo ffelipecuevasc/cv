@@ -35,9 +35,8 @@ export const eventosData = [
         enlaceInscripcion: "https://luma.com/uy7cr3yq",
         enlaceForo: "foro.html",
         descripcion: [
-            "¿Alguna vez has sentido que la IA tira código a mil por hora, pero no tienes idea de lo que realmente pasa en tu proyecto? El <em>vibe coding</em> es entretenido para jugar un rato, para explorar... pero en el ámbito laboral necesitamos de criterio, arquitectura y buenas prácticas de ingeniería.",
-            "La IA no viene a quitarte el volante: viene como tu copiloto técnico mientras tú tomas el rol de Líder Técnico. En este taller 100% online y gratuito aprenderás a configurar un flujo de trabajo profesional donde tú diriges la estrategia y dejas que <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Claude Code</strong> haga el trabajo pesado de programación, bajo tu supervisión.",
-            "Está pensado especialmente para mi comunidad de egresados de bootcamps de Talento Digital para Chile, pero lo dejo abierto a cualquier dev junior que quiera subir el nivel de sus proyectos y empezar a usar la IA como un verdadero asistente. Usaremos el desarrollo en vivo de tu propia web de CV Online + Portafolio, dejándola lista y publicada en internet."
+            "¿Sientes que la IA tira código a mil por hora, pero no entiendes qué pasa realmente en tu proyecto? El <em>vibe coding</em> sirve para explorar, pero en el trabajo se necesita criterio, arquitectura y buenas prácticas. En este taller 100% online y gratuito aprenderás a liderar el proceso mientras <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Claude Code</strong> hace el trabajo pesado de programación, bajo tu supervisión.",
+            "Pensado especialmente para egresados de bootcamps de Talento Digital para Chile, y abierto a cualquier dev junior que quiera subir el nivel de sus proyectos y empezar a usar la IA como un verdadero asistente. Trabajaremos en vivo sobre tu propia web de CV Online + Portafolio, dejándola lista y publicada en internet."
         ],
         temario: [
             "<strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">De la idea al requerimiento:</strong> fundamentos ágiles (SCRUM), definición de alcance, stack tecnológico y estructuración del plan de trabajo junto a la IA Claude.",
