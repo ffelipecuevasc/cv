@@ -62,7 +62,7 @@ Resplandores neón (solo aplican en oscuro):
 | `tarjeta-contenido` | Tarjeta base (blanca, borde, sombra, elevación al hover) | Relleno `p-5`/`p-6`, `dark:glass-mid`, `neon-glow-interactive` |
 | `tarjeta-reactiva` | Foco de luz interno que sigue al cursor | Combinar con una tarjeta existente |
 | `boton-primario` | Botón azul sólido | Relleno vertical (`py-2.5` / `py-3`) y efectos de elevación |
-| `boton-secundario` | Botón blanco con borde | Nada |
+| `boton-secundario` | Botón blanco con borde | Nada, salvo `mt-0` cuando comparte una fila (`flex`) junto a `boton-primario` — su `mt-2` por defecto asume que va solo, como en el conmutador de tema del pie |
 | `etiqueta-categoria` | Microtexto en mayúsculas (10 px, bold, tracking) | Color y relleno |
 | `seccion-bajada` | Párrafo introductorio bajo el `<h1>` | Nada |
 | `tecnologia-*` | Piezas de la tarjeta de tecnología | Exclusivo de `desarrollador.html` |
