@@ -10,7 +10,7 @@
     "serve": "http-server . -p 4173 -c-1",
     "build": "tailwindcss -i ./static/css/index.css -o ./static/css/tailwind.css --minify",
     "clean": "rimraf static/css/tailwind.css",
-    "verify": "linkinator index.html agradecimiento.html contacto.html desarrollador.html docente.html educacion.html experiencia.html instructor.html recursos.html talento-digital.html 404.html --recurse"
+    "verify": "linkinator index.html agradecimiento.html contacto.html desarrollador.html docente.html educacion.html experiencia.html foro.html instructor.html recursos.html talento-digital.html 404.html --recurse"
   },
   "keywords": [],
   "author": "",
