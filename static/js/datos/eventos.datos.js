@@ -33,7 +33,7 @@ export const eventosData = [
         alto: 1000,
         alt: "Portada del taller «Del Vibe Coding a la Ingeniería Web — Desarrolla tu web con Claude», dictado por Felipe Cuevas",
         enlaceInscripcion: "https://luma.com/uy7cr3yq",
-        enlaceForo: "foro.html",
+        enlaceForo: "foro.html#taller-vibe-coding-claude",
         descripcion: [
             "¿Sientes que la IA tira código a mil por hora, pero no entiendes qué pasa realmente en tu proyecto? El <em>vibe coding</em> sirve para explorar, pero en el trabajo se necesita criterio, arquitectura y buenas prácticas. En este taller 100% online y gratuito aprenderás a liderar el proceso mientras <strong class=\"text-orient-800 dark:text-orient-200 font-semibold\">Claude Code</strong> hace el trabajo pesado de programación, bajo tu supervisión.",
             "Pensado especialmente para egresados de bootcamps de Talento Digital para Chile, y abierto a cualquier dev junior que quiera subir el nivel de sus proyectos y empezar a usar la IA como un verdadero asistente. Trabajaremos en vivo sobre tu propia web de CV Online + Portafolio, dejándola lista y publicada en internet."

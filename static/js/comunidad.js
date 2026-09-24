@@ -33,7 +33,8 @@ function sincronizarTema(tema) {
     });
 }
 
-function inyectar(contenedor, termino) {
+function inyectar(contenedor, termino, categoriaClave) {
+    const categoria = giscus.categorias[categoriaClave] || giscus.categorias.general;
     const guion = document.createElement('script');
     guion.src = giscus.script;
     guion.async = true;
@@ -42,8 +43,8 @@ function inyectar(contenedor, termino) {
     const atributos = {
         'data-repo': giscus.repo,
         'data-repo-id': giscus.repoId,
-        'data-category': giscus.categoria,
-        'data-category-id': giscus.categoriaId,
+        'data-category': categoria.nombre,
+        'data-category-id': categoria.id,
         'data-mapping': termino ? 'specific' : 'pathname',
         'data-strict': '0',
         'data-reactions-enabled': '1',
@@ -75,12 +76,13 @@ function inyectar(contenedor, termino) {
  * Monta una conversación dentro de un contenedor.
  * @param {Element|null} contenedor
  * @param {string} [termino] identificador del hilo; sin él se usa la ruta de la página
+ * @param {string} [categoriaClave] clave de comunidadUI.giscus.categorias; sin ella se usa "general"
  */
-export function montarDiscusion(contenedor, termino) {
+export function montarDiscusion(contenedor, termino, categoriaClave) {
     if (!contenedor || montados.has(contenedor)) return;
     montados.add(contenedor);
 
-    const cargar = () => inyectar(contenedor, termino);
+    const cargar = () => inyectar(contenedor, termino, categoriaClave);
 
     if (typeof IntersectionObserver !== 'function') {
         cargar();
@@ -104,6 +106,6 @@ export function iniciarComunidad() {
     alCambiarTema(sincronizarTema);
 
     document.querySelectorAll('[data-comunidad]').forEach((contenedor) => {
-        montarDiscusion(contenedor, contenedor.dataset.comunidad || undefined);
+        montarDiscusion(contenedor, contenedor.dataset.comunidad || undefined, contenedor.dataset.comunidadCategoria || undefined);
     });
 }
