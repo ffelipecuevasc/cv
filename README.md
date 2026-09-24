@@ -34,6 +34,8 @@ El sitio está construido como una aplicación **100% estática**, sin backend n
 ├── instructor.html          # Perfil como instructor certificado REUF
 ├── talento-digital.html     # Colaboración con Talento Digital para Chile
 ├── recursos.html            # Bóveda de recursos educativos descargables
+├── eventos.html             # Agenda de talleres, charlas y eventos en vivo
+├── foro.html                # Foro abierto de preguntas y proyectos sobre GitHub Discussions
 ├── contacto.html            # Formulario de contacto y agenda de reuniones
 ├── agradecimiento.html      # Confirmación de envío del formulario
 ├── static/
