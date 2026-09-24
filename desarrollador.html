@@ -78,17 +78,32 @@
             "@type": "ItemList",
             "@id": "https://felipecuevas.dev/desarrollador#portafolio",
             "name": "Portafolio de proyectos",
-            "numberOfItems": 14,
+            "numberOfItems": 12,
             "itemListElement": [
                 {
                     "@type": "ListItem",
                     "position": 1,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "API REST Monolítica con Spring",
-                        "description": "API REST construida con Java y Spring Boot, desplegada como arquitectura de microservicios sobre AWS y contenedorizada con Docker. Incluye capa de persistencia con Spring Data JPA y separación por capas de servicio y repositorio.",
+                        "name": "Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios",
+                        "description": "Este mismo sitio: currículum interactivo y portafolio profesional con HTML5 semántico, Tailwind CSS y JavaScript Vanilla. Modo claro y oscuro, animaciones con AOS, formulario de contacto protegido con Cloudflare Turnstile y despliegue en Cloudflare Pages.",
+                        "url": "https://felipecuevas.dev/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/felipe-cuevas-dev.webp",
+                        "author": {
+                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
+                        },
+                        "programmingLanguage": "JavaScript"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@type": "SoftwareSourceCode",
+                        "name": "API REST Monolítica con Spring Boot",
+                        "description": "API REST monolítica construida con Java y Spring Boot, con persistencia mediante Spring Data JPA y Hibernate en una arquitectura de capas desacopladas. Integra microservicios de apoyo: AWS S3 para archivos, RabbitMQ para mensajería, Redis para caché y Zipkin para trazabilidad.",
                         "url": "https://github.com/ffelipecuevasc/api-rest-monolito-spring",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/monolito.svg",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/api-rest-monolito-java.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -98,13 +113,13 @@
                 },
                 {
                     "@type": "ListItem",
-                    "position": 2,
+                    "position": 3,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "API REST con OAuth2 y Doble Factor",
-                        "description": "Servicio de autenticación con Spring Security: inicio de sesión mediante OAuth2 con Google y GitHub, verificación en dos pasos y emisión de tokens JWT para proteger los extremos de la API.",
+                        "name": "API REST con OAuth2, JWT y 2FA en Spring Boot",
+                        "description": "API REST educativa de seguridad con Java 21, Spring Boot y Spring Security: autenticación con BCrypt, tokens JWT, inicio de sesión social OAuth2 (Google y GitHub) y verificación en dos pasos con Google Authenticator, sobre MySQL en Docker.",
                         "url": "https://github.com/ffelipecuevasc/api-rest-oaut2-spring",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/oauth2.svg",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/api-rest-oauth-google-github.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -114,28 +129,44 @@
                 },
                 {
                     "@type": "ListItem",
-                    "position": 3,
+                    "position": 4,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "Manza Gráfica App",
-                        "description": "App web de gestión para servicios gráficos. Backend completo en Python + Django con ORM, sistema de autenticación, panel de administración y base de datos relacional.",
-                        "url": "https://manzagrafica.pythonanywhere.com/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/manza.svg",
+                        "name": "La Jardinera Florería · Sitio Web y Catálogo Comercial",
+                        "description": "Catálogo comercial multi-página para una florería de Valdivia, con HTML5, Tailwind CSS y JavaScript Vanilla. Identidad visual botánica, tema claro/oscuro, carrusel de reseñas, calculadora de suscripciones florales y galería con filtrado dinámico.",
+                        "url": "https://lajardinerafloreria.cl/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/la-jardinera.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
-                        "programmingLanguage": "Python"
+                        "programmingLanguage": "JavaScript"
                     }
                 },
                 {
                     "@type": "ListItem",
-                    "position": 4,
+                    "position": 5,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "Sistema de Gestión Escolar",
-                        "description": "Desarrollo backend para la administración integral de instituciones educativas. Arquitectura construida con Django y MySQL, implementando paneles de control, roles de usuario (profesores/alumnos), gestión de asignaturas y registro de calificaciones, con despliegue profesional en AlwaysData.",
+                        "name": "Manza Gráfica ERP · Sistema de Gestión para Imprenta",
+                        "description": "ERP a medida con Python y Django para la gestión de clientes, cotizaciones y producción de una imprenta. Genera reportes y presupuestos en PDF con WeasyPrint, incluye panel de Business Intelligence y respaldos automatizados de MySQL.",
+                        "url": "https://github.com/ffelipecuevasc/ManzagraficaPedidosApp",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/manzagrafica.webp",
+                        "author": {
+                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
+                        },
+                        "programmingLanguage": "Python",
+                        "codeRepository": "https://github.com/ffelipecuevasc/ManzagraficaPedidosApp"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 6,
+                    "item": {
+                        "@type": "SoftwareSourceCode",
+                        "name": "SGE · Sistema de Gestión Escolar",
+                        "description": "Aplicación web para la administración académica de instituciones educativas, con Python y Django (MVT). Gestiona el ciclo CRUD de estudiantes, docentes y asignaturas, con autenticación, señales y middlewares personalizados sobre SQLite.",
                         "url": "https://github.com/ffelipecuevasc/GestionEscolar",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/gestion.svg",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/gestion-escolar.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -145,45 +176,13 @@
                 },
                 {
                     "@type": "ListItem",
-                    "position": 5,
-                    "item": {
-                        "@type": "SoftwareSourceCode",
-                        "name": "Veterinaria Express",
-                        "description": "Aplicación web de gestión veterinaria con Node.js y Express. Capa de acceso a datos mediante el ORM Sequelize sobre PostgreSQL, e interfaz construida con Tailwind CSS.",
-                        "url": "https://github.com/ffelipecuevasc/vet_express",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/vet.svg",
-                        "author": {
-                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
-                        },
-                        "programmingLanguage": "JavaScript",
-                        "codeRepository": "https://github.com/ffelipecuevasc/vet_express"
-                    }
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 6,
-                    "item": {
-                        "@type": "SoftwareSourceCode",
-                        "name": "API REST Junta de Vecinos",
-                        "description": "API REST para la administración de una junta de vecinos, construida con Express y Sequelize sobre PostgreSQL. Autenticación por tokens JWT y validación de datos en cada extremo.",
-                        "url": "https://github.com/ffelipecuevasc/api-rest-js-express-junta-vecinos",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/vecinos.svg",
-                        "author": {
-                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
-                        },
-                        "programmingLanguage": "JavaScript",
-                        "codeRepository": "https://github.com/ffelipecuevasc/api-rest-js-express-junta-vecinos"
-                    }
-                },
-                {
-                    "@type": "ListItem",
                     "position": 7,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "CV Online — Este Sitio Web",
-                        "description": "Sitio web personal construido con Tailwind CSS, HTML5 semántico y JavaScript vanilla. Diseño responsivo con dark mode, animaciones AOS, sistema de componentes reutilizables y despliegue continuo en Cloudflare Pages.",
-                        "url": "https://felipecuevas.dev/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/cv.svg",
+                        "name": "Valdivia · La Perla del Sur",
+                        "description": "Landing page editorial y turística de la ciudad de Valdivia, con HTML5, Tailwind CSS y JavaScript Vanilla. Paleta crimson personalizada, navegación flotante reactiva al scroll con máscara SVG, animaciones de revelado y galería fotográfica.",
+                        "url": "https://turismovaldivia.cl/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/turismo-valdivia.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -195,14 +194,15 @@
                     "position": 8,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "CV Online — Benjamín Berna",
-                        "description": "Portafolio web profesional diseñado a medida para un Contador General. Interfaz corporativa enfocada en la presentación de servicios financieros, trayectoria laboral y captación de clientes. Estructurado con Tailwind CSS para garantizar una experiencia de usuario rápida y 100% adaptable a dispositivos móviles.",
-                        "url": "https://ffelipecuevasc.github.io/benjaminberna/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/benjamin.svg",
+                        "name": "VetCare Pro · Sistema de Gestión para Clínica Veterinaria",
+                        "description": "Sistema de administración para clínica veterinaria con Node.js y Express.js (MVC): CRUD de pacientes y tutores con Sequelize sobre PostgreSQL, autenticación con contraseñas encriptadas, sesiones persistentes y notificaciones por correo con Nodemailer.",
+                        "url": "https://github.com/ffelipecuevasc/vet_express",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/veterinaria-express.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
-                        "programmingLanguage": "JavaScript"
+                        "programmingLanguage": "JavaScript",
+                        "codeRepository": "https://github.com/ffelipecuevasc/vet_express"
                     }
                 },
                 {
@@ -210,10 +210,10 @@
                     "position": 9,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "La Jardinera Florería",
-                        "description": "Sitio presentacional para una florería, con catálogo de productos y secciones de contacto. Front-End estático construido con HTML5, CSS3 y JavaScript y publicado en GitHub Pages.",
-                        "url": "https://ffelipecuevasc.github.io/lajardinerafloreria/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/jardinera.svg",
+                        "name": "Examen de Certificación JavaScript - Talento Digital",
+                        "description": "Plataforma de simulacros y cuestionarios para el examen de certificación de Talento Digital, con HTML5, Tailwind CSS y JavaScript. Servicios de API con Cloudflare Workers y base de datos relacional en Cloudflare D1.",
+                        "url": "https://examen-certificacion-td-js.pages.dev/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/examen-td.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -225,10 +225,10 @@
                     "position": 10,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "Fran Jacob",
-                        "description": "Sitio web presentacional de página única, construido con HTML5, CSS3 y JavaScript y publicado en GitHub Pages.",
-                        "url": "https://ffelipecuevasc.github.io/franjacob/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/franjacob.svg",
+                        "name": "Portafolio · Invitaciones Web para Bodas",
+                        "description": "Portafolio de invitaciones digitales para bodas, con HTML5, Tailwind CSS y JavaScript Vanilla. Maquetación a dos columnas, paleta reactiva a temas claro/oscuro con Material Design 3, tipografías editoriales y etiquetas Open Graph para redes sociales.",
+                        "url": "https://ffelipecuevasc.github.io/portafoliobodas/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/catalogo-bodas.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -240,10 +240,10 @@
                     "position": 11,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "Portafolio de Bodas",
-                        "description": "Portafolio visual orientado a la presentación de trabajos fotográficos de bodas, con galería y navegación por secciones. Construido con HTML5, CSS3 y JavaScript.",
-                        "url": "https://ffelipecuevasc.github.io/portafoliobodas/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/bodas.svg",
+                        "name": "Francisca Jacob · Sitio Web Profesional y CV Online",
+                        "description": "Sitio personal y portafolio de una periodista bilingüe, con HTML5, Tailwind CSS y JavaScript Vanilla. Modo claro/oscuro persistente, efecto linterna, barra de progreso de lectura y carrusel cover flow para hitos profesionales.",
+                        "url": "https://ffelipecuevasc.github.io/franjacob/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/francisca-jacob.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -255,40 +255,10 @@
                     "position": 12,
                     "item": {
                         "@type": "SoftwareSourceCode",
-                        "name": "Turismo Valdivia",
-                        "description": "Sitio de difusión turística de la ciudad de Valdivia, con dominio propio. Front-End estático construido con HTML5, CSS3 y JavaScript.",
-                        "url": "https://turismovaldivia.cl",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/valdivia.svg",
-                        "author": {
-                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
-                        },
-                        "programmingLanguage": "JavaScript"
-                    }
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 13,
-                    "item": {
-                        "@type": "SoftwareSourceCode",
-                        "name": "Ricardo Ortiz Orfebre",
-                        "description": "Sitio con catálogo de piezas para orfebrería artesanal. Front-End estático construido con HTML5 y Tailwind CSS, con navegación por categorías en JavaScript y publicación en GitHub Pages.",
-                        "url": "https://ffelipecuevasc.github.io/ricardortiz/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/ricardo.svg",
-                        "author": {
-                            "@id": "https://felipecuevas.dev/#felipe-cuevas"
-                        },
-                        "programmingLanguage": "JavaScript"
-                    }
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 14,
-                    "item": {
-                        "@type": "SoftwareSourceCode",
-                        "name": "Sitio Web Estudio de Abogados",
-                        "description": "Sitio corporativo para estudio jurídico: presentación de áreas de práctica, equipo y contacto. Front-End construido con HTML5 y Tailwind CSS y publicado en GitHub Pages.",
-                        "url": "https://ffelipecuevasc.github.io/advogados/",
-                        "image": "https://felipecuevas.dev/static/img/portafolio/abogados.svg",
+                        "name": "Natalia Martínez · Orfebrería y Joyería Sustentable",
+                        "description": "Sitio de presentación para joyería y talleres de orfebrería sustentable, con HTML5, Tailwind CSS y JavaScript Vanilla. Gestión de temas, animaciones de revelado por desplazamiento y transiciones de vista fluidas.",
+                        "url": "https://nataliamartinez.cl/",
+                        "image": "https://felipecuevas.dev/static/img/portafolio/natalia-martinez.webp",
                         "author": {
                             "@id": "https://felipecuevas.dev/#felipe-cuevas"
                         },
@@ -793,6 +763,13 @@
                             <span aria-hidden="true"
                                   class="material-symbols-outlined text-base transition-transform duration-300 group-hover:rotate-12">web</span>
                             Front-End
+                        </button>
+
+                        <button aria-pressed="false" id="pf-btn-full" data-filter="fullstack"
+                                class="filter-btn group flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-orient-300 dark:border-white/10 bg-white dark:bg-white/5 text-orient-600 dark:text-orient-300 text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5">
+                            <span aria-hidden="true"
+                                  class="material-symbols-outlined text-base transition-transform duration-300 group-hover:rotate-12">layers</span>
+                            Full-Stack
                         </button>
 
                         <button aria-pressed="false" id="pf-btn-back" data-filter="backend"

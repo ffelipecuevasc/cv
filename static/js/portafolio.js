@@ -34,7 +34,13 @@ const renderPortfolio = (filtro = 'all') => {
                     <span aria-hidden="true" class="material-symbols-outlined text-sm">${accion.icono}</span> ${accion.texto}
                </span>`;
 
-        const tagsHTML = item.tags.map(tag => `<span class="${portafolioUI.etiquetaClase}">${tag}</span>`).join('');
+        const tagsHTML = item.tags.map(tag => {
+            const slug = portafolioUI.iconosTecnologia[tag];
+            const icono = slug
+                ? `<img src="static/img/tecnologias/${slug}.svg" alt="" width="10" height="10" loading="lazy" class="inline-block w-2.5 h-2.5 mr-1 align-[-1px]"/>`
+                : '';
+            return `<span class="${portafolioUI.etiquetaClase} inline-flex items-center">${icono}${tag}</span>`;
+        }).join('');
 
         return `
             <article id="${item.id}" data-pf-category="${item.category}" class="pf-card tarjeta-reactiva ${maqueta.ancho} group relative rounded-2xl overflow-hidden border border-orient-200 bg-white shadow-sm dark:glass-mid neon-glow-interactive" data-aos="fade-up" data-aos-delay="${maqueta.retardo}">
