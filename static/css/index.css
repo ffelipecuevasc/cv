@@ -350,7 +350,7 @@ html:not(.dark) .pf-destacado-dorado {
        reutiliza .tarjeta-contenido. */
     .tecnologia-icono {
         @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl
-        bg-orient-100 dark:bg-orient-800 text-orient-700 dark:text-orient-300;
+        bg-orient-100 dark:bg-orient-100 text-orient-700 dark:text-orient-300;
     }
 
     .tecnologia-nombre {
@@ -452,28 +452,10 @@ html:not(.dark) .pf-destacado-dorado {
         bg-gradient-to-r from-transparent via-primary/50 to-transparent
         transition-opacity duration-300;
     }
-
-    /* Señal de que la ficha se despliega. Sin ella, nada indicaba que estas
-       tarjetas eran accionables. */
-    .tecnologia-indicador {
-        @apply text-lg text-orient-300 transition-all duration-300
-        group-hover:text-primary dark:text-orient-600 dark:group-hover:text-primary-vibrant;
-    }
 }
 
-/* Estado seleccionado. Se deriva de aria-expanded: el estado accesible y el
-   visual son el mismo dato, así que no pueden desincronizarse. */
-.tecnologia-tarjeta[aria-expanded="true"] {
-    @apply -translate-y-1 border-primary shadow-md;
-}
-
-.tecnologia-tarjeta:hover .tecnologia-filo,
-.tecnologia-tarjeta[aria-expanded="true"] .tecnologia-filo {
+.tecnologia-tarjeta:hover .tecnologia-filo {
     @apply opacity-100;
-}
-
-.tecnologia-tarjeta[aria-expanded="true"] .tecnologia-indicador {
-    @apply rotate-180 text-primary dark:text-primary-vibrant;
 }
 
 .tecnologia-tarjeta.tarjeta-reactiva {
@@ -489,8 +471,7 @@ html:not(.dark) .tecnologia-tarjeta[aria-expanded="true"] {
 
 /* El icono invierte su relación con la tarjeta: pasa a ser la pieza clara sobre
    el tinte y gana presencia, en vez de diluirse contra un fondo del mismo tono. */
-html:not(.dark) .tecnologia-tarjeta:hover .tecnologia-icono,
-html:not(.dark) .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-icono {
+html:not(.dark) .tecnologia-tarjeta:hover .tecnologia-icono {
     @apply bg-white text-primary shadow-sm;
 }
 
@@ -500,12 +481,6 @@ html:not(.dark) .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-icono {
     --tw-shadow-colored: 0 0 30px rgba(var(--color-primary-vibrant-rgb), 0.22);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
     border-color: rgba(var(--color-primary-vibrant-rgb), 0.5) !important;
-}
-
-.dark .tecnologia-tarjeta:hover .tecnologia-icono,
-.dark .tecnologia-tarjeta[aria-expanded="true"] .tecnologia-icono {
-    background-color: rgba(var(--color-primary-vibrant-rgb), 0.14);
-    color: rgb(var(--color-primary-vibrant-rgb));
 }
 
 /* =========================================
