@@ -15,11 +15,20 @@
 import {tecnologiasData} from './datos/tecnologias.datos.js';
 import {tecnologiasUI} from './config/tecnologias.config.js';
 import {portafolioData} from './datos/portafolio.datos.js';
+import {portafolioUI} from './config/portafolio.config.js';
 import {construirLista, montar, soloValidos} from './servicios/renderizado.js';
 
 const ANIO_ACTUAL = new Date().getFullYear();
 
-const proyecto = (id) => portafolioData.find((p) => p.id === id);
+/** Proyectos del portafolio cuyas etiquetas resuelven, por el mismo
+ * diccionario de portafolio.config.js, al mismo ícono que esta ficha.
+ * Se calcula siempre en caliente: portafolio.datos.js es la única fuente
+ * de verdad sobre qué tecnología usa cada proyecto. */
+function proyectosRelacionados(icono) {
+    return portafolioData.filter((p) =>
+        Array.isArray(p.tags) && p.tags.some((tag) => portafolioUI.iconosTecnologia[tag] === icono)
+    );
+}
 
 /** Ficha del muro: botón accesible que abre el panel de contexto. */
 function plantillaTarjeta(item, indice) {
@@ -34,7 +43,7 @@ function plantillaTarjeta(item, indice) {
                         data-tecnologia="${item.id}" type="button">
                     <span aria-hidden="true" class="tecnologia-filo"></span>
                     <span class="tecnologia-icono md:h-14 md:w-14">
-                        <svg aria-hidden="true" class="h-7 w-7 transition-transform duration-500 group-hover:scale-110"><use href="#${item.simbolo}"></use></svg>
+                        <img alt="" class="h-7 w-7 transition-transform duration-500 group-hover:scale-110" height="28" loading="lazy" src="static/img/tecnologias/${item.icono}.svg" width="28"/>
                     </span>
                     <span class="flex w-full items-end justify-between gap-2">
                         <span class="flex flex-col">
@@ -61,9 +70,7 @@ function bloqueLista(titulo, icono, elementos) {
 function plantillaPanel(item) {
     const anios = Math.max(1, ANIO_ACTUAL - item.desde);
 
-    const proyectos = item.proyectos
-        .map(proyecto)
-        .filter(Boolean)
+    const proyectos = proyectosRelacionados(item.icono)
         .map((p) => `
                         <li>
                             <a class="group/enlace flex items-start gap-2 text-sm text-orient-700 transition-colors hover:text-primary dark:text-orient-200 dark:hover:text-primary-vibrant"
@@ -85,7 +92,7 @@ function plantillaPanel(item) {
                             <span>${c}</span>
                         </li>`);
 
-    const sinProyectos = item.proyectos.length === 0
+    const sinProyectos = proyectos.length === 0
         ? `<p class="text-sm italic text-orient-500 dark:text-orient-400">${tecnologiasUI.textos.sinProyectos}</p>`
         : '';
 
@@ -96,7 +103,7 @@ function plantillaPanel(item) {
                 <div class="relative flex flex-wrap items-start justify-between gap-4">
                     <div class="flex items-center gap-4">
                         <span class="tecnologia-icono">
-                            <svg aria-hidden="true" class="w-7 h-7"><use href="#${item.simbolo}"></use></svg>
+                            <img alt="" class="w-7 h-7" height="28" loading="lazy" src="static/img/tecnologias/${item.icono}.svg" width="28"/>
                         </span>
                         <span class="flex flex-col">
                             <span class="text-xl font-bold text-orient-950 dark:text-orient-50">${item.nombre}</span>
