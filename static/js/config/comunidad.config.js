@@ -12,10 +12,8 @@ export const comunidadUI = {
         script: "https://giscus.app/client.js",
         repo: "ffelipecuevasc/comunidad",
         repoId: "R_kgDOT6gwGg",
-        categorias: {
-            general: {nombre: "Dudas por ruta", id: "DIC_kwDOT6gwGs4DDiHV"},
-            eventos: {nombre: "Eventos", id: "DIC_kwDOT6gwGs4DGRbz"}
-        },
+        categoria: "Dudas por ruta",
+        categoriaId: "DIC_kwDOT6gwGs4DDiHV",
         idioma: "es",
         // El tema oscuro es transparente para que el componente se apoye sobre
         // la superficie de cristal del sitio en vez de pintar su propio fondo.

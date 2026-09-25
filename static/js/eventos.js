@@ -43,7 +43,7 @@ const listaTemario = (temario) => temario.length
 function plantillaEvento(item, indice) {
     const estado = estadoDe(item);
     const retardo = Math.min(indice * eventosUI.retardoPorTarjeta, eventosUI.retardoMaximo);
-    const {inscripcion, foro} = eventosUI.acciones;
+    const {inscripcion} = eventosUI.acciones;
     const descripcion = item.descripcion || [];
     const temario = item.temario || [];
 
@@ -95,10 +95,6 @@ function plantillaEvento(item, indice) {
                                href="${item.enlaceInscripcion}" target="_blank" rel="noopener noreferrer">
                                 <span aria-hidden="true" class="material-symbols-outlined text-base">${inscripcion.icono}</span>
                                 ${inscripcion.texto}
-                            </a>
-                            <a class="boton-secundario mt-0" href="${item.enlaceForo}">
-                                <span aria-hidden="true" class="material-symbols-outlined text-base">${foro.icono}</span>
-                                ${foro.texto}
                             </a>
                         </div>
                     </div>

@@ -28,8 +28,7 @@ export const eventosUI = {
     },
 
     acciones: {
-        inscripcion: {texto: "Inscribirme en Luma", icono: "open_in_new"},
-        foro: {texto: "Ver conversación en el foro", icono: "forum"}
+        inscripcion: {texto: "Inscribirme en Luma", icono: "open_in_new"}
     },
 
     temarioTitulo: "¿Qué veremos en la sesión?",
