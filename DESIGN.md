@@ -116,11 +116,25 @@ Grupos actuales: **Experiencia** (General, Desarrollador, Docente Universitario,
 - Respeta `prefers-reduced-motion`: ya está resuelto en CSS y en `servicios/animacion.js`; no agregues animaciones que lo ignoren.
 - Efectos existentes adicionales: `badge-float` (flotación suave) e `icon-animate` (aparición a escala).
 
-## 9. Categorías del portafolio
+## 9. Conjunto de tecnologías (desarrollador.html)
+
+Es una rejilla puramente estática, sin interactividad ni panel (se quitó deliberadamente: sobrecargaba la página). Está agrupada en 5 categorías, cada una con su propio `<h3>` subtítulo (`text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-vibrant`) y su propia `<ul aria-labelledby>`: Lenguajes y Frameworks, Datos/APIs y Seguridad, Infraestructura y Despliegue, Herramientas y Control de Versiones, Inteligencia Artificial. Cada tarjeta usa `<img src="static/img/tecnologias/<slug>.svg">` — íconos de marca a color completo, sin recolorear (a diferencia de las redes sociales, ver más abajo). El fondo del cuadrito del ícono (`.tecnologia-icono`) es `bg-orient-100` tanto en claro como en oscuro, deliberadamente igual en ambos modos: varios de estos logos vienen en colores casi negros y se pierden sobre un fondo oscuro.
+
+## 10. Redes sociales — tres convenciones distintas, no por descuido
+
+El sitio usa tres tratamientos diferentes para los mismos íconos (LinkedIn, GitHub, Discord, correo), cada uno propio de su contexto. Al agregar una red nueva, replica el patrón del lugar exacto donde va, no inventes uno nuevo:
+
+- **Hero (`index.html`)**: insignia `h-12 w-12 rounded-2xl bg-orient-50 dark:bg-orient-900`, ícono `fill-current` que hereda `text-orient-500 dark:text-orient-400`, y **todas** las redes pasan al mismo `group-hover:text-primary` al pasar el mouse (color único del sitio, no el de cada marca). Lleva una etiqueta de texto debajo del ícono.
+- **Pie de página (compartido, 13 páginas)**: solo el ícono, sin insignia, `text-orient-600 dark:text-orient-400` en reposo, y aquí sí **cada red toma su propio color de marca al pasar el mouse** (`hover:text-[#0076b2]` LinkedIn, `hover:text-[#5865f2]` Discord, etc.).
+- **Tarjeta de contacto (`contacto.html`)**: tarjeta `tarjeta-reactiva` completa (icono en círculo `size-14`, nombre de usuario o llamado a la acción, nombre de la plataforma, flecha `arrow_forward`), con `group-hover:text-primary` uniforme, igual que el hero.
+
+Todas usan `fill="currentColor"` (nunca un color de marca fijo en el `<path>`): así heredan el color de texto de su contexto en vez de imponer el suyo.
+
+## 11. Categorías del portafolio
 
 Tres categorías, cada una con su propia pastilla y color de botón de acción: `frontend` (azul, `bg-primary`), `backend` (gris oscuro, `bg-orient-800`/`bg-orient-700`) y `fullstack` (`bg-primary-vibrant`). Las etiquetas de tecnología (`etiquetaClase`) pueden llevar un ícono de 10 px antes del texto (`static/img/tecnologias/<slug>.svg`, `inline-block w-2.5 h-2.5 mr-1 align-[-1px]`), según un diccionario texto-exacto → ícono en `portafolioUI.iconosTecnologia`. Una tecnología sin entrada en ese diccionario se ve solo como texto — es el comportamiento esperado, no un ícono faltante por corregir.
 
-## 10. Imágenes
+## 12. Imágenes
 
 - WEBP con `width` y `height` explícitos, `object-cover` dentro de contenedores con proporción fija.
 - Portafolio: 16:9, 1600 × 900. Eventos: proporción original de la portada.
