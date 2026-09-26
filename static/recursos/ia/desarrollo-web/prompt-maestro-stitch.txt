@@ -1,0 +1,38 @@
+PROMPT MAESTRO · ETAPA 2 · DISEÑO DE INTERFACES CON GOOGLE STITCH
+Reemplaza la línea entre corchetes por uno de los bloques de estilo (A, B o C) que están al final.
+
+OBJETIVO
+Diseña una landing page de una sola página para el portafolio profesional de un desarrollador web junior. Un reclutador debe entender en menos de 30 segundos quién es, qué sabe hacer y cómo contactarlo.
+
+ESTILO VISUAL
+[Pega aquí uno de los tres bloques de estilo: A, B o C]
+
+SECCIONES (en este orden, cada una con su id en español)
+1. Inicio (#inicio): nombre completo, cargo "Desarrollador Web Junior", una frase de presentación de máximo 15 palabras, foto de perfil circular y dos botones: "Ver proyectos" y "Descargar CV".
+2. Sobre mí (#sobre-mi): un párrafo breve de presentación y las habilidades técnicas como etiquetas: HTML5, CSS, Tailwind CSS, JavaScript, Git y GitHub.
+3. Experiencia (#experiencia): línea de tiempo vertical con 3 cargos. Cada uno con cargo, empresa, período y 2 logros concretos.
+4. Proyectos (#proyectos): grilla de 4 tarjetas con imagen, título, descripción de una línea, tecnologías como etiquetas y dos enlaces: "Ver sitio" y "Ver código".
+5. Contacto (#contacto): invitación breve a conversar, correo, enlaces a LinkedIn y GitHub con íconos, y un pie de página con el año y el nombre.
+
+Incluye una barra de navegación fija en la parte superior con enlaces a las 5 secciones.
+
+CONTENIDO
+Todo el texto en español. Usa datos de ejemplo realistas: nombre "Camila Rojas", empresas y proyectos ficticios pero creíbles.
+
+RESTRICCIONES TÉCNICAS
+- HTML5 semántico: header, nav, main, section, article y footer.
+- Estilos solo con clases de Tailwind CSS.
+- Diseño responsivo: primero celular, después escritorio.
+- Contraste accesible (nivel WCAG AA) y texto alternativo en todas las imágenes.
+- Sin frameworks de JavaScript (nada de React ni Vue).
+- No agregues secciones que no pedí: ni blog, ni testimonios, ni precios.
+
+------------------------------------------------------------
+ESTILO A · OSCURO TECNOLÓGICO
+Estilo oscuro, moderno y tecnológico. Fondo azul marino casi negro (#0A0F1C) con superficies (#111A2E). Color principal cian (#22D3EE) y amarillo (#FACC15) solo como acento puntual. Títulos en Space Grotesk, textos en Inter y detalles en JetBrains Mono. Tarjetas con bordes sutiles y un brillo suave, detalles tipo terminal de comandos.
+
+ESTILO B · MINIMALISTA CLARO
+Estilo minimalista, claro y elegante. Fondo blanco (#FFFFFF), superficies gris muy claro (#F4F4F5), texto casi negro (#18181B) y un único color principal azul (#2563EB). Tipografía Inter en toda la página, con títulos grandes y livianos. Mucho espacio en blanco, bordes finos, sin sombras ni elementos decorativos.
+
+ESTILO C · EDITORIAL CON ACENTO DE COLOR
+Estilo editorial, como una revista de diseño. Fondo color hueso (#FAF7F0), texto negro tinta (#1C1917), líneas divisorias beige (#E7E0D3) y un solo acento naranja intenso (#EA580C). Títulos enormes en Playfair Display y textos en Source Sans 3. Secciones numeradas, composición asimétrica y líneas finas entre bloques.

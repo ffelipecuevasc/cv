@@ -46,11 +46,18 @@ function guardarProgreso(progreso) {
 function plantillaSelector(ruta, activa, hechos) {
     const total = ruta.pasos.length;
     const completa = total > 0 && hechos === total;
+    // Logo de marca sobre fondo claro fijo en ambos modos (mismo criterio que .tecnologia-icono):
+    // varios logos son oscuros o azules y se pierden sobre el fondo de la tarjeta activa.
+    const icono = completa
+        ? `<span aria-hidden="true" class="material-symbols-outlined text-base">${rutasUI.iconos.completado}</span>`
+        : `<span aria-hidden="true" class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-orient-100">
+                            <img alt="" class="h-4 w-4" height="16" src="${ruta.icono}" width="16"/>
+                        </span>`;
     return `
                 <button aria-pressed="${activa}" data-ruta="${ruta.id}" type="button"
                         class="tarjeta-reactiva neon-glow-interactive min-h-[44px] shrink-0 snap-start rounded-xl border px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${activa ? 'border-primary bg-primary text-white shadow-sm dark:bg-primary/80 dark:glass-high' : 'border-orient-200 bg-white text-orient-700 hover:border-primary dark:glass-mid dark:text-orient-200'}">
                     <span class="flex items-center gap-2">
-                        <span aria-hidden="true" class="material-symbols-outlined text-base">${completa ? rutasUI.iconos.completado : ruta.icono}</span>
+                        ${icono}
                         <span class="text-sm font-bold">${ruta.nombre}</span>
                     </span>
                     <span class="etiqueta-categoria mt-1 block ${activa ? 'text-white/80' : 'text-orient-500 dark:text-orient-400'}">${hechos}/${total}</span>
@@ -60,8 +67,10 @@ function plantillaSelector(ruta, activa, hechos) {
 function plantillaPaso(item, indice, hecho) {
     const formato = recursosUI.formato[item.formato] || {};
     const dificultad = recursosUI.dificultad[item.dificultad] || '';
-    const accion = item.formato === 'video' ? rutasUI.textos.ver : rutasUI.textos.descargar;
-    const externo = item.formato === 'video' ? ' target="_blank" rel="noopener noreferrer"' : ` download`;
+    // Toda URL absoluta (video, enlace, repositorio) se abre aparte; los archivos propios se descargan.
+    const esExterno = /^https?:\/\//.test(item.url);
+    const accion = esExterno ? rutasUI.textos.ver : rutasUI.textos.descargar;
+    const externo = esExterno ? ' target="_blank" rel="noopener noreferrer"' : ` download`;
 
     return `
                 <li class="relative pl-12 md:pl-16" data-paso="${item.id}">
@@ -91,6 +100,42 @@ function plantillaPaso(item, indice, hecho) {
                         </div>
                     </article>
                 </li>`;
+}
+
+// Bloques consecutivos de pasos que comparten categoriaPadre, en el orden de la ruta.
+function bloquesPorEtapa(pasos) {
+    return pasos.reduce((bloques, paso) => {
+        const ultimo = bloques[bloques.length - 1];
+        if (ultimo && ultimo[0].categoriaPadre === paso.categoriaPadre) ultimo.push(paso);
+        else bloques.push([paso]);
+        return bloques;
+    }, []);
+}
+
+// Se agrupa solo si hay más de una etapa y cada una forma un único bloque seguido:
+// una categoría que reaparece más adelante (como en Full Stack Python) no es una etapa.
+function agruparPorEtapa(pasos) {
+    const bloques = bloquesPorEtapa(pasos);
+    const etapas = new Set(bloques.map((bloque) => bloque[0].categoriaPadre));
+    return bloques.length > 1 && etapas.size === bloques.length;
+}
+
+// Separador de etapa: la numeración sigue de corrido (start), no se reinicia por etapa.
+function plantillaEtapa(grupo, pasos, hechos, tarjetas, rutaId) {
+    const etapa = grupo[0].categoriaPadre;
+    const primero = pasos.indexOf(grupo[0]);
+    const deEtapa = pasos.filter((p) => p.categoriaPadre === etapa);
+    const hechosEtapa = deEtapa.filter((p) => hechos.includes(p.id)).length;
+    const id = `etapa-${rutaId}-${primero + 1}`;
+
+    return `
+                <div>
+                    <div class="mb-6 flex items-baseline justify-between gap-4 border-b border-orient-100 pb-2 dark:border-white/10">
+                        <p class="etiqueta-categoria min-w-0 text-primary" id="${id}">${etapa}</p>
+                        <span class="etiqueta-categoria shrink-0 tabular-nums text-orient-500 dark:text-orient-400">${hechosEtapa}/${deEtapa.length}</span>
+                    </div>
+                    <ol aria-labelledby="${id}" class="space-y-6" start="${primero + 1}">${tarjetas}</ol>
+                </div>`;
 }
 
 function plantillaCabecera(ruta, hechos) {
@@ -182,9 +227,15 @@ export function iniciarRutas() {
             ? pasos.filter((p) => `${p.titulo} ${p.descripcion} ${p.tecnologia}`.toLowerCase().includes(texto))
             : pasos;
 
+        const tarjetas = (grupo) => grupo.map((p) =>
+            plantillaPaso(p, pasos.indexOf(p), hechos.includes(p.id))).join('');
+
+        // Se agrupan los pasos visibles: una etapa que la búsqueda deja vacía no dibuja encabezado.
         const lista = visibles.length
-            ? `<ol class="mt-8 space-y-6">${visibles.map((p) =>
-                plantillaPaso(p, pasos.indexOf(p), hechos.includes(p.id))).join('')}</ol>`
+            ? agruparPorEtapa(pasos)
+                ? `<div class="mt-8 space-y-12">${bloquesPorEtapa(visibles).map((grupo) =>
+                    plantillaEtapa(grupo, pasos, hechos, tarjetas(grupo), activa.id)).join('')}</div>`
+                : `<ol class="mt-8 space-y-6">${tarjetas(visibles)}</ol>`
             : `<div class="mt-8">${plantillaVacio({
                 icono: 'search_off',
                 mensaje: rutasUI.textos.sinResultados,

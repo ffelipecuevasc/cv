@@ -8,7 +8,9 @@ export const recursosUI = {
     formato: {
         "pdf": { icon: "picture_as_pdf", bgClass: "bg-red-100 dark:bg-red-900/30", textClass: "text-red-600 dark:text-red-400", btnText: "Descargar", btnIcon: "download" },
         "github": { icon: "folder_zip", bgClass: "bg-gray-100 dark:bg-gray-800", textClass: "text-gray-700 dark:text-gray-300", btnText: "Ver Repo", btnIcon: "open_in_new" },
-        "video": { icon: "play_circle", bgClass: "bg-blue-100 dark:bg-blue-900/30", textClass: "text-blue-600 dark:text-blue-400", btnText: "Ver Clase", btnIcon: "play_arrow" }
+        "video": { icon: "play_circle", bgClass: "bg-blue-100 dark:bg-blue-900/30", textClass: "text-blue-600 dark:text-blue-400", btnText: "Ver Clase", btnIcon: "play_arrow" },
+        "enlace": { icon: "open_in_new", bgClass: "bg-cyan-100 dark:bg-cyan-900/30", textClass: "text-cyan-600 dark:text-cyan-400", btnText: "Ver más", btnIcon: "open_in_new" },
+        "plantilla": { icon: "description", bgClass: "bg-purple-100 dark:bg-purple-900/30", textClass: "text-purple-600 dark:text-purple-400", btnText: "Descargar plantilla", btnIcon: "download" }
     },
     dificultad: {
         "Básico": "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800/50",

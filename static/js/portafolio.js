@@ -37,7 +37,7 @@ const renderPortfolio = (filtro = 'all') => {
         const tagsHTML = item.tags.map(tag => {
             const slug = portafolioUI.iconosTecnologia[tag];
             const icono = slug
-                ? `<img src="static/img/tecnologias/${slug}.svg" alt="" width="10" height="10" loading="lazy" class="inline-block w-2.5 h-2.5 mr-1 align-[-1px]"/>`
+                ? `<img src="static/img/iconos/${slug}.svg" alt="" width="10" height="10" loading="lazy" class="inline-block w-2.5 h-2.5 mr-1 align-[-1px]"/>`
                 : '';
             return `<span class="${portafolioUI.etiquetaClase} inline-flex items-center">${icono}${tag}</span>`;
         }).join('');

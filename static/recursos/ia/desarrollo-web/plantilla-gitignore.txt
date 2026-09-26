@@ -1,0 +1,15 @@
+# Dependencias: se reinstalan con pnpm
+node_modules/
+
+# Configuración personal del IDE
+.idea/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Registros de errores
+*.log
+
+# Secretos y claves privadas
+.env
