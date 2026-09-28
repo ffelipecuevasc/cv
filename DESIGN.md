@@ -1,141 +1,148 @@
-# DESIGN.md — Sistema visual de felipecuevas.dev
+# DESIGN.md · felipecuevas.dev
 
-Catálogo canónico del sistema de diseño. Fuente de verdad técnica: `tailwind.config.js` y `static/css/index.css`.
-Regla general: **reutiliza lo que existe**. No inventes colores, tamaños, sombras ni componentes nuevos. Si algo no está aquí, copia el patrón de la página más parecida.
+> **Estado: Esqueleto v0. Los valores se definen en la iteración E20-I01** (épica E20 · Sistema de diseño).
+> Este archivo es la **única fuente de verdad del diseño** (ADR-010). Lo marcado "por definir" no se inventa: se decide en E20-I01 con Felipe Cuevas.
+> Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes desde ya** y solo cambian con un ADR nuevo.
 
-## 1. Principios
+## 1. Principios de diseño
+Por definir en E20-I01. Dirección declarada por Felipe: un rediseño **más elegante y tecnológico** que el sitio actual.
 
-- Tecnológico, limpio y sobrio: mucho aire, jerarquía tipográfica fuerte, acentos de color puntuales.
-- Dos modos con personalidad propia: **claro** (blanco, bordes suaves, efecto linterna de puntos) y **oscuro** (cristal esmerilado + resplandor neón).
-- La animación es adorno, nunca condición: el contenido debe verse aunque JavaScript o AOS fallen.
+## 2. Restricciones cerradas
 
-## 2. Color
+### 2.1 Barra de navegación (ADR-008 · D-08)
+- Rediseño total de diseño y estilo, con **exactamente las mismas opciones de menú** del sitio actual:
+    - Inicio;
+    - Educación;
+    - **Experiencia ▾**: Resumen, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital;
+    - **Comunidad ▾**: Eventos, Foro, Recursos;
+    - Contacto;
+    - llamado a la acción "Descargar CV" (ADR-021).
+- En móvil, "Experiencia" y "Comunidad" son rótulos de grupo no navegables.
+- Incluye el **botón de apariencia** (claro/oscuro), que se mueve desde el pie (ADR-021), y el **botón de idioma**, que lleva a la página equivalente (ADR-001).
+- El **logotipo se conserva sí o sí** (sección 3).
+- Criterios de aceptación:
+    - el toggle de tema no produce parpadeo ni CLS;
+    - el toggle de idioma lleva a la ruta equivalente;
+    - funciona en móvil y con teclado (Escape cierra los desplegables).
 
-Usa siempre los tokens de Tailwind, nunca hexadecimales en línea.
+### 2.2 Hero de la portada (ADR-009 · D-09)
+- Rediseño libre, incluso completo.
+- En escritorio, navbar + hero + las **3 certificaciones** (Oracle, AWS, Python Institute) + las **redes sociales** deben verse completos al cargar, sin scroll.
+- Matriz de verificación (ADR-016), en área visible: 1366×638, 1440×770, 1536×734 y 1920×950 px, en ambos temas y ambos idiomas.
+- No se elimina ningún elemento de la lista de conservación de E40-I01 sin ADR.
 
-| Token | Hex | Uso |
+### 2.3 Tema claro y oscuro
+- Ambos temas son obligatorios y tienen el mismo nivel de terminación.
+- Preferencia guardada en `localStorage` con la clave `theme`, con respaldo en `prefers-color-scheme` (ADR-023).
+- Sin parpadeo al cargar y sin CLS al alternar.
+
+### 2.4 Internacionalización
+- Todo componente funciona con textos en `es-CL` y `en-US`. Los textos en inglés suelen ser más largos: diseñar con holgura.
+- Ningún texto visible vive dentro de imágenes.
+
+## 3. Logotipo que se conserva (vinculante)
+
+Especificación extraída del sitio actual (auditoría, área C). Debe reproducirse **idéntica en apariencia y comportamiento** (ADR-008).
+
+### 3.1 Ícono
+- **Fuente:** `static/img/favicon.svg` del sitio actual. Es una ventana de terminal (barra superior con dos puntos y chevrons `< >`), definida como máscara, en un lienzo de 48×48 con `viewBox="-2 -2 52 52"`.
+- **Render:**
+    - contenedor de **32×32 px** pintado con el color de fondo y el SVG aplicado como máscara (`mask-image`, `mask-size: contain`, sin repetición);
+    - no es decorativo en el sentido semántico, pero se oculta a tecnologías asistivas (`aria-hidden`), porque el nombre accesible lo aporta el texto.
+- **Color:** `#00678A` en tema claro y `#0096C7` en tema oscuro (hoy `orient-600` y `orient-400`), con transición de color de 300 ms.
+- **Separación con el texto:** 12 px.
+
+### 3.2 Texto
+- **Contenido base:** "Felipe Cuevas".
+- **Tipografía:** Lexend, peso 700, tamaño 1,25 rem (20 px) con alto de línea de 1,75 rem, interletraje ajustado (−0,025 em).
+- **Color:** `#00131D` en tema claro y `#FFFFFF` en tema oscuro.
+- El efecto es de "máquina de escribir" por su **animación de tecleo**, no por usar tipografía monoespaciada.
+
+### 3.3 Efecto máquina de escribir
+- **Frases, en ciclo circular y por idioma:**
+    - en `es-CL`: "Felipe Cuevas", "Instructor Dev", "Dev Full Stack", "Instructor IA";
+    - en `en-US`: la traducción se valida con Felipe en E30-I03, y la primera frase es siempre "Felipe Cuevas".
+- **Ritmo:**
+  | Paso | Valor |
+  |---|---|
+  | Arranque antes del primer borrado | 1.400 ms |
+  | Escritura por carácter | 84 ms + variación aleatoria de 0 a 34 ms |
+  | Borrado por carácter | 42 ms |
+  | Espera con la frase completa | 3.600 ms |
+  | Espera con el texto vacío | 500 ms |
+- **Estructura accesible:**
+    - nombre accesible fijo "Felipe Cuevas" en texto solo para lectores de pantalla;
+    - una copia invisible de la frase más larga reserva el ancho, para que el CLS sea 0;
+    - el texto tecleado es decorativo (`aria-hidden`);
+    - el texto nunca se parte en dos líneas.
+- **Cursor:**
+    - barra de 0,07 em × 0,95 em en el color del texto (`currentColor`), con separación de 0,06 em y radio de 1 px;
+    - parpadea cada 1,05 s de forma escalonada y queda fijo mientras se teclea.
+- **Pausa:** se detiene con la pestaña oculta o con el logotipo fuera de pantalla, y retoma sin perder su estado.
+- **Presencia:** el logotipo anima en **todas** las páginas, incluida la 404 (AT-003).
+
+### 3.4 Movimiento reducido y sin JavaScript
+- Con `prefers-reduced-motion: reduce`, el efecto **no arranca**: se muestra "Felipe Cuevas" estático y el cursor no parpadea.
+- Sin JavaScript se muestra "Felipe Cuevas" estático.
+
+### 3.5 Pendiente
+- ¿El logotipo será enlace a la portada del idioma activo? Es la propuesta P-03, pendiente de aprobación.
+- Si la paleta nueva cambia los colores de la sección 3.1 o 3.2, se requiere un ADR que lo autorice de forma explícita.
+
+## 4. Color
+Por definir en E20-I01:
+- tokens semánticos (fondo, superficie, texto, texto atenuado, borde, primario, acento, estados) en claro y oscuro;
+- tabla de contrastes WCAG 2.2 AA para cada par texto/fondo.
+
+Referencia no vinculante del sitio actual: escala `orient` (#E4F3FF a #00131D), `primary` #007EA7, `primary-vibrant` #00B0E8 y `accent-gold` #F8CD46.
+
+## 5. Tipografía
+- **Por definir en E20-I01:** familias, escala tipográfica, pesos, alturas de línea y reglas de balance de titulares.
+- **Restricción:** Lexend peso 700 es obligatorio para el logotipo.
+- **Carga:** fuentes autoalojadas, sin Google Fonts (E20-I03).
+
+## 6. Espaciado y layout
+Por definir en E20-I01:
+- escala de espaciado;
+- anchos máximos de contenedor;
+- retícula;
+- puntos de quiebre;
+- alturas de la barra (escritorio y móvil);
+- reglas de secciones.
+
+## 7. Componentes
+| Componente | Estado | Notas vinculantes |
 |---|---|---|
-| `primary` | `#007EA7` | Acento principal: botones, enlaces, estado activo, íconos |
-| `primary-vibrant` | `#00B0E8` | Acento en modo oscuro y estados hover |
-| `accent-gold` | `#f8cd46` | Destacados excepcionales (planes, sellos). Uso escaso |
-| `accent-gold-deep` | `#7a5c00` | Texto sobre fondos dorados |
-| `background-light` / `background-dark` | `#ffffff` / `#00131D` | Fondo de `<body>` |
-| `orient-50` … `orient-950` | escala azul | Todo el resto: textos, bordes, superficies |
+| Navbar (escritorio y móvil) | Por definir | Sección 2.1 y logotipo de la sección 3 |
+| Hero | Por definir | Sección 2.2 |
+| Footer | Por definir | Etiquetas alineadas con la navbar e inclusión de Recursos (AT-008) |
+| Botones (primario, secundario, ícono) | Por definir | Foco visible, zona táctil de al menos 44 px |
+| Tarjetas | Por definir | — |
+| Formularios | Por definir | Etiquetas visibles y errores anunciados |
+| Encabezado de sección | Por definir | — |
+| Selector de idioma | Por definir | Indica el idioma actual y el destino |
+| Botón de apariencia | Por definir | Nombre accesible que describe la acción |
 
-Combinaciones de texto establecidas:
+## 8. Movimiento y accesibilidad
+- **Obligatorio:**
+    - respetar `prefers-reduced-motion` (sin animaciones de entrada ni de tecleo);
+    - el contenido es visible sin JavaScript;
+    - sin CLS por animaciones;
+    - foco siempre visible;
+    - contraste AA.
+- **Por definir en E20-I01:** duraciones, curvas y tipos de animación permitidos.
+- No se usa AOS (E20-I04).
 
-| Rol | Claro | Oscuro |
-|---|---|---|
-| Títulos | `text-orient-950` | `dark:text-orient-50` |
-| Cuerpo | `text-orient-700` | `dark:text-orient-200` o `dark:text-orient-300` |
-| Secundario | `text-orient-500` | `dark:text-orient-400` |
-| Bordes | `border-orient-100` / `border-orient-200` | `dark:border-white/10` o `dark:border-transparent` |
+## 9. Reglas de Tailwind CSS v4
+- Los tokens se declaran en `@theme`, en la hoja global. No hay `tailwind.config.js`.
+- El escaneo de fuentes se restringe a `src/` (ADR-004).
+- La variante oscura se controla por clase o atributo en `<html>` (se define en E20-I02).
+- No se usan colores, tamaños ni sombras arbitrarias fuera de los tokens, salvo con una justificación escrita en la iteración.
+- **Por definir en E20-I01:** convenciones de nombres de tokens y de componentes.
 
-## 3. Tipografía e íconos
-
-- Fuente única: **Lexend** (300–900), clase `font-display` o herencia desde `body`.
-- `<h1>` de página: `text-4xl md:text-6xl font-black leading-tight tracking-[-0.033em]`, con una palabra clave en `<span class="text-primary">`.
-- `<h2>` de sección: `text-2xl font-black tracking-tight`.
-- `<h3>` de tarjeta: `text-lg font-bold leading-tight` (o `text-base` en tarjetas compactas).
-- Íconos: **Material Symbols Outlined**, peso 300 por defecto. Siempre `<span aria-hidden="true" class="material-symbols-outlined">nombre</span>`.
-
-## 4. Modo oscuro y superficies
-
-Estrategia `darkMode: "class"` (clase `dark` en `<html>`). Tres niveles de cristal, solo en oscuro:
-
-| Clase | Nivel | Uso |
-|---|---|---|
-| `glass-low` | Plataforma | Contenedores base, navegación, pie |
-| `glass-mid` | Contenido | Tarjetas (la más usada: `dark:glass-mid`) |
-| `glass-high` | Flotante | Desplegables, modales, tooltips |
-
-Resplandores neón (solo aplican en oscuro):
-- `neon-glow-sm`: íconos y badges.
-- `neon-glow-md`: botones de llamado a la acción.
-- `neon-glow-interactive`: tarjetas con hover.
-- `neon-glow-gold` / `neon-glow-gold-interactive`: equivalentes dorados, solo para destacados.
-
-## 5. Componentes de clase
-
-| Clase | Qué es | Qué agregar en línea |
-|---|---|---|
-| `tarjeta-contenido` | Tarjeta base (blanca, borde, sombra, elevación al hover) | Relleno `p-5`/`p-6`, `dark:glass-mid`, `neon-glow-interactive` |
-| `tarjeta-reactiva` | Foco de luz interno que sigue al cursor | Combinar con una tarjeta existente |
-| `boton-primario` | Botón azul sólido | Relleno vertical (`py-2.5` / `py-3`) y efectos de elevación |
-| `boton-secundario` | Botón blanco con borde | Nada, salvo `mt-0` cuando comparte una fila (`flex`) junto a `boton-primario` — su `mt-2` por defecto asume que va solo, como en el conmutador de tema del pie |
-| `etiqueta-categoria` | Microtexto en mayúsculas (10 px, bold, tracking) | Color y relleno |
-| `seccion-bajada` | Párrafo introductorio bajo el `<h1>` | Nada |
-| `tecnologia-*` | Piezas de la tarjeta de tecnología | Exclusivo de `desarrollador.html` |
-
-## 6. Patrones de composición
-
-**Contenedor de página:** `max-w-[1200px]` centrado, con `px-6 md:px-10`.
-
-**Encabezado de sección** (patrón obligatorio para cada `<section>`):
-
-```html
-<section aria-labelledby="sec-ejemplo" class="mb-14">
-    <div class="inline-flex items-center gap-3 mb-3">
-        <div class="h-px w-8 bg-primary"></div>
-        <p class="etiqueta-categoria text-primary" data-aos="fade-right">Etiqueta</p>
-    </div>
-    <h2 class="text-orient-950 dark:text-orient-50 text-2xl font-black tracking-tight mb-8"
-        id="sec-ejemplo" data-aos="fade-right" data-aos-delay="100">Título de sección</h2>
-    <!-- contenido -->
-</section>
-```
-
-**Ícono en círculo** (tarjetas de pasos o características):
-`flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary shadow-lg neon-glow-sm`
-
-**Etiquetas de tecnología:**
-`px-2 py-1 bg-orient-100 dark:bg-white/5 dark:border dark:border-white/10 text-orient-700 dark:text-orient-300 text-[10px] font-bold rounded uppercase tracking-wider`
-
-**Rejillas:** `grid grid-cols-1 gap-4 md:grid-cols-2` para listas simples; rejilla bento de 12 columnas (`grid-cols-12`) con patrón de anchos repetido cada 6 tarjetas para portafolio y formación.
-
-**Radios:** `rounded-lg` botones, `rounded-xl` tarjetas, `rounded-2xl` tarjetas grandes de portafolio, `rounded-full` íconos y pastillas.
-
-## 7. Navegación
-
-**Enlace simple (escritorio):** subrayado animado con `after:` desde `after:w-0` a `hover:after:w-full`, texto `text-sm font-medium text-orient-700 dark:text-orient-300 hover:text-primary`.
-
-**Desplegable (escritorio):** contenedor `relative group h-full flex items-center` con `data-dropdown`. El disparador es un `<button type="button">` (nunca `<a>`: no navega a ningún archivo) con `aria-haspopup="true"`, `aria-controls` y `aria-expanded`. El panel se revela solo por CSS con `group-hover` y `group-focus-within` (opacidad, visibilidad y `translate-y`, 300 ms) — no depende de JavaScript para mostrarse, solo para sincronizar `aria-expanded`. Panel interno: `w-52 bg-white/90 dark:bg-orient-900/90 backdrop-blur-xl border border-orient-100 dark:border-white/10 shadow-xl rounded-xl overflow-hidden`. Ítems: `block px-5 py-3 text-sm font-medium … hover:bg-orient-50 dark:hover:bg-white/5`. El ícono `expand_more` rota 180° al abrir; en la variante activa lleva además `leading-none`.
-
-Grupos actuales: **Experiencia** (General, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital) y **Comunidad** (Eventos, Foro). Ninguno de los dos disparadores tiene `href` propio.
-
-**Estado activo:** pastilla `rounded-full bg-primary px-4 py-2 text-white shadow-md shadow-primary/20` en el disparador (botón), sin `aria-current` ahí — es un botón, no un enlace a una página. `aria-current="page"` va en el enlace hijo correspondiente, dentro del panel.
-
-**Menú móvil:** columna con `space-y-5`. Los grupos con desplegable en escritorio (Experiencia, Comunidad) se ven como una etiqueta no interactiva — `<p>` sin `href`, con `text-xs font-bold uppercase tracking-wider text-orient-500 dark:text-orient-400 pt-2` — seguida de sus hijos indentados con `pl-4 border-l-2 border-orient-100 dark:border-white/10 space-y-3` y enlaces `text-sm text-orient-500 dark:text-orient-400`. A diferencia del desplegable de escritorio, en móvil ningún hijo lleva `aria-current`: ni el grupo ni sus hijos se marcan como activos ahí, es una limitación conocida y aceptada, no un error.
-
-**Nota de compatibilidad:** en Safari/macOS, un clic con mouse no siempre enfoca un `<button>` (a diferencia de un `<a>`). El panel igual se abre por `group-hover` mientras el cursor está encima, y la navegación por teclado (Tab) funciona normal; el caso límite es un clic que no queda "sostenido" por hover. Si en el futuro se reporta como problema real, la solución pasa por JavaScript en `navegacion.js`, no por volver el disparador a `<a>`.
-
-## 8. Movimiento (AOS)
-
-- Efectos permitidos: `fade-up` (tarjetas y bloques), `fade-right` (etiquetas y títulos de sección), `fade-left`, `fade-down`.
-- Retardos escalonados en pasos de 50 o 100 ms (`data-aos-delay="0|100|200"`). Nunca más de 400 ms.
-- Respeta `prefers-reduced-motion`: ya está resuelto en CSS y en `servicios/animacion.js`; no agregues animaciones que lo ignoren.
-- Efectos existentes adicionales: `badge-float` (flotación suave) e `icon-animate` (aparición a escala).
-
-## 9. Conjunto de tecnologías (desarrollador.html)
-
-Es una rejilla puramente estática, sin interactividad ni panel (se quitó deliberadamente: sobrecargaba la página). Está agrupada en 5 categorías, cada una con su propio `<h3>` subtítulo (`text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-vibrant`) y su propia `<ul aria-labelledby>`: Lenguajes y Frameworks, Datos/APIs y Seguridad, Infraestructura y Despliegue, Herramientas y Control de Versiones, Inteligencia Artificial. Cada tarjeta usa `<img src="static/img/tecnologias/<slug>.svg">` — íconos de marca a color completo, sin recolorear (a diferencia de las redes sociales, ver más abajo). El fondo del cuadrito del ícono (`.tecnologia-icono`) es `bg-orient-100` tanto en claro como en oscuro, deliberadamente igual en ambos modos: varios de estos logos vienen en colores casi negros y se pierden sobre un fondo oscuro.
-
-## 10. Redes sociales — tres convenciones distintas, no por descuido
-
-El sitio usa tres tratamientos diferentes para los mismos íconos (LinkedIn, GitHub, Discord, correo), cada uno propio de su contexto. Al agregar una red nueva, replica el patrón del lugar exacto donde va, no inventes uno nuevo:
-
-- **Hero (`index.html`)**: insignia `h-12 w-12 rounded-2xl bg-orient-50 dark:bg-orient-900`, ícono `fill-current` que hereda `text-orient-500 dark:text-orient-400`, y **todas** las redes pasan al mismo `group-hover:text-primary` al pasar el mouse (color único del sitio, no el de cada marca). Lleva una etiqueta de texto debajo del ícono.
-- **Pie de página (compartido, 13 páginas)**: solo el ícono, sin insignia, `text-orient-600 dark:text-orient-400` en reposo, y aquí sí **cada red toma su propio color de marca al pasar el mouse** (`hover:text-[#0076b2]` LinkedIn, `hover:text-[#5865f2]` Discord, etc.).
-- **Tarjeta de contacto (`contacto.html`)**: tarjeta `tarjeta-reactiva` completa (icono en círculo `size-14`, nombre de usuario o llamado a la acción, nombre de la plataforma, flecha `arrow_forward`), con `group-hover:text-primary` uniforme, igual que el hero.
-
-Todas usan `fill="currentColor"` (nunca un color de marca fijo en el `<path>`): así heredan el color de texto de su contexto en vez de imponer el suyo.
-
-## 11. Categorías del portafolio
-
-Tres categorías, cada una con su propia pastilla y color de botón de acción: `frontend` (azul, `bg-primary`), `backend` (gris oscuro, `bg-orient-800`/`bg-orient-700`) y `fullstack` (`bg-primary-vibrant`). Las etiquetas de tecnología (`etiquetaClase`) pueden llevar un ícono de 10 px antes del texto (`static/img/tecnologias/<slug>.svg`, `inline-block w-2.5 h-2.5 mr-1 align-[-1px]`), según un diccionario texto-exacto → ícono en `portafolioUI.iconosTecnologia`. Una tecnología sin entrada en ese diccionario se ve solo como texto — es el comportamiento esperado, no un ícono faltante por corregir.
-
-## 12. Imágenes
-
-- WEBP con `width` y `height` explícitos, `object-cover` dentro de contenedores con proporción fija.
-- Portafolio: 16:9, 1600 × 900. Eventos: proporción original de la portada.
-- Hover en imágenes de tarjeta: `transition-transform duration-700 group-hover:scale-105`.
+## 10. Criterios de calidad visual
+Por definir en E20-I01. Mínimos ya vigentes:
+- paridad visual entre temas;
+- sin desbordes con textos en inglés;
+- revisión en 360, 768, 1366 y 1920 px de ancho;
+- matriz de la sección 2.2 para el hero.
