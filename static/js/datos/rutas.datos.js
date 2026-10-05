@@ -22,8 +22,8 @@ export const rutasData = [
         previos: "Ninguno para empezar. Antes de la Etapa 5 necesitas una cuenta de GitHub y el plan Claude Pro.",
         duracion: "Alrededor de 8 horas",
         icono: "static/img/iconos/claude.svg",
-        pasos: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
-        proximamente: "Próximamente: la grabación completa del taller en video."
+        pasos: [34, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
+        proximamente: ""
     },
     {
         id: "python",

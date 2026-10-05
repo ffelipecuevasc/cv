@@ -367,5 +367,16 @@ export const recursosData = [
         dificultad: "Avanzado",
         tecnologia: "Claude Code",
         url: "https://github.com/addyosmani/agent-skills"
+    },
+    {
+        id: 34, // verifica cuál es el siguiente id libre en tu archivo
+        titulo: "Grabación - Del Vibe Coding a la Ingeniería Web",
+        descripcion: "Clase grabada del taller en vivo del 3 de octubre de 2026, de principio a fin.",
+        categoriaPadre: "Etapa 0 · Introducción y materiales",
+        categoriaFiltro: "Desarrollo Web & IA",
+        formato: "video",
+        dificultad: "Básico",
+        tecnologia: "Claude Code",
+        url: "https://youtu.be/8BlRz0aaT1Y"
     }
 ];
