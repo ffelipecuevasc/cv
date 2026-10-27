@@ -1,7 +1,7 @@
 # E10-I04 · Calidad de código: astro check, ESLint y Prettier
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E10-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-003
+- **Depende de:** E10-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-003, ADR-030
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -10,6 +10,7 @@ Disponer de verificación de tipos, lint y formato para archivos `.astro`, `.ts`
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
 - Paquetes candidatos verificados el 28-09-2026: `@astrojs/check` 0.9.10, `eslint-plugin-astro` 3.2.1, `prettier-plugin-astro` 1.1.0.
+- **Versiones instaladas el 27-10-2026 (ADR-030):** `@astrojs/check` 0.9.12, `typescript` 6.0.3, `eslint` 10.13.0, `@eslint/js` 10.0.1, `typescript-eslint` 8.72.0, `eslint-plugin-astro` 3.2.1, `globals` 17.13.0, `prettier` 3.9.10, `prettier-plugin-astro` 1.1.2.
 - Cada dependencia nueva requiere ADR (regla de AGENTS.md).
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
@@ -23,19 +24,19 @@ Disponer de verificación de tipos, lint y formato para archivos `.astro`, `.ts`
 - Pruebas automatizadas de navegador (E170).
 
 ## Tareas
-- [ ] Instalar dependencias de calidad con PNPM.
-- [ ] Crear configuraciones de ESLint y Prettier.
-- [ ] Definir scripts en `package.json`.
-- [ ] Ejecutar todos los scripts en limpio.
+- [x] Instalar dependencias de calidad con PNPM.
+- [x] Crear configuraciones de ESLint y Prettier.
+- [x] Definir scripts en `package.json`.
+- [x] Ejecutar todos los scripts en limpio.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `package.json`.
 - Crear: configuración de ESLint, `.prettierrc` o equivalente, `.prettierignore` (que excluya los archivos del sitio antiguo).
 
 ## Criterios de aceptación (verificables)
-- [ ] `pnpm check`, `pnpm lint` y `pnpm format:check` terminan sin errores.
-- [ ] Los archivos del sitio antiguo quedan excluidos de lint y formato.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] `pnpm check`, `pnpm lint` y `pnpm format:check` terminan sin errores.
+- [x] Los archivos del sitio antiguo quedan excluidos de lint y formato.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -47,7 +48,7 @@ Disponer de verificación de tipos, lint y formato para archivos `.astro`, `.ts`
 - Evitar reglas que obliguen a reescribir los archivos antiguos.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

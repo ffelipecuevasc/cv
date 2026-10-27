@@ -1,0 +1,19 @@
+# Prettier también respeta .gitignore (dist/, .astro/, node_modules/, .idea/...).
+
+# Sitio antiguo: referencia de solo lectura hasta E190-I03 (AGENTS.md, sección 2).
+/*.html
+static/
+functions/
+docs/
+sitemap.xml
+robots.txt
+_redirects
+linkinator.config.json
+
+# Documentación y planificación: se redactan a mano y no se reformatean.
+*.md
+_planificacion/
+
+# Archivos generados o de herramientas.
+pnpm-lock.yaml
+.claude/

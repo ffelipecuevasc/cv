@@ -4,5 +4,5 @@
  * escanearía los HTML del sitio antiguo; @source limita el escaneo a src/.
  * Los tokens de diseño se declaran en @theme en E20-I02.
  */
-@import "tailwindcss" source(none);
+@import 'tailwindcss' source(none);
 @source "../../src";

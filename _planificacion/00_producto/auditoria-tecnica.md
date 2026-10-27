@@ -462,3 +462,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 | Escaneo de HTML antiguos por Tailwind | Fuentes restringidas a `src/` (E10-I03) |
 | Pérdida de URLs | E180 |
 | Regresión del logotipo | Especificación exacta en `DESIGN.md` y comparación lado a lado en E30-I03 |
+
+### AT-044 · TypeScript 7 no es compatible con las herramientas de calidad
+- **Severidad:** Baja · **Estado:** Abierto (mitigado en E10-I04) · **Resuelve:** se reevalúa en cada subida de versión
+- **Evidencia:** al 27-10-2026, `typescript` 7.0.2 es la versión `latest`, pero `@astrojs/check` 0.9.12 declara peer `typescript ^5.0.0 || ^6.0.0` y `typescript-eslint` 8.72.x declara `typescript >=4.8.4 <6.1.0` (registry.npmjs.org).
+- **Impacto:** instalar TypeScript 7 rompería `pnpm check` y `pnpm lint`.
+- **Recomendación:** fijar `typescript` 6.0.3 (ADR-030) y subir a 7.x con un ADR nuevo cuando ambos paquetes lo admitan.

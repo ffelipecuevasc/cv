@@ -192,6 +192,25 @@ Reglas del registro:
 - **Consecuencias:** las subidas de versión de Tailwind se hacen cambiando ambas versiones exactas a la vez. Los tokens llegan en E20-I02.
 - **Origen:** E10-I03, 27-10-2026. **Estado:** Aceptada.
 
+## ADR-030 · Dependencias de calidad de código: astro check, ESLint y Prettier
+- **Contexto:** E10-I04 traía versiones del 28-09-2026. El 27-10-2026 se volvieron a verificar en registry.npmjs.org (`pnpm view`): `@astrojs/check` 0.9.12 (peer `typescript ^5 || ^6`), `eslint-plugin-astro` 3.2.1 (peer `eslint >=10`, Node `^22.22.3 || ^24.16.0`), `prettier-plugin-astro` 1.1.2 (peer `prettier ^3.5.3`, Node `>=22.12`), ESLint 10.13.0 (solo configuración plana), `typescript-eslint` 8.72.x (peer `typescript <6.1.0`). La última TypeScript es 7.0.2, que **no** es compatible con `@astrojs/check` ni con `typescript-eslint` (AT-044). PNPM 12 aplica `minimumReleaseAge` y rechazó `typescript-eslint` 8.72.1 (publicada el 26-10-2026) agregando excepciones automáticas a `pnpm-workspace.yaml`.
+- **Decisión:**
+  - Se agregan como `devDependencies` exactas (`pnpm add -D -E`), y son las únicas nuevas:
+    1. `@astrojs/check` 0.9.12: script `check` (`astro check`).
+    2. `typescript` 6.0.3: peer obligatorio de `@astrojs/check`; se fija en 6.x por AT-044.
+    3. `eslint` 10.13.0: script `lint` con `eslint.config.js` (configuración plana, `defineConfig` y `globalIgnores` de `eslint/config`).
+    4. `@eslint/js` 10.0.1: reglas recomendadas de JavaScript.
+    5. `typescript-eslint` 8.72.0: analiza TypeScript en `.ts` y en el frontmatter de `.astro`; se usa 8.72.0 y no 8.72.1 para respetar `minimumReleaseAge` sin excepciones.
+    6. `eslint-plugin-astro` 3.2.1: configuración `recommended`.
+    7. `globals` 17.13.0: globales de Node para `scripts/` y archivos `*.config.*` (PNPM estricto no permite importar la copia transitiva).
+    8. `prettier` 3.9.10 y `prettier-plugin-astro` 1.1.2: scripts `format` y `format:check`.
+  - **No se instalan:** `eslint-plugin-jsx-a11y` (peer opcional; la accesibilidad se revisa en E170-I01), `prettier-plugin-tailwindcss` (ordenar clases requiere un ADR propio), `@typescript-eslint/parser` por separado (lo trae `typescript-eslint`).
+  - Prettier: comillas simples, comas finales, ancho 100 y `endOfLine: "auto"` (Git en Windows con `autocrlf` deja CRLF en la copia de trabajo).
+  - El sitio antiguo (`/*.html`, `static/`, `functions/`, `docs/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) queda excluido de ESLint y Prettier. También se excluyen de Prettier los Markdown (`*.md`, `_planificacion/`), que se redactan a mano, `pnpm-lock.yaml` y `.claude/`.
+  - `pnpm-workspace.yaml` no cambia: `allowBuilds` sigue vacío y `pnpm approve-builds` no informa paquetes por aprobar; no hay excepciones a `minimumReleaseAge`.
+- **Consecuencias:** TypeScript no sube a 7.x hasta que `@astrojs/check` y `typescript-eslint` lo admitan (ADR nuevo). Las subidas de versión respetan `minimumReleaseAge`.
+- **Origen:** E10-I04, 27-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
