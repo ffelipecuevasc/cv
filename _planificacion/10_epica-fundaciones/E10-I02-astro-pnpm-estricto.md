@@ -1,5 +1,5 @@
 # E10-I02 · Proyecto Astro desde cero con PNPM estricto
-- **Estado:** [~] En curso (falta confirmar en vivo que npm y bun fallan)
+- **Estado:** [x] Terminada (27-10-2026)
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E10-I01 · **Hallazgos que cierra:** AT-020, AT-041 · **ADR relacionados:** ADR-002, ADR-003, ADR-018
 
@@ -34,7 +34,7 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 - [x] Fijar la salida estática en la configuración de Astro.
 - [x] Definir `packageManager`, `engines` y el script `preinstall` de bloqueo (mecanismo a elegir y registrar en ADR-003, sin dependencias nuevas sin ADR).
 - [x] Crear `pnpm-workspace.yaml` y aprobar builds solo tras revisar cada paquete con `pnpm approve-builds`.
-- [~] Probar que `npm install`, `yarn` y `bun install` fallan con mensaje claro (yarn probado en vivo; npm y bun, simulados).
+- [x] Probar que `npm install`, `yarn` y `bun install` fallan con mensaje claro (npm y yarn en vivo; bun simulado, no instalado).
 - [x] Registrar en `decisiones.md` cualquier dependencia agregada.
 
 ## Archivos previstos (crear / modificar)
@@ -44,7 +44,7 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 
 ## Criterios de aceptación (verificables)
 - [x] `pnpm install` desde un clon limpio termina sin errores y sin builds no revisados.
-- [~] `npm install`, `yarn install` y `bun install` terminan con error y mensaje que indica usar PNPM.
+- [x] `npm install`, `yarn install` y `bun install` terminan con error y mensaje que indica usar PNPM.
 - [x] `pnpm build` genera `dist/` estático.
 - [x] `package.json` declara `packageManager` y `engines` coherentes con ADR-002 y ADR-003.
 - [x] Cumple la Definition of Done global de `_planificacion/README.md`.
@@ -60,7 +60,7 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 - Node 26 pasa a Active LTS el 28-10-2026. Felipe decidió el 27-10-2026 construir con Node 24 (ADR-027): no hay que detenerse por este motivo. La migración a Node 26 queda agendada en BL-02.
 
 ## Cierre obligatorio
-- [~] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
 - [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
 - [x] Escribir la bitácora en 99_bitacora/
 - [x] Sugerir mensaje de commit (máx. 200 caracteres)

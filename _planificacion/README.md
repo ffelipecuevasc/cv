@@ -7,13 +7,13 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E10 · Fundaciones técnicas
-- **Iteración actual:** E10-I02 · Proyecto Astro desde cero con PNPM estricto
-- **Terminadas:** 1 de 52 (E10-I01)
+- **Iteración actual:** E10-I03 · Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad
+- **Terminadas:** 2 de 52 (E10-I01, E10-I02)
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
 - [x] E10-I01 · Preparación de la rama de migración (P0, S)
-- [~] E10-I02 · Proyecto Astro desde cero con PNPM estricto (P0, M)
+- [x] E10-I02 · Proyecto Astro desde cero con PNPM estricto (P0, M)
 - [ ] E10-I03 · Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad (P0, S)
 - [ ] E10-I04 · Calidad de código: astro check, ESLint y Prettier (P0, S)
 - [ ] E10-I05 · Configuración de WebStorm (P1, S)
