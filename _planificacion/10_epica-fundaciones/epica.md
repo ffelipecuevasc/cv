@@ -28,7 +28,7 @@ Ninguna. Es la primera épica.
 | [E10-I02](E10-I02-astro-pnpm-estricto.md) | Proyecto Astro desde cero con PNPM estricto | P0 | M | E10-I01 | [x] Terminada |
 | [E10-I03](E10-I03-tailwind-v4.md) | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | P0 | S | E10-I02 | [x] Terminada |
 | [E10-I04](E10-I04-calidad-codigo.md) | Calidad de código: astro check, ESLint y Prettier | P0 | S | E10-I02 | [x] Terminada |
-| [E10-I05](E10-I05-webstorm.md) | Configuración de WebStorm | P1 | S | E10-I04 | [ ] Pendiente |
+| [E10-I05](E10-I05-webstorm.md) | Configuración de WebStorm | P1 | S | E10-I04 | [x] Terminada |
 | [E10-I06](E10-I06-entorno-agentico.md) | Entorno agéntico: AGENTS.md en Claude Code y Antigravity | P0 | S | E10-I02 | [ ] Pendiente |
 | [E10-I07](E10-I07-i18n-base.md) | i18n base: enrutamiento /es/ y /en/ | P0 | M | E10-I03 | [ ] Pendiente |
 | [E10-I08](E10-I08-readme-raiz-v1.md) | README.md de la raíz, versión 1 | P1 | S | E10-I04, E10-I07 | [ ] Pendiente |

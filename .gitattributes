@@ -1,0 +1,14 @@
+# Fin de línea LF en todo el repositorio, sin importar el sistema operativo (ADR-032).
+* text=auto eol=lf
+
+# Binarios: sin conversión de fin de línea ni diff de texto.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

@@ -20,7 +20,8 @@ bun.lockb
 .env.*
 .dev.vars
 
-# WebStorm / IntelliJ (la política de versionado de .idea/ se define en E10-I05)
+# WebStorm / IntelliJ: .idea/ no se versiona; las configuraciones de ejecución
+# compartidas viven en .run/ (ADR-031)
 .idea/
 *.iml
 *.iws

@@ -1,9 +1,9 @@
 # E10-I05 · Configuración de WebStorm
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E10-I04 · **Hallazgos que cierra:** AT-022 · **ADR relacionados:** ADR-006
+- **Depende de:** E10-I04 · **Hallazgos que cierra:** AT-022 · **ADR relacionados:** ADR-006, ADR-031, ADR-032
 
-> Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
+> Estados posibles: [ ] Pendiente · [x] Terminada · [x] Terminada · [!] Bloqueada
 
 ## Objetivo
 Dejar WebStorm listo para el proyecto: plugin de Astro, intérprete de Node, PNPM como gestor, soporte de Tailwind, Prettier y ESLint, configuraciones de ejecución y política de versionado de `.idea/`.
@@ -23,20 +23,20 @@ Dejar WebStorm listo para el proyecto: plugin de Astro, intérprete de Node, PNP
 - Ajustes personales del IDE.
 
 ## Tareas
-- [ ] Verificar la versión de WebStorm instalada y registrar la versión del plugin de Astro.
-- [ ] Configurar Node (archivo de versión), PNPM como gestor, ESLint y Prettier automáticos.
-- [ ] Crear configuraciones de ejecución compartidas.
-- [ ] Actualizar `.gitignore` según el ADR.
+- [x] Verificar la versión de WebStorm instalada y registrar la versión del plugin de Astro.
+- [x] Configurar Node (archivo de versión), PNPM como gestor, ESLint y Prettier automáticos.
+- [x] Crear configuraciones de ejecución compartidas.
+- [x] Actualizar `.gitignore` según el ADR.
 
 ## Archivos previstos (crear / modificar)
-- Crear: `.idea/runConfigurations/*` (si el ADR lo aprueba).
-- Modificar: `.gitignore`.
+- Crear: `.run/pnpm dev.run.xml`, `.run/pnpm build.run.xml`, `.run/pnpm check.run.xml` (ADR-031 reemplaza `.idea/runConfigurations/`), `.gitattributes` (ADR-032), `_planificacion/00_producto/guia-webstorm.md`.
+- Modificar: `.gitignore`, `.prettierrc.json` (`endOfLine: "lf"`). Quitar del índice: `.idea/.gitignore`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Abrir un `.astro` muestra resaltado, autocompletado y errores del language server.
-- [ ] Las configuraciones de ejecución funcionan en un clon limpio.
-- [ ] `.gitignore` y `.idea/` son coherentes con el ADR.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Abrir un `.astro` muestra resaltado, autocompletado y errores del language server.
+- [x] Las configuraciones de ejecución funcionan en un clon limpio.
+- [x] `.gitignore` y `.idea/` son coherentes con el ADR.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -48,7 +48,10 @@ Dejar WebStorm listo para el proyecto: plugin de Astro, intérprete de Node, PNP
 - Algunos pasos son manuales en el IDE: el agente documenta y Felipe confirma.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
+
+## Resultado
+- WebStorm 2026.2.3 y plugin de Astro 262.10968.63; pasos 1 a 11 de `guia-webstorm.md` confirmados por Felipe el 27-10-2026.

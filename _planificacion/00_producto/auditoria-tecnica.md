@@ -401,7 +401,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reemplazarlo (E10-I06).
 
 ### AT-022 · Política de `.idea/` incoherente
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E10-I05
+- **Severidad:** Baja · **Estado:** Resuelto en E10-I05 (ADR-031) · **Resuelve:** E10-I05
 - **Evidencia:** `.gitignore:22` ignora `.idea/`, pero `.idea/.gitignore` está versionado.
 - **Impacto:** configuración ambigua del IDE.
 - **Recomendación:** ADR de versionado de `.idea/`.

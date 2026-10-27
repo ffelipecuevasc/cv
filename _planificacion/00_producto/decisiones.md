@@ -211,6 +211,18 @@ Reglas del registro:
 - **Consecuencias:** TypeScript no sube a 7.x hasta que `@astrojs/check` y `typescript-eslint` lo admitan (ADR nuevo). Las subidas de versión respetan `minimumReleaseAge`.
 - **Origen:** E10-I04, 27-10-2026. **Estado:** Aceptada.
 
+## ADR-031 · Configuración de WebStorm fuera de `.idea/`
+- **Contexto:** AT-022. `.gitignore` ignoraba `.idea/`, pero `.idea/.gitignore` estaba versionado. E10-I05 proponía versionar `.idea/runConfigurations/`.
+- **Decisión:** no se versiona nada de `.idea/` (decisión de Felipe, 27-10-2026). `.idea/.gitignore` sale del índice (`git rm --cached`; el archivo local se conserva). Las configuraciones de ejecución compartidas (`pnpm dev`, `pnpm build` y `pnpm check`) se versionan en `.run/` de la raíz, la carpeta estándar de JetBrains para configuraciones guardadas como archivo de proyecto. Los ajustes del IDE se documentan en `_planificacion/00_producto/guia-webstorm.md`.
+- **Consecuencias:** cada desarrollador configura WebStorm siguiendo la guía; `.run/` es la única configuración de IDE versionada.
+- **Origen:** E10-I05, 27-10-2026; verificada por Felipe en WebStorm 2026.2.3 con el plugin de Astro 262.10968.63. **Estado:** Aceptada.
+
+## ADR-032 · Fin de línea LF en el repositorio
+- **Contexto:** sugerencia de E10-I04. El repositorio ya guarda LF, pero con `core.autocrlf=true` la copia de trabajo en Windows queda con CRLF, por lo que Prettier usaba `endOfLine: "auto"`.
+- **Decisión:** `.gitattributes` con `* text=auto eol=lf` y binarios marcados (`png`, `jpg`, `webp`, `avif`, `gif`, `ico`, `pdf`, `woff`, `woff2`). Prettier pasa a `endOfLine: "lf"` (sustituye ese punto de ADR-030). Los archivos del sitio antiguo no se reescriben: su contenido en el repositorio ya es LF y su copia local se normaliza en el próximo checkout.
+- **Consecuencias:** los archivos nuevos y editados quedan en LF en cualquier sistema operativo; WebStorm debe usar LF como separador de línea (ver la guía).
+- **Origen:** E10-I05, aprobada por Felipe el 27-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
