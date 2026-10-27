@@ -18,7 +18,7 @@ Reglas del registro:
 - **Contexto:** Astro no publica versiones LTS; su documentación indica que da mantenimiento extendido solo con correcciones de seguridad a la mayor anterior. Node.js sí tiene LTS.
 - **Decisión:** "Última LTS" de Astro se interpreta como **última versión mayor estable**: Astro 7.x (7.3.5 al 28-09-2026, verificado en docs.astro.build/en/upgrade-astro). Node.js: **Active LTS vigente, v24** (24.21.0 al 28-09-2026, verificado en nodejs.org). Astro 7.3.5 exige Node >= 22.12.
 - **Consecuencias:** actualizaciones menores y parches de Astro se aceptan dentro de 7.x; un cambio de mayor requiere ADR nuevo. Node 26 pasará a LTS durante el proyecto: se reevalúa en BL-02.
-- **Origen:** D-02. **Estado:** Aceptada.
+- **Origen:** D-02. **Estado:** Aceptada. La versión de Node.js fue sustituida parcialmente por ADR-027.
 
 ## ADR-003 · Gestor de paquetes PNPM estricto (D-03)
 - **Contexto:** el sitio actual usa npm con `package-lock.json` (AT-020). PNPM vigente al 28-09-2026: 12.6.0. Desde PNPM 11, los scripts de compilación de dependencias se controlan con `allowBuilds` en `pnpm-workspace.yaml`, las opciones antiguas (`onlyBuiltDependencies` y similares) fueron eliminadas y PNPM ya no lee el campo `pnpm` de `package.json`.
@@ -153,6 +153,15 @@ Reglas del registro:
   - En `AGENTS.md`, la subsección "Reglas derivadas" se reemplaza por "Reglas de protección (ADR-026)", sin la marca "derivada".
   - E10-I06 usa estas reglas como base para las denegaciones de `.claude/settings.json`, incluidas `npx` y la escritura en archivos de Wrangler y `.dev.vars`.
 - **Origen:** propuesta P-04, aprobada por Felipe el 24-10-2026 con los ajustes a las reglas 1 y 4. **Estado:** Aceptada.
+
+## ADR-027 · Node.js 24 durante la construcción; migración a Node 26 agendada
+- **Contexto:** ADR-002 fijó Node.js 24 por ser la Active LTS al 28-09-2026. Al 27-10-2026, según endoflife.date y fuentes secundarias (no verificado aún en nodejs.org), Node 24 pasó a Maintenance LTS el 20-10-2026 y Node 26 pasa a Active LTS el 28-10-2026. Node 24 mantiene soporte de seguridad hasta el 30-04-2028.
+- **Decisión:** la construcción del proyecto continúa con Node 24 (rama 24.x). La migración a Node 26 se agenda en BL-02, antes de E190-I01, previa verificación de compatibilidad con Astro 7, Tailwind CSS v4, PNPM y la plataforma de despliegue (P-01).
+- **Consecuencias:**
+  - `engines` y el archivo de versión de Node de E10-I02 usan 24.x.
+  - La migración a Node 26 requerirá un ADR nuevo que sustituya a este.
+  - ADR-002 queda parcialmente sustituida en lo referente a la versión de Node.js; la parte sobre Astro 7.x sigue vigente.
+- **Origen:** consulta de E10-I02 (BL-02), decisión de Felipe el 27-10-2026. **Estado:** Aceptada.
 
 ---
 

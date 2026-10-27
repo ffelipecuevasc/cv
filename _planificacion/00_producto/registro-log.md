@@ -143,7 +143,7 @@ Estas tareas **no están agendadas** en ninguna iteración. Se agendan con una i
 | ID | Tarea | Origen | Responsable | Fecha |
 |---|---|---|---|---|
 | BL-01 | Revisar los informes de rendimiento que emita Cloudflare para el sitio actual y actualizar la línea base de ADR-015 y de E170-I02 | ADR-015 | Felipe | Fines de octubre de 2026 |
-| BL-02 | Reevaluar Node.js cuando la versión 26 pase a Active LTS; registrar ADR nuevo si se cambia | AT-041, ADR-002 | Agente + Felipe | Cuando ocurra |
+| BL-02 | Migrar de Node 24 a Node 26 (Active LTS desde el 28-10-2026): verificar compatibilidad con Astro 7, Tailwind CSS v4, PNPM y la plataforma de despliegue; registrar un ADR nuevo que sustituya a ADR-027 | AT-041, ADR-002, ADR-027 | Agente + Felipe | Antes de E190-I01 |
 | BL-03 | Datos estructurados Event en la página de eventos | AT-038 | Agente | Sin fecha |
 | BL-04 | Versiones en inglés del CV y de los PDFs de recursos, cuando Felipe las entregue | ADR-017, AT-034 | Felipe | Sin fecha |
 | BL-05 | Definir si "fecudev" es la marca de la comunidad y dónde se usa, sin alterar el menú (D-08) | Propuesta P-05 | Felipe | Sin fecha |

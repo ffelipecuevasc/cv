@@ -57,7 +57,7 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 
 ## Riesgos y notas
 - La creación del proyecto puede sugerir integraciones o ejemplos: no aceptarlos.
-- Si Node 26 ya es Active LTS al ejecutar esta iteración, detenerse y consultar (BL-02).
+- Node 26 pasa a Active LTS el 28-10-2026. Felipe decidió el 27-10-2026 construir con Node 24 (ADR-027): no hay que detenerse por este motivo. La migración a Node 26 queda agendada en BL-02.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
