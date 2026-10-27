@@ -26,7 +26,7 @@ Ninguna. Es la primera épica.
 |---|---|---|---|---|---|
 | [E10-I01](E10-I01-rama-migracion.md) | Preparación de la rama de migración | P0 | S | — | [x] Terminada |
 | [E10-I02](E10-I02-astro-pnpm-estricto.md) | Proyecto Astro desde cero con PNPM estricto | P0 | M | E10-I01 | [x] Terminada |
-| [E10-I03](E10-I03-tailwind-v4.md) | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | P0 | S | E10-I02 | [ ] Pendiente |
+| [E10-I03](E10-I03-tailwind-v4.md) | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | P0 | S | E10-I02 | [x] Terminada |
 | [E10-I04](E10-I04-calidad-codigo.md) | Calidad de código: astro check, ESLint y Prettier | P0 | S | E10-I02 | [ ] Pendiente |
 | [E10-I05](E10-I05-webstorm.md) | Configuración de WebStorm | P1 | S | E10-I04 | [ ] Pendiente |
 | [E10-I06](E10-I06-entorno-agentico.md) | Entorno agéntico: AGENTS.md en Claude Code y Antigravity | P0 | S | E10-I02 | [ ] Pendiente |
@@ -37,7 +37,7 @@ Ninguna. Es la primera épica.
 ## Criterios de aceptación de la épica
 - [ ] `pnpm install`, `pnpm build` y `pnpm check` funcionan desde un clon limpio con Node 24 LTS.
 - [ ] Cualquier intento de instalar con npm, yarn o bun falla con un mensaje claro.
-- [ ] Tailwind v4 compila utilidades usadas en `src/` y no escanea los HTML antiguos.
+- [x] Tailwind v4 compila utilidades usadas en `src/` y no escanea los HTML antiguos.
 - [ ] Claude Code muestra `AGENTS.md` cargado al iniciar y Antigravity lo aplica como regla del workspace.
 - [ ] Existen `/es/` y `/en/` como rutas funcionales de prueba.
 - [ ] La propuesta D-14 quedó resuelta como ADR y hay una URL de preview de la rama que no altera producción.

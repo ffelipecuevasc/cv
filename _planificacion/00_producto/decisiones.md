@@ -30,7 +30,7 @@ Reglas del registro:
 - **Contexto:** el sitio actual usa Tailwind 3.4.19 con `tailwind.config.js` (AT-019). Verificado el 28-09-2026: `tailwindcss` y `@tailwindcss/vite` 4.3.3; el plugin declara compatibilidad con Vite 5 a 8, y Astro 7.3.5 usa Vite `^8.0.13`.
 - **Decisión:** Tailwind CSS v4 compilado localmente con Node.js y PNPM mediante `@tailwindcss/vite`. La integración `@astrojs/tailwind` está obsoleta y no se usa. Tokens en `@theme`. Fuentes de escaneo restringidas a `src/`.
 - **Consecuencias:** la compatibilidad se prueba en E10-I03 antes de dar la decisión por cumplida; si falla, se registra un ADR nuevo.
-- **Origen:** D-04. **Estado:** Aceptada (verificación de compatibilidad pendiente en E10-I03).
+- **Origen:** D-04. **Estado:** Aceptada. Compatibilidad verificada en E10-I03 (ver ADR-029).
 
 ## ADR-005 · HTML5 semántico (D-05)
 - **Decisión:** HTML5 semántico en todo el sitio: landmarks correctos, un único `<main>` con todo el contenido principal, jerarquía de encabezados sin saltos, controles nativos.
@@ -179,6 +179,18 @@ Reglas del registro:
   - Cualquier dependencia futura con scripts de compilación hará fallar la instalación hasta que se revise y se agregue a `allowBuilds`.
   - Las subidas de versión de Astro dentro de 7.x se hacen cambiando la versión exacta.
 - **Origen:** E10-I02, 27-10-2026. **Estado:** Aceptada.
+
+## ADR-029 · Dependencias de Tailwind CSS v4 y verificación de compatibilidad
+- **Contexto:** ADR-004 dejó la prueba de compatibilidad para E10-I03. Verificado el 27-10-2026 en registry.npmjs.org: `tailwindcss` y `@tailwindcss/vite` siguen en 4.3.3, y el plugin declara peer `vite ^5.2.0 || ^6 || ^7 || ^8`. `pnpm why vite` muestra una sola versión, `vite@8.3.5`, traída por `astro@7.4.2`.
+- **Decisión:**
+  - Se agregan como `devDependencies`, con versión exacta, `tailwindcss` 4.3.3 y `@tailwindcss/vite` 4.3.3 (`pnpm add -D -E`). Son las únicas dependencias nuevas.
+  - El plugin se registra en `vite.plugins` de `astro.config.mjs`. No se usa `@astrojs/tailwind` ni `tailwind.config.js` (este se eliminó de la rama; el original sigue en `main`).
+  - La hoja global `src/styles/global.css` usa `@import "tailwindcss" source(none);` y `@source "../../src";`: se desactiva la detección automática desde la raíz y el escaneo queda limitado a `src/`.
+  - `allowBuilds` sigue vacío: `@tailwindcss/oxide` usa binarios precompilados y `pnpm approve-builds` no informa paquetes por aprobar.
+  - **No se instala `@tailwindcss/forms`.** Los formularios del sitio nuevo (E140-I01) se estilizarán con utilidades y tokens de `@theme`. Si E140-I01 lo necesita, se propone con un ADR nuevo. `@tailwindcss/container-queries` tampoco se instala: las container queries son nativas en v4.
+- **Verificación:** `pnpm build` sin advertencias de peer dependencies; la utilidad arbitraria `text-[13.37px]` de `src/pages/index.astro` aparece en el CSS de `dist/`, y `backdrop-blur-md` y `tracking-tight` (presentes solo en los HTML antiguos) no. Prueba de control: sin `source(none)`, esas clases antiguas sí aparecen.
+- **Consecuencias:** las subidas de versión de Tailwind se hacen cambiando ambas versiones exactas a la vez. Los tokens llegan en E20-I02.
+- **Origen:** E10-I03, 27-10-2026. **Estado:** Aceptada.
 
 ---
 

@@ -269,7 +269,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reemplazo sin dependencias.
 
 ### AT-019 · Tailwind 3 con configuración JS y plugins
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E10-I03, E20-I02
+- **Severidad:** Media · **Estado:** Resuelto parcialmente en E10-I03 (Tailwind v4 sin `tailwind.config.js`, ADR-029); queda `@theme` en E20-I02 · **Resuelve:** E10-I03, E20-I02
 - **Evidencia:** `package.json:25` (tailwindcss ^3.4.19), `tailwind.config.js` (content `./*.html` y `./static/js/**/*.js`), plugins `forms` y `container-queries`; CSS compilado versionado.
 - **Impacto:** no aplica al proyecto nuevo.
 - **Recomendación:** Tailwind v4 con tokens en `@theme` (ADR-004).
