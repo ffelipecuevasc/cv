@@ -1,5 +1,5 @@
 # E10 · Fundaciones técnicas
-- **Prioridad de la épica:** P0 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P0 · **Estado:** [~] En curso
 
 ## Objetivo
 Dejar una base técnica nueva, reproducible y estricta en la rama de migración: proyecto Astro desde cero, PNPM obligatorio, Tailwind CSS v4, calidad de código, IDE, entorno agéntico, i18n base, README de la raíz y estructura de despliegue en Cloudflare.
@@ -24,7 +24,7 @@ Ninguna. Es la primera épica.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E10-I01](E10-I01-rama-migracion.md) | Preparación de la rama de migración | P0 | S | — | [ ] Pendiente |
+| [E10-I01](E10-I01-rama-migracion.md) | Preparación de la rama de migración | P0 | S | — | [x] Terminada |
 | [E10-I02](E10-I02-astro-pnpm-estricto.md) | Proyecto Astro desde cero con PNPM estricto | P0 | M | E10-I01 | [ ] Pendiente |
 | [E10-I03](E10-I03-tailwind-v4.md) | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | P0 | S | E10-I02 | [ ] Pendiente |
 | [E10-I04](E10-I04-calidad-codigo.md) | Calidad de código: astro check, ESLint y Prettier | P0 | S | E10-I02 | [ ] Pendiente |

@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E10 · **Iteración actual:** E10-I01
-- **Resumen:** 19 épicas · 52 iteraciones · 0 terminadas
+- **Épica actual:** E10 · **Iteración actual:** E10-I02
+- **Resumen:** 19 épicas · 52 iteraciones · 1 terminada
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas.
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -12,7 +12,7 @@
 ### E10 · Fundaciones técnicas (`10_epica-fundaciones/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| P0 | E10-I01 | Preparación de la rama de migración | S | — | [ ] Pendiente |
+| P0 | E10-I01 | Preparación de la rama de migración | S | — | [x] Terminada |
 | P0 | E10-I02 | Proyecto Astro desde cero con PNPM estricto | M | E10-I01 | [ ] Pendiente |
 | P0 | E10-I03 | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | S | E10-I02 | [ ] Pendiente |
 | P0 | E10-I04 | Calidad de código: astro check, ESLint y Prettier | S | E10-I02 | [ ] Pendiente |

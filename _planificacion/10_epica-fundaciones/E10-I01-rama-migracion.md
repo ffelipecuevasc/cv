@@ -1,5 +1,5 @@
 # E10-I01 · Preparación de la rama de migración
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (27-10-2026)
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** S
 - **Depende de:** — · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-012, ADR-013, ADR-014
 
@@ -26,21 +26,21 @@ Confirmar que el trabajo ocurre en la rama de migración creada desde `main`, co
 - Borrar archivos del sitio antiguo (E190-I03).
 
 ## Tareas
-- [ ] Ejecutar `git branch --show-current` y `git log --oneline -1` y registrar el resultado.
-- [ ] Si la rama no existe o el nombre no coincide: detenerse, consultar a Felipe y crearla solo con su autorización explícita (`git switch -c migracion-astro main`).
-- [ ] Confirmar que no existe `CLAUDE.md` ni `GEMINI.md` en la raíz ni en directorios superiores.
-- [ ] Listar los archivos antiguos de la raíz y clasificarlos: reemplazados en E10 (`package.json`, `package-lock.json`, `tailwind.config.js`, `.gitignore`, `.claude/settings.json`, `README.md`) o referencia hasta el cutover (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`, `docs/`).
-- [ ] Registrar la clasificación en la bitácora.
+- [x] Ejecutar `git branch --show-current` y `git log --oneline -1` y registrar el resultado.
+- [x] Si la rama no existe o el nombre no coincide: detenerse, consultar a Felipe y crearla solo con su autorización explícita (`git switch -c migracion-astro main`).
+- [x] Confirmar que no existe `CLAUDE.md` ni `GEMINI.md` en la raíz ni en directorios superiores.
+- [x] Listar los archivos antiguos de la raíz y clasificarlos: reemplazados en E10 (`package.json`, `package-lock.json`, `tailwind.config.js`, `.gitignore`, `.claude/settings.json`, `README.md`) o referencia hasta el cutover (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`, `docs/`).
+- [x] Registrar la clasificación en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Ninguno de código. Solo actualización de `_planificacion/`.
 
 ## Criterios de aceptación (verificables)
-- [ ] La rama activa no es `main` y su nombre quedó confirmado por Felipe.
-- [ ] La rama deriva de `main` (`git merge-base --is-ancestor main HEAD` devuelve éxito).
-- [ ] No existen `CLAUDE.md` ni `GEMINI.md` en el proyecto.
-- [ ] La clasificación de archivos antiguos quedó escrita en la bitácora.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La rama activa no es `main` y su nombre quedó confirmado por Felipe.
+- [x] La rama deriva de `main` (`git merge-base --is-ancestor main HEAD` devuelve éxito).
+- [x] No existen `CLAUDE.md` ni `GEMINI.md` en el proyecto.
+- [x] La clasificación de archivos antiguos quedó escrita en la bitácora.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `git branch --show-current`
@@ -51,7 +51,7 @@ Confirmar que el trabajo ocurre en la rama de migración creada desde `main`, co
 - Si Felipe ya creó la rama con otro nombre, se actualiza ADR-014 con una entrada nueva, no se edita la original.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
