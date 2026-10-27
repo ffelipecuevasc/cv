@@ -13,7 +13,7 @@
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | P0 | E10-I01 | Preparación de la rama de migración | S | — | [x] Terminada |
-| P0 | E10-I02 | Proyecto Astro desde cero con PNPM estricto | M | E10-I01 | [ ] Pendiente |
+| P0 | E10-I02 | Proyecto Astro desde cero con PNPM estricto | M | E10-I01 | [~] En curso |
 | P0 | E10-I03 | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | S | E10-I02 | [ ] Pendiente |
 | P0 | E10-I04 | Calidad de código: astro check, ESLint y Prettier | S | E10-I02 | [ ] Pendiente |
 | P0 | E10-I06 | Entorno agéntico: AGENTS.md en Claude Code y Antigravity | S | E10-I02 | [ ] Pendiente |

@@ -1,0 +1,10 @@
+# Configuración de PNPM (desde PNPM 11 no se lee el campo "pnpm" de package.json).
+
+# Falla si Node o PNPM no cumplen "engines" de package.json.
+engineStrict: true
+
+# Falla si una dependencia intenta ejecutar scripts de compilación no revisados (ADR-003).
+strictDepBuilds: true
+
+# Scripts de compilación aprobados tras revisión explícita con `pnpm approve-builds`.
+allowBuilds: {}

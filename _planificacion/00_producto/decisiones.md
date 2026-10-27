@@ -163,6 +163,23 @@ Reglas del registro:
   - ADR-002 queda parcialmente sustituida en lo referente a la versión de Node.js; la parte sobre Astro 7.x sigue vigente.
 - **Origen:** consulta de E10-I02 (BL-02), decisión de Felipe el 27-10-2026. **Estado:** Aceptada.
 
+## ADR-028 · Versiones fijadas y mecanismo de bloqueo de gestores
+- **Contexto:** ADR-003 dejó el mecanismo exacto de bloqueo para E10-I02. Las versiones de ADR-002 y ADR-003 eran del 28-09-2026; el 27-10-2026 se volvieron a verificar en registry.npmjs.org y nodejs.org/dist: Astro 7.4.2 (exige Node >= 22.23.4 y usa Vite `^8.3.4`), PNPM 12.15.0, Node 24.22.1 (LTS "Krypton") y `create-astro` 5.3.1.
+- **Decisión:**
+  - `astro` queda fijado en la versión exacta `7.4.2` y es la única dependencia del proyecto (cubierta por ADR-002). Se usó la plantilla `minimal` sin integraciones, sin `.vscode/`, sin los favicons de ejemplo y sin el `AGENTS.md` ni el `README.md` de la plantilla.
+  - `packageManager: "pnpm@12.15.0"`; `engines` con `node: "24.x"` y `pnpm: "12.x"` (ADR-027); `engineStrict: true` en `pnpm-workspace.yaml`.
+  - El archivo de versión de Node es `.nvmrc` con el valor `24`, para aceptar cualquier 24.x.
+  - **Bloqueo en dos capas, sin dependencias:**
+    1. Corepack rechaza yarn por el campo `packageManager`.
+    2. El script `preinstall` ejecuta `scripts/only-pnpm.mjs`, que revisa `npm_config_user_agent` y termina con código 1 y un mensaje en español si el gestor no es PNPM.
+  - Se descarta `only-allow`, porque se ejecuta con `npx` (prohibido por ADR-026) y agrega una dependencia.
+  - `strictDepBuilds: true` y `allowBuilds: {}`. La instalación no requiere ningún script de compilación: Vite 8 usa Rolldown en lugar de esbuild, y `sharp` 0.35.5 (dependencia opcional de Astro) no tiene script `install` y usa los binarios precompilados `@img/*`. `pnpm approve-builds` informa que no hay paquetes por aprobar.
+  - Sin `.npmrc`: desde PNPM 11 la configuración vive en `pnpm-workspace.yaml`, y no hay autenticación ni registro que declarar.
+- **Consecuencias:**
+  - Cualquier dependencia futura con scripts de compilación hará fallar la instalación hasta que se revise y se agregue a `allowBuilds`.
+  - Las subidas de versión de Astro dentro de 7.x se hacen cambiando la versión exacta.
+- **Origen:** E10-I02, 27-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

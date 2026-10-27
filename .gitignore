@@ -1,50 +1,44 @@
-# =========================================
-# 1. Dependencias (Node.js / Tailwind CLI)
-# =========================================
+# Salida de compilación y tipos generados de Astro
+dist/
+.astro/
+
+# Dependencias
 node_modules/
-npm-debug.log
-yarn-error.log
-yarn-debug.log
-.pnpm-debug.log
 
-# =========================================
-# 2. Seguridad y Entorno (¡Crítico!)
-# =========================================
+# Registros
+*.log
+pnpm-debug.log*
+
+# Lockfiles de otros gestores: solo se versiona pnpm-lock.yaml (ADR-003)
+package-lock.json
+yarn.lock
+bun.lock
+bun.lockb
+
+# Variables de entorno y secretos
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+.dev.vars
 
-# =========================================
-# 3. Entorno de Desarrollo (WebStorm / IntelliJ IDEA)
-# =========================================
+# WebStorm / IntelliJ (la política de versionado de .idea/ se define en E10-I05)
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
 
-# =========================================
-# 4. Archivos de Sistema Operativo (Basura)
-# =========================================
-# Windows
+# Sistema operativo
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-
-# macOS
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# =========================================
-# 5. Archivos Temporales y Caché
-# =========================================
-*.log
+# Temporales
 *.tmp
 *.bak
 *.swp
 *~
+
+# Claude Code: configuración local de cada máquina
 .claude/settings.local.json

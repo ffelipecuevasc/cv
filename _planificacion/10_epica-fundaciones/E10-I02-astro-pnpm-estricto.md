@@ -1,5 +1,5 @@
 # E10-I02 · Proyecto Astro desde cero con PNPM estricto
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (falta confirmar en vivo que npm y bun fallan)
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E10-I01 · **Hallazgos que cierra:** AT-020, AT-041 · **ADR relacionados:** ADR-002, ADR-003, ADR-018
 
@@ -30,12 +30,12 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 - Contenido de páginas.
 
 ## Tareas
-- [ ] Crear el proyecto con `pnpm create astro@latest` usando la plantilla mínima y sin instalar integraciones no aprobadas.
-- [ ] Fijar la salida estática en la configuración de Astro.
-- [ ] Definir `packageManager`, `engines` y el script `preinstall` de bloqueo (mecanismo a elegir y registrar en ADR-003, sin dependencias nuevas sin ADR).
-- [ ] Crear `pnpm-workspace.yaml` y aprobar builds solo tras revisar cada paquete con `pnpm approve-builds`.
-- [ ] Probar que `npm install`, `yarn` y `bun install` fallan con mensaje claro.
-- [ ] Registrar en `decisiones.md` cualquier dependencia agregada.
+- [x] Crear el proyecto con `pnpm create astro@latest` usando la plantilla mínima y sin instalar integraciones no aprobadas.
+- [x] Fijar la salida estática en la configuración de Astro.
+- [x] Definir `packageManager`, `engines` y el script `preinstall` de bloqueo (mecanismo a elegir y registrar en ADR-003, sin dependencias nuevas sin ADR).
+- [x] Crear `pnpm-workspace.yaml` y aprobar builds solo tras revisar cada paquete con `pnpm approve-builds`.
+- [~] Probar que `npm install`, `yarn` y `bun install` fallan con mensaje claro (yarn probado en vivo; npm y bun, simulados).
+- [x] Registrar en `decisiones.md` cualquier dependencia agregada.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `astro.config.mjs`, `tsconfig.json`, `.nvmrc` o `.node-version`, `src/pages/` mínimo, `public/`.
@@ -43,11 +43,11 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 - Eliminar de la rama: `package-lock.json` (el original sigue en `main`).
 
 ## Criterios de aceptación (verificables)
-- [ ] `pnpm install` desde un clon limpio termina sin errores y sin builds no revisados.
-- [ ] `npm install`, `yarn install` y `bun install` terminan con error y mensaje que indica usar PNPM.
-- [ ] `pnpm build` genera `dist/` estático.
-- [ ] `package.json` declara `packageManager` y `engines` coherentes con ADR-002 y ADR-003.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] `pnpm install` desde un clon limpio termina sin errores y sin builds no revisados.
+- [~] `npm install`, `yarn install` y `bun install` terminan con error y mensaje que indica usar PNPM.
+- [x] `pnpm build` genera `dist/` estático.
+- [x] `package.json` declara `packageManager` y `engines` coherentes con ADR-002 y ADR-003.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm install --frozen-lockfile`
@@ -60,7 +60,7 @@ Crear el proyecto Astro 7.x desde cero con salida estática, gestionado exclusiv
 - Node 26 pasa a Active LTS el 28-10-2026. Felipe decidió el 27-10-2026 construir con Node 24 (ADR-027): no hay que detenerse por este motivo. La migración a Node 26 queda agendada en BL-02.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [~] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

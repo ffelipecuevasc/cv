@@ -275,13 +275,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Tailwind v4 con tokens en `@theme` (ADR-004).
 
 ### AT-020 · npm y versión de Node fija
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E10-I02
+- **Severidad:** Media · **Estado:** Resuelto en E10-I02 (ADR-028) · **Resuelve:** E10-I02
 - **Evidencia:** `package-lock.json`; `package.json:6` fija `"node": "24.16.0"`.
 - **Impacto:** contradice D-03.
 - **Recomendación:** ADR-003.
 
 ### AT-041 · Node 26 pasará a LTS durante el proyecto
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** backlog BL-02
+- **Severidad:** Media · **Estado:** Resuelto en E10-I02 por ADR-027 (migración a Node 26 agendada en BL-02) · **Resuelve:** backlog BL-02
 - **Evidencia:** nodejs.org al 28-09-2026: v24 LTS (24.21.0); v26 en fase Current desde mayo de 2026.
 - **Impacto:** la "Active LTS vigente" cambiará.
 - **Recomendación:** reevaluar con ADR nuevo cuando ocurra.
