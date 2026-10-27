@@ -30,7 +30,7 @@ Reimplementar el logotipo con apariencia y comportamiento idénticos al sitio ac
 - [ ] Comparar lado a lado con producción en ambos temas.
 
 ## Archivos previstos (crear / modificar)
-- Crear: `src/components/layout/Logotipo.astro` y su script.
+- Crear: `src/components/layout/Logo.astro` y su script.
 
 ## Criterios de aceptación (verificables)
 - [ ] Tamaño, color, tipografía y espaciado coinciden con el sitio actual (comparación visual lado a lado).

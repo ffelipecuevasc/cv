@@ -45,13 +45,12 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 - **No hacer commits, push ni merges.** Los hace siempre el desarrollador (ADR-012).
 - **No trabajar sobre `main`.** Toda la implementación vive en la rama de migración. Si la rama activa es `main`, detente y avisa.
 
-### Reglas derivadas (pendientes de aprobación o veto de Felipe, propuesta P-04)
-Mientras no se vete, cada regla se aplica de forma conservadora.
-- *Derivada:* no reescribir el historial (`rebase`, `reset --hard`, `push --force`) ni eliminar ramas.
-- *Derivada:* no usar npm, yarn, bun ni `npx`; usar solo `pnpm` y `pnpm dlx` (ADR-003).
-- *Derivada:* no agregar dependencias sin un ADR aceptado en `decisiones.md`.
-- *Derivada:* no tocar la configuración de despliegue (Cloudflare, Wrangler, `_headers`, `_redirects`, variables o secretos) sin consultar.
-- *Derivada:* no borrar entradas de la auditoría ni revertir ADR sin una entrada nueva que lo sustituya.
+### Reglas de protección (ADR-026)
+- No reescribir el historial (`rebase`, `reset --hard`, `push --force` ni equivalentes) ni eliminar ramas. Excepción: una rama local temporal creada por el propio agente en la sesión, solo con autorización de Felipe. Nunca se eliminan ramas remotas.
+- No usar npm, yarn, bun ni `npx`; usar solo `pnpm` y `pnpm dlx` (ADR-003).
+- No agregar dependencias sin un ADR aceptado en `decisiones.md`.
+- No tocar la configuración de despliegue sin consultar: Cloudflare (panel y API), Wrangler y sus archivos (`wrangler.toml`, `wrangler.json`, `wrangler.jsonc`), `_headers`, `_redirects`, `.dev.vars`, variables de entorno y secretos.
+- No borrar entradas de la auditoría ni revertir ADR sin una entrada nueva que lo sustituya.
 
 ### Otras restricciones vinculantes
 - No crear `CLAUDE.md` ni `GEMINI.md` en ninguna ruta del proyecto (ADR-024).
@@ -95,6 +94,7 @@ Agrupa las preguntas en una sola ronda y propón una recomendación para cada un
 - **Logotipo:** idéntico al actual en apariencia y comportamiento (ADR-008 y `DESIGN.md`).
 - **Almacenamiento local:** conservar las claves `theme`, `perfil-hero` y `rutas-progreso` (ADR-023).
 - **Rendimiento:** no empeorar los umbrales de ADR-015.
+- **Idioma del código:** identificadores en inglés; comentarios y documentación en español de Chile. No se traducen los slugs de `/es/`, las claves de `localStorage` ni los nombres propios de dominio (ADR-025).
 
 ## 8. Herramientas de agente
 

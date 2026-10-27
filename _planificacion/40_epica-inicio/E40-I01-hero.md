@@ -33,7 +33,7 @@ Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + re
 - [ ] Medir el ajuste sin scroll en toda la matriz de ADR-016, en ambos temas e idiomas.
 
 ## Archivos previstos (crear / modificar)
-- Crear: `src/pages/es/index.astro`, `src/pages/en/index.astro`, `src/components/inicio/*`, contenido bilingüe del hero.
+- Crear: `src/pages/es/index.astro`, `src/pages/en/index.astro`, `src/components/home/*`, contenido bilingüe del hero.
 
 ## Criterios de aceptación (verificables)
 - [ ] En 1366×638, 1440×770, 1536×734 y 1920×950 px de área visible (ADR-016), navbar + hero + 3 certificaciones + redes se ven completos sin scroll, en claro y oscuro, en `es-CL` y `en-US`.

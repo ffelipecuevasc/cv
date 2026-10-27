@@ -127,6 +127,33 @@ Reglas del registro:
 - **Decisión:** no se crea `CLAUDE.md` ni `GEMINI.md` en ninguna ruta del proyecto. La carga de `AGENTS.md` se verifica en E10-I06 con la línea de arranque o preguntando al agente por sus instrucciones, no con `/memory` (AT-036).
 - **Origen:** verificación web del 28-09-2026; deriva de ADR-011. **Estado:** Aceptada.
 
+## ADR-025 · Idioma del código y de los comentarios
+- **Contexto:** propuesta P-02. El sitio actual usa identificadores en español (por ejemplo `leerProgreso` y `rutasUI` en `static/js/rutas.js`), mientras que las API de Astro y del ecosistema están en inglés.
+- **Decisión:**
+  - Identificadores de código en **inglés**: variables, funciones, tipos, componentes, carpetas y archivos dentro de `src/` (salvo las excepciones).
+  - Comentarios, JSDoc, documentación, bitácoras y mensajes de commit en **español de Chile**.
+  - **Excepciones que no se traducen:**
+    1. los slugs de ruta en español bajo `src/pages/es/` (ADR-020), por ejemplo `recursos.astro`;
+    2. las claves de `localStorage` `theme`, `perfil-hero` y `rutas-progreso`, con su formato de valor (ADR-023);
+    3. los nombres propios de dominio, por ejemplo `talento-digital` o `reuf`.
+- **Consecuencias:**
+  - Los nombres previstos en español en los archivos de iteración se ajustan al inglés (`Logotipo.astro` pasa a `Logo.astro` y `components/inicio` pasa a `components/home`).
+  - Los textos visibles para el visitante no se ven afectados: siguen en `es-CL` y `en-US` según ADR-001.
+- **Origen:** propuesta P-02, aprobada por Felipe el 24-10-2026. **Estado:** Aceptada.
+
+## ADR-026 · Reglas de protección para los agentes de IA
+- **Contexto:** propuesta P-04. `AGENTS.md` tenía cinco reglas marcadas como "derivadas", pendientes de aprobación. Tres ya tenían respaldo (ADR-003, la regla de dependencias y las reglas del registro de decisiones y de la auditoría); dos eran nuevas.
+- **Decisión:** las cinco reglas pasan a ser vinculantes, con dos ajustes:
+  1. **Historial y ramas:** el agente no reescribe el historial (`rebase`, `reset --hard`, `push --force` ni equivalentes) ni elimina ramas. **Ajuste:** puede eliminar una rama local temporal que él mismo creó en la sesión, solo después de consultar a Felipe y recibir su autorización. Nunca elimina ramas remotas.
+  2. **Gestor de paquetes:** solo `pnpm` y `pnpm dlx`. Prohibidos npm, yarn, bun y `npx` (amplía ADR-003, que no mencionaba `npx`).
+  3. **Dependencias:** no se agrega ninguna dependencia sin un ADR aceptado en `decisiones.md`.
+  4. **Despliegue:** no se toca la configuración de despliegue sin consultar a Felipe. **Ajuste:** incluye Cloudflare (panel y API), Wrangler y sus archivos de configuración (`wrangler.toml`, `wrangler.json`, `wrangler.jsonc`), `_headers`, `_redirects`, `.dev.vars`, variables de entorno y secretos.
+  5. **Registros:** no se borran entradas de la auditoría ni se revierten ADR; todo cambio se hace con una entrada nueva que sustituye a la anterior.
+- **Consecuencias:**
+  - En `AGENTS.md`, la subsección "Reglas derivadas" se reemplaza por "Reglas de protección (ADR-026)", sin la marca "derivada".
+  - E10-I06 usa estas reglas como base para las denegaciones de `.claude/settings.json`, incluidas `npx` y la escritura en archivos de Wrangler y `.dev.vars`.
+- **Origen:** propuesta P-04, aprobada por Felipe el 24-10-2026 con los ajustes a las reglas 1 y 4. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
@@ -144,7 +171,7 @@ Reglas del registro:
   - La reversa lo devuelve a Pages.
 
 ### P-02 · Convención de idioma para código y comentarios
-- **Estado:** Pendiente.
+- **Estado:** Aceptada el 24-10-2026. Ver ADR-025.
 - **Propuesta:** comentarios y documentación en español de Chile. Identificadores de código en inglés, por coherencia con Astro y el ecosistema, salvo nombres de dominio propios (por ejemplo `talento-digital`). Alternativa: mantener identificadores en español como en el sitio actual.
 
 ### P-03 · Logotipo como enlace al inicio
@@ -152,9 +179,9 @@ Reglas del registro:
 - **Propuesta:** el logotipo pasa a ser un enlace a la portada del idioma activo, sin cambiar su apariencia ni su animación. Requiere aprobación porque ADR-008 exige comportamiento idéntico.
 
 ### P-04 · Reglas derivadas de AGENTS.md
-- **Estado:** Pendiente de aprobación o veto de Felipe.
+- **Estado:** Aceptada el 24-10-2026 con ajustes. Ver ADR-026.
 - **Contenido:** las reglas marcadas como "derivada" en `AGENTS.md`: no reescribir historial ni eliminar ramas; no usar npm, yarn ni bun; no agregar dependencias sin ADR; no tocar la configuración de despliegue sin consultar; no borrar entradas de la auditoría ni revertir ADR sin una entrada nueva que lo sustituya.
-- **Vigencia:** hasta que Felipe las apruebe o vete, los agentes las aplican de forma conservadora.
+- **Vigencia:** reemplazada por ADR-026.
 
 ### P-05 · Marca "fecudev"
 - **Estado:** Pendiente (BL-05).

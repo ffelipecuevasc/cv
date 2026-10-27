@@ -20,6 +20,7 @@ Garantizar que Claude Code y Antigravity cargan el `AGENTS.md` de la raíz y que
 - Nuevo `.claude/settings.json` con permisos para scripts de PNPM, denegación de commit, push, merge, rebase, reset y cualquier comando de npm, yarn o bun.
 - Verificación documentada en Claude Code y en Antigravity.
 - Regla de no crear `CLAUDE.md` ni `GEMINI.md` (ADR-024).
+- Denegaciones alineadas con ADR-026: `npx`, escritura en archivos de Wrangler y en `.dev.vars`, además de lo ya listado.
 
 ## Fuera de alcance
 - Cambiar el contenido normativo de `AGENTS.md` sin ADR.
