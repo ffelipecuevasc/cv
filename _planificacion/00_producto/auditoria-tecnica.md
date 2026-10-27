@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-044.
+- Los hallazgos nuevos continúan la numeración desde AT-046.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -395,7 +395,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Clave pública:** la de Turnstile está en `contacto.html:327`, lo que es correcto.
 
 ### AT-021 · Permisos del agente contradicen las decisiones nuevas
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E10-I06
+- **Severidad:** Alta · **Estado:** Resuelto en E10-I06 (27-10-2026): `.claude/settings.json` nuevo con PNPM permitido y commit, push, merge, npm, yarn, bun y npx denegados (ADR-033) · **Resuelve:** E10-I06
 - **Evidencia:** `.claude/settings.json` permite `Bash(npm run build)` y deja `git commit` en `ask`.
 - **Impacto:** contradice D-03 y D-12.
 - **Recomendación:** reemplazarlo (E10-I06).
@@ -436,7 +436,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 ## N. Riesgos de la migración
 
 ### AT-036 · El criterio antiguo para verificar AGENTS.md ya no sirve
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E10-I06
+- **Severidad:** Media · **Estado:** Resuelto en E10-I06 (27-10-2026): en Claude Code 2.1.311 la línea de arranque no es visible y la carga se confirmó preguntando al agente; en Antigravity ACP 1.3.0 la regla se observó activa, aunque su documentación oficial no confirma la lectura de `AGENTS.md` · **Resuelve:** E10-I06
 - **Evidencia:** el plan de septiembre proponía verificar con `/memory`. Según el changelog de Claude Code 2.1.277 y la documentación del mod `agents-md`, `AGENTS.md` no aparece en `/memory` ni en `/context`.
 - **Impacto:** falsa conclusión de que no se cargó.
 - **Recomendación:** verificar con la línea de arranque o preguntando al agente (ADR-024).
@@ -468,3 +468,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** al 27-10-2026, `typescript` 7.0.2 es la versión `latest`, pero `@astrojs/check` 0.9.12 declara peer `typescript ^5.0.0 || ^6.0.0` y `typescript-eslint` 8.72.x declara `typescript >=4.8.4 <6.1.0` (registry.npmjs.org).
 - **Impacto:** instalar TypeScript 7 rompería `pnpm check` y `pnpm lint`.
 - **Recomendación:** fijar `typescript` 6.0.3 (ADR-030) y subir a 7.x con un ADR nuevo cuando ambos paquetes lo admitan.
+
+### AT-045 · Límites de las reglas `deny` de Claude Code
+- **Severidad:** Media · **Estado:** Abierto (mitigado en E10-I06) · **Resuelve:** revisión continua; se reevalúa con cada cambio de `.claude/settings.json`
+- **Evidencia:** las reglas `Bash(...)` y `PowerShell(...)` comparan el texto del comando por prefijo: variantes como `git -C . commit`, `cmd /c npm ...` o un script que invoque esos comandos no calzan con el patrón. `Edit(...)` no impide escribir el mismo archivo desde la shell. Las pruebas de E10-I06 corrieron con Claude Code en "auto mode on", donde un clasificador automático decide muchas aprobaciones que en el modo predeterminado pedirían confirmación. En la prueba de `npm --version`, el agente se negó por `AGENTS.md` y la regla `Bash(npm *)` no se ejercitó.
+- **Impacto:** los permisos son una barrera de conveniencia, no de seguridad; en modo automático, acciones en `ask` (por ejemplo `pnpm add`, `git add` o `rm`) pueden ejecutarse sin que Felipe las confirme.
+- **Recomendación:** trabajar en el modo de permisos predeterminado (no en modo automático) y mantener `AGENTS.md` como regla principal. Revisar `git status` antes de cada commit. No guardar secretos en la carpeta del proyecto.

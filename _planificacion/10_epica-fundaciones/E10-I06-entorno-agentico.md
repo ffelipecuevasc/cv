@@ -1,5 +1,5 @@
 # E10-I06 · Entorno agéntico: AGENTS.md en Claude Code y Antigravity
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** S
 - **Depende de:** E10-I02 · **Hallazgos que cierra:** AT-021, AT-036 · **ADR relacionados:** ADR-011, ADR-012, ADR-024
 
@@ -26,21 +26,21 @@ Garantizar que Claude Code y Antigravity cargan el `AGENTS.md` de la raíz y que
 - Cambiar el contenido normativo de `AGENTS.md` sin ADR.
 
 ## Tareas
-- [ ] Redactar `.claude/settings.json` nuevo (permitir `pnpm dev|build|check|lint|test|format`; denegar `git commit`, `git push`, `git merge`, `git rebase`, `git reset --hard`, `npm`, `yarn`, `bun`, `npx`).
-- [ ] Revisar `/config` en Claude Code y confirmar el modo que carga `AGENTS.md`.
-- [ ] Iniciar sesión y confirmar la línea de carga de `AGENTS.md`; preguntar al agente qué dice la sección de lectura obligatoria.
-- [ ] En Antigravity, abrir el workspace y confirmar que la regla de `AGENTS.md` está activa.
-- [ ] Registrar versiones de Claude Code y Antigravity en la bitácora.
+- [x] Redactar `.claude/settings.json` nuevo (permitir `pnpm dev|build|check|lint|test|format`; denegar `git commit`, `git push`, `git merge`, `git rebase`, `git reset --hard`, `npm`, `yarn`, `bun`, `npx`).
+- [x] Revisar `/config` en Claude Code y confirmar el modo que carga `AGENTS.md`.
+- [x] Iniciar sesión y confirmar la línea de carga de `AGENTS.md`; preguntar al agente qué dice la sección de lectura obligatoria.
+- [x] En Antigravity, abrir el workspace y confirmar que la regla de `AGENTS.md` está activa.
+- [x] Registrar versiones de Claude Code y Antigravity en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Reemplazar: `.claude/settings.json`.
 - Verificar: `.gitignore` incluye `.claude/settings.local.json`.
 
 ## Criterios de aceptación (verificables)
-- [ ] En Claude Code, el agente cita correctamente la sección de lectura obligatoria sin que se le entregue el archivo.
-- [ ] En Antigravity, la regla de `AGENTS.md` aparece activa.
-- [ ] Un intento de `git commit` o `npm install` desde el agente queda denegado.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] En Claude Code, el agente cita correctamente la sección de lectura obligatoria sin que se le entregue el archivo.
+- [x] En Antigravity, la regla de `AGENTS.md` aparece activa.
+- [x] Un intento de `git commit` o `npm install` desde el agente queda denegado.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -48,11 +48,21 @@ Garantizar que Claude Code y Antigravity cargan el `AGENTS.md` de la raíz y que
 - Prueba manual en ambas herramientas (Felipe confirma).
 - Revisión del JSON con `pnpm format:check`.
 
+## Resultado (27-10-2026)
+Pruebas de Felipe en sesión nueva (Claude Code 2.1.311; Antigravity ACP 1.3.0 en WebStorm 2026.2.3):
+- Arranque sin avisos de reglas inválidas. `/config` > Project instructions: `claude-md-or-agents-md` (predeterminado).
+- La línea de arranque de `AGENTS.md` no es visible; la carga se confirmó preguntando al agente, que citó la lectura obligatoria con la aclaración del README de la raíz (ADR-024).
+- `git commit --dry-run`: denegado por permisos. `npm --version`: el agente se negó por `AGENTS.md` (ADR-003), así que `Bash(npm *)` no se ejercitó; el criterio se cumple con la prueba de `git commit`.
+- Editar `AGENTS.md`: denegado; `git status` sin cambios en `AGENTS.md`.
+- Antigravity (Gemini 4 Argon): regla de `AGENTS.md` activa. La documentación oficial no confirma la lectura de `AGENTS.md`; la carga se observó en la práctica.
+- No existe `CLAUDE.md` ni `GEMINI.md` en el proyecto ni en las carpetas superiores.
+- Las pruebas corrieron con "auto mode on": ver AT-045 y ADR-033.
+
 ## Riesgos y notas
 - Un `CLAUDE.md` en un directorio superior del equipo de Felipe bloquearía `AGENTS.md`: revisarlo.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

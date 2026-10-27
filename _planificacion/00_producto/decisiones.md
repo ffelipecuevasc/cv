@@ -223,6 +223,16 @@ Reglas del registro:
 - **Consecuencias:** los archivos nuevos y editados quedan en LF en cualquier sistema operativo; WebStorm debe usar LF como separador de línea (ver la guía).
 - **Origen:** E10-I05, aprobada por Felipe el 27-10-2026. **Estado:** Aceptada.
 
+## ADR-033 · Permisos de Claude Code en `.claude/settings.json`
+- **Contexto:** AT-021. El archivo antiguo permitía npm y dejaba `git commit` en `ask`, contra ADR-003 y ADR-012. AT-045 documenta los límites de las reglas.
+- **Decisión:** `.claude/settings.json` versionado con tres niveles:
+  - `allow`: scripts `pnpm dev|build|preview|check|lint|format|format:check|test` (también con `pnpm run`) y lecturas de git (`status`, `diff`, `log`, `show`, rama actual);
+  - `ask`: instalar o quitar dependencias, `pnpm dlx`, `git add|checkout|switch|restore|stash|rm|mv|clean|reset|tag|cherry-pick|revert`, `rm` y edición de `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` y `astro.config.mjs`;
+  - `deny` (en Bash y PowerShell): `git commit|push|merge|pull|rebase|reset --hard`, borrado de ramas, reescritura de historial, `npm`, `npx`, `yarn`, `bun`, `bunx` y `wrangler`; edición de `.claude/`, `AGENTS.md`, `DESIGN.md`, `CLAUDE.md`, `GEMINI.md`, archivos de Wrangler, `.dev.vars`, `_headers`, `_redirects` y archivos del sitio antiguo; lectura de `.env` y `.dev.vars`.
+  - `autoMemoryEnabled: false`. Los ajustes personales van en `.claude/settings.local.json`, ignorado por git.
+- **Consecuencias:** el agente no puede editar sus propios permisos ni `AGENTS.md`; Felipe los cambia a mano. Se recomienda el modo de permisos predeterminado, porque en modo automático las acciones en `ask` pueden ejecutarse sin confirmación (AT-045).
+- **Origen:** E10-I06, 27-10-2026; verificada por Felipe en Claude Code 2.1.311. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
