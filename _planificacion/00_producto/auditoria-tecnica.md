@@ -429,7 +429,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ADR-017 (indicación "traducido del español") y confirmación de consentimiento.
 
 ### AT-029 · Función de contacto ligada a Pages
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E10-I09, E140-I02
+- **Severidad:** Media · **Estado:** Abierto (plataforma resuelta en E10-I09 con ADR-037; la reescritura queda para E140-I02) · **Resuelve:** E10-I09, E140-I02
 - **Evidencia:** `functions/api/contacto.js` usa el formato de Pages Functions; la guía oficial indica compilarla o reescribirla para Workers.
 - **Impacto:** trabajo adicional según D-14; los secretos deben reconfigurarse.
 - **Recomendación:** resolver D-14 antes de E140-I02.
@@ -458,7 +458,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** estado base en el build y recálculo en el cliente.
 
 ### AT-042 · Previews de la sub-rama y configuración de producción
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E10-I09
+- **Severidad:** Media · **Estado:** Resuelto en E10-I09 (Worker separado, ADR-037) · **Resuelve:** E10-I09
 - **Evidencia:** la configuración de compilación de Pages es por proyecto (no verificado en el panel de Felipe). El proyecto nuevo usa otro comando (`pnpm build`) y otro directorio de salida (`dist/`).
 - **Impacto:** cambiar la configuración del proyecto Pages actual podría afectar las compilaciones de producción.
 - **Recomendación:** proyecto de Cloudflare separado para la rama (propuesta P-01).
@@ -495,4 +495,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E190-I01
 - **Evidencia:** la documentación de Worker Previews (24-09-2026) indica que las URL son públicas por defecto y que las de *preview* envían `X-Robots-Tag: noindex`; no se verificó que la URL de producción del Worker en workers.dev (`felipecuevas-dev.<subdominio>.workers.dev`) envíe esa cabecera.
 - **Impacto:** tras el cutover, el sitio quedaría duplicado en workers.dev y podría indexarse.
-- **Recomendación:** en E190-I01, desactivar la ruta workers.dev del Worker o asegurar `noindex` en ella, con consulta previa a Felipe.
+- **Verificación (28-10-2026):** `curl -I https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 200 **sin** `X-Robots-Tag`. `wrangler.jsonc` tiene `workers_dev: true` (URL activa a propósito hasta el cutover) y `preview_urls: false` (sin URL por versión, lo que reduce la superficie).
+- **Recomendación:** en E190-I01, pasar `workers_dev` a `false` o asegurar `noindex` en esa URL, con consulta previa a Felipe.
+
+### AT-049 · `public/.gitkeep` se publica en el sitio
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E20-I03 (primer archivo real en `public/`) o E170-I04
+- **Evidencia:** `public/.gitkeep` (de E10-I02) se copia a `dist/.gitkeep`; `https://felipecuevas-dev.felipe-cuevas.workers.dev/.gitkeep` responde 200.
+- **Impacto:** un archivo vacío e inútil queda público; sin riesgo de seguridad.
+- **Recomendación:** borrar `public/.gitkeep` cuando `public/` tenga su primer archivo real (favicon o fuentes), o excluirlo de `assets` con un `.assetsignore` (consulta previa: es configuración de despliegue).

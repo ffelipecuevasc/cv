@@ -282,6 +282,7 @@ Reglas del registro:
   - El proyecto Pages `felipe-cuevas-cv` sigue sirviendo producción desde `main` hasta E190-I02; sus previews pasan a "None".
   - Plan posterior: la función de contacto se reescribe como Worker en E140-I02 (con secretos cargados de nuevo); en E190-I02 la rama de producción pasa a `main`, se borra el CNAME del apex, se agrega el Custom Domain y `www` se resuelve con registro de relleno con proxy y redirección 301. Email Routing no se toca. Reversa: quitar el Custom Domain y devolver el dominio al proyecto Pages.
 - **Consecuencias:** resuelve AT-042. AT-029 queda para E140-I02. Hasta E160-I01 no hay `404.html` en `dist/` y el Worker responde un 404 genérico. La URL de workers.dev es pública (AT-048).
+- **Complemento (28-10-2026, antes del primer commit del ADR):** Felipe agregó a mano en `wrangler.jsonc` `"workers_dev": true` (la URL de workers.dev queda activa de forma explícita) y `"preview_urls": false` (sin URL de preview por versión). URL desplegada: https://felipecuevas-dev.felipe-cuevas.workers.dev (Node 24.22.1, pnpm 12.15.0, build sin errores).
 - **Origen:** P-01, decisión de Felipe el 28-10-2026 (E10-I09). **Estado:** Aceptada.
 
 ## ADR-038 · Wrangler como devDependency exacta

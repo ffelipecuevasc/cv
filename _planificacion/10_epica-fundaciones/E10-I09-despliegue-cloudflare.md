@@ -1,5 +1,5 @@
 # E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama
-- **Estado:** [~] En curso
+- **Estado:** [x] Terminada
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E10-I07 · **Hallazgos que cierra:** AT-029, AT-042 · **ADR relacionados:** Propuesta D-14 → ADR nuevo
 
@@ -27,21 +27,21 @@ Cerrar la decisión entre Cloudflare Pages y Workers con assets estáticos, y de
 - Migrar la función de contacto (E140-I02).
 
 ## Tareas
-- [ ] Verificar en la documentación oficial el estado de Pages, Workers, previews y alias de rama.
-- [ ] Presentar a Felipe la comparación y detenerse hasta que decida.
-- [ ] Registrar el ADR aceptado y mover D-14 a estado Sustituida.
-- [ ] Documentar los pasos manuales (Felipe los ejecuta en el panel).
-- [ ] Obtener y registrar la URL de preview de la rama.
+- [x] Verificar en la documentación oficial el estado de Pages, Workers, previews y alias de rama.
+- [x] Presentar a Felipe la comparación y detenerse hasta que decida.
+- [x] Registrar el ADR aceptado y mover D-14 a estado Sustituida.
+- [x] Documentar los pasos manuales (Felipe los ejecuta en el panel).
+- [x] Obtener y registrar la URL de preview de la rama.
 
 ## Archivos previstos (crear / modificar)
 - Crear (si Workers): configuración de Wrangler en la raíz.
 - Modificar: `_planificacion/00_producto/decisiones.md`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Existe un ADR aceptado que resuelve D-14.
-- [ ] La rama de migración tiene una URL de preview funcional con `/es/` y `/en/`.
-- [ ] El despliegue de producción de `main` no cambió (verificado por Felipe).
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Existe un ADR aceptado que resuelve D-14.
+- [x] La rama de migración tiene una URL de preview funcional con `/es/` y `/en/`. (https://felipecuevas-dev.felipe-cuevas.workers.dev, ADR-037)
+- [x] El despliegue de producción de `main` no cambió (verificado por Felipe).
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -54,7 +54,7 @@ Cerrar la decisión entre Cloudflare Pages y Workers con assets estáticos, y de
 - Si se elige Workers, el dominio debe tener sus nameservers en Cloudflare (no verificado).
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
