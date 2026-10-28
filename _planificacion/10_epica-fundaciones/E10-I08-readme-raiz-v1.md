@@ -1,5 +1,5 @@
 # E10-I08 · README.md de la raíz, versión 1
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E10-I04, E10-I07 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-003
 
@@ -21,16 +21,16 @@ Reemplazar el README antiguo por la documentación del proyecto nuevo: instalaci
 - Despliegue definitivo (se completa en E190-I03).
 
 ## Tareas
-- [ ] Redactar el README en español de Chile.
-- [ ] Validar cada comando en un clon limpio.
+- [x] Redactar el README en español de Chile.
+- [x] Validar cada comando en un clon limpio.
 
 ## Archivos previstos (crear / modificar)
 - Reemplazar: `README.md` (raíz).
 
 ## Criterios de aceptación (verificables)
-- [ ] Siguiendo solo el README, un clon limpio queda funcionando.
-- [ ] No menciona npm, yarn ni bun salvo para indicar que están bloqueados.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Siguiendo solo el README, un clon limpio queda funcionando.
+- [x] No menciona npm, yarn ni bun salvo para indicar que están bloqueados.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -41,7 +41,7 @@ Reemplazar el README antiguo por la documentación del proyecto nuevo: instalaci
 - Mantenerlo breve: el detalle vive en `_planificacion/`.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

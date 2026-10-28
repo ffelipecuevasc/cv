@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E10 · Fundaciones técnicas
-- **Iteración actual:** E10-I08 · README.md de la raíz, versión 1
+- **Iteración actual:** E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 7 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07)
+- **Terminadas:** 8 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08)
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -20,7 +20,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E10-I05 · Configuración de WebStorm (P1, S)
 - [x] E10-I06 · Entorno agéntico: AGENTS.md en Claude Code y Antigravity (P0, S)
 - [x] E10-I07 · i18n base: enrutamiento /es/ y /en/ (P0, M)
-- [ ] E10-I08 · README.md de la raíz, versión 1 (P1, S)
+- [x] E10-I08 · README.md de la raíz, versión 1 (P1, S)
 - [ ] E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama (P0, M)
 
 **E20 · Sistema de diseño** (`20_epica-sistema-diseno/`)
@@ -112,7 +112,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 <raíz del proyecto>/
 ├── AGENTS.md            ← instrucciones para agentes (obligatorio)
 ├── DESIGN.md            ← única fuente de verdad del diseño
-├── README.md            ← documentación del proyecto (se reescribe en E10-I08)
+├── README.md            ← documentación del proyecto (versión 1 en E10-I08; final en E190-I03)
 └── _planificacion/
     ├── README.md        ← este archivo
     ├── 00_producto/
