@@ -233,6 +233,18 @@ Reglas del registro:
 - **Consecuencias:** el agente no puede editar sus propios permisos ni `AGENTS.md`; Felipe los cambia a mano. Se recomienda el modo de permisos predeterminado, porque en modo automático las acciones en `ask` pueden ejecutarse sin confirmación (AT-045).
 - **Origen:** E10-I06, 27-10-2026; verificada por Felipe en Claude Code 2.1.311. **Estado:** Aceptada.
 
+## ADR-034 · Configuración i18n nativa y tratamiento provisorio de `/`
+- **Contexto:** E10-I07. API verificada el 28-10-2026 en los tipos de Astro 7.4.2 y en docs.astro.build/en/guides/internationalization. Con `prefixDefaultLocale: true`, la opción `redirectToDefaultLocale` exige una `src/pages/index.astro` (error `MissingIndexForInternationalization`).
+- **Decisión:**
+  - `i18n.locales` como objetos: `{ path: 'es', codes: ['es-CL', 'es'] }` y `{ path: 'en', codes: ['en-US', 'en'] }`; `defaultLocale: 'es'`; `routing.prefixDefaultLocale: true`.
+  - Sin `i18n.fallback`: una página que falte en un idioma responde 404, nunca el contenido del otro idioma (ADR-001).
+  - El atributo `lang` se toma de `Astro.currentLocale`, que entrega el primer código del idioma (`es-CL` o `en-US`).
+  - Las páginas viven en `src/pages/es/` y `src/pages/en/`; no hay páginas en la raíz de `src/pages/`.
+  - `/` se trata con `redirects: { '/': '/es/' }`: en salida estática genera `dist/index.html` con meta refresh, `noindex` y canónica a `/es/`. Es **provisorio**: la 301 de producción se implementa en E180-I03 (ADR-019).
+  - No se usa middleware ni adaptador: todo se resuelve en el build (ADR-018).
+- **Consecuencias:** E30-I01 y E30-I02 parten de `Astro.currentLocale` y de las funciones de `astro:i18n`. E180-I03 debe reemplazar o complementar la redirección de `/` con una 301 de la plataforma (AT-046).
+- **Origen:** E10-I07, 28-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

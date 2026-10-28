@@ -1,0 +1,21 @@
+---
+// Página mínima de enrutamiento para /es/ (E10-I07). El contenido llega en E40.
+// El atributo lang lo entrega Astro.currentLocale: el primer código del idioma en astro.config.mjs.
+import '../../styles/global.css';
+
+const lang = Astro.currentLocale;
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Felipe Cuevas</title>
+  </head>
+  <body>
+    <main>
+      <h1>Felipe Cuevas</h1>
+    </main>
+  </body>
+</html>

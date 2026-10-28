@@ -216,6 +216,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `lang="es"` (`index.html:3`), `og:locale` `es_CL` (`:14`), `inLanguage` `es-CL` (`:270`); no hay `hreflang` en ninguna página.
 - **Impacto:** los buscadores no relacionarán las versiones de idioma.
 - **Recomendación:** `hreflang` recíprocos con `x-default` (ADR-019).
+- **Avance:** E10-I07 deja `lang="es-CL"` y `lang="en-US"` por página. Sigue abierto: faltan `hreflang`, `x-default` y metadatos por idioma.
 
 ### AT-016 · Fuente de íconos completa
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I03
@@ -474,3 +475,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** las reglas `Bash(...)` y `PowerShell(...)` comparan el texto del comando por prefijo: variantes como `git -C . commit`, `cmd /c npm ...` o un script que invoque esos comandos no calzan con el patrón. `Edit(...)` no impide escribir el mismo archivo desde la shell. Las pruebas de E10-I06 corrieron con Claude Code en "auto mode on", donde un clasificador automático decide muchas aprobaciones que en el modo predeterminado pedirían confirmación. En la prueba de `npm --version`, el agente se negó por `AGENTS.md` y la regla `Bash(npm *)` no se ejercitó.
 - **Impacto:** los permisos son una barrera de conveniencia, no de seguridad; en modo automático, acciones en `ask` (por ejemplo `pnpm add`, `git add` o `rm`) pueden ejecutarse sin que Felipe las confirme.
 - **Recomendación:** trabajar en el modo de permisos predeterminado (no en modo automático) y mantener `AGENTS.md` como regla principal. Revisar `git status` antes de cada commit. No guardar secretos en la carpeta del proyecto.
+
+### AT-046 · La redirección provisoria de `/` no es una 301
+- **Severidad:** Media · **Estado:** Abierto (mitigado en E10-I07) · **Resuelve:** E180-I03
+- **Evidencia:** `redirects: { '/': '/es/' }` en `astro.config.mjs` genera `dist/index.html` con `<meta http-equiv="refresh" content="0;url=/es/">`, `noindex` y canónica a `/es/`. Un sitio estático sin adaptador no emite códigos HTTP 301 desde Astro.
+- **Impacto:** ADR-019 exige una 301. Si la rama se publica en producción sin E180-I03, `/` respondería 200 con meta refresh, lo que es más lento y menos claro para buscadores.
+- **Recomendación:** en E180-I03, declarar la 301 de `/` en la plataforma que resuelva P-01 (por ejemplo `_redirects`), con consulta previa a Felipe, y decidir si se conserva el `dist/index.html` como respaldo.

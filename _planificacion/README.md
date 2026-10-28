@@ -7,8 +7,8 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E10 · Fundaciones técnicas
-- **Iteración actual:** E10-I07 · i18n base: enrutamiento /es/ y /en/
-- **Terminadas:** 6 de 52 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06)
+- **Iteración actual:** E10-I08 · README.md de la raíz, versión 1
+- **Terminadas:** 7 de 52 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07)
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -18,7 +18,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E10-I04 · Calidad de código: astro check, ESLint y Prettier (P0, S)
 - [x] E10-I05 · Configuración de WebStorm (P1, S)
 - [x] E10-I06 · Entorno agéntico: AGENTS.md en Claude Code y Antigravity (P0, S)
-- [ ] E10-I07 · i18n base: enrutamiento /es/ y /en/ (P0, M)
+- [x] E10-I07 · i18n base: enrutamiento /es/ y /en/ (P0, M)
 - [ ] E10-I08 · README.md de la raíz, versión 1 (P1, S)
 - [ ] E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama (P0, M)
 

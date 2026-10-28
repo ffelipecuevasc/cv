@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E10 · **Iteración actual:** E10-I07
-- **Resumen:** 19 épicas · 52 iteraciones · 6 terminadas
+- **Épica actual:** E10 · **Iteración actual:** E10-I08
+- **Resumen:** 19 épicas · 52 iteraciones · 7 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas.
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,7 +17,7 @@
 | P0 | E10-I03 | Tailwind CSS v4 con @tailwindcss/vite y prueba de compatibilidad | S | E10-I02 | [x] Terminada |
 | P0 | E10-I04 | Calidad de código: astro check, ESLint y Prettier | S | E10-I02 | [x] Terminada |
 | P0 | E10-I06 | Entorno agéntico: AGENTS.md en Claude Code y Antigravity | S | E10-I02 | [x] Terminada |
-| P0 | E10-I07 | i18n base: enrutamiento /es/ y /en/ | M | E10-I03 | [ ] Pendiente |
+| P0 | E10-I07 | i18n base: enrutamiento /es/ y /en/ | M | E10-I03 | [x] Terminada |
 | P0 | E10-I09 | Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama | M | E10-I07 | [ ] Pendiente |
 | P1 | E10-I05 | Configuración de WebStorm | S | E10-I04 | [x] Terminada |
 | P1 | E10-I08 | README.md de la raíz, versión 1 | S | E10-I04, E10-I07 | [ ] Pendiente |
