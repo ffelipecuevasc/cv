@@ -21,7 +21,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E10-I06 · Entorno agéntico: AGENTS.md en Claude Code y Antigravity (P0, S)
 - [x] E10-I07 · i18n base: enrutamiento /es/ y /en/ (P0, M)
 - [x] E10-I08 · README.md de la raíz, versión 1 (P1, S)
-- [ ] E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama (P0, M)
+- [~] E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama (P0, M)
 
 **E20 · Sistema de diseño** (`20_epica-sistema-diseno/`)
 - [ ] E20-I01 · Definición del DESIGN.md v1 (P0, M)

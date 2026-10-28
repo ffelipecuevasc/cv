@@ -1,5 +1,5 @@
 # E10-I09 · Despliegue en Cloudflare: decisión D-14 y previews de la sub-rama
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso
 - **Épica:** E10 · Fundaciones técnicas · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E10-I07 · **Hallazgos que cierra:** AT-029, AT-042 · **ADR relacionados:** Propuesta D-14 → ADR nuevo
 
