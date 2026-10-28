@@ -17,16 +17,14 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 ## Alcance
 - Pie según `DESIGN.md`, con etiquetas alineadas a la navbar e inclusión de Recursos.
 - Botón volver arriba con desplazamiento instantáneo bajo movimiento reducido.
-- Enlace a la política de privacidad (`/es/privacidad` y `/en/privacy`) en el pie de todas las páginas, incluidas la 404 y la de agradecimiento (ADR-035).
 
 ## Fuera de alcance
 - Botón de apariencia (se mueve a la navbar, ADR-021).
-- Enlace a la política de privacidad en la navbar: no se agrega, la navbar se mantiene sin cambios (ADR-035, D-08).
+- Enlace a la política de privacidad en el pie: se agrega en E155-I01, junto con la página (ADR-035). La navbar no lo incluye.
 
 ## Tareas
 - [ ] Implementar el pie y el botón.
 - [ ] Validar enlaces en ambos idiomas.
-- [ ] Agregar el enlace a la política de privacidad en el pie, con la etiqueta desde el diccionario y la ruta desde el mapa de rutas (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/components/layout/Footer.astro`.
@@ -35,7 +33,6 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 - [ ] Todas las rutas del pie resuelven en ambos idiomas.
 - [ ] Etiquetas coherentes con la navbar.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
-- [ ] El pie de todas las páginas, incluidas 404 y agradecimiento, enlaza a la política de privacidad del idioma activo, y la navbar no cambia (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -43,7 +40,7 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 - `pnpm build` y verificación de enlaces.
 
 ## Riesgos y notas
-- —
+- Nota (ADR-035): el pie debe dejar espacio para el enlace a la política de privacidad que agrega E155-I01 en todas las páginas, incluidas 404 y agradecimiento.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md

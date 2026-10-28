@@ -248,7 +248,7 @@ Reglas del registro:
 ## ADR-035 · Política de privacidad y consentimiento en el formulario (Ley 21.719)
 - **Contexto:** AT-047. La Ley 21.719 de protección de datos personales entra en vigor en Chile el 1 de diciembre de 2026. El sitio actual no tiene política de privacidad y su formulario de contacto no pide consentimiento.
 - **Decisión:**
-  - Se crea una página de política de privacidad en una épica nueva, **E155 · Política de privacidad**, siguiendo el patrón de una épica por página.
+  - Se crea una página de política de privacidad en una épica nueva, **E155 · Política de privacidad**. **Amplía ADR-007** (una épica por página), que pasa a cubrir 14 páginas; ADR-007 no se edita.
   - Slugs: `/es/privacidad` y `/en/privacy` (coherente con ADR-020).
   - El enlace a la política va en el **pie de todas las páginas**. No va en la navbar, que se mantiene sin cambios.
   - El formulario de contacto incorpora un **checkbox obligatorio** de aceptación de la política, con un enlace a ella.
@@ -256,7 +256,7 @@ Reglas del registro:
   - La función de envío valida en el servidor que el consentimiento venga marcado y registra como evidencia la fecha y hora y la versión de la política aceptada (trazabilidad del consentimiento). No se usa base de datos ni dependencia nueva: la evidencia viaja en el correo que recibe Felipe.
   - La política cubre, en forma breve, todos los tratamientos del sitio: formulario de contacto, Turnstile, Calendly, Giscus (GitHub), el progreso guardado en el navegador (E130, ADR-023) y la preferencia de tema.
   - El texto de la política lo valida un especialista externo antes del cutover. Ninguna iteración lo presenta como asesoría legal.
-- **Consecuencias:** se agregan E155 y E155-I01 (14 páginas, 28 con ambos idiomas). Se ajustan E30-I02 (mapa de rutas), E30-I06 (pie), E140 (checkbox y función de envío), E170 (totales y CSP), E180-I02 (sitemap) y E190-I01 (precondiciones). E140-I01 pasa a depender de E155-I01, por lo que E155 se ejecuta antes que E140. La validación del especialista queda como pendiente de Felipe antes de E190 (BL-08). Si se agrega un servicio de terceros nuevo, la política se actualiza y cambia de versión.
+- **Consecuencias:** se agregan E155 y E155-I01 (14 páginas, 28 con ambos idiomas). Se ajustan E30-I02 (mapa de rutas), E140 (checkbox, función de envío y constante única de versión de la política en E140-I02), E155-I01 (página y enlace en el pie de todas las páginas), E170 (totales y CSP), E180-I02 (sitemap: la política es indexable salvo que se decida `noindex`) y E190-I01 (precondiciones). Se mantiene el orden numérico: E140 no depende de E155 y E155 depende de E140-I02. La validación del especialista queda como pendiente de Felipe antes de E190 (BL-08). Si se agrega un servicio de terceros nuevo, la política se actualiza y cambia de versión.
 - **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
 
 ## ADR-036 · Sistema común con composición propia por página

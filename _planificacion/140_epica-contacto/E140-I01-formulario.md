@@ -1,7 +1,7 @@
 # E140-I01 · Página, formulario, Turnstile y Calendly
 - **Estado:** [ ] Pendiente
 - **Épica:** E140 · Página Contacto (contacto.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06, E155-I01 · **Hallazgos que cierra:** AT-024 · **ADR relacionados:** ADR-007, ADR-017, ADR-035, ADR-036
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-024 · **ADR relacionados:** ADR-007, ADR-017, ADR-035, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -19,9 +19,9 @@ Migrar la página de contacto con el formulario accesible, Turnstile y el widget
 - Formulario con etiquetas, errores accesibles y mensajes por idioma.
 - Calendly con carga diferida o por interacción.
 - Enlaces de contacto directo.
-- Checkbox obligatorio de aceptación de la política de privacidad, con enlace a la página de E155 del idioma activo, en ambos idiomas (ADR-035).
+- Checkbox obligatorio de aceptación de la política de privacidad, con enlace a `/es/privacidad` o `/en/privacy` según el idioma (la página se publica en E155-I01), en ambos idiomas (ADR-035).
 - Botón de envío siempre activo: si se intenta enviar sin marcar el checkbox, se muestra un error accesible asociado al checkbox (`aria-describedby`) y el foco va al primer campo con error (ADR-035).
-- El formulario envía el identificador de versión de la política definido en E155-I01 (ADR-035).
+- El formulario envía el identificador de versión de la política definido en E140-I02 (ADR-035).
 
 ## Fuera de alcance
 - Función de envío (E140-I02).

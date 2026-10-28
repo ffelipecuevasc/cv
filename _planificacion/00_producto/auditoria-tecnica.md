@@ -435,7 +435,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** resolver D-14 antes de E140-I02.
 
 ### AT-047 · Sin política de privacidad ni consentimiento en el formulario de contacto
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E155-I01, E30-I06, E140-I01, E140-I02
+- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E140-I01, E140-I02, E155-I01
 - **Evidencia:**
   - el formulario `contacto.html:289-354` (`<form id="contacto-formulario" method="POST">`) pide datos personales (`nombre` en `:294`, `email` en `:300`, `asunto` en `:305` y `mensaje` en `:309`), con Turnstile en `:326` y el botón de envío en `:349`, pero no tiene checkbox de consentimiento ni enlace a una política;
   - el sitio actual no tiene página de privacidad: no hay archivo de privacidad en la raíz de `main` (`git ls-tree --name-only main`) y el pie (`contacto.html:376` en adelante) no la enlaza;

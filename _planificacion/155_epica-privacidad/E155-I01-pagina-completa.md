@@ -1,12 +1,12 @@
 # E155-I01 · Página de política de privacidad
 - **Estado:** [ ] Pendiente
 - **Épica:** E155 · Página Política de privacidad · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E30-I06, E10-I09 · **Hallazgos que cierra:** AT-047 (en conjunto con E30-I06, E140-I01 y E140-I02) · **ADR relacionados:** ADR-017, ADR-020, ADR-023, ADR-035, ADR-036
+- **Depende de:** E30-I06, E10-I09, E140-I02 · **Hallazgos que cierra:** AT-047 (en conjunto con E140-I01 y E140-I02) · **ADR relacionados:** ADR-007, ADR-017, ADR-020, ADR-023, ADR-035, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Objetivo
-Construir la página de política de privacidad en ambos idiomas, con un texto breve que cubra todos los tratamientos del sitio y un identificador de versión que el formulario de contacto pueda reutilizar.
+Construir la página de política de privacidad en ambos idiomas, con un texto breve que cubra todos los tratamientos del sitio que muestre la versión definida en E140-I02, y agregar su enlace en el pie de todas las páginas.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
 - AT-047: el sitio actual no tiene política de privacidad y el formulario (`contacto.html:289-354`) no pide consentimiento.
@@ -18,8 +18,9 @@ Construir la página de política de privacidad en ambos idiomas, con un texto b
 ## Alcance
 - Página bilingüe `/es/privacidad` y `/en/privacy` con un texto breve que cubra todos los tratamientos de ADR-035.
 - Fecha de vigencia y versión de la política visibles en la página.
-- Identificador de versión de la política en un solo lugar del código, reutilizable por el formulario (E140-I01) y la función de envío (E140-I02).
-- Pregunta abierta para Felipe: si la página lleva la marca `noindex`. No se decide en esta planificación; si se marca, E180-I02 la excluye del sitemap.
+- Uso de la constante única de versión de la política definida en E140-I02 (no se redefine).
+- Enlace a la política en el pie de todas las páginas, incluidas 404 y agradecimiento (tarea movida desde E30-I06). La navbar no cambia.
+- Supuesto: la página es indexable y va en el sitemap. Pregunta abierta para Felipe: si lleva `noindex`; si se decide, sale del sitemap (E180-I02).
 
 ## Fuera de alcance
 - La redacción legal definitiva: la valida un especialista externo antes del cutover (BL-08). El texto de esta iteración no se presenta como asesoría legal.
@@ -28,17 +29,19 @@ Construir la página de política de privacidad en ambos idiomas, con un texto b
 - [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Preguntar a Felipe si la página lleva `noindex` y registrar la respuesta.
 - [ ] Redactar el texto breve en `es-CL` y la versión `en-US` (Felipe valida, ADR-017).
-- [ ] Definir el identificador de versión y la fecha de vigencia, y exponerlos para E140.
+- [ ] Mostrar la versión (constante de E140-I02) y la fecha de vigencia en la página.
+- [ ] Agregar el enlace a la política en el pie, con la etiqueta desde el diccionario y la ruta desde el mapa de rutas, en todas las páginas, incluidas 404 y agradecimiento (ADR-035).
 - [ ] Construir la página en ambos idiomas.
 
 ## Archivos previstos (crear / modificar)
-- Crear: `src/pages/es/privacidad.astro`, `src/pages/en/privacy.astro`, contenido y constante de versión de la política.
+- Crear: `src/pages/es/privacidad.astro`, `src/pages/en/privacy.astro`, contenido.
+- Modificar: `src/components/layout/Footer.astro` y el diccionario de interfaz.
 
 ## Criterios de aceptación (verificables)
 - [ ] Ambas versiones existen con paridad de contenido y cubren todos los tratamientos de ADR-035.
 - [ ] La fecha de vigencia y la versión son visibles en la página.
-- [ ] El identificador de versión está definido en un solo lugar y se puede importar desde el formulario.
-- [ ] El pie de todas las páginas enlaza a la política del idioma activo.
+- [ ] La versión mostrada proviene de la constante de E140-I02 y no está duplicada.
+- [ ] El pie de todas las páginas, incluidas 404 y agradecimiento, enlaza a la política del idioma activo, y la navbar no cambia.
 - [ ] La página no se presenta como asesoría legal.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 

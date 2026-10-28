@@ -45,7 +45,7 @@ Rediseñar la navbar de escritorio con las mismas opciones del sitio actual, des
 - `pnpm check` y `pnpm lint` sin errores (DoD)
 - Recorrido con teclado.
 - Lighthouse (CLS y accesibilidad).
-- Prueba del botón de idioma en las 13 rutas (con páginas de prueba).
+- Prueba del botón de idioma en las 28 rutas (14 páginas × 2 idiomas, ADR-035) (con páginas de prueba).
 
 ## Riesgos y notas
 - El texto en inglés es más largo: validar que la barra no se desborde a 1366 px.

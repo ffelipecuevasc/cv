@@ -17,7 +17,7 @@ Se registran las decisiones que Felipe aprobó el 28-10-2026: política de priva
 | Modificar | `00_producto/decisiones.md` | ADR-035 y ADR-036 |
 | Modificar | `00_producto/auditoria-tecnica.md` | AT-047 en la sección M; numeración desde AT-047 |
 | Crear | `155_epica-privacidad/epica.md`, `155_epica-privacidad/E155-I01-pagina-completa.md` | Épica e iteración nuevas |
-| Modificar | `README.md`, `00_producto/registro-log.md` | 20 épicas, 53 iteraciones; E155 antes de E140; BL-07 y BL-08 |
+| Modificar | `README.md`, `00_producto/registro-log.md` | 20 épicas, 53 iteraciones; orden numérico; BL-07 y BL-08 |
 | Modificar | `30_epica-layout-global/E30-I02-*`, `E30-I06-footer.md` | Ruta de privacidad y enlace en el pie |
 | Modificar | `140_epica-contacto/epica.md`, `E140-I01`, `E140-I02` | Checkbox, error accesible, validación en servidor y registro del consentimiento |
 | Modificar | `20_epica-sistema-diseno/epica.md`, `E20-I01`, `E20-I05` | Sección "Composición por página" y primitiva "franja temática" |
@@ -50,8 +50,7 @@ Se registran las decisiones que Felipe aprobó el 28-10-2026: política de priva
 - BL-07: Felipe valida la clasificación de certificaciones por categoría (antes de E50-I02).
 - BL-08: un especialista valida el texto de la política (antes de E190).
 - Pregunta abierta en E155-I01: si la página de privacidad lleva `noindex`.
-- E140-I01 pasa a depender de E155-I01; por eso E155 se ejecuta antes que E140.
-- Entre E30-I06 y E155-I01, el enlace del pie apunta a una página que aún no existe; se acepta como estado transitorio de la rama.
+- Revisión posterior del mismo día: orden numérico, E155 depende de E140-I02 (constante de versión) y el enlace del pie se movió de E30-I06 a E155-I01.
 
 ## Mensaje de commit sugerido
 ```

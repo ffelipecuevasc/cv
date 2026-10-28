@@ -14,12 +14,12 @@ Reconstruir la página de contacto con formulario protegido por Turnstile, enví
 `contacto.html` → `/es/contacto` y `/en/contact`.
 
 ## Dependencias
-E30 completa, E10-I09 y E155-I01 (la política debe existir para enlazarla desde el formulario, ADR-035).
+E30 completa y E10-I09. No depende de E155: el formulario enlaza a `/es/privacidad` y `/en/privacy`, que E155-I01 publica después (ADR-035).
 
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06, E155-I01 | [ ] Pendiente |
+| [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06 | [ ] Pendiente |
 | [E140-I02](E140-I02-funcion-envio.md) | Función de envío del formulario | P1 | M | E140-I01, E10-I09 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

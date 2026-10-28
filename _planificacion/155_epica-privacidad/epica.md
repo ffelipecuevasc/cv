@@ -6,19 +6,21 @@ Publicar una política de privacidad breve y bilingüe que informe todos los tra
 
 ## Alcance
 - Página completa en ambos idiomas, con fecha de vigencia y versión visibles.
-- Identificador de versión de la política reutilizable por el formulario de contacto (E140).
+- Reutiliza la constante de versión de la política definida en E140-I02.
+- Enlace a la política en el pie de todas las páginas, incluidas 404 y agradecimiento.
+- Página indexable e incluida en el sitemap; `noindex` queda como pregunta abierta en E155-I01.
 - Composición propia de la página: el patrón se define y valida con Felipe al inicio de E155-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 Página nueva, sin equivalente en el sitio actual → `/es/privacidad` y `/en/privacy`.
 
 ## Dependencias
-E30 completa y la decisión de plataforma P-01 (E10-I09), porque la política debe nombrar los servicios de terceros reales. Se ejecuta antes de E140, que depende de E155-I01.
+E30 completa, la decisión de plataforma P-01 (E10-I09), porque la política debe nombrar los servicios de terceros reales, y E140-I02, que define la constante única de versión de la política.
 
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E155-I01](E155-I01-pagina-completa.md) | Página de política de privacidad | P0 | S | E30-I06, E10-I09 | [ ] Pendiente |
+| [E155-I01](E155-I01-pagina-completa.md) | Página de política de privacidad | P0 | S | E30-I06, E10-I09, E140-I02 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
 - [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.

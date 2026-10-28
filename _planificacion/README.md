@@ -8,6 +8,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E10 · Fundaciones técnicas
 - **Iteración actual:** E10-I08 · README.md de la raíz, versión 1
+- **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
 - **Terminadas:** 7 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07)
 
 ## Iteraciones terminadas y pendientes

@@ -4,7 +4,7 @@
 
 - **Épica actual:** E10 · **Iteración actual:** E10-I08
 - **Resumen:** 20 épicas · 53 iteraciones · 7 terminadas
-- **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E155 → E140 → E150 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 se ejecuta antes que E140 porque E140-I01 depende de E155-I01 (ADR-035).
+- **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Iteraciones por épica (ordenadas por prioridad)
@@ -101,7 +101,7 @@
 ### E140 · Página Contacto (contacto.html) (`140_epica-contacto/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| P1 | E140-I01 | Página, formulario, Turnstile y Calendly | M | E30-I06, E155-I01 | [ ] Pendiente |
+| P1 | E140-I01 | Página, formulario, Turnstile y Calendly | M | E30-I06 | [ ] Pendiente |
 | P1 | E140-I02 | Función de envío del formulario | M | E140-I01, E10-I09 | [ ] Pendiente |
 
 ### E150 · Página Agradecimiento (agradecimiento.html) (`150_epica-agradecimiento/`)
@@ -112,7 +112,7 @@
 ### E155 · Página Política de privacidad (`155_epica-privacidad/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| P0 | E155-I01 | Página de política de privacidad | S | E30-I06, E10-I09 | [ ] Pendiente |
+| P0 | E155-I01 | Página de política de privacidad | S | E30-I06, E10-I09, E140-I02 | [ ] Pendiente |
 
 ### E160 · Página 404 (404.html) (`160_epica-404/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
