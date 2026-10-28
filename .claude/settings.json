@@ -52,7 +52,10 @@
       "Edit(/package.json)",
       "Edit(/pnpm-workspace.yaml)",
       "Edit(/pnpm-lock.yaml)",
-      "Edit(/astro.config.mjs)"
+      "Edit(/astro.config.mjs)",
+      "Edit(**/wrangler.toml)",
+      "Edit(**/wrangler.json)",
+      "Edit(**/wrangler.jsonc)"
     ],
     "deny": [
       "Bash(git commit *)",
