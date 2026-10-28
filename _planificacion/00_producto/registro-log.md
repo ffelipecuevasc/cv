@@ -3,7 +3,7 @@
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
 - **Épica actual:** E10 · **Iteración actual:** E10-I09
-- **Reanudar E10-I09:** análisis y plan entregados el 28-10-2026; falta la aprobación de Felipe, luego ADR, `wrangler.jsonc` y URL de preview (ver `99_bitacora/2026-10-28_E10-I09.md`).
+- **Reanudar E10-I09:** Fase A implementada el 28-10-2026 (ADR-037, ADR-038, `wrangler.jsonc`, AT-048); falta que Felipe ejecute los pasos del panel y entregue la URL de preview (ver `99_bitacora/2026-10-28_E10-I09.md`).
 - **Resumen:** 20 épicas · 53 iteraciones · 8 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
@@ -149,7 +149,7 @@ Estas tareas **no están agendadas** en ninguna iteración. Se agendan con una i
 | ID | Tarea | Origen | Responsable | Fecha |
 |---|---|---|---|---|
 | BL-01 | Revisar los informes de rendimiento que emita Cloudflare para el sitio actual y actualizar la línea base de ADR-015 y de E170-I02 | ADR-015 | Felipe | Fines de octubre de 2026 |
-| BL-02 | Migrar de Node 24 a Node 26 (Active LTS desde el 28-10-2026): verificar compatibilidad con Astro 7, Tailwind CSS v4, PNPM y la plataforma de despliegue; registrar un ADR nuevo que sustituya a ADR-027 | AT-041, ADR-002, ADR-027 | Agente + Felipe | Antes de E190-I01 |
+| BL-02 | Migrar de Node 24 a Node 26 (Active LTS desde el 28-10-2026): verificar compatibilidad con Astro 7, Tailwind CSS v4, PNPM y la plataforma de despliegue; registrar un ADR nuevo que sustituya a ADR-027 (al 28-10-2026 Workers Builds no ofrece Node 26: solo 22 y 24) | AT-041, ADR-002, ADR-027 | Agente + Felipe | Antes de E190-I01 |
 | BL-03 | Datos estructurados Event en la página de eventos | AT-038 | Agente | Sin fecha |
 | BL-04 | Versiones en inglés del CV y de los PDFs de recursos, cuando Felipe las entregue | ADR-017, AT-034 | Felipe | Sin fecha |
 | BL-05 | Definir si "fecudev" es la marca de la comunidad y dónde se usa, sin alterar el menú (D-08) | Propuesta P-05 | Felipe | Sin fecha |

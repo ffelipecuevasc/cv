@@ -490,3 +490,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `redirects: { '/': '/es/' }` en `astro.config.mjs` genera `dist/index.html` con `<meta http-equiv="refresh" content="0;url=/es/">`, `noindex` y canónica a `/es/`. Un sitio estático sin adaptador no emite códigos HTTP 301 desde Astro.
 - **Impacto:** ADR-019 exige una 301. Si la rama se publica en producción sin E180-I03, `/` respondería 200 con meta refresh, lo que es más lento y menos claro para buscadores.
 - **Recomendación:** en E180-I03, declarar la 301 de `/` en la plataforma que resuelva P-01 (por ejemplo `_redirects`), con consulta previa a Felipe, y decidir si se conserva el `dist/index.html` como respaldo.
+
+### AT-048 · URL de workers.dev pública sin noindex verificado
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E190-I01
+- **Evidencia:** la documentación de Worker Previews (24-09-2026) indica que las URL son públicas por defecto y que las de *preview* envían `X-Robots-Tag: noindex`; no se verificó que la URL de producción del Worker en workers.dev (`felipecuevas-dev.<subdominio>.workers.dev`) envíe esa cabecera.
+- **Impacto:** tras el cutover, el sitio quedaría duplicado en workers.dev y podría indexarse.
+- **Recomendación:** en E190-I01, desactivar la ruta workers.dev del Worker o asegurar `noindex` en ella, con consulta previa a Felipe.

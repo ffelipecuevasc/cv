@@ -26,6 +26,7 @@ Verificar que todo está listo para el cutover y que no hay contenido nuevo de `
 - [ ] Ensayar: navegación, idioma, tema, formulario, foro, descargas, redirecciones.
 - [ ] Confirmar que la política de privacidad está publicada y que su texto fue validado por el especialista externo (ADR-035, BL-08).
 - [ ] Confirmar que el formulario registra el consentimiento: rechazo sin checkbox y fecha, hora y versión de la política en el correo (ADR-035).
+- [ ] Desactivar la URL de workers.dev del Worker o asegurar `noindex` en ella (AT-048, ADR-037).
 
 ## Archivos previstos (crear / modificar)
 - Crear: checklist en la carpeta de esta épica.

@@ -272,12 +272,33 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` incorpora la sección "Composición por página" en E20-I01 (el agente no edita `DESIGN.md` fuera de esa iteración, ADR-033). E20-I05 agrega la primitiva "franja temática". La primera iteración de cada épica de página incluye definir y validar su patrón; E40-I01 y E50-I01 aplican el definido en E20-I01. La clasificación de certificaciones queda por validar (BL-07) y bloquea esa parte de E50-I02 hasta que Felipe la confirme.
 - **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
 
+## ADR-037 · D-14: Cloudflare Workers con assets estáticos
+- **Contexto:** propuesta P-01. Verificado el 28-10-2026 en developers.cloudflare.com: Workers Builds permite elegir la rama de producción y activar o no las previews de otras ramas; `not_found_handling: "404-page"` sirve el `404.html` más cercano con estado 404; la carpeta `functions/` de Pages se compila o se reescribe; un Custom Domain exige borrar antes el CNAME existente y no cubre `www` por sí solo; el build image usa Node 24.22.1 por defecto y respeta `packageManager`. Detalle en `99_bitacora/2026-10-28_E10-I09.md`.
+- **Decisión:**
+  - Worker nuevo **`felipecuevas-dev`** con assets estáticos (`./dist`), conectado al repositorio por Workers Builds.
+  - **Rama de producción del Worker: `migracion-astro`** hasta el cutover. Sin rutas ni dominio: solo responde en workers.dev. **Preview Builds desactivado.**
+  - Build `pnpm build`; deploy `pnpm exec wrangler deploy` (sin `npx`, ADR-026).
+  - `wrangler.jsonc` en la raíz: `name`, `compatibility_date`, `assets.directory` y `assets.not_found_handling: "404-page"`; sin `main`.
+  - El proyecto Pages `felipe-cuevas-cv` sigue sirviendo producción desde `main` hasta E190-I02; sus previews pasan a "None".
+  - Plan posterior: la función de contacto se reescribe como Worker en E140-I02 (con secretos cargados de nuevo); en E190-I02 la rama de producción pasa a `main`, se borra el CNAME del apex, se agrega el Custom Domain y `www` se resuelve con registro de relleno con proxy y redirección 301. Email Routing no se toca. Reversa: quitar el Custom Domain y devolver el dominio al proyecto Pages.
+- **Consecuencias:** resuelve AT-042. AT-029 queda para E140-I02. Hasta E160-I01 no hay `404.html` en `dist/` y el Worker responde un 404 genérico. La URL de workers.dev es pública (AT-048).
+- **Origen:** P-01, decisión de Felipe el 28-10-2026 (E10-I09). **Estado:** Aceptada.
+
+## ADR-038 · Wrangler como devDependency exacta
+- **Contexto:** Workers Builds usa el Wrangler de `package.json`; sin él, el deploy requeriría `npx` (ADR-026). Al 28-10-2026 la última versión es 4.154.0 (publicada el 27-10-2026, a menos de un día), que no cumple `minimumReleaseAge`.
+- **Decisión:**
+  - `wrangler` **4.153.0** exacta (`pnpm add -D -E`), publicada el 26-10-2026; cumple el mínimo de 4.135.0 y `minimumReleaseAge` sin excepciones.
+  - Scripts de instalación: `esbuild` 0.28.2 y `workerd` 1.20261023.1 traen un `postinstall` que solo valida el binario o lo descarga si falta la dependencia opcional de la plataforma. Ambos binarios llegan como dependencias opcionales y se comprobó que funcionan sin el script. Se declaran **denegados** en `allowBuilds` (`esbuild: false`, `workerd: false`); `strictDepBuilds` sigue activo y `pnpm approve-builds` no informa pendientes.
+  - El agente no ejecuta `wrangler` (deny en `.claude/settings.json`); solo lo usa Workers Builds.
+- **Consecuencias:** si un build en Cloudflare falla por un binario no validado, se reevalúa aprobar el script con un ADR nuevo. Las subidas de versión respetan `minimumReleaseAge`.
+- **Origen:** E10-I09, aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
-- **Estado:** Pendiente. Se resuelve en E10-I09 con un ADR nuevo.
+- **Estado:** Sustituida por ADR-037 (28-10-2026).
 - **Evidencia al 28-09-2026:** la guía oficial de migración (actualizada el 22-09-2026) indica que:
   - Workers ofrece más funciones que Pages y que la inversión nueva de Cloudflare se concentra en Workers;
   - `_headers` y `_redirects` funcionan de forma nativa en ambos;

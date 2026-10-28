@@ -1,0 +1,12 @@
+// Worker de felipecuevas.dev con assets estáticos (ADR-037).
+// Sin "main": solo sirve el resultado de `pnpm build` (dist/).
+// Sin rutas ni dominio: hasta el cutover (E190-I02) solo responde en workers.dev.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "felipecuevas-dev",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
+}

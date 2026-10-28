@@ -6,5 +6,9 @@ engineStrict: true
 # Falla si una dependencia intenta ejecutar scripts de compilación no revisados (ADR-003).
 strictDepBuilds: true
 
-# Scripts de compilación aprobados tras revisión explícita con `pnpm approve-builds`.
-allowBuilds: {}
+# Scripts de compilación revisados de forma explícita (ADR-038).
+# esbuild y workerd (de wrangler) quedan denegados: su postinstall solo valida o descarga
+# el binario, que ya llega como dependencia opcional de la plataforma.
+allowBuilds:
+  esbuild: false
+  workerd: false
