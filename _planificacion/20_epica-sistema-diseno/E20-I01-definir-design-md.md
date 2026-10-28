@@ -1,7 +1,7 @@
 # E20-I01 · Definición del DESIGN.md v1
 - **Estado:** [ ] Pendiente
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E10-I03 · **Hallazgos que cierra:** AT-016, AT-017 · **ADR relacionados:** ADR-010
+- **Depende de:** E10-I03 · **Hallazgos que cierra:** AT-016, AT-017 · **ADR relacionados:** ADR-010, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,6 +17,7 @@ Completar el esqueleto de `DESIGN.md` con un sistema visual más elegante y tecn
 
 ## Alcance
 - Principios, paleta con tokens claro/oscuro y contrastes verificados, tipografía, escala de espaciado y layout, componentes, movimiento, reglas de Tailwind v4 y criterios de calidad visual.
+- Sección "Composición por página" en `DESIGN.md` (ADR-036): regla general (sistema común y composición propia por página), catálogo de patrones (zigzag, mosaico, línea de tiempo, etc.) y los patrones de **Inicio** y **Educación**. Educación usa franjas temáticas de ancho completo por categoría de certificación, alternadas en zigzag y apiladas en una columna en móvil.
 
 ## Fuera de alcance
 - Implementar tokens (E20-I02).
@@ -27,6 +28,7 @@ Completar el esqueleto de `DESIGN.md` con un sistema visual más elegante y tecn
 - [ ] Verificar contraste AA de cada par texto/fondo en ambos temas.
 - [ ] Confirmar que la sección del logotipo quedó intacta.
 - [ ] Registrar en `decisiones.md` la dirección visual elegida.
+- [ ] Redactar en `DESIGN.md` la sección "Composición por página": regla general, catálogo de patrones y patrones de Inicio y Educación, y validarla con Felipe (ADR-036).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `DESIGN.md` (raíz).
@@ -37,6 +39,7 @@ Completar el esqueleto de `DESIGN.md` con un sistema visual más elegante y tecn
 - [ ] Cada par de color declarado cumple WCAG 2.2 AA.
 - [ ] La especificación del logotipo es idéntica a la del esqueleto.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] `DESIGN.md` tiene la sección "Composición por página" con la regla general, el catálogo y los patrones de Inicio y Educación (ADR-036).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

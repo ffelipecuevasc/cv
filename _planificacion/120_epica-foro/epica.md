@@ -6,6 +6,7 @@ Reconstruir la página del foro con Giscus en ambos idiomas, compartiendo el mis
 
 ## Alcance
 - Página completa con hilo general.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E120-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `foro.html` → `/es/foro` y `/en/forum`.

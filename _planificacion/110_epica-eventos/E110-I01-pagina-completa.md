@@ -1,7 +1,7 @@
 # E110-I01 · Página de eventos con estado por fecha
 - **Estado:** [ ] Pendiente
 - **Épica:** E110 · Página Eventos (eventos.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-039 · **ADR relacionados:** ADR-007, ADR-017, ADR-018
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-039 · **ADR relacionados:** ADR-007, ADR-017, ADR-018, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -23,6 +23,7 @@ Migrar la página y el evento publicado, con estado Próximo/Finalizado calculad
 - Datos estructurados Event (backlog BL-03).
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Migrar datos al modelo bilingüe.
 - [ ] Calcular el estado en el cliente con estado base generado en el build.
 - [ ] Redactar `en-US`.

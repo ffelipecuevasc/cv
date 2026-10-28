@@ -1,7 +1,7 @@
 # E20-I05 · Primitivas de componentes
 - **Estado:** [ ] Pendiente
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E20-I03, E20-I04 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-005, ADR-010
+- **Depende de:** E20-I03, E20-I04 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-005, ADR-010, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -15,6 +15,7 @@ Construir los componentes base que usarán todas las páginas: botones, tarjetas
 
 ## Alcance
 - Componentes Astro sin JavaScript de cliente, con HTML semántico y estados de foco visibles.
+- Primitiva "franja temática": bloque de ancho completo con título y contenido, orientación alternable (título a la izquierda o a la derecha) y apilado en una columna en móvil (ADR-036).
 
 ## Fuera de alcance
 - Componentes de layout (E30).
@@ -23,6 +24,7 @@ Construir los componentes base que usarán todas las páginas: botones, tarjetas
 - [ ] Implementar cada primitiva según `DESIGN.md`.
 - [ ] Agregarlas a la página de muestra en ambos temas.
 - [ ] Revisar teclado y contraste.
+- [ ] Implementar la primitiva "franja temática" con orientación alternable y apilado en móvil, y agregarla a la página de muestra (ADR-036).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/components/ui/*`.
@@ -31,6 +33,7 @@ Construir los componentes base que usarán todas las páginas: botones, tarjetas
 - [ ] Cada primitiva tiene estado de foco visible y contraste AA.
 - [ ] Ninguna primitiva usa colores fuera de tokens.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] La franja temática alterna su orientación sin alterar el orden de lectura del HTML y se apila en una columna en móvil (ADR-036).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

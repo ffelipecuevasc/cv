@@ -1,7 +1,7 @@
 # E130-I01 · Rutas de aprendizaje con progreso
 - **Estado:** [ ] Pendiente
 - **Épica:** E130 · Página Recursos (recursos.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-028, AT-037 · **ADR relacionados:** ADR-007, ADR-017, ADR-023
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-028, AT-037 · **ADR relacionados:** ADR-007, ADR-017, ADR-023, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -21,6 +21,7 @@ Migrar el selector de rutas y los pasos con progreso marcable guardado en `local
 - Bóveda (E130-I02).
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Migrar datos y lógica.
 - [ ] Conservar el formato del progreso guardado.
 - [ ] Alinear `<title>` y `<h1>` con Felipe.

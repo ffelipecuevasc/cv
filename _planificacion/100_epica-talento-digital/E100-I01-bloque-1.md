@@ -1,7 +1,7 @@
 # E100-I01 · Talento Digital, primera mitad de secciones
 - **Estado:** [ ] Pendiente
 - **Épica:** E100 · Página Talento Digital (talento-digital.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar la primera mitad de las secciones de la página (hasta la mitad del conte
 - Segunda mitad (E100-I02).
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Definir el corte exacto de secciones y registrarlo en la bitácora.
 - [ ] Construir y traducir.
 

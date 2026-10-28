@@ -7,6 +7,7 @@ Reconstruir la página de instructor REUF/SENCE y la trayectoria como relator, e
 ## Alcance
 - Secciones de instructor REUF.
 - Relatoría con capa de datos.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E90-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `instructor.html` → `/es/instructor` y `/en/instructor`.

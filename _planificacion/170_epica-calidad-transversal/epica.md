@@ -25,7 +25,7 @@ E40–E160 (todas las épicas de página)
 | [E170-I04](E170-I04-enlaces-paridad.md) | Enlaces rotos y paridad es/en automatizada | P1 | S | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
-- [ ] Sin errores críticos de accesibilidad en las 26 páginas (13 × 2 idiomas).
+- [ ] Sin errores críticos de accesibilidad en las 28 páginas (14 × 2 idiomas, incluida la política de privacidad de E155).
 - [ ] Umbrales de ADR-015 cumplidos.
 - [ ] CSP activa sin romper Turnstile, Calendly ni Giscus.
 - [ ] Cero enlaces rotos internos.

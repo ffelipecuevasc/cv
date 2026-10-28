@@ -1,7 +1,7 @@
 # E180-I02 · Sitemap bilingüe, robots.txt y canónicas
 - **Estado:** [ ] Pendiente
 - **Épica:** E180 · Migración de URLs y SEO · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E180-I01 · **Hallazgos que cierra:** AT-030 · **ADR relacionados:** ADR-001
+- **Depende de:** E180-I01 · **Hallazgos que cierra:** AT-030 · **ADR relacionados:** ADR-001, ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -24,6 +24,7 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 ## Tareas
 - [ ] Registrar ADR de la integración.
 - [ ] Configurar y verificar la salida.
+- [ ] Incluir `/es/privacidad` y `/en/privacy` en el sitemap con `hreflang` recíprocos (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `astro.config.mjs`; crear `public/robots.txt`.
@@ -31,6 +32,7 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 ## Criterios de aceptación (verificables)
 - [ ] El sitemap lista 22 URLs indexables (11 × 2) con alternativas recíprocas y excluye agradecimiento y 404.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] El sitemap incluye `/es/privacidad` y `/en/privacy` con `hreflang` recíprocos, con lo que suma 24 URLs indexables (12 × 2). Si en E155-I01 Felipe decide marcarla `noindex`, se excluye y el total vuelve a 22 (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

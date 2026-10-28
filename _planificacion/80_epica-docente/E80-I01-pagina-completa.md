@@ -1,7 +1,7 @@
 # E80-I01 · Página de docencia universitaria
 - **Estado:** [ ] Pendiente
 - **Épica:** E80 · Página Docente (docente.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar la página de docencia universitaria con todas sus secciones.
 - —
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Construir la página.
 - [ ] Redactar `en-US` y validarlo con Felipe.
 

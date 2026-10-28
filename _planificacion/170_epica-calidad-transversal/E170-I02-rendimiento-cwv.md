@@ -16,7 +16,7 @@ Medir el sitio nuevo frente a la línea base y a los umbrales de ADR-015, y cerr
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
 
 ## Alcance
-- Lighthouse en móvil y escritorio para las 26 páginas.
+- Lighthouse en móvil y escritorio para las 28 páginas (14 × 2, incluida la política de privacidad).
 - Presupuesto de imágenes y fuentes.
 - Imagen OG por idioma optimizada.
 

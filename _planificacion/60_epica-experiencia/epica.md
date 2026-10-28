@@ -6,6 +6,7 @@ Reconstruir la página de resumen de experiencia laboral, que da entrada a los c
 
 ## Alcance
 - Página completa con enlaces a Desarrollador, Docente, Instructor y Talento Digital.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E60-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `experiencia.html` → `/es/experiencia` y `/en/experience`.

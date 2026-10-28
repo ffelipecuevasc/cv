@@ -6,6 +6,7 @@ Reconstruir la página de eventos con su estado Próximo/Finalizado calculado po
 
 ## Alcance
 - Página completa con capa de datos de eventos.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E110-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `eventos.html` → `/es/eventos` y `/en/events`.

@@ -1,7 +1,7 @@
 # E170-I03 · Cabeceras de seguridad
 - **Estado:** [ ] Pendiente
 - **Épica:** E170 · Calidad transversal · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E40–E160 (todas las épicas de página) · **Hallazgos que cierra:** AT-023, AT-024 · **ADR relacionados:** ADR nuevo (CSP)
+- **Depende de:** E40–E160 (todas las épicas de página) · **Hallazgos que cierra:** AT-023, AT-024 · **ADR relacionados:** ADR nuevo (CSP), ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -24,6 +24,7 @@ Publicar un archivo `_headers` con CSP y cabeceras de seguridad compatibles con 
 ## Tareas
 - [ ] Redactar `_headers` en `public/`.
 - [ ] Probar en la preview con la consola del navegador sin violaciones de CSP.
+- [ ] Verificar que la CSP no bloquee la página de privacidad ni el formulario de contacto (checkbox de consentimiento, Turnstile y envío) (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `public/_headers`.
@@ -31,6 +32,7 @@ Publicar un archivo `_headers` con CSP y cabeceras de seguridad compatibles con 
 ## Criterios de aceptación (verificables)
 - [ ] Sin violaciones de CSP en ninguna página, incluidos formulario, agenda y foro.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] La página de privacidad y el formulario con su checkbox de consentimiento funcionan sin violaciones de CSP (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

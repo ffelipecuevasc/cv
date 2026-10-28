@@ -8,7 +8,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E10 · Fundaciones técnicas
 - **Iteración actual:** E10-I08 · README.md de la raíz, versión 1
-- **Terminadas:** 7 de 52 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07)
+- **Terminadas:** 7 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07)
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -81,6 +81,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 **E150 · Página Agradecimiento (agradecimiento.html)** (`150_epica-agradecimiento/`)
 - [ ] E150-I01 · Página de agradecimiento (P2, S)
 
+**E155 · Página Política de privacidad** (`155_epica-privacidad/`)
+- [ ] E155-I01 · Página de política de privacidad (P0, S)
+
 **E160 · Página 404 (404.html)** (`160_epica-404/`)
 - [ ] E160-I01 · Página 404 por idioma (P1, S)
 
@@ -131,6 +134,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 │   ├── 130_epica-recursos/
 │   ├── 140_epica-contacto/
 │   ├── 150_epica-agradecimiento/
+│   ├── 155_epica-privacidad/
 │   ├── 160_epica-404/
 │   ├── 170_epica-calidad-transversal/
 │   ├── 180_epica-migracion-urls/

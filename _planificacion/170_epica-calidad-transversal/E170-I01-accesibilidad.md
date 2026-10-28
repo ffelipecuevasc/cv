@@ -20,7 +20,7 @@ Auditar y corregir la accesibilidad de todas las páginas en ambos idiomas.
 - —
 
 ## Tareas
-- [ ] Ejecutar Lighthouse y una herramienta de reglas de accesibilidad en las 26 páginas.
+- [ ] Ejecutar Lighthouse y una herramienta de reglas de accesibilidad en las 28 páginas (14 × 2, incluida la política de privacidad).
 - [ ] Corregir hallazgos o registrarlos como AT nuevos.
 - [ ] Recorrido manual con teclado y lector de pantalla en páginas clave.
 

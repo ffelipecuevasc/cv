@@ -1,7 +1,7 @@
 # E70-I01 · Aspectos técnicos y muro de tecnologías
 - **Estado:** [ ] Pendiente
 - **Épica:** E70 · Página Desarrollador (desarrollador.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar los aspectos técnicos y el muro de 36 tecnologías agrupadas en 5 catego
 - Portafolio (E70-I02).
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Migrar íconos SVG y agrupaciones.
 - [ ] Redactar `en-US`.
 

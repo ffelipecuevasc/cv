@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-046.
+- Los hallazgos nuevos continúan la numeración desde AT-047.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -433,6 +433,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `functions/api/contacto.js` usa el formato de Pages Functions; la guía oficial indica compilarla o reescribirla para Workers.
 - **Impacto:** trabajo adicional según D-14; los secretos deben reconfigurarse.
 - **Recomendación:** resolver D-14 antes de E140-I02.
+
+### AT-047 · Sin política de privacidad ni consentimiento en el formulario de contacto
+- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E155-I01, E30-I06, E140-I01, E140-I02
+- **Evidencia:**
+  - el formulario `contacto.html:289-354` (`<form id="contacto-formulario" method="POST">`) pide datos personales (`nombre` en `:294`, `email` en `:300`, `asunto` en `:305` y `mensaje` en `:309`), con Turnstile en `:326` y el botón de envío en `:349`, pero no tiene checkbox de consentimiento ni enlace a una política;
+  - el sitio actual no tiene página de privacidad: no hay archivo de privacidad en la raíz de `main` (`git ls-tree --name-only main`) y el pie (`contacto.html:376` en adelante) no la enlaza;
+  - el sitio trata datos con terceros: Turnstile, Calendly, Giscus (GitHub) y almacenamiento local (AT-024, AT-028).
+- **Impacto:** la Ley 21.719 entra en vigor el 1 de diciembre de 2026; sin política ni registro del consentimiento, el sitio no informa los tratamientos ni puede demostrar la aceptación.
+- **Recomendación:** ADR-035 y épica E155 (política bilingüe con versión y fecha de vigencia), enlace en el pie, checkbox obligatorio en el formulario y registro del consentimiento en la función de envío. El texto lo valida un especialista externo antes del cutover.
 
 ## N. Riesgos de la migración
 

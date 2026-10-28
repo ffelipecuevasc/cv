@@ -1,7 +1,7 @@
 # E60-I01 · Página de resumen de experiencia
 - **Estado:** [ ] Pendiente
 - **Épica:** E60 · Página Experiencia (experiencia.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -21,6 +21,7 @@ Migrar la página de resumen de experiencia (~250 palabras) con sus tres perfile
 - —
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Construir la página y sus secciones.
 - [ ] Redactar `en-US`.
 

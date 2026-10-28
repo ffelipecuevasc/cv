@@ -3,8 +3,8 @@
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
 - **Épica actual:** E10 · **Iteración actual:** E10-I08
-- **Resumen:** 19 épicas · 52 iteraciones · 7 terminadas
-- **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas.
+- **Resumen:** 20 épicas · 53 iteraciones · 7 terminadas
+- **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E155 → E140 → E150 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 se ejecuta antes que E140 porque E140-I01 depende de E155-I01 (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Iteraciones por épica (ordenadas por prioridad)
@@ -101,13 +101,18 @@
 ### E140 · Página Contacto (contacto.html) (`140_epica-contacto/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| P1 | E140-I01 | Página, formulario, Turnstile y Calendly | M | E30-I06 | [ ] Pendiente |
+| P1 | E140-I01 | Página, formulario, Turnstile y Calendly | M | E30-I06, E155-I01 | [ ] Pendiente |
 | P1 | E140-I02 | Función de envío del formulario | M | E140-I01, E10-I09 | [ ] Pendiente |
 
 ### E150 · Página Agradecimiento (agradecimiento.html) (`150_epica-agradecimiento/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | P2 | E150-I01 | Página de agradecimiento | S | E140-I02 | [ ] Pendiente |
+
+### E155 · Página Política de privacidad (`155_epica-privacidad/`)
+| Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
+|---|---|---|---|---|---|
+| P0 | E155-I01 | Página de política de privacidad | S | E30-I06, E10-I09 | [ ] Pendiente |
 
 ### E160 · Página 404 (404.html) (`160_epica-404/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
@@ -148,3 +153,5 @@ Estas tareas **no están agendadas** en ninguna iteración. Se agendan con una i
 | BL-04 | Versiones en inglés del CV y de los PDFs de recursos, cuando Felipe las entregue | ADR-017, AT-034 | Felipe | Sin fecha |
 | BL-05 | Definir si "fecudev" es la marca de la comunidad y dónde se usa, sin alterar el menú (D-08) | Propuesta P-05 | Felipe | Sin fecha |
 | BL-06 | Confirmar el consentimiento de uso de nombres y fotos de los 12 testimonios | AT-025 | Felipe | Antes de E190 |
+| BL-07 | Validar la clasificación de certificaciones por categoría (ADR-036) | ADR-036, E50-I02 | Felipe | Antes de E50-I02 |
+| BL-08 | Validar el texto de la política de privacidad con un especialista (ADR-035) | ADR-035, AT-047, E155-I01 | Felipe | Antes de E190 |

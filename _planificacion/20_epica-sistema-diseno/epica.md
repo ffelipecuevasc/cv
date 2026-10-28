@@ -10,6 +10,7 @@ Definir el `DESIGN.md` nuevo, más elegante y tecnológico, y materializarlo en 
 - Tipografía e íconos sin dependencias de terceros en tiempo de carga.
 - Sistema de movimiento con `prefers-reduced-motion`.
 - Primitivas reutilizables.
+- Sistema común (paletas clara y oscura actuales, tipografía, espaciados, movimiento y primitivas) con composición propia por página, documentada en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 Ninguna de contenido. Una página interna de muestra de componentes (no indexable).
@@ -32,6 +33,7 @@ E10 (en particular E10-I03).
 - [ ] El sitio no carga fuentes ni scripts desde Google Fonts ni AOS.
 - [ ] Las primitivas funcionan en claro y oscuro, con teclado y con movimiento reducido.
 - [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [ ] `DESIGN.md` documenta la regla de composición por página y los patrones de Inicio y Educación (ADR-036).
 
 ## Riesgos
 - Rediseñar demasiado y alterar el logotipo (D-08 lo protege).

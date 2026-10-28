@@ -1,7 +1,7 @@
 # E140-I02 · Función de envío del formulario
 - **Estado:** [ ] Pendiente
 - **Épica:** E140 · Página Contacto (contacto.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E140-I01, E10-I09 · **Hallazgos que cierra:** AT-029 · **ADR relacionados:** ADR resultante de D-14
+- **Depende de:** E140-I01, E10-I09 · **Hallazgos que cierra:** AT-029 · **ADR relacionados:** ADR resultante de D-14, ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,6 +17,8 @@ Adaptar la función de envío a la plataforma decidida en E10-I09, con mensajes 
 ## Alcance
 - Función adaptada, mensajes y correo en el idioma del formulario.
 - Documentación de secretos que Felipe configura en el panel (sin valores).
+- Validación del consentimiento en el servidor: la función rechaza el envío si el checkbox de la política no viene marcado (ADR-035).
+- Registro del consentimiento como evidencia en el correo que recibe Felipe: fecha, hora y versión de la política aceptada. Sin base de datos ni dependencias nuevas (ADR-035).
 
 ## Fuera de alcance
 - Cambiar el proveedor de correo.
@@ -25,6 +27,8 @@ Adaptar la función de envío a la plataforma decidida en E10-I09, con mensajes 
 - [ ] Adaptar la función.
 - [ ] Probar en la preview con claves de prueba de Turnstile.
 - [ ] Documentar la configuración manual.
+- [ ] Validar el consentimiento en el servidor y responder con un error por idioma si falta (ADR-035).
+- [ ] Agregar al correo la fecha y hora del consentimiento y la versión de la política (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear o modificar: función de contacto según ADR.
@@ -33,6 +37,9 @@ Adaptar la función de envío a la plataforma decidida en E10-I09, con mensajes 
 - [ ] Un envío en la preview llega al destinatario y redirige a la página de agradecimiento del idioma.
 - [ ] Ningún secreto aparece en el repositorio.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] Un envío sin consentimiento (por ejemplo, una petición manual sin el campo) es rechazado por la función (ADR-035).
+- [ ] El correo recibido incluye la fecha, la hora y la versión de la política aceptada (ADR-035).
+- [ ] No se agregó ninguna dependencia ni base de datos (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

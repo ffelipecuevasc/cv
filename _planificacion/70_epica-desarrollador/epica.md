@@ -8,6 +8,7 @@ Reconstruir el perfil de desarrollador con aspectos técnicos, muro de tecnolog�
 - Aspectos técnicos y 36 tecnologías.
 - Portafolio de 12 proyectos con filtros.
 - JSON-LD ItemList.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E70-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `desarrollador.html` → `/es/desarrollador` y `/en/developer`.

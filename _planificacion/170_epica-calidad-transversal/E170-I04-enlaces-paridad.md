@@ -23,6 +23,7 @@ Automatizar la verificación de enlaces y de paridad entre idiomas como scripts 
 ## Tareas
 - [ ] Elegir herramienta con ADR si agrega dependencia.
 - [ ] Agregar scripts `pnpm verify` y `pnpm check:i18n`.
+- [ ] Incluir en la verificación de enlaces y paridad las 28 páginas (14 × 2), con el par `/es/privacidad` ↔ `/en/privacy` (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `package.json`; crear configuración de la herramienta.

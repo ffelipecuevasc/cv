@@ -7,17 +7,19 @@ Reconstruir la página de contacto con formulario protegido por Turnstile, enví
 ## Alcance
 - Página y formulario.
 - Función de envío adaptada a i18n y a la plataforma de ADR D-14.
+- Checkbox obligatorio de aceptación de la política de privacidad y registro del consentimiento en el envío (ADR-035).
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E140-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `contacto.html` → `/es/contacto` y `/en/contact`.
 
 ## Dependencias
-E30 completa y E10-I09.
+E30 completa, E10-I09 y E155-I01 (la política debe existir para enlazarla desde el formulario, ADR-035).
 
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06 | [ ] Pendiente |
+| [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06, E155-I01 | [ ] Pendiente |
 | [E140-I02](E140-I02-funcion-envio.md) | Función de envío del formulario | P1 | M | E140-I01, E10-I09 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
@@ -29,3 +31,4 @@ E30 completa y E10-I09.
 
 ## Riesgos
 - Secretos de producción: no se exponen ni se copian a archivos versionados.
+- Consentimiento sin trazabilidad si el formulario y la función de envío no comparten el mismo identificador de versión de la política (ADR-035).

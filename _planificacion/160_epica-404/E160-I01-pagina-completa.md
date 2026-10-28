@@ -1,7 +1,7 @@
 # E160-I01 · Página 404 por idioma
 - **Estado:** [ ] Pendiente
 - **Épica:** E160 · Página 404 (404.html) · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E30-I06, E10-I09 · **Hallazgos que cierra:** AT-003, AT-004 · **ADR relacionados:** ADR-007, ADR-001
+- **Depende de:** E30-I06, E10-I09 · **Hallazgos que cierra:** AT-003, AT-004 · **ADR relacionados:** ADR-007, ADR-001, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -23,6 +23,7 @@ Servir una 404 en el idioma de la ruta solicitada, con estilos correctos en cual
 - —
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Construir las páginas.
 - [ ] Configurar el manejo de 404 según la plataforma de ADR D-14.
 - [ ] Probar rutas inexistentes de uno, dos y tres niveles.

@@ -1,7 +1,7 @@
 # E190-I01 · Checklist de precondiciones y ensayo en preview
 - **Estado:** [ ] Pendiente
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E170-I04, E180-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-013, ADR-014
+- **Depende de:** E170-I04, E180-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-013, ADR-014, ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -24,6 +24,8 @@ Verificar que todo está listo para el cutover y que no hay contenido nuevo de `
 - [ ] Confirmar todas las iteraciones previas terminadas.
 - [ ] Confirmar secretos y variables configurados en la plataforma nueva (Felipe).
 - [ ] Ensayar: navegación, idioma, tema, formulario, foro, descargas, redirecciones.
+- [ ] Confirmar que la política de privacidad está publicada y que su texto fue validado por el especialista externo (ADR-035, BL-08).
+- [ ] Confirmar que el formulario registra el consentimiento: rechazo sin checkbox y fecha, hora y versión de la política en el correo (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: checklist en la carpeta de esta épica.
@@ -31,6 +33,7 @@ Verificar que todo está listo para el cutover y que no hay contenido nuevo de `
 ## Criterios de aceptación (verificables)
 - [ ] Checklist completo firmado por Felipe en la bitácora.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] Precondiciones de privacidad cumplidas: política publicada y validada por el especialista, y consentimiento registrado por el formulario (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

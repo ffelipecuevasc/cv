@@ -6,6 +6,7 @@ Reconstruir la página de error 404 por idioma, con rutas absolutas y logotipo a
 
 ## Alcance
 - 404 en ambos idiomas y comportamiento para rutas sin prefijo.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E160-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `404.html` → `/es/404` y `/en/404`.

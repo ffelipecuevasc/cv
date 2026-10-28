@@ -6,6 +6,7 @@ Reconstruir la página de docencia universitaria en ambos idiomas.
 
 ## Alcance
 - Página completa (~500 palabras).
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E80-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `docente.html` → `/es/docente` y `/en/lecturer`.

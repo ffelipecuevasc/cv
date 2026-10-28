@@ -6,6 +6,7 @@ Reconstruir la página de confirmación de envío en ambos idiomas, no indexable
 
 ## Alcance
 - Página completa.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E150-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `agradecimiento.html` → `/es/agradecimiento` y `/en/thank-you`.

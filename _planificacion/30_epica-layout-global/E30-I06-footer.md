@@ -1,7 +1,7 @@
 # E30-I06 · Pie de página rediseñado y volver arriba
 - **Estado:** [ ] Pendiente
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E30-I04 · **Hallazgos que cierra:** AT-008 · **ADR relacionados:** ADR-021
+- **Depende de:** E30-I04 · **Hallazgos que cierra:** AT-008 · **ADR relacionados:** ADR-021, ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,13 +17,16 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 ## Alcance
 - Pie según `DESIGN.md`, con etiquetas alineadas a la navbar e inclusión de Recursos.
 - Botón volver arriba con desplazamiento instantáneo bajo movimiento reducido.
+- Enlace a la política de privacidad (`/es/privacidad` y `/en/privacy`) en el pie de todas las páginas, incluidas la 404 y la de agradecimiento (ADR-035).
 
 ## Fuera de alcance
 - Botón de apariencia (se mueve a la navbar, ADR-021).
+- Enlace a la política de privacidad en la navbar: no se agrega, la navbar se mantiene sin cambios (ADR-035, D-08).
 
 ## Tareas
 - [ ] Implementar el pie y el botón.
 - [ ] Validar enlaces en ambos idiomas.
+- [ ] Agregar el enlace a la política de privacidad en el pie, con la etiqueta desde el diccionario y la ruta desde el mapa de rutas (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/components/layout/Footer.astro`.
@@ -32,6 +35,7 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 - [ ] Todas las rutas del pie resuelven en ambos idiomas.
 - [ ] Etiquetas coherentes con la navbar.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] El pie de todas las páginas, incluidas 404 y agradecimiento, enlaza a la política de privacidad del idioma activo, y la navbar no cambia (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

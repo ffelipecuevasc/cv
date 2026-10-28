@@ -1,7 +1,7 @@
 # E120-I01 · Página del foro con Giscus bilingüe
 - **Estado:** [ ] Pendiente
 - **Épica:** E120 · Página Foro (foro.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-027 · **ADR relacionados:** ADR-007, ADR-022
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-027 · **ADR relacionados:** ADR-007, ADR-022, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -22,6 +22,7 @@ Migrar la página del foro con Giscus cargado de forma diferida, tema sincroniza
 - —
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Migrar la integración.
 - [ ] Pasar el idioma de Giscus según la página.
 - [ ] Verificar que `/es/foro` y `/en/forum` muestran los mismos mensajes existentes.

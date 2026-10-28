@@ -6,6 +6,7 @@ Reconstruir la página de bootcamps de Talento Digital para Chile en ambos idiom
 
 ## Alcance
 - Página completa dividida en dos iteraciones por volumen (~660 palabras).
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E100-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `talento-digital.html` → `/es/talento-digital` y `/en/talento-digital`.

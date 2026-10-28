@@ -1,7 +1,7 @@
 # E90-I01 · Trayectoria como instructor REUF
 - **Estado:** [ ] Pendiente
 - **Épica:** E90 · Página Instructor (instructor.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar las secciones de instructor REUF, incluido el enlace de descarga del cert
 - Relatoría (E90-I02).
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Construir las secciones.
 - [ ] Redactar `en-US`.
 

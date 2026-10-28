@@ -1,7 +1,7 @@
 # E30-I02 · Diccionario de interfaz, rutas equivalentes y contenido bilingüe
 - **Estado:** [ ] Pendiente
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E30-I01 · **Hallazgos que cierra:** AT-005, AT-026 · **ADR relacionados:** ADR-017, ADR-020
+- **Depende de:** E30-I01 · **Hallazgos que cierra:** AT-005, AT-026 · **ADR relacionados:** ADR-017, ADR-020, ADR-035
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -19,15 +19,17 @@ Centralizar los textos de interfaz por idioma, el mapa de rutas equivalentes es�
 - Diccionario de interfaz tipado.
 - Mapa de rutas con función que devuelve la ruta equivalente en el otro idioma.
 - Esquema de colecciones de contenido con campos por idioma y validación de paridad.
+- Par `/es/privacidad` ↔ `/en/privacy` en el mapa de rutas equivalentes, para la página nueva de política de privacidad (ADR-035, E155).
 
 ## Fuera de alcance
 - Migrar el contenido de cada página (se hace en su épica).
 
 ## Tareas
 - [ ] Definir el diccionario con los textos del armazón (navegación, pie, botones).
-- [ ] Implementar el mapa de rutas y validar que cubre las 13 páginas.
+- [ ] Implementar el mapa de rutas y validar que cubre las 14 páginas (las 13 del sitio actual más la política de privacidad, ADR-035).
 - [ ] Definir el esquema de contenido y una prueba de paridad que falle si falta un idioma.
 - [ ] Validar los slugs en inglés con Felipe.
+- [ ] Agregar el par `/es/privacidad` ↔ `/en/privacy` al mapa de rutas (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/i18n/*`, `src/content.config.*` o equivalente.
@@ -37,6 +39,7 @@ Centralizar los textos de interfaz por idioma, el mapa de rutas equivalentes es�
 - [ ] El build falla si una entrada de contenido no tiene ambos idiomas.
 - [ ] Los enlaces internos se generan sin `.html`.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] El mapa de rutas incluye `/es/privacidad` ↔ `/en/privacy` (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)

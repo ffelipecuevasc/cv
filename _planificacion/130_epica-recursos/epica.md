@@ -7,6 +7,7 @@ Reconstruir las rutas de aprendizaje con progreso local y la bóveda de recursos
 ## Alcance
 - Rutas con progreso.
 - Bóveda de recursos y JSON-LD Course.
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E130-I01 y se documenta en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `recursos.html` → `/es/recursos` y `/en/resources`.

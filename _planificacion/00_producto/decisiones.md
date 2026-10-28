@@ -245,6 +245,33 @@ Reglas del registro:
 - **Consecuencias:** E30-I01 y E30-I02 parten de `Astro.currentLocale` y de las funciones de `astro:i18n`. E180-I03 debe reemplazar o complementar la redirección de `/` con una 301 de la plataforma (AT-046).
 - **Origen:** E10-I07, 28-10-2026. **Estado:** Aceptada.
 
+## ADR-035 · Política de privacidad y consentimiento en el formulario (Ley 21.719)
+- **Contexto:** AT-047. La Ley 21.719 de protección de datos personales entra en vigor en Chile el 1 de diciembre de 2026. El sitio actual no tiene política de privacidad y su formulario de contacto no pide consentimiento.
+- **Decisión:**
+  - Se crea una página de política de privacidad en una épica nueva, **E155 · Política de privacidad**, siguiendo el patrón de una épica por página.
+  - Slugs: `/es/privacidad` y `/en/privacy` (coherente con ADR-020).
+  - El enlace a la política va en el **pie de todas las páginas**. No va en la navbar, que se mantiene sin cambios.
+  - El formulario de contacto incorpora un **checkbox obligatorio** de aceptación de la política, con un enlace a ella.
+  - El botón de envío **permanece siempre activo**. Si se intenta enviar sin marcar el checkbox, se muestra un error accesible asociado al checkbox, porque un botón deshabilitado no recibe foco ni explica el motivo.
+  - La función de envío valida en el servidor que el consentimiento venga marcado y registra como evidencia la fecha y hora y la versión de la política aceptada (trazabilidad del consentimiento). No se usa base de datos ni dependencia nueva: la evidencia viaja en el correo que recibe Felipe.
+  - La política cubre, en forma breve, todos los tratamientos del sitio: formulario de contacto, Turnstile, Calendly, Giscus (GitHub), el progreso guardado en el navegador (E130, ADR-023) y la preferencia de tema.
+  - El texto de la política lo valida un especialista externo antes del cutover. Ninguna iteración lo presenta como asesoría legal.
+- **Consecuencias:** se agregan E155 y E155-I01 (14 páginas, 28 con ambos idiomas). Se ajustan E30-I02 (mapa de rutas), E30-I06 (pie), E140 (checkbox y función de envío), E170 (totales y CSP), E180-I02 (sitemap) y E190-I01 (precondiciones). E140-I01 pasa a depender de E155-I01, por lo que E155 se ejecuta antes que E140. La validación del especialista queda como pendiente de Felipe antes de E190 (BL-08). Si se agrega un servicio de terceros nuevo, la política se actualiza y cambia de versión.
+- **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
+## ADR-036 · Sistema común con composición propia por página
+- **Contexto:** el sitio actual repite la misma estructura visual en todas las páginas; en Educación, las certificaciones se muestran en una línea de tiempo con igual protagonismo.
+- **Decisión:**
+  - E20 define un **sistema común**: paletas clara y oscura (se mantienen las actuales), tipografía, espaciados, movimiento y primitivas.
+  - Cada página tiene una **composición propia** que arma esas piezas con un patrón distinto (zigzag, mosaico, línea de tiempo, etc.). No todas las páginas se ven iguales.
+  - Todo patrón de composición se documenta en `DESIGN.md`, que sigue siendo la única fuente de verdad del diseño (ADR-010).
+  - E20-I01 define la regla general y los patrones de **Inicio** y **Educación**. Los patrones del resto de las páginas se definen al inicio de la primera iteración de cada épica de página, con validación de Felipe, y se agregan a `DESIGN.md`.
+  - **Educación:** las certificaciones se agrupan por categoría en **franjas de ancho completo**, llamativas, con el título de la categoría y las insignias en tamaño pequeño. Las franjas alternan la orientación (zigzag: título a la izquierda e insignias a la derecha, luego al revés). En móvil se apilan en una sola columna.
+  - Se agrega un campo de categoría a los datos de certificaciones. No se elimina contenido: solo se reorganiza.
+  - Clasificación **propuesta, por validar por Felipe**: Inteligencia artificial (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional); Cloud (AWS Cloud Practitioner, AWS Developer Associate, Oracle OCI Associate); Desarrollo y datos (Python Institute PCEP, Oracle Developer Professional, Oracle Data Science Professional).
+- **Consecuencias:** `DESIGN.md` incorpora la sección "Composición por página" en E20-I01 (el agente no edita `DESIGN.md` fuera de esa iteración, ADR-033). E20-I05 agrega la primitiva "franja temática". La primera iteración de cada épica de página incluye definir y validar su patrón; E40-I01 y E50-I01 aplican el definido en E20-I01. La clasificación de certificaciones queda por validar (BL-07) y bloquea esa parte de E50-I02 hasta que Felipe la confirme.
+- **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

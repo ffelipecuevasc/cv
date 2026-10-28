@@ -8,6 +8,7 @@ Reconstruir la portada con un hero rediseñado que en escritorio se vea completo
 - Hero rediseñado con todos sus elementos.
 - Franja de trayectoria y testimonios dentro de `<main>`.
 - JSON-LD Person y WebSite bilingües.
+- Composición propia de la página según el patrón definido en E20-I01 y documentado en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `index.html` → `/es/` y `/en/`.

@@ -1,7 +1,7 @@
 # E150-I01 · Página de agradecimiento
 - **Estado:** [ ] Pendiente
 - **Épica:** E150 · Página Agradecimiento (agradecimiento.html) · **Prioridad:** P2 · **Tamaño:** S
-- **Depende de:** E140-I02 · **Hallazgos que cierra:** AT-030 · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E140-I02 · **Hallazgos que cierra:** AT-030 · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar la página de confirmación con `noindex, follow` en ambos idiomas.
 - —
 
 ## Tareas
+- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
 - [ ] Construir la página.
 - [ ] Excluirla del sitemap.
 

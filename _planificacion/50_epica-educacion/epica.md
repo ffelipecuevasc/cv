@@ -2,12 +2,14 @@
 - **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
 
 ## Objetivo
-Reconstruir la página de formación académica, diplomados y certificaciones en ambos idiomas.
+Reconstruir la página de formación académica, diplomados y certificaciones en ambos idiomas. Las certificaciones se agrupan por categoría en franjas temáticas en zigzag (ADR-036).
 
 ## Alcance
 - Formación y diplomados.
 - Gabinete de certificaciones con su interacción.
 - JSON-LD de credenciales.
+- Certificaciones agrupadas por categoría en franjas de ancho completo que alternan su orientación (zigzag), apiladas en móvil, con la composición definida en E20-I01 (ADR-036). No se elimina contenido: solo se reorganiza.
+- Composición propia de la página según el patrón definido en E20-I01 y documentado en `DESIGN.md` (ADR-036).
 
 ## Páginas cubiertas
 `educacion.html` → `/es/educacion` y `/en/education`.

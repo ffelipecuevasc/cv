@@ -1,7 +1,7 @@
 # E40-I01 · Hero rediseñado sin scroll en escritorio
 - **Estado:** [ ] Pendiente
 - **Épica:** E40 · Página Inicio (index.html) · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E30-I06, E20-I05 · **Hallazgos que cierra:** AT-001, AT-013, AT-014, AT-028 · **ADR relacionados:** ADR-007, ADR-009, ADR-016, ADR-017, ADR-023
+- **Depende de:** E30-I06, E20-I05 · **Hallazgos que cierra:** AT-001, AT-013, AT-014, AT-028 · **ADR relacionados:** ADR-007, ADR-009, ADR-016, ADR-017, ADR-023, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -26,6 +26,7 @@ Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + re
 - Franja de trayectoria y testimonios (E40-I02).
 
 ## Tareas
+- [ ] Aplicar el patrón de composición de la página definido en E20-I01 (ADR-036).
 - [ ] Diseñar la composición del hero y validarla con Felipe antes de implementar.
 - [ ] Implementar el conmutador accesible (flechas, Home/End) con mejora progresiva.
 - [ ] Reutilizar el motor de máquina de escribir de E30-I03 para los titulares.

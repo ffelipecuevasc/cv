@@ -1,7 +1,7 @@
 # E50-I01 · Formación académica y diplomados
 - **Estado:** [ ] Pendiente
 - **Épica:** E50 · Página Educación (educacion.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-026 · **ADR relacionados:** ADR-007, ADR-017
+- **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-026 · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -20,6 +20,7 @@ Migrar las secciones de formación académica y diplomados al modelo bilingüe.
 - Certificaciones (E50-I02).
 
 ## Tareas
+- [ ] Aplicar el patrón de composición de la página definido en E20-I01 (ADR-036).
 - [ ] Migrar datos.
 - [ ] Redactar `en-US`.
 - [ ] Construir la página.
