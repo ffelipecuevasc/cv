@@ -294,6 +294,38 @@ Reglas del registro:
 - **Consecuencias:** si un build en Cloudflare falla por un binario no validado, se reevalúa aprobar el script con un ADR nuevo. Las subidas de versión respetan `minimumReleaseAge`.
 - **Origen:** E10-I09, aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
 
+## ADR-039 · Dirección visual: prototipos aprobados como referencia de DESIGN.md v1
+- **Contexto:** E20-I01 preveía proponer dos o tres direcciones visuales. Felipe entregó el 29-10-2026 dos prototipos HTML del index (modo claro y modo oscuro) con su nueva identidad, que respetan la paleta original. Los prototipos incluyen secciones que el index no tiene (Trayectoria, Especialización y Contacto), un logotipo distinto del vigente, opciones de menú distintas de ADR-008, un hero que no cumple la lista de conservación de E40-I01 ni la matriz de ADR-016, contenido ficticio y dependencias externas (Google Fonts, Tailwind por CDN v3 y una foto de Unsplash).
+- **Decisión:**
+  - Los prototipos son la **referencia visual** de `DESIGN.md` v1. Se guardan en `_planificacion/20_epica-sistema-diseno/prototipos/` y no se publican ni se compilan.
+  - `DESIGN.md` v1 los plasma y **prevalece sobre ellos** si difieren (ADR-010).
+  - No son referencia de: el contenido (se toma de `main`), el logotipo (ADR-008 sigue vigente sin cambios), las opciones de la navbar (ADR-008), las secciones Trayectoria, Especialización y Contacto (patrones reservados que solo se reutilizan con aprobación de Felipe por página) ni sus dependencias externas.
+  - El hero conserva el lenguaje visual del prototipo y se recompone para incluir todos los elementos de E40-I01 y cumplir ADR-016, sin eliminar ninguno (ADR-009).
+  - `DESIGN.md` v1 lo redacta el asesor del proyecto y Felipe lo copia a la raíz. El agente no edita `DESIGN.md` (ADR-033 sin cambios); en E20-I01 lo verifica y cierra la documentación.
+  - Educación: las franjas temáticas de ADR-036 reutilizan el tratamiento de la banda de cifras del prototipo.
+- **Consecuencias:** se sustituye la tarea de E20-I01 "proponer dos o tres direcciones visuales". E20-I02 a E20-I05 se ajustan a `DESIGN.md` v1. AT-050 a AT-053 registran los problemas de los prototipos.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-040 · Tonos de apoyo de la paleta
+- **Contexto:** ADR-036 mantiene las paletas actuales. Los prototipos usan la escala `orient`, `primary`, `vibrant` y `accent-gold` originales, más `stone` `#F5F9FC` y `surface` `#001A26`, que no existen en `main:tailwind.config.js`, y dos tonos casi iguales a la escala original: `#00222F` (`orient-900` es `#00212F`) y `#00384F` (`orient-800` es `#003B51`).
+- **Decisión:**
+  - Se usan los valores originales `orient-900` y `orient-800` en lugar de `#00222F` y `#00384F`.
+  - Se agregan dos tonos de apoyo: `stone` `#F5F9FC` (fondo alterno en claro) y `orient-925` `#001A26` (fondo alterno en oscuro; `surface` en el prototipo).
+  - Se mantiene `gold-deep` `#7A5C00` (`accent-gold-deep` original) para el trazo de las estrellas en claro.
+  - Reglas de contraste: texto con opacidad mínima del 60 %; foco `primary` en claro y `vibrant` en oscuro; `vibrant` y `gold` nunca son texto sobre fondo claro; avatares de iniciales sin `orient-400` de fondo.
+- **Consecuencias:** amplía ADR-036 en lo referente a la paleta; ADR-036 no se edita. Los tokens y la tabla de contrastes están en `DESIGN.md` 4. Resuelve AT-051 al verificarse en E20-I01.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-041 · Familias tipográficas
+- **Contexto:** el sitio actual usa solo Lexend desde Google Fonts (AT-017). Los prototipos usan Cinzel para títulos y Josefin Sans para texto, también desde Google Fonts. `DESIGN.md` 3.2 exige Lexend 700 para el logotipo.
+- **Decisión:**
+  - **Cinzel** (OFL 1.1) en titulares y cifras, pesos 400, 500 y 600.
+  - **Josefin Sans** (OFL 1.1) en texto, pesos 300, 400 y 600, y cursiva 300 y 400. Los párrafos van en 300, como en el prototipo.
+  - **Lexend** 700 **solo** en el logotipo.
+  - Las tres se autoalojan; ninguna se carga desde Google Fonts. El mecanismo de carga se decide en E20-I03 con su propio ADR.
+- **Consecuencias:** el sitio carga tres familias; E20-I03 limita pesos y subconjuntos y mide el efecto en LCP frente a ADR-015. La legibilidad de Josefin Sans 300 en tamaños pequeños se revisa en E170-I01.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

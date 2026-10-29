@@ -1,54 +1,66 @@
 # E20-I01 · Definición del DESIGN.md v1
 - **Estado:** [ ] Pendiente
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E10-I03 · **Hallazgos que cierra:** AT-016, AT-017 · **ADR relacionados:** ADR-010, ADR-036
+- **Depende de:** E10-I03 · **Hallazgos que cierra:** AT-051 · **ADR relacionados:** ADR-008, ADR-010, ADR-033, ADR-036, ADR-039, ADR-040, ADR-041
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Objetivo
-Completar el esqueleto de `DESIGN.md` con un sistema visual más elegante y tecnológico, respetando las restricciones cerradas.
+Incorporar `DESIGN.md` v1, que plasma los prototipos aprobados por Felipe, y verificar que cumple las restricciones cerradas y los ADR vigentes.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
-- ADR-010: `DESIGN.md` en la raíz es la única fuente de verdad del diseño.
-- Restricciones cerradas: D-08 (navbar y logotipo), D-09 (hero), tema claro/oscuro, i18n.
-- El sitio antiguo sirve como referencia de tono visual (paleta `orient`, `primary` #007EA7, Lexend), no como norma.
+- ADR-039: los prototipos de `prototipos/` son la referencia visual; `DESIGN.md` v1 prevalece sobre ellos.
+- ADR-040 (paleta) y ADR-041 (tipografía).
+- `DESIGN.md` v1 lo redactó el asesor y **Felipe lo copió a la raíz**. El agente **no edita `DESIGN.md`** (ADR-033): si encuentra un error, se detiene y lo informa.
+- Prototipos: `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). Su contenido es ficticio (AT-050).
+- Esqueleto v0: `git show HEAD:DESIGN.md` (último commit antes de esta iteración).
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
 
 ## Alcance
-- Principios, paleta con tokens claro/oscuro y contrastes verificados, tipografía, escala de espaciado y layout, componentes, movimiento, reglas de Tailwind v4 y criterios de calidad visual.
-- Sección "Composición por página" en `DESIGN.md` (ADR-036): regla general (sistema común y composición propia por página), catálogo de patrones (zigzag, mosaico, línea de tiempo, etc.) y los patrones de **Inicio** y **Educación**. Educación usa franjas temáticas de ancho completo por categoría de certificación, alternadas en zigzag y apiladas en una columna en móvil.
+- Verificación completa de `DESIGN.md` v1 frente al esqueleto, los ADR y los prototipos.
+- Comprobación de que los prototipos no entran al build ni a las herramientas de calidad.
+- Cierre documental.
 
 ## Fuera de alcance
+- Editar `DESIGN.md` (ADR-033).
 - Implementar tokens (E20-I02).
+- Usar contenido de los prototipos.
 
 ## Tareas
-- [ ] Proponer a Felipe dos o tres direcciones visuales breves (texto y referencias) y detenerse hasta que elija.
-- [ ] Completar cada sección de `DESIGN.md` con valores concretos.
-- [ ] Verificar contraste AA de cada par texto/fondo en ambos temas.
-- [ ] Confirmar que la sección del logotipo quedó intacta.
-- [ ] Registrar en `decisiones.md` la dirección visual elegida.
-- [ ] Redactar en `DESIGN.md` la sección "Composición por página": regla general, catálogo de patrones y patrones de Inicio y Educación, y validarla con Felipe (ADR-036).
+- [ ] Confirmar que `DESIGN.md` v1 está en la raíz y los dos prototipos en `prototipos/`.
+- [ ] Confirmar que las secciones 2 y 3 de `DESIGN.md` son idénticas a las del esqueleto v0.
+- [ ] Recalcular la tabla de contrastes de la sección 4.4 con un script temporal fuera del repositorio y sin dependencias, e informar cualquier diferencia mayor a 0,05.
+- [ ] Confirmar que no quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
+- [ ] Confirmar que cada color de 4.1 está en la escala original o en ADR-040, y que las referencias internas (secciones 4, 7, 9 y 11) son coherentes.
+- [ ] Confirmar que el hero de 7.4 conserva todos los elementos de la lista de E40-I01.
+- [ ] Confirmar que `pnpm build` no copia los prototipos a `dist/` y que Prettier, ESLint y Tailwind no los procesan.
+- [ ] Marcar AT-051 como resuelto y anotar el avance de AT-050 y AT-052.
 
 ## Archivos previstos (crear / modificar)
-- Modificar: `DESIGN.md` (raíz).
-- Modificar: `_planificacion/00_producto/decisiones.md`.
+- Ninguno de código ni `DESIGN.md`.
+- Modificar: estado de la iteración y de la épica, `_planificacion/README.md`, `registro-log.md`, `auditoria-tecnica.md` y bitácora.
 
 ## Criterios de aceptación (verificables)
+- [ ] `DESIGN.md` v1 en la raíz y los dos prototipos en `prototipos/`.
 - [ ] No quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
-- [ ] Cada par de color declarado cumple WCAG 2.2 AA.
-- [ ] La especificación del logotipo es idéntica a la del esqueleto.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [ ] Cada par de color declarado cumple WCAG 2.2 AA y la tabla recalculada coincide con la de `DESIGN.md`.
+- [ ] Las secciones 2 y 3 son idénticas a las del esqueleto.
 - [ ] `DESIGN.md` tiene la sección "Composición por página" con la regla general, el catálogo y los patrones de Inicio y Educación (ADR-036).
+- [ ] Los prototipos no aparecen en `dist/`.
+- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
 - `pnpm check` y `pnpm lint` sin errores (DoD)
+- Comparación de las secciones 2 y 3 con `git show HEAD:DESIGN.md`.
+- Búsqueda de "por definir" en `DESIGN.md`.
+- Script temporal de contraste.
 - Revisión de Felipe.
-- Tabla de contrastes incluida en `DESIGN.md`.
 
 ## Riesgos y notas
 - Es una iteración de documento: no se escribe código de aplicación.
+- Si `DESIGN.md` necesita una corrección, la redacta el asesor y la pega Felipe.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md

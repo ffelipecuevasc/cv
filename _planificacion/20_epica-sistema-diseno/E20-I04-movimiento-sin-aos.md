@@ -13,6 +13,7 @@ Reemplazar AOS por un mecanismo propio mínimo de aparición al hacer scroll, qu
 - AT-040: el sitio antiguo usa un guardián en línea de 1.500 ms que revela todo si la animación no arranca, y un `<noscript>` que desactiva AOS.
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
+- `DESIGN.md` 8: Inicio no tiene animaciones de entrada; la utilidad queda para las páginas que la necesiten. Duraciones y curvas como tokens (`fast`, `base`, `medium`, `slow` y `ease-out-soft`).
 
 ## Alcance
 - Utilidad basada en IntersectionObserver y CSS, sin dependencias.
@@ -25,6 +26,7 @@ Reemplazar AOS por un mecanismo propio mínimo de aparición al hacer scroll, qu
 - [ ] Registrar ADR.
 - [ ] Implementar la utilidad y su estilo.
 - [ ] Probar con JavaScript desactivado y con movimiento reducido.
+- [ ] Usar los tokens de duración y curva de `DESIGN.md` 8.
 
 ## Archivos previstos (crear / modificar)
 - Crear: script y estilos de movimiento en `src/`.

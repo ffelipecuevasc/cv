@@ -1,12 +1,12 @@
 # E20-I05 · Primitivas de componentes
 - **Estado:** [ ] Pendiente
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E20-I03, E20-I04 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-005, ADR-010, ADR-036
+- **Depende de:** E20-I03, E20-I04 · **Hallazgos que cierra:** AT-052 · **ADR relacionados:** ADR-005, ADR-010, ADR-036, ADR-039
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Objetivo
-Construir los componentes base que usarán todas las páginas: botones, tarjetas, etiquetas, encabezado de sección, contenedor y enlaces externos.
+Construir los componentes base de `DESIGN.md` 7 que usarán todas las páginas: botones (primario, secundario, dorado, ícono y flecha), encabezado de sección (alineado, centrado y de banda), regla dorada, etiqueta, tarjeta base, tarjeta de testimonio, banda, franja temática, contenedor y enlace externo.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
 - El sitio antiguo tiene clases de componente repetidas (`tarjeta-contenido`, `boton-primario`, `etiqueta-categoria`, `seccion-bajada`) que sirven de referencia funcional.
@@ -14,8 +14,9 @@ Construir los componentes base que usarán todas las páginas: botones, tarjetas
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
 
 ## Alcance
-- Componentes Astro sin JavaScript de cliente, con HTML semántico y estados de foco visibles.
-- Primitiva "franja temática": bloque de ancho completo con título y contenido, orientación alternable (título a la izquierda o a la derecha) y apilado en una columna en móvil (ADR-036).
+- Componentes Astro sin JavaScript de cliente, con HTML semántico, estados de foco visibles y zona táctil de 44 px (AT-052).
+- Primitiva "franja temática": bloque de ancho completo con título y contenido, orientación alternable (título a la izquierda o a la derecha), fondo `band` o `bg`, y apilado en una columna en móvil (ADR-036, `DESIGN.md` 7.8).
+- Riel social y selector de idioma quedan para E30 y E40, que los usan.
 
 ## Fuera de alcance
 - Componentes de layout (E30).
