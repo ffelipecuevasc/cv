@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-055.
+- Los hallazgos nuevos continúan la numeración desde AT-056.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -62,7 +62,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** layout y componentes compartidos de Astro.
 
 ### AT-040 · Script en línea del `<head>` duplicado
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I01, E20-I04
+- **Severidad:** Media · **Estado:** Resuelto en E20-I04 (el movimiento ya no necesita guardián: sin JavaScript todo es visible, ADR-045); el script de tema único del layout se implementa dentro del alcance de E30-I01 · **Resuelve:** E30-I01, E20-I04
 - **Evidencia:** `index.html` `<head>`. Hay un guardián que revela todo a los 1.500 ms si AOS no arranca y un script de tema anti-parpadeo, repetidos en cada página.
 - **Impacto:** mantenimiento duplicado; el guardián existe solo por AOS.
 - **Recomendación:** un único script de tema en el layout y un sistema de movimiento que no necesite guardián.
@@ -286,7 +286,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - No se detectó analítica en el HTML. Si existe analítica de Cloudflare inyectada a nivel de zona, no fue verificada.
 
 ### AT-018 · AOS sin mantenimiento
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I04
+- **Severidad:** Media · **Estado:** Resuelto en E20-I04 (utilidad propia `reveal.ts` con IntersectionObserver y CSS, sin dependencias; ADR-045) · **Resuelve:** E20-I04
 - **Evidencia:** última publicación de `aos` en npm el 13-06-2022; vendorizado en `static/js/aos.js` y `static/css/aos.css` (26 KB), y además declarado en `package.json:28` sin usarse desde `node_modules`.
 - **Impacto:** deuda y peso.
 - **Recomendación:** reemplazo sin dependencias.
@@ -537,3 +537,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E20-I02, 29-10-2026, fórmula de WCAG 2.2 componiendo la transparencia):** en oscuro, la banda es un degradado `orient-800` → `orient-925` con líneas `vibrant` al 8 % cada 48 px (`DESIGN.md` 4.5, `src/styles/global.css`, utilidad `texture-band`). Sobre una línea y en el punto más claro del degradado, `text-soft` da **4,41:1** y `accent` **4,20:1** (en liso, 4,86 y 4,80). El kicker dorado (6,93) y el blanco al 60 % (4,84) cumplen. En claro, `text-soft` sobre una línea de la retícula da 4,63 y cumple.
 - **Impacto:** los píxeles de texto que caen sobre una línea de 1 px quedan bajo 4,5:1 (1.4.3). El efecto es local y pequeño, pero la tabla 4.4 no lo refleja.
 - **Recomendación:** que el asesor elija una de estas opciones en `DESIGN.md`: bajar las líneas oscuras al 5 % (o menos), usar `orient-50` al 70 % como texto secundario dentro de la banda oscura, o limitar `accent` en la banda oscura a texto grande. El agente no cambia el token hasta que `DESIGN.md` lo indique.
+
+### AT-055 · Tailwind v4 eliminaba variables de `@theme` sin uso en clases
+- **Severidad:** Media · **Estado:** Resuelto en E20-I04 (`@theme static`, ADR-045) · **Resuelve:** E20-I04
+- **Evidencia:** al probar la muestra en Chrome (E20-I04, 29-10-2026), la tabla de contrastes del tema claro mostraba 1,00 en `focus` y `gold-deep`. Tailwind v4 solo emite las variables de `@theme` que alguna clase usa, y esos tokens solo se leían desde estilos en línea y desde el script de la muestra. Las mediciones "en la muestra" de E20-I02 y E20-I03 quedaron incompletas por esto. Los valores calculados con script (E20-I01 a E20-I03) eran correctos.
+- **Impacto:** un token usado solo en `style=""` o en JavaScript no existía en el CSS publicado.
+- **Recomendación:** mantener `@theme static`. Tras la corrección, las 56 filas de la muestra cumplen en Chrome y coinciden con `DESIGN.md` 4.4 (diferencia máxima de 0,01).

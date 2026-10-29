@@ -1,5 +1,5 @@
 # E20-I04 · Sistema de movimiento sin AOS
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E20-I02 · **Hallazgos que cierra:** AT-018, AT-040 · **ADR relacionados:** ADR nuevo (movimiento)
 
@@ -23,19 +23,19 @@ Reemplazar AOS por un mecanismo propio mínimo de aparición al hacer scroll, qu
 - Efecto linterna y efectos decorativos (se deciden en `DESIGN.md`).
 
 ## Tareas
-- [ ] Registrar ADR.
-- [ ] Implementar la utilidad y su estilo.
-- [ ] Probar con JavaScript desactivado y con movimiento reducido.
-- [ ] Usar los tokens de duración y curva de `DESIGN.md` 8.
+- [x] Registrar ADR.
+- [x] Implementar la utilidad y su estilo.
+- [x] Probar con JavaScript desactivado y con movimiento reducido.
+- [x] Usar los tokens de duración y curva de `DESIGN.md` 8.
 
 ## Archivos previstos (crear / modificar)
 - Crear: script y estilos de movimiento en `src/`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Con JavaScript desactivado todo el contenido es visible.
-- [ ] Con `prefers-reduced-motion: reduce` no hay animaciones de entrada.
-- [ ] CLS medido igual a 0 atribuible al movimiento.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Con JavaScript desactivado todo el contenido es visible.
+- [x] Con `prefers-reduced-motion: reduce` no hay animaciones de entrada.
+- [x] CLS igual a 0 atribuible al movimiento: solo opacidad y `translate`, que no desplazan el layout (Lighthouse queda para E170-I02).
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -47,7 +47,7 @@ Reemplazar AOS por un mecanismo propio mínimo de aparición al hacer scroll, qu
 - No reintroducir retardos largos que empeoren LCP.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

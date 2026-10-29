@@ -261,7 +261,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 | Selector de idioma | Definido (7.2) | Indica el idioma actual y el destino |
 | Botón de apariencia | Definido (7.2) | Nombre accesible que describe la acción |
 | Banda / franja temática | Definido (7.8) | ADR-036 |
-| Riel social | Definido (7.4) | 5 redes |
+| Riel social | Definido (7.4) | 4 redes |
 | Aviso (toast) y volver arriba | Definido (7.11) | — |
 
 ### 7.2 Navbar
@@ -302,7 +302,7 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 - **Columna del retrato:**
   - Retrato `felipe_cuevas.webp` en proporción 4:5, **alto máximo de 440 px** desde 1.024 px, con carga prioritaria y dimensiones declaradas.
   - Marco desplazado (4.5) corrido 24 px a la derecha y abajo, desde 640 px.
-  - **Riel social** sobre el borde derecho, centrado en vertical: 5 botones de 46 × 46 (LinkedIn, GitHub, REUF, correo y Discord) separados por 8 px, fondo `surface`, ícono de marca en `icon-rail`, contorno 1 px y sombra `rail`. Al pasar o con foco: fondo `orient-950` e ícono `gold` en claro; fondo `orient-400` e ícono blanco en oscuro; se corre 2 px a la izquierda. Globo de ayuda a la izquierda con el nombre (fondo `orient-950` en claro y `orient-50` en oscuro, 12 px, mayúsculas). Es una lista dentro de un `<nav>` con nombre accesible.
+  - **Riel social** sobre el borde derecho, centrado en vertical: 4 botones de 46 × 46 (LinkedIn, GitHub, REUF y correo) separados por 8 px, fondo `surface`, ícono de marca en `icon-rail`, contorno 1 px y sombra `rail`. Al pasar o con foco: fondo `orient-950` e ícono `gold` en claro; fondo `orient-400` e ícono blanco en oscuro; se corre 2 px a la izquierda. Globo de ayuda a la izquierda con el nombre (fondo `orient-950` en claro y `orient-50` en oscuro, 12 px, mayúsculas). Es una lista dentro de un `<nav>` con nombre accesible.
   - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 3 insignias (Oracle, AWS y Python Institute) de 40 px con su nombre. Bajo 640 px va estática debajo del retrato.
 - **Medidas:** relleno vertical de 32 px desde 1.024 px. Presupuesto en la matriz de ADR-016: el hero completo debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). E40-I01 mide y, si no cabe, ajusta primero el alto del retrato y el tamaño del h1, nunca quita elementos.
 - **Móvil:** una columna en este orden: texto y luego retrato; riel social dentro del retrato, a 12 px del borde.
@@ -330,7 +330,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - **Columnas (3 desde 768 px; una bajo esa medida):**
   1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho).
   2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y lista de enlaces a las páginas, con las mismas etiquetas de la navbar e incluyendo Recursos (AT-008). La lista exacta la cierra E30-I06.
-  3. **Redes** (alineada a la derecha desde 768 px): rótulo y lista de las 5 redes con ícono de marca de 18 px en `icon`, texto `text-muted`; al pasar, `accent`.
+  3. **Redes** (alineada a la derecha desde 768 px): rótulo y lista de las 4 redes con ícono de marca de 18 px en `icon`, texto `text-muted`; al pasar, `accent`.
 - **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año, "Felipe Cuevas" y el enlace a la política de privacidad (ADR-035), en `text-soft` 14 px.
 - El botón de apariencia ya no está en el pie (ADR-021). Las columnas "Tecnologías" y "Certificaciones" del pie actual no forman parte del diseño nuevo.
 

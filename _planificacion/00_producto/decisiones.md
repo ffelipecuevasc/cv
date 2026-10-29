@@ -355,6 +355,28 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-016 y AT-017. Cada épica de página suma sus íconos al mismo módulo. Una actualización de las fuentes exige descargar de nuevo y actualizar este ADR.
 - **Origen:** E20-I03, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
 
+## ADR-044 · Discord sale de las redes del sitio
+- **Contexto:** `DESIGN.md` v1 (ADR-039) y el sitio actual listan 5 redes: LinkedIn, GitHub, REUF, correo y Discord. Felipe Cuevas decide dejar de publicar el vínculo a Discord.
+- **Decisión:**
+  - Las redes del sitio son 4: LinkedIn, GitHub, REUF y correo.
+  - Se retiran el enlace, el ícono y toda mención en texto de un servidor o canal de Discord, en el sitio nuevo y en la planificación.
+  - Se retira el SVG de Discord de `Icon.astro` y de la página de muestra.
+- **Consecuencias:** modifica `DESIGN.md` 7 (tabla), 7.4 (riel) y 7.9 (pie), que Felipe edita a mano (ADR-033). Ajusta E30-I06, E40-I01 y la visión de producto. La comunidad conserva eventos, foro (GitHub Discussions) y recursos. No se edita ADR-039.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-045 · Movimiento sin AOS: aparición con IntersectionObserver y CSS
+- **Contexto:** E20-I04. AT-018 (AOS sin mantenimiento) y AT-040 (guardián en línea de 1.500 ms que revela todo si AOS no arranca). `DESIGN.md` 8: sin animaciones de entrada en Inicio, contenido visible sin JavaScript, sin CLS, respeto de `prefers-reduced-motion` y tokens de duración y curva.
+- **Decisión:**
+  - **Utilidad de aparición:** módulo `src/scripts/reveal.ts` (`initReveal()`) con `IntersectionObserver` y atributo `data-reveal`. Sin dependencias.
+  - **Visible por defecto:** el CSS solo oculta `[data-reveal]` cuando `<html>` tiene la clase `reveal-ready`, que pone el propio script. Sin JavaScript, sin `IntersectionObserver` o si el script falla, nada queda oculto, así que no hace falta guardián.
+  - **Sin parpadeo:** lo que ya está en pantalla al iniciar se marca visible antes de activar el modo.
+  - **Movimiento:** opacidad y 4 px con `translate` (dentro del rango de 2 a 4 px de `DESIGN.md` 8), duración `--duration-slow` y curva `--ease-out-soft`. `translate` no desplaza el layout, así que no suma CLS.
+  - **Movimiento reducido:** el script no se activa, y una regla global anula transiciones, animaciones y desplazamiento suave. El desplazamiento suave entre anclas solo se aplica con `no-preference`.
+  - **Inicio:** no importa el módulo ni usa `data-reveal` (`DESIGN.md` 8). Las páginas que lo necesiten lo importan en su épica.
+  - **Tokens:** `@theme static`, para que se emitan todas las variables aunque ninguna clase las use (la muestra y los estilos en línea las leen; ver AT-055).
+- **Consecuencias:** resuelve AT-018 y la parte de movimiento de AT-040. El script de tema único del `<head>` sigue en E30-I01. No se vuelve a usar AOS.
+- **Origen:** E20-I04, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

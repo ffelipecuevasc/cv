@@ -15,8 +15,10 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  /* Se anulan los colores de Tailwind: solo existen los tokens de DESIGN.md 4.1. */
+@theme static {
+  /* static: se emiten todas las variables aunque ninguna clase las use (las leen
+     estilos en línea y scripts). Se anulan los colores de Tailwind: solo existen los
+     tokens de DESIGN.md 4.1. */
   --color-*: initial;
 
   /* 4.1 Paleta base (escala original y tonos de apoyo de ADR-040). */
@@ -172,6 +174,45 @@
   h3 {
     color: var(--color-heading);
     text-wrap: balance;
+  }
+}
+
+/*
+ * 8 Movimiento (ADR-045).
+ * Desplazamiento suave solo sin preferencia de movimiento reducido. Con `reduce` se
+ * anulan transiciones, animaciones y desplazamiento suave en todo el sitio.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Aparición al hacer scroll: [data-reveal] solo se oculta cuando el script puso
+ * `reveal-ready` en <html> (sin JavaScript, todo visible). Opacidad y 4 px con
+ * `translate`, que no afecta el layout (sin CLS).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready [data-reveal] {
+    transition:
+      opacity var(--duration-slow) var(--ease-out-soft),
+      translate var(--duration-slow) var(--ease-out-soft);
+  }
+  .reveal-ready [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+    translate: 0 4px;
   }
 }
 

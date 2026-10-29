@@ -9,7 +9,7 @@
 Rediseñar el pie de página conservando sus contenidos y corregir las inconsistencias de etiquetas.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
-- Pie actual: redes (LinkedIn, GitHub, correo, Discord), columna Explorar (Inicio, Certificaciones, Experiencia, Eventos, Foro, Contacto), columna Tecnologías, columna Certificaciones, año dinámico y botón volver arriba.
+- Pie actual: redes (LinkedIn, GitHub, correo), columna Explorar (Inicio, Certificaciones, Experiencia, Eventos, Foro, Contacto), columna Tecnologías, columna Certificaciones, año dinámico y botón volver arriba.
 - AT-008: Explorar no incluye Recursos y usa etiquetas distintas a la navbar.
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.

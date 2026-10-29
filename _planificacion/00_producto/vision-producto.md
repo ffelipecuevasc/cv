@@ -7,7 +7,7 @@
 felipecuevas.dev es la presencia profesional de Felipe Cuevas y cumple tres funciones a la vez:
 1. **CV online profesional:** trayectoria como instructor de bootcamps, docente universitario y desarrollador full stack, con formación y certificaciones verificables.
 2. **Portafolio de proyectos:** proyectos web reales con tecnologías y enlaces.
-3. **Comunidad (fecudev, por validar como nombre de marca):** eventos en vivo, foro abierto sobre GitHub Discussions, rutas de aprendizaje con recursos descargables y canal de Discord.
+3. **Comunidad (fecudev, por validar como nombre de marca):** eventos en vivo, foro abierto sobre GitHub Discussions y rutas de aprendizaje con recursos descargables.
 
 ## Objetivo de la migración
 - Llevar el sitio a Astro con estructura bilingüe (`es-CL` y `en-US`) y componentes compartidos.
