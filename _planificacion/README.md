@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E30 · Layout global
-- **Iteración actual:** E30-I02 · Diccionario de interfaz, rutas equivalentes y contenido bilingüe
+- **Iteración actual:** E30-I03 · Logotipo: ícono SVG y máquina de escribir con paridad exacta
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 15 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01). Épicas E10 y E20 terminadas; E30 en curso.
+- **Terminadas:** 16 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01, E30-I02). Épicas E10 y E20 terminadas; E30 en curso.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -32,7 +32,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 **E30 · Layout global** (`30_epica-layout-global/`)
 - [x] E30-I01 · BaseLayout, head/SEO y tema sin parpadeo (P0, M)
-- [ ] E30-I02 · Diccionario de interfaz, rutas equivalentes y contenido bilingüe (P0, M)
+- [x] E30-I02 · Diccionario de interfaz, rutas equivalentes y contenido bilingüe (P0, M)
 - [ ] E30-I03 · Logotipo: ícono SVG y máquina de escribir con paridad exacta (P0, M)
 - [ ] E30-I04 · Navbar de escritorio rediseñada (P0, M)
 - [ ] E30-I05 · Navbar móvil (P0, M)

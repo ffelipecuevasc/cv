@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-056.
+- Los hallazgos nuevos continúan la numeración desde AT-057.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -329,6 +329,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - ~3.300 palabras en el HTML (el `<main>` más ~81 del armazón), más `aria-label`, `alt` y `placeholder`.
 - **Impacto:** ~5.800 palabras por traducir; riesgo de dejar textos sin traducir.
 - **Recomendación:** modelo de contenido bilingüe con validación de paridad (E30-I02).
+- **Avance (E30-I02):** modelo bilingüe con `localized()` en `src/content.config.ts`: una entrada sin uno de los idiomas hace fallar `pnpm build`; diccionario tipado del armazón en `src/i18n/ui.ts`. Sigue abierto: migrar los textos de `static/js/datos/`, `config/` y de la función de contacto en cada épica de página.
 
 ### AT-027 · Giscus con idioma fijo
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E120-I01
@@ -401,6 +402,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** la navegación enlaza `index.html`, `educacion.html`… (`404.html:98`), mientras canónicas y sitemap usan rutas sin `.html`.
 - **Impacto:** posible salto de redirección en cada navegación interna (no verificado en producción).
 - **Recomendación:** enlaces internos siempre a la ruta canónica.
+- **Avance (E30-I02):** el mapa de rutas (`src/i18n/routes.ts`) genera todas las rutas internas con barra final y sin `.html`, y el build falla si alguna lleva `.html`; en `dist/` no queda ningún `href` con `.html`. Sigue abierto: 301 de las URL antiguas con `.html` (E180-I01).
 
 ### AT-030 · Sitemap manual y desactualizado
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02, E150-I01
@@ -547,3 +549,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** al probar la muestra en Chrome (E20-I04, 29-10-2026), la tabla de contrastes del tema claro mostraba 1,00 en `focus` y `gold-deep`. Tailwind v4 solo emite las variables de `@theme` que alguna clase usa, y esos tokens solo se leían desde estilos en línea y desde el script de la muestra. Las mediciones "en la muestra" de E20-I02 y E20-I03 quedaron incompletas por esto. Los valores calculados con script (E20-I01 a E20-I03) eran correctos.
 - **Impacto:** un token usado solo en `style=""` o en JavaScript no existía en el CSS publicado.
 - **Recomendación:** mantener `@theme static`. Tras la corrección, las 56 filas de la muestra cumplen en Chrome y coinciden con `DESIGN.md` 4.4 (diferencia máxima de 0,01).
+
+### AT-056 · La muestra de tokens puede destellar en oscuro al cargar
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir (herramienta interna; candidata a E170-I01 o a su retiro antes de E190)
+- **Evidencia (E30-I01, 29-10-2026):** `src/components/dev/DesignSample.astro` quita `.dark` de `<html>` en un script de módulo, que corre después del primer pintado. Con tema oscuro guardado o del sistema, el script de tema de `BaseLayout` pone `.dark` antes de pintar y la mitad "clara" de la muestra puede verse oscura un instante.
+- **Impacto:** solo en la muestra interna (`noindex`); no afecta páginas del sitio.
+- **Recomendación:** que la mitad clara declare sus tokens claros con una clase propia, o que la muestra indique al layout que no aplique el tema.

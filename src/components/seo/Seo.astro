@@ -6,9 +6,9 @@
  * - ogImage es provisoria y opcional: sin ella no se emite imagen (las imágenes por
  *   idioma llegan en E170-I02).
  * - Slot "json-ld" para los datos estructurados de cada página.
- * Las rutas equivalentes llegan como props; en E30-I02 las entregará el mapa de rutas.
+ * Las rutas equivalentes las entrega el mapa de rutas (src/i18n/routes.ts) vía BaseLayout.
  */
-export type Lang = 'es' | 'en';
+import { langCodes, ogLocales, otherLang, type Lang } from '../../i18n/lang';
 
 export interface OgImage {
   /** Ruta relativa al sitio o URL absoluta. */
@@ -30,9 +30,7 @@ export interface Props {
 
 const { lang, title, description, paths, ogImage, noindex = false } = Astro.props;
 
-const ogLocales: Record<Lang, string> = { es: 'es_CL', en: 'en_US' };
-const hreflangs: Record<Lang, string> = { es: 'es-CL', en: 'en-US' };
-const other: Lang = lang === 'es' ? 'en' : 'es';
+const other = otherLang(lang);
 
 const abs = (path: string) => new URL(path, Astro.site).href;
 const canonical = abs(paths[lang]);
@@ -44,8 +42,8 @@ const image = ogImage && { ...ogImage, src: abs(ogImage.src) };
 <meta name="author" content="Felipe Cuevas" />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonical} />
-<link rel="alternate" hreflang={hreflangs.es} href={abs(paths.es)} />
-<link rel="alternate" hreflang={hreflangs.en} href={abs(paths.en)} />
+<link rel="alternate" hreflang={langCodes.es} href={abs(paths.es)} />
+<link rel="alternate" hreflang={langCodes.en} href={abs(paths.en)} />
 <link rel="alternate" hreflang="x-default" href={abs(paths.es)} />
 
 <meta property="og:type" content="website" />

@@ -1,5 +1,5 @@
 # E30-I02 · Diccionario de interfaz, rutas equivalentes y contenido bilingüe
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E30-I01 · **Hallazgos que cierra:** AT-005, AT-026 · **ADR relacionados:** ADR-017, ADR-020, ADR-035
 
@@ -25,21 +25,21 @@ Centralizar los textos de interfaz por idioma, el mapa de rutas equivalentes es�
 - Migrar el contenido de cada página (se hace en su épica).
 
 ## Tareas
-- [ ] Definir el diccionario con los textos del armazón (navegación, pie, botones).
-- [ ] Implementar el mapa de rutas y validar que cubre las 14 páginas (las 13 del sitio actual más la política de privacidad, ADR-035).
-- [ ] Definir el esquema de contenido y una prueba de paridad que falle si falta un idioma.
-- [ ] Validar los slugs en inglés con Felipe.
-- [ ] Agregar el par `/es/privacidad` ↔ `/en/privacy` al mapa de rutas (ADR-035).
+- [x] Definir el diccionario con los textos del armazón (navegación, pie, botones).
+- [x] Implementar el mapa de rutas y validar que cubre las 14 páginas (las 13 del sitio actual más la política de privacidad, ADR-035).
+- [x] Definir el esquema de contenido y una prueba de paridad que falle si falta un idioma.
+- [x] Validar los slugs en inglés con Felipe.
+- [x] Agregar el par `/es/privacidad` ↔ `/en/privacy` al mapa de rutas (ADR-035).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/i18n/*`, `src/content.config.*` o equivalente.
 
 ## Criterios de aceptación (verificables)
-- [ ] Todas las rutas del mapa tienen equivalente en ambos idiomas.
-- [ ] El build falla si una entrada de contenido no tiene ambos idiomas.
-- [ ] Los enlaces internos se generan sin `.html`.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
-- [ ] El mapa de rutas incluye `/es/privacidad` ↔ `/en/privacy` (ADR-035).
+- [x] Todas las rutas del mapa tienen equivalente en ambos idiomas.
+- [x] El build falla si una entrada de contenido no tiene ambos idiomas.
+- [x] Los enlaces internos se generan sin `.html`.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] El mapa de rutas incluye `/es/privacidad` ↔ `/en/privacy` (ADR-035).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -50,7 +50,7 @@ Centralizar los textos de interfaz por idioma, el mapa de rutas equivalentes es�
 - Cambiar un slug después de publicado exige 301: cerrar el mapa aquí.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

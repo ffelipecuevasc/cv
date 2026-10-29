@@ -9,24 +9,27 @@
  */
 import '../styles/global.css';
 import { Font } from 'astro:assets';
-import Seo, { type Lang, type OgImage } from '../components/seo/Seo.astro';
+import Seo, { type OgImage } from '../components/seo/Seo.astro';
+import { langFromLocale } from '../i18n/lang';
+import { routePaths, type AnyRouteKey } from '../i18n/routes';
+import { useTranslations } from '../i18n/ui';
 
 interface Props {
   title: string;
   description: string;
-  paths: Record<Lang, string>;
+  /** Clave de la página en el mapa de rutas: de ahí salen canonical y hreflang. */
+  route: AnyRouteKey;
   ogImage?: OgImage;
   noindex?: boolean;
   /** Clases del <main>, para la composición propia de cada página. */
   mainClass?: string;
 }
 
-const { title, description, paths, ogImage, noindex, mainClass } = Astro.props;
+const { title, description, route, ogImage, noindex, mainClass } = Astro.props;
 const htmlLang = Astro.currentLocale ?? 'es-CL';
-const lang: Lang = htmlLang.startsWith('en') ? 'en' : 'es';
-
-// Texto provisorio: pasa al diccionario de interfaz en E30-I02.
-const skipLabel = lang === 'es' ? 'Saltar al contenido' : 'Skip to content';
+const lang = langFromLocale(htmlLang);
+const paths = routePaths(route);
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
@@ -62,7 +65,7 @@ const skipLabel = lang === 'es' ? 'Saltar al contenido' : 'Skip to content';
       href="#main-content"
       class="sr-only bg-surface text-heading focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-3"
     >
-      {skipLabel}
+      {t.skipLink}
     </a>
     <main id="main-content" tabindex="-1" class={mainClass}>
       <slot />

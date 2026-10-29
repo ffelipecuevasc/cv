@@ -408,7 +408,19 @@ Reglas del registro:
   - `trailingSlash: 'always'`: toda ruta termina en barra (`/es/`, `/en/design-sample/`), coherente con el formato `directory` y con lo que sirven los assets estáticos de Cloudflare.
   - `canonical`, `hreflang` (es-CL, en-US, x-default → versión `/es/`, ADR-019) y `og:url` se escriben siempre con barra final.
 - **Consecuencias:** los enlaces internos se escriben con barra final; en desarrollo, una ruta sin barra da 404. El mapa de rutas de E30-I02 y las 301 de E180-I01 usan la misma forma.
-- **Origen:** E30-I01, 29-10-2026. **Estado:** Propuesta por el agente; pendiente de validación de Felipe.
+- **Origen:** E30-I01, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-048 · Diccionario de interfaz, mapa de rutas y colecciones bilingües
+- **Contexto:** E30-I02. ADR-001 exige paridad es-CL / en-US; ADR-020 deja el cierre del mapa de slugs para esta iteración; AT-026 pide un modelo de contenido con validación de paridad.
+- **Decisión:**
+  - **Idiomas** en `src/i18n/lang.ts`: claves `es` y `en`, códigos `es-CL` / `en-US` y `es_CL` / `en_US`.
+  - **Diccionario** en `src/i18n/ui.ts`: textos del armazón (skip link, navegación de `DESIGN.md` 2.1, apariencia, idioma, pie y volver arriba). El tipo de `en` se deriva de `es`: si falta o sobra una clave, `pnpm check` falla. Se lee con `useTranslations(lang)`.
+  - **Mapa de rutas** en `src/i18n/routes.ts`, validado por Felipe: las 12 páginas navegables del área L de la auditoría más `/es/privacidad/` ↔ `/en/privacy/` (ADR-035), todas con barra final (ADR-047) y sin `.html` (AT-005). `getRoute`, `routePaths`, `routeKeyFromPath` y `getEquivalentPath`. Al construir se valida prefijo de idioma, barra final, ausencia de `.html` y unicidad; un error rompe `pnpm build`. Las páginas internas (muestra de tokens) van en `internalRoutes`, fuera de la navegación.
+  - **404:** no entra al mapa porque no es una URL navegable; `getEquivalentPath` de una ruta desconocida devuelve la portada del otro idioma. La 404 por idioma se resuelve en E160-I01.
+  - **Colecciones** en `src/content.config.ts` (API de colecciones de Astro, sin dependencias nuevas): todo texto visible se declara con `localized()`, un objeto `{ es, en }` estricto con ambos idiomas obligatorios y no vacíos. Una entrada incompleta hace fallar `pnpm build`. Primera colección: `pages` (título y descripción de SEO por clave de ruta), con la portada.
+  - `BaseLayout` recibe `route` (clave del mapa) en lugar de rutas escritas a mano.
+- **Consecuencias:** cada épica de página agrega su colección con `localized()` y su entrada en `pages`. Los textos `en-US` del diccionario los redacta el agente y Felipe los valida (ADR-017). Cambiar un slug del mapa después del cutover exige 301 (ADR-020).
+- **Origen:** E30-I02, 29-10-2026. **Estado:** Aceptada en cuanto al mapa de rutas (validado por Felipe en el encargo de E30-I02); la exclusión de la 404 del mapa y los textos `en-US` del diccionario quedan por validar.
 
 ---
 

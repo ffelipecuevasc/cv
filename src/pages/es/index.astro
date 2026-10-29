@@ -1,13 +1,14 @@
 ---
 // Portada mínima de /es/ (E10-I07, E30-I01). El contenido llega en E40; título y
-// descripción son provisorios hasta E40-I03.
+// descripción vienen de src/content/pages/home.json (provisorios hasta E40-I03).
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const page = await getEntry('pages', 'home');
+if (!page) throw new Error('Falta src/content/pages/home.json');
+const { title, description } = page.data;
 ---
 
-<BaseLayout
-  title="Felipe Cuevas | Instructor de Bootcamps y Docente Universitario"
-  description="Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS."
-  paths={{ es: '/es/', en: '/en/' }}
->
+<BaseLayout title={title.es} description={description.es} route="home">
   <h1>Felipe Cuevas</h1>
 </BaseLayout>
