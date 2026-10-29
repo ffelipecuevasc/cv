@@ -7,6 +7,10 @@ import tailwindcss from '@tailwindcss/vite';
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
   output: 'static',
+  // Dominio de producción: base de canonical, hreflang y og:url absolutos (ADR-047).
+  site: 'https://felipecuevas.dev',
+  // Todas las rutas terminan en barra (/es/, /en/design-sample/): una sola forma por URL (ADR-047).
+  trailingSlash: 'always',
   // i18n nativo (ADR-001): es-CL en /es/ y en-US en /en/, ambos con prefijo.
   // Sin `fallback`: una página que falte en un idioma da 404, no se sirve la del otro.
   i18n: {

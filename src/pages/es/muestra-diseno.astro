@@ -1,7 +1,15 @@
 ---
 // Muestra interna de tokens (E20-I02). noindex y fuera del sitemap (E180-I02 la excluye).
-import '../../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import DesignSample from '../../components/dev/DesignSample.astro';
 ---
 
-<DesignSample lang="es" />
+<BaseLayout
+  title="Muestra de tokens · Felipe Cuevas"
+  description="Muestra interna de los tokens del sistema de diseño."
+  paths={{ es: '/es/muestra-diseno/', en: '/en/design-sample/' }}
+  noindex
+  mainClass="grid lg:grid-cols-2"
+>
+  <DesignSample lang="es" />
+</BaseLayout>

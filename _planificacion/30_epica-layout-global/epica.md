@@ -1,5 +1,5 @@
 # E30 · Layout global
-- **Prioridad de la épica:** P0 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P0 · **Estado:** [~] En curso
 
 ## Objetivo
 Construir el armazón compartido por todas las páginas: `<head>` y SEO, i18n de interfaz, logotipo intacto, navbar rediseñada con botones de tema e idioma, menú móvil y pie de página.
@@ -20,7 +20,7 @@ E10 y E20.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E30-I01](E30-I01-base-layout-seo.md) | BaseLayout, head/SEO y tema sin parpadeo | P0 | M | E20-I02, E10-I07 | [ ] Pendiente |
+| [E30-I01](E30-I01-base-layout-seo.md) | BaseLayout, head/SEO y tema sin parpadeo | P0 | M | E20-I02, E10-I07 | [x] Terminada |
 | [E30-I02](E30-I02-i18n-diccionario-rutas.md) | Diccionario de interfaz, rutas equivalentes y contenido bilingüe | P0 | M | E30-I01 | [ ] Pendiente |
 | [E30-I03](E30-I03-logotipo.md) | Logotipo: ícono SVG y máquina de escribir con paridad exacta | P0 | M | E30-I02, E20-I03 | [ ] Pendiente |
 | [E30-I04](E30-I04-navbar-escritorio.md) | Navbar de escritorio rediseñada | P0 | M | E30-I03 | [ ] Pendiente |

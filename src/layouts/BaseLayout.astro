@@ -1,0 +1,71 @@
+---
+/*
+ * Layout base de todas las páginas (E30-I01, ADR-005).
+ * - <html lang> es-CL / en-US según el idioma de la ruta (Astro.currentLocale).
+ * - Script de tema en línea antes del primer pintado (ADR-023, ADR-042).
+ * - Fuentes autoalojadas con <Font /> (ADR-043).
+ * - Enlace para saltar al contenido y un único <main>.
+ * La navbar y el pie se agregan en E30-I04 a E30-I06.
+ */
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import Seo, { type Lang, type OgImage } from '../components/seo/Seo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  paths: Record<Lang, string>;
+  ogImage?: OgImage;
+  noindex?: boolean;
+  /** Clases del <main>, para la composición propia de cada página. */
+  mainClass?: string;
+}
+
+const { title, description, paths, ogImage, noindex, mainClass } = Astro.props;
+const htmlLang = Astro.currentLocale ?? 'es-CL';
+const lang: Lang = htmlLang.startsWith('en') ? 'en' : 'es';
+
+// Texto provisorio: pasa al diccionario de interfaz en E30-I02.
+const skipLabel = lang === 'es' ? 'Saltar al contenido' : 'Skip to content';
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Tema antes del primer pintado. Si cambia este script, cambia su hash en la CSP (E170-I03). */}
+    <script is:inline>
+      (function () {
+        let t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch {
+          // Almacenamiento bloqueado: se usa la preferencia del sistema.
+        }
+        document.documentElement.classList.toggle(
+          'dark',
+          t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches,
+        );
+      })();
+    </script>
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-cinzel" preload />
+    <Font cssVariable="--font-lexend" />
+    <Seo {lang} {title} {description} {paths} {ogImage} {noindex}>
+      <slot name="json-ld" slot="json-ld" />
+    </Seo>
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only bg-surface text-heading focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-3"
+    >
+      {skipLabel}
+    </a>
+    <main id="main-content" tabindex="-1" class={mainClass}>
+      <slot />
+    </main>
+  </body>
+</html>

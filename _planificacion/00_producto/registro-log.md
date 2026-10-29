@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E30 · **Iteración actual:** E30-I01 (E20 terminada el 29-10-2026)
-- **Resumen:** 20 épicas · 53 iteraciones · 14 terminadas
+- **Épica actual:** E30 · **Iteración actual:** E30-I02 (E30-I01 terminada el 29-10-2026)
+- **Resumen:** 20 épicas · 53 iteraciones · 15 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -34,7 +34,7 @@
 ### E30 · Layout global (`30_epica-layout-global/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| P0 | E30-I01 | BaseLayout, head/SEO y tema sin parpadeo | M | E20-I02, E10-I07 | [ ] Pendiente |
+| P0 | E30-I01 | BaseLayout, head/SEO y tema sin parpadeo | M | E20-I02, E10-I07 | [x] Terminada |
 | P0 | E30-I02 | Diccionario de interfaz, rutas equivalentes y contenido bilingüe | M | E30-I01 | [ ] Pendiente |
 | P0 | E30-I03 | Logotipo: ícono SVG y máquina de escribir con paridad exacta | M | E30-I02, E20-I03 | [ ] Pendiente |
 | P0 | E30-I04 | Navbar de escritorio rediseñada | M | E30-I03 | [ ] Pendiente |

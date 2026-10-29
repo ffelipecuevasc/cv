@@ -1,0 +1,77 @@
+---
+/*
+ * Metadatos de SEO del <head> por idioma (E30-I01, ADR-001, ADR-019).
+ * - canonical propio y hreflang recíprocos es-CL / en-US, con x-default a la versión /es/.
+ * - Open Graph y Twitter por idioma, con og:locale y og:locale:alternate.
+ * - ogImage es provisoria y opcional: sin ella no se emite imagen (las imágenes por
+ *   idioma llegan en E170-I02).
+ * - Slot "json-ld" para los datos estructurados de cada página.
+ * Las rutas equivalentes llegan como props; en E30-I02 las entregará el mapa de rutas.
+ */
+export type Lang = 'es' | 'en';
+
+export interface OgImage {
+  /** Ruta relativa al sitio o URL absoluta. */
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+export interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Ruta de la página en cada idioma, con barra final (por ejemplo { es: '/es/', en: '/en/' }). */
+  paths: Record<Lang, string>;
+  ogImage?: OgImage;
+  noindex?: boolean;
+}
+
+const { lang, title, description, paths, ogImage, noindex = false } = Astro.props;
+
+const ogLocales: Record<Lang, string> = { es: 'es_CL', en: 'en_US' };
+const hreflangs: Record<Lang, string> = { es: 'es-CL', en: 'en-US' };
+const other: Lang = lang === 'es' ? 'en' : 'es';
+
+const abs = (path: string) => new URL(path, Astro.site).href;
+const canonical = abs(paths[lang]);
+const image = ogImage && { ...ogImage, src: abs(ogImage.src) };
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content="Felipe Cuevas" />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang={hreflangs.es} href={abs(paths.es)} />
+<link rel="alternate" hreflang={hreflangs.en} href={abs(paths.en)} />
+<link rel="alternate" hreflang="x-default" href={abs(paths.es)} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Felipe Cuevas" />
+<meta property="og:locale" content={ogLocales[lang]} />
+<meta property="og:locale:alternate" content={ogLocales[other]} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{image && (
+  <>
+    <meta property="og:image" content={image.src} />
+    {image.width && <meta property="og:image:width" content={String(image.width)} />}
+    {image.height && <meta property="og:image:height" content={String(image.height)} />}
+    <meta property="og:image:alt" content={image.alt} />
+  </>
+)}
+
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && (
+  <>
+    <meta name="twitter:image" content={image.src} />
+    <meta name="twitter:image:alt" content={image.alt} />
+  </>
+)}
+
+<slot name="json-ld" />

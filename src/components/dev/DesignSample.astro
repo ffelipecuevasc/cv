@@ -3,11 +3,11 @@
  * Muestra interna de tokens (E20-I02): paleta, semánticos, sombras y texturas en ambos
  * temas, lado a lado. No es contenido del sitio: noindex y fuera del sitemap.
  * Los textos de interfaz son internos y no pasan por el diccionario (E30-I02).
+ * Desde E30-I01 la página la envuelve en BaseLayout: aquí solo va el contenido del <main>.
  */
 interface Props {
   lang: 'es' | 'en';
 }
-import { Font } from 'astro:assets';
 import Icon from '../ui/Icon.astro';
 import { brandIcons, lineIcons, type IconName } from '../ui/icons';
 import Button from '../ui/Button.astro';
@@ -219,308 +219,292 @@ const themes = [
 ] as const;
 ---
 
-<html lang={Astro.currentLocale}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>{t.title} · Felipe Cuevas</title>
-    <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
-    <Font cssVariable="--font-cinzel" preload />
-    <Font cssVariable="--font-lexend" />
-  </head>
-  <body class="font-sans">
-    <main class="grid lg:grid-cols-2">
-      <h1 class="sr-only">{t.title}</h1>
-      {themes.map((theme) => (
-        <section
-          class:list={[theme.cls, 'bg-bg text-text p-6 md:p-10']}
-          aria-labelledby={`h-${theme.id}`}
-        >
-          <h2 id={`h-${theme.id}`} class="text-2xl text-text">
-            {theme.label}
-          </h2>
+<h1 class="sr-only">{t.title}</h1>
+{themes.map((theme) => (
+  <section
+    class:list={[theme.cls, 'bg-bg text-text p-6 md:p-10']}
+    aria-labelledby={`h-${theme.id}`}
+  >
+    <h2 id={`h-${theme.id}`} class="text-2xl text-text">
+      {theme.label}
+    </h2>
 
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.palette}</h3>
-          <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
-            {palette.map((name) => (
-              <li class="text-xs text-text-soft">
-                <span
-                  class="block h-10 border border-border"
-                  style={`background: var(--color-${name})`}
-                />
-                {name}
-              </li>
-            ))}
-          </ul>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.semantic}</h3>
-          <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
-            {semantic.map((name) => (
-              <li class="text-xs text-text-soft">
-                <span
-                  class="block h-10 border border-border"
-                  style={`background: var(--color-${name})`}
-                />
-                {name}
-              </li>
-            ))}
-          </ul>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.shadows}</h3>
-          <ul class="mt-4 grid grid-cols-2 gap-6 bg-bg-alt p-6 sm:grid-cols-4">
-            <li class="bg-surface p-4 text-xs shadow-card">card</li>
-            <li class="bg-surface p-4 text-xs shadow-card-hover">card-hover</li>
-            <li class="bg-surface p-4 text-xs shadow-float">float</li>
-            <li class="bg-surface p-4 text-xs shadow-rail">rail</li>
-          </ul>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.type}</h3>
-          <div class="mt-4 space-y-3">
-            <p class="font-display text-5xl leading-tight font-medium">Felipe Cuevas · h1 500</p>
-            <p class="font-display text-4xl font-normal">Cinzel 400 · 2026</p>
-            <p class="font-display text-2xl font-semibold tabular-nums">Cinzel 600 · 01 / 04</p>
-            <p class="font-light text-lg text-text-muted">Josefin 300 · {t.pangram}</p>
-            <p class="font-light italic text-lg text-accent">Josefin 300 italic · {t.pangram}</p>
-            <p>Josefin 400 · {t.pangram}</p>
-            <p class="italic">Josefin 400 italic · {t.pangram}</p>
-            <p class="font-semibold text-sm uppercase tracking-[0.14em]">
-              Josefin 600 · {t.pangram}
-            </p>
-            <p class="font-logo text-xl font-bold tracking-tight">Felipe Cuevas · Lexend 700</p>
-          </div>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.icons}</h3>
-          <ul class="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-7">
-            {iconNames.map((name) => (
-              <li class="flex flex-col items-center gap-1 text-xs text-text-soft">
-                <Icon name={name} class="text-icon" />
-                {name}
-              </li>
-            ))}
-          </ul>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.textures}</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <div class="relative h-40 bg-bg outline outline-border">
-              <div class="texture-halo absolute inset-0" aria-hidden="true" />
-              <div class="texture-dots absolute inset-0" aria-hidden="true" />
-              <span class="relative p-3 text-xs text-text-soft">texture-dots + texture-halo</span>
-            </div>
-            <div class="texture-band h-40 p-3">
-              <p class="text-xs uppercase tracking-[0.22em] text-kicker">kicker</p>
-              <p class="mt-2 text-text-soft" data-probe="band-grid">
-                texture-band · text-soft
-              </p>
-            </div>
-            <div class="texture-frame h-40 p-3 text-xs text-white/60">texture-frame</div>
-            <div class="texture-portrait h-40 p-3 text-xs text-orient-950">texture-portrait</div>
-          </div>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{ex.primitives}</h3>
-          <div class="mt-4 space-y-10" data-test-scope>
-            <div class="flex flex-wrap items-center gap-4">
-              <Button>{ex.primary}</Button>
-              <Button variant="secondary" icon="download" href="#" download>
-                {ex.download}
-              </Button>
-              <Button variant="gold">{ex.gold}</Button>
-              <Button variant="secondary" size="bar">
-                {ex.secondary} 44
-              </Button>
-              <IconButton icon="menu" label={ex.menu} />
-              <IconButton icon="arrow-left" label={ex.prev} variant="arrow" />
-              <IconButton icon="arrow-right" label={ex.next} variant="arrow" />
-              <IconButton icon="arrow-up" label={ex.up} variant="arrow" />
-            </div>
-            <div class="flex flex-wrap items-center gap-4">
-              <Tag>{ex.tag}</Tag>
-              <GoldRule />
-              <ExternalLink href="https://example.com" lang={lang}>
-                {ex.link}
-              </ExternalLink>
-            </div>
-            <SectionHeader
-              kicker={ex.kicker}
-              title={ex.title}
-              lead={ex.lead}
-              id={`sh-left-${theme.id}`}
-              level={3}
-            />
-            <SectionHeader
-              kicker={ex.kicker}
-              title={ex.title}
-              lead={ex.lead}
-              variant="center"
-              id={`sh-center-${theme.id}`}
-              level={3}
-            />
-            <div class="grid gap-6 bg-bg-alt p-6 md:grid-cols-2">
-              <Card>
-                <p class="text-text-muted">{ex.card}</p>
-              </Card>
-              <TestimonialCard
-                lang={lang}
-                quote={ex.quote}
-                name={ex.person}
-                role={ex.role}
-                program={ex.program}
-                initialsTone="primary"
-              />
-            </div>
-          </div>
-          <div class="-mx-6 mt-10 md:-mx-10">
-            <Band kicker={ex.kicker} title={ex.title} lead={ex.lead} id={`band-${theme.id}`}>
-              <p class="text-center text-text-soft">
-                text-soft · <span class="font-display text-3xl text-accent">+120</span>
-              </p>
-            </Band>
-            <ThemeStripe kicker={ex.kicker} title={`${ex.stripe} 1`} id={`stripe1-${theme.id}`}>
-              <div class="flex flex-wrap gap-3">
-                <Tag>A</Tag>
-                <Tag>B</Tag>
-                <Tag>C</Tag>
-              </div>
-            </ThemeStripe>
-            <ThemeStripe
-              kicker={ex.kicker}
-              title={`${ex.stripe} 2`}
-              id={`stripe2-${theme.id}`}
-              reverse
-              tone="bg"
-            >
-              <div class="flex flex-wrap gap-3">
-                <Tag>D</Tag>
-                <Tag>E</Tag>
-                <Tag>F</Tag>
-              </div>
-            </ThemeStripe>
-          </div>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.motion}</h3>
-          <ul class="mt-4 grid gap-4">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <li data-reveal class="bg-surface p-6 shadow-card" data-testid="reveal">
-                {t.block} {n}
-              </li>
-            ))}
-          </ul>
-
-          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.contrast}</h3>
-          <noscript>
-            <p class="mt-2 text-sm text-text-soft">{t.noJs}</p>
-          </noscript>
-          <table class="mt-4 w-full text-left text-sm" data-pairs={JSON.stringify(pairs[theme.id])}>
-            <thead class="text-text-soft">
-              <tr>
-                <th scope="col">{t.pair}</th>
-                <th scope="col">{t.ratio}</th>
-                <th scope="col">{t.min}</th>
-              </tr>
-            </thead>
-            <tbody />
-          </table>
-        </section>
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.palette}</h3>
+    <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
+      {palette.map((name) => (
+        <li class="text-xs text-text-soft">
+          <span
+            class="block h-10 border border-border"
+            style={`background: var(--color-${name})`}
+          />
+          {name}
+        </li>
       ))}
-    </main>
-    <script>
-      import { initReveal } from '../../scripts/reveal';
-      initReveal();
+    </ul>
 
-      // Prueba de primitivas con ?test (E20-I05): zona táctil de 44 px y foco visible con
-      // contraste de 3:1 frente al fondo de la sección. Resultado en #test-results.
-      if (new URLSearchParams(location.search).has('test')) {
-        const out: string[] = [];
-        const toRgb = (color: string) => {
-          const c = document.createElement('canvas').getContext('2d');
-          if (!c) return [0, 0, 0];
-          c.fillStyle = color;
-          c.fillRect(0, 0, 1, 1);
-          return Array.from(c.getImageData(0, 0, 1, 1).data.slice(0, 3));
-        };
-        const lumOf = (rgb: number[]) => {
-          const v = rgb.map((x) => {
-            x /= 255;
-            return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
-          });
-          return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
-        };
-        for (const scope of document.querySelectorAll<HTMLElement>('[data-test-scope]')) {
-          const section = scope.closest('section');
-          if (!section) continue;
-          const bg = toRgb(getComputedStyle(section).backgroundColor);
-          for (const el of scope.querySelectorAll<HTMLElement>('button, a.button, a.icon-button')) {
-            const r = el.getBoundingClientRect();
-            el.focus();
-            const st = getComputedStyle(el);
-            const [a, b] = [lumOf(toRgb(st.outlineColor)), lumOf(bg)];
-            const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
-            const ok =
-              r.width >= 44 &&
-              r.height >= 44 &&
-              el.matches(':focus-visible') &&
-              parseFloat(st.outlineWidth) >= 2 &&
-              ratio >= 3;
-            out.push(
-              `${section.getAttribute('aria-labelledby')} ${(el.getAttribute('aria-label') ?? el.textContent ?? '').trim()} ${Math.round(r.width)}x${Math.round(r.height)} foco=${el.matches(':focus-visible')} ${st.outlineWidth} ${ratio.toFixed(2)} ${ok ? 'OK' : 'FALLA'}`,
-            );
-          }
-        }
-        const pre = document.createElement('pre');
-        pre.id = 'test-results';
-        pre.textContent = out.join(String.fromCharCode(10));
-        document.body.append(pre);
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.semantic}</h3>
+    <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
+      {semantic.map((name) => (
+        <li class="text-xs text-text-soft">
+          <span
+            class="block h-10 border border-border"
+            style={`background: var(--color-${name})`}
+          />
+          {name}
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.shadows}</h3>
+    <ul class="mt-4 grid grid-cols-2 gap-6 bg-bg-alt p-6 sm:grid-cols-4">
+      <li class="bg-surface p-4 text-xs shadow-card">card</li>
+      <li class="bg-surface p-4 text-xs shadow-card-hover">card-hover</li>
+      <li class="bg-surface p-4 text-xs shadow-float">float</li>
+      <li class="bg-surface p-4 text-xs shadow-rail">rail</li>
+    </ul>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.type}</h3>
+    <div class="mt-4 space-y-3">
+      <p class="font-display text-5xl leading-tight font-medium">Felipe Cuevas · h1 500</p>
+      <p class="font-display text-4xl font-normal">Cinzel 400 · 2026</p>
+      <p class="font-display text-2xl font-semibold tabular-nums">Cinzel 600 · 01 / 04</p>
+      <p class="font-light text-lg text-text-muted">Josefin 300 · {t.pangram}</p>
+      <p class="font-light italic text-lg text-accent">Josefin 300 italic · {t.pangram}</p>
+      <p>Josefin 400 · {t.pangram}</p>
+      <p class="italic">Josefin 400 italic · {t.pangram}</p>
+      <p class="font-semibold text-sm uppercase tracking-[0.14em]">Josefin 600 · {t.pangram}</p>
+      <p class="font-logo text-xl font-bold tracking-tight">Felipe Cuevas · Lexend 700</p>
+    </div>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.icons}</h3>
+    <ul class="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-7">
+      {iconNames.map((name) => (
+        <li class="flex flex-col items-center gap-1 text-xs text-text-soft">
+          <Icon name={name} class="text-icon" />
+          {name}
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.textures}</h3>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2">
+      <div class="relative h-40 bg-bg outline outline-border">
+        <div class="texture-halo absolute inset-0" aria-hidden="true" />
+        <div class="texture-dots absolute inset-0" aria-hidden="true" />
+        <span class="relative p-3 text-xs text-text-soft">texture-dots + texture-halo</span>
+      </div>
+      <div class="texture-band h-40 p-3">
+        <p class="text-xs uppercase tracking-[0.22em] text-kicker">kicker</p>
+        <p class="mt-2 text-text-soft" data-probe="band-grid">
+          texture-band · text-soft
+        </p>
+      </div>
+      <div class="texture-frame h-40 p-3 text-xs text-white/60">texture-frame</div>
+      <div class="texture-portrait h-40 p-3 text-xs text-orient-950">texture-portrait</div>
+    </div>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{ex.primitives}</h3>
+    <div class="mt-4 space-y-10" data-test-scope>
+      <div class="flex flex-wrap items-center gap-4">
+        <Button>{ex.primary}</Button>
+        <Button variant="secondary" icon="download" href="#" download>
+          {ex.download}
+        </Button>
+        <Button variant="gold">{ex.gold}</Button>
+        <Button variant="secondary" size="bar">
+          {ex.secondary} 44
+        </Button>
+        <IconButton icon="menu" label={ex.menu} />
+        <IconButton icon="arrow-left" label={ex.prev} variant="arrow" />
+        <IconButton icon="arrow-right" label={ex.next} variant="arrow" />
+        <IconButton icon="arrow-up" label={ex.up} variant="arrow" />
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <Tag>{ex.tag}</Tag>
+        <GoldRule />
+        <ExternalLink href="https://example.com" lang={lang}>
+          {ex.link}
+        </ExternalLink>
+      </div>
+      <SectionHeader
+        kicker={ex.kicker}
+        title={ex.title}
+        lead={ex.lead}
+        id={`sh-left-${theme.id}`}
+        level={3}
+      />
+      <SectionHeader
+        kicker={ex.kicker}
+        title={ex.title}
+        lead={ex.lead}
+        variant="center"
+        id={`sh-center-${theme.id}`}
+        level={3}
+      />
+      <div class="grid gap-6 bg-bg-alt p-6 md:grid-cols-2">
+        <Card>
+          <p class="text-text-muted">{ex.card}</p>
+        </Card>
+        <TestimonialCard
+          lang={lang}
+          quote={ex.quote}
+          name={ex.person}
+          role={ex.role}
+          program={ex.program}
+          initialsTone="primary"
+        />
+      </div>
+    </div>
+    <div class="-mx-6 mt-10 md:-mx-10">
+      <Band kicker={ex.kicker} title={ex.title} lead={ex.lead} id={`band-${theme.id}`}>
+        <p class="text-center text-text-soft">
+          text-soft · <span class="font-display text-3xl text-accent">+120</span>
+        </p>
+      </Band>
+      <ThemeStripe kicker={ex.kicker} title={`${ex.stripe} 1`} id={`stripe1-${theme.id}`}>
+        <div class="flex flex-wrap gap-3">
+          <Tag>A</Tag>
+          <Tag>B</Tag>
+          <Tag>C</Tag>
+        </div>
+      </ThemeStripe>
+      <ThemeStripe
+        kicker={ex.kicker}
+        title={`${ex.stripe} 2`}
+        id={`stripe2-${theme.id}`}
+        reverse
+        tone="bg"
+      >
+        <div class="flex flex-wrap gap-3">
+          <Tag>D</Tag>
+          <Tag>E</Tag>
+          <Tag>F</Tag>
+        </div>
+      </ThemeStripe>
+    </div>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.motion}</h3>
+    <ul class="mt-4 grid gap-4">
+      {[1, 2, 3, 4, 5, 6].map((n) => (
+        <li data-reveal class="bg-surface p-6 shadow-card" data-testid="reveal">
+          {t.block} {n}
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.contrast}</h3>
+    <noscript>
+      <p class="mt-2 text-sm text-text-soft">{t.noJs}</p>
+    </noscript>
+    <table class="mt-4 w-full text-left text-sm" data-pairs={JSON.stringify(pairs[theme.id])}>
+      <thead class="text-text-soft">
+        <tr>
+          <th scope="col">{t.pair}</th>
+          <th scope="col">{t.ratio}</th>
+          <th scope="col">{t.min}</th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </section>
+))}
+<script>
+  import { initReveal } from '../../scripts/reveal';
+  initReveal();
+
+  // La muestra compara ambos temas lado a lado: la mitad clara no lleva clase, así que
+  // <html> no debe quedar en .dark aunque el script de tema de BaseLayout lo ponga.
+  document.documentElement.classList.remove('dark');
+
+  // Prueba de primitivas con ?test (E20-I05): zona táctil de 44 px y foco visible con
+  // contraste de 3:1 frente al fondo de la sección. Resultado en #test-results.
+  if (new URLSearchParams(location.search).has('test')) {
+    const out: string[] = [];
+    const toRgb = (color: string) => {
+      const c = document.createElement('canvas').getContext('2d');
+      if (!c) return [0, 0, 0];
+      c.fillStyle = color;
+      c.fillRect(0, 0, 1, 1);
+      return Array.from(c.getImageData(0, 0, 1, 1).data.slice(0, 3));
+    };
+    const lumOf = (rgb: number[]) => {
+      const v = rgb.map((x) => {
+        x /= 255;
+        return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+    };
+    for (const scope of document.querySelectorAll<HTMLElement>('[data-test-scope]')) {
+      const section = scope.closest('section');
+      if (!section) continue;
+      const bg = toRgb(getComputedStyle(section).backgroundColor);
+      for (const el of scope.querySelectorAll<HTMLElement>('button, a.button, a.icon-button')) {
+        const r = el.getBoundingClientRect();
+        el.focus();
+        const st = getComputedStyle(el);
+        const [a, b] = [lumOf(toRgb(st.outlineColor)), lumOf(bg)];
+        const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+        const ok =
+          r.width >= 44 &&
+          r.height >= 44 &&
+          el.matches(':focus-visible') &&
+          parseFloat(st.outlineWidth) >= 2 &&
+          ratio >= 3;
+        out.push(
+          `${section.getAttribute('aria-labelledby')} ${(el.getAttribute('aria-label') ?? el.textContent ?? '').trim()} ${Math.round(r.width)}x${Math.round(r.height)} foco=${el.matches(':focus-visible')} ${st.outlineWidth} ${ratio.toFixed(2)} ${ok ? 'OK' : 'FALLA'}`,
+        );
       }
+    }
+    const pre = document.createElement('pre');
+    pre.id = 'test-results';
+    pre.textContent = out.join(String.fromCharCode(10));
+    document.body.append(pre);
+  }
 
-      // Mide cada par pintando fondo y texto en un canvas de 1 px: así la transparencia
-      // y color-mix se componen igual que en pantalla. Herramienta interna de E20-I02.
-      const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = 1;
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  // Mide cada par pintando fondo y texto en un canvas de 1 px: así la transparencia
+  // y color-mix se componen igual que en pantalla. Herramienta interna de E20-I02.
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-      const lum = ([r, g, b]: number[]) => {
-        const c = [r, g, b].map((v) => {
-          v /= 255;
-          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-        });
-        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-      };
-      const paint = (layers: string[]) => {
-        if (!ctx) return [0, 0, 0];
-        ctx.clearRect(0, 0, 1, 1);
-        for (const layer of layers) {
-          ctx.fillStyle = layer;
-          ctx.fillRect(0, 0, 1, 1);
-        }
-        return Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
-      };
-      const read = (scope: Element, token: string) =>
-        getComputedStyle(scope).getPropertyValue(`--color-${token}`).trim();
+  const lum = ([r, g, b]: number[]) => {
+    const c = [r, g, b].map((v) => {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  };
+  const paint = (layers: string[]) => {
+    if (!ctx) return [0, 0, 0];
+    ctx.clearRect(0, 0, 1, 1);
+    for (const layer of layers) {
+      ctx.fillStyle = layer;
+      ctx.fillRect(0, 0, 1, 1);
+    }
+    return Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+  };
+  const read = (scope: Element, token: string) =>
+    getComputedStyle(scope).getPropertyValue(`--color-${token}`).trim();
 
-      for (const table of document.querySelectorAll<HTMLTableElement>('table[data-pairs]')) {
-        const scope = table.closest('section');
-        const body = table.tBodies[0];
-        if (!scope || !body) continue;
-        const pairs = JSON.parse(table.dataset.pairs ?? '[]') as [string, string, number][];
-        for (const [fg, bg, min] of pairs) {
-          // Banda con retícula: el píxel desfavorable es el de la línea (en oscuro, sobre orient-800).
-          const bgLayers =
-            bg === 'band-grid'
-              ? [
-                  read(scope, 'band'),
-                  getComputedStyle(scope).getPropertyValue('--grid-line').trim(),
-                ]
-              : [read(scope, bg)];
-          const back = paint(bgLayers);
-          const front = paint([...bgLayers, read(scope, fg)]);
-          const [a, b] = [lum(front), lum(back)];
-          const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
-          const row = body.insertRow();
-          row.insertCell().textContent = `${fg} / ${bg}`;
-          row.insertCell().textContent = ratio.toFixed(2);
-          row.insertCell().textContent = `${min} ${ratio >= min ? '✓' : '✗'}`;
-        }
-      }
-    </script>
-  </body>
-</html>
+  for (const table of document.querySelectorAll<HTMLTableElement>('table[data-pairs]')) {
+    const scope = table.closest('section');
+    const body = table.tBodies[0];
+    if (!scope || !body) continue;
+    const pairs = JSON.parse(table.dataset.pairs ?? '[]') as [string, string, number][];
+    for (const [fg, bg, min] of pairs) {
+      // Banda con retícula: el píxel desfavorable es el de la línea (en oscuro, sobre orient-800).
+      const bgLayers =
+        bg === 'band-grid'
+          ? [read(scope, 'band'), getComputedStyle(scope).getPropertyValue('--grid-line').trim()]
+          : [read(scope, bg)];
+      const back = paint(bgLayers);
+      const front = paint([...bgLayers, read(scope, fg)]);
+      const [a, b] = [lum(front), lum(back)];
+      const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+      const row = body.insertRow();
+      row.insertCell().textContent = `${fg} / ${bg}`;
+      row.insertCell().textContent = ratio.toFixed(2);
+      row.insertCell().textContent = `${min} ${ratio >= min ? '✓' : '✗'}`;
+    }
+  }
+</script>

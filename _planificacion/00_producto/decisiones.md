@@ -354,7 +354,7 @@ Reglas del registro:
   - **Inventario:** el conjunto base cubre los íconos de sistema de `DESIGN.md` 7 (menu, close, chevron-down, flechas, download, external-link, sun, moon, check, info, alert, star y mail). Los íconos propios de cada página del inventario de Material Symbols (`school`, `verified`, `workspace_premium`, `history_edu`, `groups`, `event_*`, `forum`, `terminal`, etc.) se dibujan en la épica de esa página y se agregan a `icons.ts`. Ninguna página carga Material Symbols.
 - **Consecuencias:** resuelve AT-016 y AT-017. Cada épica de página suma sus íconos al mismo módulo. Una actualización de las fuentes exige descargar de nuevo y actualizar este ADR.
   - Nota (ADR-044): el SVG de marca de Discord se retiró de `icons.ts`; las redes de marca son 4 (LinkedIn, GitHub, REUF y correo). 
-- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+- **Origen:** E20-I03 y E20-I04, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
 
 ## ADR-044 · Discord sale de las redes del sitio
 - **Contexto:** `DESIGN.md` v1 (ADR-039) y el sitio actual listan 5 redes: LinkedIn, GitHub, REUF, correo y Discord. Felipe Cuevas decide dejar de publicar el vínculo a Discord.
@@ -377,7 +377,7 @@ Reglas del registro:
   - **Tokens:** `@theme static`, para que se emitan todas las variables aunque ninguna clase las use (la muestra y los estilos en línea las leen; ver AT-055).
 - **Consecuencias:** resuelve AT-018 y la parte de movimiento de AT-040. El script de tema único del `<head>` sigue en E30-I01. No se vuelve a usar AOS.
   - Punto de prueba: confirmar en la primera página que use `data-reveal` que, al imprimir, ningún bloque queda oculto.
-- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+- **Origen:** E20-I03 y E20-I04, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
 
 ## ADR-046 · Primitivas de componentes y variables de componente por tema
 - **Contexto:** E20-I05. `DESIGN.md` 7.3, 7.6 y 7.7 fijan valores distintos por tema que no equivalen a un semántico de 4.2: fondo de hover del botón de ícono, colores de la flecha, contorno de la tarjeta en oscuro, colores de la etiqueta y trazo de la estrella. La sección 9 prohíbe `dark:` para el color.
@@ -400,6 +400,15 @@ Reglas del registro:
   - **Impresión:** `[data-reveal]` siempre visible en `@media print` (punto de prueba de ADR-045).
 - **Consecuencias:** resuelve AT-052. Amplía ADR-042 sin modificarlo: los semánticos siguen siendo la vía principal y las variables de componente son la excepción acotada. Riel social, selector de idioma, botón de apariencia, navbar, pie, formularios, aviso y carrusel se construyen en E30, E40 y E140 sobre estas primitivas, con la misma regla de origen. `DESIGN.md` 9 lo reconoce en una oración.
 - **Origen:** E20-I05, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-047 · Dominio del sitio y barra final en todas las rutas
+- **Contexto:** E30-I01. `canonical`, `hreflang` y `og:url` necesitan URL absolutas, y cada página debe tener una sola forma de URL. Astro genera `dist/<ruta>/index.html` (formato `directory`).
+- **Decisión:**
+  - `site: 'https://felipecuevas.dev'` en `astro.config.mjs`: base de toda URL absoluta (`Astro.site`).
+  - `trailingSlash: 'always'`: toda ruta termina en barra (`/es/`, `/en/design-sample/`), coherente con el formato `directory` y con lo que sirven los assets estáticos de Cloudflare.
+  - `canonical`, `hreflang` (es-CL, en-US, x-default → versión `/es/`, ADR-019) y `og:url` se escriben siempre con barra final.
+- **Consecuencias:** los enlaces internos se escriben con barra final; en desarrollo, una ruta sin barra da 404. El mapa de rutas de E30-I02 y las 301 de E180-I01 usan la misma forma.
+- **Origen:** E30-I01, 29-10-2026. **Estado:** Propuesta por el agente; pendiente de validación de Felipe.
 
 ---
 

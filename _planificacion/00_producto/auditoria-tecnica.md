@@ -60,9 +60,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `<head>`, `<header>`, menú móvil, `<footer>` y botón volver arriba repetidos en los 13 HTML. Comparación normalizada: los headers solo difieren en el estado activo (`aria-current`), y el pie es idéntico en las 13.
 - **Impacto:** cada cambio global exige 13 ediciones, con riesgo de divergencia.
 - **Recomendación:** layout y componentes compartidos de Astro.
+- **Avance (E30-I01):** el `<head>` vive solo en `BaseLayout.astro` y `Seo.astro`. Sigue abierto: header, menú móvil, pie y volver arriba (E30-I04 a E30-I06).
 
 ### AT-040 · Script en línea del `<head>` duplicado
-- **Severidad:** Media · **Estado:** Resuelto en E20-I04 (el movimiento ya no necesita guardián: sin JavaScript todo es visible, ADR-045); el script de tema único del layout se implementa dentro del alcance de E30-I01 · **Resuelve:** E30-I01, E20-I04
+- **Severidad:** Media · **Estado:** Resuelto en E20-I04 (movimiento sin guardián, ADR-045) y E30-I01 (script de tema único en `BaseLayout.astro`) · **Resuelve:** E30-I01, E20-I04
 - **Evidencia:** `index.html` `<head>`. Hay un guardián que revela todo a los 1.500 ms si AOS no arranca y un script de tema anti-parpadeo, repetidos en cada página.
 - **Impacto:** mantenimiento duplicado; el guardián existe solo por AOS.
 - **Recomendación:** un único script de tema en el layout y un sistema de movimiento que no necesite guardián.
@@ -217,6 +218,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** los buscadores no relacionarán las versiones de idioma.
 - **Recomendación:** `hreflang` recíprocos con `x-default` (ADR-019).
 - **Avance:** E10-I07 deja `lang="es-CL"` y `lang="en-US"` por página. Sigue abierto: faltan `hreflang`, `x-default` y metadatos por idioma.
+- **Avance (E30-I01):** `hreflang` recíprocos es-CL / en-US con `x-default` a `/es/`, `og:locale` y `og:locale:alternate` por idioma. Sigue abierto: `inLanguage` del JSON-LD (E40-I03) y sitemap bilingüe (E180-I02).
 
 ### AT-016 · Fuente de íconos completa
 - **Severidad:** Media · **Estado:** Resuelto en E20-I03 (componente `Icon.astro` con SVG en línea; sin Material Symbols, ADR-043) · **Resuelve:** E20-I03
@@ -235,6 +237,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `static/img/felipe_cuevas_cv.png` (350 KB, 1920×1080) en todas las páginas, solo en español.
 - **Impacto:** vista previa lenta y no localizada.
 - **Recomendación:** imagen por idioma optimizada.
+- **Avance (E30-I01):** `Seo.astro` acepta `ogImage` por idioma (opcional; sin ella no se emite imagen y Twitter usa `summary`). Sigue abierto: imágenes por idioma optimizadas (E170-I02).
 
 ### AT-033 · Imagen sin referencia
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I02
@@ -338,6 +341,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `theme` (`static/js/servicios/tema.js`), `perfil-hero` (`static/js/config/perfiles.config.js:10`) y `rutas-progreso` (`static/js/config/rutas.config.js:10`).
 - **Impacto:** los visitantes perderían sus preferencias y su progreso.
 - **Recomendación:** ADR-023.
+- **Avance (E30-I01):** la clave `theme` se conserva con los mismos valores (`dark`/`light`) en el script de tema. Siguen `perfil-hero` (E40-I01) y `rutas-progreso` (E130-I01).
 
 ### AT-034 · Descargables pesados y solo en español
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E130-I02, BL-04

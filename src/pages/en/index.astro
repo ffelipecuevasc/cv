@@ -1,21 +1,13 @@
 ---
-// Página mínima de enrutamiento para /en/ (E10-I07). El contenido llega en E40.
-// El atributo lang lo entrega Astro.currentLocale: el primer código del idioma en astro.config.mjs.
-import '../../styles/global.css';
-
-const lang = Astro.currentLocale;
+// Portada mínima de /en/ (E10-I07, E30-I01). El contenido llega en E40; título y
+// descripción son provisorios hasta E40-I03 (redacción en-US por validar, ADR-017).
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<html lang={lang}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Felipe Cuevas</title>
-  </head>
-  <body>
-    <main>
-      <h1>Felipe Cuevas</h1>
-    </main>
-  </body>
-</html>
+<BaseLayout
+  title="Felipe Cuevas | Bootcamp Instructor and University Lecturer"
+  description="Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS."
+  paths={{ es: '/es/', en: '/en/' }}
+>
+  <h1>Felipe Cuevas</h1>
+</BaseLayout>
