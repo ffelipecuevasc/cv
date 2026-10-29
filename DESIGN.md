@@ -60,7 +60,7 @@ El ícono, los colores y el ritmo del efecto se conservan del sitio actual (audi
 - **Separación con el texto:** 12 px.
 
 ### 3.2 Texto en dos renglones
-- **Renglón 1, nombre fijo:** "Felipe Cuevas", en Cinzel (`font-display`), mayúsculas, 14 px con interletraje de 0,06 em; desde 640 px, 18 px con 0,12 em. Color `text` (`#00131D` en claro, `#FFFFFF` en oscuro). No se anima y nunca se parte en dos líneas.
+- **Renglón 1, nombre fijo:** "Felipe Cuevas", en Cinzel (`font-display`), mayúsculas, 14 px con interletraje de 0,06 em; desde 640 px, 18 px con 0,12 em. Color `heading` (`#00131D` en claro, `#FFFFFF` en oscuro). No se anima y nunca se parte en dos líneas.
 - **Renglón 2, frases:** Josefin Sans, mayúsculas, 11,5 px, interletraje de 0,2 em, color `text-soft` y 4 px de separación con el nombre. Aquí corre el efecto máquina de escribir. Bajo 640 px este renglón se oculta (`display: none`).
 - El efecto es de "máquina de escribir" por su animación de tecleo, no por usar tipografía monoespaciada.
 
@@ -201,9 +201,8 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 |---|---|---|---|---|
 | `font-display` | **Cinzel** (OFL 1.1) | 400, 500 y 600 | Titulares, cifras, nombres en tarjetas, número de página | Georgia, serif |
 | `font-sans` | **Josefin Sans** (OFL 1.1) | 300, 400 y 600; cursiva 300 y 400 | Texto, navegación, botones, rótulos | system-ui, sans-serif |
-| `font-logo` | **Lexend** (OFL 1.1) | 700 | **Solo el logotipo** (sección 3) | sans-serif |
 
-- Las tres se autoalojan con la API de fuentes de Astro y el proveedor local; nada se carga desde Google Fonts (ADR-043).
+- Las dos se autoalojan con la API de fuentes de Astro y el proveedor local; nada se carga desde Google Fonts (ADR-043).
 - Cinzel tiene diseño de mayúsculas romanas; se usa en titulares cortos y nunca en párrafos.
 
 ### 5.2 Escala
@@ -380,7 +379,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
   - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, trazo de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
-  - familias: `--font-display`, `--font-sans`, `--font-logo`;
+  - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;
   - punto de quiebre propio: `--breakpoint-cards` (1.100 px); contenedor: 1.280 px.
