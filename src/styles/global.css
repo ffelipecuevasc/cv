@@ -2,7 +2,202 @@
  * Hoja global de Tailwind CSS v4 (ADR-004).
  * source(none) desactiva la detección automática desde la raíz del proyecto, que
  * escanearía los HTML del sitio antiguo; @source limita el escaneo a src/.
- * Los tokens de diseño se declaran en @theme en E20-I02.
+ * Tokens de DESIGN.md (secciones 4, 6, 7.13, 8 y 9), declarados en E20-I02.
  */
 @import 'tailwindcss' source(none);
 @source "../../src";
+
+/*
+ * Tema oscuro por clase en <html>, igual que el sitio actual: la clase `dark` se
+ * agrega según la clave `theme` de localStorage ('dark' | 'light'), con respaldo en
+ * prefers-color-scheme (ADR-023). El script que la aplica sin parpadeo llega en E30-I01.
+ * Los componentes no usan `dark:` para el color: los semánticos cambian de valor.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Se anulan los colores de Tailwind: solo existen los tokens de DESIGN.md 4.1. */
+  --color-*: initial;
+
+  /* 4.1 Paleta base (escala original y tonos de apoyo de ADR-040). */
+  --color-orient-50: #e4f3ff;
+  --color-orient-100: #b9e2ff;
+  --color-orient-200: #5dc9ff;
+  --color-orient-300: #00b0e8;
+  --color-orient-400: #0096c7;
+  --color-orient-500: #007ea7;
+  --color-orient-600: #00678a;
+  --color-orient-700: #005471;
+  --color-orient-800: #003b51;
+  --color-orient-900: #00212f;
+  --color-orient-925: #001a26;
+  --color-orient-950: #00131d;
+  --color-stone: #f5f9fc;
+  --color-primary: #007ea7;
+  --color-vibrant: #00b0e8;
+  --color-gold: #f8cd46;
+  --color-gold-deep: #7a5c00;
+  --color-white: #ffffff;
+  --color-black: #000000; /* solo en sombras oscuras (7.13) */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* 4.2 Semánticos: valores del tema claro; el bloque .dark los redefine. */
+  --color-bg: var(--color-white);
+  --color-bg-alt: var(--color-stone);
+  --color-surface: var(--color-white);
+  --color-band: var(--color-orient-50);
+  --color-footer: var(--color-orient-50);
+  --color-text: var(--color-orient-950);
+  --color-text-muted: color-mix(in srgb, var(--color-orient-950) 70%, transparent);
+  --color-text-soft: color-mix(in srgb, var(--color-orient-950) 60%, transparent);
+  --color-accent: var(--color-primary);
+  --color-kicker: var(--color-orient-600);
+  --color-icon: var(--color-orient-600);
+  --color-icon-rail: var(--color-orient-600);
+  --color-border: color-mix(in srgb, var(--color-orient-950) 10%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-orient-950) 25%, transparent);
+  --color-focus: var(--color-primary);
+
+  /* 7.13 Sombras. */
+  --shadow-card:
+    0 1px 0 color-mix(in srgb, var(--color-orient-950) 6%, transparent),
+    0 24px 50px -36px color-mix(in srgb, var(--color-orient-800) 50%, transparent);
+  --shadow-card-hover:
+    0 1px 0 color-mix(in srgb, var(--color-orient-950) 6%, transparent),
+    0 30px 60px -34px color-mix(in srgb, var(--color-orient-800) 60%, transparent);
+  --shadow-float: 0 20px 40px -20px color-mix(in srgb, var(--color-orient-950) 35%, transparent);
+  --shadow-rail:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-950) 8%, transparent),
+    0 10px 22px -12px color-mix(in srgb, var(--color-orient-800) 45%, transparent);
+
+  /* 8 Duraciones y curvas. */
+  --duration-fast: 200ms;
+  --duration-base: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* 6 Contenedor (1.280 px) y punto de quiebre propio cards (1.100 px). */
+  --container-page: 80rem;
+  --breakpoint-cards: 68.75rem;
+}
+
+/* Variables de textura (4.5), por tema. No generan utilidades. */
+:root {
+  --dots-main: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --dots-gold: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  --halo: transparent;
+  --grid-line: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  --grid-edge: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  --grid-fill: linear-gradient(var(--color-orient-50), var(--color-orient-50));
+  --frame-dots: color-mix(in srgb, var(--color-vibrant) 35%, transparent);
+  --portrait-fill: linear-gradient(var(--color-orient-50), var(--color-orient-200));
+}
+
+/* 4.2 y 7.13 en tema oscuro. */
+.dark {
+  color-scheme: dark;
+  --color-bg: var(--color-orient-950);
+  --color-bg-alt: var(--color-orient-925);
+  --color-surface: var(--color-orient-900);
+  --color-band: var(--color-orient-800);
+  --color-footer: var(--color-orient-950);
+  --color-text: var(--color-orient-50);
+  --color-text-muted: color-mix(in srgb, var(--color-orient-50) 75%, transparent);
+  --color-text-soft: color-mix(in srgb, var(--color-orient-50) 60%, transparent);
+  --color-accent: var(--color-vibrant);
+  --color-kicker: var(--color-orient-400);
+  --color-icon: var(--color-orient-400);
+  --color-icon-rail: var(--color-vibrant);
+  --color-border: color-mix(in srgb, var(--color-orient-50) 10%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-orient-50) 25%, transparent);
+  --color-focus: var(--color-vibrant);
+
+  --shadow-card:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 6%, transparent),
+    0 28px 50px -34px color-mix(in srgb, var(--color-black) 85%, transparent);
+  --shadow-card-hover:
+    0 0 0 1px color-mix(in srgb, var(--color-vibrant) 25%, transparent),
+    0 34px 60px -32px color-mix(in srgb, var(--color-black) 90%, transparent);
+  --shadow-float:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 8%, transparent),
+    0 24px 44px -20px color-mix(in srgb, var(--color-black) 80%, transparent);
+  --shadow-rail:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 10%, transparent),
+    0 12px 24px -12px color-mix(in srgb, var(--color-black) 70%, transparent);
+
+  --dots-main: color-mix(in srgb, var(--color-vibrant) 26%, transparent);
+  --dots-gold: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  --halo: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  --grid-line: color-mix(in srgb, var(--color-vibrant) 8%, transparent);
+  --grid-edge: transparent;
+  --grid-fill: linear-gradient(
+    160deg,
+    var(--color-orient-800),
+    var(--color-orient-900) 60%,
+    var(--color-orient-925)
+  );
+  --frame-dots: color-mix(in srgb, var(--color-vibrant) 40%, transparent);
+  --portrait-fill: linear-gradient(
+    var(--color-orient-800),
+    var(--color-primary),
+    var(--color-orient-400)
+  );
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+
+/*
+ * 4.5 Texturas. Son decorativas: se aplican a capas con aria-hidden.
+ * texture-dots y texture-halo van en una capa absoluta detrás del hero.
+ */
+@utility texture-dots {
+  background-image:
+    radial-gradient(circle, var(--dots-gold) 1.2px, transparent 1.2px),
+    radial-gradient(circle, var(--dots-main) 1.1px, transparent 1.1px);
+  background-size:
+    132px 132px,
+    22px 22px;
+  background-position:
+    11px 11px,
+    0 0;
+  mask-image: radial-gradient(ellipse at 60% 45%, black 30%, transparent 75%);
+}
+
+@utility texture-halo {
+  background-image: radial-gradient(44rem 30rem at 78% 40%, var(--halo), transparent 70%);
+}
+
+/* Banda (7.8): retícula de 48 px; en oscuro, kicker dorado (4.2). */
+@utility texture-band {
+  background-color: var(--color-band);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), var(--grid-fill);
+  background-size:
+    48px 48px,
+    48px 48px,
+    auto;
+  border-block: 1px solid var(--grid-edge);
+  &:where(.dark *) {
+    --color-kicker: var(--color-gold);
+  }
+}
+
+/* Marco desplazado del retrato: panel orient-800 con puntos cada 18 px. */
+@utility texture-frame {
+  background-color: var(--color-orient-800);
+  background-image: radial-gradient(circle, var(--frame-dots) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Fondo del retrato mientras carga la imagen. */
+@utility texture-portrait {
+  background-image: var(--portrait-fill);
+}

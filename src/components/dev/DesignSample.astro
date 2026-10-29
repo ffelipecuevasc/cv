@@ -1,0 +1,283 @@
+---
+/*
+ * Muestra interna de tokens (E20-I02): paleta, semánticos, sombras y texturas en ambos
+ * temas, lado a lado. No es contenido del sitio: noindex y fuera del sitemap.
+ * Los textos de interfaz son internos y no pasan por el diccionario (E30-I02).
+ */
+interface Props {
+  lang: 'es' | 'en';
+}
+const { lang } = Astro.props;
+const t =
+  lang === 'es'
+    ? {
+        title: 'Muestra de tokens',
+        light: 'Tema claro',
+        dark: 'Tema oscuro',
+        palette: 'Paleta base (4.1)',
+        semantic: 'Semánticos (4.2)',
+        shadows: 'Sombras (7.13)',
+        textures: 'Texturas (4.5)',
+        contrast: 'Contrastes medidos en el navegador (4.4)',
+        pair: 'Par',
+        ratio: 'Contraste',
+        min: 'Umbral',
+        noJs: 'La tabla de contrastes se calcula con JavaScript.',
+      }
+    : {
+        title: 'Token sample',
+        light: 'Light theme',
+        dark: 'Dark theme',
+        palette: 'Base palette (4.1)',
+        semantic: 'Semantic tokens (4.2)',
+        shadows: 'Shadows (7.13)',
+        textures: 'Textures (4.5)',
+        contrast: 'Contrast measured in the browser (4.4)',
+        pair: 'Pair',
+        ratio: 'Contrast',
+        min: 'Threshold',
+        noJs: 'The contrast table is computed with JavaScript.',
+      };
+
+const palette = [
+  'orient-50',
+  'orient-100',
+  'orient-200',
+  'orient-300',
+  'orient-400',
+  'orient-500',
+  'orient-600',
+  'orient-700',
+  'orient-800',
+  'orient-900',
+  'orient-925',
+  'orient-950',
+  'stone',
+  'primary',
+  'vibrant',
+  'gold',
+  'gold-deep',
+  'white',
+];
+const semantic = [
+  'bg',
+  'bg-alt',
+  'surface',
+  'band',
+  'footer',
+  'text',
+  'text-muted',
+  'text-soft',
+  'accent',
+  'kicker',
+  'icon',
+  'icon-rail',
+  'border',
+  'border-strong',
+  'focus',
+];
+
+// Pares de la tabla 4.4: [texto, fondo, umbral]. 'band-grid' es la banda clara con retícula.
+const pairs = {
+  light: [
+    ['text', 'bg', 4.5],
+    ['text', 'bg-alt', 4.5],
+    ['text', 'band', 4.5],
+    ['text-muted', 'bg', 4.5],
+    ['text-muted', 'bg-alt', 4.5],
+    ['text-soft', 'bg', 4.5],
+    ['text-soft', 'bg-alt', 4.5],
+    ['text-soft', 'band', 4.5],
+    ['text-soft', 'band-grid', 4.5],
+    ['accent', 'bg', 4.5],
+    ['accent', 'bg-alt', 3],
+    ['accent', 'band', 3],
+    ['kicker', 'bg', 4.5],
+    ['kicker', 'bg-alt', 4.5],
+    ['kicker', 'band', 4.5],
+    ['orient-800', 'bg', 4.5],
+    ['white', 'orient-950', 4.5],
+    ['white', 'primary', 4.5],
+    ['orient-950', 'gold', 4.5],
+    ['white', 'orient-600', 4.5],
+    ['focus', 'bg', 3],
+    ['focus', 'bg-alt', 3],
+    ['focus', 'band', 3],
+    ['gold-deep', 'surface', 3],
+  ],
+  dark: [
+    ['text', 'bg', 4.5],
+    ['text', 'bg-alt', 4.5],
+    ['text', 'surface', 4.5],
+    ['white', 'bg', 4.5],
+    ['text-muted', 'bg', 4.5],
+    ['text-muted', 'surface', 4.5],
+    ['text-soft', 'bg', 4.5],
+    ['text-soft', 'bg-alt', 4.5],
+    ['text-soft', 'surface', 4.5],
+    ['text-soft', 'band', 4.5],
+    ['accent', 'bg', 4.5],
+    ['accent', 'bg-alt', 4.5],
+    ['accent', 'surface', 4.5],
+    ['accent', 'band', 4.5],
+    ['kicker', 'bg', 4.5],
+    ['kicker', 'bg-alt', 4.5],
+    ['kicker', 'surface', 4.5],
+    ['gold', 'band', 4.5],
+    ['orient-950', 'orient-50', 4.5],
+    ['orient-950', 'vibrant', 4.5],
+    ['orient-950', 'gold', 4.5],
+    ['white', 'primary', 4.5],
+    ['white', 'orient-600', 4.5],
+    ['white', 'orient-800', 4.5],
+    ['focus', 'bg', 3],
+    ['focus', 'surface', 3],
+    ['gold', 'surface', 3],
+  ],
+} as const;
+const themes = [
+  { id: 'light', label: t.light, cls: '' },
+  { id: 'dark', label: t.dark, cls: 'dark' },
+] as const;
+---
+
+<html lang={Astro.currentLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{t.title} · Felipe Cuevas</title>
+  </head>
+  <body class="font-sans">
+    <main class="grid lg:grid-cols-2">
+      <h1 class="sr-only">{t.title}</h1>
+      {themes.map((theme) => (
+        <section
+          class:list={[theme.cls, 'bg-bg text-text p-6 md:p-10']}
+          aria-labelledby={`h-${theme.id}`}
+        >
+          <h2 id={`h-${theme.id}`} class="text-2xl text-text">
+            {theme.label}
+          </h2>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.palette}</h3>
+          <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            {palette.map((name) => (
+              <li class="text-xs text-text-soft">
+                <span
+                  class="block h-10 border border-border"
+                  style={`background: var(--color-${name})`}
+                />
+                {name}
+              </li>
+            ))}
+          </ul>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.semantic}</h3>
+          <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
+            {semantic.map((name) => (
+              <li class="text-xs text-text-soft">
+                <span
+                  class="block h-10 border border-border"
+                  style={`background: var(--color-${name})`}
+                />
+                {name}
+              </li>
+            ))}
+          </ul>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.shadows}</h3>
+          <ul class="mt-4 grid grid-cols-2 gap-6 bg-bg-alt p-6 sm:grid-cols-4">
+            <li class="bg-surface p-4 text-xs shadow-card">card</li>
+            <li class="bg-surface p-4 text-xs shadow-card-hover">card-hover</li>
+            <li class="bg-surface p-4 text-xs shadow-float">float</li>
+            <li class="bg-surface p-4 text-xs shadow-rail">rail</li>
+          </ul>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.textures}</h3>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <div class="relative h-40 bg-bg outline outline-border">
+              <div class="texture-halo absolute inset-0" aria-hidden="true" />
+              <div class="texture-dots absolute inset-0" aria-hidden="true" />
+              <span class="relative p-3 text-xs text-text-soft">texture-dots + texture-halo</span>
+            </div>
+            <div class="texture-band h-40 p-3">
+              <p class="text-xs uppercase tracking-[0.22em] text-kicker">kicker</p>
+              <p class="mt-2 text-text-soft" data-probe="band-grid">
+                texture-band · text-soft
+              </p>
+            </div>
+            <div class="texture-frame h-40 p-3 text-xs text-white/60">texture-frame</div>
+            <div class="texture-portrait h-40 p-3 text-xs text-orient-950">texture-portrait</div>
+          </div>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.contrast}</h3>
+          <noscript>
+            <p class="mt-2 text-sm text-text-soft">{t.noJs}</p>
+          </noscript>
+          <table class="mt-4 w-full text-left text-sm" data-pairs={JSON.stringify(pairs[theme.id])}>
+            <thead class="text-text-soft">
+              <tr>
+                <th scope="col">{t.pair}</th>
+                <th scope="col">{t.ratio}</th>
+                <th scope="col">{t.min}</th>
+              </tr>
+            </thead>
+            <tbody />
+          </table>
+        </section>
+      ))}
+    </main>
+    <script>
+      // Mide cada par pintando fondo y texto en un canvas de 1 px: así la transparencia
+      // y color-mix se componen igual que en pantalla. Herramienta interna de E20-I02.
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+      const lum = ([r, g, b]: number[]) => {
+        const c = [r, g, b].map((v) => {
+          v /= 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+      };
+      const paint = (layers: string[]) => {
+        if (!ctx) return [0, 0, 0];
+        ctx.clearRect(0, 0, 1, 1);
+        for (const layer of layers) {
+          ctx.fillStyle = layer;
+          ctx.fillRect(0, 0, 1, 1);
+        }
+        return Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      };
+      const read = (scope: Element, token: string) =>
+        getComputedStyle(scope).getPropertyValue(`--color-${token}`).trim();
+
+      for (const table of document.querySelectorAll<HTMLTableElement>('table[data-pairs]')) {
+        const scope = table.closest('section');
+        const body = table.tBodies[0];
+        if (!scope || !body) continue;
+        const pairs = JSON.parse(table.dataset.pairs ?? '[]') as [string, string, number][];
+        for (const [fg, bg, min] of pairs) {
+          // Banda clara con retícula: el píxel desfavorable es el de la línea (primary al 7 %).
+          const bgLayers =
+            bg === 'band-grid'
+              ? [
+                  read(scope, 'band'),
+                  getComputedStyle(scope).getPropertyValue('--grid-line').trim(),
+                ]
+              : [read(scope, bg)];
+          const back = paint(bgLayers);
+          const front = paint([...bgLayers, read(scope, fg)]);
+          const [a, b] = [lum(front), lum(back)];
+          const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+          const row = body.insertRow();
+          row.insertCell().textContent = `${fg} / ${bg}`;
+          row.insertCell().textContent = ratio.toFixed(2);
+          row.insertCell().textContent = `${min} ${ratio >= min ? '✓' : '✗'}`;
+        }
+      }
+    </script>
+  </body>
+</html>

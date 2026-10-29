@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-054.
+- Los hallazgos nuevos continúan la numeración desde AT-055.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -292,7 +292,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reemplazo sin dependencias.
 
 ### AT-019 · Tailwind 3 con configuración JS y plugins
-- **Severidad:** Media · **Estado:** Resuelto parcialmente en E10-I03 (Tailwind v4 sin `tailwind.config.js`, ADR-029); queda `@theme` en E20-I02 · **Resuelve:** E10-I03, E20-I02
+- **Severidad:** Media · **Estado:** Resuelto en E20-I02 (tokens de `DESIGN.md` en `@theme` de `src/styles/global.css`; antes, E10-I03 sin `tailwind.config.js`, ADR-029) · **Resuelve:** E10-I03, E20-I02
 - **Evidencia:** `package.json:25` (tailwindcss ^3.4.19), `tailwind.config.js` (content `./*.html` y `./static/js/**/*.js`), plugins `forms` y `container-queries`; CSS compilado versionado.
 - **Impacto:** no aplica al proyecto nuevo.
 - **Recomendación:** Tailwind v4 con tokens en `@theme` (ADR-004).
@@ -310,7 +310,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reevaluar con ADR nuevo cuando ocurra.
 
 ### AT-050 · Dependencias externas y contenido ficticio en los prototipos
-- **Severidad:** Media · **Estado:** Resuelto parcialmente en E20-I01 (`DESIGN.md` 12 documenta las exclusiones; los prototipos no llegan a `dist/` y Prettier, ESLint y Tailwind no los procesan); queda la verificación de cero solicitudes externas en E20-I03 · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
+- **Severidad:** Media · **Estado:** Resuelto parcialmente en E20-I01 (`DESIGN.md` 12 documenta las exclusiones; los prototipos no llegan a `dist/` y Prettier, ESLint y Tailwind no los procesan); queda la verificación de cero solicitudes externas en E20-I03; avance en E20-I02: `dist/` sin referencias a Google Fonts ni CDN · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
 - **Evidencia:** los prototipos cargan Cinzel y Josefin Sans desde Google Fonts (`prototipos/felipe-cuevas-ia.html:9-11`), Tailwind Play CDN 3.4.17 con configuración en línea (`:12-28`) y un retrato de Unsplash (`:174`). Sus textos, cifras, empresas, correo y testimonios son ficticios (por ejemplo `:153`, `:194`, `:390`).
 - **Impacto:** copiarlos contradiría E20-I03, ADR-004 y ADR-029, y publicaría contenido falso.
 - **Recomendación:** tomar de los prototipos solo el diseño; contenido desde `main`, Tailwind 4 local y fuentes autoalojadas (ADR-041).
@@ -531,3 +531,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `public/.gitkeep` (de E10-I02) se copia a `dist/.gitkeep`; `https://felipecuevas-dev.felipe-cuevas.workers.dev/.gitkeep` responde 200.
 - **Impacto:** un archivo vacío e inútil queda público; sin riesgo de seguridad.
 - **Recomendación:** borrar `public/.gitkeep` cuando `public/` tenga su primer archivo real (favicon o fuentes), o excluirlo de `assets` con un `.assetsignore` (consulta previa: es configuración de despliegue).
+
+### AT-054 · Texto sobre las líneas de la retícula en la banda oscura bajo AA
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con el asesor (corrección en `DESIGN.md` 4.4/4.5, ADR-033); se verifica en E20-I05 y E170-I01
+- **Evidencia (E20-I02, 29-10-2026, fórmula de WCAG 2.2 componiendo la transparencia):** en oscuro, la banda es un degradado `orient-800` → `orient-925` con líneas `vibrant` al 8 % cada 48 px (`DESIGN.md` 4.5, `src/styles/global.css`, utilidad `texture-band`). Sobre una línea y en el punto más claro del degradado, `text-soft` da **4,41:1** y `accent` **4,20:1** (en liso, 4,86 y 4,80). El kicker dorado (6,93) y el blanco al 60 % (4,84) cumplen. En claro, `text-soft` sobre una línea de la retícula da 4,63 y cumple.
+- **Impacto:** los píxeles de texto que caen sobre una línea de 1 px quedan bajo 4,5:1 (1.4.3). El efecto es local y pequeño, pero la tabla 4.4 no lo refleja.
+- **Recomendación:** que el asesor elija una de estas opciones en `DESIGN.md`: bajar las líneas oscuras al 5 % (o menos), usar `orient-50` al 70 % como texto secundario dentro de la banda oscura, o limitar `accent` en la banda oscura a texto grande. El agente no cambia el token hasta que `DESIGN.md` lo indique.

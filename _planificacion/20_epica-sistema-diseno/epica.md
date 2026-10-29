@@ -23,7 +23,7 @@ E10 (en particular E10-I03).
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E20-I01](E20-I01-definir-design-md.md) | Definición del DESIGN.md v1 | P0 | M | E10-I03 | [x] Terminada |
-| [E20-I02](E20-I02-tokens-tema.md) | Tokens en @theme y tema claro/oscuro | P0 | M | E20-I01 | [ ] Pendiente |
+| [E20-I02](E20-I02-tokens-tema.md) | Tokens en @theme y tema claro/oscuro | P0 | M | E20-I01 | [x] Terminada |
 | [E20-I03](E20-I03-tipografia-iconos.md) | Tipografía autoalojada e iconografía SVG | P0 | M | E20-I02 | [ ] Pendiente |
 | [E20-I04](E20-I04-movimiento-sin-aos.md) | Sistema de movimiento sin AOS | P0 | M | E20-I02 | [ ] Pendiente |
 | [E20-I05](E20-I05-primitivas.md) | Primitivas de componentes | P0 | M | E20-I03, E20-I04 | [ ] Pendiente |

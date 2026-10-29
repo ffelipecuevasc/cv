@@ -326,6 +326,19 @@ Reglas del registro:
 - **Consecuencias:** el sitio carga tres familias; E20-I03 limita pesos y subconjuntos y mide el efecto en LCP frente a ADR-015. La legibilidad de Josefin Sans 300 en tamaños pequeños se revisa en E170-I01.
 - **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
 
+## ADR-042 · Tema oscuro por clase y semánticos como variables
+- **Contexto:** E20-I02. `DESIGN.md` 9 pide la variante oscura por clase o atributo en `<html>` y semánticos que cambien de valor según el tema. El sitio actual usa la clase `dark` en `<html>` y guarda `theme` con los valores `dark` o `light` (`main:index.html:57-62`, `main:static/js/servicios/tema.js:56`).
+- **Decisión:**
+  - Variante `dark` por **clase** `.dark` en `<html>` (`@custom-variant dark (&:where(.dark, .dark *))`), con la misma clave y los mismos valores de `theme` (ADR-023). El script anti-parpadeo queda en E30-I01.
+  - Los semánticos se declaran en `@theme` con su valor claro y el bloque `.dark` los redefine; los componentes no usan `dark:` para el color.
+  - `--color-*: initial` anula la paleta de Tailwind: solo existen los tokens de `DESIGN.md` 4.1, más `black` (solo en sombras oscuras), `transparent` y `current`.
+  - Las transparencias usan `color-mix(in srgb, …)`. `border-strong` usa 25 %, el extremo alto del rango 20–25 % de 4.2.
+  - Contenedor `--container-page` (1.280 px, `max-w-page`); quiebre `--breakpoint-cards` (1.100 px).
+  - Texturas de 4.5 como utilidades `texture-dots`, `texture-halo`, `texture-band` (en oscuro fija `kicker` dorado), `texture-frame` y `texture-portrait`. La máscara del campo de puntos se desvanece del 30 % al 75 % (4.5 no fija el alcance).
+  - Muestra interna en `/es/muestra-diseno/` y `/en/design-sample/` con `noindex, nofollow`; E180-I02 la excluye del sitemap.
+- **Consecuencias:** E30-I01 solo agrega o quita la clase `dark`. Todo color nuevo exige un token en `DESIGN.md`.
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
