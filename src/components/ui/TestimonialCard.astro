@@ -1,0 +1,170 @@
+---
+/*
+ * Tarjeta de testimonio (DESIGN.md 7.6): comilla decorativa, 5 estrellas con la nota en
+ * texto para lectores de pantalla, cita en <blockquote> y pie con foto o iniciales.
+ * En en-US lleva la marca "Translated from Spanish" (ADR-017).
+ */
+import Card from './Card.astro';
+import { lineIcons } from './icons';
+
+interface Props {
+  lang: 'es' | 'en';
+  quote: string;
+  name: string;
+  role: string;
+  program?: string;
+  /** Foto opcional; si falta, se muestran las iniciales. */
+  photo?: { src: string; width: number; height: number };
+  initialsTone?: 'orient-800' | 'primary' | 'orient-600';
+  rating?: number;
+  as?: 'article' | 'li';
+}
+const {
+  lang,
+  quote,
+  name,
+  role,
+  program,
+  photo,
+  initialsTone = 'orient-800',
+  rating = 5,
+  as = 'article',
+} = Astro.props;
+const initials = name
+  .split(/\s+/)
+  .slice(0, 2)
+  .map((word) => word[0])
+  .join('');
+const ratingText = lang === 'es' ? `Calificación: ${rating} de 5` : `Rating: ${rating} out of 5`;
+const starPath = lineIcons.star[0];
+---
+
+<Card as={as} class="testimonial">
+  <span class="quote-mark" aria-hidden="true">
+    “
+  </span>
+  <p class="stars">
+    <span class="sr-only">{ratingText}</span>
+    {Array.from({ length: 5 }, (_, i) => (
+      <svg
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        aria-hidden="true"
+        focusable="false"
+        class:list={{ off: i >= rating }}
+      >
+        <path d={starPath} />
+      </svg>
+    ))}
+  </p>
+  <blockquote class="quote">
+    <p>{quote}</p>
+  </blockquote>
+  {lang === 'en' && <p class="translated">Translated from Spanish</p>}
+  <footer class="author">
+    {photo ? (
+      <img
+        src={photo.src}
+        width={photo.width}
+        height={photo.height}
+        alt=""
+        loading="lazy"
+        class="avatar"
+      />
+    ) : (
+      <span
+        class="avatar initials"
+        style={`background-color: var(--color-${initialsTone})`}
+        aria-hidden="true"
+      >
+        {initials}
+      </span>
+    )}
+    <p class="meta">
+      <span class="name">{name}</span>
+      <span class="role">{role}</span>
+      {program && <span class="program">{program}</span>}
+    </p>
+  </footer>
+</Card>
+
+<style>
+  .quote-mark {
+    display: block;
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 3.4rem;
+    line-height: 0.6;
+  }
+  .stars {
+    display: flex;
+    gap: 4px;
+    margin-top: 16px;
+  }
+  .stars svg {
+    fill: var(--color-gold);
+    stroke: var(--star-stroke);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .stars .off {
+    fill: transparent;
+  }
+  .quote {
+    margin-top: 16px;
+    color: var(--color-text-muted);
+    font-size: 1.08rem;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .translated {
+    margin-top: 12px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-style: italic;
+  }
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+  .avatar {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 3px var(--color-gold);
+    object-fit: cover;
+  }
+  .initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+  .meta {
+    display: grid;
+    gap: 2px;
+  }
+  .name {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+  .role {
+    color: var(--color-text-soft);
+    font-size: 14px;
+  }
+  .program {
+    color: var(--color-accent);
+    font-size: 13px;
+  }
+</style>

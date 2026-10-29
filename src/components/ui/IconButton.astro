@@ -1,0 +1,72 @@
+---
+/*
+ * Botón de ícono (DESIGN.md 7.3): `icon` de 44 × 44 y `arrow` (carrusel, volver arriba) de
+ * 54 × 54. El ícono es decorativo: `label` es obligatorio y da el nombre accesible.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  icon: IconName;
+  label: string;
+  variant?: 'icon' | 'arrow';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  [attr: `aria-${string}`]: string | boolean | undefined;
+  [attr: `data-${string}`]: string | undefined;
+}
+const {
+  icon,
+  label,
+  variant = 'icon',
+  href,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+const classes = ['icon-button', variant, className];
+const size = variant === 'arrow' ? 22 : 20;
+---
+
+{href ? (
+  <a href={href} aria-label={label} class:list={classes} {...rest}>
+    <Icon name={icon} size={size} />
+  </a>
+) : (
+  <button type={type} aria-label={label} class:list={classes} {...rest}>
+    <Icon name={icon} size={size} />
+  </button>
+)}
+
+<style>
+  .icon-button {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-icon);
+    background-color: transparent;
+    cursor: pointer;
+    transition-property: color, background-color, border-color;
+    transition-duration: var(--duration-base);
+    transition-timing-function: ease;
+  }
+  .icon:hover {
+    border-color: var(--color-vibrant);
+    background-color: var(--button-icon-hover-bg);
+  }
+  .arrow {
+    width: 54px;
+    height: 54px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+  }
+  .arrow:hover {
+    background-color: var(--button-arrow-hover-bg);
+    color: var(--button-arrow-hover-fg);
+  }
+</style>

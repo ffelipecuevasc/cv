@@ -1,0 +1,100 @@
+---
+/*
+ * Botón con texto (DESIGN.md 7.3): primario, secundario y dorado. Con `href` es un enlace;
+ * sin él, un <button> (type="button" por defecto). Alto 46 px (44 px con size="bar").
+ * Para un descargable, pasa `download` y menciona el formato en el texto o en `label`.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'gold';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  icon?: IconName;
+  download?: boolean | string;
+  size?: 'default' | 'bar';
+  /** Nombre accesible si el texto visible no basta (por ejemplo, formato y peso del CV). */
+  label?: string;
+  full?: boolean;
+  class?: string;
+}
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  icon,
+  download,
+  size = 'default',
+  label,
+  full = false,
+  class: className,
+} = Astro.props;
+const classes = ['button', variant, size, { full }, className];
+---
+
+{href ? (
+  <a href={href} download={download} aria-label={label} class:list={classes}>
+    {icon && <Icon name={icon} size={16} />}
+    <slot />
+  </a>
+) : (
+  <button type={type} aria-label={label} class:list={classes}>
+    {icon && <Icon name={icon} size={16} />}
+    <slot />
+  </button>
+)}
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 46px;
+    padding-inline: 24px;
+    border: 1px solid transparent;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition-property: color, background-color, border-color, filter;
+    transition-duration: var(--duration-base);
+    transition-timing-function: ease;
+  }
+  .bar {
+    min-height: 44px;
+  }
+  .full {
+    width: 100%;
+  }
+  .primary {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-fg);
+  }
+  .primary:hover {
+    background-color: var(--color-accent);
+  }
+  .secondary {
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+  }
+  .secondary:hover {
+    border-color: var(--color-vibrant);
+    color: var(--color-heading);
+  }
+  .secondary :global(svg) {
+    color: var(--color-icon);
+  }
+  .gold {
+    background-color: var(--color-gold);
+    color: var(--color-orient-950);
+  }
+  .gold:hover {
+    filter: brightness(1.05);
+  }
+</style>

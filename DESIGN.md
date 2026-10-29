@@ -121,6 +121,7 @@ Especificación extraída del sitio actual (auditoría, área C). Debe reproduci
 | `white` | `#FFFFFF` | — |
 
 No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y el trazo `#D9AE2C` se reemplazan por tonos de esta tabla.
+`black` solo se usa dentro de las sombras (7.13), siempre con transparencia. La máscara del campo de puntos del hero se desvanece del 30 % al 75 % (4.5).
 
 ### 4.2 Tokens semánticos
 | Token | Claro | Oscuro | Uso |

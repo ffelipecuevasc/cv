@@ -1,0 +1,70 @@
+---
+/*
+ * Franja temática (DESIGN.md 7.8, ADR-036): ancho completo, título de la categoría y
+ * contenido. `reverse` cambia la orientación solo con CSS: el HTML siempre va título →
+ * contenido, así que el orden de lectura no cambia. Fondo band o bg. Una columna bajo 1.024 px.
+ */
+import Container from './Container.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  kicker: string;
+  title: string;
+  lead?: string;
+  id: string;
+  reverse?: boolean;
+  tone?: 'band' | 'bg';
+}
+const { kicker, title, lead, id, reverse = false, tone = 'band' } = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class:list={['stripe', tone === 'band' ? 'texture-band' : 'tone-bg', { reverse }]}
+>
+  <Container class="stripe-grid">
+    <div class="stripe-title">
+      <SectionHeader kicker={kicker} title={title} lead={lead} id={`${id}-title`} />
+    </div>
+    <div class="stripe-content">
+      <slot />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .stripe {
+    padding-block: 56px;
+  }
+  .tone-bg {
+    background-color: var(--color-bg);
+  }
+  .stripe :global(.stripe-grid) {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 48rem) {
+    .stripe {
+      padding-block: 64px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .stripe :global(.stripe-grid) {
+      grid-template-columns: 5fr 7fr;
+      align-items: center;
+      gap: 48px;
+    }
+    .reverse :global(.stripe-grid) {
+      grid-template-columns: 7fr 5fr;
+    }
+    .reverse .stripe-title {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .reverse .stripe-content {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+/*
+ * Encabezado de sección (DESIGN.md 7.5): regla dorada + rótulo kicker + titular + bajada.
+ * Variantes: left (alineado), center (rótulo entre reglas en espejo) y band (h2 de banda
+ * con la regla bajo el titular, en ambos temas).
+ */
+import GoldRule from './GoldRule.astro';
+
+interface Props {
+  kicker: string;
+  title: string;
+  lead?: string;
+  variant?: 'left' | 'center' | 'band';
+  /** Nivel del titular, para no saltar niveles (ADR-005). */
+  level?: 2 | 3;
+  id?: string;
+}
+const { kicker, title, lead, variant = 'left', level = 2, id } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<header class:list={['section-header', variant]}>
+  <p class="kicker-row">
+    {variant !== 'band' && <GoldRule />}
+    <span class="kicker">{kicker}</span>
+    {variant === 'center' && <GoldRule mirror />}
+  </p>
+  <Heading id={id} class="title">
+    {title}
+  </Heading>
+  {variant === 'band' && <GoldRule class="band-rule" />}
+  {lead && <p class="lead">{lead}</p>}
+</header>
+
+<style>
+  .kicker-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .kicker {
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .title {
+    margin-top: 20px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+  .lead {
+    margin-top: 20px;
+    max-width: 52ch;
+    color: var(--color-text-soft);
+    font-weight: 300;
+  }
+  .center,
+  .band {
+    text-align: center;
+  }
+  .center .kicker-row,
+  .band .kicker-row {
+    justify-content: center;
+  }
+  .center .lead,
+  .band .lead {
+    margin-inline: auto;
+  }
+  .band .title {
+    font-size: 1.9rem;
+    letter-spacing: 0.03em;
+  }
+  .band-rule {
+    margin-top: 20px;
+  }
+  @media (min-width: 48rem) {
+    .band .title {
+      font-size: 2.3rem;
+    }
+  }
+</style>

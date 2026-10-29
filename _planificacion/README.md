@@ -6,10 +6,10 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
-- **Épica actual:** E20 · Sistema de diseño
-- **Iteración actual:** E20-I05 · Primitivas de componentes
+- **Épica actual:** E30 · Layout global
+- **Iteración actual:** E30-I01 · BaseLayout, head/SEO y tema sin parpadeo
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 13 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04). Épica E10 terminada.
+- **Terminadas:** 14 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05). Épicas E10 y E20 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -28,7 +28,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E20-I02 · Tokens en @theme y tema claro/oscuro (P0, M)
 - [x] E20-I03 · Tipografía autoalojada e iconografía SVG (P0, M)
 - [x] E20-I04 · Sistema de movimiento sin AOS (P0, M)
-- [ ] E20-I05 · Primitivas de componentes (P0, M)
+- [x] E20-I05 · Primitivas de componentes (P0, M)
 
 **E30 · Layout global** (`30_epica-layout-global/`)
 - [ ] E30-I01 · BaseLayout, head/SEO y tema sin parpadeo (P0, M)

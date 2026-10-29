@@ -1,0 +1,36 @@
+---
+/*
+ * Enlace externo: abre en pestaña nueva con rel="noopener noreferrer", ícono decorativo y
+ * aviso para lectores de pantalla en el idioma de la página.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  lang: 'es' | 'en';
+  class?: string;
+}
+const { href, lang, class: className } = Astro.props;
+const notice = lang === 'es' ? '(se abre en una pestaña nueva)' : '(opens in a new tab)';
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class:list={['external-link', className]}>
+  <slot />
+  <Icon name="external-link" size={14} />
+  <span class="sr-only">{notice}</span>
+</a>
+
+<style>
+  .external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--duration-base) ease;
+  }
+  .external-link:hover {
+    color: var(--color-heading);
+  }
+</style>

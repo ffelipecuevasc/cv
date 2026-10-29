@@ -265,7 +265,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** opacidad mínima del 60 % para texto, foco `primary` en claro, trazo `gold-deep` en las estrellas y avatares sin `orient-400` (ADR-040).
 
 ### AT-052 · Controles de los prototipos bajo la zona táctil mínima
-- **Severidad:** Baja · **Estado:** Abierto; avance en E20-I01: `DESIGN.md` v1 fija 44 px en el botón de apariencia, el selector de idioma y "Descargar CV" (7.2, 7.3 y 8) · **Resuelve:** E20-I05 (especificado en `DESIGN.md` v1, 7.2 y 7.3)
+- **Severidad:** Baja · **Estado:** Resuelto en E20-I05 (`Button` mide 46 px y 44 px en la barra, `IconButton` 44 × 44 y la flecha 54 × 54; verificado en Chrome en ambos temas e idiomas, ADR-046) · **Resuelve:** E20-I05 (especificado en `DESIGN.md` v1, 7.2 y 7.3)
 - **Evidencia:** el botón de apariencia (`.icon-btn`), el selector de idioma (`.lang`) y "CV (PDF)" (`!h-10`) miden 40 px de alto (`prototipos/felipe-cuevas-ia.html:53`, `:55`, `:131`).
 - **Impacto:** `DESIGN.md` 7 exige una zona táctil de al menos 44 px.
 - **Recomendación:** 44 × 44 px como mínimo en todos los controles.

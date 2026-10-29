@@ -337,7 +337,7 @@ Reglas del registro:
   - Texturas de 4.5 como utilidades `texture-dots`, `texture-halo`, `texture-band` (en oscuro fija `kicker` dorado), `texture-frame` y `texture-portrait`. La máscara del campo de puntos se desvanece del 30 % al 75 % (4.5 no fija el alcance).
   - Muestra interna en `/es/muestra-diseno/` y `/en/design-sample/` con `noindex, nofollow`; E180-I02 la excluye del sitemap.
 - **Consecuencias:** E30-I01 solo agrega o quita la clase `dark`. Todo color nuevo exige un token en `DESIGN.md`.
-- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
 
 ## ADR-043 · Fuentes con la API de fuentes de Astro (proveedor local) e íconos SVG propios
 - **Contexto:** E20-I03, ADR-041. Verificado el 29-10-2026 en https://docs.astro.build/en/guides/fonts/, https://docs.astro.build/en/reference/configuration-reference/ y https://docs.astro.build/en/reference/font-provider-reference/: la API de fuentes es estable desde astro@6.0.0 (opción `fonts` de primer nivel), tiene proveedor local `fontProviders.local()`, el componente `<Font />` de `astro:assets` con `preload` filtrable, genera respaldos métricos a partir del último respaldo genérico y copia los archivos a `_astro/fonts`. AT-016: el sitio actual carga Material Symbols completo para unos 57 íconos.
@@ -353,7 +353,8 @@ Reglas del registro:
   - **Íconos:** componente `src/components/ui/Icon.astro`, decorativo por defecto (`aria-hidden`, `focusable="false"`) y con `label` opcional (`role="img"`). Datos en `src/components/ui/icons.ts`: íconos de línea **propios** en retícula de 24 px y trazo de 1,6 px (DESIGN.md 7.14), y los 5 SVG de marca del sitio actual (LinkedIn, GitHub, REUF, correo y Discord, tomados de `main:index.html`), con `currentColor`.
   - **Inventario:** el conjunto base cubre los íconos de sistema de `DESIGN.md` 7 (menu, close, chevron-down, flechas, download, external-link, sun, moon, check, info, alert, star y mail). Los íconos propios de cada página del inventario de Material Symbols (`school`, `verified`, `workspace_premium`, `history_edu`, `groups`, `event_*`, `forum`, `terminal`, etc.) se dibujan en la épica de esa página y se agregan a `icons.ts`. Ninguna página carga Material Symbols.
 - **Consecuencias:** resuelve AT-016 y AT-017. Cada épica de página suma sus íconos al mismo módulo. Una actualización de las fuentes exige descargar de nuevo y actualizar este ADR.
-- **Origen:** E20-I03, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+  - Nota (ADR-044): el SVG de marca de Discord se retiró de `icons.ts`; las redes de marca son 4 (LinkedIn, GitHub, REUF y correo). 
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
 
 ## ADR-044 · Discord sale de las redes del sitio
 - **Contexto:** `DESIGN.md` v1 (ADR-039) y el sitio actual listan 5 redes: LinkedIn, GitHub, REUF, correo y Discord. Felipe Cuevas decide dejar de publicar el vínculo a Discord.
@@ -375,7 +376,26 @@ Reglas del registro:
   - **Inicio:** no importa el módulo ni usa `data-reveal` (`DESIGN.md` 8). Las páginas que lo necesiten lo importan en su épica.
   - **Tokens:** `@theme static`, para que se emitan todas las variables aunque ninguna clase las use (la muestra y los estilos en línea las leen; ver AT-055).
 - **Consecuencias:** resuelve AT-018 y la parte de movimiento de AT-040. El script de tema único del `<head>` sigue en E30-I01. No se vuelve a usar AOS.
-- **Origen:** E20-I04, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+  - Punto de prueba: confirmar en la primera página que use `data-reveal` que, al imprimir, ningún bloque queda oculto.
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-046 · Primitivas de componentes y variables de componente por tema
+- **Contexto:** E20-I05. `DESIGN.md` 7.3, 7.6 y 7.7 fijan valores distintos por tema que no equivalen a un semántico de 4.2: fondo de hover del botón de ícono, colores de la flecha, contorno de la tarjeta en oscuro, colores de la etiqueta y trazo de la estrella. La sección 9 prohíbe `dark:` para el color.
+- **Decisión:**
+  - **Primitivas** en `src/components/ui/`, sin JavaScript de cliente:
+    - `Container`, `GoldRule`, `Tag`, `SectionHeader` (`left`, `center` y `band`, con `level` para no saltar niveles), `Button` (`primary`, `secondary` y `gold`; enlace o `<button>`; `size="bar"` de 44 px), `IconButton` (`icon` 44 × 44 y `arrow` 54 × 54, con `label` obligatorio), `Card`, `TestimonialCard`, `Band`, `ThemeStripe` y `ExternalLink`;
+    - estilos con `<style>` acotado al componente y solo variables de tokens.
+  - **Variables de componente:** se declaran en `global.css` (`:root` y `.dark`) con valores tomados de la paleta y de `DESIGN.md` 7: `--button-primary-*`, `--button-icon-hover-bg`, `--button-arrow-hover-*`, `--card-outline*`, `--chip-*` y `--star-stroke`. No son tokens nuevos de diseño: traducen a CSS los valores por tema que `DESIGN.md` ya fija.
+  - **Equivalencias con semánticos:**
+    - el primario usa `text` y `bg` invertidos (claro `orient-950`/blanco, oscuro `orient-50`/`orient-950`) y `accent` al pasar;
+    - el texto del secundario al pasar usa `heading`.
+  - **Foco global:** `:focus-visible` con 2 px `focus` y 2 px de separación (7.3).
+  - **Franja temática:** `reverse` reordena las zonas con la grilla desde 1.024 px; el HTML siempre va título → contenido. Proporción 5/12 y 7/12, y fondo `band` (retícula) o `bg`.
+  - **Testimonio:** en `en-US` agrega "Translated from Spanish" (ADR-017); la nota de 5 estrellas va en texto para lectores de pantalla.
+  - **Enlace externo:** se usa sobre `bg` o `surface`. Sobre `band` lleva `text` y no `accent`, porque es texto pequeño (4.3).
+  - **Impresión:** `[data-reveal]` siempre visible en `@media print` (punto de prueba de ADR-045).
+- **Consecuencias:** resuelve AT-052. Riel social, selector de idioma, botón de apariencia, navbar, pie, formularios, aviso y carrusel se construyen en E30, E40 y E140 sobre estas primitivas.
+- **Origen:** E20-I05, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
 
 ---
 

@@ -1,5 +1,5 @@
 # E20 · Sistema de diseño
-- **Prioridad de la épica:** P0 · **Estado:** [~] En curso
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (29-10-2026)
 
 ## Objetivo
 Definir el `DESIGN.md` nuevo, más elegante y tecnológico, a partir de los prototipos aprobados por Felipe (ADR-039), y materializarlo en tokens de Tailwind v4, tipografía autoalojada, iconografía sin fuentes de íconos, movimiento sin AOS y primitivas de componentes.
@@ -26,16 +26,16 @@ E10 (en particular E10-I03).
 | [E20-I02](E20-I02-tokens-tema.md) | Tokens en @theme y tema claro/oscuro | P0 | M | E20-I01 | [x] Terminada |
 | [E20-I03](E20-I03-tipografia-iconos.md) | Tipografía autoalojada e iconografía SVG | P0 | M | E20-I02 | [x] Terminada |
 | [E20-I04](E20-I04-movimiento-sin-aos.md) | Sistema de movimiento sin AOS | P0 | M | E20-I02 | [x] Terminada |
-| [E20-I05](E20-I05-primitivas.md) | Primitivas de componentes | P0 | M | E20-I03, E20-I04 | [ ] Pendiente |
+| [E20-I05](E20-I05-primitivas.md) | Primitivas de componentes | P0 | M | E20-I03, E20-I04 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
 - [x] `DESIGN.md` no tiene secciones "por definir" que bloqueen E30 o E40.
-- [ ] Todos los colores, tipografías y espaciados del proyecto provienen de tokens.
+- [x] Todos los colores, tipografías y espaciados del proyecto provienen de tokens.
 - [x] El sitio no carga fuentes ni scripts desde Google Fonts ni AOS (E20-I03 y E20-I04).
-- [ ] Las primitivas funcionan en claro y oscuro, con teclado y con movimiento reducido.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [x] Las primitivas funcionan en claro y oscuro, con teclado y con movimiento reducido.
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 - [x] `DESIGN.md` documenta la regla de composición por página y los patrones de Inicio y Educación (ADR-036).
-- [ ] Ningún contenido, logotipo ni dependencia externa de los prototipos llegó al proyecto (ADR-039, AT-050).
+- [x] Ningún contenido, logotipo ni dependencia externa de los prototipos llegó al proyecto (ADR-039, AT-050).
 
 ## Riesgos
 - Rediseñar demasiado y alterar el logotipo (D-08 lo protege; los prototipos traen otro logotipo que no se usa).

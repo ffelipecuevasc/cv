@@ -264,3 +264,51 @@
 @utility texture-portrait {
   background-image: var(--portrait-fill);
 }
+
+/*
+ * Variables de componente por tema (DESIGN.md 7.3, 7.6 y 7.7, ADR-046). Derivan de la
+ * paleta y los semánticos; los componentes las leen sin usar `dark:`.
+ */
+:root {
+  --button-primary-bg: var(--color-orient-950);
+  --button-primary-fg: var(--color-white);
+  --button-icon-hover-bg: var(--color-stone);
+  --button-arrow-hover-bg: var(--color-orient-950);
+  --button-arrow-hover-fg: var(--color-gold);
+  --card-outline: transparent;
+  --card-outline-hover: transparent;
+  --chip-border: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  --chip-bg: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  --chip-fg: var(--color-orient-800);
+  --star-stroke: var(--color-gold-deep);
+}
+
+.dark {
+  --button-primary-bg: var(--color-orient-50);
+  --button-primary-fg: var(--color-orient-950);
+  --button-icon-hover-bg: color-mix(in srgb, var(--color-orient-50) 5%, transparent);
+  --button-arrow-hover-bg: var(--color-gold);
+  --button-arrow-hover-fg: var(--color-orient-950);
+  --card-outline: color-mix(in srgb, var(--color-orient-50) 6%, transparent);
+  --card-outline-hover: color-mix(in srgb, var(--color-vibrant) 25%, transparent);
+  --chip-border: color-mix(in srgb, var(--color-vibrant) 30%, transparent);
+  --chip-bg: color-mix(in srgb, var(--color-white) 4%, transparent);
+  --chip-fg: color-mix(in srgb, var(--color-orient-50) 85%, transparent);
+  --star-stroke: var(--color-gold);
+}
+
+/* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* ADR-045: al imprimir, ningún bloque con aparición queda oculto. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+  }
+}
