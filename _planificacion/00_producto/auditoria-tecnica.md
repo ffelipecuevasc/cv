@@ -255,7 +255,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** JSON-LD Event cuando se agende.
 
 ### AT-051 · Pares de color de los prototipos bajo el contraste AA
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I01 (tokens corregidos en `DESIGN.md` v1, ADR-040)
+- **Severidad:** Media · **Estado:** Resuelto en E20-I01 (29-10-2026: tabla 4.4 recalculada, diferencia máxima 0,04; ningún par bajo AA) · **Resuelve:** E20-I01 (tokens corregidos en `DESIGN.md` v1, ADR-040)
 - **Evidencia (calculada el 29-10-2026 con la fórmula de WCAG 2.2, componiendo la transparencia):**
   - claro: `#00131D` al 55 % sobre blanco (4,20:1) y sobre `#E4F3FF` (4,06:1), y al 50 % (3,57:1 y 3,47:1), en texto de 11,5 a 14 px (`prototipos/felipe-cuevas-ia.html:121`, `:209`, `:327`, `:450`);
   - claro: contorno de foco `#00B0E8` sobre blanco (2,51:1, se exige 3:1) (`:101`);
@@ -265,7 +265,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** opacidad mínima del 60 % para texto, foco `primary` en claro, trazo `gold-deep` en las estrellas y avatares sin `orient-400` (ADR-040).
 
 ### AT-052 · Controles de los prototipos bajo la zona táctil mínima
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E20-I05 (especificado en `DESIGN.md` v1, 7.2 y 7.3)
+- **Severidad:** Baja · **Estado:** Abierto; avance en E20-I01: `DESIGN.md` v1 fija 44 px en el botón de apariencia, el selector de idioma y "Descargar CV" (7.2, 7.3 y 8) · **Resuelve:** E20-I05 (especificado en `DESIGN.md` v1, 7.2 y 7.3)
 - **Evidencia:** el botón de apariencia (`.icon-btn`), el selector de idioma (`.lang`) y "CV (PDF)" (`!h-10`) miden 40 px de alto (`prototipos/felipe-cuevas-ia.html:53`, `:55`, `:131`).
 - **Impacto:** `DESIGN.md` 7 exige una zona táctil de al menos 44 px.
 - **Recomendación:** 44 × 44 px como mínimo en todos los controles.
@@ -310,7 +310,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reevaluar con ADR nuevo cuando ocurra.
 
 ### AT-050 · Dependencias externas y contenido ficticio en los prototipos
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
+- **Severidad:** Media · **Estado:** Resuelto parcialmente en E20-I01 (`DESIGN.md` 12 documenta las exclusiones; los prototipos no llegan a `dist/` y Prettier, ESLint y Tailwind no los procesan); queda la verificación de cero solicitudes externas en E20-I03 · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
 - **Evidencia:** los prototipos cargan Cinzel y Josefin Sans desde Google Fonts (`prototipos/felipe-cuevas-ia.html:9-11`), Tailwind Play CDN 3.4.17 con configuración en línea (`:12-28`) y un retrato de Unsplash (`:174`). Sus textos, cifras, empresas, correo y testimonios son ficticios (por ejemplo `:153`, `:194`, `:390`).
 - **Impacto:** copiarlos contradiría E20-I03, ADR-004 y ADR-029, y publicaría contenido falso.
 - **Recomendación:** tomar de los prototipos solo el diseño; contenido desde `main`, Tailwind 4 local y fuentes autoalojadas (ADR-041).

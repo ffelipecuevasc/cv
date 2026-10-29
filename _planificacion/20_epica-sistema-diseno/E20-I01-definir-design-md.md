@@ -1,5 +1,5 @@
 # E20-I01 · Definición del DESIGN.md v1
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E20 · Sistema de diseño · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E10-I03 · **Hallazgos que cierra:** AT-051 · **ADR relacionados:** ADR-008, ADR-010, ADR-033, ADR-036, ADR-039, ADR-040, ADR-041
 
@@ -28,27 +28,27 @@ Incorporar `DESIGN.md` v1, que plasma los prototipos aprobados por Felipe, y ver
 - Usar contenido de los prototipos.
 
 ## Tareas
-- [ ] Confirmar que `DESIGN.md` v1 está en la raíz y los dos prototipos en `prototipos/`.
-- [ ] Confirmar que las secciones 2 y 3 de `DESIGN.md` son idénticas a las del esqueleto v0.
-- [ ] Recalcular la tabla de contrastes de la sección 4.4 con un script temporal fuera del repositorio y sin dependencias, e informar cualquier diferencia mayor a 0,05.
-- [ ] Confirmar que no quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
-- [ ] Confirmar que cada color de 4.1 está en la escala original o en ADR-040, y que las referencias internas (secciones 4, 7, 9 y 11) son coherentes.
-- [ ] Confirmar que el hero de 7.4 conserva todos los elementos de la lista de E40-I01.
-- [ ] Confirmar que `pnpm build` no copia los prototipos a `dist/` y que Prettier, ESLint y Tailwind no los procesan.
-- [ ] Marcar AT-051 como resuelto y anotar el avance de AT-050 y AT-052.
+- [x] Confirmar que `DESIGN.md` v1 está en la raíz y los dos prototipos en `prototipos/`.
+- [x] Confirmar que las secciones 2 y 3 de `DESIGN.md` son idénticas a las del esqueleto v0.
+- [x] Recalcular la tabla de contrastes de la sección 4.4 con un script temporal fuera del repositorio y sin dependencias, e informar cualquier diferencia mayor a 0,05.
+- [x] Confirmar que no quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
+- [x] Confirmar que cada color de 4.1 está en la escala original o en ADR-040, y que las referencias internas (secciones 4, 7, 9 y 11) son coherentes.
+- [x] Confirmar que el hero de 7.4 conserva todos los elementos de la lista de E40-I01.
+- [x] Confirmar que `pnpm build` no copia los prototipos a `dist/` y que Prettier, ESLint y Tailwind no los procesan.
+- [x] Marcar AT-051 como resuelto y anotar el avance de AT-050 y AT-052.
 
 ## Archivos previstos (crear / modificar)
 - Ninguno de código ni `DESIGN.md`.
 - Modificar: estado de la iteración y de la épica, `_planificacion/README.md`, `registro-log.md`, `auditoria-tecnica.md` y bitácora.
 
 ## Criterios de aceptación (verificables)
-- [ ] `DESIGN.md` v1 en la raíz y los dos prototipos en `prototipos/`.
-- [ ] No quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
-- [ ] Cada par de color declarado cumple WCAG 2.2 AA y la tabla recalculada coincide con la de `DESIGN.md`.
-- [ ] Las secciones 2 y 3 son idénticas a las del esqueleto.
-- [ ] `DESIGN.md` tiene la sección "Composición por página" con la regla general, el catálogo y los patrones de Inicio y Educación (ADR-036).
-- [ ] Los prototipos no aparecen en `dist/`.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] `DESIGN.md` v1 en la raíz y los dos prototipos en `prototipos/`.
+- [x] No quedan valores "por definir" en color, tipografía, espaciado ni en los componentes navbar, hero y footer.
+- [x] Cada par de color declarado cumple WCAG 2.2 AA y la tabla recalculada coincide con la de `DESIGN.md`.
+- [x] Las secciones 2 y 3 son idénticas a las del esqueleto.
+- [x] `DESIGN.md` tiene la sección "Composición por página" con la regla general, el catálogo y los patrones de Inicio y Educación (ADR-036).
+- [x] Los prototipos no aparecen en `dist/`.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -63,7 +63,7 @@ Incorporar `DESIGN.md` v1, que plasma los prototipos aprobados por Felipe, y ver
 - Si `DESIGN.md` necesita una corrección, la redacta el asesor y la pega Felipe.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
