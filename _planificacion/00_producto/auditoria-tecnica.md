@@ -219,13 +219,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance:** E10-I07 deja `lang="es-CL"` y `lang="en-US"` por página. Sigue abierto: faltan `hreflang`, `x-default` y metadatos por idioma.
 
 ### AT-016 · Fuente de íconos completa
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I03
+- **Severidad:** Media · **Estado:** Resuelto en E20-I03 (componente `Icon.astro` con SVG en línea; sin Material Symbols, ADR-043) · **Resuelve:** E20-I03
 - **Evidencia:** `index.html:36` carga Material Symbols Outlined con ejes `wght` 100–700 y `FILL` 0–1, para ~57 íconos distintos.
 - **Impacto:** peso y bloqueo de render.
 - **Recomendación:** íconos SVG en línea.
 
 ### AT-017 · Lexend con 7 pesos desde Google Fonts
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E20-I03
+- **Severidad:** Media · **Estado:** Resuelto en E20-I03 (Lexend solo en 700, autoalojada con la API de fuentes; sin Google Fonts, ADR-043) · **Resuelve:** E20-I03
 - **Evidencia:** `index.html:34`.
 - **Impacto:** solicitudes a terceros y peso.
 - **Recomendación:** autoalojar los pesos necesarios.
@@ -310,7 +310,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** reevaluar con ADR nuevo cuando ocurra.
 
 ### AT-050 · Dependencias externas y contenido ficticio en los prototipos
-- **Severidad:** Media · **Estado:** Resuelto parcialmente en E20-I01 (`DESIGN.md` 12 documenta las exclusiones; los prototipos no llegan a `dist/` y Prettier, ESLint y Tailwind no los procesan); queda la verificación de cero solicitudes externas en E20-I03; avance en E20-I02: `dist/` sin referencias a Google Fonts ni CDN · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
+- **Severidad:** Media · **Estado:** Resuelto en E20-I01 y E20-I03 (`DESIGN.md` 12 documenta las exclusiones; los prototipos no llegan a `dist/` y Prettier, ESLint y Tailwind no los procesan); y E20-I03 verificó cero solicitudes externas en `dist/` (fuentes en `_astro/fonts`) · **Resuelve:** E20-I01 (documentado en `DESIGN.md` v1, 12) y E20-I03 (verificación de cero solicitudes externas)
 - **Evidencia:** los prototipos cargan Cinzel y Josefin Sans desde Google Fonts (`prototipos/felipe-cuevas-ia.html:9-11`), Tailwind Play CDN 3.4.17 con configuración en línea (`:12-28`) y un retrato de Unsplash (`:174`). Sus textos, cifras, empresas, correo y testimonios son ficticios (por ejemplo `:153`, `:194`, `:390`).
 - **Impacto:** copiarlos contradiría E20-I03, ADR-004 y ADR-029, y publicaría contenido falso.
 - **Recomendación:** tomar de los prototipos solo el diseño; contenido desde `main`, Tailwind 4 local y fuentes autoalojadas (ADR-041).
@@ -527,13 +527,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** en E190-I01, pasar `workers_dev` a `false` o asegurar `noindex` en esa URL, con consulta previa a Felipe.
 
 ### AT-049 · `public/.gitkeep` se publica en el sitio
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E20-I03 (primer archivo real en `public/`) o E170-I04
+- **Severidad:** Baja · **Estado:** Resuelto en E20-I03 (se eliminó `public/.gitkeep` y la carpeta vacía; las fuentes viven en `src/assets/fonts/`, y `dist/` ya no publica el archivo) · **Resuelve:** E20-I03 (primer archivo real en `public/`) o E170-I04
 - **Evidencia:** `public/.gitkeep` (de E10-I02) se copia a `dist/.gitkeep`; `https://felipecuevas-dev.felipe-cuevas.workers.dev/.gitkeep` responde 200.
 - **Impacto:** un archivo vacío e inútil queda público; sin riesgo de seguridad.
 - **Recomendación:** borrar `public/.gitkeep` cuando `public/` tenga su primer archivo real (favicon o fuentes), o excluirlo de `assets` con un `.assetsignore` (consulta previa: es configuración de despliegue).
 
 ### AT-054 · Texto sobre las líneas de la retícula en la banda oscura bajo AA
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con el asesor (corrección en `DESIGN.md` 4.4/4.5, ADR-033); se verifica en E20-I05 y E170-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E20-I03 (29-10-2026): retícula oscura al 5 % (`text-soft` 4,57) y `accent` sobre `band` solo en texto grande (4,42 ≥ 3), según `DESIGN.md` 4.3, 4.4 y 4.5; se agregó `--color-heading` (4.2 y 9) · **Resuelve:** por decidir con el asesor (corrección en `DESIGN.md` 4.4/4.5, ADR-033); se verifica en E20-I05 y E170-I01
 - **Evidencia (E20-I02, 29-10-2026, fórmula de WCAG 2.2 componiendo la transparencia):** en oscuro, la banda es un degradado `orient-800` → `orient-925` con líneas `vibrant` al 8 % cada 48 px (`DESIGN.md` 4.5, `src/styles/global.css`, utilidad `texture-band`). Sobre una línea y en el punto más claro del degradado, `text-soft` da **4,41:1** y `accent` **4,20:1** (en liso, 4,86 y 4,80). El kicker dorado (6,93) y el blanco al 60 % (4,84) cumplen. En claro, `text-soft` sobre una línea de la retícula da 4,63 y cumple.
 - **Impacto:** los píxeles de texto que caen sobre una línea de 1 px quedan bajo 4,5:1 (1.4.3). El efecto es local y pequeño, pero la tabla 4.4 no lo refleja.
 - **Recomendación:** que el asesor elija una de estas opciones en `DESIGN.md`: bajar las líneas oscuras al 5 % (o menos), usar `orient-50` al 70 % como texto secundario dentro de la banda oscura, o limitar `accent` en la banda oscura a texto grande. El agente no cambia el token hasta que `DESIGN.md` lo indique.

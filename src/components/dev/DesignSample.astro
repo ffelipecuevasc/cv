@@ -7,7 +7,11 @@
 interface Props {
   lang: 'es' | 'en';
 }
+import { Font } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import { brandIcons, lineIcons, type IconName } from '../ui/icons';
 const { lang } = Astro.props;
+const iconNames = [...Object.keys(lineIcons), ...Object.keys(brandIcons)] as IconName[];
 const t =
   lang === 'es'
     ? {
@@ -18,6 +22,9 @@ const t =
         semantic: 'Semánticos (4.2)',
         shadows: 'Sombras (7.13)',
         textures: 'Texturas (4.5)',
+        type: 'Tipografía (5)',
+        icons: 'Íconos (7.14)',
+        pangram: '¿Qué año? ¡Ñandú! Pingüino, cigüeña, acción: Árbol Éxito Íntimo Óvalo Último.',
         contrast: 'Contrastes medidos en el navegador (4.4)',
         pair: 'Par',
         ratio: 'Contraste',
@@ -32,6 +39,9 @@ const t =
         semantic: 'Semantic tokens (4.2)',
         shadows: 'Shadows (7.13)',
         textures: 'Textures (4.5)',
+        type: 'Typography (5)',
+        icons: 'Icons (7.14)',
+        pangram: 'The quick brown fox jumps over the lazy dog: 0123456789.',
         contrast: 'Contrast measured in the browser (4.4)',
         pair: 'Pair',
         ratio: 'Contrast',
@@ -66,6 +76,7 @@ const semantic = [
   'band',
   'footer',
   'text',
+  'heading',
   'text-muted',
   'text-soft',
   'accent',
@@ -77,7 +88,7 @@ const semantic = [
   'focus',
 ];
 
-// Pares de la tabla 4.4: [texto, fondo, umbral]. 'band-grid' es la banda clara con retícula.
+// Pares de la tabla 4.4: [texto, fondo, umbral]. 'band-grid' es la banda sobre una línea de la retícula.
 const pairs = {
   light: [
     ['text', 'bg', 4.5],
@@ -89,6 +100,7 @@ const pairs = {
     ['text-soft', 'bg-alt', 4.5],
     ['text-soft', 'band', 4.5],
     ['text-soft', 'band-grid', 4.5],
+    ['heading', 'bg', 4.5],
     ['accent', 'bg', 4.5],
     ['accent', 'bg-alt', 3],
     ['accent', 'band', 3],
@@ -133,6 +145,11 @@ const pairs = {
     ['focus', 'bg', 3],
     ['focus', 'surface', 3],
     ['gold', 'surface', 3],
+    ['heading', 'bg', 4.5],
+    ['heading', 'band', 4.5],
+    ['text-soft', 'band-grid', 4.5],
+    // accent sobre band: solo texto grande (DESIGN.md 4.3).
+    ['accent', 'band-grid', 3],
   ],
 } as const;
 const themes = [
@@ -147,6 +164,9 @@ const themes = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{t.title} · Felipe Cuevas</title>
+    <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-cinzel" preload />
+    <Font cssVariable="--font-lexend" />
   </head>
   <body class="font-sans">
     <main class="grid lg:grid-cols-2">
@@ -192,6 +212,31 @@ const themes = [
             <li class="bg-surface p-4 text-xs shadow-card-hover">card-hover</li>
             <li class="bg-surface p-4 text-xs shadow-float">float</li>
             <li class="bg-surface p-4 text-xs shadow-rail">rail</li>
+          </ul>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.type}</h3>
+          <div class="mt-4 space-y-3">
+            <p class="font-display text-5xl leading-tight font-medium">Felipe Cuevas · h1 500</p>
+            <p class="font-display text-4xl font-normal">Cinzel 400 · 2026</p>
+            <p class="font-display text-2xl font-semibold tabular-nums">Cinzel 600 · 01 / 04</p>
+            <p class="font-light text-lg text-text-muted">Josefin 300 · {t.pangram}</p>
+            <p class="font-light italic text-lg text-accent">Josefin 300 italic · {t.pangram}</p>
+            <p>Josefin 400 · {t.pangram}</p>
+            <p class="italic">Josefin 400 italic · {t.pangram}</p>
+            <p class="font-semibold text-sm uppercase tracking-[0.14em]">
+              Josefin 600 · {t.pangram}
+            </p>
+            <p class="font-logo text-xl font-bold tracking-tight">Felipe Cuevas · Lexend 700</p>
+          </div>
+
+          <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.icons}</h3>
+          <ul class="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-7">
+            {iconNames.map((name) => (
+              <li class="flex flex-col items-center gap-1 text-xs text-text-soft">
+                <Icon name={name} class="text-icon" />
+                {name}
+              </li>
+            ))}
           </ul>
 
           <h3 class="mt-8 text-sm uppercase tracking-[0.22em] text-kicker">{t.textures}</h3>
@@ -260,7 +305,7 @@ const themes = [
         if (!scope || !body) continue;
         const pairs = JSON.parse(table.dataset.pairs ?? '[]') as [string, string, number][];
         for (const [fg, bg, min] of pairs) {
-          // Banda clara con retícula: el píxel desfavorable es el de la línea (primary al 7 %).
+          // Banda con retícula: el píxel desfavorable es el de la línea (en oscuro, sobre orient-800).
           const bgLayers =
             bg === 'band-grid'
               ? [

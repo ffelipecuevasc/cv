@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E20 · **Iteración actual:** E20-I03 (E20-I02 terminada el 29-10-2026)
-- **Resumen:** 20 épicas · 53 iteraciones · 11 terminadas
+- **Épica actual:** E20 · **Iteración actual:** E20-I04 (E20-I03 terminada el 29-10-2026)
+- **Resumen:** 20 épicas · 53 iteraciones · 12 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -27,7 +27,7 @@
 |---|---|---|---|---|---|
 | P0 | E20-I01 | Definición del DESIGN.md v1 | M | E10-I03 | [x] Terminada |
 | P0 | E20-I02 | Tokens en @theme y tema claro/oscuro | M | E20-I01 | [x] Terminada |
-| P0 | E20-I03 | Tipografía autoalojada e iconografía SVG | M | E20-I02 | [ ] Pendiente |
+| P0 | E20-I03 | Tipografía autoalojada e iconografía SVG | M | E20-I02 | [x] Terminada |
 | P0 | E20-I04 | Sistema de movimiento sin AOS | M | E20-I02 | [ ] Pendiente |
 | P0 | E20-I05 | Primitivas de componentes | M | E20-I03, E20-I04 | [ ] Pendiente |
 

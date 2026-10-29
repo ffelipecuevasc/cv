@@ -130,7 +130,8 @@ No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y 
 | `surface` | `white` | `orient-900` | Tarjetas, riel social, menús desplegables |
 | `band` | `orient-50` + retícula | degradado + retícula (4.5) | Franjas de ancho completo |
 | `footer` | `orient-50` | `orient-950` | Pie |
-| `text` | `orient-950` | `orient-50`; titulares `white` | Texto principal |
+| `text` | `orient-950` | `orient-50` | Texto principal |
+| `heading` | `orient-950` | `white` | Titulares (h1 a h3) |
 | `text-muted` | `orient-950` al 70 % | `orient-50` al 75 % | Párrafos |
 | `text-soft` | `orient-950` al 60 % | `orient-50` al 60 % | Descripciones, cargos, rótulos `dt`, barra inferior del pie. **Es la opacidad mínima para texto.** |
 | `accent` | `primary` | `vibrant` | Parte destacada del titular, enlaces destacados, programa del testimonio |
@@ -148,6 +149,7 @@ No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y 
 - `gold` nunca es texto sobre fondo claro; en claro, las estrellas llevan trazo `gold-deep`.
 - Signos "+", "%" y "/ 5" de las cifras: `primary` en claro y `gold` en oscuro, siempre a tamaño de display.
 - Avatares de iniciales: fondo `orient-800`, `primary` u `orient-600`, con texto blanco. No se usa `orient-400` de fondo con texto blanco (3,39:1).
+- `accent` sobre `band`, en claro y en oscuro, se usa solo en texto grande (24 px o más, o 18,66 px en negrita). En texto pequeño dentro de la banda se usa `text` o `text-soft`.
 
 ### 4.4 Contrastes WCAG 2.2 (verificados el 29-10-2026)
 Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobre el fondo real. Umbral: 4,5:1 texto normal; 3:1 texto grande (≥ 24 px, o ≥ 18,66 px en negrita) y elementos no textuales.
@@ -174,8 +176,9 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | `text` | `bg` / `bg-alt` / `surface` | 16,71 / 15,79 / 14,75 | 4,5 | Cumple |
 | Titulares blancos | `bg` | 18,90 | 4,5 | Cumple |
 | `text-muted` | `bg` / `surface` | 9,60 / 8,74 | 4,5 | Cumple |
-| `text-soft` | `bg` / `bg-alt` / `surface` / `band` (`orient-800`) | 6,47 / 6,29 / 6,05 / 4,86 | 4,5 | Cumple |
-| `accent` | `bg` / `bg-alt` / `surface` / `band` | 7,54 / 7,12 / 6,65 / 4,80 | 4,5 | Cumple |
+| `text-soft` | `bg` / `bg-alt` / `surface` / `band` (`orient-800`, sobre una línea de la retícula al 5 %) | 6,47 / 6,29 / 6,05 / 4,57 | 4,5 | Cumple |
+| `accent` | `bg` / `bg-alt` / `surface` | 7,54 / 7,12 / 6,65 | 4,5 | Cumple |
+| `accent` | `band` (sobre una línea de la retícula al 5 %) | 4,42 | 3 (solo texto grande) | Cumple |
 | `kicker` e `icon` | `bg` / `bg-alt` / `surface` | 5,57 / 5,26 / 4,92 | 4,5 | Cumple |
 | `kicker` dorado | `band` en su punto más claro | 7,92 | 4,5 | Cumple |
 | Blanco al 60 % | `band` | 5,34 | 4,5 | Cumple |
@@ -189,7 +192,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 ### 4.5 Fondos con textura
 - **Campo de puntos (hero):** dos capas. Puntos de 1,1 px cada 22 px en `primary` al 30 % (oscuro: `vibrant` al 26 %) y puntos dorados de 1,2 px cada 132 px al 55 % (oscuro: 50 %), desplazados 11 px. Máscara radial elíptica centrada en 60 % / 45 %, que se desvanece hacia los bordes.
 - **Halo (solo oscuro, hero):** degradado radial de 44 × 30 rem en 78 % / 40 %, `primary` al 22 %.
-- **Retícula (band):** líneas de 1 px cada 48 px. Claro: `primary` al 7 % sobre `orient-50`, con bordes superior e inferior `primary` al 14 %. Oscuro: `vibrant` al 8 % sobre un degradado de 160° `orient-800` → `orient-900` (60 %) → `orient-925`.
+- **Retícula (band):** líneas de 1 px cada 48 px. Claro: `primary` al 7 % sobre `orient-50`, con bordes superior e inferior `primary` al 14 %. Oscuro: `vibrant` al 5 % sobre un degradado de 160° `orient-800` → `orient-900` (60 %) → `orient-925`.
 - **Marco del retrato:** panel `orient-800` con puntos de 1 px cada 18 px en `vibrant` al 35 % (oscuro: 40 %).
 - **Fondo del retrato (mientras carga la imagen):** claro, degradado `orient-50` → `orient-200`; oscuro, `orient-800` → `primary` → `orient-400`.
 
@@ -378,7 +381,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - No se usan colores, tamaños ni sombras arbitrarias fuera de los tokens, salvo con una justificación escrita en la iteración.
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
-  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;
+  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;
   - familias: `--font-display`, `--font-sans`, `--font-logo`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;

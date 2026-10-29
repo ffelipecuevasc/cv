@@ -1,0 +1,64 @@
+---
+/*
+ * Ícono SVG en línea (DESIGN.md 7.14). Decorativo por defecto (aria-hidden).
+ * Si el ícono es el único contenido de un control, el nombre accesible va en el
+ * control; usa `label` solo cuando el ícono transmite información por sí mismo.
+ */
+import { brandIcons, lineIcons, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  /** Tamaño en px (ancho y alto). */
+  size?: number;
+  /** Texto alternativo: si se entrega, el ícono deja de ser decorativo. */
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 24, label, class: className } = Astro.props;
+const a11y = label
+  ? { role: 'img' as const, 'aria-label': label }
+  : { 'aria-hidden': 'true' as const };
+const brand = name in brandIcons ? brandIcons[name as keyof typeof brandIcons] : undefined;
+const line = name in lineIcons ? lineIcons[name as keyof typeof lineIcons] : undefined;
+---
+
+{brand ? (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={brand.viewBox}
+    width={size}
+    height={size}
+    fill="currentColor"
+    focusable="false"
+    class={className}
+    {...a11y}
+  >
+    {brand.paths.map((p) => (
+      <path
+        d={p.d}
+        fill-rule={p.evenodd ? 'evenodd' : undefined}
+        clip-rule={p.evenodd ? 'evenodd' : undefined}
+      />
+    ))}
+  </svg>
+) : (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    focusable="false"
+    class={className}
+    {...a11y}
+  >
+    {line?.map((d) => (
+      <path d={d} />
+    ))}
+  </svg>
+)}

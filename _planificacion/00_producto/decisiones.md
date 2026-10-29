@@ -339,6 +339,22 @@ Reglas del registro:
 - **Consecuencias:** E30-I01 solo agrega o quita la clase `dark`. Todo color nuevo exige un token en `DESIGN.md`.
 - **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
 
+## ADR-043 · Fuentes con la API de fuentes de Astro (proveedor local) e íconos SVG propios
+- **Contexto:** E20-I03, ADR-041. Verificado el 29-10-2026 en https://docs.astro.build/en/guides/fonts/, https://docs.astro.build/en/reference/configuration-reference/ y https://docs.astro.build/en/reference/font-provider-reference/: la API de fuentes es estable desde astro@6.0.0 (opción `fonts` de primer nivel), tiene proveedor local `fontProviders.local()`, el componente `<Font />` de `astro:assets` con `preload` filtrable, genera respaldos métricos a partir del último respaldo genérico y copia los archivos a `_astro/fonts`. AT-016: el sitio actual carga Material Symbols completo para unos 57 íconos.
+- **Decisión:**
+  - **Fuentes:** API de fuentes de Astro con `fontProviders.local()`, sin dependencias nuevas. Archivos WOFF2 **variables**, subconjunto latino (U+0000–00FF y signos comunes; cubre á é í ó ú ü ñ ¿ ¡), descargados una sola vez del repositorio de Google Fonts y versionados en `src/assets/fonts/` con su `OFL-*.txt`. Ni el build ni el sitio hacen solicitudes externas.
+    - Cinzel: un archivo variable acotado a `400 600` (cubre 400, 500 y 600), 25,3 KB.
+    - Josefin Sans: normal `300 600` (27,9 KB) y cursiva `300 400` (30,4 KB).
+    - Lexend: 700 (14,5 KB), solo para el logotipo.
+    - Total: 98 KB.
+  - **Respaldos:** Georgia → `serif` (Cinzel), `system-ui` → `sans-serif` (Josefin) y `sans-serif` (Lexend), con `optimizedFallbacks` activo (Astro genera `size-adjust` y los ajustes de ascendente y descendente contra CLS). `font-display: swap`.
+  - **Precarga:** solo Josefin normal (texto) y Cinzel (h1). Lexend y la cursiva no se precargan; E30-I03 reevalúa Lexend si el logotipo produce CLS o un FOUT visible.
+  - Tokens `--font-display`, `--font-sans` y `--font-logo` apuntan a las variables que genera Astro. `<Font />` va en el `<head>`; E30-I01 lo traslada al `BaseLayout`.
+  - **Íconos:** componente `src/components/ui/Icon.astro`, decorativo por defecto (`aria-hidden`, `focusable="false"`) y con `label` opcional (`role="img"`). Datos en `src/components/ui/icons.ts`: íconos de línea **propios** en retícula de 24 px y trazo de 1,6 px (DESIGN.md 7.14), y los 5 SVG de marca del sitio actual (LinkedIn, GitHub, REUF, correo y Discord, tomados de `main:index.html`), con `currentColor`.
+  - **Inventario:** el conjunto base cubre los íconos de sistema de `DESIGN.md` 7 (menu, close, chevron-down, flechas, download, external-link, sun, moon, check, info, alert, star y mail). Los íconos propios de cada página del inventario de Material Symbols (`school`, `verified`, `workspace_premium`, `history_edu`, `groups`, `event_*`, `forum`, `terminal`, etc.) se dibujan en la épica de esa página y se agregan a `icons.ts`. Ninguna página carga Material Symbols.
+- **Consecuencias:** resuelve AT-016 y AT-017. Cada épica de página suma sus íconos al mismo módulo. Una actualización de las fuentes exige descargar de nuevo y actualizar este ADR.
+- **Origen:** E20-I03, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

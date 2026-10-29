@@ -24,14 +24,14 @@ E10 (en particular E10-I03).
 |---|---|---|---|---|---|
 | [E20-I01](E20-I01-definir-design-md.md) | Definición del DESIGN.md v1 | P0 | M | E10-I03 | [x] Terminada |
 | [E20-I02](E20-I02-tokens-tema.md) | Tokens en @theme y tema claro/oscuro | P0 | M | E20-I01 | [x] Terminada |
-| [E20-I03](E20-I03-tipografia-iconos.md) | Tipografía autoalojada e iconografía SVG | P0 | M | E20-I02 | [ ] Pendiente |
+| [E20-I03](E20-I03-tipografia-iconos.md) | Tipografía autoalojada e iconografía SVG | P0 | M | E20-I02 | [x] Terminada |
 | [E20-I04](E20-I04-movimiento-sin-aos.md) | Sistema de movimiento sin AOS | P0 | M | E20-I02 | [ ] Pendiente |
 | [E20-I05](E20-I05-primitivas.md) | Primitivas de componentes | P0 | M | E20-I03, E20-I04 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
 - [x] `DESIGN.md` no tiene secciones "por definir" que bloqueen E30 o E40.
 - [ ] Todos los colores, tipografías y espaciados del proyecto provienen de tokens.
-- [ ] El sitio no carga fuentes ni scripts desde Google Fonts ni AOS.
+- [ ] El sitio no carga fuentes ni scripts desde Google Fonts ni AOS. (Google Fonts: cumplido en E20-I03; AOS: E20-I04.)
 - [ ] Las primitivas funcionan en claro y oscuro, con teclado y con movimiento reducido.
 - [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 - [x] `DESIGN.md` documenta la regla de composición por página y los patrones de Inicio y Educación (ADR-036).

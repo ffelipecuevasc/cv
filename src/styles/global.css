@@ -49,6 +49,7 @@
   --color-band: var(--color-orient-50);
   --color-footer: var(--color-orient-50);
   --color-text: var(--color-orient-950);
+  --color-heading: var(--color-orient-950);
   --color-text-muted: color-mix(in srgb, var(--color-orient-950) 70%, transparent);
   --color-text-soft: color-mix(in srgb, var(--color-orient-950) 60%, transparent);
   --color-accent: var(--color-primary);
@@ -58,6 +59,13 @@
   --color-border: color-mix(in srgb, var(--color-orient-950) 10%, transparent);
   --color-border-strong: color-mix(in srgb, var(--color-orient-950) 25%, transparent);
   --color-focus: var(--color-primary);
+
+  /* 5.1 Familias (ADR-041, ADR-043). --font-cinzel, --font-josefin-sans y --font-lexend
+     las genera la API de fuentes de Astro, con sus respaldos métricos. */
+  --font-*: initial;
+  --font-display: var(--font-cinzel);
+  --font-sans: var(--font-josefin-sans);
+  --font-logo: var(--font-lexend);
 
   /* 7.13 Sombras. */
   --shadow-card:
@@ -104,6 +112,7 @@
   --color-band: var(--color-orient-800);
   --color-footer: var(--color-orient-950);
   --color-text: var(--color-orient-50);
+  --color-heading: var(--color-white);
   --color-text-muted: color-mix(in srgb, var(--color-orient-50) 75%, transparent);
   --color-text-soft: color-mix(in srgb, var(--color-orient-50) 60%, transparent);
   --color-accent: var(--color-vibrant);
@@ -130,7 +139,7 @@
   --dots-main: color-mix(in srgb, var(--color-vibrant) 26%, transparent);
   --dots-gold: color-mix(in srgb, var(--color-gold) 50%, transparent);
   --halo: color-mix(in srgb, var(--color-primary) 22%, transparent);
-  --grid-line: color-mix(in srgb, var(--color-vibrant) 8%, transparent);
+  --grid-line: color-mix(in srgb, var(--color-vibrant) 5%, transparent);
   --grid-edge: transparent;
   --grid-fill: linear-gradient(
     160deg,
@@ -150,6 +159,19 @@
   html {
     background-color: var(--color-bg);
     color: var(--color-text);
+  }
+  /* 5.2 Cuerpo base: Josefin 400, 17 px, alto de línea 1,6. El rem raíz sigue en 16 px. */
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  /* 5.3: titulares con text-wrap balance y color heading (4.2). */
+  h1,
+  h2,
+  h3 {
+    color: var(--color-heading);
+    text-wrap: balance;
   }
 }
 

@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 // Salida 100 % estática, sin adaptador de servidor (ADR-018).
@@ -25,6 +25,57 @@ export default defineConfig({
   redirects: {
     '/': '/es/',
   },
+  // Fuentes autoalojadas con la API de fuentes y el proveedor local (ADR-041, ADR-043).
+  // Archivos WOFF2 variables, subconjunto latino, en src/assets/fonts/ (licencias OFL junto a ellos).
+  // Astro genera respaldos con métricas ajustadas a partir del último respaldo genérico.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Cinzel',
+      cssVariable: '--font-cinzel',
+      fallbacks: ['Georgia', 'serif'],
+      options: {
+        variants: [
+          {
+            weight: '400 600',
+            style: 'normal',
+            src: ['./src/assets/fonts/cinzel-latin-wght.woff2'],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Josefin Sans',
+      cssVariable: '--font-josefin-sans',
+      fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            weight: '300 600',
+            style: 'normal',
+            src: ['./src/assets/fonts/josefin-sans-latin-wght.woff2'],
+          },
+          {
+            weight: '300 400',
+            style: 'italic',
+            src: ['./src/assets/fonts/josefin-sans-latin-wght-italic.woff2'],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Lexend',
+      cssVariable: '--font-lexend',
+      fallbacks: ['sans-serif'],
+      options: {
+        variants: [
+          { weight: 700, style: 'normal', src: ['./src/assets/fonts/lexend-latin-700.woff2'] },
+        ],
+      },
+    },
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
