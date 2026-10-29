@@ -182,6 +182,7 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | `accent` | `band` (sobre una línea de la retícula al 5 %) | 4,42 | 3 (solo texto grande) | Cumple |
 | `kicker` e `icon` | `bg` / `bg-alt` / `surface` | 5,57 / 5,26 / 4,92 | 4,5 | Cumple |
 | `kicker` dorado | `band` en su punto más claro | 7,92 | 4,5 | Cumple |
+| Etiqueta (`orient-50` al 85 %) | blanco al 4 % sobre `bg` / `bg-alt` / `surface` | 11,30 / 10,65 / 9,95 | 4,5 | Cumple |
 | Blanco al 60 % | `band` | 5,34 | 4,5 | Cumple |
 | `orient-950` | botón primario `orient-50` / al pasar `vibrant` / dorado | 16,71 / 7,54 / 12,43 | 4,5 | Cumple |
 | Blanco | avatar `primary` / `orient-600` / `orient-800` | 4,62 / 6,35 / 12,04 | 4,5 | Cumple |
@@ -206,7 +207,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 | `font-sans` | **Josefin Sans** (OFL 1.1) | 300, 400 y 600; cursiva 300 y 400 | Texto, navegación, botones, rótulos | system-ui, sans-serif |
 | `font-logo` | **Lexend** (OFL 1.1) | 700 | **Solo el logotipo** (sección 3) | sans-serif |
 
-- Las tres se autoalojan; nada se carga desde Google Fonts (E20-I03 fija el mecanismo con un ADR).
+- Las tres se autoalojan con la API de fuentes de Astro y el proveedor local; nada se carga desde Google Fonts (ADR-043).
 - Cinzel tiene diseño de mayúsculas romanas; se usa en titulares cortos y nunca en párrafos.
 
 ### 5.2 Escala
@@ -378,11 +379,11 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 ## 9. Reglas de Tailwind CSS v4
 - Los tokens se declaran en `@theme`, en la hoja global. No hay `tailwind.config.js`.
 - El escaneo de fuentes se restringe a `src/` (ADR-004).
-- La variante oscura se controla por clase o atributo en `<html>` (se define en E20-I02).
+- La variante oscura se controla con la clase `.dark` en `<html>` (ADR-042), con la clave `theme` (ADR-023).
 - No se usan colores, tamaños ni sombras arbitrarias fuera de los tokens, salvo con una justificación escrita en la iteración.
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
-  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;
+  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, trazo de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
   - familias: `--font-display`, `--font-sans`, `--font-logo`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;

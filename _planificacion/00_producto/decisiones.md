@@ -385,7 +385,11 @@ Reglas del registro:
   - **Primitivas** en `src/components/ui/`, sin JavaScript de cliente:
     - `Container`, `GoldRule`, `Tag`, `SectionHeader` (`left`, `center` y `band`, con `level` para no saltar niveles), `Button` (`primary`, `secondary` y `gold`; enlace o `<button>`; `size="bar"` de 44 px), `IconButton` (`icon` 44 × 44 y `arrow` 54 × 54, con `label` obligatorio), `Card`, `TestimonialCard`, `Band`, `ThemeStripe` y `ExternalLink`;
     - estilos con `<style>` acotado al componente y solo variables de tokens.
-  - **Variables de componente:** se declaran en `global.css` (`:root` y `.dark`) con valores tomados de la paleta y de `DESIGN.md` 7: `--button-primary-*`, `--button-icon-hover-bg`, `--button-arrow-hover-*`, `--card-outline*`, `--chip-*` y `--star-stroke`. No son tokens nuevos de diseño: traducen a CSS los valores por tema que `DESIGN.md` ya fija.
+  - **Variables de componente:**
+    - Se declaran en `global.css` (`:root` y `.dark`) con valores tomados de la paleta y de `DESIGN.md` 7: `--button-primary-*`, `--button-icon-hover-bg`, `--button-arrow-hover-*`, `--card-outline*`, `--chip-*` y `--star-stroke`. No son tokens nuevos de diseño: traducen a CSS los valores por tema que `DESIGN.md` ya fija.
+    - **Convención de nombre:** `--<componente>-<propiedad>[-<estado>]`, en inglés (ADR-025).
+    - **Regla de origen:** solo se declara una variable de componente cuando `DESIGN.md` 7 fija un valor por tema que no equivale a un semántico de 4.2, y el comentario de la variable cita la sección de `DESIGN.md` de la que sale. Si el valor sí equivale a un semántico, se usa el semántico.
+    - **Alcance:** una variable de componente no se reutiliza en otro componente. Un color nuevo, con o sin variable, exige primero su entrada en `DESIGN.md`.
   - **Equivalencias con semánticos:**
     - el primario usa `text` y `bg` invertidos (claro `orient-950`/blanco, oscuro `orient-50`/`orient-950`) y `accent` al pasar;
     - el texto del secundario al pasar usa `heading`.
@@ -394,8 +398,8 @@ Reglas del registro:
   - **Testimonio:** en `en-US` agrega "Translated from Spanish" (ADR-017); la nota de 5 estrellas va en texto para lectores de pantalla.
   - **Enlace externo:** se usa sobre `bg` o `surface`. Sobre `band` lleva `text` y no `accent`, porque es texto pequeño (4.3).
   - **Impresión:** `[data-reveal]` siempre visible en `@media print` (punto de prueba de ADR-045).
-- **Consecuencias:** resuelve AT-052. Riel social, selector de idioma, botón de apariencia, navbar, pie, formularios, aviso y carrusel se construyen en E30, E40 y E140 sobre estas primitivas.
-- **Origen:** E20-I05, 29-10-2026. **Estado:** Aceptada (pendiente de validación de Felipe).
+- **Consecuencias:** resuelve AT-052. Amplía ADR-042 sin modificarlo: los semánticos siguen siendo la vía principal y las variables de componente son la excepción acotada. Riel social, selector de idioma, botón de apariencia, navbar, pie, formularios, aviso y carrusel se construyen en E30, E40 y E140 sobre estas primitivas, con la misma regla de origen. `DESIGN.md` 9 lo reconoce en una oración.
+- **Origen:** E20-I05, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
 
 ---
 
