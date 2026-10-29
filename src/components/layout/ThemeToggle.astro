@@ -1,0 +1,65 @@
+---
+/*
+ * Botón de apariencia (DESIGN.md 7.2, ADR-021, ADR-023, ADR-042).
+ * Luna en claro y sol en oscuro, intercambiados por CSS según `.dark` en <html>: el
+ * ícono correcto se pinta desde el primer cuadro (sin CLS). El nombre accesible dice la
+ * acción; el script lo ajusta al tema real al cargar y en cada cambio.
+ * Guarda `theme` = 'dark' | 'light' en localStorage, como el sitio actual.
+ */
+import Icon from '../ui/Icon.astro';
+import IconButton from '../ui/IconButton.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations(langFromLocale(Astro.currentLocale));
+---
+
+<IconButton
+  icon="moon"
+  label={t.theme.toDark}
+  class="theme-toggle"
+  data-theme-toggle=""
+  data-label-dark={t.theme.toDark}
+  data-label-light={t.theme.toLight}
+>
+  <Icon name="moon" size={20} class="theme-icon theme-icon-moon" />
+  <Icon name="sun" size={20} class="theme-icon theme-icon-sun" />
+</IconButton>
+
+<script>
+  const root = document.documentElement;
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
+    const sync = () => {
+      const dark = root.classList.contains('dark');
+      button.setAttribute(
+        'aria-label',
+        (dark ? button.dataset.labelLight : button.dataset.labelDark) ?? '',
+      );
+    };
+    sync();
+    button.addEventListener('click', () => {
+      const dark = root.classList.toggle('dark');
+      try {
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      } catch {
+        // Almacenamiento bloqueado: el cambio vale solo para esta página.
+      }
+      sync();
+    });
+  }
+</script>
+
+<style>
+  /* El botón y los íconos los pintan IconButton e Icon: se alcanzan con :global. El
+     selector del botón supera en especificidad al estilo acotado de IconButton. */
+  :global(button.icon-button.theme-toggle) {
+    color: var(--theme-toggle-fg);
+  }
+  :global(.theme-toggle .theme-icon-sun),
+  :global(.dark .theme-toggle .theme-icon-moon) {
+    display: none;
+  }
+  :global(.dark .theme-toggle .theme-icon-sun) {
+    display: block;
+  }
+</style>

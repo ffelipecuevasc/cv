@@ -27,6 +27,8 @@ const es = {
     resources: 'Recursos',
     contact: 'Contacto',
     downloadCv: 'Descargar CV',
+    // Nombre accesible y title del enlace de descarga (DESIGN.md 7.3: formato del archivo).
+    downloadCvLabel: 'Descargar CV (PDF)',
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
   },
@@ -77,6 +79,8 @@ const en: Dictionary = {
     resources: 'Resources',
     contact: 'Contact',
     downloadCv: 'Download CV',
+    // El CV solo existe en español (ADR-017).
+    downloadCvLabel: 'Download CV (PDF, Spanish)',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
   },

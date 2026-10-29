@@ -1,7 +1,9 @@
 # E30-I04 · Navbar de escritorio rediseñada
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E30-I03 · **Hallazgos que cierra:** AT-002, AT-007, AT-008, AT-010 · **ADR relacionados:** ADR-008, ADR-021
+
+> Nota de cierre: la prueba de idioma se hizo sobre las 26 rutas del mapa (13 páginas × 2 idiomas, ADR-048: la 404 no está en el mapa), no 28. Sin páginas creadas aún para la mayoría, se probó `getEquivalentPath` sobre las 26 y el enlace real en las páginas generadas. El lector de pantalla se cubrió con el árbol de accesibilidad de Chrome; queda una pasada con NVDA para E170-I01.
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -25,20 +27,20 @@ Rediseñar la navbar de escritorio con las mismas opciones del sitio actual, des
 - Menú móvil (E30-I05).
 
 ## Tareas
-- [ ] Implementar la navbar con textos del diccionario.
-- [ ] Implementar el botón de idioma con el mapa de rutas.
-- [ ] Probar teclado y lector de pantalla.
+- [x] Implementar la navbar con textos del diccionario.
+- [x] Implementar el botón de idioma con el mapa de rutas.
+- [x] Probar teclado y lector de pantalla.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/components/layout/Navbar*.astro` y su script.
 
 ## Criterios de aceptación (verificables)
-- [ ] Las opciones y su jerarquía coinciden exactamente con el sitio actual, en ambos idiomas.
-- [ ] El logotipo es idéntico en apariencia y comportamiento, con alternativa estática bajo movimiento reducido.
-- [ ] El toggle de tema no produce parpadeo ni CLS.
-- [ ] El toggle de idioma lleva a la ruta equivalente de la página actual.
-- [ ] Todo es operable con teclado; Escape cierra el desplegable y devuelve el foco al disparador.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Las opciones y su jerarquía coinciden exactamente con el sitio actual, en ambos idiomas.
+- [x] El logotipo es idéntico en apariencia y comportamiento, con alternativa estática bajo movimiento reducido.
+- [x] El toggle de tema no produce parpadeo ni CLS.
+- [x] El toggle de idioma lleva a la ruta equivalente de la página actual.
+- [x] Todo es operable con teclado; Escape cierra el desplegable y devuelve el foco al disparador.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -51,7 +53,7 @@ Rediseñar la navbar de escritorio con las mismas opciones del sitio actual, des
 - El texto en inglés es más largo: validar que la barra no se desborde a 1366 px.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

@@ -16,6 +16,8 @@ interface Props {
   size?: 'default' | 'bar';
   /** Nombre accesible si el texto visible no basta (por ejemplo, formato y peso del CV). */
   label?: string;
+  /** Información de apoyo al pasar el cursor (por ejemplo, formato e idioma del CV). */
+  title?: string;
   full?: boolean;
   class?: string;
 }
@@ -27,6 +29,7 @@ const {
   download,
   size = 'default',
   label,
+  title,
   full = false,
   class: className,
 } = Astro.props;
@@ -34,12 +37,12 @@ const classes = ['button', variant, size, { full }, className];
 ---
 
 {href ? (
-  <a href={href} download={download} aria-label={label} class:list={classes}>
+  <a href={href} download={download} aria-label={label} title={title} class:list={classes}>
     {icon && <Icon name={icon} size={16} />}
     <slot />
   </a>
 ) : (
-  <button type={type} aria-label={label} class:list={classes}>
+  <button type={type} aria-label={label} title={title} class:list={classes}>
     {icon && <Icon name={icon} size={16} />}
     <slot />
   </button>

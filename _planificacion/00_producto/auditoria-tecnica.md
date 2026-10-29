@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-059.
+- Los hallazgos nuevos continúan la numeración desde AT-061.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -61,6 +61,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** cada cambio global exige 13 ediciones, con riesgo de divergencia.
 - **Recomendación:** layout y componentes compartidos de Astro.
 - **Avance (E30-I01):** el `<head>` vive solo en `BaseLayout.astro` y `Seo.astro`. Sigue abierto: header, menú móvil, pie y volver arriba (E30-I04 a E30-I06).
+- **Avance (E30-I04):** el `<header>` con la navbar de escritorio vive solo en `Navbar.astro`, incluido por `BaseLayout`. Sigue abierto: menú móvil (E30-I05), pie y volver arriba (E30-I06).
 
 ### AT-040 · Script en línea del `<head>` duplicado
 - **Severidad:** Media · **Estado:** Resuelto en E20-I04 (movimiento sin guardián, ADR-045) y E30-I01 (script de tema único en `BaseLayout.astro`) · **Resuelve:** E30-I01, E20-I04
@@ -107,7 +108,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Estado activo:** `aria-current="page"` estático en el enlace hijo; el disparador padre recibe estilo de pastilla.
 
 ### AT-007 · El botón de apariencia está en el pie
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I04
+- **Severidad:** Media · **Estado:** Resuelto en E30-I04 (botón de apariencia en la barra, `ThemeToggle.astro`) · **Resuelve:** E30-I04
 - **Evidencia:** `#theme-toggle` en el pie (`index.html:898`).
 - **Impacto:** no cumple D-08, que lo exige en la barra.
 - **Recomendación:** ADR-021.
@@ -119,9 +120,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - la columna Explorar del pie usa "Certificaciones" para `educacion.html` (`404.html:261`) y "Experiencia" para `experiencia.html`, y no incluye Recursos.
 - **Impacto:** confusión y traducción inconsistente.
 - **Recomendación:** etiquetas únicas desde el diccionario de interfaz.
+- **Avance (E30-I04):** las etiquetas del menú de escritorio salen del diccionario (`src/i18n/ui.ts`), con "Docente Universitario" como etiqueta única. Sigue abierto: menú móvil (E30-I05) y pie (E30-I06) deben usar las mismas claves.
 
 ### AT-010 · Desplegables sin cierre con Escape
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I04
+- **Severidad:** Media · **Estado:** Resuelto en E30-I04 (patrón de divulgación con `aria-expanded`, Escape con retorno de foco, clic y foco fuera cierran; `src/scripts/navbar.ts`) · **Resuelve:** E30-I04
 - **Evidencia:** apertura por `group-hover` y `group-focus-within` de CSS; `static/js/servicios/navegacion.js:55-73` solo sincroniza `aria-expanded`.
 - **Impacto:** accesibilidad de teclado incompleta.
 - **Recomendación:** patrón de botón de divulgación con Escape y retorno de foco.
@@ -558,13 +560,25 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** que la mitad clara declare sus tokens claros con una clase propia, o que la muestra indique al layout que no aplique el tema.
 
 ### AT-057 · DESIGN.md 3.2 nombra el token `text` con los valores de `heading`
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Severidad:** Baja · **Estado:** Resuelto antes de E30-I04 (Felipe corrigió `DESIGN.md` 3.2 a `heading`) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E30-I03, 29-10-2026):** `DESIGN.md` 3.2 dice "Color `text` (`#00131D` en claro, `#FFFFFF` en oscuro)". En 4.2, `text` vale `orient-50` en oscuro; el semántico que da `#00131D` / `#FFFFFF` es `heading`.
 - **Impacto:** ambigüedad en la fuente de verdad del diseño.
 - **Recomendación:** cambiar `text` por `heading` en 3.2. Con la validación de Felipe, `Logo.astro` ya usa `heading` (ADR-049).
 
 ### AT-058 · DESIGN.md 5.1 y 9 aún nombran Lexend y `--font-logo`
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Severidad:** Baja · **Estado:** Resuelto antes de E30-I04 (Felipe quitó Lexend y `--font-logo` de `DESIGN.md` 5.1 y 9) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E30-I03, 29-10-2026):** el logotipo pasó a Cinzel (3.2) y Lexend se retiró del proyecto (ADR-049), pero la tabla de 5.1 conserva la fila `font-logo` / Lexend, la frase "Las tres se autoalojan" y la sección 9 lista `--font-logo`.
 - **Impacto:** `DESIGN.md` describe una familia que el sitio ya no carga.
 - **Recomendación:** quitar la fila de 5.1, ajustar "Las tres" a "Las dos" y quitar `--font-logo` de 9.
+
+### AT-059 · El CV no llega al build nuevo
+- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** por agendar antes de E190-I01 (candidata: E130-I02 o E190-I03)
+- **Evidencia (E30-I04, 29-10-2026):** "Descargar CV" enlaza a `/static/CV_Felipe_Cuevas_2026.pdf`, la ruta de producción, sin mover el archivo (encargo de E30-I04). El PDF sigue en `static/` del sitio antiguo y Astro no lo copia: `dist/static/` no existe. En las previews el enlace da 404.
+- **Impacto:** tras el cutover, el CV no se descargaría si nadie lo incorpora al build.
+- **Recomendación:** decidir dónde vive el PDF en el proyecto nuevo (por ejemplo `public/static/`, para conservar la URL y evitar una 301) y agendarlo antes de E190-I01.
+
+### AT-060 · Botón de apariencia sin efecto sin JavaScript
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Evidencia (E30-I04, 29-10-2026):** el botón se muestra siempre para no causar CLS. Sin JavaScript no corre el script de tema: la página queda en claro y el clic en el botón no hace nada.
+- **Impacto:** control visible que no responde para quien navega sin JavaScript.
+- **Recomendación:** evaluar ocultarlo sin JS reservando su espacio (por ejemplo, con `<noscript>` y `visibility: hidden`), sin romper la CSP de E170-I03.

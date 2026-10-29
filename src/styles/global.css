@@ -160,6 +160,8 @@
   html {
     background-color: var(--color-bg);
     color: var(--color-text);
+    /* La navbar pegajosa mide 76 px (7.2): las anclas y el foco no quedan bajo ella. */
+    scroll-padding-top: 76px;
   }
   /* 5.2 Cuerpo base: Josefin 400, 17 px, alto de línea 1,6. El rem raíz sigue en 16 px. */
   body {
@@ -280,6 +282,11 @@
   --chip-bg: color-mix(in srgb, var(--color-bg) 80%, transparent);
   --chip-fg: var(--color-orient-800);
   --star-stroke: var(--color-gold-deep);
+  /* 7.2 Navbar: fondo de la barra, ícono de apariencia e idioma actual. */
+  --navbar-bg: color-mix(in srgb, var(--color-bg) 95%, transparent);
+  --theme-toggle-fg: var(--color-icon);
+  --language-current-bg: var(--color-orient-950);
+  --language-current-fg: var(--color-white);
 }
 
 .dark {
@@ -294,6 +301,10 @@
   --chip-bg: color-mix(in srgb, var(--color-white) 4%, transparent);
   --chip-fg: color-mix(in srgb, var(--color-orient-50) 85%, transparent);
   --star-stroke: var(--color-gold);
+  --navbar-bg: color-mix(in srgb, var(--color-orient-950) 88%, transparent);
+  --theme-toggle-fg: var(--color-gold);
+  --language-current-bg: var(--color-orient-50);
+  --language-current-fg: var(--color-orient-950);
 }
 
 /* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */

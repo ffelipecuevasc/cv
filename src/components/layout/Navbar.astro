@@ -1,0 +1,292 @@
+---
+/*
+ * Navbar de escritorio (E30-I04, DESIGN.md 2.1 y 7.2, ADR-008, ADR-021).
+ * - <header> pegajoso de 76 px: logotipo a la izquierda, menú al centro, acciones a la
+ *   derecha.
+ * - Menú desde 1.280 px con exactamente las opciones del sitio actual (DESIGN.md 2.1).
+ *   Bajo 1.280 px se ocultan el menú y "Descargar CV"; el menú móvil llega en E30-I05.
+ * - aria-current="page" en el enlace activo y subrayado fijo en el disparador de su grupo.
+ * - Textos desde src/i18n/ui.ts y rutas desde src/i18n/routes.ts.
+ */
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute, routeKeyFromPath, type RouteKey } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const currentKey = routeKeyFromPath(Astro.url.pathname);
+
+// El CV es el PDF del sitio actual, en su ruta de siempre y solo en español (ADR-017).
+// No se mueve en esta iteración; ver AT-059.
+const cvHref = '/static/CV_Felipe_Cuevas_2026.pdf';
+
+type NavLink = { key: RouteKey; label: string };
+type NavItem = NavLink | { id: string; label: string; children: NavLink[] };
+
+const items: NavItem[] = [
+  { key: 'home', label: t.nav.home },
+  { key: 'education', label: t.nav.education },
+  {
+    id: 'experience',
+    label: t.nav.experience,
+    children: [
+      { key: 'experience', label: t.nav.experienceSummary },
+      { key: 'developer', label: t.nav.developer },
+      { key: 'lecturer', label: t.nav.lecturer },
+      { key: 'instructor', label: t.nav.instructor },
+      { key: 'talentoDigital', label: t.nav.talentoDigital },
+    ],
+  },
+  {
+    id: 'community',
+    label: t.nav.community,
+    children: [
+      { key: 'events', label: t.nav.events },
+      { key: 'forum', label: t.nav.forum },
+      { key: 'resources', label: t.nav.resources },
+    ],
+  },
+  { key: 'contact', label: t.nav.contact },
+];
+
+const isCurrent = (key: RouteKey) => key === currentKey;
+---
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-brand">
+      <Logo />
+    </div>
+
+    <nav class="navbar-menu" aria-label={t.nav.label} data-navbar>
+      <ul class="menu-list">
+        {items.map((item) =>
+          'children' in item ? (
+            <li class="menu-group" data-nav-group>
+              <button
+                type="button"
+                class:list={[
+                  'menu-link',
+                  'menu-trigger',
+                  { active: item.children.some((c) => isCurrent(c.key)) },
+                ]}
+                aria-expanded="false"
+                aria-controls={`nav-${item.id}`}
+              >
+                {item.label}
+                <Icon name="chevron-down" size={16} class="chevron" />
+              </button>
+              <ul class="menu-panel" id={`nav-${item.id}`}>
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={getRoute(child.key, lang)}
+                      class="panel-link"
+                      aria-current={isCurrent(child.key) ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={getRoute(item.key, lang)}
+                class:list={['menu-link', { active: isCurrent(item.key) }]}
+                aria-current={isCurrent(item.key) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ),
+        )}
+      </ul>
+    </nav>
+
+    <div class="navbar-actions">
+      <Button
+        variant="secondary"
+        size="bar"
+        href={cvHref}
+        download="CV_Felipe_Cuevas_2026.pdf"
+        icon="download"
+        label={t.nav.downloadCvLabel}
+        title={t.nav.downloadCvLabel}
+        class="navbar-cv"
+      >
+        {t.nav.downloadCv}
+      </Button>
+      <ThemeToggle />
+      <LanguageSwitch />
+    </div>
+  </div>
+</header>
+
+<script>
+  import { initNavbar } from '../../scripts/navbar';
+  for (const nav of document.querySelectorAll<HTMLElement>('[data-navbar]')) initNavbar(nav);
+</script>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    height: 76px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--navbar-bg);
+    backdrop-filter: blur(11px);
+  }
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 100%;
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+  }
+
+  /* Bajo 1.280 px: sin menú ni "Descargar CV" (el menú móvil llega en E30-I05). */
+  .navbar-menu,
+  .navbar-actions :global(.navbar-cv) {
+    display: none;
+  }
+
+  @media (min-width: 80rem) {
+    /* Menú centrado en el espacio entre logotipo y acciones. Con columnas laterales
+       iguales (1fr auto 1fr) las acciones no cabían a 1.280 px y el CV se partía. */
+    .navbar-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+    }
+    .navbar-menu {
+      display: block;
+      justify-self: center;
+    }
+    .navbar-actions {
+      justify-content: end;
+    }
+    .navbar-actions :global(.navbar-cv) {
+      display: inline-flex;
+    }
+  }
+
+  .menu-list {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  /* 7.2: Josefin 15 px en text-muted; al pasar o con foco, text y subrayado vibrant → gold
+     que crece desde el centro en 350 ms. Activo: subrayado fijo. */
+  .menu-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: color var(--duration-base) ease;
+  }
+  .menu-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 8px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-vibrant), var(--color-gold));
+    transform: scaleX(0);
+    transition: transform var(--duration-medium) var(--ease-out-soft);
+  }
+  .menu-link:hover,
+  .menu-link:focus-visible,
+  .menu-link.active,
+  .menu-trigger[aria-expanded='true'] {
+    color: var(--color-text);
+  }
+  .menu-link:hover::after,
+  .menu-link:focus-visible::after,
+  .menu-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .menu-trigger :global(.chevron) {
+    transition: transform var(--duration-fast) ease;
+  }
+  .menu-trigger[aria-expanded='true'] :global(.chevron) {
+    transform: rotate(180deg);
+  }
+
+  /* Desplegable: surface, borde, sombra float y línea superior gold → vibrant. */
+  .menu-group {
+    position: relative;
+  }
+  .menu-panel {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    display: none;
+    min-width: 240px;
+    padding-block: 6px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-float);
+    transform: translateX(-50%);
+  }
+  .menu-panel::before {
+    content: '';
+    position: absolute;
+    inset-inline: -1px;
+    top: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+  }
+  /* Sin JavaScript: abre con el cursor o con el foco dentro del grupo. */
+  .navbar-menu:not(:global(.is-enhanced)) .menu-group:hover .menu-panel,
+  .navbar-menu:not(:global(.is-enhanced)) .menu-group:focus-within .menu-panel,
+  .menu-trigger[aria-expanded='true'] + .menu-panel {
+    display: block;
+  }
+
+  .panel-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 20px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--duration-base) ease;
+  }
+  .panel-link:hover,
+  .panel-link:focus-visible,
+  .panel-link[aria-current='page'] {
+    color: var(--color-text);
+  }
+  .panel-link:focus-visible {
+    outline-offset: -2px;
+  }
+</style>

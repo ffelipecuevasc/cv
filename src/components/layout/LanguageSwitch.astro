@@ -1,0 +1,76 @@
+---
+/*
+ * Selector de idioma (DESIGN.md 7.2, ADR-001). Control segmentado "ES | EN":
+ * - el idioma actual va relleno y con aria-current="true";
+ * - el otro es un enlace a la página equivalente (getEquivalentPath), con lang y
+ *   hreflang de destino. Su nombre accesible es la etiqueta visible más "versión de esta
+ *   página" en el idioma de destino, en texto oculto: así el nombre contiene la etiqueta
+ *   visible (WCAG 2.5.3).
+ */
+import { langCodes, langFromLocale, langs } from '../../i18n/lang';
+import { getEquivalentPath } from '../../i18n/routes';
+import { ui, useTranslations } from '../../i18n/ui';
+
+const current = langFromLocale(Astro.currentLocale);
+const t = useTranslations(current);
+const path = Astro.url.pathname;
+---
+
+<nav class="language-switch" aria-label={t.language.label}>
+  <ul>
+    {langs.map((lang) =>
+      lang === current ? (
+        <li>
+          <span class="segment current" aria-current="true">
+            {lang.toUpperCase()}
+          </span>
+        </li>
+      ) : (
+        <li>
+          <a
+            class="segment"
+            href={getEquivalentPath(path, lang)}
+            hreflang={langCodes[lang]}
+            lang={langCodes[lang]}
+          >
+            {lang.toUpperCase()}
+            <span class="sr-only"> · {ui[lang].language.versionLink}</span>
+          </a>
+        </li>
+      ),
+    )}
+  </ul>
+</nav>
+
+<style>
+  ul {
+    display: flex;
+    height: 44px;
+    border: 1px solid var(--color-border-strong);
+  }
+  li + li {
+    border-inline-start: 1px solid var(--color-border-strong);
+  }
+  .segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 100%;
+    padding-inline: 10px;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-base) ease;
+  }
+  a.segment:hover {
+    color: var(--color-heading);
+  }
+  .current {
+    background-color: var(--language-current-bg);
+    color: var(--language-current-fg);
+  }
+</style>

@@ -2,6 +2,8 @@
 /*
  * Botón de ícono (DESIGN.md 7.3): `icon` de 44 × 44 y `arrow` (carrusel, volver arriba) de
  * 54 × 54. El ícono es decorativo: `label` es obligatorio y da el nombre accesible.
+ * Con contenido en el slot (por ejemplo, dos íconos que cambian con el tema), el slot
+ * reemplaza al ícono de `icon`.
  */
 import Icon from './Icon.astro';
 import type { IconName } from './icons';
@@ -27,15 +29,16 @@ const {
 } = Astro.props;
 const classes = ['icon-button', variant, className];
 const size = variant === 'arrow' ? 22 : 20;
+const custom = Astro.slots.has('default');
 ---
 
 {href ? (
   <a href={href} aria-label={label} class:list={classes} {...rest}>
-    <Icon name={icon} size={size} />
+    {custom ? <slot /> : <Icon name={icon} size={size} />}
   </a>
 ) : (
   <button type={type} aria-label={label} class:list={classes} {...rest}>
-    <Icon name={icon} size={size} />
+    {custom ? <slot /> : <Icon name={icon} size={size} />}
   </button>
 )}
 

@@ -442,7 +442,7 @@ Reglas del registro:
   - Resuelve AT-009. AT-003 avanza: un único componente en el layout; la 404 lo recibe en E160-I01.
   - Cualquier cambio del ícono, sus colores o el ritmo exige un ADR que sustituya a este (`DESIGN.md` 3.5).
   - ADR-008 sigue vigente para la barra de navegación.
-- **Origen:** E30-I03, 29-10-2026; composición decidida por Felipe en `DESIGN.md` 3. **Estado:** Aceptada (validada el 29-10-2026). Las frases `en-US` están por validar.
+- **Origen:** E30-I03, 29-10-2026; composición decidida por Felipe en `DESIGN.md` 3. **Estado:** Aceptada (validada el 29-10-2026), incluidas las frases `en-US`.
 
 ---
 
