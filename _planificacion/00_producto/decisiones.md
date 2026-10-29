@@ -459,7 +459,20 @@ Reglas del registro:
   - El logotipo no cambia ni se achica. El selector de idioma mantiene sus 44 px.
   - Alternativa descartada: llevar tema e idioma al panel en todos los anchos. Eso vaciaría la barra en tableta (768 px) sin necesidad.
 - **Consecuencias:** `DESIGN.md` 7.2 no menciona esta excepción; queda como AT-061 para que Felipe la incorpore. El umbral de 420 px se midió con el logotipo en español y en inglés (ocupan lo mismo); si el logotipo cambia, se revisa.
-- **Origen:** E30-I05, 29-10-2026. **Estado:** Propuesta del agente; pendiente de validación de Felipe.
+- **Origen:** E30-I05, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-052 · Pie: navegación, redes y volver arriba
+- **Contexto:** E30-I06. `DESIGN.md` 7.9 deja a esta iteración cerrar la lista exacta de enlaces de navegación, y 7.11 define el botón de volver arriba.
+- **Decisión:**
+  - **Navegación:** los 11 enlaces del menú, en su orden y con las etiquetas de `nav-items.ts` (Inicio, Educación, Resumen, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital, Eventos, Foro, Recursos, Contacto), en una sola lista. Incluye Recursos (AT-008).
+  - **Redes (ADR-044):** LinkedIn, GitHub, REUF y correo. Las URL son las del sitio antiguo: LinkedIn, GitHub y correo, de su pie; REUF, de su riel social (`main:index.html:618`), porque el pie antiguo no la traía. Las tres externas abren en pestaña nueva con `rel="noopener noreferrer"` y aviso para lectores de pantalla. El correo muestra la dirección.
+  - **Frase de la marca (decidida por Felipe):** es "Instructor de Desarrollo Fullstack e IA." (40 caracteres); en "Teaching AI and Fullstack Development." (38).
+  - **Marca del pie:** el `Logo` con `animated={false}`: ícono y nombre, sin frases ni efecto.
+  - **Barra inferior:** "© año Felipe Cuevas". El año se imprime en el build y un script lo actualiza al del visitante. Reserva un contenedor de la altura de una línea para el enlace a la política de privacidad, que llega con E155-I01 (ADR-035); por ahora no se enlaza.
+  - **Volver arriba:** enlace `#top` con estilo de la flecha del carrusel y 44 × 44 px, fijo a 24 px del borde inferior derecho (más la zona segura). Aparece tras desplazarse una pantalla. Con movimiento reducido el desplazamiento es instantáneo; al terminar, el foco pasa al logotipo para no perderse cuando el botón se oculta. Sin JavaScript queda siempre visible.
+  - **Pie al fondo:** `BaseLayout` hace que el `<main>` ocupe el alto sobrante, así que con contenido corto el pie queda al borde inferior de la ventana.
+- **Consecuencias:** resuelve AT-008. El pie de escritorio mide unos 740 px por la lista de 11 enlaces (AT-062). E155-I01 agrega el enlace de privacidad en el contenedor reservado, sin tocar el resto.
+- **Origen:** E30-I06, 29-10-2026. **Estado:** Aceptada (lista, redes y frases decididas por Felipe en el encargo de E30-I06).
 
 ---
 

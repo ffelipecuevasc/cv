@@ -287,6 +287,8 @@
   --theme-toggle-fg: var(--color-icon);
   --language-current-bg: var(--color-orient-950);
   --language-current-fg: var(--color-white);
+  /* 7.9 Pie: borde de la barra inferior, `primary` al 20 % (en oscuro, `border`). */
+  --footer-bar-border: color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 .dark {
@@ -305,6 +307,7 @@
   --theme-toggle-fg: var(--color-gold);
   --language-current-bg: var(--color-orient-50);
   --language-current-fg: var(--color-orient-950);
+  --footer-bar-border: var(--color-border);
 }
 
 /* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */

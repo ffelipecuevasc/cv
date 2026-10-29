@@ -1,0 +1,210 @@
+---
+/*
+ * Pie de página (E30-I06, DESIGN.md 7.9, ADR-021, ADR-035, ADR-044).
+ * - Fondo `footer` con línea superior de 2 px (transparente → gold 20 % → vibrant 80 %).
+ * - Tres columnas desde 768 px (una bajo esa medida): marca, navegación centrada y redes
+ *   a la derecha.
+ * - Navegación: los 11 enlaces del menú, con las etiquetas de nav-items.ts (AT-008).
+ * - Redes: LinkedIn, GitHub, REUF y correo (ADR-044), de social-links.ts.
+ * - Barra inferior: © con año y nombre. Deja el lugar del enlace a la política de
+ *   privacidad, que se agrega en E155-I01 con la página (ADR-035); aquí no se enlaza.
+ */
+import Icon from '../ui/Icon.astro';
+import GoldRule from '../ui/GoldRule.astro';
+import Logo from './Logo.astro';
+import { getNavItems, isGroup, type NavLink } from './nav-items';
+import { socialLinks } from './social-links';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const links: NavLink[] = getNavItems(t).flatMap((item) => (isGroup(item) ? item.children : [item]));
+// Año del build; el script lo actualiza al del visitante (sin él, el HTML ya lo trae).
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="inner">
+    <div class="columns">
+      <div class="brand">
+        <Logo animated={false} />
+        <p class="tagline">{t.footer.tagline}</p>
+      </div>
+
+      <nav class="nav" aria-labelledby="footer-nav-title">
+        <p class="kicker" id="footer-nav-title">
+          {t.footer.navTitle}
+        </p>
+        <GoldRule width={32} />
+        <ul class="list">
+          {links.map((link) => (
+            <li>
+              <a class="link" href={getRoute(link.key, lang)}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="social">
+        <p class="kicker" id="footer-social-title">
+          {t.footer.socialTitle}
+        </p>
+        <GoldRule width={32} />
+        <ul class="list" aria-labelledby="footer-social-title">
+          {socialLinks.map((social) => (
+            <li>
+              <a
+                class="link social-link"
+                href={social.href}
+                target={social.external ? '_blank' : undefined}
+                rel={social.external ? 'noopener noreferrer' : undefined}
+              >
+                <Icon name={social.icon} size={18} class="social-icon" />
+                {social.label}
+                {social.external && <span class="sr-only">{t.footer.newTab}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <p class="copy">
+        © <span data-year>{year}</span> Felipe Cuevas
+      </p>
+      {/* Lugar del enlace a la política de privacidad (E155-I01, ADR-035). */}
+      <div class="legal" data-privacy-slot></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  for (const el of document.querySelectorAll('[data-year]')) {
+    el.textContent = String(new Date().getFullYear());
+  }
+</script>
+
+<style>
+  .footer {
+    position: relative;
+    background-color: var(--color-footer);
+  }
+  /* 7.9: línea superior de 2 px. */
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gold) 20%,
+      var(--color-vibrant) 80%,
+      transparent
+    );
+  }
+  .inner {
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding: 64px 24px 40px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 48rem) {
+    .columns {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+    .nav {
+      justify-self: center;
+    }
+    .social {
+      text-align: right;
+    }
+  }
+
+  .tagline {
+    max-width: 40ch;
+    margin-top: 24px;
+    font-size: 15.5px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--color-text-soft);
+  }
+
+  /* Rótulo kicker (5.2) con regla dorada corta de 32 × 2 px. */
+  .kicker {
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .nav :global(.gold-rule),
+  .social :global(.gold-rule) {
+    display: block;
+    margin-top: 12px;
+  }
+  @media (min-width: 48rem) {
+    .social :global(.gold-rule) {
+      margin-left: auto;
+    }
+  }
+
+  .list {
+    display: grid;
+    gap: 0;
+    margin-top: 16px;
+    font-size: 15.5px;
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-base) ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    color: var(--color-accent);
+  }
+  .social-link :global(.social-icon) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  @media (min-width: 48rem) {
+    .social-link {
+      flex-direction: row-reverse;
+    }
+  }
+
+  /* Barra inferior: borde `primary` al 20 % (en oscuro, `border`), 24 px de relleno. */
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--footer-bar-border);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-soft);
+  }
+  /* Reserva la altura de una línea de 14 px para que el enlace de E155-I01 no mueva nada. */
+  .legal {
+    min-height: 21px;
+  }
+</style>

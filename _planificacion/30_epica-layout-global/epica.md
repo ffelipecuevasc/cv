@@ -1,5 +1,5 @@
 # E30 · Layout global
-- **Prioridad de la épica:** P0 · **Estado:** [~] En curso
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (29-10-2026)
 
 ## Objetivo
 Construir el armazón compartido por todas las páginas: `<head>` y SEO, i18n de interfaz, logotipo intacto, navbar rediseñada con botones de tema e idioma, menú móvil y pie de página.
@@ -25,15 +25,17 @@ E10 y E20.
 | [E30-I03](E30-I03-logotipo.md) | Logotipo: ícono SVG y máquina de escribir con paridad exacta | P0 | M | E30-I02, E20-I03 | [x] Terminada |
 | [E30-I04](E30-I04-navbar-escritorio.md) | Navbar de escritorio rediseñada | P0 | M | E30-I03 | [x] Terminada |
 | [E30-I05](E30-I05-navbar-movil.md) | Navbar móvil | P0 | M | E30-I04 | [x] Terminada |
-| [E30-I06](E30-I06-footer.md) | Pie de página rediseñado y volver arriba | P0 | S | E30-I04 | [ ] Pendiente |
+| [E30-I06](E30-I06-footer.md) | Pie de página rediseñado y volver arriba | P0 | S | E30-I04 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
-- [ ] Ninguna página repite a mano el header, el pie ni el `<head>` (resuelve AT-002).
-- [ ] La navbar tiene exactamente las opciones del sitio actual (ver auditoría D).
-- [ ] El logotipo es idéntico en apariencia y comportamiento, con alternativa estática bajo movimiento reducido.
-- [ ] El cambio de tema no produce parpadeo ni CLS.
-- [ ] El cambio de idioma lleva a la ruta equivalente.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [x] Ninguna página repite a mano el header, el pie ni el `<head>` (resuelve AT-002).
+- [x] La navbar tiene exactamente las opciones del sitio actual (ver auditoría D).
+- [x] El logotipo es idéntico en apariencia y comportamiento, con alternativa estática bajo movimiento reducido.
+- [x] El cambio de tema no produce parpadeo ni CLS.
+- [x] El cambio de idioma lleva a la ruta equivalente.
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+
+> Nota de cierre: el logotipo cambió de composición por ADR-049 (Cinzel, frases debajo, enlace a la portada); su alternativa estática bajo movimiento reducido o sin JavaScript se verificó en E30-I03. El cambio de idioma se verificó sobre las 26 rutas del mapa en E30-I04; las páginas reales llegan con sus épicas.
 
 ## Riesgos
 - Regresión en el comportamiento del logotipo.

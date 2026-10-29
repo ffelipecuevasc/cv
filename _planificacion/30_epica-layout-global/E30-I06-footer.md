@@ -1,7 +1,9 @@
 # E30-I06 · Pie de página rediseñado y volver arriba
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** S
 - **Depende de:** E30-I04 · **Hallazgos que cierra:** AT-008 · **ADR relacionados:** ADR-021, ADR-035
+
+> Nota de cierre: el pie sigue `DESIGN.md` 7.9 (no la lista de columnas del pie antiguo): marca, navegación y 4 redes, sin las columnas Tecnologías y Certificaciones. Los 11 enlaces, las redes, las frases y los detalles del volver arriba están en ADR-052. Los 11 enlaces salen de `nav-items.ts`, la misma fuente del menú.
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -23,16 +25,16 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 - Enlace a la política de privacidad en el pie: se agrega en E155-I01, junto con la página (ADR-035). La navbar no lo incluye.
 
 ## Tareas
-- [ ] Implementar el pie y el botón.
-- [ ] Validar enlaces en ambos idiomas.
+- [x] Implementar el pie y el botón.
+- [x] Validar enlaces en ambos idiomas.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/components/layout/Footer.astro`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Todas las rutas del pie resuelven en ambos idiomas.
-- [ ] Etiquetas coherentes con la navbar.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Todas las rutas del pie resuelven en ambos idiomas.
+- [x] Etiquetas coherentes con la navbar.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -43,7 +45,7 @@ Rediseñar el pie de página conservando sus contenidos y corregir las inconsist
 - Nota (ADR-035): el pie debe dejar espacio para el enlace a la política de privacidad que agrega E155-I01 en todas las páginas, incluidas 404 y agradecimiento.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

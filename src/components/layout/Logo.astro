@@ -6,12 +6,17 @@
  * - Renglón 1: "Felipe Cuevas" en Cinzel, fijo. Renglón 2: frases con máquina de
  *   escribir (decorativas), ocultas bajo 640 px.
  * - Copias invisibles de todas las frases reservan el ancho de la más ancha (CLS 0).
+ * - `animated={false}` (pie, DESIGN.md 7.9): solo ícono y nombre, sin frases ni efecto.
  */
+interface Props {
+  animated?: boolean;
+}
 import { langFromLocale } from '../../i18n/lang';
 import { getRoute } from '../../i18n/routes';
 import { useTranslations } from '../../i18n/ui';
 import { logoPhrases } from './logo-phrases';
 
+const { animated = true } = Astro.props;
 const lang = langFromLocale(Astro.currentLocale);
 const t = useTranslations(lang);
 const phrases = logoPhrases[lang];
@@ -21,16 +26,18 @@ const phrases = logoPhrases[lang];
   <span class="logo-icon" aria-hidden="true"></span>
   <span class="logo-text">
     <span class="logo-name">Felipe Cuevas</span>
-    <span
-      class="logo-phrases typewriter"
-      data-typewriter={JSON.stringify(phrases)}
-      aria-hidden="true"
-    >
-      {phrases.map((phrase) => (
-        <span class="typewriter-measure">{phrase}</span>
-      ))}
-      <span class="typewriter-text">{phrases[0]}</span>
-    </span>
+    {animated && (
+      <span
+        class="logo-phrases typewriter"
+        data-typewriter={JSON.stringify(phrases)}
+        aria-hidden="true"
+      >
+        {phrases.map((phrase) => (
+          <span class="typewriter-measure">{phrase}</span>
+        ))}
+        <span class="typewriter-text">{phrases[0]}</span>
+      </span>
+    )}
   </span>
 </a>
 

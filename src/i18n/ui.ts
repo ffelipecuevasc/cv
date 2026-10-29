@@ -43,11 +43,12 @@ const es = {
     versionLink: 'Versión en español de esta página',
   },
   footer: {
-    tagline: 'Formando desarrolladores en Inteligencia Artificial y Desarrollo de Aplicaciones.',
+    // Máximo 40 caracteres (decidida por Felipe).
+    tagline: 'Instructor de Desarrollo Fullstack e IA.',
     navTitle: 'Explorar',
     socialTitle: 'Redes',
     privacy: 'Política de privacidad',
-    rights: 'Todos los derechos reservados.',
+    newTab: '(se abre en una pestaña nueva)',
   },
   backToTop: 'Volver arriba',
 };
@@ -93,11 +94,12 @@ const en: Dictionary = {
     versionLink: 'English version of this page',
   },
   footer: {
-    tagline: 'Training developers in Artificial Intelligence and Application Development.',
+    // Máximo 40 caracteres (decidida por Felipe).
+    tagline: 'Teaching AI and Fullstack Development.',
     navTitle: 'Explore',
     socialTitle: 'Social',
     privacy: 'Privacy policy',
-    rights: 'All rights reserved.',
+    newTab: '(opens in a new tab)',
   },
   backToTop: 'Back to top',
 };

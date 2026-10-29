@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-062.
+- Los hallazgos nuevos continúan la numeración desde AT-064.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -56,13 +56,14 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 ## B. Duplicación
 
 ### AT-002 · Armazón duplicado a mano en 13 páginas
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E30-I01, E30-I04, E30-I05, E30-I06
+- **Severidad:** Alta · **Estado:** Resuelto en E30-I06 (`BaseLayout` incluye `<head>`, navbar, menú móvil, pie y volver arriba; las páginas solo pasan su contenido) · **Resuelve:** E30-I01, E30-I04, E30-I05, E30-I06
 - **Evidencia:** `<head>`, `<header>`, menú móvil, `<footer>` y botón volver arriba repetidos en los 13 HTML. Comparación normalizada: los headers solo difieren en el estado activo (`aria-current`), y el pie es idéntico en las 13.
 - **Impacto:** cada cambio global exige 13 ediciones, con riesgo de divergencia.
 - **Recomendación:** layout y componentes compartidos de Astro.
 - **Avance (E30-I01):** el `<head>` vive solo en `BaseLayout.astro` y `Seo.astro`. Sigue abierto: header, menú móvil, pie y volver arriba (E30-I04 a E30-I06).
 - **Avance (E30-I04):** el `<header>` con la navbar de escritorio vive solo en `Navbar.astro`, incluido por `BaseLayout`. Sigue abierto: menú móvil (E30-I05), pie y volver arriba (E30-I06).
 - **Avance (E30-I05):** el menú móvil (`MobileMenuButton.astro` y `MobileMenuPanel.astro`) también vive en el layout y comparte la estructura de `nav-items.ts` con escritorio. Sigue abierto: pie y volver arriba (E30-I06).
+- **Avance (E30-I06):** el pie (`Footer.astro`) y el botón de volver arriba (`BackToTop.astro`) viven en `BaseLayout`. Cierra el hallazgo; las páginas que faltan (incluida la 404, E160-I01) usan el mismo layout.
 
 ### AT-040 · Script en línea del `<head>` duplicado
 - **Severidad:** Media · **Estado:** Resuelto en E20-I04 (movimiento sin guardián, ADR-045) y E30-I01 (script de tema único en `BaseLayout.astro`) · **Resuelve:** E30-I01, E20-I04
@@ -115,7 +116,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ADR-021.
 
 ### AT-008 · Etiquetas inconsistentes entre menús
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I05, E30-I06
+- **Severidad:** Media · **Estado:** Resuelto en E30-I06 (menú de escritorio, menú móvil y pie leen las mismas etiquetas de `nav-items.ts`; el pie incluye Recursos) · **Resuelve:** E30-I05, E30-I06
 - **Evidencia:**
   - el menú móvil dice "Docente" (`index.html:360`) y escritorio "Docente Universitario";
   - la columna Explorar del pie usa "Certificaciones" para `educacion.html` (`404.html:261`) y "Experiencia" para `experiencia.html`, y no incluye Recursos.
@@ -123,6 +124,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** etiquetas únicas desde el diccionario de interfaz.
 - **Avance (E30-I04):** las etiquetas del menú de escritorio salen del diccionario (`src/i18n/ui.ts`), con "Docente Universitario" como etiqueta única. Sigue abierto: menú móvil (E30-I05) y pie (E30-I06) deben usar las mismas claves.
 - **Avance (E30-I05):** el menú móvil usa las mismas etiquetas que escritorio ("Docente Universitario") desde `nav-items.ts` y el diccionario. Sigue abierto: la columna de navegación del pie (E30-I06).
+- **Avance (E30-I06):** el pie usa los 11 enlaces de `nav-items.ts`, incluido Recursos, con las mismas etiquetas que la navbar. Cierra el hallazgo.
 
 ### AT-010 · Desplegables sin cierre con Escape
 - **Severidad:** Media · **Estado:** Resuelto en E30-I04 (patrón de divulgación con `aria-expanded`, Escape con retorno de foco, clic y foco fuera cierran; `src/scripts/navbar.ts`) · **Resuelve:** E30-I04
@@ -590,3 +592,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E30-I05, 29-10-2026):** `DESIGN.md` 7.2 deja tema e idioma en la barra bajo 1.280 px. A 360 y 390 px no caben junto al logotipo y al botón de menú (la barra necesita unos 400 px). ADR-051 los pasa al final del panel bajo 420 px.
 - **Impacto:** la fuente de verdad del diseño no describe el comportamiento real.
 - **Recomendación:** agregar a 7.2 una frase: "Bajo 420 px, el botón de apariencia y el selector de idioma pasan al final del panel del menú". Si Felipe prefiere otra solución (por ejemplo, un logotipo más angosto), se sustituye ADR-051.
+
+### AT-062 · El pie de escritorio es alto por la lista de 11 enlaces
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con Felipe (revisión en E170-I01)
+- **Evidencia (E30-I06, 29-10-2026):** la columna de navegación apila los 11 enlaces con la zona táctil de 44 px y el pie mide unos 740 px a 1.280 px de ancho (la lista de enlaces mide unos 485 px). La marca y las redes ocupan menos de 300 px de alto, así que el resto de esas dos columnas queda vacío.
+- **Impacto:** el pie ocupa casi toda una pantalla de 800 px de alto; es un asunto de proporción, no de funcionamiento.
+- **Recomendación:** si Felipe lo prefiere más compacto, repartir la lista en dos columnas desde 1.024 px o agrupar por "Experiencia" y "Comunidad"; se registraría en `DESIGN.md` 7.9 y se ajustaría el componente.
+
+### AT-063 · Estilos en línea en `<noscript>` para la futura CSP
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I03
+- **Evidencia (E30-I06, 29-10-2026):** `BaseLayout.astro` lleva un `<noscript><style>` con las reglas que dejan el menú móvil desplegado y el botón de volver arriba visible sin JavaScript (E30-I05 y E30-I06). Una política de seguridad que restrinja `style-src` puede bloquearlo.
+- **Impacto:** si se bloquea, sin JavaScript el menú móvil no se podría abrir.
+- **Recomendación:** al definir la CSP de E170-I03, incluir el hash de ese bloque, o mover las reglas a la hoja global con un selector que dependa de una clase puesta por un script en línea (que ya tiene hash por el tema).
