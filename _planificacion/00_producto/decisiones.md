@@ -444,6 +444,23 @@ Reglas del registro:
   - ADR-008 sigue vigente para la barra de navegación.
 - **Origen:** E30-I03, 29-10-2026; composición decidida por Felipe en `DESIGN.md` 3. **Estado:** Aceptada (validada el 29-10-2026), incluidas las frases `en-US`.
 
+## ADR-050 · El CV vive en `public/static/` con la misma URL
+- **Contexto:** AT-059. "Descargar CV" enlaza a `/static/CV_Felipe_Cuevas_2026.pdf` (URL de producción), pero Astro no copiaba el archivo al build y las previews daban 404.
+- **Decisión:** el PDF se copia sin cambios a `public/static/CV_Felipe_Cuevas_2026.pdf`. Astro publica `public/` tal cual en la raíz de `dist/`, así que la URL no cambia y no hace falta 301. El original en `static/` no se toca (sitio antiguo, referencia de solo lectura hasta E190-I03). El CV sigue solo en español (ADR-017).
+- **Consecuencias:** `public/static/` solo contiene lo que el sitio nuevo sirve con su URL de siempre; cada épica de página agrega allí lo que necesite (por ejemplo, los PDFs de recursos en E130-I02). Hasta E190-I03 el archivo existe duplicado en `static/` y en `public/static/`.
+- **Origen:** E30-I05, 29-10-2026. **Estado:** Aceptada (decidida por Felipe el 29-10-2026).
+
+## ADR-051 · Menú móvil: tema e idioma pasan al panel bajo 420 px
+- **Contexto:** E30-I05. `DESIGN.md` 7.2 oculta bajo 1.280 px solo el menú y "Descargar CV", y deja en la barra el botón de apariencia y el selector de idioma. El logotipo (vinculante, `DESIGN.md` 3) ocupa unos 156 px, el selector de idioma 91 px y cada botón 44 px: con el botón de menú, la barra necesita unos 400 px y a 360 y 390 px desborda.
+- **Decisión:**
+  - Desde 420 px, tema e idioma van en la barra, junto al botón de menú (como en `DESIGN.md` 7.2).
+  - Bajo 420 px van al final del panel del menú, después de "Descargar CV", separados por una línea `border`.
+  - Es el mismo componente en dos lugares, y solo uno se muestra a la vez (el otro queda con `display: none`, fuera del árbol de accesibilidad). Los botones de tema se sincronizan entre sí.
+  - El logotipo no cambia ni se achica. El selector de idioma mantiene sus 44 px.
+  - Alternativa descartada: llevar tema e idioma al panel en todos los anchos. Eso vaciaría la barra en tableta (768 px) sin necesidad.
+- **Consecuencias:** `DESIGN.md` 7.2 no menciona esta excepción; queda como AT-061 para que Felipe la incorpore. El umbral de 420 px se midió con el logotipo en español y en inglés (ocupan lo mismo); si el logotipo cambia, se revisa.
+- **Origen:** E30-I05, 29-10-2026. **Estado:** Propuesta del agente; pendiente de validación de Felipe.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

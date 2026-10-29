@@ -1,0 +1,43 @@
+---
+/*
+ * Botón del menú móvil (E30-I05, DESIGN.md 7.2): 44 × 44 con el estilo del botón de
+ * ícono. Divulgación con aria-expanded y aria-controls; el nombre cambia entre "Abrir
+ * menú" y "Cerrar menú" (lo hace src/scripts/mobile-menu.ts). Se muestra bajo 1.280 px.
+ */
+import Icon from '../ui/Icon.astro';
+import IconButton from '../ui/IconButton.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations(langFromLocale(Astro.currentLocale));
+---
+
+<IconButton
+  icon="menu"
+  label={t.nav.openMenu}
+  class="mobile-menu-toggle"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+  data-mobile-toggle=""
+  data-label-open={t.nav.openMenu}
+  data-label-close={t.nav.closeMenu}
+>
+  <Icon name="menu" size={20} class="toggle-icon toggle-icon-menu" />
+  <Icon name="close" size={20} class="toggle-icon toggle-icon-close" />
+</IconButton>
+
+<style>
+  /* El botón y los íconos los pintan IconButton e Icon: se alcanzan con :global. */
+  :global(.mobile-menu-toggle .toggle-icon-close),
+  :global(.mobile-menu-toggle[aria-expanded='true'] .toggle-icon-menu) {
+    display: none;
+  }
+  :global(.mobile-menu-toggle[aria-expanded='true'] .toggle-icon-close) {
+    display: block;
+  }
+  @media (min-width: 80rem) {
+    :global(.mobile-menu-toggle) {
+      display: none;
+    }
+  }
+</style>

@@ -54,6 +54,28 @@ const t = useTranslations(lang);
       })();
     </script>
     <meta name="generator" content={Astro.generator} />
+    {/* Sin JavaScript el menú móvil no se puede abrir: se muestra desplegado y en el flujo. */}
+    <noscript>
+      <style>
+        [data-mobile-toggle] {
+          display: none !important;
+        }
+        [data-mobile-menu] {
+          position: static !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          transform: none !important;
+          max-height: none !important;
+        }
+        [data-navbar-root] {
+          position: static !important;
+          height: auto !important;
+        }
+        [data-navbar-inner] {
+          height: 75px !important;
+        }
+      </style>
+    </noscript>
     <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
     <Font cssVariable="--font-cinzel" preload />
     <Seo {lang} {title} {description} {paths} {ogImage} {noindex}>

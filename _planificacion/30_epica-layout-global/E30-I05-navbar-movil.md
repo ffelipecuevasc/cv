@@ -1,7 +1,9 @@
 # E30-I05 · Navbar móvil
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (29-10-2026)
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E30-I04 · **Hallazgos que cierra:** AT-011 · **ADR relacionados:** ADR-008
+
+> Nota de cierre: se probó además a 1.279 px y a 420/419 px (umbral de ADR-051). La etiqueta "Docente Universitario" sale de `nav-items.ts`, compartido con escritorio.
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -22,17 +24,17 @@ Implementar el menú móvil con las mismas opciones, grupos Experiencia y Comuni
 - —
 
 ## Tareas
-- [ ] Implementar el menú.
-- [ ] Probar en 360, 390 y 768 px de ancho, ambos temas e idiomas.
+- [x] Implementar el menú.
+- [x] Probar en 360, 390 y 768 px de ancho, ambos temas e idiomas.
 
 ## Archivos previstos (crear / modificar)
 - Crear o modificar: componentes de navbar.
 
 ## Criterios de aceptación (verificables)
-- [ ] Todos los ítems visibles y operables en 360 px de ancho.
-- [ ] Cerrado, sus enlaces no reciben foco.
-- [ ] Zonas táctiles de al menos 44 px.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Todos los ítems visibles y operables en 360 px de ancho.
+- [x] Cerrado, sus enlaces no reciben foco.
+- [x] Zonas táctiles de al menos 44 px.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -44,7 +46,7 @@ Implementar el menú móvil con las mismas opciones, grupos Experiencia y Comuni
 - —
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

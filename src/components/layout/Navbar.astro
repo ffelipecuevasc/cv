@@ -1,18 +1,22 @@
 ---
 /*
- * Navbar de escritorio (E30-I04, DESIGN.md 2.1 y 7.2, ADR-008, ADR-021).
+ * Navbar (E30-I04 escritorio, E30-I05 móvil; DESIGN.md 2.1 y 7.2, ADR-008, ADR-021).
  * - <header> pegajoso de 76 px: logotipo a la izquierda, menú al centro, acciones a la
  *   derecha.
- * - Menú desde 1.280 px con exactamente las opciones del sitio actual (DESIGN.md 2.1).
- *   Bajo 1.280 px se ocultan el menú y "Descargar CV"; el menú móvil llega en E30-I05.
+ * - Desde 1.280 px, menú con exactamente las opciones del sitio actual (DESIGN.md 2.1).
+ *   Bajo 1.280 px, botón de menú de 44 × 44 y panel a todo el ancho (MobileMenu*).
  * - aria-current="page" en el enlace activo y subrayado fijo en el disparador de su grupo.
- * - Textos desde src/i18n/ui.ts y rutas desde src/i18n/routes.ts.
+ * - Textos desde src/i18n/ui.ts, rutas desde src/i18n/routes.ts y opciones desde
+ *   nav-items.ts (compartidas con el menú móvil).
  */
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
 import Logo from './Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import LanguageSwitch from './LanguageSwitch.astro';
+import MobileMenuButton from './MobileMenuButton.astro';
+import MobileMenuPanel from './MobileMenuPanel.astro';
+import { cv, getNavItems, isGroup } from './nav-items';
 import { langFromLocale } from '../../i18n/lang';
 import { getRoute, routeKeyFromPath, type RouteKey } from '../../i18n/routes';
 import { useTranslations } from '../../i18n/ui';
@@ -20,45 +24,12 @@ import { useTranslations } from '../../i18n/ui';
 const lang = langFromLocale(Astro.currentLocale);
 const t = useTranslations(lang);
 const currentKey = routeKeyFromPath(Astro.url.pathname);
-
-// El CV es el PDF del sitio actual, en su ruta de siempre y solo en español (ADR-017).
-// No se mueve en esta iteración; ver AT-059.
-const cvHref = '/static/CV_Felipe_Cuevas_2026.pdf';
-
-type NavLink = { key: RouteKey; label: string };
-type NavItem = NavLink | { id: string; label: string; children: NavLink[] };
-
-const items: NavItem[] = [
-  { key: 'home', label: t.nav.home },
-  { key: 'education', label: t.nav.education },
-  {
-    id: 'experience',
-    label: t.nav.experience,
-    children: [
-      { key: 'experience', label: t.nav.experienceSummary },
-      { key: 'developer', label: t.nav.developer },
-      { key: 'lecturer', label: t.nav.lecturer },
-      { key: 'instructor', label: t.nav.instructor },
-      { key: 'talentoDigital', label: t.nav.talentoDigital },
-    ],
-  },
-  {
-    id: 'community',
-    label: t.nav.community,
-    children: [
-      { key: 'events', label: t.nav.events },
-      { key: 'forum', label: t.nav.forum },
-      { key: 'resources', label: t.nav.resources },
-    ],
-  },
-  { key: 'contact', label: t.nav.contact },
-];
-
+const items = getNavItems(t);
 const isCurrent = (key: RouteKey) => key === currentKey;
 ---
 
-<header class="navbar">
-  <div class="navbar-inner">
+<header class="navbar" data-navbar-root>
+  <div class="navbar-inner" data-navbar-inner>
     <div class="navbar-brand">
       <Logo />
     </div>
@@ -66,7 +37,7 @@ const isCurrent = (key: RouteKey) => key === currentKey;
     <nav class="navbar-menu" aria-label={t.nav.label} data-navbar>
       <ul class="menu-list">
         {items.map((item) =>
-          'children' in item ? (
+          isGroup(item) ? (
             <li class="menu-group" data-nav-group>
               <button
                 type="button"
@@ -114,8 +85,8 @@ const isCurrent = (key: RouteKey) => key === currentKey;
       <Button
         variant="secondary"
         size="bar"
-        href={cvHref}
-        download="CV_Felipe_Cuevas_2026.pdf"
+        href={cv.href}
+        download={cv.file}
         icon="download"
         label={t.nav.downloadCvLabel}
         title={t.nav.downloadCvLabel}
@@ -123,15 +94,22 @@ const isCurrent = (key: RouteKey) => key === currentKey;
       >
         {t.nav.downloadCv}
       </Button>
-      <ThemeToggle />
-      <LanguageSwitch />
+      <div class="bar-prefs">
+        <ThemeToggle />
+        <LanguageSwitch />
+      </div>
+      <MobileMenuButton />
     </div>
   </div>
+  <MobileMenuPanel {items} currentKey={currentKey} />
 </header>
 
 <script>
   import { initNavbar } from '../../scripts/navbar';
+  import { initMobileMenu } from '../../scripts/mobile-menu';
   for (const nav of document.querySelectorAll<HTMLElement>('[data-navbar]')) initNavbar(nav);
+  for (const header of document.querySelectorAll<HTMLElement>('[data-navbar-root]'))
+    initMobileMenu(header);
 </script>
 
 <style>
@@ -148,11 +126,17 @@ const isCurrent = (key: RouteKey) => key === currentKey;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 12px;
     height: 100%;
     max-width: var(--container-page);
     margin-inline: auto;
-    padding-inline: 24px;
+    padding-inline: 16px;
+  }
+  @media (min-width: 40rem) {
+    .navbar-inner {
+      gap: 24px;
+      padding-inline: 24px;
+    }
   }
   .navbar-actions {
     display: flex;
@@ -161,7 +145,20 @@ const isCurrent = (key: RouteKey) => key === currentKey;
     white-space: nowrap;
   }
 
-  /* Bajo 1.280 px: sin menú ni "Descargar CV" (el menú móvil llega en E30-I05). */
+  /* Tema e idioma: en la barra desde 420 px; bajo ese ancho van al final del panel del menú
+     móvil porque no caben junto al logotipo y al botón de menú (ADR-051). */
+  .bar-prefs {
+    display: none;
+    align-items: center;
+    gap: 12px;
+  }
+  @media (min-width: 26.25rem) {
+    .bar-prefs {
+      display: flex;
+    }
+  }
+
+  /* Bajo 1.280 px: sin menú ni "Descargar CV"; el menú móvil los reemplaza. */
   .navbar-menu,
   .navbar-actions :global(.navbar-cv) {
     display: none;

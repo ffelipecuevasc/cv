@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-061.
+- Los hallazgos nuevos continúan la numeración desde AT-062.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -62,6 +62,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** layout y componentes compartidos de Astro.
 - **Avance (E30-I01):** el `<head>` vive solo en `BaseLayout.astro` y `Seo.astro`. Sigue abierto: header, menú móvil, pie y volver arriba (E30-I04 a E30-I06).
 - **Avance (E30-I04):** el `<header>` con la navbar de escritorio vive solo en `Navbar.astro`, incluido por `BaseLayout`. Sigue abierto: menú móvil (E30-I05), pie y volver arriba (E30-I06).
+- **Avance (E30-I05):** el menú móvil (`MobileMenuButton.astro` y `MobileMenuPanel.astro`) también vive en el layout y comparte la estructura de `nav-items.ts` con escritorio. Sigue abierto: pie y volver arriba (E30-I06).
 
 ### AT-040 · Script en línea del `<head>` duplicado
 - **Severidad:** Media · **Estado:** Resuelto en E20-I04 (movimiento sin guardián, ADR-045) y E30-I01 (script de tema único en `BaseLayout.astro`) · **Resuelve:** E30-I01, E20-I04
@@ -121,6 +122,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** confusión y traducción inconsistente.
 - **Recomendación:** etiquetas únicas desde el diccionario de interfaz.
 - **Avance (E30-I04):** las etiquetas del menú de escritorio salen del diccionario (`src/i18n/ui.ts`), con "Docente Universitario" como etiqueta única. Sigue abierto: menú móvil (E30-I05) y pie (E30-I06) deben usar las mismas claves.
+- **Avance (E30-I05):** el menú móvil usa las mismas etiquetas que escritorio ("Docente Universitario") desde `nav-items.ts` y el diccionario. Sigue abierto: la columna de navegación del pie (E30-I06).
 
 ### AT-010 · Desplegables sin cierre con Escape
 - **Severidad:** Media · **Estado:** Resuelto en E30-I04 (patrón de divulgación con `aria-expanded`, Escape con retorno de foco, clic y foco fuera cierran; `src/scripts/navbar.ts`) · **Resuelve:** E30-I04
@@ -129,7 +131,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** patrón de botón de divulgación con Escape y retorno de foco.
 
 ### AT-011 · Menú móvil con altura máxima fija
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E30-I05
+- **Severidad:** Baja · **Estado:** Resuelto en E30-I05 (panel sin tope en px: crece con el contenido y se desplaza con `max-height: calc(100dvh - 76px)`) · **Resuelve:** E30-I05
 - **Evidencia:** `static/js/servicios/navegacion.js:28` agrega `max-h-[800px]`.
 - **Impacto:** riesgo de cortar ítems al crecer el menú o el texto en inglés.
 - **Recomendación:** altura sin tope fijo.
@@ -572,7 +574,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** quitar la fila de 5.1, ajustar "Las tres" a "Las dos" y quitar `--font-logo` de 9.
 
 ### AT-059 · El CV no llega al build nuevo
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** por agendar antes de E190-I01 (candidata: E130-I02 o E190-I03)
+- **Severidad:** Alta · **Estado:** Resuelto en E30-I05 (copia en `public/static/`, misma URL, ADR-050) · **Resuelve:** E30-I05
 - **Evidencia (E30-I04, 29-10-2026):** "Descargar CV" enlaza a `/static/CV_Felipe_Cuevas_2026.pdf`, la ruta de producción, sin mover el archivo (encargo de E30-I04). El PDF sigue en `static/` del sitio antiguo y Astro no lo copia: `dist/static/` no existe. En las previews el enlace da 404.
 - **Impacto:** tras el cutover, el CV no se descargaría si nadie lo incorpora al build.
 - **Recomendación:** decidir dónde vive el PDF en el proyecto nuevo (por ejemplo `public/static/`, para conservar la URL y evitar una 301) y agendarlo antes de E190-I01.
@@ -582,3 +584,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E30-I04, 29-10-2026):** el botón se muestra siempre para no causar CLS. Sin JavaScript no corre el script de tema: la página queda en claro y el clic en el botón no hace nada.
 - **Impacto:** control visible que no responde para quien navega sin JavaScript.
 - **Recomendación:** evaluar ocultarlo sin JS reservando su espacio (por ejemplo, con `<noscript>` y `visibility: hidden`), sin romper la CSP de E170-I03.
+
+### AT-061 · DESIGN.md 7.2 no recoge dónde van tema e idioma bajo 420 px
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Evidencia (E30-I05, 29-10-2026):** `DESIGN.md` 7.2 deja tema e idioma en la barra bajo 1.280 px. A 360 y 390 px no caben junto al logotipo y al botón de menú (la barra necesita unos 400 px). ADR-051 los pasa al final del panel bajo 420 px.
+- **Impacto:** la fuente de verdad del diseño no describe el comportamiento real.
+- **Recomendación:** agregar a 7.2 una frase: "Bajo 420 px, el botón de apariencia y el selector de idioma pasan al final del panel del menú". Si Felipe prefiere otra solución (por ejemplo, un logotipo más angosto), se sustituye ADR-051.

@@ -43,10 +43,13 @@ const path = Astro.url.pathname;
 </nav>
 
 <style>
+  /* El contorno se dibuja hacia dentro: así cada segmento mide los 44 px de alto del
+     control y la zona táctil no pierde 2 px por el borde. */
   ul {
     display: flex;
     height: 44px;
-    border: 1px solid var(--color-border-strong);
+    outline: 1px solid var(--color-border-strong);
+    outline-offset: -1px;
   }
   li + li {
     border-inline-start: 1px solid var(--color-border-strong);

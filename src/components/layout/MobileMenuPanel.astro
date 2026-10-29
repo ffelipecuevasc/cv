@@ -1,0 +1,187 @@
+---
+/*
+ * Panel del menú móvil (E30-I05, DESIGN.md 7.2, AT-011).
+ * - A todo el ancho bajo la barra; fondo `bg` al 98 %, borde inferior `border`, 24 px.
+ * - Orden: Inicio, Educación, rótulo "Experiencia" (no navegable) con 5 opciones, rótulo
+ *   "Comunidad" con 3, Contacto y "Descargar CV" como botón primario a todo el ancho.
+ * - Sin altura máxima fija: crece con el contenido y se desplaza si no cabe en la
+ *   pantalla (max-height relativa al viewport, no un tope en px).
+ * - Cerrado: visibility hidden y `inert` (lo pone el script); abierto lo decide
+ *   aria-expanded del botón. Sin JavaScript queda abierto y en el flujo (BaseLayout).
+ * - Tema e idioma: viven en la barra desde 420 px; bajo ese ancho no caben junto al
+ *   logotipo y al botón de menú, y pasan al final del panel (ADR-051).
+ */
+import Button from '../ui/Button.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { cv, isGroup, type NavItem } from './nav-items';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute, type RouteKey } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  items: NavItem[];
+  currentKey?: string;
+}
+const { items, currentKey } = Astro.props;
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const isCurrent = (key: RouteKey) => key === currentKey;
+---
+
+<nav id="mobile-menu" class="mobile-menu" aria-label={t.nav.label} data-mobile-menu>
+  <ul class="list">
+    {items.map((item) =>
+      isGroup(item) ? (
+        <li>
+          <p class="group-label" id={`mobile-${item.id}-label`}>
+            {item.label}
+          </p>
+          <ul class="sub" aria-labelledby={`mobile-${item.id}-label`}>
+            {item.children.map((child) => (
+              <li>
+                <a
+                  href={getRoute(child.key, lang)}
+                  class="link"
+                  aria-current={isCurrent(child.key) ? 'page' : undefined}
+                >
+                  {child.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ) : (
+        <li>
+          <a
+            href={getRoute(item.key, lang)}
+            class="link"
+            aria-current={isCurrent(item.key) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ),
+    )}
+  </ul>
+
+  <Button
+    variant="primary"
+    full
+    href={cv.href}
+    download={cv.file}
+    icon="download"
+    label={t.nav.downloadCvLabel}
+    title={t.nav.downloadCvLabel}
+    class="cv"
+  >
+    {t.nav.downloadCv}
+  </Button>
+
+  <div class="prefs">
+    <ThemeToggle />
+    <LanguageSwitch />
+  </div>
+</nav>
+
+<style>
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    max-height: calc(100dvh - 76px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 24px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: color-mix(in srgb, var(--color-bg) 98%, transparent);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--duration-fast) ease,
+      transform var(--duration-fast) ease,
+      visibility 0s linear var(--duration-fast);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu {
+      transition: none;
+    }
+  }
+  /* Abierto lo decide el botón (aria-expanded), única fuente del estado. */
+  :global(.navbar:has([data-mobile-toggle][aria-expanded='true'])) .mobile-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .list {
+    display: grid;
+    gap: 4px;
+  }
+  .link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-base) ease;
+  }
+  .link:hover,
+  .link:focus-visible,
+  .link[aria-current='page'] {
+    color: var(--color-text);
+  }
+  .link[aria-current='page'] {
+    font-weight: 600;
+  }
+
+  /* Rótulo de grupo: estilo kicker (5.2), no navegable. */
+  .group-label {
+    margin-top: 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  /* Opciones hijas: regla vertical `border` a la izquierda. */
+  .sub {
+    margin-left: 4px;
+    padding-left: 16px;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .mobile-menu :global(.cv) {
+    margin-top: 24px;
+  }
+
+  /* Bajo 420 px el tema y el idioma no caben en la barra (ADR-051). */
+  .prefs {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 26.2499rem) {
+    .prefs {
+      display: flex;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>

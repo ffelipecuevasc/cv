@@ -27,16 +27,20 @@ const t = useTranslations(langFromLocale(Astro.currentLocale));
 </IconButton>
 
 <script>
+  // Hay más de un botón en la página (barra y menú móvil): todos se sincronizan juntos.
   const root = document.documentElement;
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
-    const sync = () => {
-      const dark = root.classList.contains('dark');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+  const syncAll = () => {
+    const dark = root.classList.contains('dark');
+    for (const button of buttons) {
       button.setAttribute(
         'aria-label',
         (dark ? button.dataset.labelLight : button.dataset.labelDark) ?? '',
       );
-    };
-    sync();
+    }
+  };
+  syncAll();
+  for (const button of buttons) {
     button.addEventListener('click', () => {
       const dark = root.classList.toggle('dark');
       try {
@@ -44,7 +48,7 @@ const t = useTranslations(langFromLocale(Astro.currentLocale));
       } catch {
         // Almacenamiento bloqueado: el cambio vale solo para esta página.
       }
-      sync();
+      syncAll();
     });
   }
 </script>
