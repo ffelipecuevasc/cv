@@ -62,12 +62,11 @@
   --color-border-strong: color-mix(in srgb, var(--color-orient-950) 25%, transparent);
   --color-focus: var(--color-primary);
 
-  /* 5.1 Familias (ADR-041, ADR-043). --font-cinzel, --font-josefin-sans y --font-lexend
+  /* 5.1 Familias (ADR-041, ADR-043, ADR-049). --font-cinzel y --font-josefin-sans
      las genera la API de fuentes de Astro, con sus respaldos métricos. */
   --font-*: initial;
   --font-display: var(--font-cinzel);
   --font-sans: var(--font-josefin-sans);
-  --font-logo: var(--font-lexend);
 
   /* 7.13 Sombras. */
   --shadow-card:
@@ -310,5 +309,41 @@
   [data-reveal] {
     opacity: 1 !important;
     translate: none !important;
+  }
+}
+
+/*
+ * 3.3 Máquina de escribir (E30-I03): logotipo y titular del hero. Las medidas (una por
+ * frase) reservan el ancho de la más ancha y el texto se teclea encima (CLS 0).
+ * El cursor (0,07 × 0,95 em, separación 0,06 em) se dibuja como fondo del texto y no
+ * como caja propia: así ninguna caja cambia de posición al teclear y Chrome no registra
+ * desplazamientos (con una caja ::after, cada letra sumaba ~1,7e-7 de CLS).
+ * Solo parpadea con el motor en marcha y queda fijo mientras teclea; sin JavaScript o
+ * con movimiento reducido el motor no arranca y el cursor no parpadea (3.4).
+ */
+.typewriter {
+  display: inline-grid;
+}
+.typewriter-measure,
+.typewriter-text {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  padding-inline-end: 0.13em;
+}
+.typewriter-measure {
+  visibility: hidden;
+}
+.typewriter-text {
+  background: linear-gradient(currentColor, currentColor) right 0 bottom 0.02em / 0.07em 0.95em
+    no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .typewriter--running:not(.typewriter--typing) .typewriter-text {
+    animation: typewriter-blink 1.05s steps(1, end) infinite;
+  }
+}
+@keyframes typewriter-blink {
+  50% {
+    background-size: 0 0;
   }
 }

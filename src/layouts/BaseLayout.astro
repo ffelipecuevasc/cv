@@ -5,7 +5,7 @@
  * - Script de tema en línea antes del primer pintado (ADR-023, ADR-042).
  * - Fuentes autoalojadas con <Font /> (ADR-043).
  * - Enlace para saltar al contenido y un único <main>.
- * La navbar y el pie se agregan en E30-I04 a E30-I06.
+ * Encabezado con el logotipo (E30-I03); la navbar y el pie se agregan en E30-I04 a E30-I06.
  */
 import '../styles/global.css';
 import { Font } from 'astro:assets';
@@ -13,6 +13,7 @@ import Seo, { type OgImage } from '../components/seo/Seo.astro';
 import { langFromLocale } from '../i18n/lang';
 import { routePaths, type AnyRouteKey } from '../i18n/routes';
 import { useTranslations } from '../i18n/ui';
+import Logo from '../components/layout/Logo.astro';
 
 interface Props {
   title: string;
@@ -55,7 +56,6 @@ const t = useTranslations(lang);
     <meta name="generator" content={Astro.generator} />
     <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
     <Font cssVariable="--font-cinzel" preload />
-    <Font cssVariable="--font-lexend" />
     <Seo {lang} {title} {description} {paths} {ogImage} {noindex}>
       <slot name="json-ld" slot="json-ld" />
     </Seo>
@@ -67,6 +67,10 @@ const t = useTranslations(lang);
     >
       {t.skipLink}
     </a>
+    {/* Encabezado provisorio: la navbar completa llega en E30-I04. */}
+    <header class="mx-auto max-w-page px-6 py-4">
+      <Logo />
+    </header>
     <main id="main-content" tabindex="-1" class={mainClass}>
       <slot />
     </main>

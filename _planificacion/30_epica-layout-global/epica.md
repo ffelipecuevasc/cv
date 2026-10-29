@@ -22,7 +22,7 @@ E10 y E20.
 |---|---|---|---|---|---|
 | [E30-I01](E30-I01-base-layout-seo.md) | BaseLayout, head/SEO y tema sin parpadeo | P0 | M | E20-I02, E10-I07 | [x] Terminada |
 | [E30-I02](E30-I02-i18n-diccionario-rutas.md) | Diccionario de interfaz, rutas equivalentes y contenido bilingüe | P0 | M | E30-I01 | [x] Terminada |
-| [E30-I03](E30-I03-logotipo.md) | Logotipo: ícono SVG y máquina de escribir con paridad exacta | P0 | M | E30-I02, E20-I03 | [ ] Pendiente |
+| [E30-I03](E30-I03-logotipo.md) | Logotipo: ícono SVG y máquina de escribir con paridad exacta | P0 | M | E30-I02, E20-I03 | [x] Terminada |
 | [E30-I04](E30-I04-navbar-escritorio.md) | Navbar de escritorio rediseñada | P0 | M | E30-I03 | [ ] Pendiente |
 | [E30-I05](E30-I05-navbar-movil.md) | Navbar móvil | P0 | M | E30-I04 | [ ] Pendiente |
 | [E30-I06](E30-I06-footer.md) | Pie de página rediseñado y volver arriba | P0 | S | E30-I04 | [ ] Pendiente |

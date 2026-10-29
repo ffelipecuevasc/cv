@@ -48,7 +48,7 @@ Reglas del registro:
 ## ADR-008 · Barra de navegación y logotipo (D-08)
 - **Decisión:** rediseño total del diseño y estilo de la barra, manteniendo exactamente las mismas opciones de menú (ver auditoría, área D). El logotipo (ícono SVG + texto con efecto máquina de escribir) se conserva idéntico en apariencia y comportamiento. La barra incluye el botón de apariencia (claro/oscuro) y el botón de idioma.
 - **Consecuencias:** cualquier cambio del logotipo exige un ADR que sustituya a este. La especificación exacta está en `DESIGN.md`.
-- **Origen:** D-08. **Estado:** Aceptada.
+- **Origen:** D-08. **Estado:** Aceptada. Sustituida en parte por ADR-049 (composición y tipografía del logotipo, logotipo como enlace).
 
 ## ADR-009 · Hero de la portada (D-09)
 - **Decisión:** rediseño libre, incluso completo, del hero para que en escritorio se vea entero al cargar, sin scroll, incluidas las 3 certificaciones (Oracle, AWS, Python Institute) y las redes sociales.
@@ -324,7 +324,7 @@ Reglas del registro:
   - **Lexend** 700 **solo** en el logotipo.
   - Las tres se autoalojan; ninguna se carga desde Google Fonts. El mecanismo de carga se decide en E20-I03 con su propio ADR.
 - **Consecuencias:** el sitio carga tres familias; E20-I03 limita pesos y subconjuntos y mide el efecto en LCP frente a ADR-015. La legibilidad de Josefin Sans 300 en tamaños pequeños se revisa en E170-I01.
-- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada. Sustituida en parte por ADR-049: Lexend se retira.
 
 ## ADR-042 · Tema oscuro por clase y semánticos como variables
 - **Contexto:** E20-I02. `DESIGN.md` 9 pide la variante oscura por clase o atributo en `<html>` y semánticos que cambien de valor según el tema. El sitio actual usa la clase `dark` en `<html>` y guarda `theme` con los valores `dark` o `light` (`main:index.html:57-62`, `main:static/js/servicios/tema.js:56`).
@@ -420,7 +420,29 @@ Reglas del registro:
   - **Colecciones** en `src/content.config.ts` (API de colecciones de Astro, sin dependencias nuevas): todo texto visible se declara con `localized()`, un objeto `{ es, en }` estricto con ambos idiomas obligatorios y no vacíos. Una entrada incompleta hace fallar `pnpm build`. Primera colección: `pages` (título y descripción de SEO por clave de ruta), con la portada.
   - `BaseLayout` recibe `route` (clave del mapa) en lugar de rutas escritas a mano.
 - **Consecuencias:** cada épica de página agrega su colección con `localized()` y su entrada en `pages`. Los textos `en-US` del diccionario los redacta el agente y Felipe los valida (ADR-017). Cambiar un slug del mapa después del cutover exige 301 (ADR-020).
-- **Origen:** E30-I02, 29-10-2026. **Estado:** Aceptada en cuanto al mapa de rutas (validado por Felipe en el encargo de E30-I02); la exclusión de la 404 del mapa y los textos `en-US` del diccionario quedan por validar.
+- **Origen:** E30-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026), incluidos la exclusión de la 404 del mapa y los textos `en-US` del diccionario.
+
+## ADR-049 · Logotipo en dos renglones y enlace a la portada
+- **Contexto:** E30-I03. Felipe rediseñó la composición del logotipo en `DESIGN.md` 3: el nombre pasa a ser fijo y las frases rotan debajo. ADR-008 exigía un logotipo idéntico al actual, y la propuesta P-03 (logotipo como enlace) estaba pendiente.
+- **Decisión:**
+  - **Sustituye en parte a ADR-008** en lo que toca al logotipo. Se conservan el ícono (`main:static/img/favicon.svg` como máscara de 32 × 32), sus colores (`orient-600` / `orient-400`, 300 ms), la separación de 12 px y el ritmo del efecto (1.400 / 84 + 0–34 / 42 / 3.600 / 500 ms).
+  - Cambian la composición y la tipografía:
+    - renglón 1, "Felipe Cuevas" fijo en Cinzel;
+    - renglón 2, frases con máquina de escribir en Josefin Sans, oculto bajo 640 px.
+    - Las frases son "Instructor Dev", "Dev Full Stack" e "Instructor IA" en `es-CL`; en `en-US` las propone el agente y las valida Felipe.
+  - **Acepta P-03:** el logotipo es un enlace a la portada del idioma activo (`getRoute('home', lang)`), con nombre accesible "Felipe Cuevas, inicio" / "Felipe Cuevas, home".
+  - El nombre usa el semántico `heading`, que da los valores que fija `DESIGN.md` 3.2 (`#00131D` / `#FFFFFF`; ver AT-057).
+  - **Lexend se retira:** sin uso tras el cambio, sale de `astro.config.mjs`, de `src/assets/fonts/` (archivo y licencia), del `<Font />` de `BaseLayout` y de `--font-logo`. Sustituye en parte a ADR-041 (Lexend solo en el logotipo) y a ADR-043 (tres familias). El sitio carga dos familias. `DESIGN.md` 5.1 y 9 aún la nombran (AT-058).
+  - **Motor reutilizable** `src/scripts/typewriter.ts`, sin dependencias, para el logotipo y el hero (E40-I01):
+    - cada frase se copia invisible en la misma celda, para reservar el ancho de la más ancha;
+    - el cursor se dibuja como fondo del texto, lo que deja CLS 0;
+    - pausa con la pestaña oculta o fuera de pantalla;
+    - con movimiento reducido o sin JavaScript queda la primera frase fija.
+- **Consecuencias:**
+  - Resuelve AT-009. AT-003 avanza: un único componente en el layout; la 404 lo recibe en E160-I01.
+  - Cualquier cambio del ícono, sus colores o el ritmo exige un ADR que sustituya a este (`DESIGN.md` 3.5).
+  - ADR-008 sigue vigente para la barra de navegación.
+- **Origen:** E30-I03, 29-10-2026; composición decidida por Felipe en `DESIGN.md` 3. **Estado:** Aceptada (validada el 29-10-2026). Las frases `en-US` están por validar.
 
 ---
 
@@ -443,7 +465,7 @@ Reglas del registro:
 - **Propuesta:** comentarios y documentación en español de Chile. Identificadores de código en inglés, por coherencia con Astro y el ecosistema, salvo nombres de dominio propios (por ejemplo `talento-digital`). Alternativa: mantener identificadores en español como en el sitio actual.
 
 ### P-03 · Logotipo como enlace al inicio
-- **Estado:** Pendiente (AT-009).
+- **Estado:** Aceptada el 29-10-2026. Ver ADR-049.
 - **Propuesta:** el logotipo pasa a ser un enlace a la portada del idioma activo, sin cambiar su apariencia ni su animación. Requiere aprobación porque ADR-008 exige comportamiento idéntico.
 
 ### P-04 · Reglas derivadas de AGENTS.md

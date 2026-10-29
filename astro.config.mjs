@@ -68,17 +68,6 @@ export default defineConfig({
         ],
       },
     },
-    {
-      provider: fontProviders.local(),
-      name: 'Lexend',
-      cssVariable: '--font-lexend',
-      fallbacks: ['sans-serif'],
-      options: {
-        variants: [
-          { weight: 700, style: 'normal', src: ['./src/assets/fonts/lexend-latin-700.woff2'] },
-        ],
-      },
-    },
   ],
   vite: {
     plugins: [tailwindcss()],

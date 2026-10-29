@@ -8,6 +8,9 @@ import type { Lang } from './lang';
 
 const es = {
   skipLink: 'Saltar al contenido',
+  logo: {
+    label: 'Felipe Cuevas, inicio',
+  },
   nav: {
     label: 'Navegación principal',
     home: 'Inicio',
@@ -55,6 +58,9 @@ type Dictionary = {
 
 const en: Dictionary = {
   skipLink: 'Skip to content',
+  logo: {
+    label: 'Felipe Cuevas, home',
+  },
   nav: {
     label: 'Main navigation',
     home: 'Home',

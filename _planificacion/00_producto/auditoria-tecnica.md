@@ -7,7 +7,7 @@
 
 **Reglas del archivo:**
 - Es de **solo agregar**. Los hallazgos resueltos se marcan como resueltos, indicando la iteración o ADR que los cerró; nunca se borran.
-- Los hallazgos nuevos continúan la numeración desde AT-057.
+- Los hallazgos nuevos continúan la numeración desde AT-059.
 - Todas las rutas y líneas citadas se refieren a `main` y se consultan con `git show main:<ruta>`.
 
 Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (con referencia).
@@ -91,9 +91,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `404.html:87`, el `span` del logotipo no tiene `data-maquina="logotipo"`.
 - **Impacto:** comportamiento inconsistente del logotipo.
 - **Recomendación:** un único componente de logotipo para todas las páginas.
+- **Avance (E30-I03):** un único componente `Logo.astro` en `BaseLayout`, con el mismo motor en todas las páginas que usan el layout. Sigue abierto hasta que la 404 por idioma use el layout (E160-I01).
 
 ### AT-009 · El logotipo no es un enlace
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E30-I03 (según P-03)
+- **Severidad:** Baja · **Estado:** Resuelto en E30-I03 (enlace a la portada del idioma activo, P-03 aceptada en ADR-049) · **Resuelve:** E30-I03 (según P-03)
 - **Evidencia:** el logotipo está envuelto en un `div` (`index.html:286`).
 - **Impacto:** convención de usabilidad no cumplida.
 - **Recomendación:** convertirlo en enlace a la portada del idioma activo si Felipe aprueba P-03.
@@ -555,3 +556,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E30-I01, 29-10-2026):** `src/components/dev/DesignSample.astro` quita `.dark` de `<html>` en un script de módulo, que corre después del primer pintado. Con tema oscuro guardado o del sistema, el script de tema de `BaseLayout` pone `.dark` antes de pintar y la mitad "clara" de la muestra puede verse oscura un instante.
 - **Impacto:** solo en la muestra interna (`noindex`); no afecta páginas del sitio.
 - **Recomendación:** que la mitad clara declare sus tokens claros con una clase propia, o que la muestra indique al layout que no aplique el tema.
+
+### AT-057 · DESIGN.md 3.2 nombra el token `text` con los valores de `heading`
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Evidencia (E30-I03, 29-10-2026):** `DESIGN.md` 3.2 dice "Color `text` (`#00131D` en claro, `#FFFFFF` en oscuro)". En 4.2, `text` vale `orient-50` en oscuro; el semántico que da `#00131D` / `#FFFFFF` es `heading`.
+- **Impacto:** ambigüedad en la fuente de verdad del diseño.
+- **Recomendación:** cambiar `text` por `heading` en 3.2. Con la validación de Felipe, `Logo.astro` ya usa `heading` (ADR-049).
+
+### AT-058 · DESIGN.md 5.1 y 9 aún nombran Lexend y `--font-logo`
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Evidencia (E30-I03, 29-10-2026):** el logotipo pasó a Cinzel (3.2) y Lexend se retiró del proyecto (ADR-049), pero la tabla de 5.1 conserva la fila `font-logo` / Lexend, la frase "Las tres se autoalojan" y la sección 9 lista `--font-logo`.
+- **Impacto:** `DESIGN.md` describe una familia que el sitio ya no carga.
+- **Recomendación:** quitar la fila de 5.1, ajustar "Las tres" a "Las dos" y quitar `--font-logo` de 9.

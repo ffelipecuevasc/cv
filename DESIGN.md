@@ -47,28 +47,27 @@
 - Todo componente funciona con textos en `es-CL` y `en-US`. Los textos en inglés suelen ser más largos: diseñar con holgura.
 - Ningún texto visible vive dentro de imágenes.
 
-## 3. Logotipo que se conserva (vinculante)
+## 3. Logotipo (vinculante)
 
-Especificación extraída del sitio actual (auditoría, área C). Debe reproducirse **idéntica en apariencia y comportamiento** (ADR-008).
+El ícono, los colores y el ritmo del efecto se conservan del sitio actual (auditoría, área C). La composición y la tipografía del nombre cambian según ADR-049, que sustituye en parte a ADR-008.
 
 ### 3.1 Ícono
 - **Fuente:** `static/img/favicon.svg` del sitio actual. Es una ventana de terminal (barra superior con dos puntos y chevrons `< >`), definida como máscara, en un lienzo de 48×48 con `viewBox="-2 -2 52 52"`.
 - **Render:**
   - contenedor de **32×32 px** pintado con el color de fondo y el SVG aplicado como máscara (`mask-image`, `mask-size: contain`, sin repetición);
-  - no es decorativo en el sentido semántico, pero se oculta a tecnologías asistivas (`aria-hidden`), porque el nombre accesible lo aporta el texto.
-- **Color:** `#00678A` en tema claro y `#0096C7` en tema oscuro (hoy `orient-600` y `orient-400`), con transición de color de 300 ms.
+  - se oculta a tecnologías asistivas (`aria-hidden`).
+- **Color:** `#00678A` en tema claro y `#0096C7` en tema oscuro (`orient-600` y `orient-400`), con transición de color de 300 ms.
 - **Separación con el texto:** 12 px.
 
-### 3.2 Texto
-- **Contenido base:** "Felipe Cuevas".
-- **Tipografía:** Lexend, peso 700, tamaño 1,25 rem (20 px) con alto de línea de 1,75 rem, interletraje ajustado (−0,025 em).
-- **Color:** `#00131D` en tema claro y `#FFFFFF` en tema oscuro.
-- El efecto es de "máquina de escribir" por su **animación de tecleo**, no por usar tipografía monoespaciada.
+### 3.2 Texto en dos renglones
+- **Renglón 1, nombre fijo:** "Felipe Cuevas", en Cinzel (`font-display`), mayúsculas, 14 px con interletraje de 0,06 em; desde 640 px, 18 px con 0,12 em. Color `text` (`#00131D` en claro, `#FFFFFF` en oscuro). No se anima y nunca se parte en dos líneas.
+- **Renglón 2, frases:** Josefin Sans, mayúsculas, 11,5 px, interletraje de 0,2 em, color `text-soft` y 4 px de separación con el nombre. Aquí corre el efecto máquina de escribir. Bajo 640 px este renglón se oculta (`display: none`).
+- El efecto es de "máquina de escribir" por su animación de tecleo, no por usar tipografía monoespaciada.
 
-### 3.3 Efecto máquina de escribir
+### 3.3 Efecto máquina de escribir (renglón 2)
 - **Frases, en ciclo circular y por idioma:**
-  - en `es-CL`: "Felipe Cuevas", "Instructor Dev", "Dev Full Stack", "Instructor IA";
-  - en `en-US`: la traducción se valida con Felipe en E30-I03, y la primera frase es siempre "Felipe Cuevas".
+  - en `es-CL`: "Instructor Dev", "Dev Full Stack", "Instructor IA";
+  - en `en-US`: las propone el agente en E30-I03 y las valida Felipe (ADR-017).
 - **Ritmo:**
   | Paso | Valor |
   |---|---|
@@ -78,23 +77,20 @@ Especificación extraída del sitio actual (auditoría, área C). Debe reproduci
   | Espera con la frase completa | 3.600 ms |
   | Espera con el texto vacío | 500 ms |
 - **Estructura accesible:**
-  - nombre accesible fijo "Felipe Cuevas" en texto solo para lectores de pantalla;
-  - una copia invisible de la frase más larga reserva el ancho, para que el CLS sea 0;
-  - el texto tecleado es decorativo (`aria-hidden`);
-  - el texto nunca se parte en dos líneas.
+  - el logotipo es un enlace a la portada del idioma activo (P-03, ADR-049), con nombre accesible fijo "Felipe Cuevas, inicio" / "Felipe Cuevas, home";
+  - las frases tecleadas son decorativas (`aria-hidden`);
+  - una copia invisible de la frase más larga reserva el ancho del renglón 2, para que el CLS sea 0.
 - **Cursor:**
-  - barra de 0,07 em × 0,95 em en el color del texto (`currentColor`), con separación de 0,06 em y radio de 1 px;
+  - barra de 0,07 em × 0,95 em en `currentColor`, con separación de 0,06 em y radio de 1 px;
   - parpadea cada 1,05 s de forma escalonada y queda fijo mientras se teclea.
 - **Pausa:** se detiene con la pestaña oculta o con el logotipo fuera de pantalla, y retoma sin perder su estado.
 - **Presencia:** el logotipo anima en **todas** las páginas, incluida la 404 (AT-003).
 
 ### 3.4 Movimiento reducido y sin JavaScript
-- Con `prefers-reduced-motion: reduce`, el efecto **no arranca**: se muestra "Felipe Cuevas" estático y el cursor no parpadea.
-- Sin JavaScript se muestra "Felipe Cuevas" estático.
+- Con `prefers-reduced-motion: reduce` o sin JavaScript, el renglón 2 muestra la primera frase fija y el cursor no parpadea. El nombre siempre está visible.
 
-### 3.5 Pendiente
-- ¿El logotipo será enlace a la portada del idioma activo? Es la propuesta P-03, pendiente de aprobación.
-- Si la paleta nueva cambia los colores de la sección 3.1 o 3.2, se requiere un ADR que lo autorice de forma explícita.
+### 3.5 Cambios
+- Cualquier cambio del ícono, de sus colores o del ritmo requiere un ADR nuevo que sustituya a ADR-049.
 
 ## 4. Color
 
