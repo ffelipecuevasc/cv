@@ -23,7 +23,7 @@
   - **Experiencia ▾**: Resumen, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital;
   - **Comunidad ▾**: Eventos, Foro, Recursos;
   - Contacto;
-  - llamado a la acción "Descargar CV" (ADR-021).
+  - el llamado a la acción "Descargar CV" (ADR-021) no va en la barra: vive en el pie (7.9, ADR-057).
 - En móvil, "Experiencia" y "Comunidad" son rótulos de grupo no navegables.
 - Incluye el **botón de apariencia** (claro/oscuro), que se mueve desde el pie (ADR-021), y el **botón de idioma**, que lleva a la página equivalente (ADR-001).
 - El **logotipo se conserva sí o sí** (sección 3).
@@ -46,13 +46,14 @@
 ### 2.4 Internacionalización
 - Todo componente funciona con textos en `es-CL` y `en-US`. Los textos en inglés suelen ser más largos: diseñar con holgura.
 - Ningún texto visible vive dentro de imágenes.
+- La imagen Open Graph (1.200 × 630 px) solo lleva el nombre propio «Felipe Cuevas» y las insignias de certificación, que no se traducen, así que sirve a los dos idiomas; el título y la descripción viajan en las metaetiquetas de cada idioma y el texto alternativo se declara por idioma.
 
 ## 3. Logotipo (vinculante)
 
-El ícono, los colores y el ritmo del efecto se conservan del sitio actual (auditoría, área C). La composición y la tipografía del nombre cambian según ADR-049, que sustituye en parte a ADR-008.
+Los colores y el ritmo del efecto se conservan del sitio actual (auditoría, área C). La composición y la tipografía del nombre cambian según ADR-049, que sustituye en parte a ADR-008, y el ícono cambia según ADR-057.
 
 ### 3.1 Ícono
-- **Fuente:** `static/img/favicon.svg` del sitio actual. Es una ventana de terminal (barra superior con dos puntos y chevrons `< >`), definida como máscara, en un lienzo de 48×48 con `viewBox="-2 -2 52 52"`.
+- **Fuente:** ícono «terminal» de Material Symbols Light (Google, licencia Apache 2.0; se conserva el aviso de licencia, ADR-057): ventana con barra superior, chevron `>` y guion, de trazo fino, en `viewBox="0 0 24 24"`. Reemplaza en el logotipo al ícono de `static/img/favicon.svg`, que sigue siendo el favicon del sitio.
 - **Render:**
   - contenedor de **32×32 px** pintado con el color de fondo y el SVG aplicado como máscara (`mask-image`, `mask-size: contain`, sin repetición);
   - se oculta a tecnologías asistivas (`aria-hidden`).
@@ -83,6 +84,7 @@ El ícono, los colores y el ritmo del efecto se conservan del sitio actual (audi
 - **Cursor:**
   - barra de 0,07 em × 0,95 em en `currentColor`, con separación de 0,06 em y radio de 1 px;
   - parpadea cada 1,05 s de forma escalonada y queda fijo mientras se teclea.
+  - va pegado al último carácter escrito y se mueve con él al escribir y al borrar; con el renglón vacío queda al inicio. La copia invisible solo reserva el ancho del renglón, no fija la posición del cursor.
 - **Pausa:** se detiene con la pestaña oculta o con el logotipo fuera de pantalla, y retoma sin perder su estado.
 - **Presencia:** el logotipo anima en **todas** las páginas, incluida la 404 (AT-003).
 
@@ -90,7 +92,7 @@ El ícono, los colores y el ritmo del efecto se conservan del sitio actual (audi
 - Con `prefers-reduced-motion: reduce` o sin JavaScript, el renglón 2 muestra la primera frase fija y el cursor no parpadea. El nombre siempre está visible.
 
 ### 3.5 Cambios
-- Cualquier cambio del ícono, de sus colores o del ritmo requiere un ADR nuevo que sustituya a ADR-049.
+- Cualquier cambio del ícono, de sus colores o del ritmo requiere un ADR nuevo que sustituya a ADR-049 o a ADR-057.
 
 ## 4. Color
 
@@ -221,7 +223,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 | h2 de sección | Cinzel 400 | `clamp(2rem, 4.2vw, 3.1rem)` | 1,2 | 0,02 em | — |
 | h2 de banda | Cinzel 400 | 1,9 rem; 2,3 rem desde 768 px | 1,2 | 0,03 em | — |
 | h3 de tarjeta | Cinzel 400 | 1–1,15 rem | 1,3 | 0,02–0,03 em | — |
-| Cifra | Cinzel 400 | `clamp(2.2rem, 3vw, 3rem)` | 1 | 0 | Números tabulares. Tope de 3 rem: con 3,4 rem, "+2.000" no cabe en una de las 5 columnas de la banda. Las métricas del hero van a 2 rem (7.4) |
+| Cifra | Cinzel 400 | `clamp(2.2rem, 3vw, 3rem)` | 1 | 0 | Números tabulares. Tope de 3 rem: con 3,4 rem, "+2.000" no cabe en una de las 5 columnas de la banda |
 | Cita de testimonio | Josefin 300 | 1,08 rem | 1,75 | 0 | — |
 | Comilla decorativa | Cinzel | 3,4 rem | 0,6 | — | `gold`, `aria-hidden` |
 
@@ -266,10 +268,10 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 - **Distribución:** logotipo a la izquierda (sección 3, sin cambios); menú al centro; acciones a la derecha.
 - **Escritorio (desde `xl`, 1.280 px):** Inicio, Educación, Experiencia ▾, Comunidad ▾ y Contacto (sección 2.1), en Josefin 15 px, separados por 28–36 px, color `text-muted`. Al pasar el cursor o con foco: color `text` y un subrayado de 2 px con degradado `vibrant` → `gold` que crece desde el centro en 350 ms. Página activa: subrayado fijo y `aria-current="page"`; el disparador del grupo de la página activa también lleva subrayado. El punto de quiebre se estima por el ancho de las opciones en ambos idiomas y E30-I04 lo confirma midiendo.
 - **Desplegables:** panel `surface` sin radio, borde `border`, sombra `float` y línea superior de 2 px `gold` → `vibrant`. Opciones de 44 px de alto. Se abren con clic, Enter o Espacio y con el cursor; se cierran con Escape (devuelve el foco al disparador) y al salir. Chevron que gira 180° en 200 ms.
-- **Acciones:** "Descargar CV" como botón secundario de 44 px; botón de apariencia de 44 × 44; selector de idioma.
+- **Acciones:** botón de apariencia de 44 × 44 y selector de idioma. "Descargar CV" no va en la barra (ADR-057, 7.9).
 - **Botón de apariencia:** ícono de luna en claro y de sol en oscuro, en `icon` (en oscuro, `gold`). El nombre accesible dice la acción: "Activar tema oscuro" / "Activar tema claro" (y su equivalente en `en-US`).
 - **Selector de idioma:** control segmentado de 44 px de alto con "ES" y "EN" (Josefin 600, 12,5 px, interletraje 0,12 em) y divisor `border-strong`. El idioma actual va relleno (`orient-950` con texto blanco en claro; `orient-50` con texto `orient-950` en oscuro) y marcado con `aria-current="true"`. El otro idioma es un **enlace** a la página equivalente con `hreflang` y `lang`, y un nombre accesible del tipo "English version of this page" / "Versión en español de esta página". No se usan botones con `aria-pressed`.
-- **Móvil y tableta (bajo 1.280 px):** se ocultan el menú y "Descargar CV"; aparece un botón de menú de 44 × 44 con el estilo del botón de ícono. El panel se despliega bajo la barra a todo el ancho, con fondo `bg` al 98 %, borde inferior `border` y relleno de 24 px. Contiene, en este orden: Inicio, Educación, rótulo de grupo "Experiencia" (no navegable) con sus 5 opciones, rótulo "Comunidad" con sus 3 opciones, Contacto y "Descargar CV" como botón primario a todo el ancho. Los rótulos de grupo usan el estilo kicker y las opciones hijas llevan una regla vertical `border` a la izquierda. Altura sin límite fijo (AT-011): el panel se desplaza si no cabe. Cerrado lleva `inert`. Escape lo cierra. Desde 420 px, el botón de apariencia y el selector de idioma quedan en la barra, junto al botón de menú; bajo 420 px pasan al final del panel del menú, después de "Descargar CV" y separados por una línea `border` (ADR-051). El logotipo no se achica.
+- **Móvil y tableta (bajo 1.280 px):** se oculta el menú; aparece un botón de menú de 44 × 44 con el estilo del botón de ícono. El panel se despliega bajo la barra a todo el ancho, con fondo `bg` al 98 %, borde inferior `border` y relleno de 24 px. Contiene, en este orden: Inicio, Educación, rótulo de grupo "Experiencia" (no navegable) con sus 5 opciones, rótulo "Comunidad" con sus 3 opciones y Contacto. No lleva "Descargar CV" (ADR-057). Los rótulos de grupo usan el estilo kicker y las opciones hijas llevan una regla vertical `border` a la izquierda. Altura sin límite fijo (AT-011): el panel se desplaza si no cabe. Cerrado lleva `inert`. Escape lo cierra. Desde 420 px, el botón de apariencia y el selector de idioma quedan en la barra, junto al botón de menú; bajo 420 px pasan al final del panel del menú, después de Contacto y separados por una línea `border` (ADR-051). El logotipo no se achica.
 
 ### 7.3 Botones
 | Variante | Claro | Oscuro | Medidas |
@@ -288,20 +290,18 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 ### 7.4 Hero de Inicio
 Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40-I01 y la matriz de ADR-016.
 
-- **Composición (desde 1.024 px):** retícula de 12 columnas; texto en 7 columnas y retrato en 5, centrados en vertical, con 48 px de separación. Fondo `bg` con campo de puntos (y halo en oscuro).
+- **Composición (desde 1.024 px):** retícula de 12 columnas; texto en 7 columnas y retrato en 5, centrados en vertical, con 48 px de separación. El hero ocupa el alto visible menos la barra (76 px) y el contenido va centrado en vertical (ADR-058). Fondo `bg` con campo de puntos (y halo en oscuro).
 - **Columna de texto, en orden:**
   1. Rótulo "Ingeniero Informático" (kicker con regla dorada).
   2. Conmutador de 3 perfiles: control segmentado con el estilo del selector de idioma (44 px), `tablist` con flechas, Inicio y Fin; oculto sin JavaScript; recuerda el perfil en `perfil-hero` (ADR-023).
   3. `<h1>` con el titular del perfil (Cinzel). La parte destacada va en su propia línea, en Josefin 300 cursiva, color `accent`, con máquina de escribir (motor de E30-I03); con movimiento reducido o sin JavaScript queda estática. Deja 16 px de separación con el rótulo y el conmutador.
   4. Párrafo del perfil (`text-muted`): Josefin 300, 1,0625 rem, interlineado 1,7, ancho máximo de 62 caracteres, a 16 px bajo el `<h1>`.
-  5. Dos llamados a la acción, a 24 px bajo el párrafo: primario (programas / experiencia docente / portafolio) y secundario "Revisa mi CV" con ícono de descarga en `icon`.
-  6. Tres métricas del perfil en un `dl`, a 24 px bajo los botones. Rótulo `dt` encima de la cifra (`text-soft`, como en la banda, 7.8); cifra en Cinzel 400 a 2 rem; el signo "+" va en `primary` en claro y `gold` en oscuro (4.3); divisores verticales `border` cuando van en horizontal. Bajo 640 px las 3 métricas van en filas (rótulo a la izquierda, cifra a la derecha).
+  5. Certificaciones, sin contenedor: rótulo "Profesional certificado" (`en-US`: "Certified professional") en estilo kicker y las 4 insignias de 40 px con su nombre al lado: Oracle, AWS, Python y Anthropic (ADR-054 y ADR-058). "Python" abrevia "Python Institute"; el nombre completo va en Educación y en el JSON-LD. Van en una fila; si bajo 640 px no caben, en 2 × 2. Las separaciones con el párrafo las mide y fija E40-I04. El hero no lleva llamados a la acción ni métricas por perfil (ADR-058).
 - **Columna del retrato:**
   - Retrato `felipe_cuevas.webp` en proporción 4:5, **alto máximo de 440 px** desde 1.024 px, con carga prioritaria y dimensiones declaradas.
   - Marco desplazado (4.5) corrido 24 px a la derecha y abajo, desde 640 px.
   - **Riel social** sobre el borde derecho, centrado en vertical: 4 botones de 46 × 46 (LinkedIn, GitHub, REUF y correo) separados por 8 px, fondo `surface`, ícono de marca en `icon-rail`, contorno 1 px y sombra `rail`. Al pasar o con foco: fondo `orient-950` e ícono `gold` en claro; fondo `orient-400` e ícono blanco en oscuro; se corre 2 px a la izquierda. Globo de ayuda a la izquierda con el nombre (fondo `orient-950` en claro y `orient-50` en oscuro, 12 px, mayúsculas). Es una lista dentro de un `<nav>` con nombre accesible.
-  - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 4 insignias (Oracle, AWS, Python Institute y Anthropic, ADR-054) de 40 px con su nombre. Desde 640 px las insignias van en 2 × 2, porque en una fila la tarjeta taparía el riel social; bajo 640 px la tarjeta va estática debajo del retrato y las 4 insignias en una fila. El nombre visible del emisor de AWS es "AWS".
-- **Medidas:** relleno vertical de 32 px desde 1.024 px. Presupuesto en la matriz de ADR-016: el hero completo debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). E40-I01 mide y, si no cabe, ajusta primero el alto del retrato y el tamaño del h1, nunca quita elementos. Resultado de E40-I01: el hero completo, con su relleno, termina dentro del área visible en los 48 casos de la matriz (4 áreas × 2 idiomas × 2 temas × 3 perfiles); el margen mínimo es de 11 px en 1366×638. Se ajustaron el h1, el párrafo, el interlineado y las separaciones; el retrato se mantuvo en 440 px.
+- **Medidas:** relleno vertical de 32 px desde 1.024 px y alto mínimo igual al área visible menos la barra. Presupuesto en la matriz de ADR-016: el contenido del hero debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). Si no cabe, se ajustan las separaciones y el tamaño del h1; nunca se quita un elemento sin ADR. E40-I04 vuelve a medir los 48 casos (4 áreas × 2 idiomas × 2 temas × 3 perfiles).
 - **Móvil:** una columna en este orden: texto y luego retrato; riel social dentro del retrato, a 12 px del borde.
 
 ### 7.5 Encabezado de sección
@@ -318,8 +318,8 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 
 ### 7.8 Banda y franja temática
 - **Banda:** sección de ancho completo con fondo `band` (4.5), contenido en el contenedor y encabezado de banda (7.5).
-- **Banda de cifras (Inicio):** `dl` con borde superior `primary` al 20 % (oscuro: blanco al 15 %) y divisores verticales iguales (variable `--stats-rule`); **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa).
-  - Encabezado de banda: rótulo "Trayectoria profesional" y titular "Impacto medido" (`en-US`: "Professional track record" y "Measured impact").
+- **Banda de cifras (Inicio):** `dl` de 5 cifras, **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa). Sin borde superior ni divisores finos: las cifras se separan con barras verticales con el degradado `gold` → `vibrant` de la regla dorada (7.5), de 2 px de ancho y decorativas (`aria-hidden`); su alto lo fija E40-I04 (ADR-058).
+  - Encabezado de banda: rótulo "Trayectoria profesional" y titular "Resumen" (`en-US`: "Professional track record" y "Overview").
   - Las 5 cifras: certificaciones (derivada de `src/data/certifications.ts`, ADR-053), años como relator REUF, módulos REUF, años como docente y alumnos.
   - Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), cifra a 12 px bajo él y línea de contexto de 14 px en `text-soft` a 10 px de la cifra. Texto alineado a la izquierda. El signo "+" va antepuesto, en `primary` en claro y `gold` en oscuro (4.3).
   - Bajo 480 px el `dt` usa 12 px y 0,1 em de interletraje.
@@ -329,10 +329,10 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - **Fondo:** `footer` (`orient-50` en claro, `orient-950` en oscuro), con una línea superior de 2 px con degradado transparente → `gold` (20 %) → `vibrant` (80 %) → transparente.
 - **Relleno:** 64 px arriba y 40 px abajo.
 - **Columnas (3 desde 768 px; una bajo esa medida):**
-  1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho).
-  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y lista de enlaces a las páginas, con las mismas etiquetas de la navbar e incluyendo Recursos (AT-008). La lista exacta la cierra E30-I06.
-  3. **Redes** (alineada a la derecha desde 768 px): rótulo y lista de las 4 redes con ícono de marca de 18 px en `icon`, texto `text-muted`; al pasar, `accent`.
-- **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año, "Felipe Cuevas" y el enlace a la política de privacidad (ADR-035), en `text-soft` 14 px.
+  1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho). Bajo la frase, el botón secundario "Descargar CV" de 46 px (7.3) con ícono de descarga, atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017 y ADR-057). Es el acceso al CV de todo el sitio.
+  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad lo agrega E155-I01 cuando exista la página (ADR-035); hasta entonces son 5.
+  3. **Redes** (alineada a la izquierda en todos los anchos): rótulo y lista de las 4 redes; en cada una, el ícono de marca de 18 px en `icon` va antes del texto `text-muted`; al pasar, `accent`.
+- **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año y "Felipe Cuevas", en `text-soft` 14 px. El enlace de privacidad va en la columna de navegación (ADR-057).
 - El botón de apariencia ya no está en el pie (ADR-021). Las columnas "Tecnologías" y "Certificaciones" del pie actual no forman parte del diseño nuevo.
 
 ### 7.10 Formularios (lenguaje base para E140)
@@ -385,7 +385,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
   - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, trazo de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
-  - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4), `--metric-sign` (signo de toda cifra de display, 4.3) y `--stats-rule` (borde y divisores de la banda de cifras, 7.8).
+  - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4) y `--metric-sign` (signo de toda cifra de display, 4.3). Los separadores de la banda usan los tokens `gold` y `vibrant`, sin variable propia (ADR-058).
   - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;
@@ -410,7 +410,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 ### 11.2 Catálogo de patrones
 | Patrón | Descripción | Disponible para |
 |---|---|---|
-| Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado, riel social y tarjeta flotante sobre fondo de puntos | Inicio |
+| Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
 | Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas) |
 | Zigzag | Franjas que alternan la orientación título / contenido | Educación |
 | Grilla simétrica de tarjetas | Encabezado centrado, tarjetas iguales y controles centrados | Sin asignar (los testimonios de Inicio usan el carril) |
