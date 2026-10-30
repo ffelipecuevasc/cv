@@ -27,7 +27,7 @@ Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + re
 
 ## Tareas
 - [ ] Aplicar el patrón de composición de la página definido en E20-I01 (ADR-036).
-- [ ] Diseñar la composición del hero y validarla con Felipe antes de implementar.
+- [ ] Aplicar la composición de `DESIGN.md` 7.4 sin maqueta previa (decisión de Felipe, 29-10-2026).
 - [ ] Implementar el conmutador accesible (flechas, Home/End) con mejora progresiva.
 - [ ] Reutilizar el motor de máquina de escribir de E30-I03 para los titulares.
 - [ ] Validar con Felipe la cifra correcta de certificaciones.

@@ -472,7 +472,7 @@ Reglas del registro:
   - **Volver arriba:** enlace `#top` con estilo de la flecha del carrusel y 44 × 44 px, fijo a 24 px del borde inferior derecho (más la zona segura). Aparece tras desplazarse una pantalla. Con movimiento reducido el desplazamiento es instantáneo; al terminar, el foco pasa al logotipo para no perderse cuando el botón se oculta. Sin JavaScript queda siempre visible.
   - **Pie al fondo:** `BaseLayout` hace que el `<main>` ocupe el alto sobrante, así que con contenido corto el pie queda al borde inferior de la ventana.
 - **Consecuencias:** resuelve AT-008. El pie de escritorio mide unos 740 px por la lista de 11 enlaces (AT-062). E155-I01 agrega el enlace de privacidad en el contenedor reservado, sin tocar el resto.
-- **Origen:** E30-I06, 29-10-2026. **Estado:** Aceptada (lista, redes y frases decididas por Felipe en el encargo de E30-I06).
+- **Origen:** E30-I06, 29-10-2026. **Estado:** Aceptada (validada por Felipe el 29-10-2026).
 
 ---
 

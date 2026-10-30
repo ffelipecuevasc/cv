@@ -588,7 +588,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** evaluar ocultarlo sin JS reservando su espacio (por ejemplo, con `<noscript>` y `visibility: hidden`), sin romper la CSP de E170-I03.
 
 ### AT-061 · DESIGN.md 7.2 no recoge dónde van tema e idioma bajo 420 px
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Severidad:** Baja · **Estado:** Resuelto (edición de Felipe en `DESIGN.md` 7.2, 29-10-2026; recoge ADR-051) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E30-I05, 29-10-2026):** `DESIGN.md` 7.2 deja tema e idioma en la barra bajo 1.280 px. A 360 y 390 px no caben junto al logotipo y al botón de menú (la barra necesita unos 400 px). ADR-051 los pasa al final del panel bajo 420 px.
 - **Impacto:** la fuente de verdad del diseño no describe el comportamiento real.
 - **Recomendación:** agregar a 7.2 una frase: "Bajo 420 px, el botón de apariencia y el selector de idioma pasan al final del panel del menú". Si Felipe prefiere otra solución (por ejemplo, un logotipo más angosto), se sustituye ADR-051.
