@@ -1,7 +1,13 @@
 {
   "order": 3,
-  "tab": { "es": "Desarrollador", "en": "Developer" },
-  "headline": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
+  "tab": {
+    "es": "Desarrollador",
+    "en": "Developer"
+  },
+  "headline": {
+    "es": "Desarrollador Full Stack",
+    "en": "Full Stack Developer"
+  },
   "phrases": {
     "es": ["Java & Spring", "Python & Django", "Web asistido con IA"],
     "en": ["Java & Spring", "Python & Django", "AI-assisted Web"]
@@ -9,27 +15,5 @@
   "paragraph": {
     "es": "Aplicaciones **end-to-end** con Spring Boot y Django, desplegadas en **AWS y Oracle Cloud (OCI)**. Diseño de APIs REST, modelado de bases de datos relacionales y contenedorización con Docker. Respaldado por {certifications} certificaciones profesionales vigentes de Oracle, Amazon Web Services, Python Institute y Anthropic.",
     "en": "**End-to-end** applications with Spring Boot and Django, deployed on **AWS and Oracle Cloud (OCI)**. REST API design, relational database modeling and containerization with Docker. Backed by {certifications} current professional certifications from Oracle, Amazon Web Services, Python Institute and Anthropic."
-  },
-  "cta": {
-    "route": "developer",
-    "label": { "es": "Revisa mi portafolio", "en": "Browse my portfolio" }
-  },
-  "metrics": [
-    {
-      "kind": "number",
-      "value": 4,
-      "plus": false,
-      "label": { "es": "Lenguajes", "en": "Languages" }
-    },
-    {
-      "kind": "number",
-      "value": 4,
-      "plus": false,
-      "label": { "es": "Frameworks", "en": "Frameworks" }
-    },
-    {
-      "kind": "certifications",
-      "label": { "es": "Certificaciones", "en": "Certifications" }
-    }
-  ]
+  }
 }

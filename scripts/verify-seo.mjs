@@ -95,6 +95,13 @@ for (const [lang, info] of Object.entries(LANGS)) {
     description.length >= 50 && description.length <= 170,
     `description de 50 a 170 caracteres (${description.length})`,
   );
+  const icon = links.find((l) => l.rel === 'icon');
+  check(
+    icon?.type === 'image/svg+xml' &&
+      icon?.href === '/static/img/favicon.svg' &&
+      existsSync(join(DIST, 'static/img/favicon.svg')),
+    'favicon SVG declarado y presente en dist/',
+  );
   check(links.filter((l) => l.rel === 'canonical').length === 1, 'un solo canonical');
   check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
   const alternates = links.filter((l) => l.rel === 'alternate' && l.hreflang);
@@ -233,8 +240,16 @@ for (const [lang, info] of Object.entries(LANGS)) {
     ...html.matchAll(/<dt[^>]*>(?:Certificaciones|Certifications)<\/dt><dd[^>]*>(.*?)<\/dd>/g),
   ].map((m) => m[1].replace(/<span class="context"[^>]*>.*?<\/span>/, '').replace(/<[^>]+>/g, ''));
   check(
-    shown.length >= 2 && shown.every((s) => s === expected),
-    `cifra del hero y de la franja (${shown.join(', ')}) = derivada de ${credentials.length} credenciales (${expected})`,
+    shown.length >= 1 && shown.every((s) => s === expected),
+    `cifra de la banda (${shown.join(', ')}) = derivada de ${credentials.length} credenciales (${expected})`,
+  );
+
+  // El párrafo del perfil Desarrollador usa la cifra derivada de los datos (ADR-053).
+  const prose = plus ? `${lang === 'es' ? 'más de' : 'more than'} ${value}` : String(value);
+  check(
+    html.includes(`Respaldado por ${prose} certificaciones`) ||
+      html.includes(`Backed by ${prose} current professional certifications`),
+    `párrafo del hero con "${prose}" certificaciones (derivado de los datos)`,
   );
 
   check(website['@id'] === `${SITE}/#sitio`, 'WebSite @id estable');

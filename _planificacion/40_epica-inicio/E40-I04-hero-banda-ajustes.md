@@ -1,7 +1,7 @@
 # E40-I04 · Hero simplificado y separadores de la banda
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (30-10-2026)
 - **Épica:** E40 · Página Inicio (index.html) · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E30-I07 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-009, ADR-016, ADR-017, ADR-023, ADR-053, ADR-054, ADR-056, ADR-058
+- **Depende de:** E30-I07 · **Hallazgos que cierra:** AT-072 y AT-073 · **ADR relacionados:** ADR-009, ADR-016, ADR-017, ADR-023, ADR-053, ADR-054, ADR-056, ADR-058, ADR-059
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -30,6 +30,7 @@ Darle aire al hero y separar mejor las cifras de la banda, según la revisión d
 - Fila de certificaciones bajo el párrafo; retiro de la tarjeta flotante.
 - Alto mínimo del hero y nuevas separaciones internas.
 - Separadores de la banda y titular nuevo.
+- Favicon en el `<head>` (tarea adicional, AT-073) y limpieza de lo redundante (AT-072).
 
 ## Fuera de alcance
 - Navbar y pie (E30-I07).
@@ -38,24 +39,27 @@ Darle aire al hero y separar mejor las cifras de la banda, según la revisión d
 
 ## Tareas
 - [x] Registrar ADR-058 en `decisiones.md` con el texto de la sección "ADR a registrar" (ya lo registró E30-I07).
-- [ ] Quitar llamados a la acción y métricas del contenido y del componente; borrar lo que quede sin uso.
-- [ ] Fila "Profesional certificado" / "Certified professional" con las 4 insignias sin contenedor; retirar `CredentialsCard` de encima del retrato.
-- [ ] Hero con alto mínimo del área visible menos la barra desde 1.024 px; repartir el espacio con la escala de `DESIGN.md` 6 y registrar las medidas en la bitácora.
-- [ ] Banda: barras verticales `gold` → `vibrant` (decorativas, `aria-hidden`), sin borde superior ni divisores finos; titular "Resumen" / "Overview".
-- [ ] Actualizar `2026-10-30_E40-revision-ingles.md`: quitar los textos retirados y agregar los nuevos.
-- [ ] Medir de nuevo los 48 casos de la matriz de ADR-016.
+- [x] Quitar llamados a la acción y métricas del contenido y del componente; borrar lo que quede sin uso.
+- [x] Fila "Profesional certificado" / "Certified professional" con las 4 insignias sin contenedor; retirar `CredentialsCard` de encima del retrato.
+- [x] Hero con alto mínimo del área visible menos la barra desde 1.024 px; repartir el espacio con la escala de `DESIGN.md` 6 y registrar las medidas en la bitácora.
+- [x] Banda: barras verticales `gold` → `vibrant` (decorativas, `aria-hidden`), sin borde superior ni divisores finos; titular "Resumen" / "Overview".
+- [x] Actualizar `2026-10-30_E40-revision-ingles.md`: quitar los textos retirados y agregar los nuevos.
+- [x] Medir de nuevo los 48 casos de la matriz de ADR-016 (480 de 480 comprobaciones; detalle en la bitácora).
+- [x] **Tarea adicional (AT-073):** copiar `main:static/img/favicon.svg` a `public/static/img/favicon.svg` y declarar el favicon en `BaseLayout.astro`.
+- [x] **Tarea adicional (AT-072):** quitar la regla del cursor repetida en `Hero.astro`, mover `cv` de `nav-items.ts` a `footer-links.ts` y retirar `size="bar"` del botón.
 
 ## Archivos previstos (crear / modificar)
-- Modificar: `src/components/home/Hero.astro`, `StatsBand.astro`, contenido del hero y de la banda, `src/content.config.ts`, `src/i18n/ui.ts`, `src/styles/global.css`.
-- Eliminar si queda sin uso: `src/components/home/CredentialsCard.astro`, variables de componente de las métricas.
+- Modificar: `src/components/home/Hero.astro`, `StatsBand.astro`, contenido del hero y de la banda, `src/content.config.ts`, `src/styles/global.css` (se quita `--stats-rule`), `BaseLayout.astro` (favicon), `Button.astro`, `DesignSample.astro`, `nav-items.ts`, `footer-links.ts`, `Footer.astro`, `scripts/verify-seo.mjs`.
+- Crear: `src/components/home/HeroCertifications.astro`, `public/static/img/favicon.svg`.
+- Eliminar: `src/components/home/CredentialsCard.astro`; la variable `--stats-rule`. `src/i18n/ui.ts` no cambió (los textos del hero viven en `src/content/`).
 
 ## Criterios de aceptación (verificables)
-- [ ] El hero no tiene llamados a la acción ni métricas, en es y en; el conmutador, `perfil-hero` y `?perfil=` funcionan igual.
-- [ ] Las 4 insignias se ven bajo el párrafo, sin contenedor, a 40 px y con su nombre (Python sin "Institute"); nada tapa el retrato.
-- [ ] En los 48 casos de la matriz de ADR-016 el hero completo se ve sin scroll y ocupa el alto visible menos la barra.
-- [ ] La banda separa las cifras con barras degradadas, sin borde superior ni divisores finos, y el titular dice "Resumen" / "Overview".
-- [ ] CLS 0; sin JavaScript se ve completo el perfil Instructor; movimiento reducido sin máquina de escribir.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] El hero no tiene llamados a la acción ni métricas, en es y en; el conmutador, `perfil-hero` y `?perfil=` funcionan igual.
+- [x] Las 4 insignias se ven bajo el párrafo, sin contenedor, a 40 px y con su nombre (Python sin "Institute"); nada tapa el retrato.
+- [x] En los 48 casos de la matriz de ADR-016 el hero completo se ve sin scroll y ocupa el alto visible menos la barra.
+- [x] La banda separa las cifras con barras degradadas, sin borde superior ni divisores finos, y el titular dice "Resumen" / "Overview".
+- [x] CLS 0; sin JavaScript se ve completo el perfil Instructor; movimiento reducido sin máquina de escribir.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check` y `pnpm verify:seo` sin errores.
@@ -80,7 +84,7 @@ Darle aire al hero y separar mejor las cifras de la banda, según la revisión d
 - Sin contenedor, las insignias deben leerse bien sobre el campo de puntos en ambos temas.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

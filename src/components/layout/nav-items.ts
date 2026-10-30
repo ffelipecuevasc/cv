@@ -36,9 +36,3 @@ export const getNavItems = (t: ReturnType<typeof useTranslations>): NavItem[] =>
   },
   { key: 'contact', label: t.nav.contact },
 ];
-
-/** El CV es el PDF de siempre (ADR-050) y solo existe en español (ADR-017). */
-export const cv = {
-  href: '/static/CV_Felipe_Cuevas_2026.pdf',
-  file: 'CV_Felipe_Cuevas_2026.pdf',
-} as const;

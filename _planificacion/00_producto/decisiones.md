@@ -546,6 +546,15 @@ Reglas del registro:
 - **Consecuencias:** el hero ya no enlaza a Instructor, Docente ni Desarrollador, ni al CV; esas páginas se alcanzan desde el menú y el CV desde el pie (ADR-057). La cifra de certificaciones (ADR-053) sigue en la banda y en el JSON-LD. Hay que volver a medir los 48 casos de la matriz. Los textos en inglés retirados salen de la revisión de E40. Felipe edita `DESIGN.md` 5.2, 7.4, 7.8, 9 y 11.2 (ADR-033).
 - **Origen:** E40-I04, decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
 
+## ADR-059 · Favicon del sitio nuevo
+- **Contexto:** AT-073. ADR-057 dejó el favicon sin cambios (`static/img/favicon.svg`, de trazo grueso), pero el sitio de la rama de migración no lo publicaba: `public/` solo traía el CV y el `<head>` no declaraba ningún ícono. Ninguna iteración planificada lo portaba, y el cutover (E190) lo habría dejado sin favicon.
+- **Decisión (de Felipe, 30-10-2026):**
+  - El favicon se resuelve en E40-I04, no en E170 ni en E190.
+  - Se copia `main:static/img/favicon.svg` a `public/static/img/favicon.svg`, con la misma URL del sitio antiguo (`/static/img/favicon.svg`), y se declara `<link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">` en el `<head>` desde `BaseLayout.astro`, así que llega a todas las páginas.
+  - No cambia el diseño del ícono: sigue siendo el de trazo grueso, distinto del logotipo (ADR-057).
+- **Consecuencias:** resuelve AT-073. `pnpm verify:seo` comprueba el `<link>` y que el archivo exista en `dist/`. Un respaldo para navegadores sin soporte de SVG queda como AT-074.
+- **Origen:** decisión de Felipe, 30-10-2026 (E40-I04). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

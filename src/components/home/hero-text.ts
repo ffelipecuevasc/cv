@@ -1,5 +1,6 @@
 /*
- * Utilidades de texto del hero (E40-I01): énfasis de los párrafos y cifra de las métricas.
+ * Utilidades de texto del hero y la banda (E40-I01): énfasis de los párrafos, cifra de
+ * certificaciones y números con separador de miles.
  */
 import { langCodes, type Lang } from '../../i18n/lang';
 import { certificationCount } from '../../data/certifications';

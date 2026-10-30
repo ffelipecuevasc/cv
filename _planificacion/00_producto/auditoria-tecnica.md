@@ -674,7 +674,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - Ninguna lleva la cifra de certificaciones, para que no se desfase (ADR-053).
 
 ### AT-072 · Reglas del cursor y de la barra que quedan redundantes o sin uso
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E40-I04
+- **Severidad:** Baja · **Estado:** Resuelto en E40-I04 (30-10-2026): se borró la regla repetida de `Hero.astro`, `cv` pasó de `nav-items.ts` a `footer-links.ts` (solo lo usa el pie) y se retiró `size="bar"` del botón y de la página de pruebas · **Resuelve:** E40-I04
 - **Evidencia (E30-I07, 30-10-2026):**
   - `Hero.astro` declara `.accent :global(.typewriter-text) { justify-self: start }`. Desde E30-I07 la regla vive en `global.css` para todo el motor (así el cursor del logotipo acompaña al texto), así que la del hero es redundante. No se quitó para no tocar el hero fuera de alcance.
   - El botón del hero "Revisa mi CV" y `cv` de `nav-items.ts` siguen en uso hasta que E40-I04 quite los llamados a la acción (ADR-058); después `cv` solo lo usa el pie.
@@ -683,7 +683,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** al cerrar E40-I04, borrar la regla del hero; decidir si se retira `size="bar"` y ajustar la frase de 7.3 (bloque en la bitácora de E30-I07).
 
 ### AT-073 · El sitio nuevo todavía no publica favicon
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con Felipe (E170-I02 o E190-I03)
+- **Severidad:** Baja · **Estado:** Resuelto en E40-I04 (30-10-2026): `public/static/img/favicon.svg` (copia de `main:static/img/favicon.svg`, misma URL) y `<link rel="icon" type="image/svg+xml">` en `BaseLayout.astro`; `pnpm verify:seo` lo comprueba · **Resuelve:** decisión de Felipe (E40-I04)
 - **Evidencia (E30-I07, 30-10-2026):** ADR-057 deja el favicon como está, `static/img/favicon.svg` del sitio antiguo, pero `public/` de la rama de migración solo trae el CV y el `<head>` no declara ningún `<link rel="icon">` (se comprobó en `dist/`). Ninguna iteración planificada porta el archivo. El favicon, de trazo grueso, ya no coincide con el ícono fino del logotipo (decisión de Felipe: a 16 px un trazo fino se pierde).
 - **Impacto:** la preview y el sitio nuevo se ven sin ícono de pestaña; el cutover (E190) lo dejaría sin favicon.
 - **Recomendación:** agregar una tarea a E170-I02 o a E190-I03: copiar `static/img/favicon.svg` desde `main` a `public/` y declararlo en `BaseLayout`. Requiere que Felipe decida qué iteración lo asume.
+
+### AT-074 · El favicon es solo SVG, sin respaldo para navegadores que no lo admiten
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con Felipe (E170-I02)
+- **Evidencia (E40-I04, 30-10-2026):** el favicon se porta igual que en el sitio antiguo: un único SVG (`static/img/favicon.svg`), sin `apple-touch-icon`, sin `.ico` ni PNG, y sin manifest (auditoría original, área de SEO). Algunos navegadores, según su versión, no muestran favicons SVG y los de iOS esperan un `apple-touch-icon`. No se probó en esos navegadores (el entorno solo tiene Chrome).
+- **Impacto:** la pestaña o el acceso directo pueden verse sin ícono en esos navegadores; no afecta el funcionamiento.
+- **Recomendación:** comprobarlo en Safari y en iOS durante E170-I02 o E190-I01 y, si falta, agregar un PNG de 180 × 180 px (`apple-touch-icon`) y un `.ico`, derivados del mismo ícono. Requiere una decisión de Felipe sobre el trazo (el favicon es de trazo grueso, el logotipo ya es fino; ADR-057).

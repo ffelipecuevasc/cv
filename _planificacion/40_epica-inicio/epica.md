@@ -22,15 +22,15 @@ E30 completa, E20-I05.
 | [E40-I01](E40-I01-hero.md) | Hero rediseñado sin scroll en escritorio | P0 | M | E30-I06, E20-I05 | [x] Terminada |
 | [E40-I02](E40-I02-trayectoria-testimonios.md) | Franja de trayectoria y testimonios | P1 | M | E40-I01 | [x] Terminada |
 | [E40-I03](E40-I03-seo-jsonld.md) | SEO y datos estructurados de la portada | P1 | S | E40-I02 | [x] Terminada |
-| [E40-I04](E40-I04-hero-banda-ajustes.md) | Hero simplificado y separadores de la banda | P0 | M | E30-I07 | [ ] Pendiente |
+| [E40-I04](E40-I04-hero-banda-ajustes.md) | Hero simplificado y separadores de la banda | P0 | M | E30-I07 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
 - [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
 - [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
 - [x] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal (E40-I01 y E40-I02).
 - [x] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas (E40-I03; verificados con `pnpm verify:seo`).
-- [x] En los viewports de ADR-016 (E40-I01), navbar + hero + 4 certificaciones + redes sociales se ven completos sin scroll.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global. Las tres están terminadas; falta que Felipe valide el inglés (ADR-017) y corra la validación de datos estructurados en la preview.
+- [x] En los viewports de ADR-016 (E40-I01), navbar + hero + 4 certificaciones + redes sociales se ven completos sin scroll (vuelto a medir en E40-I04 con el hero simplificado: 48 casos).
+- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global. Las cuatro están terminadas; falta que Felipe valide el inglés (ADR-017) y corra la validación de datos estructurados en la preview.
 
 ## Riesgos
 - El texto en inglés del hero es más largo y puede romper el ajuste sin scroll.

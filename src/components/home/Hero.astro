@@ -1,28 +1,28 @@
 ---
 /*
- * Hero de la portada (E40-I01, DESIGN.md 2.2 y 7.4, ADR-009, ADR-016, ADR-023, ADR-053, ADR-054).
- * - Escritorio (desde 1.024 px): retícula de 12 columnas, texto en 7 y retrato en 5.
- * - Texto: rótulo, conmutador de 3 perfiles, <h1> con máquina de escribir, párrafo, dos
- *   llamados a la acción y 3 métricas. Retrato 4:5 con marco desplazado, riel social y
- *   tarjeta de certificaciones.
+ * Hero de la portada (E40-I01 y E40-I04, DESIGN.md 2.2 y 7.4, ADR-009, ADR-016, ADR-023,
+ * ADR-053, ADR-054, ADR-058).
+ * - Escritorio (desde 1.024 px): retícula de 12 columnas, texto en 7 y retrato en 5. El hero
+ *   ocupa el alto visible menos la barra (76 px) y su contenido va centrado en vertical.
+ * - Texto: rótulo, conmutador de 3 perfiles, <h1> con máquina de escribir, párrafo y fila
+ *   de certificaciones (4 insignias sin contenedor). Sin llamados a la acción ni métricas:
+ *   Instructor, Docente, Desarrollador y el CV se alcanzan desde el menú y el pie.
+ *   Retrato 4:5 con marco desplazado y riel social.
  * - Los tres perfiles viven en el HTML (src/content/hero/): sin JavaScript se ve completo
  *   el perfil Instructor y el conmutador no aparece. El CSS muestra el perfil que indica
  *   `data-profile`; un script en línea lo elige antes del primer pintado (sin destello ni
  *   CLS) y src/scripts/hero.ts agrega la interacción.
- * - La cifra de certificaciones sale de src/data/certifications.ts (ADR-053).
+ * - El párrafo del perfil Desarrollador lleva la cifra de certificaciones, que sale de
+ *   src/data/certifications.ts (ADR-053).
  */
 import { getCollection, getEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Container from '../ui/Container.astro';
 import GoldRule from '../ui/GoldRule.astro';
-import Button from '../ui/Button.astro';
 import SocialRail from './SocialRail.astro';
-import CredentialsCard from './CredentialsCard.astro';
-import { fillCertificationCount, formatNumber, parseEmphasis } from './hero-text';
-import { cv } from '../layout/nav-items';
-import { certificationCount } from '../../data/certifications';
+import HeroCertifications from './HeroCertifications.astro';
+import { fillCertificationCount, parseEmphasis } from './hero-text';
 import { langFromLocale } from '../../i18n/lang';
-import { getRoute } from '../../i18n/routes';
 import { useTranslations } from '../../i18n/ui';
 import portrait from '../../assets/felipe_cuevas.webp';
 
@@ -39,11 +39,6 @@ const profiles = (await getCollection('heroProfiles'))
     headline: data.headline[lang],
     phrases: data.phrases[lang],
     paragraph: parseEmphasis(fillCertificationCount(data.paragraph[lang], shared.moreThan[lang])),
-    cta: { href: getRoute(data.cta.route, lang), label: data.cta.label[lang] },
-    metrics: data.metrics.map((metric) => {
-      const { value, plus } = metric.kind === 'certifications' ? certificationCount() : metric;
-      return { label: metric.label[lang], value: formatNumber(value, lang), plus };
-    }),
   }));
 const ids = profiles.map((profile) => profile.id);
 const defaultId = ids[0];
@@ -133,35 +128,14 @@ const defaultId = ids[0];
                 part.strong ? <strong>{part.text}</strong> : part.text,
               )}
             </p>
-            <div class="actions">
-              <Button variant="primary" href={profile.cta.href}>
-                {profile.cta.label}
-              </Button>
-              <Button
-                variant="secondary"
-                icon="download"
-                href={cv.href}
-                download={cv.file}
-                label={shared.cv.accessibleLabel[lang]}
-                title={shared.cv.accessibleLabel[lang]}
-              >
-                {shared.cv.label[lang]}
-              </Button>
-            </div>
-            <dl class="metrics">
-              {profile.metrics.map((metric) => (
-                <div class="metric">
-                  <dt>{metric.label}</dt>
-                  <dd>
-                    {metric.plus && <span class="sign">+</span>}
-                    {metric.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
         ))}
       </div>
+
+      <HeroCertifications
+        title={shared.credentials.title[lang]}
+        label={shared.credentials.label[lang]}
+      />
     </div>
 
     <div class="visual">
@@ -185,10 +159,6 @@ const defaultId = ids[0];
           emailLabel={shared.social.email[lang]}
           newTab={t.footer.newTab}
         />
-        <CredentialsCard
-          title={shared.credentials.title[lang]}
-          label={shared.credentials.label[lang]}
-        />
       </div>
     </div>
   </Container>
@@ -205,9 +175,18 @@ const defaultId = ids[0];
     overflow-x: clip;
     padding-block: 40px 56px;
   }
+  /* 7.4 (ADR-058): desde 1.024 px el hero ocupa el alto visible menos la barra de 76 px y su
+     contenido va centrado en vertical. El relleno de 32 px es el mínimo si el contenido llena
+     el alto (matriz de ADR-016). */
   @media (min-width: 64rem) {
     .hero {
+      display: flex;
+      align-items: center;
+      min-height: calc(100svh - 76px);
       padding-block: 32px;
+    }
+    .hero :global(.layout) {
+      width: 100%;
     }
   }
 
@@ -354,9 +333,6 @@ const defaultId = ids[0];
   .accent :global(.typewriter-text) {
     white-space: normal;
   }
-  .accent :global(.typewriter-text) {
-    justify-self: start;
-  }
 
   .panels {
     display: grid;
@@ -374,71 +350,6 @@ const defaultId = ids[0];
     color: var(--color-text);
     font-weight: 600;
   }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 24px;
-  }
-
-  /* Métricas (7.4): `dl` horizontal con divisores verticales `border`. */
-  .metrics {
-    display: flex;
-    margin-top: 24px;
-  }
-  .metric {
-    display: flex;
-    flex: 1 1 0;
-    flex-direction: column;
-    gap: 6px;
-    padding-inline: 16px;
-    min-width: 0;
-  }
-  .metric:first-child {
-    padding-inline-start: 0;
-  }
-  .metric + .metric {
-    border-inline-start: 1px solid var(--color-border);
-  }
-  dt {
-    color: var(--color-text-soft);
-    font-size: 12.5px;
-    letter-spacing: 0.16em;
-    line-height: 1.4;
-    text-transform: uppercase;
-  }
-  dd {
-    color: var(--color-heading);
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-variant-numeric: tabular-nums lining-nums;
-    line-height: 1;
-  }
-  /* Bajo 640 px las tres cifras no caben en una fila ("Certificaciones" se cortaría): van en
-     filas, con el rótulo a la izquierda y la cifra a la derecha. */
-  @media (max-width: 39.9375rem) {
-    .metrics {
-      flex-direction: column;
-    }
-    .metric,
-    .metric:first-child {
-      flex-direction: row;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      padding-inline: 0;
-      padding-block: 10px;
-      border-top: 1px solid var(--color-border);
-    }
-    .metric + .metric {
-      border-inline-start: 0;
-    }
-  }
-  /* 4.3: el signo va a tamaño de display, `primary` en claro y `gold` en oscuro. */
-  .sign {
-    color: var(--metric-sign);
-  }
-
   /* --- Retrato ------------------------------------------------------------------------- */
   .visual {
     display: flex;
@@ -449,9 +360,9 @@ const defaultId = ids[0];
     width: min(100%, 352px);
   }
   @media (min-width: 40rem) {
-    /* Reserva el espacio de lo que sobresale: marco (24 px) y tarjeta (32 px). */
+    /* Reserva el espacio de lo que sobresale: el marco (24 px a la derecha). */
     .stage {
-      width: min(calc(100% - 56px), 352px);
+      width: min(calc(100% - 24px), 352px);
     }
   }
   .portrait {

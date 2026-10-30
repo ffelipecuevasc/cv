@@ -14,3 +14,9 @@ export const getFooterLinks = (t: ReturnType<typeof useTranslations>): NavLink[]
   { key: 'resources', label: t.nav.resources },
   { key: 'contact', label: t.nav.contact },
 ];
+
+/** El CV es el PDF de siempre (ADR-050) y solo existe en español (ADR-017). Vive en el pie. */
+export const cv = {
+  href: '/static/CV_Felipe_Cuevas_2026.pdf',
+  file: 'CV_Felipe_Cuevas_2026.pdf',
+} as const;

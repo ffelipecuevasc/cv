@@ -16,6 +16,13 @@ Criterios que conviene pedirle al asesor:
 - Marcadores `{certifications}` y `{current}` / `{total}` se sustituyen al construir: deben quedar intactos.
 - El Markdown `**negrita**` de los párrafos se conserva.
 
+## Cambios por E40-I04 (30-10-2026)
+El hero se simplificó (ADR-058) y esta revisión se actualizó: los textos retirados salieron de las tablas y los nuevos están marcados «texto nuevo». Ningún texto en inglés ya validado cambió.
+- **Retirados** (ya no se publican; no hace falta revisarlos): los 3 llamados a la acción de los perfiles («Conoce mis programas» / «Explore my programs», «Conoce mi experiencia docente» / «See my teaching experience», «Revisa mi portafolio» / «Browse my portfolio»), el botón «Revisa mi CV» / «Review my CV» con su nombre accesible, y las 9 etiquetas de métricas (Horas dictadas, Módulos SENCE aprobados, Bootcamps dictados, Años en aula, Instituciones, Asignaturas impartidas, Lenguajes, Frameworks y Certificaciones).
+- **Nuevos:** «Profesional certificado» / «Certified professional» (rótulo de la fila de insignias) y «Resumen» / «Overview» (titular de la banda, en lugar de «Impacto medido» / «Measured impact»).
+- **Sin cambio de texto:** los 3 titulares, las frases, los 3 párrafos, el rótulo y las pestañas del hero, el resto de la banda y los testimonios.
+- **El pie** (E30-I07) agregó textos de interfaz que tampoco están en estas tablas: «Descargar CV» / «Download CV» y «Download CV (PDF, Spanish)» (en `src/i18n/ui.ts`, `footer`). Conviene sumarlos a la tanda del asesor.
+
 ## Imagen Open Graph (AT-069): reemplazada y optimizada
 Durante la sesión Felipe subió primero `src/assets/og-portada.png` (una captura del hero con texto en español y datos que el sitio no tiene, como «Cuevas AI Academy · 4.800+ alumnos»); no se usó, y a los pocos minutos reemplazó el archivo por `src/assets/og-portada.jpg`, que es el que rige.
 - **Archivo recibido:** JPEG de 1424 × 752 px y 1,1 MB. No cumple los 1200 × 630 px ni un peso razonable, así que no se publica tal cual.
@@ -34,10 +41,9 @@ Origen: `src/content/hero/shared.json` y `src/content/hero/profiles/*.json`.
 | `src/content/hero/shared.json · kicker` | Ingeniero Informático | Computer Engineer |
 | `src/content/hero/shared.json · tablistLabel` | Elige el perfil profesional que quieres ver | Choose the professional profile you want to see |
 | `src/content/hero/shared.json · portraitAlt` | Retrato de Felipe Cuevas | Portrait of Felipe Cuevas |
-| `src/content/hero/shared.json · cv.label` | Revisa mi CV | Review my CV |
-| `src/content/hero/shared.json · cv.accessibleLabel` | Revisa mi CV (PDF) | Review my CV (PDF, Spanish) |
-| `src/content/hero/shared.json · credentials.title` | Certificaciones | Certifications |
+| `src/content/hero/shared.json · credentials.title` (rótulo de la fila de insignias; texto nuevo) | Profesional certificado | Certified professional |
 | `src/content/hero/shared.json · credentials.label` | Certificaciones profesionales vigentes | Current professional certifications |
+| `src/components/home/HeroCertifications.astro` · nombres bajo las insignias (nombres propios, no se traducen) | Oracle · AWS · Python · Anthropic | Oracle · AWS · Python · Anthropic |
 | `src/content/hero/shared.json · social.label` | Redes sociales y contacto | Social networks and contact |
 | `src/content/hero/shared.json · social.email` | Correo | Email |
 | `src/content/hero/shared.json · moreThan` | más de | more than |
@@ -53,10 +59,6 @@ Origen: `src/content/hero/shared.json` y `src/content/hero/profiles/*.json`.
 | `src/content/hero/profiles/instructor.json · phrases[2]` | Bootcamps de IA | AI Bootcamps |
 | `src/content/hero/profiles/instructor.json · phrases[3]` | Bootcamps Full Stack | Full Stack Bootcamps |
 | `src/content/hero/profiles/instructor.json · paragraph` | Instructor senior en cursos intensivos de **Talento Digital — SENCE**, iniciativa del Gobierno de Chile: desarrollo full stack en Java, Python y JavaScript, e Ingeniería de Datos con Machine Learning sobre AWS. También instructor senior de Java en **Alura Latam**, como Oracle Developer Professional. | Senior instructor in intensive **Talento Digital — SENCE** courses, an initiative of the Government of Chile: full stack development in Java, Python and JavaScript, and Data Engineering with Machine Learning on AWS. Also senior Java instructor at **Alura Latam**, as an Oracle Developer Professional. |
-| `src/content/hero/profiles/instructor.json · cta.label` | Conoce mis programas | Explore my programs |
-| `src/content/hero/profiles/instructor.json · metrics[0].label` | Horas dictadas | Hours taught |
-| `src/content/hero/profiles/instructor.json · metrics[1].label` | Módulos SENCE aprobados | Approved SENCE modules |
-| `src/content/hero/profiles/instructor.json · metrics[2].label` | Bootcamps dictados | Bootcamps taught |
 
 #### Perfil 2: Docente (`src/content/hero/profiles/docente.json`)
 
@@ -69,10 +71,6 @@ Origen: `src/content/hero/shared.json` y `src/content/hero/profiles/*.json`.
 | `src/content/hero/profiles/docente.json · phrases[2]` | Desarrollo & IA | Development & AI |
 | `src/content/hero/profiles/docente.json · phrases[3]` | Ciencia de Datos | Data Science |
 | `src/content/hero/profiles/docente.json · paragraph` | Más de **10 años** formando técnicos e ingenieros informáticos en **INACAP, Duoc UC e IPLACEX**, donde ejerzo actualmente. Desarrollo de aplicaciones full stack, bases de datos y programación en Java y Python, con formación andragógica y foco en la empleabilidad del titulado. | Over **10 years** training IT technicians and engineers at **INACAP, Duoc UC and IPLACEX**, where I currently teach. Full stack application development, databases and programming in Java and Python, with training in adult education and a focus on graduate employability. |
-| `src/content/hero/profiles/docente.json · cta.label` | Conoce mi experiencia docente | See my teaching experience |
-| `src/content/hero/profiles/docente.json · metrics[0].label` | Años en aula | Years in the classroom |
-| `src/content/hero/profiles/docente.json · metrics[1].label` | Instituciones | Institutions |
-| `src/content/hero/profiles/docente.json · metrics[2].label` | Asignaturas impartidas | Courses taught |
 
 #### Perfil 3: Desarrollador (`src/content/hero/profiles/desarrollador.json`)
 
@@ -84,10 +82,6 @@ Origen: `src/content/hero/shared.json` y `src/content/hero/profiles/*.json`.
 | `src/content/hero/profiles/desarrollador.json · phrases[1]` | Python & Django | Python & Django |
 | `src/content/hero/profiles/desarrollador.json · phrases[2]` | Web asistido con IA | AI-assisted Web |
 | `src/content/hero/profiles/desarrollador.json · paragraph` | Aplicaciones **end-to-end** con Spring Boot y Django, desplegadas en **AWS y Oracle Cloud (OCI)**. Diseño de APIs REST, modelado de bases de datos relacionales y contenedorización con Docker. Respaldado por {certifications} certificaciones profesionales vigentes de Oracle, Amazon Web Services, Python Institute y Anthropic. | **End-to-end** applications with Spring Boot and Django, deployed on **AWS and Oracle Cloud (OCI)**. REST API design, relational database modeling and containerization with Docker. Backed by {certifications} current professional certifications from Oracle, Amazon Web Services, Python Institute and Anthropic. |
-| `src/content/hero/profiles/desarrollador.json · cta.label` | Revisa mi portafolio | Browse my portfolio |
-| `src/content/hero/profiles/desarrollador.json · metrics[0].label` | Lenguajes | Languages |
-| `src/content/hero/profiles/desarrollador.json · metrics[1].label` | Frameworks | Frameworks |
-| `src/content/hero/profiles/desarrollador.json · metrics[2].label` | Certificaciones | Certifications |
 
 ## 2. Cinco cifras y contextos
 Origen: `src/content/home/stats.json`. La cifra de certificaciones sale de los datos (ADR-053); el resto de los números son iguales en los dos idiomas.
@@ -111,7 +105,7 @@ Origen: `src/content/home/stats.json` y `src/content/home/testimonials-section.j
 | Archivo · campo | Español | Inglés |
 |---|---|---|
 | `src/content/home/stats.json · kicker` | Trayectoria profesional | Professional track record |
-| `src/content/home/stats.json · title` | Impacto medido | Measured impact |
+| `src/content/home/stats.json · title` (texto nuevo) | Resumen | Overview |
 | `src/content/home/testimonials-section.json · kicker` | Testimonios | Testimonials |
 | `src/content/home/testimonials-section.json · title` | Lo que dicen mis alumnos | What my students say |
 | `src/content/home/testimonials-section.json · carousel.label` | Testimonios de alumnos | Student testimonials |

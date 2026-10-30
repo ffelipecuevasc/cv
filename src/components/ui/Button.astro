@@ -1,7 +1,7 @@
 ---
 /*
  * Botón con texto (DESIGN.md 7.3): primario, secundario y dorado. Con `href` es un enlace;
- * sin él, un <button> (type="button" por defecto). Alto 46 px (44 px con size="bar").
+ * sin él, un <button> (type="button" por defecto). Alto 46 px.
  * Para un descargable, pasa `download` y menciona el formato en el texto o en `label`.
  */
 import Icon from './Icon.astro';
@@ -13,7 +13,6 @@ interface Props {
   type?: 'button' | 'submit' | 'reset';
   icon?: IconName;
   download?: boolean | string;
-  size?: 'default' | 'bar';
   /** Nombre accesible si el texto visible no basta (por ejemplo, formato y peso del CV). */
   label?: string;
   /** Información de apoyo al pasar el cursor (por ejemplo, formato e idioma del CV). */
@@ -27,13 +26,12 @@ const {
   type = 'button',
   icon,
   download,
-  size = 'default',
   label,
   title,
   full = false,
   class: className,
 } = Astro.props;
-const classes = ['button', variant, size, { full }, className];
+const classes = ['button', variant, { full }, className];
 ---
 
 {href ? (
@@ -68,9 +66,6 @@ const classes = ['button', variant, size, { full }, className];
     transition-property: color, background-color, border-color, filter;
     transition-duration: var(--duration-base);
     transition-timing-function: ease;
-  }
-  .bar {
-    min-height: 44px;
   }
   .full {
     width: 100%;
