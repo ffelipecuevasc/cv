@@ -34,7 +34,7 @@
 
 ### 2.2 Hero de la portada (ADR-009 · D-09)
 - Rediseño libre, incluso completo.
-- En escritorio, navbar + hero + las **3 certificaciones** (Oracle, AWS, Python Institute) + las **redes sociales** deben verse completos al cargar, sin scroll.
+- En escritorio, navbar + hero + las **4 certificaciones** (Oracle, AWS, Python Institute y Anthropic) + las **redes sociales** deben verse completos al cargar, sin scroll.
 - Matriz de verificación (ADR-016), en área visible: 1366×638, 1440×770, 1536×734 y 1920×950 px, en ambos temas y ambos idiomas.
 - No se elimina ningún elemento de la lista de conservación de E40-I01 sin ADR.
 
@@ -300,7 +300,7 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
   - Retrato `felipe_cuevas.webp` en proporción 4:5, **alto máximo de 440 px** desde 1.024 px, con carga prioritaria y dimensiones declaradas.
   - Marco desplazado (4.5) corrido 24 px a la derecha y abajo, desde 640 px.
   - **Riel social** sobre el borde derecho, centrado en vertical: 4 botones de 46 × 46 (LinkedIn, GitHub, REUF y correo) separados por 8 px, fondo `surface`, ícono de marca en `icon-rail`, contorno 1 px y sombra `rail`. Al pasar o con foco: fondo `orient-950` e ícono `gold` en claro; fondo `orient-400` e ícono blanco en oscuro; se corre 2 px a la izquierda. Globo de ayuda a la izquierda con el nombre (fondo `orient-950` en claro y `orient-50` en oscuro, 12 px, mayúsculas). Es una lista dentro de un `<nav>` con nombre accesible.
-  - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 3 insignias (Oracle, AWS y Python Institute) de 40 px con su nombre. Bajo 640 px va estática debajo del retrato.
+  - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 4 insignias (Oracle, AWS, Python Institute y Anthropic, ADR-054) de 40 px con su nombre; si en una fila no caben sin romper la matriz de ADR-016, van en 2 × 2. Bajo 640 px va estática debajo del retrato.
 - **Medidas:** relleno vertical de 32 px desde 1.024 px. Presupuesto en la matriz de ADR-016: el hero completo debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). E40-I01 mide y, si no cabe, ajusta primero el alto del retrato y el tamaño del h1, nunca quita elementos.
 - **Móvil:** una columna en este orden: texto y luego retrato; riel social dentro del retrato, a 12 px del borde.
 

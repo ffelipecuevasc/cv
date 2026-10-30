@@ -1,17 +1,17 @@
 # E40-I01 · Hero rediseñado sin scroll en escritorio
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (30-10-2026)
 - **Épica:** E40 · Página Inicio (index.html) · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E30-I06, E20-I05 · **Hallazgos que cierra:** AT-001, AT-013, AT-014, AT-028 · **ADR relacionados:** ADR-007, ADR-009, ADR-016, ADR-017, ADR-023, ADR-036
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
 ## Objetivo
-Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + redes sociales se vean completos al cargar, sin perder ningún elemento ni interacción.
+Rediseñar el hero para que en escritorio navbar + hero + 4 certificaciones + redes sociales se vean completos al cargar, sin perder ningún elemento ni interacción.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
 - Referencia de solo lectura: `git show main:index.html` (líneas 379–654), `static/js/hero.js`, `static/js/config/perfiles.config.js`.
 - AT-001 (medido): el bloque termina en ~1.052 px (claro) y ~1.101 px (oscuro); causas: retrato 3:4 de 555 px de alto, `py-20` en `main` y franja de certificaciones bajo el retrato.
-- Elementos que deben conservarse: rótulo "Ingeniero Informático"; conmutador de 3 perfiles (Instructor, Docente, Desarrollador) como `tablist`, oculto sin JavaScript y con perfil recordado en `localStorage` bajo la clave `perfil-hero`; `<h1>` con un titular por perfil y máquina de escribir en la parte destacada; párrafo por perfil; dos llamados a la acción por perfil (programas / experiencia docente / portafolio, y "Revisa mi CV"); 3 métricas por perfil; retrato con carga prioritaria; 3 certificaciones (Oracle, AWS, Python Institute); 4 redes (LinkedIn, GitHub, REUF en chilefacilitadores.cl, correo; ADR-044).
+- Elementos que deben conservarse: rótulo "Ingeniero Informático"; conmutador de 3 perfiles (Instructor, Docente, Desarrollador) como `tablist`, oculto sin JavaScript y con perfil recordado en `localStorage` bajo la clave `perfil-hero`; `<h1>` con un titular por perfil y máquina de escribir en la parte destacada; párrafo por perfil; dos llamados a la acción por perfil (programas / experiencia docente / portafolio, y "Revisa mi CV"); 3 métricas por perfil; retrato con carga prioritaria; 4 certificaciones (Oracle, AWS, Python Institute y Anthropic, ADR-054); 4 redes (LinkedIn, GitHub, REUF en chilefacilitadores.cl, correo; ADR-044).
 - AT-013: las insignias usan `loading="lazy"` estando sobre el pliegue y PNG de 400×400 (hasta 163 KB) mostrados a 40 px.
 - AT-014: cifras inconsistentes ("Nueve" en `index.html:527`, "+10" en `:566`, "8+" en `:680`, 9 credenciales en JSON-LD): validar con Felipe.
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
@@ -26,23 +26,24 @@ Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + re
 - Franja de trayectoria y testimonios (E40-I02).
 
 ## Tareas
-- [ ] Aplicar el patrón de composición de la página definido en E20-I01 (ADR-036).
-- [ ] Aplicar la composición de `DESIGN.md` 7.4 sin maqueta previa (decisión de Felipe, 29-10-2026).
-- [ ] Implementar el conmutador accesible (flechas, Home/End) con mejora progresiva.
-- [ ] Reutilizar el motor de máquina de escribir de E30-I03 para los titulares.
-- [ ] Validar con Felipe la cifra correcta de certificaciones.
-- [ ] Medir el ajuste sin scroll en toda la matriz de ADR-016, en ambos temas e idiomas.
+- [x] Aplicar el patrón de composición de la página definido en E20-I01 (ADR-036).
+- [x] Aplicar la composición de `DESIGN.md` 7.4 sin maqueta previa (decisión de Felipe, 29-10-2026).
+- [x] Implementar el conmutador accesible (flechas, Home/End) con mejora progresiva.
+- [x] Reutilizar el motor de máquina de escribir de E30-I03 para los titulares.
+- [x] Cifra de certificaciones derivada de los datos (decisión de Felipe, 30-10-2026; ADR-053).
+- [x] Agregar la 4.ª insignia (Anthropic, ADR-054) y las 2 certificaciones nuevas a los datos.
+- [x] Medir el ajuste sin scroll en toda la matriz de ADR-016, en ambos temas e idiomas.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/pages/es/index.astro`, `src/pages/en/index.astro`, `src/components/home/*`, contenido bilingüe del hero.
 
 ## Criterios de aceptación (verificables)
-- [ ] En 1366×638, 1440×770, 1536×734 y 1920×950 px de área visible (ADR-016), navbar + hero + 3 certificaciones + redes se ven completos sin scroll, en claro y oscuro, en `es-CL` y `en-US`.
-- [ ] Ningún elemento de la lista de conservación falta.
-- [ ] Sin JavaScript se ve completo el perfil Instructor; con movimiento reducido no hay máquina de escribir.
-- [ ] LCP es el retrato o el `<h1>` y no empeora respecto de la línea base (ADR-015).
-- [ ] CLS del hero igual a 0.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] En 1366×638, 1440×770, 1536×734 y 1920×950 px de área visible (ADR-016), navbar + hero + 4 certificaciones + redes se ven completos sin scroll, en claro y oscuro, en `es-CL` y `en-US`.
+- [x] Ningún elemento de la lista de conservación falta.
+- [x] Sin JavaScript se ve completo el perfil Instructor; con movimiento reducido no hay máquina de escribir.
+- [x] LCP es el retrato o el `<h1>` y no empeora respecto de la línea base (ADR-015). En escritorio el LCP es el retrato (0,3 s local); en móvil es el párrafo. Lighthouse queda para E170-I02.
+- [x] CLS del hero igual a 0.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -54,8 +55,18 @@ Rediseñar el hero para que en escritorio navbar + hero + 3 certificaciones + re
 ## Riesgos y notas
 - Textos en inglés más largos: diseñar con holgura.
 
+## Resultado y pendientes (30-10-2026)
+- Hero implementado en `/es/` y `/en/`: componentes en `src/components/home/` (`Hero`, `SocialRail`, `CredentialsCard`), `src/scripts/hero.ts`, contenido en `src/content/hero/` y datos en `src/data/certifications.ts`. Detalle y mediciones en `99_bitacora/2026-10-30_E40-I01.md`.
+- Cierra AT-001, AT-013 y AT-014 (hero). AT-028 queda abierto con avance: falta `rutas-progreso` (E130-I01).
+- Hallazgos nuevos: AT-064 a AT-067. Decisiones nuevas: ADR-053 y ADR-054.
+- **Pendientes:**
+  - Felipe valida los textos `en-US` del hero (ADR-017).
+  - Felipe incorpora a `DESIGN.md` el bloque de AT-064.
+  - Lighthouse, NVDA y prueba táctil real: E170-I01 y E170-I02.
+  - E40-I02 y E40-I03 deben derivar la cifra de certificaciones de `src/data/certifications.ts` (ADR-053).
+
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

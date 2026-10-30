@@ -289,6 +289,13 @@
   --language-current-fg: var(--color-white);
   /* 7.9 Pie: borde de la barra inferior, `primary` al 20 % (en oscuro, `border`). */
   --footer-bar-border: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  /* 7.4 Hero: conmutador de perfiles (con el estilo del selector de idioma, 7.2), hover del
+     riel social y signo de las métricas (4.3: `primary` en claro, `gold` en oscuro). */
+  --profile-current-bg: var(--color-orient-950);
+  --profile-current-fg: var(--color-white);
+  --rail-hover-bg: var(--color-orient-950);
+  --rail-hover-fg: var(--color-gold);
+  --metric-sign: var(--color-primary);
 }
 
 .dark {
@@ -308,6 +315,11 @@
   --language-current-bg: var(--color-orient-50);
   --language-current-fg: var(--color-orient-950);
   --footer-bar-border: var(--color-border);
+  --profile-current-bg: var(--color-orient-50);
+  --profile-current-fg: var(--color-orient-950);
+  --rail-hover-bg: var(--color-orient-400);
+  --rail-hover-fg: var(--color-white);
+  --metric-sign: var(--color-gold);
 }
 
 /* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */

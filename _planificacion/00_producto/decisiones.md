@@ -474,6 +474,31 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-008. El pie de escritorio mide unos 740 px por la lista de 11 enlaces (AT-062). E155-I01 agrega el enlace de privacidad en el contenedor reservado, sin tocar el resto.
 - **Origen:** E30-I06, 29-10-2026. **Estado:** Aceptada (validada por Felipe el 29-10-2026).
 
+## ADR-053 · Cifra de certificaciones derivada de los datos
+- **Contexto:** AT-014. El sitio antiguo mostraba cifras que no coincidían: "Nueve certificaciones" (`main:index.html:527`), la métrica "+10" (`:566`), la franja "8+" (`:680`) y 9 credenciales en el JSON-LD. El 30-10-2026 Felipe sumó 2 certificaciones, y los datos quedaron en 11.
+- **Decisión:**
+  - **Fuente única:** `src/data/certifications.ts`. Todo número de certificaciones del sitio se deriva de `certifications.length`; ninguna página lo escribe a mano. Para agregar una, basta sumar un objeto al arreglo.
+  - **Regla de la cifra:**
+    - menos de 10 → el número exacto;
+    - desde 10 → "+" y el múltiplo de 10 hacia abajo (9 → `9`, 10 → `+10`, 11 → `+10`, 19 → `+10`, 20 → `+20`).
+    - Hoy hay 11 y se muestra `+10`.
+  - **En el texto corrido** (párrafo del perfil Desarrollador) el contenido lleva el marcador `{certifications}`, que se reemplaza por el número exacto bajo 10 y por "más de 10" / "more than 10" desde 10. El "+" se reserva para las cifras de display.
+  - **Formato de cada entrada:** `id`, `name`, `issuer`, `issuedAt`, `url` y, si corresponde, `code` y `expiresAt`. Los nombres son propios y no se traducen (ADR-025). E50-I02 agrega categoría y descripción sobre el mismo arreglo.
+- **Consecuencias:**
+  - Resuelve AT-014 en el hero. Quedan por derivar de la misma fuente la cifra de la banda de Inicio (la "8+" del sitio antiguo, E40-I02) y el JSON-LD Person (E40-I03).
+  - La regla no filtra por vencimiento: cuenta todas las entradas (AT-067).
+- **Origen:** decisión de Felipe el 30-10-2026 (E40-I01). **Estado:** Aceptada.
+
+## ADR-054 · Cuarta insignia del hero: Anthropic
+- **Contexto:** ADR-009 y la lista de conservación de E40-I01 fijaban 3 certificaciones en el hero (Oracle, AWS y Python Institute). El 30-10-2026 Felipe agregó la certificación "Claude Certified Developer – Foundations" de Anthropic y entregó su insignia en `src/assets/insignias/insignia_anthropic.png` (601 × 601 px).
+- **Decisión:**
+  - **Amplía ADR-009** (que no se edita): el hero muestra 4 emisores (Oracle, AWS, Python Institute y Anthropic). La lista de conservación de E40-I01 y los criterios de E40-I01 y de la épica E40 pasan de 3 a 4. Sigue sin eliminarse ningún elemento.
+  - Las insignias viven en `src/assets/insignias/`. Las tres antiguas (400 × 400 px, hasta 163 KB) se guardan optimizadas a 160 × 160 px en PNG con paleta (7 a 16 KB). Astro las sirve en WebP a 40 px y 80 px (1 a 3 KB).
+  - **Tarjeta en 2 × 2:** `DESIGN.md` 7.4 admite 2 × 2 si una fila no cabe. En una fila de 4 la tarjeta se extendería hasta el riel social y lo taparía, así que va en 2 × 2. Bajo 640 px va estática y en una fila.
+  - Las insignias llevan carga normal, no diferida (AT-013).
+- **Consecuencias:** resuelve AT-013 en el hero. `DESIGN.md` 2.2 y 7.4 ya recogen las 4 insignias (edición de Felipe del 30-10-2026). El hero muestra la insignia del emisor, no la de cada certificación; las insignias por certificación llegan en E50-I02.
+- **Origen:** decisión de Felipe el 30-10-2026 (E40-I01). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

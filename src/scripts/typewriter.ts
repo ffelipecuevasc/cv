@@ -39,6 +39,20 @@ export const logoRhythm: Rhythm = {
   holdEmptyMs: 500,
 };
 
+/*
+ * Ritmo del titular del hero (E40-I01), portado de main:static/js/config/maquina-escribir.config.js.
+ * Es más ágil que el del logotipo, que entra más tarde y es más lento para que las dos
+ * máquinas no tecleen al unísono y compitan entre sí.
+ */
+export const heroRhythm: Rhythm = {
+  startMs: 0,
+  typeMs: 68,
+  jitterMs: 34,
+  deleteMs: 32,
+  holdFullMs: 2000,
+  holdEmptyMs: 420,
+};
+
 const RUNNING = 'typewriter--running';
 const TYPING = 'typewriter--typing';
 

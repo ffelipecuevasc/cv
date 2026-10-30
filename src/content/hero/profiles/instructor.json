@@ -1,0 +1,47 @@
+{
+  "order": 1,
+  "tab": { "es": "Instructor", "en": "Instructor" },
+  "headline": { "es": "Instructor Senior en", "en": "Senior Instructor in" },
+  "phrases": {
+    "es": [
+      "Bootcamps de Programación",
+      "Bootcamps de Talento Digital",
+      "Bootcamps de IA",
+      "Bootcamps Full Stack"
+    ],
+    "en": [
+      "Programming Bootcamps",
+      "Talento Digital Bootcamps",
+      "AI Bootcamps",
+      "Full Stack Bootcamps"
+    ]
+  },
+  "paragraph": {
+    "es": "Instructor senior en cursos intensivos de **Talento Digital — SENCE**, iniciativa del Gobierno de Chile: desarrollo full stack en Java, Python y JavaScript, e Ingeniería de Datos con Machine Learning sobre AWS. También instructor senior de Java en **Alura Latam**, como Oracle Developer Professional.",
+    "en": "Senior instructor in intensive **Talento Digital — SENCE** courses, an initiative of the Government of Chile: full stack development in Java, Python and JavaScript, and Data Engineering with Machine Learning on AWS. Also senior Java instructor at **Alura Latam**, as an Oracle Developer Professional."
+  },
+  "cta": {
+    "route": "instructor",
+    "label": { "es": "Conoce mis programas", "en": "Explore my programs" }
+  },
+  "metrics": [
+    {
+      "kind": "number",
+      "value": 2000,
+      "plus": true,
+      "label": { "es": "Horas dictadas", "en": "Hours taught" }
+    },
+    {
+      "kind": "number",
+      "value": 150,
+      "plus": true,
+      "label": { "es": "Módulos SENCE aprobados", "en": "Approved SENCE modules" }
+    },
+    {
+      "kind": "number",
+      "value": 5,
+      "plus": true,
+      "label": { "es": "Bootcamps dictados", "en": "Bootcamps taught" }
+    }
+  ]
+}

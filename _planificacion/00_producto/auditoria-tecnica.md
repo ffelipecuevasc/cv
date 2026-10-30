@@ -157,7 +157,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - efectos hover en retrato, credenciales y redes.
 
 ### AT-001 · El hero no cabe en escritorio sin scroll
-- **Severidad:** Crítica · **Estado:** Abierto · **Resuelve:** E40-I01
+- **Severidad:** Crítica · **Estado:** Resuelto en E40-I01 (30-10-2026): el hero completo (barra + hero + 4 certificaciones + redes) cabe en las 4 áreas visibles de ADR-016, en ambos temas, idiomas y perfiles (48 casos); margen mínimo de 11 px en 1366×638 · **Resuelve:** E40-I01
 - **Evidencia (medida):**
   - en todos los anchos de escritorio medidos, la barra mide 73 px;
   - el bloque barra + hero + certificaciones + redes termina en ~1.052 px en tema claro y ~1.101 px en oscuro;
@@ -173,13 +173,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** todo el contenido principal dentro de `<main>`.
 
 ### AT-013 · Insignias del hero con carga diferida y sobredimensionadas
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E40-I01, E170-I02
+- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026): insignias con carga normal, WebP de 40 px y 80 px (1 a 3 KB) desde fuentes de 160 px en `src/assets/insignias/` (ADR-054); E170-I02 solo vuelve a medir · **Resuelve:** E40-I01, E170-I02
 - **Evidencia:** `index.html:405-407`, imágenes con `loading="lazy"` sobre el pliegue; PNG de 400×400 (`insignia_oracle.png` 163 KB) mostrados a 40 px.
 - **Impacto:** peso innecesario y retraso visual.
 - **Recomendación:** carga normal, formato moderno y tamaño acorde.
 
 ### AT-014 · Cifras inconsistentes de certificaciones
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E40-I01 (validación de Felipe)
+- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). Quedan la banda de Inicio (E40-I02) y el JSON-LD (E40-I03), que deben usar la misma fuente · **Resuelve:** E40-I01 (validación de Felipe)
 - **Evidencia:** "Nueve certificaciones" (`index.html:527`), métrica "+10" (`:566`), franja "8+" (`:680`) y 9 credenciales en el JSON-LD Person.
 - **Impacto:** credibilidad del CV.
 - **Recomendación:** una sola cifra validada, derivada de los datos.
@@ -345,11 +345,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** idioma por página y término compartido (ADR-022).
 
 ### AT-028 · Claves de `localStorage` que deben conservarse
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I01, E40-I01, E130-I01
+- **Severidad:** Media · **Estado:** Abierto (parcial: `theme` en E30-I01 y `perfil-hero` en E40-I01; falta `rutas-progreso`, E130-I01) · **Resuelve:** E30-I01, E40-I01, E130-I01
 - **Evidencia:** `theme` (`static/js/servicios/tema.js`), `perfil-hero` (`static/js/config/perfiles.config.js:10`) y `rutas-progreso` (`static/js/config/rutas.config.js:10`).
 - **Impacto:** los visitantes perderían sus preferencias y su progreso.
 - **Recomendación:** ADR-023.
 - **Avance (E30-I01):** la clave `theme` se conserva con los mismos valores (`dark`/`light`) en el script de tema. Siguen `perfil-hero` (E40-I01) y `rutas-progreso` (E130-I01).
+- **Avance (E40-I01, 30-10-2026):** `perfil-hero` se conserva con los mismos valores (`instructor`, `docente`, `desarrollador`) y `?perfil=` se lee y se refleja con `replaceState`; `?perfil=` prevalece sobre la clave y un valor inválido se ignora. Falta `rutas-progreso` (E130-I01).
 
 ### AT-034 · Descargables pesados y solo en español
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E130-I02, BL-04
@@ -604,3 +605,30 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E30-I06, 29-10-2026):** `BaseLayout.astro` lleva un `<noscript><style>` con las reglas que dejan el menú móvil desplegado y el botón de volver arriba visible sin JavaScript (E30-I05 y E30-I06). Una política de seguridad que restrinja `style-src` puede bloquearlo.
 - **Impacto:** si se bloquea, sin JavaScript el menú móvil no se podría abrir.
 - **Recomendación:** al definir la CSP de E170-I03, incluir el hash de ese bloque, o mover las reglas a la hoja global con un selector que dependa de una clase puesta por un script en línea (que ya tiene hash por el tema).
+
+### AT-064 · DESIGN.md: ajustes de 5.2 y 7.4 que dejó el hero
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Evidencia (E40-I01, 30-10-2026):**
+  - 4.3 pone el signo "+" de las cifras en `gold` en oscuro y 7.4 dice "signo en `accent`" (en oscuro, `vibrant`). El hero sigue 4.3, que es la regla específica.
+  - El h1 de 5.2 (tope 3,5 rem) no cabe en la matriz de ADR-016 en español: con la columna de texto de 680 px, "Docente Universitario en" pasa a dos líneas desde unos 46 px y el hero se pasa del área visible. El hero usa tope de 2,75 rem.
+  - 7.4 no fija el tamaño de la cifra de las métricas ni su orden (rótulo arriba o abajo), ni su disposición bajo 640 px.
+- **Impacto:** la fuente de verdad del diseño no coincide con lo implementado.
+- **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I01 a `DESIGN.md` 5.2 y 7.4.
+
+### AT-065 · Cursor del titular del hero separado del texto si la frase se parte
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Evidencia (E40-I01, 30-10-2026):** el cursor de la máquina de escribir se dibuja como fondo de la caja del texto (CLS 0). Si la frase destacada no cabe en una línea (a 360 px de ancho, por ejemplo "Programming Bootcamps"), la caja ocupa todo el ancho y el cursor queda al borde derecho, no al final de la última línea. En escritorio la frase cabe en una línea y el cursor queda pegado.
+- **Impacto:** detalle visual en móvil; no afecta contenido ni CLS.
+- **Recomendación:** revisar en un móvil real; si molesta, ocultar el cursor bajo 640 px o dibujarlo con un elemento en línea que no mueva nada.
+
+### AT-066 · Script en línea del hero y la futura CSP
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I03
+- **Evidencia (E40-I01, 30-10-2026):** `Hero.astro` lleva un script en línea (`is:inline`) que elige el perfil (`?perfil=` y `perfil-hero`) y muestra el conmutador antes del primer pintado, para que no haya destello ni CLS. Una política de seguridad que restrinja `script-src` lo bloquearía.
+- **Impacto:** con el script bloqueado, el módulo `src/scripts/hero.ts` hace la misma resolución, pero después del primer pintado: un visitante con otro perfil guardado vería un destello del Instructor y el conmutador aparecería desplazando el contenido.
+- **Recomendación:** al definir la CSP de E170-I03, incluir el hash de este script, junto al del tema (AT-040) y al bloque `<noscript>` (AT-063).
+
+### AT-067 · La cifra de certificaciones no filtra por vencimiento
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E50-I02
+- **Evidencia (E40-I01, 30-10-2026):** `src/data/certifications.ts` guarda `expiresAt` en las 2 certificaciones nuevas (la primera vence el 30-10-2027), pero ADR-053 cuenta todas las entradas. El hero dice "vigentes".
+- **Impacto:** desde el 30-10-2027 el sitio contaría una credencial vencida como vigente, salvo que se renueve o se quite.
+- **Recomendación:** al ampliar los datos en E50-I02, decidir con Felipe si la cifra excluye las vencidas (el sitio es estático, así que la fecha se evaluaría al construir) o si basta actualizar los datos al renovar.

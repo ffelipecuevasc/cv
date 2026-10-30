@@ -1,0 +1,24 @@
+{
+  "kicker": { "es": "Ingeniero Informático", "en": "Computer Engineer" },
+  "tablistLabel": {
+    "es": "Elige el perfil profesional que quieres ver",
+    "en": "Choose the professional profile you want to see"
+  },
+  "portraitAlt": { "es": "Retrato de Felipe Cuevas", "en": "Portrait of Felipe Cuevas" },
+  "cv": {
+    "label": { "es": "Revisa mi CV", "en": "Review my CV" },
+    "accessibleLabel": { "es": "Revisa mi CV (PDF)", "en": "Review my CV (PDF, Spanish)" }
+  },
+  "credentials": {
+    "title": { "es": "Certificaciones", "en": "Certifications" },
+    "label": {
+      "es": "Certificaciones profesionales vigentes",
+      "en": "Current professional certifications"
+    }
+  },
+  "social": {
+    "label": { "es": "Redes sociales y contacto", "en": "Social networks and contact" },
+    "email": { "es": "Correo", "en": "Email" }
+  },
+  "moreThan": { "es": "más de", "en": "more than" }
+}

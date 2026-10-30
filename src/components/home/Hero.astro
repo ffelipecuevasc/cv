@@ -1,0 +1,481 @@
+---
+/*
+ * Hero de la portada (E40-I01, DESIGN.md 2.2 y 7.4, ADR-009, ADR-016, ADR-023, ADR-053, ADR-054).
+ * - Escritorio (desde 1.024 px): retícula de 12 columnas, texto en 7 y retrato en 5.
+ * - Texto: rótulo, conmutador de 3 perfiles, <h1> con máquina de escribir, párrafo, dos
+ *   llamados a la acción y 3 métricas. Retrato 4:5 con marco desplazado, riel social y
+ *   tarjeta de certificaciones.
+ * - Los tres perfiles viven en el HTML (src/content/hero/): sin JavaScript se ve completo
+ *   el perfil Instructor y el conmutador no aparece. El CSS muestra el perfil que indica
+ *   `data-profile`; un script en línea lo elige antes del primer pintado (sin destello ni
+ *   CLS) y src/scripts/hero.ts agrega la interacción.
+ * - La cifra de certificaciones sale de src/data/certifications.ts (ADR-053).
+ */
+import { getCollection, getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import GoldRule from '../ui/GoldRule.astro';
+import Button from '../ui/Button.astro';
+import SocialRail from './SocialRail.astro';
+import CredentialsCard from './CredentialsCard.astro';
+import { fillCertificationCount, formatNumber, parseEmphasis } from './hero-text';
+import { cv } from '../layout/nav-items';
+import { certificationCount } from '../../data/certifications';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+import portrait from '../../assets/felipe_cuevas.webp';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const shared = (await getEntry('heroShared', 'shared'))?.data;
+if (!shared) throw new Error('Falta src/content/hero/shared.json');
+
+const profiles = (await getCollection('heroProfiles'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map(({ id, data }) => ({
+    id,
+    tab: data.tab[lang],
+    headline: data.headline[lang],
+    phrases: data.phrases[lang],
+    paragraph: parseEmphasis(fillCertificationCount(data.paragraph[lang], shared.moreThan[lang])),
+    cta: { href: getRoute(data.cta.route, lang), label: data.cta.label[lang] },
+    metrics: data.metrics.map((metric) => {
+      const { value, plus } = metric.kind === 'certifications' ? certificationCount() : metric;
+      return { label: metric.label[lang], value: formatNumber(value, lang), plus };
+    }),
+  }));
+const ids = profiles.map((profile) => profile.id);
+const defaultId = ids[0];
+---
+
+<section class="hero" data-hero data-profile={defaultId}>
+  {/*
+    Elige el perfil antes del primer pintado y muestra el conmutador (que sin JavaScript queda
+    oculto). `?perfil=` y la clave `perfil-hero` mantienen el formato del sitio actual (ADR-023).
+    Si cambia este script, cambia su hash en la CSP (E170-I03).
+  */}
+  <script is:inline define:vars={{ ids }}>
+    (function () {
+      const root = document.currentScript.parentElement;
+      root.setAttribute('data-js', '');
+      let profile = new URLSearchParams(location.search).get('perfil');
+      if (ids.indexOf(profile) < 0) {
+        profile = null;
+        try {
+          profile = localStorage.getItem('perfil-hero');
+        } catch {
+          // Almacenamiento bloqueado: se queda el perfil de partida.
+        }
+      }
+      if (ids.indexOf(profile) >= 0) root.setAttribute('data-profile', profile);
+    })();
+  </script>
+
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
+
+  <Container class="layout">
+    <div class="copy">
+      <p class="kicker-row">
+        <GoldRule />
+        <span class="kicker">{shared.kicker[lang]}</span>
+      </p>
+
+      <div class="switch">
+        <div class="tablist" role="tablist" aria-label={shared.tablistLabel[lang]}>
+          {profiles.map((profile) => (
+            <button
+              type="button"
+              role="tab"
+              class="tab"
+              id={`hero-tab-${profile.id}`}
+              data-profile-id={profile.id}
+              aria-controls={`hero-panel-${profile.id}`}
+              aria-selected={profile.id === defaultId ? 'true' : 'false'}
+              tabindex={profile.id === defaultId ? 0 : -1}
+            >
+              {profile.tab}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <h1 class="headline-stack">
+        {profiles.map((profile) => (
+          <span class="headline profile-item" data-profile-id={profile.id}>
+            {profile.headline} <span class="sr-only">{profile.phrases[0]}</span>
+            <span
+              class="accent typewriter"
+              data-typewriter={JSON.stringify(profile.phrases)}
+              aria-hidden="true"
+            >
+              {profile.phrases.map((phrase) => (
+                <span class="typewriter-measure">{phrase}</span>
+              ))}
+              <span class="typewriter-text">{profile.phrases[0]}</span>
+            </span>
+          </span>
+        ))}
+      </h1>
+
+      <div class="panels">
+        {profiles.map((profile) => (
+          <div
+            class="panel profile-item"
+            role="tabpanel"
+            id={`hero-panel-${profile.id}`}
+            aria-labelledby={`hero-tab-${profile.id}`}
+            data-profile-id={profile.id}
+          >
+            <p class="lead">
+              {profile.paragraph.map((part) =>
+                part.strong ? <strong>{part.text}</strong> : part.text,
+              )}
+            </p>
+            <div class="actions">
+              <Button variant="primary" href={profile.cta.href}>
+                {profile.cta.label}
+              </Button>
+              <Button
+                variant="secondary"
+                icon="download"
+                href={cv.href}
+                download={cv.file}
+                label={shared.cv.accessibleLabel[lang]}
+                title={shared.cv.accessibleLabel[lang]}
+              >
+                {shared.cv.label[lang]}
+              </Button>
+            </div>
+            <dl class="metrics">
+              {profile.metrics.map((metric) => (
+                <div class="metric">
+                  <dt>{metric.label}</dt>
+                  <dd>
+                    {metric.plus && <span class="sign">+</span>}
+                    {metric.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="stage">
+        <div class="frame texture-frame" aria-hidden="true"></div>
+        <div class="portrait texture-portrait">
+          <Image
+            src={portrait}
+            alt={shared.portraitAlt[lang]}
+            width={704}
+            height={880}
+            widths={[352, 704]}
+            sizes="(min-width: 640px) 352px, 90vw"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        <SocialRail
+          label={shared.social.label[lang]}
+          emailLabel={shared.social.email[lang]}
+          newTab={t.footer.newTab}
+        />
+        <CredentialsCard
+          title={shared.credentials.title[lang]}
+          label={shared.credentials.label[lang]}
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { initHero } from '../../scripts/hero';
+  initHero();
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    overflow-x: clip;
+    padding-block: 40px 56px;
+  }
+  @media (min-width: 64rem) {
+    .hero {
+      padding-block: 32px;
+    }
+  }
+
+  /* Fondo (4.5): campo de puntos y, en oscuro, halo. Decorativos. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Retícula (6): una columna bajo 1.024 px; 12 columnas con 48 px de separación. */
+  .hero :global(.layout) {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+  @media (min-width: 64rem) {
+    .hero :global(.layout) {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 48px;
+      align-items: center;
+    }
+    .copy {
+      grid-column: span 7;
+    }
+    .visual {
+      grid-column: span 5;
+    }
+  }
+
+  /* --- Texto --------------------------------------------------------------------------- */
+  .kicker-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .kicker {
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* Conmutador: oculto sin JavaScript (el script en línea pone `data-js`). Con el estilo del
+     selector de idioma (7.2): 44 px, contorno hacia dentro y divisores `border-strong`. */
+  .switch {
+    display: none;
+    margin-top: 16px;
+  }
+  .hero[data-js] .switch {
+    display: block;
+  }
+  .tablist {
+    display: flex;
+    width: 100%;
+    height: 44px;
+    outline: 1px solid var(--color-border-strong);
+    outline-offset: -1px;
+  }
+  .tab {
+    flex: 1 1 auto;
+    min-width: 44px;
+    padding-inline: 8px;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color var(--duration-base) ease;
+  }
+  .tab + .tab {
+    border-inline-start: 1px solid var(--color-border-strong);
+  }
+  .tab:hover {
+    color: var(--color-heading);
+  }
+  @media (min-width: 40rem) {
+    .tablist {
+      width: fit-content;
+    }
+    .tab {
+      flex: none;
+      padding-inline: 20px;
+      font-size: 12.5px;
+      letter-spacing: 0.12em;
+    }
+  }
+
+  /* Perfil visible: lo indica `data-profile` de la sección (lo pone el script en línea antes
+     del primer pintado). Los tres perfiles comparten celda para no mover el layout al
+     cambiar. Los ids son los valores de `perfil-hero` (ADR-023). */
+  .profile-item {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity var(--duration-base) ease,
+      visibility 0s linear var(--duration-base);
+  }
+  .hero[data-profile='instructor'] .profile-item[data-profile-id='instructor'],
+  .hero[data-profile='docente'] .profile-item[data-profile-id='docente'],
+  .hero[data-profile='desarrollador'] .profile-item[data-profile-id='desarrollador'] {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+  .hero[data-profile='instructor'] .tab[data-profile-id='instructor'],
+  .hero[data-profile='docente'] .tab[data-profile-id='docente'],
+  .hero[data-profile='desarrollador'] .tab[data-profile-id='desarrollador'] {
+    background-color: var(--profile-current-bg);
+    color: var(--profile-current-fg);
+  }
+
+  /* 5.2 h1 del hero: Cinzel 500, 1,08, 0,02 em. El tope baja de 3,5 a 2,75 rem (7.4: se ajusta
+     el h1 antes que el retrato): la columna de texto mide 680 px desde 1.280 px y a 2,75 rem la
+     parte fija más larga ("Docente Universitario en") cabe en una línea, así el h1 no pasa de
+     2 líneas en toda la matriz de ADR-016. */
+  .headline-stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 3.4vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+  }
+  /* La parte destacada: Josefin 300 cursiva, `accent`, en su propia línea. En pantallas
+     angostas puede partirse en varias líneas (el motor la deja en una sola por omisión). */
+  .accent {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0;
+  }
+  .accent :global(.typewriter-measure),
+  .accent :global(.typewriter-text) {
+    white-space: normal;
+  }
+  .accent :global(.typewriter-text) {
+    justify-self: start;
+  }
+
+  .panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 16px;
+  }
+  .lead {
+    max-width: 62ch;
+    color: var(--color-text-muted);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .lead :global(strong) {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  /* Métricas (7.4): `dl` horizontal con divisores verticales `border`. */
+  .metrics {
+    display: flex;
+    margin-top: 24px;
+  }
+  .metric {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 6px;
+    padding-inline: 16px;
+    min-width: 0;
+  }
+  .metric:first-child {
+    padding-inline-start: 0;
+  }
+  .metric + .metric {
+    border-inline-start: 1px solid var(--color-border);
+  }
+  dt {
+    color: var(--color-text-soft);
+    font-size: 12.5px;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  dd {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  /* Bajo 640 px las tres cifras no caben en una fila ("Certificaciones" se cortaría): van en
+     filas, con el rótulo a la izquierda y la cifra a la derecha. */
+  @media (max-width: 39.9375rem) {
+    .metrics {
+      flex-direction: column;
+    }
+    .metric,
+    .metric:first-child {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-inline: 0;
+      padding-block: 10px;
+      border-top: 1px solid var(--color-border);
+    }
+    .metric + .metric {
+      border-inline-start: 0;
+    }
+  }
+  /* 4.3: el signo va a tamaño de display, `primary` en claro y `gold` en oscuro. */
+  .sign {
+    color: var(--metric-sign);
+  }
+
+  /* --- Retrato ------------------------------------------------------------------------- */
+  .visual {
+    display: flex;
+    justify-content: center;
+  }
+  .stage {
+    position: relative;
+    width: min(100%, 352px);
+  }
+  @media (min-width: 40rem) {
+    /* Reserva el espacio de lo que sobresale: marco (24 px) y tarjeta (32 px). */
+    .stage {
+      width: min(calc(100% - 56px), 352px);
+    }
+  }
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-height: 440px;
+    overflow: hidden;
+  }
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Marco desplazado 24 px a la derecha y abajo, desde 640 px. */
+  .frame {
+    display: none;
+  }
+  @media (min-width: 40rem) {
+    .frame {
+      position: absolute;
+      inset: 0;
+      display: block;
+      translate: 24px 24px;
+    }
+  }
+</style>

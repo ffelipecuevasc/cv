@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E40 · Página Inicio (index.html)
-- **Iteración actual:** E40-I01 · Hero rediseñado sin scroll en escritorio
+- **Iteración actual:** E40-I02 · Franja de trayectoria y testimonios
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 20 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06). Épicas E10, E20 y E30 terminadas.
+- **Terminadas:** 21 de 53 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E40-I01). Épicas E10, E20 y E30 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -39,7 +39,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E30-I06 · Pie de página rediseñado y volver arriba (P0, S)
 
 **E40 · Página Inicio (index.html)** (`40_epica-inicio/`)
-- [ ] E40-I01 · Hero rediseñado sin scroll en escritorio (P0, M)
+- [x] E40-I01 · Hero rediseñado sin scroll en escritorio (P0, M)
 - [ ] E40-I02 · Franja de trayectoria y testimonios (P1, M)
 - [ ] E40-I03 · SEO y datos estructurados de la portada (P1, S)
 

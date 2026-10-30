@@ -1,5 +1,5 @@
 # E40 · Página Inicio (index.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
 
 ## Objetivo
 Reconstruir la portada con un hero rediseñado que en escritorio se vea completo sin scroll (D-09), más la franja de trayectoria y los testimonios, en ambos idiomas.
@@ -19,7 +19,7 @@ E30 completa, E20-I05.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E40-I01](E40-I01-hero.md) | Hero rediseñado sin scroll en escritorio | P0 | M | E30-I06, E20-I05 | [ ] Pendiente |
+| [E40-I01](E40-I01-hero.md) | Hero rediseñado sin scroll en escritorio | P0 | M | E30-I06, E20-I05 | [x] Terminada |
 | [E40-I02](E40-I02-trayectoria-testimonios.md) | Franja de trayectoria y testimonios | P1 | M | E40-I01 | [ ] Pendiente |
 | [E40-I03](E40-I03-seo-jsonld.md) | SEO y datos estructurados de la portada | P1 | S | E40-I02 | [ ] Pendiente |
 
@@ -28,7 +28,7 @@ E30 completa, E20-I05.
 - [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
 - [ ] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
 - [ ] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
-- [ ] En los viewports de ADR-016, navbar + hero + 3 certificaciones + redes sociales se ven completos sin scroll.
+- [x] En los viewports de ADR-016 (E40-I01), navbar + hero + 4 certificaciones + redes sociales se ven completos sin scroll.
 - [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 
 ## Riesgos
