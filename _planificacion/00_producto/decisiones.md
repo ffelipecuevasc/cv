@@ -499,6 +499,20 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-013 en el hero. `DESIGN.md` 2.2 y 7.4 ya recogen las 4 insignias (edición de Felipe del 30-10-2026). El hero muestra la insignia del emisor, no la de cada certificación; las insignias por certificación llegan en E50-I02.
 - **Origen:** decisión de Felipe el 30-10-2026 (E40-I01). **Estado:** Aceptada.
 
+## ADR-055 · Datos estructurados y metadatos de la portada
+- **Contexto:** E40-I03 y AT-006. El sitio antiguo tenía JSON-LD Person (9 credenciales escritas a mano, `knowsLanguage` solo en español) y WebSite con `inLanguage` `es-CL`, sin `hreflang` ni metadatos por idioma. ADR-053 dejó pendiente derivar el JSON-LD de los datos de certificaciones.
+- **Decisión (de Felipe, 30-10-2026):**
+  - `knowsLanguage` declara `es-CL` y `en-US`. Sin `alternateName`: el nombre es «Felipe Cuevas».
+  - `hasCredential` se genera siempre desde `src/data/certifications.ts` (hoy 11) y coincide con la cifra del hero (ADR-053). `sameAs` y el correo salen de `social-links.ts` (LinkedIn, GitHub y REUF).
+- **Decisión (de implementación):**
+  - **Dos bloques** JSON-LD por página, Person y WebSite, como en el sitio antiguo. Los `@id` se conservan (`https://felipecuevas.dev/#felipe-cuevas` y `/#sitio`) y son iguales en `/es/` y `/en/`: es la misma entidad. `url` es la portada del idioma; `inLanguage` del WebSite es `es-CL` o `en-US`.
+  - Los idiomas se declaran con su código BCP 47 como texto (`"es-CL"`), no con objetos `Language`; así tampoco hace falta `alternateName` ahí. `availableLanguage` del `contactPoint` lleva los mismos dos.
+  - Los textos que cambian con el idioma (cargos, descripción, temas de `knowsAbout`, tipo de contacto) viven en `src/content/seo/person.json` con paridad obligatoria (`localized()`); organizaciones y credenciales son nombres propios y no se traducen (ADR-025). El emisor de cada credencial sale de un mapa con tipo exhaustivo: un emisor nuevo en los datos hace fallar `pnpm check` hasta que se agregue.
+  - **Imagen Open Graph:** una sola, sin texto (`DESIGN.md` 2.4), con `og:image:alt` por idioma. Es provisoria (AT-069).
+  - **Verificación sin red:** `pnpm verify:seo` (`scripts/verify-seo.mjs`, sin dependencias) lee `dist/` y comprueba sintaxis, estructura, `canonical`, `hreflang`, `x-default`, Open Graph, paridad entre idiomas y que `hasCredential` coincida con los datos y con la cifra impresa.
+- **Consecuencias:** resuelve AT-006 para la portada y cierra la derivación pendiente de AT-014. Cada página con datos estructurados (E50-I02, E70-I02, E130-I02) reutiliza `JsonLd.astro` y las funciones de `structured-data.ts`, y `verify:seo` se amplía por página. La Prueba de resultados enriquecidos y el validador de schema.org los corre Felipe con las URL de preview.
+- **Origen:** decisiones de Felipe el 30-10-2026 (E40-I03). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

@@ -179,7 +179,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** carga normal, formato moderno y tamaño acorde.
 
 ### AT-014 · Cifras inconsistentes de certificaciones
-- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). La banda de Inicio (E40-I02, 30-10-2026) también la deriva de esa fuente; queda el JSON-LD (E40-I03), que debe usar la misma · **Resuelve:** E40-I01 (validación de Felipe)
+- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). La banda de Inicio (E40-I02, 30-10-2026) también la deriva de esa fuente, y el JSON-LD Person (E40-I03, 30-10-2026) genera `hasCredential` de ella (11 credenciales; `pnpm verify:seo` la compara con la cifra impresa) · **Resuelve:** E40-I01 (validación de Felipe)
 - **Evidencia:** "Nueve certificaciones" (`index.html:527`), métrica "+10" (`:566`), franja "8+" (`:680`) y 9 credenciales en el JSON-LD Person.
 - **Impacto:** credibilidad del CV.
 - **Recomendación:** una sola cifra validada, derivada de los datos.
@@ -220,12 +220,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 ## H. Rendimiento, accesibilidad y SEO
 
 ### AT-006 · Sin hreflang ni metadatos por idioma
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E30-I01, E40-I03, E180-I02, E180-I03
+- **Severidad:** Alta · **Estado:** Resuelto en E40-I03 (30-10-2026) para la portada: metadatos y JSON-LD por idioma, `hreflang` y `x-default` verificados sobre `dist/`. Sitemap bilingüe (E180-I02) y comportamiento de `/` (E180-I03) siguen en sus iteraciones · **Resuelve:** E30-I01, E40-I03, E180-I02, E180-I03
 - **Evidencia:** `lang="es"` (`index.html:3`), `og:locale` `es_CL` (`:14`), `inLanguage` `es-CL` (`:270`); no hay `hreflang` en ninguna página.
 - **Impacto:** los buscadores no relacionarán las versiones de idioma.
 - **Recomendación:** `hreflang` recíprocos con `x-default` (ADR-019).
 - **Avance:** E10-I07 deja `lang="es-CL"` y `lang="en-US"` por página. Sigue abierto: faltan `hreflang`, `x-default` y metadatos por idioma.
 - **Avance (E30-I01):** `hreflang` recíprocos es-CL / en-US con `x-default` a `/es/`, `og:locale` y `og:locale:alternate` por idioma. Sigue abierto: `inLanguage` del JSON-LD (E40-I03) y sitemap bilingüe (E180-I02).
+- **Avance (E40-I03):** JSON-LD Person y WebSite por idioma con `@id` compartidos e `inLanguage` `es-CL` / `en-US`; metadatos Open Graph por idioma con imagen de 1200 × 630 px y texto alternativo por idioma (ADR-055). `pnpm verify:seo` comprueba 90 puntos sobre `dist/` sin red. Resta lo propio de E180: sitemap bilingüe, `robots.txt` y la 301 de `/`.
 
 ### AT-016 · Fuente de íconos completa
 - **Severidad:** Media · **Estado:** Resuelto en E20-I03 (componente `Icon.astro` con SVG en línea; sin Material Symbols, ADR-043) · **Resuelve:** E20-I03
@@ -607,7 +608,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** al definir la CSP de E170-I03, incluir el hash de ese bloque, o mover las reglas a la hoja global con un selector que dependa de una clase puesta por un script en línea (que ya tiene hash por el tema).
 
 ### AT-064 · DESIGN.md: ajustes de 5.2 y 7.4 que dejó el hero
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Severidad:** Baja · **Estado:** Resuelto (edición de Felipe en `DESIGN.md` 5.2 y 7.4, 30-10-2026) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E40-I01, 30-10-2026):**
   - 4.3 pone el signo "+" de las cifras en `gold` en oscuro y 7.4 dice "signo en `accent`" (en oscuro, `vibrant`). El hero sigue 4.3, que es la regla específica.
   - El h1 de 5.2 (tope 3,5 rem) no cabe en la matriz de ADR-016 en español: con la columna de texto de 680 px, "Docente Universitario en" pasa a dos líneas desde unos 46 px y el hero se pasa del área visible. El hero usa tope de 2,75 rem.
@@ -634,7 +635,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** al ampliar los datos en E50-I02, decidir con Felipe si la cifra excluye las vencidas (el sitio es estático, así que la fecha se evaluaría al construir) o si basta actualizar los datos al renovar.
 
 ### AT-068 · DESIGN.md: ajustes de 7.6, 7.8 y 7.12 que dejó la franja de cifras y el carrusel
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Severidad:** Baja · **Estado:** Resuelto (edición de Felipe en `DESIGN.md` 5.2, 7.6, 7.8, 7.12 y 9, 30-10-2026) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E40-I02, 30-10-2026):**
   - 5.2 fija la cifra en `clamp(2.2rem, 4.4vw, 3.4rem)`, pero con 5 columnas desde 1.024 px "+2.000" no cabe (a 1.024 px la cifra mediría 45 px). La banda usa `clamp(2.2rem, 3vw, 3rem)`.
   - 7.8 fija el rótulo `dt` en 12,5 px y 0,16 em; bajo 480 px, con 2 columnas de unos 140 px, "Certificaciones" desborda. Bajo 480 px usa 12 px y 0,1 em.
@@ -644,3 +645,21 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - 7.8 no fija los textos del encabezado de la banda ni de los testimonios: se usaron "Trayectoria profesional" / "Impacto medido" y "Testimonios" / "Lo que dicen mis alumnos" (y su equivalente en inglés), tomados del prototipo y del sitio actual.
 - **Impacto:** la fuente de verdad del diseño no coincide con lo implementado.
 - **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I02 a `DESIGN.md` 5.2, 7.6, 7.8 y 7.12.
+
+### AT-069 · Imagen Open Graph provisoria y común a los dos idiomas
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I02 (con decisión de Felipe)
+- **Evidencia (E40-I03, 30-10-2026):** el sitio antiguo usaba `static/img/felipe_cuevas_cv.png`, una captura de su propio hero con texto en español dentro de la imagen. No sirve para `en-US` y `DESIGN.md` 2.4 prohíbe texto dentro de imágenes. La portada usa `src/assets/og/og-home.jpg` (1200 × 630 px, 50 KB), un recorte del retrato sin texto, igual en `/es/` y `/en/`; solo cambia el `og:image:alt`. Es provisoria: el recorte deja el rostro a la izquierda y no lleva marca.
+- **Impacto:** al compartir el enlace, ambos idiomas muestran la misma foto; se ve bien, pero no es una pieza de diseño.
+- **Recomendación:** decidir con Felipe si basta el recorte o se diseña una imagen de marca (sin texto, o una por idioma). `DESIGN.md` no trata la imagen Open Graph: hay una sugerencia de bloque en la bitácora de E40-I03 (2.4).
+
+### AT-070 · `contactPoint.url` apunta a una página que aún no existe
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E140-I01
+- **Evidencia (E40-I03, 30-10-2026):** el JSON-LD Person declara `contactPoint.url` como `https://felipecuevas.dev/es/contacto/` (y `/en/contact/`), tomada del mapa de rutas. La página llega con E140-I01; hasta entonces da 404 en las previews. El enlace de Contacto del menú tiene el mismo estado.
+- **Impacto:** ninguno en producción mientras el cutover ocurra con todas las páginas; una preview analizada antes de E140-I01 verá una URL sin respuesta.
+- **Recomendación:** ninguna acción; comprobarlo al cerrar E140-I01 y en E190-I01.
+
+### AT-071 · Título y descripción de la portada heredados del sitio antiguo
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (puede cerrarse al validar el inglés)
+- **Evidencia (E40-I03, 30-10-2026):** el título en español mide 63 caracteres (Google suele cortar cerca de 60); el inglés mide 58. Ambas descripciones dicen "certificaciones de Oracle y AWS" / "certified by Oracle and AWS", pero el hero y la franja ya muestran 4 emisores (Python Institute y Anthropic, ADR-054). Se conservaron tal cual para no cambiar el posicionamiento sin que Felipe lo decida.
+- **Impacto:** la descripción queda corta frente a lo que muestra la página; el título en español podría cortarse en los resultados.
+- **Recomendación:** al validar el inglés, decidir si se mencionan los 4 emisores y si se acorta el título en español (`src/content/pages/home.json`, un solo archivo).

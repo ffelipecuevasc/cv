@@ -1,18 +1,27 @@
 ---
-// Portada de /es/ (E40-I01 y E40-I02: hero, franja de cifras y testimonios);
-// título y descripción vienen de src/content/pages/home.json (provisorios hasta E40-I03).
+// Portada de /es/ (E40-I01 y E40-I02: hero, franja de cifras y testimonios; E40-I03: SEO).
+// Título, descripción y texto alternativo de la imagen OG vienen de src/content/pages/home.json.
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/home/Hero.astro';
 import StatsBand from '../../components/home/StatsBand.astro';
 import Testimonials from '../../components/home/Testimonials.astro';
+import HomeJsonLd from '../../components/seo/HomeJsonLd.astro';
+import ogImage from '../../assets/og/og-home.jpg';
 
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Falta src/content/pages/home.json');
-const { title, description } = page.data;
+const { title, description, ogImageAlt } = page.data;
+const og = {
+  src: ogImage.src,
+  alt: ogImageAlt?.es ?? title.es,
+  width: ogImage.width,
+  height: ogImage.height,
+};
 ---
 
-<BaseLayout title={title.es} description={description.es} route="home">
+<BaseLayout title={title.es} description={description.es} route="home" ogImage={og}>
+  <HomeJsonLd slot="json-ld" />
   <Hero />
   <StatsBand />
   <Testimonials />

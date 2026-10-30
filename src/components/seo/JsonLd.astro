@@ -1,0 +1,15 @@
+---
+/*
+ * Un bloque de datos estructurados JSON-LD (E40-I03). Va en el slot "json-ld" del
+ * BaseLayout. Es un script de datos, no ejecutable: no depende de JavaScript.
+ */
+import { serializeJsonLd } from './structured-data';
+
+interface Props {
+  data: object;
+}
+
+const { data } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={serializeJsonLd(data)} />

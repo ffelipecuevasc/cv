@@ -131,7 +131,7 @@ No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y 
 | `heading` | `orient-950` | `white` | Titulares (h1 a h3) |
 | `text-muted` | `orient-950` al 70 % | `orient-50` al 75 % | Párrafos |
 | `text-soft` | `orient-950` al 60 % | `orient-50` al 60 % | Descripciones, cargos, rótulos `dt`, barra inferior del pie. **Es la opacidad mínima para texto.** |
-| `accent` | `primary` | `vibrant` | Parte destacada del titular, enlaces destacados, programa del testimonio |
+| `accent` | `primary` | `vibrant` | Parte destacada del titular, enlaces destacados |
 | `kicker` | `orient-600` | `orient-400` (en `band`: `gold`) | Rótulos en mayúsculas |
 | `icon` | `orient-600` | `orient-400` | Íconos de línea |
 | `icon-rail` | `orient-600` | `vibrant` | Íconos del riel social |
@@ -216,12 +216,12 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 | Navegación | Josefin 400 | 15 px | 1 | 0 | — |
 | Botón | Josefin 600 | 13 px | 1 | 0,14 em | Mayúsculas |
 | Etiqueta (chip) | Josefin 400 | 13 px | 1,3 | 0,08 em | Mayúsculas |
-| Metadato (cargo, programa) | Josefin 400 | 13–14 px | 1,4 | 0 | — |
-| h1 del hero | Cinzel 500 | `clamp(2.25rem, 3.4vw, 3.5rem)` | 1,08 | 0,02 em | Máximo 3 líneas en la matriz de ADR-016 |
+| Metadato (cargo) | Josefin 400 | 13–14 px | 1,4 | 0 | — |
+| h1 del hero | Cinzel 500 | `clamp(2.25rem, 3.4vw, 2.75rem)` | 1,08 | 0,02 em | Máximo 2 líneas en la matriz de ADR-016. Con la columna de texto de 680 px, 2,75 rem es lo máximo con que "Docente Universitario en" cabe en una línea |
 | h2 de sección | Cinzel 400 | `clamp(2rem, 4.2vw, 3.1rem)` | 1,2 | 0,02 em | — |
 | h2 de banda | Cinzel 400 | 1,9 rem; 2,3 rem desde 768 px | 1,2 | 0,03 em | — |
 | h3 de tarjeta | Cinzel 400 | 1–1,15 rem | 1,3 | 0,02–0,03 em | — |
-| Cifra | Cinzel 400 | `clamp(2.2rem, 4.4vw, 3.4rem)` | 1 | 0 | Números tabulares |
+| Cifra | Cinzel 400 | `clamp(2.2rem, 3vw, 3rem)` | 1 | 0 | Números tabulares. Tope de 3 rem: con 3,4 rem, "+2.000" no cabe en una de las 5 columnas de la banda. Las métricas del hero van a 2 rem (7.4) |
 | Cita de testimonio | Josefin 300 | 1,08 rem | 1,75 | 0 | — |
 | Comilla decorativa | Cinzel | 3,4 rem | 0,6 | — | `gold`, `aria-hidden` |
 
@@ -292,16 +292,16 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 - **Columna de texto, en orden:**
   1. Rótulo "Ingeniero Informático" (kicker con regla dorada).
   2. Conmutador de 3 perfiles: control segmentado con el estilo del selector de idioma (44 px), `tablist` con flechas, Inicio y Fin; oculto sin JavaScript; recuerda el perfil en `perfil-hero` (ADR-023).
-  3. `<h1>` con el titular del perfil (Cinzel). La parte destacada va en Josefin 300 cursiva, color `accent`, con máquina de escribir (motor de E30-I03); con movimiento reducido o sin JavaScript queda estática.
-  4. Párrafo del perfil (`text-muted`).
-  5. Dos llamados a la acción: primario (programas / experiencia docente / portafolio) y secundario "Revisa mi CV" con ícono de descarga en `icon`.
-  6. Tres métricas del perfil en un `dl` horizontal: cifra en Cinzel con signo en `accent`, rótulo `dt` en `text-soft`; divisores verticales `border`. Ocupa el lugar de las etiquetas del prototipo.
+  3. `<h1>` con el titular del perfil (Cinzel). La parte destacada va en su propia línea, en Josefin 300 cursiva, color `accent`, con máquina de escribir (motor de E30-I03); con movimiento reducido o sin JavaScript queda estática. Deja 16 px de separación con el rótulo y el conmutador.
+  4. Párrafo del perfil (`text-muted`): Josefin 300, 1,0625 rem, interlineado 1,7, ancho máximo de 62 caracteres, a 16 px bajo el `<h1>`.
+  5. Dos llamados a la acción, a 24 px bajo el párrafo: primario (programas / experiencia docente / portafolio) y secundario "Revisa mi CV" con ícono de descarga en `icon`.
+  6. Tres métricas del perfil en un `dl`, a 24 px bajo los botones. Rótulo `dt` encima de la cifra (`text-soft`, como en la banda, 7.8); cifra en Cinzel 400 a 2 rem; el signo "+" va en `primary` en claro y `gold` en oscuro (4.3); divisores verticales `border` cuando van en horizontal. Bajo 640 px las 3 métricas van en filas (rótulo a la izquierda, cifra a la derecha).
 - **Columna del retrato:**
   - Retrato `felipe_cuevas.webp` en proporción 4:5, **alto máximo de 440 px** desde 1.024 px, con carga prioritaria y dimensiones declaradas.
   - Marco desplazado (4.5) corrido 24 px a la derecha y abajo, desde 640 px.
   - **Riel social** sobre el borde derecho, centrado en vertical: 4 botones de 46 × 46 (LinkedIn, GitHub, REUF y correo) separados por 8 px, fondo `surface`, ícono de marca en `icon-rail`, contorno 1 px y sombra `rail`. Al pasar o con foco: fondo `orient-950` e ícono `gold` en claro; fondo `orient-400` e ícono blanco en oscuro; se corre 2 px a la izquierda. Globo de ayuda a la izquierda con el nombre (fondo `orient-950` en claro y `orient-50` en oscuro, 12 px, mayúsculas). Es una lista dentro de un `<nav>` con nombre accesible.
-  - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 4 insignias (Oracle, AWS, Python Institute y Anthropic, ADR-054) de 40 px con su nombre; si en una fila no caben sin romper la matriz de ADR-016, van en 2 × 2. Bajo 640 px va estática debajo del retrato.
-- **Medidas:** relleno vertical de 32 px desde 1.024 px. Presupuesto en la matriz de ADR-016: el hero completo debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). E40-I01 mide y, si no cabe, ajusta primero el alto del retrato y el tamaño del h1, nunca quita elementos.
+  - **Tarjeta de certificaciones** sobre la esquina inferior izquierda del retrato (desde 640 px; corrida 32 px hacia fuera): fondo `surface`, línea superior de 2 px `vibrant`, sombra `float`, relleno de 20 × 24 px. Contiene el rótulo "Certificaciones" y las 4 insignias (Oracle, AWS, Python Institute y Anthropic, ADR-054) de 40 px con su nombre. Desde 640 px las insignias van en 2 × 2, porque en una fila la tarjeta taparía el riel social; bajo 640 px la tarjeta va estática debajo del retrato y las 4 insignias en una fila. El nombre visible del emisor de AWS es "AWS".
+- **Medidas:** relleno vertical de 32 px desde 1.024 px. Presupuesto en la matriz de ADR-016: el hero completo debe caber en el área visible menos 76 px de barra (mínimo, 638 − 76 = 562 px en 1366×638). E40-I01 mide y, si no cabe, ajusta primero el alto del retrato y el tamaño del h1, nunca quita elementos. Resultado de E40-I01: el hero completo, con su relleno, termina dentro del área visible en los 48 casos de la matriz (4 áreas × 2 idiomas × 2 temas × 3 perfiles); el margen mínimo es de 11 px en 1366×638. Se ajustaron el h1, el párrafo, el interlineado y las separaciones; el retrato se mantuvo en 440 px.
 - **Móvil:** una columna en este orden: texto y luego retrato; riel social dentro del retrato, a 12 px del borde.
 
 ### 7.5 Encabezado de sección
@@ -311,14 +311,18 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 
 ### 7.6 Tarjetas
 - **Base:** fondo `surface`, sin radio, relleno de 40 × 34 px (arriba, lados) y 32 px abajo; línea superior de 2 px con degradado `gold` → `vibrant` inserta 34 px desde los lados; sombra `card`. Al pasar el cursor sube 4 px y pasa a sombra `card-hover` en 400 ms. En oscuro suma un contorno de 1 px `orient-50` al 6 % (al pasar, `vibrant` al 25 %).
-- **Tarjeta de testimonio:** comilla decorativa, 5 estrellas de 15 px (`gold` con trazo `gold-deep` en claro) con la nota también en texto para lectores de pantalla, cita en `<blockquote>`, y pie con regla `border` a 32 px: foto circular de 48 px con anillo de 2 px del color de la tarjeta y 1 px `gold`; nombre en Cinzel 1 rem; cargo en `text-soft` 14 px; programa en `accent` 13 px. Si no hay foto: iniciales sobre `orient-800`, `primary` u `orient-600` (4.3). En `en-US` lleva la marca "traducido del español" (ADR-017).
+- **Tarjeta de testimonio:** comilla decorativa, 5 estrellas de 15 px (`gold` con trazo `gold-deep` en claro) con la nota también en texto para lectores de pantalla, cita en `<blockquote>`, y pie con regla `border` a 32 px: foto circular de 48 px con anillo de 2 px del color de la tarjeta y 1 px `gold`; nombre en Cinzel 1 rem; cargo en `text-soft` 14 px. No se muestra el programa (los datos del sitio actual no lo traen). Si la foto no carga o no existe, se muestran las iniciales sobre `orient-800`, `primary` u `orient-600` (4.3); nunca se consulta un servicio externo (AT-024). En `en-US` lleva la marca "Translated from Spanish" (ADR-017).
 
 ### 7.7 Etiqueta (chip)
 Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80 % (oscuro: blanco al 4 %), texto `orient-800` (oscuro: `orient-50` al 85 %), relleno de 6 × 12 px, sin radio.
 
 ### 7.8 Banda y franja temática
 - **Banda:** sección de ancho completo con fondo `band` (4.5), contenido en el contenedor y encabezado de banda (7.5).
-- **Banda de cifras (Inicio):** `dl` con borde superior `primary` al 20 % (oscuro: blanco al 15 %) y divisores verticales iguales; **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa). Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), `dd` con la cifra a 12 px y una línea de contexto opcional en `text-soft`.
+- **Banda de cifras (Inicio):** `dl` con borde superior `primary` al 20 % (oscuro: blanco al 15 %) y divisores verticales iguales (variable `--stats-rule`); **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa).
+  - Encabezado de banda: rótulo "Trayectoria profesional" y titular "Impacto medido" (`en-US`: "Professional track record" y "Measured impact").
+  - Las 5 cifras: certificaciones (derivada de `src/data/certifications.ts`, ADR-053), años como relator REUF, módulos REUF, años como docente y alumnos.
+  - Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), cifra a 12 px bajo él y línea de contexto de 14 px en `text-soft` a 10 px de la cifra. Texto alineado a la izquierda. El signo "+" va antepuesto, en `primary` en claro y `gold` en oscuro (4.3).
+  - Bajo 480 px el `dt` usa 12 px y 0,1 em de interletraje.
 - **Franja temática (Educación, ADR-036 y E20-I05):** variante de la banda con dos zonas: título de la categoría (encabezado alineado a la izquierda) y contenido (insignias pequeñas). Alterna la orientación en zigzag sin cambiar el orden del HTML. Las franjas alternan fondo `band` y fondo `bg` para que el zigzag se lea. Bajo 1.024 px se apila en una columna, título primero.
 
 ### 7.9 Pie
@@ -339,11 +343,13 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Volver arriba:** botón de ícono de 44 × 44 fijo abajo a la derecha, con el estilo de la flecha del carrusel, visible tras desplazarse una pantalla.
 
 ### 7.12 Carrusel de testimonios
-- Bajo 1.100 px: carril horizontal con ajuste por tarjeta (`scroll-snap`), tarjeta de 86 % de ancho bajo 768 px y de media columna desde 768 px; barra de desplazamiento oculta.
-- Desde 1.100 px: grilla de 3 tarjetas; cada página muestra 3 testimonios.
-- Controles centrados a 48 px: flecha anterior, indicador de líneas (activa de 32 × 2 px en `text`; resto de 16 × 2 px al 20 %), contador "01 / 04" en Cinzel 14 px tabular y flecha siguiente.
+- Encabezado de la sección: rótulo "Testimonios" y titular "Lo que dicen mis alumnos" (`en-US`: "Testimonials" y "What my students say").
+- Es un carril con ajuste por tarjeta (`scroll-snap`) en todos los anchos; barra de desplazamiento oculta. Desde 1.100 px muestra 3 tarjetas por página, desde 768 px 2, y bajo esa medida 1 (86 % de ancho). Las páginas son 4, 6 o 12 según el ancho. Separación de 24 px entre tarjetas (32 px desde 1.100 px).
+- Controles centrados a 48 px: flecha anterior, indicador de líneas (activa de 32 × 2 px en `text`; resto de 16 × 2 px al 20 %), contador "01 / 04" en Cinzel 14 px tabular y flecha siguiente. Las flechas son de 54 × 54 px, dan la vuelta y nunca se deshabilitan.
+- Bajo 640 px se oculta el indicador de líneas y quedan las flechas y el contador.
 - **Sin avance automático.**
 - Cada página nueva se anuncia de forma discreta (región `aria-live="polite"` con el contador) y el foco no salta.
+- Sin JavaScript no hay carril ni controles: las 12 tarjetas se ven en una grilla de 1, 2 o 3 columnas.
 
 ### 7.13 Sombras (tokens)
 | Token | Claro | Oscuro |
@@ -379,6 +385,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
   - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, trazo de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
+  - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4), `--metric-sign` (signo de toda cifra de display, 4.3) y `--stats-rule` (borde y divisores de la banda de cifras, 7.8).
   - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;
@@ -406,8 +413,8 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado, riel social y tarjeta flotante sobre fondo de puntos | Inicio |
 | Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas) |
 | Zigzag | Franjas que alternan la orientación título / contenido | Educación |
-| Grilla simétrica de tarjetas | Encabezado centrado, tarjetas iguales y controles centrados | Inicio (testimonios) |
-| Carril con ajuste | Fila desplazable con `scroll-snap` | Inicio (testimonios, bajo 1.100 px) |
+| Grilla simétrica de tarjetas | Encabezado centrado, tarjetas iguales y controles centrados | Sin asignar (los testimonios de Inicio usan el carril) |
+| Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
 | Mosaico | Retícula de piezas de tamaños distintos | Sin asignar |
 | Línea de tiempo | Hitos en secuencia vertical | Sin asignar |
 | **Reservados** (prototipo): pestañas verticales de trayectoria, lista de servicios a dos columnas con regla superior, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
@@ -415,7 +422,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 ### 11.3 Inicio
 1. **Hero asimétrico** (7.4), fondo `bg`.
 2. **Banda de cifras** (7.8), fondo `band`, dentro de `<main>` (AT-012).
-3. **Testimonios** en grilla simétrica con encabezado centrado (7.5, 7.6 y 7.12), fondo `bg-alt`, dentro de `<main>`.
+3. **Testimonios** en carrusel con encabezado centrado (7.5, 7.6 y 7.12), fondo `bg-alt`, dentro de `<main>`.
 4. **Pie** (7.9).
 
 Ritmo de fondos: claro `white` → `orient-50` → `stone` → `orient-50`; oscuro `orient-950` → banda → `orient-925` → `orient-950`.

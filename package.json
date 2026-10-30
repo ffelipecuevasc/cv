@@ -17,7 +17,8 @@
     "check": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "verify:seo": "node scripts/verify-seo.mjs"
   },
   "dependencies": {
     "astro": "7.4.2"

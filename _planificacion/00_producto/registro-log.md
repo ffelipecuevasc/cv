@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E40 · **Iteración actual:** E40-I03 (E40-I01 y E40-I02 terminadas el 30-10-2026)
-- **Resumen:** 20 épicas · 53 iteraciones · 22 terminadas
+- **Épica actual:** E40 (en curso: falta validar el inglés, Felipe) · **Iteración actual:** ninguna pendiente en E40; siguiente E50-I01 (E40-I01, E40-I02 y E40-I03 terminadas el 30-10-2026)
+- **Resumen:** 20 épicas · 53 iteraciones · 23 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -46,7 +46,7 @@
 |---|---|---|---|---|---|
 | P0 | E40-I01 | Hero rediseñado sin scroll en escritorio | M | E30-I06, E20-I05 | [x] Terminada |
 | P1 | E40-I02 | Franja de trayectoria y testimonios | M | E40-I01 | [x] Terminada |
-| P1 | E40-I03 | SEO y datos estructurados de la portada | S | E40-I02 | [ ] Pendiente |
+| P1 | E40-I03 | SEO y datos estructurados de la portada | S | E40-I02 | [x] Terminada |
 
 ### E50 · Página Educación (educacion.html) (`50_epica-educacion/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |

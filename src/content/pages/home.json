@@ -7,5 +7,9 @@
   "description": {
     "es": "Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS.",
     "en": "Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS."
+  },
+  "ogImageAlt": {
+    "es": "Retrato de Felipe Cuevas, ingeniero informático e instructor certificado",
+    "en": "Portrait of Felipe Cuevas, computer engineer and certified instructor"
   }
 }

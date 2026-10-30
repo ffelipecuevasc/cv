@@ -20,12 +20,14 @@ export const localized = () =>
     .strict();
 
 // Metadatos de SEO por página. El id del archivo debe ser una clave del mapa de rutas.
+// `ogImageAlt` es el texto alternativo de la imagen Open Graph (la imagen no lleva texto).
 const pages = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/content/pages' }),
   schema: z.object({
     route: z.enum(Object.keys(routes) as [keyof typeof routes, ...(keyof typeof routes)[]]),
     title: localized(),
     description: localized(),
+    ogImageAlt: localized().optional(),
   }),
 });
 
@@ -145,8 +147,33 @@ const testimonials = defineCollection({
     }),
 });
 
+/*
+ * Datos estructurados Person de la portada (E40-I03). Los textos que cambian con el idioma
+ * viven aquí con paridad obligatoria; lo que no cambia (nombre, correo, redes, organizaciones
+ * y credenciales) sale de los módulos de datos, no se escribe a mano (ADR-053).
+ */
+const localizedList = () =>
+  z
+    .object({
+      es: z.array(z.string().trim().min(1)).min(1),
+      en: z.array(z.string().trim().min(1)).min(1),
+    })
+    .strict()
+    .refine((p) => p.es.length === p.en.length, 'Las listas deben tener el mismo largo en es y en');
+
+const personSeo = defineCollection({
+  loader: glob({ pattern: 'person.json', base: './src/content/seo' }),
+  schema: z.object({
+    jobTitle: localizedList(),
+    description: localized(),
+    knowsAbout: localizedList(),
+    contactType: localized(),
+  }),
+});
+
 export const collections = {
   pages,
+  personSeo,
   heroProfiles,
   heroShared,
   homeStats,
