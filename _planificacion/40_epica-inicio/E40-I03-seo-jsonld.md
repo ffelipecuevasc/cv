@@ -21,7 +21,7 @@ Publicar los datos estructurados Person y WebSite en ambos idiomas y validar met
 
 ## Fuera de alcance
 - Sitemap bilingüe, `robots.txt` y la 301 de `/` (E180-I02 y E180-I03).
-- Imágenes Open Graph de marca por idioma (E170-I02, AT-069).
+- Imágenes Open Graph de marca por idioma (E170-I02). La imagen única de la portada la cerró AT-069 (30-10-2026).
 
 ## Tareas
 - [x] Portar y traducir el JSON-LD (Person y WebSite, `src/components/seo/` y `src/content/seo/person.json`).
@@ -31,7 +31,7 @@ Publicar los datos estructurados Person y WebSite en ambos idiomas y validar met
 
 ## Archivos previstos (crear / modificar)
 - Modificar: páginas de inicio (`src/pages/es/index.astro` y `src/pages/en/index.astro`).
-- Crear: `src/components/seo/{structured-data.ts,JsonLd.astro,HomeJsonLd.astro}`, `src/content/seo/person.json`, `src/assets/og/og-home.jpg`, `scripts/verify-seo.mjs`.
+- Crear: `src/components/seo/{structured-data.ts,JsonLd.astro,HomeJsonLd.astro}`, `src/content/seo/person.json`, `src/components/seo/home-og-image.ts` (la imagen es `src/assets/og-portada.jpg`, aportada por Felipe), `scripts/verify-seo.mjs`.
 - Modificar: `src/content.config.ts`, `src/content/pages/home.json`, `package.json` (script `verify:seo`).
 
 ## Criterios de aceptación (verificables)

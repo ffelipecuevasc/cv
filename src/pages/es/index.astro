@@ -7,17 +7,12 @@ import Hero from '../../components/home/Hero.astro';
 import StatsBand from '../../components/home/StatsBand.astro';
 import Testimonials from '../../components/home/Testimonials.astro';
 import HomeJsonLd from '../../components/seo/HomeJsonLd.astro';
-import ogImage from '../../assets/og/og-home.jpg';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
 
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Falta src/content/pages/home.json');
 const { title, description, ogImageAlt } = page.data;
-const og = {
-  src: ogImage.src,
-  alt: ogImageAlt?.es ?? title.es,
-  width: ogImage.width,
-  height: ogImage.height,
-};
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 ---
 
 <BaseLayout title={title.es} description={description.es} route="home" ogImage={og}>

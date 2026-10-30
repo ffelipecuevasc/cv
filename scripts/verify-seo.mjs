@@ -5,7 +5,7 @@
  * Valida sintaxis y estructura; NO reemplaza la Prueba de resultados enriquecidos de
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
  */
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { certifications, getCountDisplay } from '../src/data/certifications.ts';
@@ -45,6 +45,21 @@ const attrs = (tag) =>
   );
 const tags = (head, name) =>
   [...head.matchAll(new RegExp(`<${name}\\b[^>]*>`, 'g'))].map((match) => attrs(match[0]));
+
+/** Ancho y alto de un JPEG leyendo su marcador SOF (sin dependencias). */
+const jpegSize = (file) => {
+  const buffer = readFileSync(file);
+  let offset = 2;
+  while (offset + 9 < buffer.length) {
+    if (buffer[offset] !== 0xff) return null;
+    const marker = buffer[offset + 1];
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+      return { height: buffer.readUInt16BE(offset + 5), width: buffer.readUInt16BE(offset + 7) };
+    }
+    offset += 2 + buffer.readUInt16BE(offset + 2);
+  }
+  return null;
+};
 
 /** Recorre un valor JSON y reúne cada cadena que parece una URL. */
 const urls = (value, found = []) => {
@@ -122,6 +137,13 @@ for (const [lang, info] of Object.entries(LANGS)) {
     meta('og:image:width') === '1200' && meta('og:image:height') === '630',
     'og:image de 1200×630',
   );
+  const ogFile = ogImage ? join(DIST, new URL(ogImage).pathname) : '';
+  const ogSize = ogFile && /\.jpe?g$/.test(ogFile) ? jpegSize(ogFile) : null;
+  check(
+    ogSize?.width === 1200 && ogSize?.height === 630,
+    `el archivo de la imagen OG mide 1200×630 (${ogSize ? `${ogSize.width}×${ogSize.height}` : 'no es JPEG'})`,
+  );
+  check(Boolean(ogFile) && statSync(ogFile).size <= 300 * 1024, 'la imagen OG pesa 300 KB o menos');
   check(
     (meta('og:image:alt') ?? '').length > 10 && meta('og:image:alt') === meta('twitter:image:alt'),
     'texto alternativo de la imagen OG',

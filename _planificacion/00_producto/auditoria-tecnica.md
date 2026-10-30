@@ -647,10 +647,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I02 a `DESIGN.md` 5.2, 7.6, 7.8 y 7.12.
 
 ### AT-069 · Imagen Open Graph provisoria y común a los dos idiomas
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I02 (con decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto (30-10-2026): Felipe aportó la imagen `src/assets/og-portada.jpg` y reemplaza al recorte provisorio. Queda una nota de diseño (ver el cierre) · **Resuelve:** E170-I02 (con decisión de Felipe)
 - **Evidencia (E40-I03, 30-10-2026):** el sitio antiguo usaba `static/img/felipe_cuevas_cv.png`, una captura de su propio hero con texto en español dentro de la imagen. No sirve para `en-US` y `DESIGN.md` 2.4 prohíbe texto dentro de imágenes. La portada usa `src/assets/og/og-home.jpg` (1200 × 630 px, 50 KB), un recorte del retrato sin texto, igual en `/es/` y `/en/`; solo cambia el `og:image:alt`. Es provisoria: el recorte deja el rostro a la izquierda y no lleva marca.
 - **Impacto:** al compartir el enlace, ambos idiomas muestran la misma foto; se ve bien, pero no es una pieza de diseño.
 - **Recomendación:** decidir con Felipe si basta el recorte o se diseña una imagen de marca (sin texto, o una por idioma). `DESIGN.md` no trata la imagen Open Graph: hay una sugerencia de bloque en la bitácora de E40-I03 (2.4).
+- **Cierre (E40, 30-10-2026):** la imagen de Felipe (1424 × 752 px, 1,1 MB, JPEG) queda como fuente en `src/assets/og-portada.jpg`; `src/components/seo/home-og-image.ts` la optimiza en el build a 1200 × 630 px (unos 100 KB) con `astro:assets`, igual para `/es/` y `/en/`; el `og:image:alt` sigue por idioma. `pnpm verify:seo` comprueba ahora el tamaño real del archivo y que pese 300 KB o menos. Se eliminó `src/assets/og/og-home.jpg`.
+  - **Nota de diseño:** la imagen lleva el nombre «Felipe Cuevas» y las insignias oficiales (AWS, Oracle, Python Institute, Claude), que son texto no traducible; no hay frases en español, así que sirve a los dos idiomas. Es una excepción razonable a «sin texto» de `DESIGN.md` 2.4: el bloque de la bitácora de revisión del inglés la recoge.
+  - Las cuatro insignias de la imagen son una muestra, no los 11 certificados; si cambia el conjunto de emisores, la imagen es manual.
 
 ### AT-070 · `contactPoint.url` apunta a una página que aún no existe
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E140-I01
@@ -663,3 +666,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E40-I03, 30-10-2026):** el título en español mide 63 caracteres (Google suele cortar cerca de 60); el inglés mide 58. Ambas descripciones dicen "certificaciones de Oracle y AWS" / "certified by Oracle and AWS", pero el hero y la franja ya muestran 4 emisores (Python Institute y Anthropic, ADR-054). Se conservaron tal cual para no cambiar el posicionamiento sin que Felipe lo decida.
 - **Impacto:** la descripción queda corta frente a lo que muestra la página; el título en español podría cortarse en los resultados.
 - **Recomendación:** al validar el inglés, decidir si se mencionan los 4 emisores y si se acorta el título en español (`src/content/pages/home.json`, un solo archivo).
+- **Opciones propuestas (E40, 30-10-2026; no aplicadas, Felipe elige).** Títulos de 60 caracteres o menos y descripciones de 160 o menos, con los 4 emisores. Detalle y largos en la sección 6 de `99_bitacora/2026-10-30_E40-revision-ingles.md`.
+  - Título es: **A** «Felipe Cuevas | Instructor de Bootcamps y Docente TI» (52) · **B** «Felipe Cuevas | Instructor Senior y Docente Universitario» (57).
+  - Título en: **A** «Felipe Cuevas | Bootcamp Instructor and Lecturer» (48) · **B** «Felipe Cuevas | Senior Instructor and University Lecturer» (57).
+  - Descripción es: **A** «Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic.» (153) · **B** «Ingeniero informático, instructor de bootcamps y docente universitario. Certificaciones vigentes de Oracle, AWS, Python Institute y Anthropic.» (142)
+  - Descripción en: **A** «Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic.» (152) · **B** «Computer engineer, bootcamp instructor and university lecturer. Current certifications from Oracle, AWS, Python Institute and Anthropic.» (136)
+  - Ninguna lleva la cifra de certificaciones, para que no se desfase (ADR-053).
