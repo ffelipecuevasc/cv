@@ -1,0 +1,13 @@
+{
+  "order": 2,
+  "name": "Zuggeits Meriño",
+  "role": {
+    "es": "Estudiante de Software (Dev)",
+    "en": "Software Development Student"
+  },
+  "quote": {
+    "es": "Un excelente profesor, muy dedicado y de gran corazón, se preocupa por los avances educativos de sus alumnos. Le recomiendo a cualquier institución educativa, este es el profesor que necesitan.",
+    "en": "An excellent teacher, very dedicated and big-hearted, who cares about his students’ academic progress. I recommend him to any educational institution; he is the teacher they need."
+  },
+  "photo": "../../assets/testimonials/zuggeits.webp"
+}

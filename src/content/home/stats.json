@@ -1,0 +1,75 @@
+{
+  "kicker": {
+    "es": "Trayectoria profesional",
+    "en": "Professional track record"
+  },
+  "title": {
+    "es": "Impacto medido",
+    "en": "Measured impact"
+  },
+  "items": [
+    {
+      "kind": "certifications",
+      "label": {
+        "es": "Certificaciones",
+        "en": "Certifications"
+      },
+      "context": {
+        "es": "Oracle, AWS, Python Institute y Anthropic",
+        "en": "Oracle, AWS, Python Institute and Anthropic"
+      }
+    },
+    {
+      "kind": "number",
+      "value": 3,
+      "plus": true,
+      "label": {
+        "es": "Años Relator REUF",
+        "en": "Years as REUF instructor"
+      },
+      "context": {
+        "es": "Instructor Talento Digital para Chile — SENCE",
+        "en": "Talento Digital instructor for Chile — SENCE"
+      }
+    },
+    {
+      "kind": "number",
+      "value": 150,
+      "plus": true,
+      "label": {
+        "es": "Módulos REUF",
+        "en": "REUF modules"
+      },
+      "context": {
+        "es": "Planes formativos aprobados por SENCE",
+        "en": "Training plans approved by SENCE"
+      }
+    },
+    {
+      "kind": "number",
+      "value": 10,
+      "plus": true,
+      "label": {
+        "es": "Años Docente",
+        "en": "Years teaching"
+      },
+      "context": {
+        "es": "INACAP, Duoc UC e IPLACEX",
+        "en": "INACAP, Duoc UC and IPLACEX"
+      }
+    },
+    {
+      "kind": "number",
+      "value": 2000,
+      "plus": true,
+      "label": {
+        "es": "Alumnos",
+        "en": "Students"
+      },
+      "context": {
+        "es": "Formados en Java, Python, IA y Datos",
+        "en": "Trained in Java, Python, AI and Data"
+      }
+    }
+  ]
+}

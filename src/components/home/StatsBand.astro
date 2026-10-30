@@ -1,0 +1,126 @@
+---
+/*
+ * Franja de cifras de Inicio (E40-I02, DESIGN.md 7.8 y 11.3, AT-012): banda con retícula,
+ * encabezado de banda y un `dl` de 5 cifras (5 columnas desde 1.024 px; 2 columnas bajo esa
+ * medida, con la quinta en la fila completa). Dentro de <main>.
+ * La cifra de certificaciones sale de src/data/certifications.ts (ADR-053), no de un número
+ * escrito a mano. Signo "+" a tamaño de display (4.3). Sin animación de entrada (DESIGN.md 8).
+ */
+import { getEntry } from 'astro:content';
+import Band from '../ui/Band.astro';
+import { formatNumber } from './hero-text';
+import { certificationCount } from '../../data/certifications';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const stats = (await getEntry('homeStats', 'stats'))?.data;
+if (!stats) throw new Error('Falta src/content/home/stats.json');
+
+const items = stats.items.map((item) => {
+  const { value, plus } = item.kind === 'certifications' ? certificationCount() : item;
+  return {
+    label: item.label[lang],
+    context: item.context[lang],
+    value: formatNumber(value, lang),
+    plus,
+  };
+});
+---
+
+<Band id="home-stats" kicker={stats.kicker[lang]} title={stats.title[lang]}>
+  <dl class="stats">
+    {items.map((item) => (
+      <div class="stat">
+        <dt>{item.label}</dt>
+        <dd>
+          <span class="figure">
+            {item.plus && <span class="sign">+</span>}
+            {item.value}
+          </span>
+          <span class="context">{item.context}</span>
+        </dd>
+      </div>
+    ))}
+  </dl>
+</Band>
+
+<style>
+  /* 7.8: borde superior y divisores verticales iguales (`--stats-rule`). */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--stats-rule);
+  }
+  .stat {
+    min-width: 0;
+    padding: 32px 0 8px 24px;
+    border-inline-start: 1px solid var(--stats-rule);
+  }
+  .stat:nth-child(odd) {
+    padding-inline: 0 24px;
+    border-inline-start: 0;
+  }
+  /* La quinta ocupa la fila completa. */
+  .stat:last-child {
+    grid-column: 1 / -1;
+    padding-inline: 0;
+    border-inline-start: 0;
+  }
+  @media (min-width: 64rem) {
+    .stats {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .stat,
+    .stat:nth-child(odd),
+    .stat:last-child {
+      grid-column: auto;
+      padding-inline: 24px;
+      border-inline-start: 1px solid var(--stats-rule);
+    }
+    .stat:first-child {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+    }
+    .stat:last-child {
+      padding-inline-end: 0;
+    }
+  }
+
+  dt {
+    color: var(--color-text-soft);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  /* 7.8: 12,5 px y 0,16 em. Bajo 480 px las 2 columnas dejan unos 140 px de ancho y
+     "Certificaciones" no cabría con ese interletraje. */
+  @media (min-width: 30rem) {
+    dt {
+      font-size: 12.5px;
+      letter-spacing: 0.16em;
+    }
+  }
+  /* 5.2 Cifra: Cinzel 400, números tabulares. El tope baja a 3 rem para que "+2.000" quepa
+     en una de las 5 columnas desde 1.024 px. */
+  .figure {
+    display: block;
+    margin-top: 12px;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 3vw, 3rem);
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .sign {
+    color: var(--metric-sign);
+  }
+  .context {
+    display: block;
+    margin-top: 10px;
+    color: var(--color-text-soft);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+</style>

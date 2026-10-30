@@ -1,0 +1,13 @@
+{
+  "order": 6,
+  "name": "Rodrigo Arevalo",
+  "role": {
+    "es": "Full Stack Python Developer Junior",
+    "en": "Junior Full Stack Python Developer"
+  },
+  "quote": {
+    "es": "Destaco su calidad humana y su disposición incondicional para resolver hasta la duda más compleja con paciencia. Personas con esta vocación por la enseñanza son las que realmente transforman la carrera de un desarrollador.",
+    "en": "I highlight his human quality and his unconditional willingness to resolve even the most complex question with patience. People with this vocation for teaching are the ones who truly transform a developer’s career."
+  },
+  "photo": "../../assets/testimonials/rodrigo.webp"
+}

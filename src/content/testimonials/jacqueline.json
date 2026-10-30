@@ -1,0 +1,13 @@
+{
+  "order": 5,
+  "name": "Jacqueline Bastias",
+  "role": {
+    "es": "Desarrolladora Python & AI Architect",
+    "en": "Python Developer & AI Architect"
+  },
+  "quote": {
+    "es": "Un profesional integral que redefine la docencia. Posee un dominio técnico indiscutible, pero su vocación pedagógica es lo que lo distingue. Un ser humano excepcional que se preocupa genuinamente por sus alumnos.",
+    "en": "A well-rounded professional who redefines teaching. His technical mastery is undeniable, but it is his pedagogical vocation that sets him apart. An exceptional human being who genuinely cares about his students."
+  },
+  "photo": "../../assets/testimonials/jacqueline.webp"
+}

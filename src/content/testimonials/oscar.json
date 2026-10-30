@@ -1,0 +1,13 @@
+{
+  "order": 11,
+  "name": "Oscar Leal",
+  "role": {
+    "es": "Desarrollador Backend Junior",
+    "en": "Junior Backend Developer"
+  },
+  "quote": {
+    "es": "Excelente profesional con capacidad inestimable para explicar conceptos complejos e inspirar pasión por la tecnología. Los sólidos conocimientos técnicos adquiridos bajo su dirección son una guía muy valiosa.",
+    "en": "An excellent professional with an invaluable ability to explain complex concepts and inspire a passion for technology. The solid technical knowledge acquired under his direction is a very valuable guide."
+  },
+  "photo": "../../assets/testimonials/oscar.webp"
+}

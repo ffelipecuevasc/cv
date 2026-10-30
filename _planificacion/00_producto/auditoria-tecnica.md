@@ -167,7 +167,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** rediseño estructural de la composición, no ajuste de espaciados.
 
 ### AT-012 · Contenido de la portada fuera de `<main>`
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E40-I02
+- **Severidad:** Alta · **Estado:** Resuelto en E40-I02 (30-10-2026): hero, franja de cifras y testimonios están dentro del único `<main>` de la portada; un solo `<h1>` y encabezados sin saltos (h1, h2, h2) · **Resuelve:** E40-I02
 - **Evidencia:** `</main>` en `index.html:654`; la franja `#expertitud-metricas` (`:661`) y la sección de testimonios (`:732`) quedan fuera.
 - **Impacto:** landmarks incorrectos para tecnologías asistivas.
 - **Recomendación:** todo el contenido principal dentro de `<main>`.
@@ -179,7 +179,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** carga normal, formato moderno y tamaño acorde.
 
 ### AT-014 · Cifras inconsistentes de certificaciones
-- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). Quedan la banda de Inicio (E40-I02) y el JSON-LD (E40-I03), que deben usar la misma fuente · **Resuelve:** E40-I01 (validación de Felipe)
+- **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). La banda de Inicio (E40-I02, 30-10-2026) también la deriva de esa fuente; queda el JSON-LD (E40-I03), que debe usar la misma · **Resuelve:** E40-I01 (validación de Felipe)
 - **Evidencia:** "Nueve certificaciones" (`index.html:527`), métrica "+10" (`:566`), franja "8+" (`:680`) y 9 credenciales en el JSON-LD Person.
 - **Impacto:** credibilidad del CV.
 - **Recomendación:** una sola cifra validada, derivada de los datos.
@@ -456,7 +456,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** `_headers` con CSP compatible.
 
 ### AT-024 · Terceros y envío de nombres a un servicio externo
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E140-I01, E40-I02, E170-I03
+- **Severidad:** Media · **Estado:** Abierto (parcial: el respaldo de ui-avatars se retiró en E40-I02, 30-10-2026; faltan Calendly bajo demanda, E140-I01, y la CSP, E170-I03) · **Resuelve:** E140-I01, E40-I02, E170-I03
 - **Evidencia:**
   - Calendly (`contacto.html:365`) carga su widget al abrir la página;
   - `static/js/servicios/resiliencia.js:39` envía el `alt` (nombre de la persona) a `ui-avatars.com` cuando falla una foto;
@@ -465,7 +465,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Calendly bajo demanda y respaldo local sin terceros.
 
 ### AT-025 · Testimonios con datos personales
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E40-I02, BL-06
+- **Severidad:** Media · **Estado:** Abierto (parcial: los 12 testimonios migraron al modelo bilingüe y `en-US` indica "Translated from Spanish", E40-I02, 30-10-2026; falta el consentimiento de uso de nombres y fotos, BL-06, pendiente de Felipe sin bloquear) · **Resuelve:** E40-I02, BL-06
 - **Evidencia:** 12 fotos en `static/img/testimonios/` con nombres en `testimonios.datos.js`.
 - **Impacto:** consentimiento por validar; la traducción altera citas de terceros.
 - **Recomendación:** ADR-017 (indicación "traducido del español") y confirmación de consentimiento.
@@ -616,7 +616,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I01 a `DESIGN.md` 5.2 y 7.4.
 
 ### AT-065 · Cursor del titular del hero separado del texto si la frase se parte
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Severidad:** Baja · **Estado:** Abierto (agendado en E170-I01 por decisión de Felipe, 30-10-2026) · **Resuelve:** E170-I01
 - **Evidencia (E40-I01, 30-10-2026):** el cursor de la máquina de escribir se dibuja como fondo de la caja del texto (CLS 0). Si la frase destacada no cabe en una línea (a 360 px de ancho, por ejemplo "Programming Bootcamps"), la caja ocupa todo el ancho y el cursor queda al borde derecho, no al final de la última línea. En escritorio la frase cabe en una línea y el cursor queda pegado.
 - **Impacto:** detalle visual en móvil; no afecta contenido ni CLS.
 - **Recomendación:** revisar en un móvil real; si molesta, ocultar el cursor bajo 640 px o dibujarlo con un elemento en línea que no mueva nada.
@@ -632,3 +632,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E40-I01, 30-10-2026):** `src/data/certifications.ts` guarda `expiresAt` en las 2 certificaciones nuevas (la primera vence el 30-10-2027), pero ADR-053 cuenta todas las entradas. El hero dice "vigentes".
 - **Impacto:** desde el 30-10-2027 el sitio contaría una credencial vencida como vigente, salvo que se renueve o se quite.
 - **Recomendación:** al ampliar los datos en E50-I02, decidir con Felipe si la cifra excluye las vencidas (el sitio es estático, así que la fecha se evaluaría al construir) o si basta actualizar los datos al renovar.
+
+### AT-068 · DESIGN.md: ajustes de 7.6, 7.8 y 7.12 que dejó la franja de cifras y el carrusel
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** edición de `DESIGN.md` por Felipe
+- **Evidencia (E40-I02, 30-10-2026):**
+  - 5.2 fija la cifra en `clamp(2.2rem, 4.4vw, 3.4rem)`, pero con 5 columnas desde 1.024 px "+2.000" no cabe (a 1.024 px la cifra mediría 45 px). La banda usa `clamp(2.2rem, 3vw, 3rem)`.
+  - 7.8 fija el rótulo `dt` en 12,5 px y 0,16 em; bajo 480 px, con 2 columnas de unos 140 px, "Certificaciones" desborda. Bajo 480 px usa 12 px y 0,1 em.
+  - 7.12 pone el indicador de líneas siempre; con una tarjeta por página (bajo 768 px, 12 páginas) mide unos 340 px y no cabe junto a las flechas. Bajo 640 px queda solo el contador.
+  - 7.12 no dice si las flechas dan la vuelta ni cuántas páginas hay según el ancho. Las flechas dan la vuelta (nunca se deshabilitan) y las páginas son 4 (3 tarjetas), 6 (2 tarjetas) o 12 (1 tarjeta).
+  - 7.6 muestra el "programa" de cada testimonio, pero los datos de `main` no lo traen: la línea no se muestra.
+  - 7.8 no fija los textos del encabezado de la banda ni de los testimonios: se usaron "Trayectoria profesional" / "Impacto medido" y "Testimonios" / "Lo que dicen mis alumnos" (y su equivalente en inglés), tomados del prototipo y del sitio actual.
+- **Impacto:** la fuente de verdad del diseño no coincide con lo implementado.
+- **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I02 a `DESIGN.md` 5.2, 7.6, 7.8 y 7.12.

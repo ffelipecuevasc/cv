@@ -88,4 +88,68 @@ const heroShared = defineCollection({
   }),
 });
 
-export const collections = { pages, heroProfiles, heroShared };
+/*
+ * Franja de cifras y testimonios de la portada (E40-I02). El texto en inglés de los
+ * testimonios es una traducción del español (ADR-017): la tarjeta lo indica. Las fotos
+ * viven en src/assets/testimonials/ y Astro las optimiza (la ruta es relativa al JSON).
+ */
+const homeStats = defineCollection({
+  loader: glob({ pattern: 'stats.json', base: './src/content/home' }),
+  schema: z.object({
+    kicker: localized(),
+    title: localized(),
+    items: z
+      .array(
+        z.discriminatedUnion('kind', [
+          z.object({
+            kind: z.literal('number'),
+            value: z.number().int().nonnegative(),
+            plus: z.boolean(),
+            label: localized(),
+            context: localized(),
+          }),
+          // Cifra derivada de los datos de certificaciones (ADR-053).
+          z.object({ kind: z.literal('certifications'), label: localized(), context: localized() }),
+        ]),
+      )
+      .length(5),
+  }),
+});
+
+const testimonialsSection = defineCollection({
+  loader: glob({ pattern: 'testimonials-section.json', base: './src/content/home' }),
+  schema: z.object({
+    kicker: localized(),
+    title: localized(),
+    carousel: z.object({
+      label: localized(),
+      previous: localized(),
+      next: localized(),
+      /** Lleva `{current}` y `{total}`. */
+      page: localized(),
+    }),
+  }),
+});
+
+const testimonials = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/testimonials' }),
+  schema: ({ image }) =>
+    z.object({
+      order: z.number().int().positive(),
+      /** Nombre propio: no se traduce (ADR-025). */
+      name: z.string().trim().min(1),
+      role: localized(),
+      /** Cita: `es` es el original; `en` es la traducción (ADR-017). */
+      quote: localized(),
+      photo: image(),
+    }),
+});
+
+export const collections = {
+  pages,
+  heroProfiles,
+  heroShared,
+  homeStats,
+  testimonialsSection,
+  testimonials,
+};

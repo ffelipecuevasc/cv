@@ -63,24 +63,29 @@ const starPath = lineIcons.star[0];
   </blockquote>
   {lang === 'en' && <p class="translated">Translated from Spanish</p>}
   <footer class="author">
-    {photo ? (
+    {photo && (
       <img
         src={photo.src}
         width={photo.width}
         height={photo.height}
         alt=""
         loading="lazy"
+        decoding="async"
         class="avatar"
+        data-avatar-photo
       />
-    ) : (
-      <span
-        class="avatar initials"
-        style={`background-color: var(--color-${initialsTone})`}
-        aria-hidden="true"
-      >
-        {initials}
-      </span>
     )}
+    {/* Con foto, las iniciales quedan ocultas y solo se muestran si la foto no carga
+        (src/scripts/testimonials.ts): respaldo local, sin enviar el nombre a terceros (AT-024). */}
+    <span
+      class="avatar initials"
+      style={`background-color: var(--color-${initialsTone})`}
+      aria-hidden="true"
+      hidden={photo ? true : undefined}
+      data-avatar-initials
+    >
+      {initials}
+    </span>
     <p class="meta">
       <span class="name">{name}</span>
       <span class="role">{role}</span>
@@ -141,6 +146,9 @@ const starPath = lineIcons.star[0];
       0 0 0 2px var(--color-surface),
       0 0 0 3px var(--color-gold);
     object-fit: cover;
+  }
+  .initials[hidden] {
+    display: none;
   }
   .initials {
     display: inline-flex;

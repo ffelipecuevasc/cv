@@ -1,0 +1,13 @@
+{
+  "order": 8,
+  "name": "Sergio Fernandez",
+  "role": {
+    "es": "Back-end Developer",
+    "en": "Back-end Developer"
+  },
+  "quote": {
+    "es": "Un profesional con una vocación auténtica. Su manera de transmitir conocimientos es clara y estructurada, contextualizando con ejemplos reales. Gracias a su paciencia y cercanía, crea un entorno de aprendizaje participativo.",
+    "en": "A professional with an authentic vocation. His way of conveying knowledge is clear and structured, grounded in real examples. Thanks to his patience and approachability, he creates a participatory learning environment."
+  },
+  "photo": "../../assets/testimonials/sergio.webp"
+}

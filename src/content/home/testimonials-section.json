@@ -1,0 +1,10 @@
+{
+  "kicker": { "es": "Testimonios", "en": "Testimonials" },
+  "title": { "es": "Lo que dicen mis alumnos", "en": "What my students say" },
+  "carousel": {
+    "label": { "es": "Testimonios de alumnos", "en": "Student testimonials" },
+    "previous": { "es": "Testimonios anteriores", "en": "Previous testimonials" },
+    "next": { "es": "Testimonios siguientes", "en": "Next testimonials" },
+    "page": { "es": "Página {current} de {total}", "en": "Page {current} of {total}" }
+  }
+}
