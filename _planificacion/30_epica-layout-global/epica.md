@@ -1,5 +1,5 @@
 # E30 · Layout global
-- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (29-10-2026)
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (29-10-2026; reabierta y cerrada de nuevo el 30-10-2026 con E30-I07, ADR-056)
 
 ## Objetivo
 Construir el armazón compartido por todas las páginas: `<head>` y SEO, i18n de interfaz, logotipo intacto, navbar rediseñada con botones de tema e idioma, menú móvil y pie de página.
@@ -26,6 +26,7 @@ E10 y E20.
 | [E30-I04](E30-I04-navbar-escritorio.md) | Navbar de escritorio rediseñada | P0 | M | E30-I03 | [x] Terminada |
 | [E30-I05](E30-I05-navbar-movil.md) | Navbar móvil | P0 | M | E30-I04 | [x] Terminada |
 | [E30-I06](E30-I06-footer.md) | Pie de página rediseñado y volver arriba | P0 | S | E30-I04 | [x] Terminada |
+| [E30-I07](E30-I07-navbar-pie-ajustes.md) | Ajustes de navbar y pie tras la revisión en la preview | P0 | M | E30-I06 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
 - [x] Ninguna página repite a mano el header, el pie ni el `<head>` (resuelve AT-002).
@@ -34,6 +35,8 @@ E10 y E20.
 - [x] El cambio de tema no produce parpadeo ni CLS.
 - [x] El cambio de idioma lleva a la ruta equivalente.
 - [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+
+> Nota de E30-I07 (30-10-2026): el ícono del logotipo es «terminal» de Material Symbols Light, "Descargar CV" vive solo en el pie, el cursor del logotipo acompaña al texto, el pie tiene 5 enlaces y las redes van a la izquierda (ADR-057).
 
 > Nota de cierre: el logotipo cambió de composición por ADR-049 (Cinzel, frases debajo, enlace a la portada); su alternativa estática bajo movimiento reducido o sin JavaScript se verificó en E30-I03. El cambio de idioma se verificó sobre las 26 rutas del mapa en E30-I04; las páginas reales llegan con sus épicas.
 

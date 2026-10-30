@@ -1,18 +1,20 @@
 ---
 /*
- * Pie de página (E30-I06, DESIGN.md 7.9, ADR-021, ADR-035, ADR-044).
+ * Pie de página (E30-I06 y E30-I07, DESIGN.md 7.9, ADR-044, ADR-057).
  * - Fondo `footer` con línea superior de 2 px (transparente → gold 20 % → vibrant 80 %).
- * - Tres columnas desde 768 px (una bajo esa medida): marca, navegación centrada y redes
- *   a la derecha.
- * - Navegación: los 11 enlaces del menú, con las etiquetas de nav-items.ts (AT-008).
- * - Redes: LinkedIn, GitHub, REUF y correo (ADR-044), de social-links.ts.
- * - Barra inferior: © con año y nombre. Deja el lugar del enlace a la política de
- *   privacidad, que se agrega en E155-I01 con la página (ADR-035); aquí no se enlaza.
+ * - Tres columnas desde 768 px (una bajo esa medida): marca con el botón "Descargar CV",
+ *   navegación centrada y redes alineadas a la izquierda.
+ * - Navegación: 5 enlaces de footer-links.ts (el sexto, privacidad, llega con E155-I01).
+ * - Redes: LinkedIn, GitHub, REUF y correo (ADR-044), de social-links.ts, con el ícono
+ *   antes del texto.
+ * - Barra inferior: © con año y nombre.
  */
 import Icon from '../ui/Icon.astro';
 import GoldRule from '../ui/GoldRule.astro';
+import Button from '../ui/Button.astro';
 import Logo from './Logo.astro';
-import { getNavItems, isGroup, type NavLink } from './nav-items';
+import { getFooterLinks } from './footer-links';
+import { cv } from './nav-items';
 import { socialLinks } from './social-links';
 import { langFromLocale } from '../../i18n/lang';
 import { getRoute } from '../../i18n/routes';
@@ -20,7 +22,7 @@ import { useTranslations } from '../../i18n/ui';
 
 const lang = langFromLocale(Astro.currentLocale);
 const t = useTranslations(lang);
-const links: NavLink[] = getNavItems(t).flatMap((item) => (isGroup(item) ? item.children : [item]));
+const links = getFooterLinks(t);
 // Año del build; el script lo actualiza al del visitante (sin él, el HTML ya lo trae).
 const year = new Date().getFullYear();
 ---
@@ -31,6 +33,17 @@ const year = new Date().getFullYear();
       <div class="brand">
         <Logo animated={false} />
         <p class="tagline">{t.footer.tagline}</p>
+        <Button
+          variant="secondary"
+          href={cv.href}
+          download={cv.file}
+          icon="download"
+          label={t.footer.downloadCvLabel}
+          title={t.footer.downloadCvLabel}
+          class="cv"
+        >
+          {t.footer.downloadCv}
+        </Button>
       </div>
 
       <nav class="nav" aria-labelledby="footer-nav-title">
@@ -77,8 +90,6 @@ const year = new Date().getFullYear();
       <p class="copy">
         © <span data-year>{year}</span> Felipe Cuevas
       </p>
-      {/* Lugar del enlace a la política de privacidad (E155-I01, ADR-035). */}
-      <div class="legal" data-privacy-slot></div>
     </div>
   </div>
 </footer>
@@ -126,9 +137,6 @@ const year = new Date().getFullYear();
     .nav {
       justify-self: center;
     }
-    .social {
-      text-align: right;
-    }
   }
 
   .tagline {
@@ -154,10 +162,9 @@ const year = new Date().getFullYear();
     display: block;
     margin-top: 12px;
   }
-  @media (min-width: 48rem) {
-    .social :global(.gold-rule) {
-      margin-left: auto;
-    }
+  /* 7.9: botón secundario de 46 px bajo la frase de la marca. */
+  .brand :global(.cv) {
+    margin-top: 24px;
   }
 
   .list {
@@ -183,11 +190,6 @@ const year = new Date().getFullYear();
     flex: none;
     color: var(--color-icon);
   }
-  @media (min-width: 48rem) {
-    .social-link {
-      flex-direction: row-reverse;
-    }
-  }
 
   /* Barra inferior: borde `primary` al 20 % (en oscuro, `border`), 24 px de relleno. */
   .bottom {
@@ -202,9 +204,5 @@ const year = new Date().getFullYear();
     font-size: 14px;
     line-height: 1.5;
     color: var(--color-text-soft);
-  }
-  /* Reserva la altura de una línea de 14 px para que el enlace de E155-I01 no mueva nada. */
-  .legal {
-    min-height: 21px;
   }
 </style>

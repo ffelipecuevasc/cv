@@ -37,7 +37,7 @@ Darle aire al hero y separar mejor las cifras de la banda, según la revisión d
 - Revisión del inglés y AT-071 (cierre de E40).
 
 ## Tareas
-- [ ] Registrar ADR-058 en `decisiones.md` con el texto de la sección "ADR a registrar" (si E30-I07 no lo hizo).
+- [x] Registrar ADR-058 en `decisiones.md` con el texto de la sección "ADR a registrar" (ya lo registró E30-I07).
 - [ ] Quitar llamados a la acción y métricas del contenido y del componente; borrar lo que quede sin uso.
 - [ ] Fila "Profesional certificado" / "Certified professional" con las 4 insignias sin contenedor; retirar `CredentialsCard` de encima del retrato.
 - [ ] Hero con alto mínimo del área visible menos la barra desde 1.024 px; repartir el espacio con la escala de `DESIGN.md` 6 y registrar las medidas en la bitácora.

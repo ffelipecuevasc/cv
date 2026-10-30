@@ -26,9 +26,6 @@ const es = {
     forum: 'Foro',
     resources: 'Recursos',
     contact: 'Contacto',
-    downloadCv: 'Descargar CV',
-    // Nombre accesible y title del enlace de descarga (DESIGN.md 7.3: formato del archivo).
-    downloadCvLabel: 'Descargar CV (PDF)',
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
   },
@@ -47,6 +44,9 @@ const es = {
     tagline: 'Instructor de Desarrollo Fullstack e IA.',
     navTitle: 'Explorar',
     socialTitle: 'Redes',
+    downloadCv: 'Descargar CV',
+    // Nombre accesible y title del enlace de descarga (DESIGN.md 7.3: formato del archivo).
+    downloadCvLabel: 'Descargar CV (PDF)',
     privacy: 'Política de privacidad',
     newTab: '(se abre en una pestaña nueva)',
   },
@@ -79,9 +79,6 @@ const en: Dictionary = {
     forum: 'Forum',
     resources: 'Resources',
     contact: 'Contact',
-    downloadCv: 'Download CV',
-    // El CV solo existe en español (ADR-017).
-    downloadCvLabel: 'Download CV (PDF, Spanish)',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
   },
@@ -98,6 +95,9 @@ const en: Dictionary = {
     tagline: 'Teaching AI and Fullstack Development.',
     navTitle: 'Explore',
     socialTitle: 'Social',
+    downloadCv: 'Download CV',
+    // El CV solo existe en español (ADR-017).
+    downloadCvLabel: 'Download CV (PDF, Spanish)',
     privacy: 'Privacy policy',
     newTab: '(opens in a new tab)',
   },

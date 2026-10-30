@@ -513,6 +513,39 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-006 para la portada y cierra la derivación pendiente de AT-014. Cada página con datos estructurados (E50-I02, E70-I02, E130-I02) reutiliza `JsonLd.astro` y las funciones de `structured-data.ts`, y `verify:seo` se amplía por página. La Prueba de resultados enriquecidos y el validador de schema.org los corre Felipe con las URL de preview.
 - **Origen:** decisiones de Felipe el 30-10-2026 (E40-I03). **Estado:** Aceptada.
 
+## ADR-056 · Iteraciones de ajuste tras la revisión en la preview
+- **Contexto:** el 30-10-2026, con la portada publicada en la preview del Worker, Felipe revisó la navbar, el pie y la portada, y encontró defectos de implementación y cambios de diseño. Se evaluaron tres caminos: editar las iteraciones cerradas, crear iteraciones nuevas al final de cada épica o juntar todo en una épica de arreglos al final (E165).
+- **Decisión:**
+  - Los ajustes se agregan como iteraciones nuevas al final de su épica: **E30-I07** (navbar y pie) y **E40-I04** (portada). Se ejecutan en ese orden, antes de cerrar E40 y antes de E50.
+  - Las iteraciones cerradas y sus bitácoras no se editan.
+  - Los detalles que aparezcan en páginas futuras se corrigen en la épica de esa página mientras esté abierta; los transversales van a E170.
+  - No se crea una épica de arreglos.
+- **Consecuencias:** el plan pasa de 53 a 55 iteraciones y E30 vuelve a [~] hasta cerrar E30-I07. Se descarta E165 porque duplicaría a E170 y obligaría a revisar todas las páginas si la navbar o el pie cambiaran al final.
+- **Origen:** decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
+## ADR-057 · Navbar y pie tras la revisión en la preview
+- **Contexto:** E30-I07. En la preview, el ícono del logotipo se ve grueso frente al estilo fino del sitio, el cursor del logotipo no sigue al texto, "Descargar CV" aprieta la barra, el pie mide unos 740 px por sus 11 enlaces (AT-062) y la columna de redes alineada a la derecha no le gusta a Felipe.
+- **Decisión:**
+  - **Ícono del logotipo:** «terminal» de Material Symbols Light (Google, licencia Apache 2.0), `viewBox="0 0 24 24"`, con el mismo render por máscara de 32 × 32 y los mismos colores (`DESIGN.md` 3.1). Se conserva el aviso de licencia (comentario en el SVG y crédito en el `README.md` de la raíz). El favicon no cambia, porque un trazo fino se pierde a 16 px.
+  - **Cursor del logotipo:** acompaña al último carácter escrito, como el del hero. Es una corrección de implementación de `DESIGN.md` 3.3; el ritmo no cambia.
+  - **CV:** "Descargar CV" sale de la barra de escritorio y del panel móvil. Vive solo en el pie, como botón secundario bajo la frase de la marca, con atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017). La URL no cambia (ADR-050).
+  - **Pie, navegación:** 6 enlaces en vez de 11: Inicio, Educación, Experiencia (a Resumen), Recursos, Contacto y Política de privacidad. El último lo agrega E155-I01 cuando exista la página; hasta entonces son 5. El enlace de privacidad deja la barra inferior y pasa a esta columna.
+  - **Pie, redes:** columna alineada a la izquierda en todos los anchos; el ícono va antes del texto.
+- **Sustituye en parte:** ADR-021 (CV en la barra), ADR-049 (ícono del logotipo; el nombre, las frases y el ritmo siguen igual) y ADR-052 (lista de 11 enlaces, redes a la derecha y contenedor de privacidad en la barra inferior).
+- **Consecuencias:** resuelve AT-062. El CV queda menos visible, solo al final de cada página: es una decisión de Felipe, tomada tras la advertencia del asesor. El quiebre de 1.280 px de la barra se mantiene y E30-I07 informa la nueva holgura. E155-I01 agrega el enlace de privacidad en la columna de navegación del pie. Felipe edita `DESIGN.md` 2.1, 3, 7.2 y 7.9 (ADR-033).
+- **Origen:** E30-I07, decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
+## ADR-058 · Hero simplificado y separadores de la banda de cifras
+- **Contexto:** E40-I04. En la preview, Felipe ve el hero recargado y la tarjeta de certificaciones tapa cerca del 50 % del retrato. En la banda, los divisores finos se confunden con la retícula del fondo.
+- **Decisión:**
+  - **Hero:** se quitan los dos llamados a la acción de cada perfil y las 3 métricas por perfil. Se conservan el rótulo, el conmutador de 3 perfiles (`perfil-hero` y `?perfil=`), el `<h1>` con máquina de escribir, el párrafo, el retrato y el riel social.
+  - **Certificaciones:** en el lugar de los botones y las métricas va el rótulo "Profesional certificado" ("Certified professional") con las 4 insignias de 40 px y su nombre (Oracle, AWS, Python y Anthropic), sin contenedor. "Python" abrevia "Python Institute"; el nombre completo sigue en el JSON-LD y en Educación. La tarjeta sobre el retrato desaparece.
+  - **Alto:** desde 1.024 px, el hero ocupa el alto visible menos la barra (76 px) y el contenido va centrado en vertical. Sigue cumpliendo la matriz de ADR-016.
+  - **Banda de cifras:** el borde superior y los divisores finos del `dl` se reemplazan por barras verticales con el degradado `gold` → `vibrant` de la regla dorada (`DESIGN.md` 7.5). El titular pasa de "Impacto medido" a "Resumen" ("Overview").
+- **Sustituye en parte:** ADR-009 y la lista de conservación de E40-I01 (llamados a la acción y métricas por perfil) y ADR-054 (las insignias dejan la tarjeta sobre el retrato).
+- **Consecuencias:** el hero ya no enlaza a Instructor, Docente ni Desarrollador, ni al CV; esas páginas se alcanzan desde el menú y el CV desde el pie (ADR-057). La cifra de certificaciones (ADR-053) sigue en la banda y en el JSON-LD. Hay que volver a medir los 48 casos de la matriz. Los textos en inglés retirados salen de la revisión de E40. Felipe edita `DESIGN.md` 5.2, 7.4, 7.8, 9 y 11.2 (ADR-033).
+- **Origen:** E40-I04, decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

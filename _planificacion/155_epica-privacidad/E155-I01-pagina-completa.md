@@ -19,7 +19,7 @@ Construir la página de política de privacidad en ambos idiomas, con un texto b
 - Página bilingüe `/es/privacidad` y `/en/privacy` con un texto breve que cubra todos los tratamientos de ADR-035.
 - Fecha de vigencia y versión de la política visibles en la página.
 - Uso de la constante única de versión de la política definida en E140-I02 (no se redefine).
-- Enlace a la política en el pie de todas las páginas, incluidas 404 y agradecimiento (tarea movida desde E30-I06). La navbar no cambia.
+- Enlace a la política en el pie de todas las páginas, incluidas 404 y agradecimiento (tarea movida desde E30-I06). Va como **sexto enlace** de la columna de navegación del pie, al final de la lista de `src/components/layout/footer-links.ts` (ADR-057); ya no existe el contenedor reservado en la barra inferior. La navbar no cambia.
 - Supuesto: la página es indexable y va en el sitemap. Pregunta abierta para Felipe: si lleva `noindex`; si se decide, sale del sitemap (E180-I02).
 
 ## Fuera de alcance
@@ -30,12 +30,12 @@ Construir la página de política de privacidad en ambos idiomas, con un texto b
 - [ ] Preguntar a Felipe si la página lleva `noindex` y registrar la respuesta.
 - [ ] Redactar el texto breve en `es-CL` y la versión `en-US` (Felipe valida, ADR-017).
 - [ ] Mostrar la versión (constante de E140-I02) y la fecha de vigencia en la página.
-- [ ] Agregar el enlace a la política en el pie, con la etiqueta desde el diccionario y la ruta desde el mapa de rutas, en todas las páginas, incluidas 404 y agradecimiento (ADR-035).
+- [ ] Agregar el enlace a la política como sexto enlace de `footer-links.ts` (etiqueta `t.footer.privacy` del diccionario, ruta del mapa de rutas), en todas las páginas, incluidas 404 y agradecimiento (ADR-035, ADR-057).
 - [ ] Construir la página en ambos idiomas.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/pages/es/privacidad.astro`, `src/pages/en/privacy.astro`, contenido.
-- Modificar: `src/components/layout/Footer.astro` y el diccionario de interfaz.
+- Modificar: `src/components/layout/footer-links.ts` (el pie ya lo lee) y, si hace falta, el diccionario de interfaz.
 
 ## Criterios de aceptación (verificables)
 - [ ] Ambas versiones existen con paridad de contenido y cubren todos los tratamientos de ADR-035.

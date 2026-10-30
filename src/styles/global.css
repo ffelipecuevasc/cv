@@ -350,6 +350,9 @@
  * desplazamientos (con una caja ::after, cada letra sumaba ~1,7e-7 de CLS).
  * Solo parpadea con el motor en marcha y queda fijo mientras teclea; sin JavaScript o
  * con movimiento reducido el motor no arranca y el cursor no parpadea (3.4).
+ * El texto se ajusta a su contenido (`justify-self: start`) para que el cursor, que va
+ * en su borde derecho, acompañe al último carácter y no al ancho reservado por las
+ * medidas (3.3, ADR-057). Con el renglón vacío solo queda el relleno: cursor al inicio.
  */
 .typewriter {
   display: inline-grid;
@@ -364,6 +367,7 @@
   visibility: hidden;
 }
 .typewriter-text {
+  justify-self: start;
   background: linear-gradient(currentColor, currentColor) right 0 bottom 0.02em / 0.07em 0.95em
     no-repeat;
 }

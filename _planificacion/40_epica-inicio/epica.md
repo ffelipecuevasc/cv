@@ -22,6 +22,7 @@ E30 completa, E20-I05.
 | [E40-I01](E40-I01-hero.md) | Hero rediseñado sin scroll en escritorio | P0 | M | E30-I06, E20-I05 | [x] Terminada |
 | [E40-I02](E40-I02-trayectoria-testimonios.md) | Franja de trayectoria y testimonios | P1 | M | E40-I01 | [x] Terminada |
 | [E40-I03](E40-I03-seo-jsonld.md) | SEO y datos estructurados de la portada | P1 | S | E40-I02 | [x] Terminada |
+| [E40-I04](E40-I04-hero-banda-ajustes.md) | Hero simplificado y separadores de la banda | P0 | M | E30-I07 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
 - [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.

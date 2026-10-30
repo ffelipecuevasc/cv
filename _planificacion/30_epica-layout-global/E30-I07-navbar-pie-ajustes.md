@@ -1,5 +1,5 @@
 # E30-I07 · Ajustes de navbar y pie tras la revisión en la preview
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (30-10-2026)
 - **Épica:** E30 · Layout global · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-062 · **ADR relacionados:** ADR-017, ADR-021, ADR-035, ADR-049, ADR-050, ADR-051, ADR-052, ADR-056, ADR-057
 
@@ -38,30 +38,31 @@ Corregir la navbar y el pie según la revisión de Felipe en la preview, antes d
 - Cambios de la portada (E40-I04).
 
 ## Tareas
-- [ ] Registrar ADR-056 y ADR-057 en `decisiones.md` con el texto de la sección "ADR a registrar".
-- [ ] Agregar E30-I07 a `epica.md` de E30 y E40-I04 a `epica.md` de E40; actualizar README (55 iteraciones; E30 vuelve a [~]) y `registro-log.md`.
-- [ ] Ícono: SVG de Material Symbols Light (path entregado por Felipe), con un comentario que indique origen y licencia Apache 2.0, y crédito en el `README.md` de la raíz.
-- [ ] Cursor: corregir la estructura del logotipo o del motor para que el cursor siga al texto, sin romper la reserva de ancho (CLS 0) ni el hero.
-- [ ] CV: retirar el botón de la barra y del panel móvil; agregarlo al pie con atributo de descarga, ícono y nombre accesible por idioma (ADR-017, ADR-050).
-- [ ] Pie: 5 enlaces desde una lista propia del pie (no `nav-items.ts` completo); dejar anotado en `E155-I01` que el enlace de privacidad va como sexto enlace de esta columna.
-- [ ] Redes: columna a la izquierda en todos los anchos, ícono antes del texto.
-- [ ] Medir la holgura de la barra a 1.280 px y el alto del pie antes y después.
+- [x] Registrar ADR-056 y ADR-057 en `decisiones.md` con el texto de la sección "ADR a registrar".
+- [x] Agregar E30-I07 a `epica.md` de E30 y E40-I04 a `epica.md` de E40; actualizar README (55 iteraciones; E30 vuelve a [~]) y `registro-log.md`.
+- [x] Ícono: SVG de Material Symbols Light (path entregado por Felipe), con un comentario que indique origen y licencia Apache 2.0, y crédito en el `README.md` de la raíz.
+- [x] Cursor: corregir la estructura del logotipo o del motor para que el cursor siga al texto, sin romper la reserva de ancho (CLS 0) ni el hero.
+- [x] CV: retirar el botón de la barra y del panel móvil; agregarlo al pie con atributo de descarga, ícono y nombre accesible por idioma (ADR-017, ADR-050).
+- [x] Pie: 5 enlaces desde una lista propia del pie (`footer-links.ts`, no `nav-items.ts` completo); anotado en `E155-I01` que el enlace de privacidad va como sexto enlace de esta columna.
+- [x] Redes: columna a la izquierda en todos los anchos, ícono antes del texto.
+- [x] Medir la holgura de la barra a 1.280 px y el alto del pie antes y después. Barra: 80 → 292 px libres (es) y 91 → 304 px (en); pie: 738 → 474 px de 768 a 1.920 px y 1.155 → 961 px a 360 px (bitácora).
 
 ## Archivos previstos (crear / modificar)
-- Modificar: `src/components/layout/Logo.astro`, el SVG del ícono, `src/scripts/typewriter.ts` (si hace falta), Navbar y menú móvil, `Footer.astro`, `src/i18n/ui.ts`, `README.md` (crédito).
+- Modificar: `src/components/layout/Logo.astro`, el SVG del ícono (`src/assets/logo/terminal-icon.svg`), `src/styles/global.css` (cursor; el motor `typewriter.ts` no cambió), `Navbar.astro`, `MobileMenuPanel.astro`, `Footer.astro`, `src/i18n/ui.ts`, `README.md` (crédito).
+- Crear: `src/components/layout/footer-links.ts`.
 
 ## Criterios de aceptación (verificables)
-- [ ] El logotipo usa el ícono nuevo en claro (`orient-600`) y oscuro (`orient-400`); el favicon no cambió.
-- [ ] El cursor del logotipo va pegado al último carácter al escribir y al borrar, y queda al inicio con el renglón vacío; CLS 0.
-- [ ] Ni la barra ni el panel móvil muestran "Descargar CV"; el pie sí, en es y en, y descarga el PDF.
-- [ ] El pie tiene 5 enlaces que resuelven en ambos idiomas y es más bajo que antes (medida en la bitácora).
-- [ ] Redes del pie a la izquierda con el ícono primero, de 360 a 1.920 px.
-- [ ] Teclado, foco visible, sin JavaScript y movimiento reducido funcionan como antes.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] El logotipo usa el ícono nuevo en claro (`orient-600`) y oscuro (`orient-400`); el favicon no cambió.
+- [x] El cursor del logotipo va pegado al último carácter al escribir y al borrar, y queda al inicio con el renglón vacío; CLS 0.
+- [x] Ni la barra ni el panel móvil muestran "Descargar CV"; el pie sí, en es y en, y descarga el PDF.
+- [x] El pie tiene 5 enlaces que resuelven en ambos idiomas y es más bajo que antes (medida en la bitácora).
+- [x] Redes del pie a la izquierda con el ícono primero, de 360 a 1.920 px.
+- [x] Teclado, foco visible, sin JavaScript y movimiento reducido funcionan como antes.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check` y `pnpm verify:seo` sin errores.
-- Chrome en 360, 768, 1.280, 1.366 y 1.920 px, ambos temas e idiomas.
+- Chrome en 360, 768, 1.280, 1.366 y 1.920 px, ambos temas e idiomas: 249 comprobaciones correctas (bitácora).
 - La matriz de ADR-016 del hero no cambia (la barra mantiene 76 px).
 
 ## ADR a registrar (texto para `decisiones.md`)
@@ -93,7 +94,7 @@ Corregir la navbar y el pie según la revisión de Felipe en la preview, antes d
 - Si el ícono nuevo cambia el ancho del logotipo, revisar el umbral de 420 px de ADR-051.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` (desde AT-072) y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` (desde AT-072) y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

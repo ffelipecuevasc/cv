@@ -64,6 +64,9 @@ Antes de proponer un cambio, deben pasar `pnpm build`, `pnpm check`, `pnpm lint`
 - **Versión de Node (ADR-027):** Node 24.x durante la construcción.
 - Las dependencias nuevas requieren una decisión registrada en [`_planificacion/00_producto/decisiones.md`](_planificacion/00_producto/decisiones.md).
 
+## Créditos y licencias
+- Ícono del logotipo: «terminal» de [Material Symbols Light](https://fonts.google.com/icons) (Google), licencia [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). El aviso también está en `src/assets/logo/terminal-icon.svg` (ADR-057).
+
 ## WebStorm
 Las configuraciones `pnpm dev`, `pnpm build` y `pnpm check` vienen en `.run/`. La carpeta `.idea/` no se versiona. Los ajustes recomendados (Node, PNPM, Prettier, ESLint y fin de línea LF) están en [`_planificacion/00_producto/guia-webstorm.md`](_planificacion/00_producto/guia-webstorm.md).
 

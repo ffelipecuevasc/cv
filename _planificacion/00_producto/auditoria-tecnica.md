@@ -596,7 +596,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** agregar a 7.2 una frase: "Bajo 420 px, el botón de apariencia y el selector de idioma pasan al final del panel del menú". Si Felipe prefiere otra solución (por ejemplo, un logotipo más angosto), se sustituye ADR-051.
 
 ### AT-062 · El pie de escritorio es alto por la lista de 11 enlaces
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con Felipe (revisión en E170-I01)
+- **Severidad:** Baja · **Estado:** Resuelto en E30-I07 (30-10-2026): el pie tiene 5 enlaces y mide 474 px (antes 738 px) de 768 a 1.920 px; ADR-057 · **Resuelve:** por decidir con Felipe (revisión en E170-I01)
 - **Evidencia (E30-I06, 29-10-2026):** la columna de navegación apila los 11 enlaces con la zona táctil de 44 px y el pie mide unos 740 px a 1.280 px de ancho (la lista de enlaces mide unos 485 px). La marca y las redes ocupan menos de 300 px de alto, así que el resto de esas dos columnas queda vacío.
 - **Impacto:** el pie ocupa casi toda una pantalla de 800 px de alto; es un asunto de proporción, no de funcionamiento.
 - **Recomendación:** si Felipe lo prefiere más compacto, repartir la lista en dos columnas desde 1.024 px o agrupar por "Experiencia" y "Comunidad"; se registraría en `DESIGN.md` 7.9 y se ajustaría el componente.
@@ -672,3 +672,18 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - Descripción es: **A** «Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic.» (153) · **B** «Ingeniero informático, instructor de bootcamps y docente universitario. Certificaciones vigentes de Oracle, AWS, Python Institute y Anthropic.» (142)
   - Descripción en: **A** «Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic.» (152) · **B** «Computer engineer, bootcamp instructor and university lecturer. Current certifications from Oracle, AWS, Python Institute and Anthropic.» (136)
   - Ninguna lleva la cifra de certificaciones, para que no se desfase (ADR-053).
+
+### AT-072 · Reglas del cursor y de la barra que quedan redundantes o sin uso
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E40-I04
+- **Evidencia (E30-I07, 30-10-2026):**
+  - `Hero.astro` declara `.accent :global(.typewriter-text) { justify-self: start }`. Desde E30-I07 la regla vive en `global.css` para todo el motor (así el cursor del logotipo acompaña al texto), así que la del hero es redundante. No se quitó para no tocar el hero fuera de alcance.
+  - El botón del hero "Revisa mi CV" y `cv` de `nav-items.ts` siguen en uso hasta que E40-I04 quite los llamados a la acción (ADR-058); después `cv` solo lo usa el pie.
+  - `Button.astro` conserva la variante `size="bar"` (44 px), que ya no usa la navbar; solo la muestra la página de pruebas del sistema de diseño. `DESIGN.md` 7.3 todavía dice "(44 px en la barra)" para el botón secundario.
+- **Impacto:** código y texto de diseño redundantes; sin efecto visible.
+- **Recomendación:** al cerrar E40-I04, borrar la regla del hero; decidir si se retira `size="bar"` y ajustar la frase de 7.3 (bloque en la bitácora de E30-I07).
+
+### AT-073 · El sitio nuevo todavía no publica favicon
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir con Felipe (E170-I02 o E190-I03)
+- **Evidencia (E30-I07, 30-10-2026):** ADR-057 deja el favicon como está, `static/img/favicon.svg` del sitio antiguo, pero `public/` de la rama de migración solo trae el CV y el `<head>` no declara ningún `<link rel="icon">` (se comprobó en `dist/`). Ninguna iteración planificada porta el archivo. El favicon, de trazo grueso, ya no coincide con el ícono fino del logotipo (decisión de Felipe: a 16 px un trazo fino se pierde).
+- **Impacto:** la preview y el sitio nuevo se ven sin ícono de pestaña; el cutover (E190) lo dejaría sin favicon.
+- **Recomendación:** agregar una tarea a E170-I02 o a E190-I03: copiar `static/img/favicon.svg` desde `main` a `public/` y declararlo en `BaseLayout`. Requiere que Felipe decida qué iteración lo asume.
