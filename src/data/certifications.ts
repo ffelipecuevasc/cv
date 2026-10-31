@@ -96,7 +96,7 @@ export const certifications: readonly Certification[] = [
     issuer: 'anthropic',
     issuedAt: '2026-10-30',
     expiresAt: '2027-10-30',
-    url: 'https://www.credly.com/badges/4611d265-46a0-47e7-a03d-14b026828e2d',
+    url: 'https://www.credly.com/badges/4611d265-46a0-47e7-a03d-14b026828e2d/public_url',
   },
   {
     id: 'oracle-agentic-ai-foundations',

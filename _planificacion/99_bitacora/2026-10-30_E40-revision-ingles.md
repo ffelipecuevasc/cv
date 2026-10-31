@@ -4,15 +4,15 @@
 - **Fecha:** 2026-10-30
 - **Agente:** Claude Code · modelo: Claude Sonnet 5.5
 - **Rama:** `migracion-astro` (no es `main`)
-- **Estado final:** E40 sigue en `[~]`: falta validar el inglés (Felipe). Ningún texto cambió. AT-069 resuelta; AT-071 con opciones, sin aplicar.
+- **Estado final:** inglés validado por Felipe el 30-10-2026. Los ajustes de la revisión y las opciones de AT-071 elegidas se aplicaron el 31-10-2026 (ver `2026-10-31_E40-cierre.md`); las tablas de abajo muestran el texto publicado. AT-069 y AT-071 resueltas.
 
 ## Cómo usar este archivo
-Cada sección (1 a 6) es independiente y se puede pegar por partes al asesor. Las tablas se generaron leyendo los JSON de `src/content/`, sin transcribir a mano, así que español e inglés son los que hoy publica el sitio. Cuando Felipe valide una tanda, el agente aplica los cambios en el archivo de origen que cita cada fila.
+Cada sección (1 a 6) es independiente y se puede pegar por partes al asesor. Las tablas se generaron leyendo los JSON de `src/content/`, sin transcribir a mano. Tras la validación de Felipe se actualizaron las filas que cambiaron (el inglés de 7 textos y el título y la descripción de la portada), así que las tablas muestran el texto publicado.
 
 Criterios que conviene pedirle al asesor:
 - Registro: inglés profesional y neutro (en-US), no traducción literal.
 - Nombres propios sin traducir (ADR-025): Talento Digital, SENCE, Alura Latam, REUF, INACAP, Duoc UC, IPLACEX.
-- Cargos: «Instructor Senior» (Senior Instructor) y «Docente Universitario» (University Lecturer) pueden ser «Professor» o «Lecturer» según el uso estadounidense; ver la fila de la sección 1 y 5.
+- Cargos: «Instructor Senior» (Senior Instructor) y «Docente Universitario» (University Lecturer) pueden ser «Professor» o «Lecturer» según el uso estadounidense; Felipe eligió «University Lecturer».
 - Marcadores `{certifications}` y `{current}` / `{total}` se sustituyen al construir: deben quedar intactos.
 - El Markdown `**negrita**` de los párrafos se conserva.
 
@@ -58,7 +58,7 @@ Origen: `src/content/hero/shared.json` y `src/content/hero/profiles/*.json`.
 | `src/content/hero/profiles/instructor.json · phrases[1]` | Bootcamps de Talento Digital | Talento Digital Bootcamps |
 | `src/content/hero/profiles/instructor.json · phrases[2]` | Bootcamps de IA | AI Bootcamps |
 | `src/content/hero/profiles/instructor.json · phrases[3]` | Bootcamps Full Stack | Full Stack Bootcamps |
-| `src/content/hero/profiles/instructor.json · paragraph` | Instructor senior en cursos intensivos de **Talento Digital — SENCE**, iniciativa del Gobierno de Chile: desarrollo full stack en Java, Python y JavaScript, e Ingeniería de Datos con Machine Learning sobre AWS. También instructor senior de Java en **Alura Latam**, como Oracle Developer Professional. | Senior instructor in intensive **Talento Digital — SENCE** courses, an initiative of the Government of Chile: full stack development in Java, Python and JavaScript, and Data Engineering with Machine Learning on AWS. Also senior Java instructor at **Alura Latam**, as an Oracle Developer Professional. |
+| `src/content/hero/profiles/instructor.json · paragraph` | Instructor senior en cursos intensivos de **Talento Digital — SENCE**, iniciativa del Gobierno de Chile: desarrollo full stack en Java, Python y JavaScript, e Ingeniería de Datos con Machine Learning sobre AWS. También instructor senior de Java en **Alura Latam**, como Oracle Developer Professional. | Senior instructor in intensive **Talento Digital — SENCE** courses, an initiative of the Government of Chile: full stack development in Java, Python and JavaScript, and Data Engineering with Machine Learning on AWS. Also senior Java instructor at **Alura Latam**, certified as an Oracle Developer Professional. |
 
 #### Perfil 2: Docente (`src/content/hero/profiles/docente.json`)
 
@@ -91,7 +91,7 @@ Origen: `src/content/home/stats.json`. La cifra de certificaciones sale de los d
 | `src/content/home/stats.json · items[0].label` | Certificaciones | Certifications |
 | `src/content/home/stats.json · items[0].context` | Oracle, AWS, Python Institute y Anthropic | Oracle, AWS, Python Institute and Anthropic |
 | `src/content/home/stats.json · items[1].label` | Años Relator REUF | Years as REUF instructor |
-| `src/content/home/stats.json · items[1].context` | Instructor Talento Digital para Chile — SENCE | Talento Digital instructor for Chile — SENCE |
+| `src/content/home/stats.json · items[1].context` | Instructor Talento Digital para Chile — SENCE | Instructor, Talento Digital para Chile — SENCE |
 | `src/content/home/stats.json · items[2].label` | Módulos REUF | REUF modules |
 | `src/content/home/stats.json · items[2].context` | Planes formativos aprobados por SENCE | Training plans approved by SENCE |
 | `src/content/home/stats.json · items[3].label` | Años Docente | Years teaching |
@@ -135,18 +135,18 @@ Origen: `src/content/testimonials/*.json`. Los nombres no se traducen; se traduj
 ### Citas
 | Archivo · campo | Español | Inglés |
 |---|---|---|
-| `src/content/testimonials/camilo.json · quote (Camilo Villalobos)` | Es ese perfil escaso que combina la rigurosidad y profundidad del mundo de la programación con una habilidad excepcional para la enseñanza. Sus clases son dinámicas y muy orientadas a los desafíos reales del mercado. | He is that rare profile who combines the rigor and depth of the programming world with an exceptional gift for teaching. His classes are dynamic and strongly oriented to real market challenges. |
+| `src/content/testimonials/camilo.json · quote (Camilo Villalobos)` | Es ese perfil escaso que combina la rigurosidad y profundidad del mundo de la programación con una habilidad excepcional para la enseñanza. Sus clases son dinámicas y muy orientadas a los desafíos reales del mercado. | He is a rare kind of professional who combines the rigor and depth of the programming world with exceptional teaching ability. His classes are dynamic and strongly oriented to real market challenges. |
 | `src/content/testimonials/zuggeits.json · quote (Zuggeits Meriño)` | Un excelente profesor, muy dedicado y de gran corazón, se preocupa por los avances educativos de sus alumnos. Le recomiendo a cualquier institución educativa, este es el profesor que necesitan. | An excellent teacher, very dedicated and big-hearted, who cares about his students’ academic progress. I recommend him to any educational institution; he is the teacher they need. |
 | `src/content/testimonials/gonzalo.json · quote (Gonzalo Vera)` | Destaco especialmente su dedicación y compromiso. Siempre fue muy claro en sus explicaciones, logrando transmitir conceptos complejos de forma simple y práctica, apoyado en su vasta experiencia en proyectos reales. | I especially highlight his dedication and commitment. He was always very clear in his explanations, managing to convey complex concepts in a simple and practical way, backed by his vast experience in real projects. |
 | `src/content/testimonials/montserrat.json · quote (Montserrat Espinoza)` | Es un excelente instructor, tremendamente dedicado y comprometido. Se esmera por que las clases sean entretenidas y comprensibles. Es muy empático y siempre está preocupado por el avance de todos los alumnos. | He is an excellent instructor, tremendously dedicated and committed. He makes an effort to keep classes entertaining and easy to follow. He is very empathetic and always concerned about the progress of every student. |
 | `src/content/testimonials/jacqueline.json · quote (Jacqueline Bastias)` | Un profesional integral que redefine la docencia. Posee un dominio técnico indiscutible, pero su vocación pedagógica es lo que lo distingue. Un ser humano excepcional que se preocupa genuinamente por sus alumnos. | A well-rounded professional who redefines teaching. His technical mastery is undeniable, but it is his pedagogical vocation that sets him apart. An exceptional human being who genuinely cares about his students. |
-| `src/content/testimonials/rodrigo.json · quote (Rodrigo Arevalo)` | Destaco su calidad humana y su disposición incondicional para resolver hasta la duda más compleja con paciencia. Personas con esta vocación por la enseñanza son las que realmente transforman la carrera de un desarrollador. | I highlight his human quality and his unconditional willingness to resolve even the most complex question with patience. People with this vocation for teaching are the ones who truly transform a developer’s career. |
+| `src/content/testimonials/rodrigo.json · quote (Rodrigo Arevalo)` | Destaco su calidad humana y su disposición incondicional para resolver hasta la duda más compleja con paciencia. Personas con esta vocación por la enseñanza son las que realmente transforman la carrera de un desarrollador. | I highlight his human qualities and his unconditional willingness to resolve even the most complex question with patience. People with this vocation for teaching are the ones who truly transform a developer’s career. |
 | `src/content/testimonials/emilio.json · quote (Emilio Delgado)` | Demuestra un gran dominio técnico y una metodología clara y práctica. Se adapta al perfil de cada alumno, enseña con paciencia y transmite su amplia experiencia. Altamente recomendable como instructor y mentor. | He shows great technical mastery and a clear, practical methodology. He adapts to each student’s profile, teaches with patience and shares his broad experience. Highly recommended as an instructor and mentor. |
 | `src/content/testimonials/sergio.json · quote (Sergio Fernandez)` | Un profesional con una vocación auténtica. Su manera de transmitir conocimientos es clara y estructurada, contextualizando con ejemplos reales. Gracias a su paciencia y cercanía, crea un entorno de aprendizaje participativo. | A professional with an authentic vocation. His way of conveying knowledge is clear and structured, grounded in real examples. Thanks to his patience and approachability, he creates a participatory learning environment. |
 | `src/content/testimonials/liliana.json · quote (Liliana Cedeño)` | Profesional dedicado y enfocado. Su capacidad de instruir e impulsar el aprendizaje es una de sus cualidades más importantes. Su experticia técnica lo hace un Relator de excelencia y un líder de gran calidad. | A dedicated and focused professional. His ability to instruct and drive learning is one of his most important qualities. His technical expertise makes him an outstanding instructor and a high-quality leader. |
-| `src/content/testimonials/elio.json · quote (Elio Duran)` | Dejo constancia de su fortaleza especializada como Relator, tanto en lo teórico como en lo práctico, enseñando Java y Spring Boot. Fue una guía permanente y un excelente apoyo durante todo el bootcamp. | I place on record his specialized strength as an instructor, both in theory and in practice, teaching Java and Spring Boot. He was a constant guide and an excellent support throughout the entire bootcamp. |
+| `src/content/testimonials/elio.json · quote (Elio Duran)` | Dejo constancia de su fortaleza especializada como Relator, tanto en lo teórico como en lo práctico, enseñando Java y Spring Boot. Fue una guía permanente y un excelente apoyo durante todo el bootcamp. | I want to acknowledge his specialized strength as an instructor, both in theory and in practice, teaching Java and Spring Boot. He was a constant guide and an excellent support throughout the entire bootcamp. |
 | `src/content/testimonials/oscar.json · quote (Oscar Leal)` | Excelente profesional con capacidad inestimable para explicar conceptos complejos e inspirar pasión por la tecnología. Los sólidos conocimientos técnicos adquiridos bajo su dirección son una guía muy valiosa. | An excellent professional with an invaluable ability to explain complex concepts and inspire a passion for technology. The solid technical knowledge acquired under his direction is a very valuable guide. |
-| `src/content/testimonials/renato.json · quote (Renato Tapia)` | Líder en el equipo con sólidos conocimientos técnicos y un alto estándar de calidad. Posee una habilidad única para transmitir conceptos de manera clara y concisa. Lo recomendaría sin dudarlo como ingeniero y profesor. | A team leader with solid technical knowledge and a high standard of quality. He has a unique ability to convey concepts clearly and concisely. I would recommend him without hesitation as an engineer and as a teacher. |
+| `src/content/testimonials/renato.json · quote (Renato Tapia)` | Líder en el equipo con sólidos conocimientos técnicos y un alto estándar de calidad. Posee una habilidad única para transmitir conceptos de manera clara y concisa. Lo recomendaría sin dudarlo como ingeniero y profesor. | A leader on the team with solid technical knowledge and a high standard of quality. He has a unique ability to convey concepts clearly and concisely. I would recommend him without hesitation as an engineer and as a teacher. |
 
 ## 5. Metadatos y JSON-LD
 Origen: `src/content/pages/home.json` y `src/content/seo/person.json`. Estos textos aparecen en `<title>`, `<meta description>`, Open Graph y en los datos estructurados Person que leen los buscadores.
@@ -154,8 +154,8 @@ Origen: `src/content/pages/home.json` y `src/content/seo/person.json`. Estos tex
 ### Metadatos de la portada
 | Archivo · campo | Español | Inglés |
 |---|---|---|
-| `src/content/pages/home.json · title` | Felipe Cuevas \| Instructor de Bootcamps y Docente Universitario | Felipe Cuevas \| Bootcamp Instructor and University Lecturer |
-| `src/content/pages/home.json · description` | Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS. | Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS. |
+| `src/content/pages/home.json · title` | Felipe Cuevas \| Instructor Senior y Docente Universitario | Felipe Cuevas \| Senior Instructor and University Lecturer |
+| `src/content/pages/home.json · description` | Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic. | Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic. |
 | `src/content/pages/home.json · ogImageAlt` | Retrato de Felipe Cuevas, ingeniero informático e instructor certificado | Portrait of Felipe Cuevas, computer engineer and certified instructor |
 
 ### Person (JSON-LD)
@@ -183,12 +183,12 @@ Los 13 temas de `knowsAbout` van en la tabla; los marcados «(igual)» no cambia
 | `src/content/seo/person.json · knowsAbout[12]` | Educación Andragógica | Adult Education |
 
 ## 6. AT-071 · Opciones de título y descripción
-Propuestas, **no aplicadas**. Se aplicarían en `src/content/pages/home.json` (un solo archivo). Los títulos miden 60 caracteres o menos; las descripciones, 160 o menos. Todas las descripciones mencionan los 4 emisores (Oracle, AWS, Python Institute y Anthropic).
+Felipe eligió el **título B** y la **descripción A** (30-10-2026); se aplicaron el 31-10-2026 en `src/content/pages/home.json` (un solo archivo). Los títulos miden 60 caracteres o menos; las descripciones, 160 o menos. Todas las descripciones mencionan los 4 emisores (Oracle, AWS, Python Institute y Anthropic).
 
 ### Títulos
 | Opción | Español | Largo es | Inglés | Largo en |
 |---|---|---|---|---|
-| Actual (referencia) | Felipe Cuevas \| Instructor de Bootcamps y Docente Universitario | 63 | Felipe Cuevas \| Bootcamp Instructor and University Lecturer | 59 |
+| Anterior (referencia) | Felipe Cuevas \| Instructor de Bootcamps y Docente Universitario | 63 | Felipe Cuevas \| Bootcamp Instructor and University Lecturer | 59 |
 | A | Felipe Cuevas \| Instructor de Bootcamps y Docente TI | 52 | Felipe Cuevas \| Bootcamp Instructor and Lecturer | 48 |
 | B | Felipe Cuevas \| Instructor Senior y Docente Universitario | 57 | Felipe Cuevas \| Senior Instructor and University Lecturer | 57 |
 
@@ -198,7 +198,7 @@ Propuestas, **no aplicadas**. Se aplicarían en `src/content/pages/home.json` (u
 ### Descripciones
 | Opción | Español | Largo es | Inglés | Largo en |
 |---|---|---|---|---|
-| Actual (referencia) | Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS. | 154 | Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS. | 141 |
+| Anterior (referencia) | Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS. | 154 | Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS. | 141 |
 | A | Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic. | 153 | Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic. | 152 |
 | B | Ingeniero informático, instructor de bootcamps y docente universitario. Certificaciones vigentes de Oracle, AWS, Python Institute y Anthropic. | 142 | Computer engineer, bootcamp instructor and university lecturer. Current certifications from Oracle, AWS, Python Institute and Anthropic. | 136 |
 
@@ -206,7 +206,7 @@ Propuestas, **no aplicadas**. Se aplicarían en `src/content/pages/home.json` (u
 - **B** abre con el perfil profesional y deja los emisores como cierre; quita los nombres de SENCE y Alura Latam (siguen en el JSON-LD y en el hero).
 - Ninguna incluye la cifra de certificaciones, para que no quede desfasada cuando cambien los datos (ADR-053); decir «11» a mano reabriría AT-014.
 - El inglés de las opciones lo redactó el agente: también lo valida Felipe (ADR-017).
-- **Cómo se elige:** una opción de título y una de descripción por idioma; pueden combinarse (por ejemplo, título A y descripción B). El agente las aplica en una sola edición y vuelve a correr `pnpm verify:seo`.
+- **Resultado:** título B y descripción A, en español y en inglés. `pnpm verify:seo` dio 98 de 98 tras aplicarlas.
 
 ## Resultados de verificación
 | Comprobación | Resultado |

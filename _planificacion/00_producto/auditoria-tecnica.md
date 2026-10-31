@@ -662,16 +662,17 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ninguna acción; comprobarlo al cerrar E140-I01 y en E190-I01.
 
 ### AT-071 · Título y descripción de la portada heredados del sitio antiguo
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (puede cerrarse al validar el inglés)
+- **Severidad:** Baja · **Estado:** Resuelto en el cierre de E40 (aplicado el 31-10-2026, validado por Felipe el 30-10-2026): título B y descripción A, en es y en, en `src/content/pages/home.json`; mencionan los 4 emisores y los títulos miden 57 caracteres · **Resuelve:** decisión de Felipe
 - **Evidencia (E40-I03, 30-10-2026):** el título en español mide 63 caracteres (Google suele cortar cerca de 60); el inglés mide 58. Ambas descripciones dicen "certificaciones de Oracle y AWS" / "certified by Oracle and AWS", pero el hero y la franja ya muestran 4 emisores (Python Institute y Anthropic, ADR-054). Se conservaron tal cual para no cambiar el posicionamiento sin que Felipe lo decida.
 - **Impacto:** la descripción queda corta frente a lo que muestra la página; el título en español podría cortarse en los resultados.
 - **Recomendación:** al validar el inglés, decidir si se mencionan los 4 emisores y si se acorta el título en español (`src/content/pages/home.json`, un solo archivo).
-- **Opciones propuestas (E40, 30-10-2026; no aplicadas, Felipe elige).** Títulos de 60 caracteres o menos y descripciones de 160 o menos, con los 4 emisores. Detalle y largos en la sección 6 de `99_bitacora/2026-10-30_E40-revision-ingles.md`.
+- **Opciones propuestas (E40, 30-10-2026). Felipe eligió el título B y la descripción A; ver el cierre abajo.** Títulos de 60 caracteres o menos y descripciones de 160 o menos, con los 4 emisores. Detalle y largos en la sección 6 de `99_bitacora/2026-10-30_E40-revision-ingles.md`.
   - Título es: **A** «Felipe Cuevas | Instructor de Bootcamps y Docente TI» (52) · **B** «Felipe Cuevas | Instructor Senior y Docente Universitario» (57).
   - Título en: **A** «Felipe Cuevas | Bootcamp Instructor and Lecturer» (48) · **B** «Felipe Cuevas | Senior Instructor and University Lecturer» (57).
   - Descripción es: **A** «Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic.» (153) · **B** «Ingeniero informático, instructor de bootcamps y docente universitario. Certificaciones vigentes de Oracle, AWS, Python Institute y Anthropic.» (142)
   - Descripción en: **A** «Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic.» (152) · **B** «Computer engineer, bootcamp instructor and university lecturer. Current certifications from Oracle, AWS, Python Institute and Anthropic.» (136)
   - Ninguna lleva la cifra de certificaciones, para que no se desfase (ADR-053).
+- **Cierre (E40, 31-10-2026):** `og:title`, `og:description`, `twitter:title` y `twitter:description` coinciden con el `<title>` y la `meta description` de cada idioma (`pnpm verify:seo`, 98 de 98).
 
 ### AT-072 · Reglas del cursor y de la barra que quedan redundantes o sin uso
 - **Severidad:** Baja · **Estado:** Resuelto en E40-I04 (30-10-2026): se borró la regla repetida de `Hero.astro`, `cv` pasó de `nav-items.ts` a `footer-links.ts` (solo lo usa el pie) y se retiró `size="bar"` del botón y de la página de pruebas · **Resuelve:** E40-I04
@@ -693,3 +694,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E40-I04, 30-10-2026):** el favicon se porta igual que en el sitio antiguo: un único SVG (`static/img/favicon.svg`), sin `apple-touch-icon`, sin `.ico` ni PNG, y sin manifest (auditoría original, área de SEO). Algunos navegadores, según su versión, no muestran favicons SVG y los de iOS esperan un `apple-touch-icon`. No se probó en esos navegadores (el entorno solo tiene Chrome).
 - **Impacto:** la pestaña o el acceso directo pueden verse sin ícono en esos navegadores; no afecta el funcionamiento.
 - **Recomendación:** comprobarlo en Safari y en iOS durante E170-I02 o E190-I01 y, si falta, agregar un PNG de 180 × 180 px (`apple-touch-icon`) y un `.ico`, derivados del mismo ícono. Requiere una decisión de Felipe sobre el trazo (el favicon es de trazo grueso, el logotipo ya es fino; ADR-057).
+
+### AT-075 · La URL de verificación de la última certificación de Oracle usa otra ruta que las demás
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E50-I02 (cuando Felipe la pruebe)
+- **Evidencia (cierre de E40, 31-10-2026):** en `src/data/certifications.ts`, las 5 certificaciones de Oracle anteriores llevan la ruta `https://catalog-education.oracle.com/ords/certview/sharebadge?id=…`, y `oracle-agentic-ai-foundations` (agregada el 30-10-2026) lleva `https://catalog-education.oracle.com/pls/certview/sharebadge?id=…`. Las dos rutas pueden ser válidas; no se pudo comprobar (el entorno no tiene red). En el cierre de E40, Felipe pidió no tocar ninguna URL de Oracle.
+- **Impacto:** si una ruta no abre la credencial, fallan el `url` de ese `hasCredential` en el JSON-LD y el enlace de verificación que mostrará la página de Educación.
+- **Recomendación:** Felipe abre las dos formas con una credencial real y se deja una sola ruta en los datos, junto con la tarea de validar enlaces de E50-I02 (Credly, Oracle y OpenEDG).

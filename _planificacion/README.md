@@ -6,10 +6,10 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
-- **Épica actual:** E40 · Página Inicio (index.html) · en curso: falta validar el inglés (Felipe)
-- **Iteración actual:** ninguna pendiente en E40 (E40-I04 terminada el 30-10-2026). Siguiente: E50-I01 · Formación académica y diplomados, cuando Felipe lo pida.
+- **Épica actual:** E50 · Página Educación (educacion.html)
+- **Iteración actual:** E50-I01 · Formación académica y diplomados (E40 terminada el 31-10-2026).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 25 de 55 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E40-I01, E40-I02, E40-I03, E40-I04). Épicas E10, E20 y E30 terminadas.
+- **Terminadas:** 25 de 55 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E40-I01, E40-I02, E40-I03, E40-I04). Épicas E10, E20, E30 y E40 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)

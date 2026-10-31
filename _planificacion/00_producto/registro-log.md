@@ -2,7 +2,7 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E40 (en curso: falta validar el inglés, Felipe; textos en `99_bitacora/2026-10-30_E40-revision-ingles.md`) · **Iteración actual:** ninguna pendiente en E40; siguiente E50-I01 (E30-I07 y E40-I04 terminadas el 30-10-2026)
+- **Épica actual:** E50 · **Iteración actual:** E50-I01 (E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
 - **Resumen:** 20 épicas · 55 iteraciones · 25 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada

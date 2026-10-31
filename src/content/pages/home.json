@@ -1,12 +1,12 @@
 {
   "route": "home",
   "title": {
-    "es": "Felipe Cuevas | Instructor de Bootcamps y Docente Universitario",
-    "en": "Felipe Cuevas | Bootcamp Instructor and University Lecturer"
+    "es": "Felipe Cuevas | Instructor Senior y Docente Universitario",
+    "en": "Felipe Cuevas | Senior Instructor and University Lecturer"
   },
   "description": {
-    "es": "Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam. Docente universitario e ingeniero informático, con certificaciones de Oracle y AWS.",
-    "en": "Senior bootcamp instructor for Talento Digital SENCE and Alura Latam. University lecturer and computer engineer, certified by Oracle and AWS."
+    "es": "Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam y docente universitario. Certificado por Oracle, AWS, Python Institute y Anthropic.",
+    "en": "Senior bootcamp instructor for Talento Digital SENCE and Alura Latam, and university lecturer. Certified by Oracle, AWS, Python Institute and Anthropic."
   },
   "ogImageAlt": {
     "es": "Retrato de Felipe Cuevas, ingeniero informático e instructor certificado",

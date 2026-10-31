@@ -27,7 +27,7 @@ Publicar los datos estructurados Person y WebSite en ambos idiomas y validar met
 - [x] Portar y traducir el JSON-LD (Person y WebSite, `src/components/seo/` y `src/content/seo/person.json`).
 - [x] Metadatos Open Graph por idioma con imagen y texto alternativo; `canonical`, `hreflang` y `x-default` verificados.
 - [x] Validar sintaxis y estructura sobre `dist/` sin red (`pnpm verify:seo`, 90 comprobaciones).
-- [ ] Validar con la Prueba de resultados enriquecidos y el validador de schema.org: **lo corre Felipe** con las URL de preview (ver la bitácora).
+- [x] Validar con la Prueba de resultados enriquecidos y el validador de schema.org: lo corrió Felipe con las URL de preview y no dieron errores (confirmado el 30-10-2026, cierre de E40).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: páginas de inicio (`src/pages/es/index.astro` y `src/pages/en/index.astro`).
@@ -36,7 +36,7 @@ Publicar los datos estructurados Person y WebSite en ambos idiomas y validar met
 
 ## Criterios de aceptación (verificables)
 - [x] JSON-LD válido en ambos idiomas y coherente con la cifra validada en E40-I01 (11 credenciales ↔ `+10`; `pnpm verify:seo`).
-- [ ] Prueba de resultados enriquecidos y validador de schema.org sin errores con las URL de preview (Felipe).
+- [x] Prueba de resultados enriquecidos y validador de schema.org sin errores con las URL de preview (Felipe, 30-10-2026).
 - [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)

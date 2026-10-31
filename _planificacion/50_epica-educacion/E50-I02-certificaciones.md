@@ -29,7 +29,7 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 ## Tareas
 - [ ] Migrar datos y lógica.
 - [ ] Optimizar imágenes de insignias.
-- [ ] Validar enlaces de verificación (Credly, Oracle, OpenEDG).
+- [ ] Validar enlaces de verificación (Credly, Oracle, OpenEDG). Incluye la URL de `oracle-agentic-ai-foundations` (`/pls/certview/…`) frente a las otras 5 de Oracle (`/ords/certview/…`), que Felipe debe probar y dejar con una sola ruta (AT-075). La URL de Credly de Anthropic ya termina en `/public_url` (cierre de E40).
 - [ ] Agregar el campo de categoría a los datos con la clasificación validada por Felipe (BL-07); sin esa validación, la iteración se detiene y pregunta (ADR-036).
 - [ ] Construir las franjas por categoría en zigzag con apilado en móvil (ADR-036).
 - [ ] Diferir la carga de insignias y declarar `width` y `height` para evitar CLS.
@@ -52,7 +52,11 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 - Validador de schema.org.
 
 ## Riesgos y notas
-- —
+- **Pendientes heredados del cierre de E40 (31-10-2026):**
+  - **AT-067:** la cifra de certificaciones no filtra por vencimiento; al ampliar los datos hay que decidir con Felipe si excluye las vencidas (la primera vence el 30-10-2027).
+  - **AT-075:** URL de Oracle `/pls/` frente a `/ords/`, pendiente de que Felipe la pruebe.
+  - **BL-06:** consentimiento de uso de nombres y fotos de los 12 testimonios de Inicio, antes de E190 (AT-025).
+  - **AT-074 (favicon en Safari e iOS)** sigue en E170-I02; se lista aquí solo para no perderlo.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
