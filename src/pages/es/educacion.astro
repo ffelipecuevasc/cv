@@ -1,11 +1,14 @@
 ---
-// Educación de /es/ (E50-I01: encabezado, formación académica y diplomados; las
-// certificaciones llegan en E50-I02). Título, descripción y texto alternativo de la imagen OG
+// Educación de /es/ (E50-I01: encabezado y formación; E50-I02: certificaciones, JSON-LD,
+// bloque REUF y cierre). Título, descripción y texto alternativo de la imagen OG
 // vienen de src/content/pages/education.json.
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EducationHeader from '../../components/education/EducationHeader.astro';
 import FormationSection from '../../components/education/FormationSection.astro';
+import CertificationsSection from '../../components/education/CertificationsSection.astro';
+import ReufClosing from '../../components/education/ReufClosing.astro';
+import EducationJsonLd from '../../components/seo/EducationJsonLd.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
 const page = await getEntry('pages', 'education');
@@ -15,6 +18,9 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 ---
 
 <BaseLayout title={title.es} description={description.es} route="education" ogImage={og}>
+  <EducationJsonLd slot="json-ld" />
   <EducationHeader />
   <FormationSection />
+  <CertificationsSection />
+  <ReufClosing />
 </BaseLayout>

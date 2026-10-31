@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E50 · **Iteración actual:** E50-I02 (E50-I01 terminada el 31-10-2026; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
-- **Resumen:** 20 épicas · 55 iteraciones · 26 terminadas
+- **Épica actual:** E60 · **Iteración actual:** E60-I01 (E50 terminada el 31-10-2026; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
+- **Resumen:** 20 épicas · 55 iteraciones · 27 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -54,7 +54,7 @@
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | P1 | E50-I01 | Formación académica y diplomados | M | E30-I06 | [x] Terminada |
-| P1 | E50-I02 | Gabinete de certificaciones y JSON-LD | M | E50-I01 | [ ] Pendiente |
+| P1 | E50-I02 | Gabinete de certificaciones y JSON-LD | M | E50-I01 | [x] Terminada |
 
 ### E60 · Página Experiencia (experiencia.html) (`60_epica-experiencia/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
@@ -155,5 +155,5 @@ Estas tareas **no están agendadas** en ninguna iteración. Se agendan con una i
 | BL-04 | Versiones en inglés del CV y de los PDFs de recursos, cuando Felipe las entregue | ADR-017, AT-034 | Felipe | Sin fecha |
 | BL-05 | Definir si "fecudev" es la marca de la comunidad y dónde se usa, sin alterar el menú (D-08) | Propuesta P-05 | Felipe | Sin fecha |
 | BL-06 | Confirmar el consentimiento de uso de nombres y fotos de los 12 testimonios | AT-025 | Felipe | Antes de E190 |
-| BL-07 | Validar la clasificación de certificaciones por categoría (ADR-036) | ADR-036, E50-I02 | Felipe | Antes de E50-I02 |
+| BL-07 | ~~Validar la clasificación de certificaciones por categoría (ADR-036)~~ Resuelto el 31-10-2026 (ADR-061) | ADR-036, E50-I02 | Felipe | Hecho |
 | BL-08 | Validar el texto de la política de privacidad con un especialista (ADR-035) | ADR-035, AT-047, E155-I01 | Felipe | Antes de E190 |

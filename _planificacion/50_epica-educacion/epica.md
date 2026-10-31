@@ -1,5 +1,5 @@
 # E50 · Página Educación (educacion.html)
-- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada (31-10-2026)
 
 ## Objetivo
 Reconstruir la página de formación académica, diplomados y certificaciones en ambos idiomas. Las certificaciones se agrupan por categoría en franjas temáticas en zigzag (ADR-036).
@@ -21,14 +21,14 @@ E30 completa.
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E50-I01](E50-I01-formacion.md) | Formación académica y diplomados | P1 | M | E30-I06 | [x] Terminada |
-| [E50-I02](E50-I02-certificaciones.md) | Gabinete de certificaciones y JSON-LD | P1 | M | E50-I01 | [ ] Pendiente |
+| [E50-I02](E50-I02-certificaciones.md) | Gabinete de certificaciones y JSON-LD | P1 | M | E50-I01 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
-- [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
-- [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
-- [ ] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
-- [ ] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [x] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
+- [x] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
+- [x] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
+- [x] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 
 ## Riesgos
 - Volumen de datos (~468 palabras en `certificaciones.datos.js` y `formacion.datos.js`).

@@ -337,7 +337,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - ~3.300 palabras en el HTML (el `<main>` más ~81 del armazón), más `aria-label`, `alt` y `placeholder`.
 - **Impacto:** ~5.800 palabras por traducir; riesgo de dejar textos sin traducir.
 - **Recomendación:** modelo de contenido bilingüe con validación de paridad (E30-I02).
-- **Avance:** E30-I02 creó el modelo y la validación de paridad. Textos migrados: la portada (E40) y la formación académica de Educación (E50-I01, 31-10-2026: 9 entradas con paridad obligatoria en `src/content/education/`). El hallazgo sigue abierto hasta que lo hagan las demás páginas.
+- **Avance:** E30-I02 creó el modelo y la validación de paridad. Textos migrados: la portada (E40) y la página de Educación (E50-I01 y E50-I02, 31-10-2026: formación en `src/content/education/` y textos de certificaciones es/en en `src/data/certifications.ts`). El hallazgo sigue abierto hasta que lo hagan las demás páginas.
 - **Avance (E30-I02):** modelo bilingüe con `localized()` en `src/content.config.ts`: una entrada sin uno de los idiomas hace fallar `pnpm build`; diccionario tipado del armazón en `src/i18n/ui.ts`. Sigue abierto: migrar los textos de `static/js/datos/`, `config/` y de la función de contacto en cada épica de página.
 
 ### AT-027 · Giscus con idioma fijo
@@ -630,7 +630,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** al definir la CSP de E170-I03, incluir el hash de este script, junto al del tema (AT-040) y al bloque `<noscript>` (AT-063).
 
 ### AT-067 · La cifra de certificaciones no filtra por vencimiento
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E50-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E50-I02 (31-10-2026): Felipe decidió no mostrar ni filtrar vencimientos; la cifra cuenta todas las entradas y se actualizan los datos al renovar (ADR-061) · **Resuelve:** E50-I02
 - **Evidencia (E40-I01, 30-10-2026):** `src/data/certifications.ts` guarda `expiresAt` en las 2 certificaciones nuevas (la primera vence el 30-10-2027), pero ADR-053 cuenta todas las entradas. El hero dice "vigentes".
 - **Impacto:** desde el 30-10-2027 el sitio contaría una credencial vencida como vigente, salvo que se renueve o se quite.
 - **Recomendación:** al ampliar los datos en E50-I02, decidir con Felipe si la cifra excluye las vencidas (el sitio es estático, así que la fecha se evaluaría al construir) o si basta actualizar los datos al renovar.
@@ -703,7 +703,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Felipe abre las dos formas con una credencial real y se deja una sola ruta en los datos, junto con la tarea de validar enlaces de E50-I02 (Credly, Oracle y OpenEDG).
 
 ### AT-076 · El bloque «Instructor REUF» y el cierre con CV del `<main>` antiguo de Educación no se migraron
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E50-I02 (con decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto en E50-I02 (31-10-2026): ambos bloques migrados por decisión de Felipe (ADR-061); la cifra de módulos sale de `src/content/home/stats.json` · **Resuelve:** E50-I02
 - **Evidencia (E50-I01, 31-10-2026):** `main:educacion.html` termina su `<main>` con (1) un bloque «Instructor REUF» («más de 150 módulos aprobados», «10+ Años de Experiencia», «5+ Bootcamps de Talento Digital») y (2) un cierre «¿Interesado en mi CV completo?» con «Descargar CV» y «Envíame un mensaje». El alcance de E50-I01 era el encabezado y la formación; el bloque (1) no figura en ninguna iteración de E50 y el (2) choca con ADR-057 (el CV vive solo en el pie). La épica E50 pide no eliminar contenido salvo por un ADR.
 - **Impacto:** contenido del sitio actual sin destino. El bloque (1) repite cifras que la portada ya muestra (años como relator, módulos REUF) y que la página Instructor REUF (E90) desarrollará, con el riesgo de que se desfasen (ADR-053).
 - **Recomendación:** decidir en E50-I02: descartar ambos bloques con un ADR (el CV está en el pie y el contacto en el menú; REUF queda en E90), o migrar el (1) con sus cifras tomadas de la misma fuente que la portada.
+
+### AT-077 · Faltan las insignias propias de dos certificaciones
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** Felipe (entrega de imágenes)
+- **Evidencia (E50-I02, 31-10-2026):** `main:static/img/logos/` trae 9 insignias por certificación, pero no las de «Claude Certified Developer – Foundations» (Anthropic) ni «Agentic AI Certified Foundations Associate» (Oracle). En `src/data/certifications.ts` llevan `badge: null` y la página muestra como marcador la insignia del emisor (`src/assets/insignias/`).
+- **Impacto:** esas dos credenciales se ven con el logo del emisor, no con su insignia oficial.
+- **Recomendación:** Felipe entrega los PNG (Credly / Oracle), se guardan en `src/assets/badges/` y se cambia `badge` en los datos; nada más cambia.

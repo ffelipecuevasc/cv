@@ -336,17 +336,89 @@ for (const [lang, info] of Object.entries(LANGS)) {
     `encabezados sin saltos (${levels.join(',')})`,
   );
   check(
-    (mainHtml.match(/<h3[\s>]/g) ?? []).length === 9,
+    (mainHtml.match(/class="cell /g) ?? []).length === 9,
     'la formación tiene 9 tarjetas (6 formaciones y 3 distinciones)',
   );
+  const formation = mainHtml.slice(0, mainHtml.indexOf('data-certs'));
   check(
-    (mainHtml.match(/<button|<input|<select/g) ?? []).length === 0,
-    'sin controles: no hay filtros ni conmutador (decisión de Felipe, ADR-060)',
+    !/<button|<input|<select|<script/.test(formation),
+    'formación sin controles ni scripts (ADR-060)',
   );
-  check(!/<script[\s>]/.test(mainHtml), 'sin JavaScript dentro de <main>');
-  education[lang] = { cells: [...mainHtml.matchAll(/class="cell ([^"]*)"/g)].map((m) => m[1]) };
+
+  // --- Certificaciones (E50-I02, ADR-061) ---
+  const certItems = [...mainHtml.matchAll(/<li[^>]*data-cert[\s>][\s\S]*?<\/li>/g)].map(
+    (m) => m[0],
+  );
+  check(
+    certItems.length === certifications.length,
+    `${certifications.length} credenciales en las franjas (${certItems.length})`,
+  );
+  check(
+    certifications.every((c) =>
+      certItems.some(
+        (item) => item.includes(c.name) && item.includes(`href="${c.url.replace(/&/g, '&amp;')}"`),
+      ),
+    ),
+    'cada credencial con su nombre y su enlace de verificación (URL sin cambios)',
+  );
+  check(
+    certItems.every(
+      (item) =>
+        /<img[^>]*loading="lazy"/.test(item) && /<img[^>]*width="\d+"[^>]*height="\d+"/.test(item),
+    ),
+    'insignias con carga diferida, width y height',
+  );
+  check(
+    certItems.every((item) => /data-cert-open[^>]*hidden|hidden[^>]*data-cert-open/.test(item)),
+    'botón de detalle oculto sin JavaScript (el detalle se ve en la franja)',
+  );
+  check(
+    (mainHtml.match(/<section[^>]*id="certs-(ai|cloud|dev-data)"/g) ?? []).length === 3,
+    '3 franjas: IA, Cloud y Desarrollo y datos',
+  );
+  check(
+    /<dialog[^>]*aria-labelledby="cert-dialog-title"/.test(mainHtml),
+    '<dialog> con nombre accesible',
+  );
+  check(
+    /data-cert-close/.test(mainHtml) && /download="CV_Felipe_Cuevas_2026.pdf"/.test(mainHtml),
+    'botón de cierre del diálogo y CV en el cierre (AT-076)',
+  );
+
+  // --- JSON-LD ---
+  const ld = [...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  let eduPerson = null;
+  try {
+    eduPerson = JSON.parse(ld[0]?.[1] ?? 'null');
+  } catch (error) {
+    check(false, `JSON-LD con sintaxis válida: ${error.message}`);
+  }
+  check(ld.length === 1 && eduPerson?.['@type'] === 'Person', 'un bloque JSON-LD Person');
+  check(eduPerson?.['@id'] === `${SITE}/#felipe-cuevas`, 'Person @id = el de la portada');
+  check(
+    certifications.every(
+      (c, i) =>
+        eduPerson?.hasCredential?.[i]?.name === c.name &&
+        eduPerson?.hasCredential?.[i]?.url === c.url &&
+        eduPerson?.hasCredential?.[i]?.dateCreated === c.issuedAt,
+    ) && eduPerson?.hasCredential?.length === certifications.length,
+    'hasCredential coincide con certifications.ts',
+  );
+  education[lang] = {
+    cells: [...mainHtml.matchAll(/class="cell ([^"]*)"/g)].map((m) => m[1]),
+    credentials: eduPerson?.hasCredential,
+    certs: certItems.length,
+  };
 }
 check(same(education.es?.cells, education.en?.cells), 'mismo mosaico en /es/ y /en/');
+check(
+  same(education.es?.credentials, education.en?.credentials),
+  'hasCredential idéntico en Educación /es/ y /en/',
+);
+check(
+  same(education.es?.credentials, pages.es?.person?.hasCredential),
+  'hasCredential de Educación = el de la portada',
+);
 
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');

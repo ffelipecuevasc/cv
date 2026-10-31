@@ -1,0 +1,159 @@
+---
+/*
+ * Bloque «Instructor REUF» y cierre de Educación (E50-I02, AT-076, ADR-061), migrados de
+ * `main:educacion.html`. La cifra de módulos se toma de src/content/home/stats.json (la misma
+ * que muestra la portada), para que no se desfase (ADR-053). El cierre repite el CV del pie
+ * (ADR-050, ADR-057) y enlaza a Contacto. Sin JavaScript. Dentro de <main>.
+ */
+import { getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import { parseEmphasis, formatNumber } from '../home/hero-text';
+import { cv } from '../layout/footer-links';
+import { getRoute } from '../../i18n/routes';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('educationPage', 'page'))?.data;
+const stats = (await getEntry('homeStats', 'stats'))?.data;
+if (!page || !stats) throw new Error('Faltan los textos de Educación o las cifras de Inicio');
+
+const modules = stats.items.find(
+  (item) => item.kind === 'number' && item.label.es === 'Módulos REUF',
+);
+if (!modules || modules.kind !== 'number')
+  throw new Error('Falta la cifra «Módulos REUF» en stats.json');
+const paragraph = parseEmphasis(
+  page.reuf.paragraph[lang].replace('{modules}', formatNumber(modules.value, lang)),
+);
+const { closing } = page;
+---
+
+<section class="reuf" aria-labelledby="education-reuf-title">
+  <Container>
+    <Card class="reuf-card">
+      <div class="reuf-grid">
+        <Icon name="medal" size={48} class="reuf-icon" />
+        <div>
+          <h2 id="education-reuf-title" class="reuf-title">
+            {page.reuf.title[lang]}
+          </h2>
+          <p class="reuf-text">
+            {paragraph.map((part) => (part.strong ? <strong>{part.text}</strong> : part.text))}
+          </p>
+          <ul class="highlights">
+            {page.reuf.highlights[lang].map((item) => (
+              <li>
+                <Icon name="check" size={16} />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <div class="closing">
+      <p class="closing-kicker">{closing.kicker[lang]}</p>
+      <div class="closing-actions">
+        <Button
+          href={cv.href}
+          download={cv.file}
+          icon="download"
+          label={closing.cvLabel[lang]}
+          title={closing.cvLabel[lang]}
+        >
+          {closing.cv[lang]}
+        </Button>
+        <Button variant="secondary" href={getRoute('contact', lang)}>
+          {closing.contact[lang]}
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .reuf {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  @media (min-width: 48rem) {
+    .reuf {
+      padding-block: 96px;
+    }
+  }
+  .reuf-grid {
+    display: grid;
+    gap: 24px;
+  }
+  .reuf-grid :global(.reuf-icon) {
+    color: var(--color-icon);
+  }
+  @media (min-width: 48rem) {
+    .reuf-grid {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 32px;
+    }
+  }
+  .reuf-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .reuf-text {
+    max-width: 62ch;
+    margin-top: 16px;
+    color: var(--color-text-muted);
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .reuf-text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .highlights li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .closing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-top: 64px;
+    text-align: center;
+  }
+  .closing-kicker {
+    margin: 0;
+    color: var(--color-text-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .closing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+</style>

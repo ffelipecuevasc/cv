@@ -573,6 +573,24 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.4 debe reflejar el patrón (bloque en la bitácora de E50-I01; Felipe lo edita, ADR-033). E50-I02 agrega las franjas de certificaciones debajo de la formación. Los textos `en-US` los valida Felipe (ADR-017). El bloque «Instructor REUF» y el cierre con CV del sitio antiguo quedan en AT-076.
 - **Origen:** decisiones de Felipe el 31-10-2026 (E50-I01). **Estado:** Aceptada.
 
+## ADR-061 · Educación: certificaciones por categoría, detalle en diálogo y bloque REUF
+- **Contexto:** E50-I02. ADR-036 dejó la clasificación por validar (BL-07); AT-067 pedía decidir sobre vencimientos y AT-076, sobre el bloque «Instructor REUF» y el cierre del sitio antiguo.
+- **Decisión (de Felipe, 31-10-2026):**
+  - **3 categorías**, en este orden: **Inteligencia artificial** (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional, Claude Certified Developer – Foundations y Agentic AI Certified Foundations Associate); **Cloud** (AWS Cloud Practitioner, AWS Developer Associate y Oracle OCI Associate); **Desarrollo y datos** (Python Institute PCEP, Oracle Developer Professional y Oracle Data Science Professional). Cierra BL-07.
+  - **Franjas en zigzag** (`ThemeStripe`, fondo `band` / `bg` alternado), bajo un encabezado de sección.
+  - **Detalle en `<dialog>` nativo** con `showModal()` (resto de la página inerte, foco atrapado), Escape y retorno del foco al botón. Sin JavaScript, el detalle se ve en la franja y el botón no aparece.
+  - **Sin vencimientos:** no se muestran ni se filtran; la cifra cuenta todas las entradas (cierra AT-067; ADR-053 sin cambios).
+  - **Se migran** el bloque «Instructor REUF» y el cierre «Descargar CV» / «Envíame un mensaje» (cierra AT-076). **Amplía ADR-057** solo en Educación: el CV también aparece en ese cierre; el pie no cambia.
+  - El `<h1>` se mantiene y la bajada nombra los 4 emisores.
+- **Decisión (de implementación):**
+  - `src/data/certifications.ts` sigue siendo la única lista: suma `category`, `badge`, `skills` y `description` (es/en). No se importa ninguna imagen desde ese archivo, para que `scripts/verify-seo.mjs` lo siga leyendo con Node.
+  - Insignias en `src/assets/badges/` (copia de `main:static/img/logos/`), optimizadas por Astro a 72 px (1x y 2x, WebP de 2 a 3 KB), `loading="lazy"` con `width` y `height`. Las dos sin insignia usan la del emisor (AT-077).
+  - JSON-LD: un Person con el `@id` de la portada y `hasCredential` derivado de los datos, igual en `/es/` y `/en/` e igual al de la portada.
+  - Cifra de módulos REUF tomada de `src/content/home/stats.json`.
+  - URL de Oracle sin cambios (AT-075 abierto).
+- **Consecuencias:** E50 terminada. `DESIGN.md` 11.4 debe recoger franjas, diálogo, REUF y cierre (bloque en la bitácora; Felipe lo edita, ADR-033). Textos `en-US` y descripciones de las 2 credenciales nuevas por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I02). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

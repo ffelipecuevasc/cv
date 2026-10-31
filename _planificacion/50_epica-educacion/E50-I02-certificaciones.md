@@ -1,7 +1,7 @@
 # E50-I02 · Gabinete de certificaciones y JSON-LD
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (31-10-2026)
 - **Épica:** E50 · Página Educación (educacion.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E50-I01 · **Hallazgos relacionados:** AT-013 y AT-014 ya resueltos en E40-I01 (no los cierra esta iteración); AT-067 y AT-075 pendientes · **ADR relacionados:** ADR-017, ADR-036, ADR-053
+- **Depende de:** E50-I01 · **Hallazgos relacionados:** AT-013 y AT-014 ya resueltos en E40-I01 (no los cierra esta iteración); cierra AT-067 y AT-076; AT-075 sigue abierto; abre AT-077 · **ADR relacionados:** ADR-017, ADR-036, ADR-053, ADR-061
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -28,24 +28,24 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 - —
 
 ## Tareas
-- [ ] Ampliar `src/data/certifications.ts` con categoría y descripción sobre el arreglo existente (ADR-053): sin crear un segundo arreglo ni duplicar nombres, fechas o URL. Los datos de `main:static/js/datos/certificaciones.datos.js` ya están ahí; solo falta lo que no existe.
-- [ ] Optimizar imágenes de insignias.
-- [ ] Validar enlaces de verificación (Credly, Oracle, OpenEDG). Incluye la URL de `oracle-agentic-ai-foundations` (`/pls/certview/…`) frente a las otras 5 de Oracle (`/ords/certview/…`), que Felipe debe probar y dejar con una sola ruta (AT-075). La URL de Credly de Anthropic ya termina en `/public_url` (cierre de E40).
-- [ ] Agregar el campo de categoría a los datos con la clasificación validada por Felipe (BL-07); sin esa validación, la iteración se detiene y pregunta (ADR-036).
-- [ ] Construir las franjas por categoría en zigzag con apilado en móvil (ADR-036).
-- [ ] Diferir la carga de insignias y declarar `width` y `height` para evitar CLS.
+- [x] Ampliar `src/data/certifications.ts` con categoría y descripción sobre el arreglo existente (ADR-053): sin crear un segundo arreglo ni duplicar nombres, fechas o URL. Los datos de `main:static/js/datos/certificaciones.datos.js` ya están ahí; solo falta lo que no existe.
+- [x] Optimizar imágenes de insignias.
+- [x] Validar enlaces de verificación (Credly, Oracle, OpenEDG). Incluye la URL de `oracle-agentic-ai-foundations` (`/pls/certview/…`) frente a las otras 5 de Oracle (`/ords/certview/…`), que Felipe debe probar y dejar con una sola ruta (AT-075). La URL de Credly de Anthropic ya termina en `/public_url` (cierre de E40).
+- [x] Agregar el campo de categoría a los datos con la clasificación validada por Felipe (BL-07); sin esa validación, la iteración se detiene y pregunta (ADR-036).
+- [x] Construir las franjas por categoría en zigzag con apilado en móvil (ADR-036).
+- [x] Diferir la carga de insignias y declarar `width` y `height` para evitar CLS.
 
 ## Archivos previstos (crear / modificar)
 - Crear: componentes de certificaciones.
 - Modificar: `src/data/certifications.ts` (categoría y descripción), `src/pages/es/educacion.astro` y `src/pages/en/education.astro` (agregar las franjas tras la formación).
 
 ## Criterios de aceptación (verificables)
-- [ ] Las 11 credenciales de `src/data/certifications.ts` presentes con enlace de verificación.
-- [ ] El diálogo es operable con teclado.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
-- [ ] Las certificaciones se muestran agrupadas por categoría en franjas que alternan su orientación y se apilan en móvil (ADR-036).
-- [ ] Las 11 credenciales tienen categoría y ninguna se eliminó.
-- [ ] CLS de la página dentro de los umbrales de ADR-015.
+- [x] Las 11 credenciales de `src/data/certifications.ts` presentes con enlace de verificación.
+- [x] El diálogo es operable con teclado.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Las certificaciones se muestran agrupadas por categoría en franjas que alternan su orientación y se apilan en móvil (ADR-036).
+- [x] Las 11 credenciales tienen categoría y ninguna se eliminó.
+- [x] CLS de la página dentro de los umbrales de ADR-015.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -62,8 +62,16 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
   - **BL-06:** consentimiento de uso de nombres y fotos de los 12 testimonios de Inicio, antes de E190 (AT-025).
   - **AT-074 (favicon en Safari e iOS)** sigue en E170-I02; se lista aquí solo para no perderlo.
 
+## Resultado (31-10-2026, ADR-061)
+- Clasificación validada por Felipe: IA (5), Cloud (3), Desarrollo y datos (3). Franjas en zigzag, fondo `band` / `bg`.
+- Detalle en `<dialog>` nativo con foco atrapado, Escape y retorno del foco; sin JavaScript se ve en la franja.
+- Sin vencimientos (cierra AT-067). Bloque «Instructor REUF» y cierre migrados (cierra AT-076).
+- Insignias de `main:static/img/logos/` en `src/assets/badges/` (9); Anthropic y Oracle Agentic usan la del emisor como marcador (AT-077).
+- URL de Oracle sin cambios (AT-075 abierto). Descripciones `en-US` y las 2 nuevas en español, por validar.
+- Verificación: `pnpm build`, `check`, `lint`, `format:check` ok; `pnpm verify:seo` 153 de 153; Chrome a 375 y 1.280 px, claro y oscuro, es y en, teclado, diálogo y sin JavaScript.
+
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

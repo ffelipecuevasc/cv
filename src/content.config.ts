@@ -204,6 +204,33 @@ const educationPage = defineCollection({
       technical: localized(),
       recognition: localized(),
     }),
+    // Certificaciones (E50-I02, ADR-061): encabezado, franjas por categoría y diálogo de detalle.
+    certifications: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      stripeKicker: localized(),
+      categories: z.object({ ai: localized(), cloud: localized(), 'dev-data': localized() }),
+      issued: localized(),
+      skills: localized(),
+      verify: localized(),
+      details: localized(),
+      close: localized(),
+      newTab: localized(),
+    }),
+    // Bloque «Instructor REUF» y cierre del sitio antiguo (AT-076). `{modules}` se reemplaza por
+    // la cifra de módulos REUF de src/content/home/stats.json, para que no se desfase.
+    reuf: z.object({
+      title: localized(),
+      paragraph: localized(),
+      highlights: localizedList(),
+    }),
+    closing: z.object({
+      kicker: localized(),
+      cv: localized(),
+      cvLabel: localized(),
+      contact: localized(),
+    }),
   }),
 });
 

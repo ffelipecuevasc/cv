@@ -9,8 +9,8 @@
       "en": "Education & Certifications"
     },
     "lead": {
-      "es": "Acá te dejo el resumen de mi educación universitaria, diplomados y certificaciones profesionales en empresas como Oracle y Amazon.",
-      "en": "Here is a summary of my university education, diplomas and professional certifications from companies like Oracle and Amazon."
+      "es": "Acá te dejo el resumen de mi educación universitaria, diplomados y certificaciones profesionales de Oracle, AWS, Python Institute y Anthropic.",
+      "en": "Here is a summary of my university education, diplomas and professional certifications from Oracle, AWS, Python Institute and Anthropic."
     }
   },
   "formation": {
@@ -28,9 +28,109 @@
     }
   },
   "categories": {
-    "university": { "es": "Universitaria", "en": "University" },
-    "diploma": { "es": "Diplomado", "en": "Diploma" },
-    "technical": { "es": "Técnica", "en": "Technical" },
-    "recognition": { "es": "Reconocimiento", "en": "Recognition" }
+    "university": {
+      "es": "Universitaria",
+      "en": "University"
+    },
+    "diploma": {
+      "es": "Diplomado",
+      "en": "Diploma"
+    },
+    "technical": {
+      "es": "Técnica",
+      "en": "Technical"
+    },
+    "recognition": {
+      "es": "Reconocimiento",
+      "en": "Recognition"
+    }
+  },
+  "certifications": {
+    "kicker": {
+      "es": "Validación Oficial",
+      "en": "Official validation"
+    },
+    "title": {
+      "es": "Certificaciones Profesionales",
+      "en": "Professional Certifications"
+    },
+    "lead": {
+      "es": "Mi evolución técnica respaldada por certificaciones oficiales y aprendizaje continuo.",
+      "en": "My technical growth, backed by official certifications and continuous learning."
+    },
+    "stripeKicker": {
+      "es": "Certificaciones",
+      "en": "Certifications"
+    },
+    "categories": {
+      "ai": {
+        "es": "Inteligencia artificial",
+        "en": "Artificial intelligence"
+      },
+      "cloud": {
+        "es": "Cloud",
+        "en": "Cloud"
+      },
+      "dev-data": {
+        "es": "Desarrollo y datos",
+        "en": "Development and data"
+      }
+    },
+    "issued": {
+      "es": "Emitida",
+      "en": "Issued"
+    },
+    "skills": {
+      "es": "Habilidades Validadas",
+      "en": "Validated skills"
+    },
+    "verify": {
+      "es": "Verificar Credencial",
+      "en": "Verify credential"
+    },
+    "details": {
+      "es": "Ver detalle",
+      "en": "View details"
+    },
+    "close": {
+      "es": "Cerrar",
+      "en": "Close"
+    },
+    "newTab": {
+      "es": "(se abre en una pestaña nueva)",
+      "en": "(opens in a new tab)"
+    }
+  },
+  "reuf": {
+    "title": {
+      "es": "Instructor REUF",
+      "en": "REUF instructor"
+    },
+    "paragraph": {
+      "es": "Actualmente, soy instructor oficial registrado en el **REUF de SENCE Chile** con más de {modules} módulos aprobados para cursos relacionados a Inteligencia Artificial, Desarrollo de Aplicaciones Java, Desarrollo de Aplicaciones Python, Ingeniería de Datos IA, Administración de Bases de Datos, Arquitectura de Tecnología en la Nube y mucho más.",
+      "en": "I am currently an official instructor registered in the **REUF of SENCE Chile**, with more than {modules} approved modules for courses in Artificial Intelligence, Java Application Development, Python Application Development, AI Data Engineering, Database Administration, Cloud Technology Architecture and much more."
+    },
+    "highlights": {
+      "es": ["10+ Años de Experiencia", "5+ Bootcamps de Talento Digital"],
+      "en": ["10+ years of experience", "5+ Talento Digital bootcamps"]
+    }
+  },
+  "closing": {
+    "kicker": {
+      "es": "¿Interesado en mi CV completo?",
+      "en": "Interested in my full CV?"
+    },
+    "cv": {
+      "es": "Descargar CV",
+      "en": "Download CV"
+    },
+    "cvLabel": {
+      "es": "Descargar CV (PDF)",
+      "en": "Download CV (PDF, Spanish)"
+    },
+    "contact": {
+      "es": "Envíame un mensaje",
+      "en": "Send me a message"
+    }
   }
 }

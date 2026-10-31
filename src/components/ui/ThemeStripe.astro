@@ -14,8 +14,10 @@ interface Props {
   id: string;
   reverse?: boolean;
   tone?: 'band' | 'bg';
+  /** Nivel del titular (ADR-005): 3 si la franja vive bajo un <h2> de sección. */
+  level?: 2 | 3;
 }
-const { kicker, title, lead, id, reverse = false, tone = 'band' } = Astro.props;
+const { kicker, title, lead, id, reverse = false, tone = 'band', level = 2 } = Astro.props;
 ---
 
 <section
@@ -25,7 +27,7 @@ const { kicker, title, lead, id, reverse = false, tone = 'band' } = Astro.props;
 >
   <Container class="stripe-grid">
     <div class="stripe-title">
-      <SectionHeader kicker={kicker} title={title} lead={lead} id={`${id}-title`} />
+      <SectionHeader kicker={kicker} title={title} lead={lead} level={level} id={`${id}-title`} />
     </div>
     <div class="stripe-content">
       <slot />

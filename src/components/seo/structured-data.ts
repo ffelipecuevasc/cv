@@ -13,7 +13,7 @@ import { socialLinks } from '../layout/social-links';
 import { langCodes, type Lang } from '../../i18n/lang';
 
 /** Emisor de cada credencial. Si se agrega un emisor a los datos, TypeScript exige sumarlo aquí. */
-const issuerOrganizations: Record<CertificationIssuer, { name: string; url: string }> = {
+export const issuerOrganizations: Record<CertificationIssuer, { name: string; url: string }> = {
   oracle: { name: 'Oracle', url: 'https://www.oracle.com' },
   aws: { name: 'Amazon Web Services', url: 'https://aws.amazon.com' },
   'python-institute': { name: 'Python Institute', url: 'https://pythoninstitute.org' },
@@ -104,6 +104,20 @@ export const buildPerson = (context: StructuredDataContext, content: PersonConte
     hasCredential: buildCredentials(),
   };
 };
+
+/**
+ * Person de Educación (E50-I02): misma entidad que la portada (mismo @id), con las credenciales
+ * derivadas de los datos. `url` es la portada del idioma, como en el Person de Inicio.
+ */
+export const buildEducationPerson = (site: URL, homePath: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': entityIds(site).person,
+  name: 'Felipe Cuevas',
+  url: absolute(site, homePath),
+  alumniOf: [university(inacap), university(iplacex), university('Universidad de Chile')],
+  hasCredential: buildCredentials(),
+});
 
 export const buildWebSite = (context: StructuredDataContext) => {
   const { lang, site, homePath } = context;
