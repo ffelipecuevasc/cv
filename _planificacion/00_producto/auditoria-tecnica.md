@@ -697,7 +697,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** comprobarlo en Safari y en iOS durante E170-I02 o E190-I01 y, si falta, agregar un PNG de 180 × 180 px (`apple-touch-icon`) y un `.ico`, derivados del mismo ícono. Requiere una decisión de Felipe sobre el trazo (el favicon es de trazo grueso, el logotipo ya es fino; ADR-057).
 
 ### AT-075 · La URL de verificación de la última certificación de Oracle usa otra ruta que las demás
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E50-I02 (cuando Felipe la pruebe)
+- **Severidad:** Baja · **Estado:** Resuelto (31-10-2026): validado por Felipe, sin cambios; las dos rutas, `/pls/certview/…` y `/ords/certview/…`, abren la credencial y no se tocó ninguna URL · **Resuelve:** cierre de E50 (`99_bitacora/2026-10-31_E50-cierre.md`)
 - **Evidencia (cierre de E40, 31-10-2026):** en `src/data/certifications.ts`, las 5 certificaciones de Oracle anteriores llevan la ruta `https://catalog-education.oracle.com/ords/certview/sharebadge?id=…`, y `oracle-agentic-ai-foundations` (agregada el 30-10-2026) lleva `https://catalog-education.oracle.com/pls/certview/sharebadge?id=…`. Las dos rutas pueden ser válidas; no se pudo comprobar (el entorno no tiene red). En el cierre de E40, Felipe pidió no tocar ninguna URL de Oracle.
 - **Impacto:** si una ruta no abre la credencial, fallan el `url` de ese `hasCredential` en el JSON-LD y el enlace de verificación que mostrará la página de Educación.
 - **Recomendación:** Felipe abre las dos formas con una credencial real y se deja una sola ruta en los datos, junto con la tarea de validar enlaces de E50-I02 (Credly, Oracle y OpenEDG).
@@ -709,7 +709,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** decidir en E50-I02: descartar ambos bloques con un ADR (el CV está en el pie y el contacto en el menú; REUF queda en E90), o migrar el (1) con sus cifras tomadas de la misma fuente que la portada.
 
 ### AT-077 · Faltan las insignias propias de dos certificaciones
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** Felipe (entrega de imágenes)
+- **Severidad:** Baja · **Estado:** Resuelto (31-10-2026): Felipe dejó los dos PNG en `src/assets/badges/` (`claude_developer_foundations.png` y `oracle_agentic_ai_foundations.png`) y el campo `badge` de cada credencial apunta a su archivo; el build y la página los muestran · **Resuelve:** cierre de E50 (`99_bitacora/2026-10-31_E50-cierre.md`)
 - **Evidencia (E50-I02, 31-10-2026):** `main:static/img/logos/` trae 9 insignias por certificación, pero no las de «Claude Certified Developer – Foundations» (Anthropic) ni «Agentic AI Certified Foundations Associate» (Oracle). En `src/data/certifications.ts` llevan `badge: null` y la página muestra como marcador la insignia del emisor (`src/assets/insignias/`).
 - **Impacto:** esas dos credenciales se ven con el logo del emisor, no con su insignia oficial.
 - **Recomendación:** Felipe entrega los PNG (Credly / Oracle), se guardan en `src/assets/badges/` y se cambia `badge` en los datos; nada más cambia.

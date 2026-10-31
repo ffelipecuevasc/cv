@@ -323,7 +323,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
   - Las 5 cifras: certificaciones (derivada de `src/data/certifications.ts`, ADR-053), años como relator REUF, módulos REUF, años como docente y alumnos.
   - Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), cifra a 12 px bajo él y línea de contexto de 14 px en `text-soft` a 10 px de la cifra. Texto alineado a la izquierda. El signo "+" va antepuesto, en `primary` en claro y `gold` en oscuro (4.3).
   - Bajo 480 px el `dt` usa 12 px y 0,1 em de interletraje.
-- **Franja temática (Educación, ADR-036 y E20-I05):** variante de la banda con dos zonas: título de la categoría (encabezado alineado a la izquierda) y contenido (insignias pequeñas). Alterna la orientación en zigzag sin cambiar el orden del HTML. Las franjas alternan fondo `band` y fondo `bg` para que el zigzag se lea. Bajo 1.024 px se apila en una columna, título primero.
+- **Franja temática (Educación, ADR-036 y E20-I05):** variante de la banda con dos zonas: título de la categoría (encabezado alineado a la izquierda) y contenido (insignias pequeñas). Alterna la orientación en zigzag sin cambiar el orden del HTML. La franja espejo (`mirror` en `ThemeStripe`, `align="end-lg"` en `SectionHeader`) pone la zona del título a la derecha y alinea a la derecha el rótulo, el titular y la barra, con la barra después del rótulo. Las franjas alternan fondo `band` y fondo `bg` para que el zigzag se lea. Bajo 1.024 px se apila en una columna, título primero, y todo se alinea a la izquierda con la barra antes del rótulo.
 
 ### 7.9 Pie
 - **Fondo:** `footer` (`orient-50` en claro, `orient-950` en oscuro), con una línea superior de 2 px con degradado transparente → `gold` (20 %) → `vibrant` (80 %) → transparente.
@@ -412,10 +412,10 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 |---|---|---|
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
 | Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas) |
-| Zigzag | Franjas que alternan la orientación título / contenido | Educación |
+| Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones) |
 | Grilla simétrica de tarjetas | Encabezado centrado, tarjetas iguales y controles centrados | Sin asignar (los testimonios de Inicio usan el carril) |
 | Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
-| Mosaico | Retícula de piezas de tamaños distintos | Sin asignar |
+| Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación) |
 | Línea de tiempo | Hitos en secuencia vertical | Sin asignar |
 | **Reservados** (prototipo): pestañas verticales de trayectoria, lista de servicios a dos columnas con regla superior, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
 
@@ -428,8 +428,23 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 Ritmo de fondos: claro `white` → `orient-50` → `stone` → `orient-50`; oscuro `orient-950` → banda → `orient-925` → `orient-950`.
 
 ### 11.4 Educación
-- Formación académica y diplomados con encabezado alineado a la izquierda; el patrón detallado se valida al iniciar E50-I01.
-- **Certificaciones:** una **franja temática** (7.8) por categoría, de ancho completo y llamativa, con el título de la categoría y las insignias en tamaño pequeño. Alternan zigzag (título a la izquierda e insignias a la derecha; luego al revés) y fondo `band` / `bg`. En móvil, una columna. La clasificación por categoría está por validar (BL-07).
+La página abre con el `<h1>` y su bajada, sigue con la formación y las certificaciones, y cierra con el bloque «Instructor REUF» y un llamado final con «Descargar CV» y «Envíame un mensaje» (ADR-061).
+
+**Formación académica y diplomados** (encabezado alineado a la izquierda, ADR-060):
+- Patrón **mosaico por peso** (11.2), sin conmutador, filtros ni JavaScript. Orden fijo: el título universitario a todo el ancho; los diplomados y el técnico en tarjetas estándar; las 3 distinciones en tarjetas compactas aparte.
+- Un ícono por categoría (universitaria, diplomado, técnica y reconocimiento), no uno por entrada.
+- El diploma de la Universidad de Chile se publica como «Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral».
+
+**Certificaciones** (ADR-036, ADR-061 y ADR-062): tres franjas temáticas (7.8) bajo el rótulo «Certificaciones», en este orden:
+1. **Inteligencia artificial** (5): Claude Certified Developer – Foundations, Oracle AI Associate, Oracle AI Professional, AWS AI Practitioner y Agentic AI Certified Foundations Associate.
+2. **Tecnología Cloud** (`en-US`: Cloud Technology) (2): AWS Cloud Practitioner y Oracle OCI Associate. Es la franja espejo (7.8).
+3. **Desarrollo y datos** (4): AWS Developer Associate, Python Institute PCEP, Oracle Developer Professional y Oracle Data Science Professional.
+
+- El orden dentro de cada franja lo fija el campo `position` de `src/data/certifications.ts`, que es la única lista de credenciales (11). La cifra del hero y el JSON-LD salen de esa lista (ADR-053) y no dependen de la franja.
+- Fondos alternos `band` / `bg` y zigzag; en móvil, una columna.
+- Cada insignia abre su detalle en un `<dialog>` nativo, con foco atrapado, Escape que lo cierra y retorno del foco al botón. Sin JavaScript, los 11 detalles se ven en la propia franja y los botones no aparecen.
+- Las insignias van en tamaño pequeño, con carga diferida y ancho y alto declarados.
+- No se muestran vencimientos.
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.

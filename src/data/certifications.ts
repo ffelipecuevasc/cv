@@ -223,7 +223,7 @@ export const certifications: readonly Certification[] = [
     url: 'https://www.credly.com/badges/4611d265-46a0-47e7-a03d-14b026828e2d/public_url',
     category: 'ai',
     position: 1,
-    badge: null,
+    badge: 'claude_developer_foundations',
     skills: {
       es: 'Claude API, Prompt Engineering, Uso de Herramientas, Agentes',
       en: 'Claude API, Prompt Engineering, Tool Use, Agents',
@@ -243,7 +243,7 @@ export const certifications: readonly Certification[] = [
     url: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=CB0A36191B4730C4946D526E49D1F327469DE1372376326DD6823DBA36E29D50',
     category: 'ai',
     position: 5,
-    badge: null,
+    badge: 'oracle_agentic_ai_foundations',
     skills: {
       es: 'IA Agéntica, Agentes, Orquestación, OCI',
       en: 'Agentic AI, Agents, Orchestration, OCI',

@@ -33,3 +33,6 @@ E30 completa.
 
 ## Riesgos
 - Volumen de datos (~468 palabras en `certificaciones.datos.js` y `formacion.datos.js`).
+
+## Nota de cierre
+Cierre documental del 31-10-2026 (`99_bitacora/2026-10-31_E50-cierre.md`), sin iteración nueva: Felipe validó el inglés de toda la página (incluye «Cloud Technology» y las descripciones de las 2 credenciales nuevas) y comprobó que las URL de Oracle `/pls/` y `/ords/` abren las dos (AT-075, sin cambios); las insignias de Claude y de Oracle Agentic AI quedaron en `src/assets/badges/` (AT-077). Siguen vigentes BL-06 (consentimiento de los testimonios) y AT-074 (favicon, E170-I02).
