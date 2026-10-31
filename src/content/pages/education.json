@@ -1,0 +1,15 @@
+{
+  "route": "education",
+  "title": {
+    "es": "Educación y Certificaciones | Felipe Cuevas",
+    "en": "Education and Certifications | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Ingeniería en Informática, cuatro diplomados en formación laboral y diseño educativo, y certificaciones de Oracle, AWS, Python Institute y Anthropic.",
+    "en": "Computer Engineering degree, four diplomas in workforce training and instructional design, and certifications from Oracle, AWS, Python Institute and Anthropic."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

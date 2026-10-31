@@ -1,0 +1,22 @@
+{
+  "order": 3,
+  "weight": "standard",
+  "category": "diploma",
+  "title": {
+    "es": "Diplomado en Diseño Instruccional",
+    "en": "Diploma in Instructional Design"
+  },
+  "institution": "Instituto Profesional IPLACEX",
+  "startYear": 2024,
+  "endYear": 2025,
+  "duration": { "es": "90 horas", "en": "90 hours" },
+  "status": { "es": "Titulado", "en": "Completed" },
+  "description": {
+    "es": "Diseño de experiencias de aprendizaje: definición de objetivos, secuenciación de contenidos y construcción de material didáctico coherente con el perfil de egreso.",
+    "en": "Design of learning experiences: defining objectives, sequencing content and building teaching materials aligned with the graduate profile."
+  },
+  "tags": {
+    "es": ["Diseño Instruccional", "Material Didáctico"],
+    "en": ["Instructional Design", "Teaching Materials"]
+  }
+}

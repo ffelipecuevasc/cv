@@ -1,5 +1,5 @@
 # E50 · Página Educación (educacion.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
 
 ## Objetivo
 Reconstruir la página de formación académica, diplomados y certificaciones en ambos idiomas. Las certificaciones se agrupan por categoría en franjas temáticas en zigzag (ADR-036).
@@ -20,7 +20,7 @@ E30 completa.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E50-I01](E50-I01-formacion.md) | Formación académica y diplomados | P1 | M | E30-I06 | [ ] Pendiente |
+| [E50-I01](E50-I01-formacion.md) | Formación académica y diplomados | P1 | M | E30-I06 | [x] Terminada |
 | [E50-I02](E50-I02-certificaciones.md) | Gabinete de certificaciones y JSON-LD | P1 | M | E50-I01 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

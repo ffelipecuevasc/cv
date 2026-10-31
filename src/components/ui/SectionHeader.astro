@@ -11,12 +11,12 @@ interface Props {
   title: string;
   lead?: string;
   variant?: 'left' | 'center' | 'band';
-  /** Nivel del titular, para no saltar niveles (ADR-005). */
-  level?: 2 | 3;
+  /** Nivel del titular, para no saltar niveles (ADR-005). El 1 es el <h1> de la página. */
+  level?: 1 | 2 | 3;
   id?: string;
 }
 const { kicker, title, lead, variant = 'left', level = 2, id } = Astro.props;
-const Heading = `h${level}` as 'h2' | 'h3';
+const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
 ---
 
 <header class:list={['section-header', variant]}>

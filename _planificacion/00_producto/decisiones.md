@@ -555,6 +555,24 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-073. `pnpm verify:seo` comprueba el `<link>` y que el archivo exista en `dist/`. Un respaldo para navegadores sin soporte de SVG queda como AT-074.
 - **Origen:** decisión de Felipe, 30-10-2026 (E40-I04). **Estado:** Aceptada.
 
+## ADR-060 · Educación: composición de la formación académica
+- **Contexto:** E50-I01. `DESIGN.md` 11.4 dejaba el patrón de la formación «por validar al iniciar E50-I01». El sitio antiguo mostraba la formación en un mosaico («bento») con filtros por categoría, un conmutador de orden (jerarquía o cronología) y tres pesos de tarjeta, todo dibujado con JavaScript.
+- **Decisión (de Felipe, 31-10-2026):**
+  - Mosaico **sin conmutador ni filtros**, con **orden fijo por peso** (`major`, `standard`, `minor`; dentro de cada peso, el más reciente primero) y **sin JavaScript**: se genera en el build y el contenido es legible sin scripts.
+  - Las distinciones (3) son **tarjetas chicas**, al final del mismo mosaico.
+  - El diploma de la Universidad de Chile se titula «Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral» (el sitio antiguo mostraba «Diplomado en Andragogía» en el mosaico y «Diploma en Estrategias…» en `<noscript>`).
+- **Decisión (de implementación):**
+  - Datos en `src/content/education/entries/*.json` (9), con el esquema `educationEntries` (`localized()`, paridad obligatoria, AT-026); instituciones y años son nombres propios y cifras. Los textos de la página, en `page.json`; el SEO, en `src/content/pages/education.json`.
+  - Una sola lista (`<ul>`) con 9 tarjetas bajo un `<h2>`; cada tarjeta lleva su `<h3>`. Una columna bajo 768 px y 12 columnas desde 768 px: `major` a todo el ancho; `standard` de 2 por fila (3 desde 1.024 px) y `minor` igual. Las tarjetas que sobran de una fila completa van primero y se reparten el ancho (5 estándar en 3 por fila: 6, 6, 4, 4, 4), para que ninguna fila quede coja.
+  - Reutiliza `Card` (con el tamaño nuevo `compact` para las distinciones) y `Tag`. `SectionHeader` acepta `level={1}` para el `<h1>` de la página.
+  - **Íconos por categoría**, no por entrada (universitaria, diplomado, técnica, reconocimiento): se dibujaron 4 íconos de línea propios (ADR-043) y se dejó de usar un ícono distinto por formación del sitio antiguo.
+  - Sin animación de entrada ni `data-reveal` (`DESIGN.md` 8).
+  - Fondo del encabezado `bg` y de la formación `bg-alt`, para que las tarjetas (`surface`) se distingan.
+  - La imagen Open Graph es la misma de la portada (nombre e insignias, sin frases traducibles; AT-069).
+  - `pnpm verify:seo` comprueba ahora las dos páginas de Educación: metadatos, `hreflang` recíprocos, un solo `<h1>` y `<main>`, encabezados sin saltos, 9 tarjetas, ausencia de controles y de scripts, y mismo mosaico en ambos idiomas.
+- **Consecuencias:** `DESIGN.md` 11.4 debe reflejar el patrón (bloque en la bitácora de E50-I01; Felipe lo edita, ADR-033). E50-I02 agrega las franjas de certificaciones debajo de la formación. Los textos `en-US` los valida Felipe (ADR-017). El bloque «Instructor REUF» y el cierre con CV del sitio antiguo quedan en AT-076.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I01). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

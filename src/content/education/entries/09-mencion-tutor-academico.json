@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "weight": "minor",
+  "category": "recognition",
+  "title": {
+    "es": "Alumno Tutor Académico",
+    "en": "Academic Peer Tutor"
+  },
+  "institution": "Universidad Tecnológica de Chile INACAP",
+  "startYear": 2007,
+  "endYear": 2011,
+  "status": { "es": "Distinción", "en": "Distinction" }
+}

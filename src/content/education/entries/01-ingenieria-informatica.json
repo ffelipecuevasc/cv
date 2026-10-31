@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "weight": "major",
+  "category": "university",
+  "title": {
+    "es": "Ingeniería en Informática",
+    "en": "Computer Engineering"
+  },
+  "institution": "Universidad Tecnológica de Chile INACAP",
+  "startYear": 2007,
+  "endYear": 2011,
+  "status": { "es": "Titulado", "en": "Graduated" },
+  "description": {
+    "es": "Formación profesional en ingeniería informática con especialización en desarrollo de software, arquitectura de sistemas y administración de bases de datos.",
+    "en": "Professional training in computer engineering, specializing in software development, systems architecture and database administration."
+  },
+  "achievements": {
+    "es": [
+      "Titulado con Honores — Mejor Ingeniero",
+      "Tesis: Sistema de Rastreo GPS de Flota",
+      "Alumno Tutor Académico"
+    ],
+    "en": [
+      "Graduated with Honors — Best Engineer",
+      "Thesis: Fleet GPS Tracking System",
+      "Academic Peer Tutor"
+    ]
+  },
+  "tags": {
+    "es": ["Desarrollo de Software", "Bases de Datos", "Arquitectura de Sistemas"],
+    "en": ["Software Development", "Databases", "Systems Architecture"]
+  }
+}

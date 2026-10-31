@@ -1,7 +1,7 @@
 # E50-I02 · Gabinete de certificaciones y JSON-LD
 - **Estado:** [ ] Pendiente
 - **Épica:** E50 · Página Educación (educacion.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E50-I01 · **Hallazgos que cierra:** AT-013, AT-014 · **ADR relacionados:** ADR-017, ADR-036
+- **Depende de:** E50-I01 · **Hallazgos relacionados:** AT-013 y AT-014 ya resueltos en E40-I01 (no los cierra esta iteración); AT-067 y AT-075 pendientes · **ADR relacionados:** ADR-017, ADR-036, ADR-053
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -13,7 +13,8 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
 - ADR-036: cada franja muestra el título de la categoría y las insignias en tamaño pequeño; las franjas alternan la orientación (título a la izquierda e insignias a la derecha, luego al revés) y en móvil se apilan en una columna.
-- Clasificación propuesta, **por validar por Felipe** (BL-07): Inteligencia artificial (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional); Cloud (AWS Cloud Practitioner, AWS Developer Associate, Oracle OCI Associate); Desarrollo y datos (Python Institute PCEP, Oracle Developer Professional, Oracle Data Science Professional).
+- Las credenciales son **11**, no nueve: el 30-10-2026 se sumaron «Claude Certified Developer – Foundations» (Anthropic) y «Agentic AI Certified Foundations Associate» (Oracle) en `src/data/certifications.ts` (ADR-053, ADR-054).
+- Clasificación propuesta, **por validar por Felipe** (BL-07): Inteligencia artificial (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional); Cloud (AWS Cloud Practitioner, AWS Developer Associate, Oracle OCI Associate); Desarrollo y datos (Python Institute PCEP, Oracle Developer Professional, Oracle Data Science Professional). **Las dos credenciales nuevas no están clasificadas:** se proponen en Inteligencia artificial (Claude Certified Developer – Foundations y Agentic AI Certified Foundations Associate), también por validar.
 
 ## Alcance
 - Interacción accesible (foco atrapado y Escape si es un diálogo).
@@ -27,7 +28,7 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 - —
 
 ## Tareas
-- [ ] Migrar datos y lógica.
+- [ ] Ampliar `src/data/certifications.ts` con categoría y descripción sobre el arreglo existente (ADR-053): sin crear un segundo arreglo ni duplicar nombres, fechas o URL. Los datos de `main:static/js/datos/certificaciones.datos.js` ya están ahí; solo falta lo que no existe.
 - [ ] Optimizar imágenes de insignias.
 - [ ] Validar enlaces de verificación (Credly, Oracle, OpenEDG). Incluye la URL de `oracle-agentic-ai-foundations` (`/pls/certview/…`) frente a las otras 5 de Oracle (`/ords/certview/…`), que Felipe debe probar y dejar con una sola ruta (AT-075). La URL de Credly de Anthropic ya termina en `/public_url` (cierre de E40).
 - [ ] Agregar el campo de categoría a los datos con la clasificación validada por Felipe (BL-07); sin esa validación, la iteración se detiene y pregunta (ADR-036).
@@ -36,13 +37,14 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 
 ## Archivos previstos (crear / modificar)
 - Crear: componentes de certificaciones.
+- Modificar: `src/data/certifications.ts` (categoría y descripción), `src/pages/es/educacion.astro` y `src/pages/en/education.astro` (agregar las franjas tras la formación).
 
 ## Criterios de aceptación (verificables)
-- [ ] Todas las credenciales del sitio actual presentes con enlace de verificación.
+- [ ] Las 11 credenciales de `src/data/certifications.ts` presentes con enlace de verificación.
 - [ ] El diálogo es operable con teclado.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 - [ ] Las certificaciones se muestran agrupadas por categoría en franjas que alternan su orientación y se apilan en móvil (ADR-036).
-- [ ] Las nueve credenciales del sitio actual tienen categoría y ninguna se eliminó.
+- [ ] Las 11 credenciales tienen categoría y ninguna se eliminó.
 - [ ] CLS de la página dentro de los umbrales de ADR-015.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
@@ -52,6 +54,8 @@ Reconstruir las certificaciones agrupadas por categoría en franjas temáticas d
 - Validador de schema.org.
 
 ## Riesgos y notas
+- **Pendiente heredado de E50-I01 (AT-076):** el `<main>` antiguo de Educación traía un bloque «Instructor REUF» (más de 150 módulos, 10+ años, 5+ bootcamps) y un cierre con «Descargar CV» y «Envíame un mensaje». No entraron en E50-I01; hay que decidir con Felipe si se migran, se reubican (Instructor REUF ya tiene su página) o se descartan con un ADR.
+- La `description` de `src/content/pages/education.json` ya nombra los cuatro emisores y no lleva ninguna cifra de certificaciones (ADR-053).
 - **Pendientes heredados del cierre de E40 (31-10-2026):**
   - **AT-067:** la cifra de certificaciones no filtra por vencimiento; al ampliar los datos hay que decidir con Felipe si excluye las vencidas (la primera vence el 30-10-2027).
   - **AT-075:** URL de Oracle `/pls/` frente a `/ords/`, pendiente de que Felipe la pruebe.

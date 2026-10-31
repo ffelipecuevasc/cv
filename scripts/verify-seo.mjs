@@ -269,6 +269,85 @@ for (const [lang, info] of Object.entries(LANGS)) {
   check(existsSync(join(DIST, new URL(person.image).pathname)), 'Person image existe en dist/');
 }
 
+// --- Educación (E50-I01): metadatos, estructura y paridad de la formación ---
+const EDUCATION = { es: 'es/educacion', en: 'en/education' };
+const education = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = EDUCATION[lang];
+  const other = EDUCATION[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${EDUCATION.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  const ogImage = meta('og:image');
+  check(
+    Boolean(ogImage) &&
+      ogImage === meta('twitter:image') &&
+      existsSync(join(DIST, new URL(ogImage).pathname)),
+    'og:image absoluta, igual a twitter:image y presente en dist/',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  check(/<h1[\s>]/.test(mainHtml), 'el <h1> está dentro de <main>');
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `encabezados sin saltos (${levels.join(',')})`,
+  );
+  check(
+    (mainHtml.match(/<h3[\s>]/g) ?? []).length === 9,
+    'la formación tiene 9 tarjetas (6 formaciones y 3 distinciones)',
+  );
+  check(
+    (mainHtml.match(/<button|<input|<select/g) ?? []).length === 0,
+    'sin controles: no hay filtros ni conmutador (decisión de Felipe, ADR-060)',
+  );
+  check(!/<script[\s>]/.test(mainHtml), 'sin JavaScript dentro de <main>');
+  education[lang] = { cells: [...mainHtml.matchAll(/class="cell ([^"]*)"/g)].map((m) => m[1]) };
+}
+check(same(education.es?.cells, education.en?.cells), 'mismo mosaico en /es/ y /en/');
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

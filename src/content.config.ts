@@ -155,9 +155,63 @@ const personSeo = defineCollection({
   }),
 });
 
+/*
+ * Formación académica y diplomados de Educación (E50-I01, ADR-060). Un archivo por formación
+ * en src/content/education/entries/ y los textos de la página en page.json.
+ * - `order` fija el orden de lectura (peso `major`, luego `standard` y `minor`, y dentro de cada
+ *   peso el más reciente primero): la página no tiene filtros ni conmutador de orden.
+ * - `weight` decide el tamaño de la tarjeta en el mosaico; `category`, su ícono y su rótulo.
+ * - Instituciones y años son nombres propios y cifras: no se traducen (ADR-025). Todo lo demás
+ *   lleva `localized()`. Los textos `en` los redacta el agente y Felipe los valida (ADR-017).
+ */
+const educationEntries = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/education/entries' }),
+  schema: z
+    .object({
+      order: z.number().int().positive(),
+      weight: z.enum(['major', 'standard', 'minor']),
+      category: z.enum(['university', 'diploma', 'technical', 'recognition']),
+      title: localized(),
+      institution: z.string().trim().min(1),
+      startYear: z.number().int().optional(),
+      endYear: z.number().int(),
+      /** Horas del programa, si corresponde ("120 horas cronológicas"). */
+      duration: localized().optional(),
+      status: localized(),
+      description: localized().optional(),
+      achievements: localizedList().optional(),
+      tags: localizedList().optional(),
+    })
+    .refine((entry) => entry.startYear === undefined || entry.startYear <= entry.endYear, {
+      message: 'startYear no puede ser posterior a endYear',
+    }),
+});
+
+const educationPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/education' }),
+  schema: z.object({
+    header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+    formation: z.object({
+      kicker: localized(),
+      title: localized(),
+      /** Nombre accesible de la lista de formaciones y distinciones. */
+      listLabel: localized(),
+    }),
+    /** Rótulo de cada categoría, en la tarjeta. */
+    categories: z.object({
+      university: localized(),
+      diploma: localized(),
+      technical: localized(),
+      recognition: localized(),
+    }),
+  }),
+});
+
 export const collections = {
   pages,
   personSeo,
+  educationEntries,
+  educationPage,
   heroProfiles,
   heroShared,
   homeStats,

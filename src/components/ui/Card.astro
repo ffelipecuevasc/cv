@@ -5,12 +5,14 @@
  */
 interface Props {
   as?: 'article' | 'li' | 'div' | 'figure';
+  /** `compact` reduce el relleno y la línea superior para las piezas chicas de un mosaico. */
+  size?: 'base' | 'compact';
   class?: string;
 }
-const { as: Tag = 'article', class: className } = Astro.props;
+const { as: Tag = 'article', size = 'base', class: className } = Astro.props;
 ---
 
-<Tag class:list={['card', className]}>
+<Tag class:list={['card', { compact: size === 'compact' }, className]}>
   <slot />
 </Tag>
 
@@ -33,6 +35,12 @@ const { as: Tag = 'article', class: className } = Astro.props;
     inset-inline: 34px;
     height: 2px;
     background-image: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+  }
+  .compact {
+    padding: 28px 24px 22px;
+  }
+  .compact::before {
+    inset-inline: 24px;
   }
   .card:hover {
     translate: 0 -4px;

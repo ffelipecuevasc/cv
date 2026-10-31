@@ -1,0 +1,36 @@
+{
+  "header": {
+    "kicker": {
+      "es": "Estudios y credenciales",
+      "en": "Studies and credentials"
+    },
+    "title": {
+      "es": "Educación & Certificaciones",
+      "en": "Education & Certifications"
+    },
+    "lead": {
+      "es": "Acá te dejo el resumen de mi educación universitaria, diplomados y certificaciones profesionales en empresas como Oracle y Amazon.",
+      "en": "Here is a summary of my university education, diplomas and professional certifications from companies like Oracle and Amazon."
+    }
+  },
+  "formation": {
+    "kicker": {
+      "es": "Títulos y diplomados",
+      "en": "Degrees and diplomas"
+    },
+    "title": {
+      "es": "Formación Académica",
+      "en": "Academic Background"
+    },
+    "listLabel": {
+      "es": "Formación académica y distinciones",
+      "en": "Academic background and distinctions"
+    }
+  },
+  "categories": {
+    "university": { "es": "Universitaria", "en": "University" },
+    "diploma": { "es": "Diplomado", "en": "Diploma" },
+    "technical": { "es": "Técnica", "en": "Technical" },
+    "recognition": { "es": "Reconocimiento", "en": "Recognition" }
+  }
+}

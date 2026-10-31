@@ -1,0 +1,34 @@
+{
+  "order": 2,
+  "weight": "standard",
+  "category": "diploma",
+  "title": {
+    "es": "Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral",
+    "en": "Diploma in Methodological and Assessment Strategies for Workforce Training"
+  },
+  "institution": "Universidad de Chile",
+  "startYear": 2025,
+  "endYear": 2026,
+  "duration": { "es": "120 horas cronológicas", "en": "120 clock hours" },
+  "status": { "es": "Titulado", "en": "Completed" },
+  "description": {
+    "es": "Diplomado orientado a fortalecer las competencias teóricas, metodológicas y evaluativas de instructores enfocados en la formación para el trabajo.",
+    "en": "Diploma program aimed at strengthening the theoretical, methodological and assessment skills of instructors focused on workforce training."
+  },
+  "achievements": {
+    "es": [
+      "Liderazgo y comunicación en la formación para el trabajo",
+      "Diseño de estrategias metodológicas por perfil y contexto",
+      "Diseño de evaluaciones para medir el aprendizaje laboral"
+    ],
+    "en": [
+      "Leadership and communication in workforce training",
+      "Design of methodological strategies by learner profile and context",
+      "Design of assessments to measure workplace learning"
+    ]
+  },
+  "tags": {
+    "es": ["Formación Laboral", "Liderazgo", "Evaluación", "Empleabilidad"],
+    "en": ["Workforce Training", "Leadership", "Assessment", "Employability"]
+  }
+}

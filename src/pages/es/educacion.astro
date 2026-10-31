@@ -1,0 +1,20 @@
+---
+// Educación de /es/ (E50-I01: encabezado, formación académica y diplomados; las
+// certificaciones llegan en E50-I02). Título, descripción y texto alternativo de la imagen OG
+// vienen de src/content/pages/education.json.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EducationHeader from '../../components/education/EducationHeader.astro';
+import FormationSection from '../../components/education/FormationSection.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'education');
+if (!page) throw new Error('Falta src/content/pages/education.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
+---
+
+<BaseLayout title={title.es} description={description.es} route="education" ogImage={og}>
+  <EducationHeader />
+  <FormationSection />
+</BaseLayout>

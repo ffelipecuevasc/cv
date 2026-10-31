@@ -39,6 +39,26 @@ export const lineIcons = {
   alert: ['M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18', 'M12 7v6', 'M12 16.5v.5'],
   star: ['M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.9z'],
   mail: ['M3 6h18v12H3z', 'M3 7l9 6 9-6'],
+  // Educación (E50-I01): un ícono por categoría de formación.
+  'graduation-cap': [
+    'M2 9l10-5 10 5-10 5z',
+    'M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5',
+    'M22 9v6',
+  ],
+  certificate: [
+    'M4 4h16v12H4z',
+    'M8 8h8',
+    'M8 11h4',
+    'M16 11a2 2 0 1 0 0 4a2 2 0 1 0 0-4',
+    'M15 15v4.5l1-.7 1 .7V15',
+  ],
+  terminal: ['M4 5h16v14H4z', 'M8 10l3 2.5L8 15', 'M13 15h3'],
+  medal: [
+    'M12 9a5 5 0 1 0 0 10a5 5 0 1 0 0-10',
+    'M8 3l2.3 5.6',
+    'M16 3l-2.3 5.6',
+    'M10 14l1.5 1.5 2.5-3',
+  ],
 } as const satisfies Record<string, readonly string[]>;
 
 export const brandIcons = {

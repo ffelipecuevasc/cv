@@ -1,0 +1,22 @@
+{
+  "order": 4,
+  "weight": "standard",
+  "category": "diploma",
+  "title": {
+    "es": "Diplomado en Diseño Curricular",
+    "en": "Diploma in Curriculum Design"
+  },
+  "institution": "Instituto Profesional IPLACEX",
+  "startYear": 2024,
+  "endYear": 2025,
+  "duration": { "es": "90 horas", "en": "90 hours" },
+  "status": { "es": "Titulado", "en": "Completed" },
+  "description": {
+    "es": "Construcción y articulación de planes de estudio: perfiles de egreso, mapas curriculares y alineación entre competencias, contenidos y evaluación.",
+    "en": "Building and aligning study plans: graduate profiles, curriculum maps and alignment between competencies, content and assessment."
+  },
+  "tags": {
+    "es": ["Diseño Curricular", "Perfiles de Egreso"],
+    "en": ["Curriculum Design", "Graduate Profiles"]
+  }
+}
