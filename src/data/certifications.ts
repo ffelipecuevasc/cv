@@ -32,8 +32,13 @@ export interface Certification {
   expiresAt?: string;
   /** Enlace público de verificación. */
   url: string;
-  /** Franja de Educación en la que se muestra (ADR-061). */
+  /** Franja de Educación en la que se muestra (ADR-061, ADR-062). */
   category: CertificationCategory;
+  /**
+   * Lugar dentro de su franja (1 es el primero). Define solo el orden de la página: el orden de
+   * este arreglo no cambia, porque de él salen `hasCredential` y la cifra (ADR-053, ADR-062).
+   */
+  position: number;
   /**
    * Nombre del archivo de la insignia en src/assets/badges/, sin extensión. `null` si aún no
    * existe: la página usa la insignia del emisor como marcador (AT-077).
@@ -53,7 +58,8 @@ export const certifications: readonly Certification[] = [
     issuer: 'aws',
     issuedAt: '2026-04',
     url: 'https://www.credly.com/badges/356ec70b-b54a-47f3-9966-8ac8e1552913/public_url',
-    category: 'cloud',
+    category: 'dev-data',
+    position: 1,
     badge: 'aws_developer_associate',
     skills: {
       es: 'Desarrollo Cloud, Serverless, APIs, CI/CD',
@@ -71,6 +77,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2026-01',
     url: 'https://www.credly.com/badges/2d45672a-48b4-4013-808f-31c04072bb73/public_url',
     category: 'cloud',
+    position: 1,
     badge: 'aws_cloud_practitioner',
     skills: {
       es: 'Infraestructura Global, Seguridad, Arquitectura Cloud',
@@ -88,6 +95,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2026-01',
     url: 'https://www.credly.com/badges/c988f3a8-7022-43cb-9d65-9aa24e88f97f/public_url',
     category: 'ai',
+    position: 4,
     badge: 'aws_ai_practitioner',
     skills: {
       es: 'Machine Learning, GenAI, Servicios Cognitivos AWS',
@@ -105,6 +113,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-12',
     url: 'https://verify.openedg.org/?id=X8Wv.TU7j.416N',
     category: 'dev-data',
+    position: 2,
     badge: 'python_pcep',
     skills: {
       es: 'Sintaxis Core, Estructuras de Datos, POO',
@@ -122,6 +131,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-10',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=49DC655EC45500898B6310E36C9CF5ABC57B48F1BACA784ED3E296BDEFCC3F98',
     category: 'dev-data',
+    position: 3,
     badge: 'oracle_data_science_professional',
     skills: {
       es: 'Modelado Predictivo, OCI Data Science, MLOps',
@@ -139,6 +149,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-09',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=4D11E3EE49FE3FEA9B35687602B2C0DC19F0E7199C4AF982770081E4BDC783B5',
     category: 'dev-data',
+    position: 4,
     badge: 'oracle_developer_professional',
     skills: {
       es: 'Cloud Native, Microservicios, APIs RESTful',
@@ -156,6 +167,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-09',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=D2718C25F892B7E4971471C86FD8B46CB74494922FE11EA5F7CBAB9A064CB45F',
     category: 'ai',
+    position: 2,
     badge: 'oracle_ai_associate',
     skills: {
       es: 'Visión Computacional, NLP, Servicios AI OCI',
@@ -173,6 +185,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-08',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=6582C447AEECF465B74B30D01D884790D1DED49B9AE05C578BE6FC5F87FE6F81',
     category: 'ai',
+    position: 3,
     badge: 'oracle_ai_professional',
     skills: {
       es: 'IA Generativa, LLMs, Fine-Tuning, Prompt Engineering',
@@ -190,6 +203,7 @@ export const certifications: readonly Certification[] = [
     issuedAt: '2025-08',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=FF54D5ABED5E9CB3DC9911C38388286977EA4716538312B45208B541F980CEB9',
     category: 'cloud',
+    position: 2,
     badge: 'oracle_cloud_associate',
     skills: {
       es: 'Networking, Compute, Bases de Datos Autónomas',
@@ -208,6 +222,7 @@ export const certifications: readonly Certification[] = [
     expiresAt: '2027-10-30',
     url: 'https://www.credly.com/badges/4611d265-46a0-47e7-a03d-14b026828e2d/public_url',
     category: 'ai',
+    position: 1,
     badge: null,
     skills: {
       es: 'Claude API, Prompt Engineering, Uso de Herramientas, Agentes',
@@ -227,6 +242,7 @@ export const certifications: readonly Certification[] = [
     expiresAt: '2028-10-30',
     url: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=CB0A36191B4730C4946D526E49D1F327469DE1372376326DD6823DBA36E29D50',
     category: 'ai',
+    position: 5,
     badge: null,
     skills: {
       es: 'IA Agéntica, Agentes, Orquestación, OCI',

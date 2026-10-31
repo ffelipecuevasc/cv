@@ -591,6 +591,19 @@ Reglas del registro:
 - **Consecuencias:** E50 terminada. `DESIGN.md` 11.4 debe recoger franjas, diálogo, REUF y cierre (bloque en la bitácora; Felipe lo edita, ADR-033). Textos `en-US` y descripciones de las 2 credenciales nuevas por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 31-10-2026 (E50-I02). **Estado:** Aceptada.
 
+## ADR-062 · Educación: ajustes de las franjas de certificaciones tras la preview
+- **Contexto:** E50-I03. Al revisar E50-I02 en la preview, Felipe pidió cuatro ajustes (31-10-2026). Siguiendo ADR-056, se agregan como una iteración nueva al final de la épica, que se reabrió y se cerró el mismo día; E50-I02 y su bitácora no se editan.
+- **Decisión (de Felipe, 31-10-2026), sobre ADR-061:**
+  1. **Orden en IA:** AWS AI Practitioner y Claude Certified Developer – Foundations intercambian de lugar: Claude primero y AWS AI cuarto (Claude, Oracle AI Associate, Oracle AI Professional, AWS AI Practitioner y Agentic AI Certified Foundations Associate).
+  2. **Titular de Cloud:** «Tecnología Cloud» (es) y «Cloud Technology» (en).
+  3. **Alineación de Cloud:** en esa franja, titular, rótulo y barra van a la derecha (espejo de IA, con la barra a la derecha del rótulo) desde 1.024 px; bajo esa medida, a la izquierda.
+  4. **Reclasificación:** AWS Developer Associate pasa de Cloud a Desarrollo y datos. Cloud queda con 2 (AWS Cloud Practitioner y Oracle OCI Associate) y Desarrollo y datos con 4 (AWS Developer Associate, Python Institute PCEP, Oracle Data Science Professional y Oracle Developer Professional). Siguen 11 credenciales, ninguna duplicada.
+- **Decisión (de implementación):**
+  - `src/data/certifications.ts` suma `position` (lugar dentro de la franja). El orden del arreglo no cambia: de él salen `hasCredential` y la cifra (ADR-053, ADR-055), que no deben cambiar. `category` ya no está en el JSON-LD, así que la reclasificación no lo afecta.
+  - La alineación se resuelve con dos propiedades opcionales: `align="end-lg"` en `SectionHeader` y `mirror` en `ThemeStripe`, que `CertificationsSection` activa en las franjas inversas (hoy, solo Cloud). Sin ellas, ambos componentes se ven igual que antes.
+- **Consecuencias:** modifica `DESIGN.md` 7.8 (la franja inversa alinea su encabezado a la derecha) y 11.4 (clasificación y orden); bloque en la bitácora, que Felipe edita (ADR-033). Sustituye en parte a ADR-061 en la composición de las categorías; ADR-061 no se edita. La cifra y el JSON-LD no cambian.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I03). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

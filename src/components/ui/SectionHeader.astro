@@ -14,16 +14,22 @@ interface Props {
   /** Nivel del titular, para no saltar niveles (ADR-005). El 1 es el <h1> de la página. */
   level?: 1 | 2 | 3;
   id?: string;
+  /**
+   * `end-lg` (solo con `left`): desde 1.024 px alinea rótulo, titular y bajada a la derecha y pasa
+   * la barra dorada a la derecha del rótulo, en espejo; bajo esa medida queda a la izquierda.
+   */
+  align?: 'start' | 'end-lg';
 }
-const { kicker, title, lead, variant = 'left', level = 2, id } = Astro.props;
+const { kicker, title, lead, variant = 'left', level = 2, id, align = 'start' } = Astro.props;
 const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
 ---
 
-<header class:list={['section-header', variant]}>
+<header class:list={['section-header', variant, { 'end-lg': align === 'end-lg' }]}>
   <p class="kicker-row">
-    {variant !== 'band' && <GoldRule />}
+    {variant !== 'band' && <GoldRule class={align === 'end-lg' ? 'rule-start' : undefined} />}
     <span class="kicker">{kicker}</span>
     {variant === 'center' && <GoldRule mirror />}
+    {align === 'end-lg' && <GoldRule mirror class="rule-end" />}
   </p>
   <Heading id={id} class="title">
     {title}
@@ -78,6 +84,26 @@ const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
   }
   .band-rule {
     margin-top: 20px;
+  }
+  .kicker-row :global(.rule-end) {
+    display: none;
+  }
+  @media (min-width: 64rem) {
+    .end-lg {
+      text-align: right;
+    }
+    .end-lg .kicker-row {
+      justify-content: flex-end;
+    }
+    .end-lg .lead {
+      margin-inline-start: auto;
+    }
+    .end-lg .kicker-row :global(.rule-start) {
+      display: none;
+    }
+    .end-lg .kicker-row :global(.rule-end) {
+      display: inline-block;
+    }
   }
   @media (min-width: 48rem) {
     .band .title {

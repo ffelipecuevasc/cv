@@ -63,6 +63,7 @@ const stripes = certificationCategories.map((category) => ({
   title: text.categories[category][lang],
   items: certifications
     .filter((item) => item.category === category)
+    .sort((a, b) => a.position - b.position)
     .map((item) => ({
       id: item.id,
       name: item.name,
@@ -96,6 +97,7 @@ const stripes = certificationCategories.map((category) => ({
       title={stripe.title}
       level={3}
       reverse={index % 2 === 1}
+      mirror={index % 2 === 1}
       tone={index % 2 === 0 ? 'band' : 'bg'}
     >
       <ul class="cert-list">
