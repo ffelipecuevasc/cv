@@ -1,65 +1,49 @@
 /*
- * Íconos SVG en línea (DESIGN.md 7.14, ADR-043). Reemplazan a Material Symbols (AT-016).
- * line: íconos de línea propios en retícula de 24 px, trazo con currentColor.
- * brand: SVG de marca del sitio actual (main:index.html), relleno con currentColor.
- * Los íconos de cada página se agregan aquí en su épica (inventario en ADR-043).
+ * Íconos SVG en línea (DESIGN.md 7.14, ADR-043 y ADR-063). Reemplazan a Material Symbols como
+ * fuente de íconos (AT-016): solo se copian los trazados, sin fuente ni red en ejecución.
+ * symbol: íconos de contorno de Material Symbols Light (Google, colección «material-symbols-light»
+ *   de Iconify; peso 200, tamaño óptico 24, grado 0), en retícula de 24 px y relleno con currentColor.
+ *   El comentario de cada línea indica el ícono de origen; sin sufijo «-outline» sería relleno.
+ *   Licencia Apache 2.0: https://www.apache.org/licenses/LICENSE-2.0 · https://fonts.google.com/icons
+ * brand: SVG de marca del sitio actual (main:index.html), relleno con currentColor. No se tocan.
+ * Los íconos de cada página se agregan aquí en su épica.
  */
 export interface BrandIcon {
   viewBox: string;
   paths: { d: string; evenodd: boolean }[];
 }
 
-export const lineIcons = {
-  menu: ['M4 7h16', 'M4 12h16', 'M4 17h16'],
-  close: ['M6 6l12 12', 'M18 6L6 18'],
-  'chevron-down': ['M6 9l6 6 6-6'],
-  'arrow-left': ['M19 12H5', 'M11 6l-6 6 6 6'],
-  'arrow-right': ['M5 12h14', 'M13 6l6 6-6 6'],
-  'arrow-up': ['M12 19V5', 'M6 11l6-6 6 6'],
-  download: ['M12 4v11', 'M7 10l5 5 5-5', 'M5 20h14'],
-  'external-link': [
-    'M14 4h6v6',
-    'M20 4l-9 9',
-    'M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5',
-  ],
-  sun: [
-    'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8',
-    'M12 2v2',
-    'M12 20v2',
-    'M4.9 4.9l1.4 1.4',
-    'M17.7 17.7l1.4 1.4',
-    'M2 12h2',
-    'M20 12h2',
-    'M4.9 19.1l1.4-1.4',
-    'M17.7 6.3l1.4-1.4',
-  ],
-  moon: ['M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'],
-  check: ['M5 12.5l4.5 4.5L19 7.5'],
-  info: ['M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18', 'M12 11v5', 'M12 7.5v.5'],
-  alert: ['M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18', 'M12 7v6', 'M12 16.5v.5'],
-  star: ['M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.9z'],
-  mail: ['M3 6h18v12H3z', 'M3 7l9 6 9-6'],
+export const symbolIcons = {
+  menu: 'M4 17.27v-1h16v1zm0-4.77v-1h16v1zm0-4.77v-1h16v1z', // menu-outline
+  close:
+    'm6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z', // close-outline
+  'chevron-down': 'M12 14.702L6.692 9.394l.708-.707l4.6 4.6l4.6-4.6l.708.707z', // expand-more
+  'arrow-left': 'm6.921 12.5l5.793 5.792L12 19l-7-7l7-7l.714.708L6.92 11.5H19v1z', // arrow-back-outline
+  'arrow-right': 'M17.079 12.5H5v-1h12.079l-5.792-5.792L12 5l7 7l-7 7l-.713-.708z', // arrow-forward-outline
+  'arrow-up': 'M11.5 19V6.921l-5.792 5.793L5 12l7-7l7 7l-.708.714L12.5 6.92V19z', // arrow-upward-outline
+  download:
+    'm12 15.577l-3.539-3.538l.708-.72L11.5 13.65V5h1v8.65l2.33-2.33l.709.719zM6.616 19q-.691 0-1.153-.462T5 17.384v-2.423h1v2.423q0 .231.192.424t.423.192h10.77q.23 0 .423-.192t.192-.424v-2.423h1v2.423q0 .691-.462 1.153T17.384 19z', // download-outline
+  'external-link':
+    'M5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h5.615v1H5.616q-.231 0-.424.192T5 5.616v12.769q0 .23.192.423t.423.192h12.77q.23 0 .423-.192t.192-.423v-5.616h1v5.616q0 .69-.462 1.152T18.384 20zm4.123-5.03l-.708-.709L18.292 5H14V4h6v6h-1V5.708z', // open-in-new-outline
+  sun: 'M14.125 14.125Q15 13.25 15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15t2.125-.875m-4.96.71Q8 13.672 8 12t1.165-2.835Q10.329 8 12 8t2.836 1.165T16 12t-1.164 2.836T12 16t-2.835-1.164M5 12.5H1.5v-1H5zm17.5 0H19v-1h3.5zM11.5 5V1.5h1V5zm0 17.5V19h1v3.5zM6.746 7.404l-2.16-2.098l.695-.745l2.111 2.135zM18.72 19.439l-2.117-2.141l.652-.702l2.16 2.098zM16.596 6.745l2.098-2.16l.745.695l-2.135 2.111zM4.562 18.72l2.14-2.117l.664.652l-2.08 2.179zM12 12', // light-mode-outline
+  moon: 'M12.058 20q-3.334 0-5.667-2.333T4.058 12q0-3.039 1.98-5.27t4.904-2.634q.081 0 .159.006t.153.017q-.506.706-.801 1.57T10.158 7.5q0 2.667 1.866 4.533t4.534 1.867q.951 0 1.813-.295t1.548-.801q.012.075.017.153t.006.159q-.384 2.923-2.615 4.903T12.057 20m0-1q2.2 0 3.95-1.213t2.55-3.162q-.5.125-1 .2t-1 .075q-3.074 0-5.237-2.162T9.158 7.5q0-.5.075-1t.2-1q-1.95.8-3.163 2.55T5.058 12q0 2.9 2.05 4.95t4.95 2.05m-.25-6.75', // dark-mode-outline
+  check:
+    'm10.562 15.908l6.396-6.396l-.708-.708l-5.688 5.688l-2.85-2.85l-.708.708zM12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8', // check-circle-outline
+  info: 'M11.5 16.5h1V11h-1zm.934-7.1q.182-.177.182-.439t-.178-.438T12 8.346t-.438.177t-.177.439t.181.438t.434.177t.434-.177m-.43 11.6q-1.868 0-3.511-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8', // info-outline
+  alert:
+    'M12.434 16.28q.182-.182.182-.434t-.182-.433T12 15.23t-.434.182t-.182.433t.182.434t.434.181t.434-.181m-.934-3.126h1v-6h-1zM12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8', // error-outline
+  star: 'm8.85 16.825l3.15-1.9l3.15 1.925l-.825-3.6l2.775-2.4l-3.65-.325l-1.45-3.4l-1.45 3.375l-3.65.325l2.775 2.425zm-1.525 2.098l1.24-5.313l-4.123-3.572l5.431-.47L12 4.557l2.127 5.01l5.43.47l-4.123 3.572l1.241 5.313L12 16.102zM12 12.25', // star-outline
+  mail: 'M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zM12 12.116L4 6.885v10.5q0 .269.173.442t.443.173h14.769q.269 0 .442-.173t.173-.443v-10.5zM12 11l7.692-5H4.308zM4 6.885V6v11.385q0 .269.173.442t.443.173H4z', // mail-outline
   // Educación (E50-I01): un ícono por categoría de formación.
-  'graduation-cap': [
-    'M2 9l10-5 10 5-10 5z',
-    'M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5',
-    'M22 9v6',
-  ],
-  certificate: [
-    'M4 4h16v12H4z',
-    'M8 8h8',
-    'M8 11h4',
-    'M16 11a2 2 0 1 0 0 4a2 2 0 1 0 0-4',
-    'M15 15v4.5l1-.7 1 .7V15',
-  ],
-  terminal: ['M4 5h16v14H4z', 'M8 10l3 2.5L8 15', 'M13 15h3'],
-  medal: [
-    'M12 9a5 5 0 1 0 0 10a5 5 0 1 0 0-10',
-    'M8 3l2.3 5.6',
-    'M16 3l-2.3 5.6',
-    'M10 14l1.5 1.5 2.5-3',
-  ],
-} as const satisfies Record<string, readonly string[]>;
+  'graduation-cap':
+    'm12 18.692l-6-3.261v-4.846L3.077 9L12 4.154L20.923 9v6.385h-1V9.562L18 10.585v4.846zm0-5.992L18.83 9L12 5.3L5.17 9zm0 4.852l5-2.7v-3.717l-5 2.708l-5-2.708v3.717zm0-3.487', // school-outline
+  certificate:
+    'm9.925 13.277l.779-2.58l-2.05-1.505h2.562L12 6.585l.785 2.607h2.561l-2.056 1.504l.78 2.581L12 11.675zM7 21.462v-6.59q-.95-.935-1.475-2.19Q5 11.43 5 10q0-2.927 2.036-4.963T12 3t4.964 2.036T19 10q0 1.429-.525 2.683T17 14.87v6.59l-5-1.5zm9.25-7.212Q18 12.5 18 10t-1.75-4.25T12 4T7.75 5.75T6 10t1.75 4.25T12 16t4.25-1.75M8 20.044l4-1.121l4 1.121v-4.33q-.836.615-1.859.95Q13.12 17 12 17t-2.141-.335T8 15.714zm4-2.165', // workspace-premium-outline
+  terminal:
+    'M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zm0-1h14.769q.23 0 .423-.192t.192-.424V8H4v9.385q0 .23.192.423t.423.192M7.5 16.288l-.689-.688L9.388 13l-2.6-2.6l.713-.688L10.789 13zm5 .212v-1h5v1z', // terminal-outline
+  medal:
+    'M7.385 2.577h9.23v7.08q0 .537-.288.997t-.777.754l-3.358 2.023l.739 2.377h2.877l-2.37 1.661l.931 2.916L12 18.573l-2.37 1.812l.931-2.916l-2.369-1.661h2.877l.739-2.377l-3.397-1.985q-.488-.275-.757-.754q-.27-.479-.27-1.034zm1 1v6.08q0 .29.144.53t.394.394l2.577 1.508V3.577zm7.23 0H12.5v8.512l2.577-1.508q.25-.154.394-.394t.144-.53zM12.5 7.833', // military-tech-outline
+} as const satisfies Record<string, string>;
 
 export const brandIcons = {
   linkedin: {
@@ -100,6 +84,6 @@ export const brandIcons = {
   },
 } as const satisfies Record<string, BrandIcon>;
 
-export type LineIconName = keyof typeof lineIcons;
+export type SymbolIconName = keyof typeof symbolIcons;
 export type BrandIconName = keyof typeof brandIcons;
-export type IconName = LineIconName | BrandIconName;
+export type IconName = SymbolIconName | BrandIconName;

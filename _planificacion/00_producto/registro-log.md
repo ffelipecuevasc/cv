@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E60 · **Iteración actual:** E60-I01 (E50 terminada el 31-10-2026 con E50-I03, reabierta ese día por los ajustes de la preview, ADR-056; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
-- **Resumen:** 20 épicas · 56 iteraciones · 28 terminadas
+- **Épica actual:** E60 · **Iteración actual:** E60-I01 (E20 terminada otra vez el 31-10-2026 con E20-I06, reabierta ese día por el cambio de íconos, ADR-056. E50 terminada el 31-10-2026 con E50-I03, reabierta ese día por los ajustes de la preview, ADR-056; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
+- **Resumen:** 20 épicas · 57 iteraciones · 29 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -30,6 +30,7 @@
 | P0 | E20-I03 | Tipografía autoalojada e iconografía SVG | M | E20-I02 | [x] Terminada |
 | P0 | E20-I04 | Sistema de movimiento sin AOS | M | E20-I02 | [x] Terminada |
 | P0 | E20-I05 | Primitivas de componentes | M | E20-I03, E20-I04 | [x] Terminada |
+| P1 | E20-I06 | Íconos Material Symbols Light | M | E20-I03, E20-I05 | [x] Terminada |
 
 ### E30 · Layout global (`30_epica-layout-global/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |

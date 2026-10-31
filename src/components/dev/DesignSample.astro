@@ -9,7 +9,7 @@ interface Props {
   lang: 'es' | 'en';
 }
 import Icon from '../ui/Icon.astro';
-import { brandIcons, lineIcons, type IconName } from '../ui/icons';
+import { brandIcons, symbolIcons, type IconName } from '../ui/icons';
 import Button from '../ui/Button.astro';
 import IconButton from '../ui/IconButton.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
@@ -66,7 +66,7 @@ const ex =
         link: 'External link',
         tag: 'Tag',
       };
-const iconNames = [...Object.keys(lineIcons), ...Object.keys(brandIcons)] as IconName[];
+const iconNames = [...Object.keys(symbolIcons), ...Object.keys(brandIcons)] as IconName[];
 const t =
   lang === 'es'
     ? {

@@ -5,7 +5,7 @@
  * En en-US lleva la marca "Translated from Spanish" (ADR-017).
  */
 import Card from './Card.astro';
-import { lineIcons } from './icons';
+import { symbolIcons } from './icons';
 
 interface Props {
   lang: 'es' | 'en';
@@ -36,7 +36,7 @@ const initials = name
   .map((word) => word[0])
   .join('');
 const ratingText = lang === 'es' ? `Calificación: ${rating} de 5` : `Rating: ${rating} out of 5`;
-const starPath = lineIcons.star[0];
+const starPath = symbolIcons.star;
 ---
 
 <Card as={as} class="testimonial">
@@ -109,12 +109,9 @@ const starPath = lineIcons.star[0];
   }
   .stars svg {
     fill: var(--color-gold);
-    stroke: var(--star-stroke);
-    stroke-width: 1.4;
-    stroke-linejoin: round;
   }
   .stars .off {
-    fill: transparent;
+    opacity: 0.35;
   }
   .quote {
     margin-top: 16px;

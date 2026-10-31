@@ -604,6 +604,17 @@ Reglas del registro:
 - **Consecuencias:** modifica `DESIGN.md` 7.8 (la franja inversa alinea su encabezado a la derecha) y 11.4 (clasificación y orden); bloque en la bitácora, que Felipe edita (ADR-033). Sustituye en parte a ADR-061 en la composición de las categorías; ADR-061 no se edita. La cifra y el JSON-LD no cambian.
 - **Origen:** decisiones de Felipe el 31-10-2026 (E50-I03). **Estado:** Aceptada.
 
+## ADR-063 · Íconos de contorno de Material Symbols Light
+- **Contexto:** E20-I06. Los íconos del sistema eran de línea propios, con trazo de 1,6 px (ADR-043). Felipe pidió reemplazarlos por Material Symbols Light (31-10-2026), como el ícono del logotipo (ADR-057). Siguiendo ADR-056, se agrega como una iteración nueva al final de E20, que se reabrió y se cerró el mismo día; E20-I03 no se edita.
+- **Decisión (de Felipe, 31-10-2026):** colección `material-symbols-light` de Iconify (Google): peso 200, tamaño óptico 24 y grado 0. Variante de contorno (`-outline`); sin sufijo el ícono es relleno y no se usa. Mismo nombre que en `main` cuando existe. Quedan fuera los SVG de tecnologías, LinkedIn, GitHub, Gmail y REUF.
+- **Decisión (de implementación):**
+  - Solo se copian los trazados a `src/components/ui/icons.ts` (`symbolIcons`, un trazado por ícono, con el ícono de origen en un comentario); el aviso de Apache 2.0 va en el encabezado del archivo y en los créditos del `README.md`. Sin dependencias ni solicitudes externas en ejecución.
+  - `Icon.astro` dibuja todos los íconos rellenos con `currentColor`; `name`, `size` y `label` no cambian. `lineIcons` pasa a `symbolIcons` y `LineIconName` a `SymbolIconName`.
+  - Nombres: se conservan los del sitio. `check` pasa a `check-circle-outline` (el `check_circle` de `main`), `chevron-down` a `expand-more` (no existe variante `-outline`) y `alert` a `error-outline`. `sun` y `moon` usan `light-mode-outline` y `dark-mode-outline`: `main` usaba `contrast` para ambos y la navbar nueva muestra uno u otro.
+  - Las estrellas de testimonios usan `star-outline` en dorado; las apagadas, con opacidad 0,35. Se retira el token `--star-stroke`.
+- **Consecuencias:** modifica `DESIGN.md` 7.14 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-043 (íconos de línea propios); ADR-043 no se edita. Con 1 px de trazo en una retícula de 24 px, un ícono de 16 px dibuja 0,67 px: los de 14 a 16 px se ven tenues, sobre todo en oscuro (detalle en la bitácora). El `terminal` del sistema viene de la versión actual de Iconify y difiere en las esquinas del `terminal-icon.svg` del logotipo, que no se toca.
+- **Origen:** decisión de Felipe el 31-10-2026 (E20-I06). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

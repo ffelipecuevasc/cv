@@ -3,8 +3,10 @@
  * Ícono SVG en línea (DESIGN.md 7.14). Decorativo por defecto (aria-hidden).
  * Si el ícono es el único contenido de un control, el nombre accesible va en el
  * control; usa `label` solo cuando el ícono transmite información por sí mismo.
+ * Todos los íconos son rellenos con `currentColor`: los de contorno de Material Symbols Light
+ * (un trazado) y los de marca (uno o más, algunos con regla par-impar).
  */
-import { brandIcons, lineIcons, type IconName } from './icons';
+import { brandIcons, symbolIcons, type IconName } from './icons';
 
 interface Props {
   name: IconName;
@@ -20,45 +22,26 @@ const a11y = label
   ? { role: 'img' as const, 'aria-label': label }
   : { 'aria-hidden': 'true' as const };
 const brand = name in brandIcons ? brandIcons[name as keyof typeof brandIcons] : undefined;
-const line = name in lineIcons ? lineIcons[name as keyof typeof lineIcons] : undefined;
+const symbol = name in symbolIcons ? symbolIcons[name as keyof typeof symbolIcons] : undefined;
+const viewBox = brand?.viewBox ?? '0 0 24 24';
 ---
 
-{brand ? (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox={brand.viewBox}
-    width={size}
-    height={size}
-    fill="currentColor"
-    focusable="false"
-    class={className}
-    {...a11y}
-  >
-    {brand.paths.map((p) => (
-      <path
-        d={p.d}
-        fill-rule={p.evenodd ? 'evenodd' : undefined}
-        clip-rule={p.evenodd ? 'evenodd' : undefined}
-      />
-    ))}
-  </svg>
-) : (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    width={size}
-    height={size}
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.6"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    focusable="false"
-    class={className}
-    {...a11y}
-  >
-    {line?.map((d) => (
-      <path d={d} />
-    ))}
-  </svg>
-)}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  width={size}
+  height={size}
+  fill="currentColor"
+  focusable="false"
+  class={className}
+  {...a11y}
+>
+  {symbol && <path d={symbol} />}
+  {brand?.paths.map((p) => (
+    <path
+      d={p.d}
+      fill-rule={p.evenodd ? 'evenodd' : undefined}
+      clip-rule={p.evenodd ? 'evenodd' : undefined}
+    />
+  ))}
+</svg>

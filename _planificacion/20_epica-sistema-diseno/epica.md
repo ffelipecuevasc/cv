@@ -1,5 +1,5 @@
 # E20 · Sistema de diseño
-- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (29-10-2026)
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (31-10-2026; reabierta ese día por E20-I06, ADR-056)
 
 ## Objetivo
 Definir el `DESIGN.md` nuevo, más elegante y tecnológico, a partir de los prototipos aprobados por Felipe (ADR-039), y materializarlo en tokens de Tailwind v4, tipografía autoalojada, iconografía sin fuentes de íconos, movimiento sin AOS y primitivas de componentes.
@@ -27,6 +27,7 @@ E10 (en particular E10-I03).
 | [E20-I03](E20-I03-tipografia-iconos.md) | Tipografía autoalojada e iconografía SVG | P0 | M | E20-I02 | [x] Terminada |
 | [E20-I04](E20-I04-movimiento-sin-aos.md) | Sistema de movimiento sin AOS | P0 | M | E20-I02 | [x] Terminada |
 | [E20-I05](E20-I05-primitivas.md) | Primitivas de componentes | P0 | M | E20-I03, E20-I04 | [x] Terminada |
+| [E20-I06](E20-I06-iconos-material-symbols-light.md) | Íconos Material Symbols Light | P1 | M | E20-I03, E20-I05 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
 - [x] `DESIGN.md` no tiene secciones "por definir" que bloqueen E30 o E40.
