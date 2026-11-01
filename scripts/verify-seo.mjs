@@ -5,7 +5,8 @@
  * Valida sintaxis y estructura; NO reemplaza la Prueba de resultados enriquecidos de
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
  * Cubre la portada (E40-I03), Educación (E50), Experiencia (E60-I01, con control de enlaces) y
- * Desarrollador (E70-I01: 36 tecnologías y paridad; E70-I02: portafolio, filtros e ItemList).
+ * Desarrollador (E70-I01: 36 tecnologías y paridad; E70-I02: portafolio, filtros e ItemList;
+ * E70-I03: placa de los logos en oscuro).
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -761,6 +762,25 @@ check(
     same(developer.es?.levels, developer.en?.levels),
   'paridad Desarrollador: mismas 36 tecnologías, nombres, categorías y encabezados en /es/ y /en/',
 );
+
+// --- Placa de los logos en oscuro (E70-I03, ADR-069): variable de componente por tema ---
+{
+  console.log('\nPlaca de los logos de tecnologías');
+  const html = read(`${DEVELOPER.es}/index.html`);
+  const css =
+    [...html.matchAll(/href="(\/_astro\/[^"]+\.css)"/g)]
+      .map((m) => readFileSync(join(DIST, m[1]), 'utf8'))
+      .join('') + [...html.matchAll(/<style>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('');
+  check(
+    /:root\{[^}]*--tech-plate-bg:var\(--color-bg\)/.test(css),
+    'en claro la placa usa `bg` (sin cambio)',
+  );
+  check(
+    /\.dark\{[^}]*--tech-plate-bg:var\(--color-orient-50\)/.test(css),
+    'en oscuro la placa usa `orient-50`',
+  );
+  check(/background-color:var\(--tech-plate-bg\)/.test(css), 'la caja del logo usa la placa');
+}
 
 // --- Portafolio de Desarrollador (E70-I02, ADR-068): 12 proyectos, filtros e ItemList ---
 const PORTFOLIO_FILTERS = ['all', 'frontend', 'fullstack', 'backend'];

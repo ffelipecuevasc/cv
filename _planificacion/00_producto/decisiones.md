@@ -687,6 +687,15 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 y 11.6 (bloque en la bitácora; lo edita Felipe, ADR-033). El HTML de la página sube de 51 a 102 KB (17 KB gzip): AT-084. Textos `en-US` por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 01-11-2026 (E70-I02). **Estado:** Aceptada.
 
+## ADR-069 · Desarrollador: placa clara de los logos en oscuro y logo de OCI
+- **Contexto:** E70-I03. En tema oscuro, los logos de marca negros o muy oscuros del muro de tecnologías casi no se veían (AT-083). Los SVG no se pueden tocar (DESIGN.md 7.14). Además, en `main` OCI usa el mismo SVG que Oracle Database. Siguiendo ADR-056, se agrega como una iteración nueva al final de E70; E70-I01, E70-I02 y sus bitácoras no se editan. Felipe validó el inglés de los 12 proyectos y de los filtros el 01-11-2026 (ADR-017).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Placa en oscuro:** solo en tema oscuro, cada logo del muro va sobre una placa clara pequeña. El tema claro no cambia y los 36 SVG se mantienen idénticos a `main`.
+  - **OCI:** conserva el mismo SVG que Oracle Database, como en `main`; el nombre de la ficha los distingue.
+- **Decisión (de implementación):** variable de componente `--tech-plate-bg` en `global.css` (ADR-046): `bg` en claro (el valor anterior) y `orient-50` en oscuro. La usa la caja de 44 px del logo en `TechnologyWall.astro`. Contraste de la placa: 14,75:1 contra la ficha (`surface`, `orient-900`) y 10,64:1 contra la banda (`orient-800`). `verify:seo` comprueba el valor en cada tema y que la caja la use. Las etiquetas de 10 px del portafolio no cambian.
+- **Consecuencias:** `DESIGN.md` 9 (lista de variables de componente) y 11.6 (ficha de tecnología); bloque en la bitácora (lo edita Felipe, ADR-033). Resuelve AT-083.
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I03). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

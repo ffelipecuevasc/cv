@@ -745,7 +745,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** alternativas: «mientras trabajo como docente universitario» (`es-CL`) y «alongside my work as a university lecturer» (`en-US`). Felipe elige en E170-I01; no se cambia en E70-I01.
 
 ### AT-083 · Logos de tecnologías oscuros que casi no se ven en el tema oscuro
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01 (decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto en E70-I03 (01-11-2026): en oscuro, cada logo va sobre una placa `orient-50` (`--tech-plate-bg`, contraste 14,75:1 contra la ficha); los 36 SVG no cambian. OCI conserva el mismo SVG que Oracle Database, como en `main`, y el nombre de la ficha los distingue (ADR-069) · **Resuelve:** E70-I03
 - **Evidencia (E70-I01, 01-11-2026):** los SVG se copiaron sin cambios de `main` (DESIGN.md 7.14). En oscuro, sobre el fondo de 44 px (`bg`), los logos negros o muy oscuros de Express.js, GitHub, Maven y Sequelize/Hibernate se distinguen poco; Express.js se ve tenue también en claro. Además, `oracle-cloud-infrastructure.svg` y `oracle-database.svg` son idénticos en `main` (mismo archivo), así que OCI muestra el logo de Oracle. No se midió el contraste: los logos son decorativos (el nombre va en texto).
 - **Impacto:** visual; el contenido sigue legible porque el nombre y el rol están en texto.
 - **Recomendación:** dar a la caja del logo un fondo claro fijo en ambos temas, o pedir a Felipe versiones claras de esos SVG y un logo propio de OCI.

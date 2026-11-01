@@ -5,7 +5,8 @@
  * un h3 con estilo kicker y su retícula de fichas (2, 3, 4 o 6 columnas según el ancho).
  * Los SVG de marca se copiaron sin cambios de main:static/img/iconos/ a
  * src/assets/technologies/ (DESIGN.md 7.14): van como <img> decorativos (el nombre está en el
- * texto), con ancho y alto declarados y carga diferida. Sin JavaScript. Dentro de <main>.
+ * texto), con ancho y alto declarados y carga diferida. En oscuro van sobre una placa clara
+ * (`--tech-plate-bg`, ADR-069). Sin JavaScript. Dentro de <main>.
  */
 import { getEntry } from 'astro:content';
 import Band from '../ui/Band.astro';
@@ -114,7 +115,8 @@ const iconUrl = (icon: string): string => {
     place-items: center;
     width: 44px;
     height: 44px;
-    background-color: var(--color-bg);
+    /* Placa clara en oscuro (ADR-069): los SVG de marca no cambian. */
+    background-color: var(--tech-plate-bg);
     box-shadow: 0 0 0 1px var(--color-border);
   }
   .logo img {

@@ -298,6 +298,9 @@
   --rail-hover-bg: var(--color-orient-950);
   --rail-hover-fg: var(--color-gold);
   --metric-sign: var(--color-primary);
+  /* Placa del logo de tecnología (Desarrollador, ADR-069): en claro, `bg`, como antes; en
+     oscuro, `orient-50`, para que los logos de marca oscuros se distingan (AT-083). */
+  --tech-plate-bg: var(--color-bg);
 }
 
 .dark {
@@ -322,6 +325,7 @@
   --rail-hover-bg: var(--color-orient-400);
   --rail-hover-fg: var(--color-white);
   --metric-sign: var(--color-gold);
+  --tech-plate-bg: var(--color-orient-50);
 }
 
 /* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */
