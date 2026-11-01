@@ -281,6 +281,8 @@
   --chip-border: color-mix(in srgb, var(--color-primary) 25%, transparent);
   --chip-bg: color-mix(in srgb, var(--color-bg) 80%, transparent);
   --chip-fg: var(--color-orient-800);
+  /* 7.6 Estrellas del testimonio: `gold-deep` en claro (4.3) y `gold` en oscuro. */
+  --star-fill: var(--color-gold-deep);
   /* 7.2 Navbar: fondo de la barra, ícono de apariencia e idioma actual. */
   --navbar-bg: color-mix(in srgb, var(--color-bg) 95%, transparent);
   --theme-toggle-fg: var(--color-icon);
@@ -309,6 +311,7 @@
   --chip-border: color-mix(in srgb, var(--color-vibrant) 30%, transparent);
   --chip-bg: color-mix(in srgb, var(--color-white) 4%, transparent);
   --chip-fg: color-mix(in srgb, var(--color-orient-50) 85%, transparent);
+  --star-fill: var(--color-gold);
   --navbar-bg: color-mix(in srgb, var(--color-orient-950) 88%, transparent);
   --theme-toggle-fg: var(--color-gold);
   --language-current-bg: var(--color-orient-50);

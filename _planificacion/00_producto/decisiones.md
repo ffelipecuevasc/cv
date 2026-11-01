@@ -615,6 +615,16 @@ Reglas del registro:
 - **Consecuencias:** modifica `DESIGN.md` 7.14 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-043 (íconos de línea propios); ADR-043 no se edita. Con 1 px de trazo en una retícula de 24 px, un ícono de 16 px dibuja 0,67 px: los de 14 a 16 px se ven tenues, sobre todo en oscuro (detalle en la bitácora). El `terminal` del sistema viene de la versión actual de Iconify y difiere en las esquinas del `terminal-icon.svg` del logotipo, que no se toca.
 - **Origen:** decisión de Felipe el 31-10-2026 (E20-I06). **Estado:** Aceptada.
 
+## ADR-064 · Estrellas encendidas rellenas en los testimonios
+- **Contexto:** E20-I07. Con ADR-063, las estrellas de los testimonios pasaron a la variante de contorno, que a 15 px dibuja 0,63 px de trazo y se veía tenue (bitácora de E20-I06). Siguiendo ADR-056, se agrega una iteración nueva al final de E20, que se reabrió y se cerró el mismo día; E20-I06 y su bitácora no se editan.
+- **Decisión (de Felipe, 31-10-2026):** las estrellas **encendidas** de `TestimonialCard` usan la variante rellena (`material-symbols-light:star`); las **apagadas** siguen de contorno, con opacidad 0,35. Los demás íconos tenues se aceptan tal cual.
+- **Decisión (de implementación):**
+  - El trazado se copia a `icons.ts` como `star-filled` (el comentario indica el ícono de origen; el aviso de Apache 2.0 del archivo lo cubre). `star` sigue siendo el de contorno, ahora solo para las apagadas.
+  - El color sale de un token de componente nuevo, `--star-fill` (`gold-deep` en claro y `gold` en oscuro, como pide `DESIGN.md` 4.3), que reemplaza a `--color-gold` fijo en ambos temas. Las apagadas usan el mismo color con opacidad 0,35.
+  - Se mantienen 15 px, 5 estrellas y la nota «Calificación: N de 5» / «Rating: N out of 5» para lectores de pantalla.
+- **Consecuencias:** modifica `DESIGN.md` 4.3, 4.4 y 7.6 (bloque en la bitácora; lo edita Felipe, ADR-033). Aclara ADR-063 en las estrellas: ya no son todas de contorno. Contraste medido de la estrella encendida: 6,25:1 en claro (sobre `surface` blanco) y 10,97:1 en oscuro (sobre `surface` `orient-900`), iguales a los de 4.4. ADR-063 no se edita.
+- **Origen:** decisión de Felipe el 31-10-2026 (E20-I07). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

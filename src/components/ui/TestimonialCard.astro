@@ -36,7 +36,9 @@ const initials = name
   .map((word) => word[0])
   .join('');
 const ratingText = lang === 'es' ? `Calificación: ${rating} de 5` : `Rating: ${rating} out of 5`;
-const starPath = symbolIcons.star;
+// Encendida: variante rellena; apagada: de contorno con opacidad (ADR-064).
+const starPath = (index: number) =>
+  index < rating ? symbolIcons['star-filled'] : symbolIcons.star;
 ---
 
 <Card as={as} class="testimonial">
@@ -54,7 +56,7 @@ const starPath = symbolIcons.star;
         focusable="false"
         class:list={{ off: i >= rating }}
       >
-        <path d={starPath} />
+        <path d={starPath(i)} />
       </svg>
     ))}
   </p>
@@ -108,7 +110,7 @@ const starPath = symbolIcons.star;
     margin-top: 16px;
   }
   .stars svg {
-    fill: var(--color-gold);
+    fill: var(--star-fill);
   }
   .stars .off {
     opacity: 0.35;
