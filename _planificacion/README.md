@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E70 · Página Desarrollador (desarrollador.html)
-- **Iteración actual:** E70-I01 · Aspectos técnicos y muro de tecnologías (E60 terminada otra vez el 31-10-2026, con E60-I02).
+- **Iteración actual:** E70-I02 · Portafolio filtrable y JSON-LD (E70-I01 terminada el 01-11-2026).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 33 de 60 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02). Épicas E10, E20, E30, E40, E50 y E60 terminadas.
+- **Terminadas:** 34 de 60 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01). Épicas E10, E20, E30, E40, E50 y E60 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -58,7 +58,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E60-I02 · Ajustes de Experiencia tras la revisión en la preview (P1, S)
 
 **E70 · Página Desarrollador (desarrollador.html)** (`70_epica-desarrollador/`)
-- [ ] E70-I01 · Aspectos técnicos y muro de tecnologías (P1, M)
+- [x] E70-I01 · Aspectos técnicos y muro de tecnologías (P1, M)
 - [ ] E70-I02 · Portafolio filtrable y JSON-LD (P1, M)
 
 **E80 · Página Docente (docente.html)** (`80_epica-docente/`)

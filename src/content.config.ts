@@ -299,9 +299,70 @@ const experiencePage = defineCollection({
     }),
 });
 
+/*
+ * Página Desarrollador (E70-I01, ADR-067): cabecera, aspectos técnicos y muro de tecnologías.
+ * Las 36 tecnologías y sus 5 categorías vienen de main:desarrollador.html; `icon` es el nombre
+ * del SVG en src/assets/technologies/ (sin extensión). Nombres de tecnologías e instituciones:
+ * nombres propios, no se traducen (ADR-025).
+ */
+const SYMBOL_NAMES = Object.keys(symbolIcons) as [SymbolIconName, ...SymbolIconName[]];
+const TECHNOLOGY_COUNTS = { ai: 4, languages: 12, data: 9, infrastructure: 6, tools: 5 } as const;
+const developerPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/developer' }),
+  schema: z.object({
+    header: z.object({
+      kicker: localized(),
+      title: localized(),
+      institutions: z.string().trim().min(1),
+      period: localized(),
+      modality: localized(),
+    }),
+    aspects: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      items: z
+        .array(z.object({ icon: z.enum(SYMBOL_NAMES), title: localized(), text: localized() }))
+        .length(4),
+    }),
+    technologies: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      categories: z
+        .array(
+          z.object({
+            id: z.enum(Object.keys(TECHNOLOGY_COUNTS) as [keyof typeof TECHNOLOGY_COUNTS]),
+            title: localized(),
+            items: z
+              .array(
+                z.object({
+                  icon: z.string().regex(/^[a-z0-9-]+$/),
+                  name: z.string().trim().min(1),
+                  role: localized(),
+                }),
+              )
+              .min(1),
+          }),
+        )
+        .length(5)
+        // Cada categoría con su cantidad del sitio antiguo (36 en total), sin íconos repetidos.
+        .refine(
+          (list) => list.every((cat) => cat.items.length === TECHNOLOGY_COUNTS[cat.id]),
+          'Cantidades por categoría distintas de las de main:desarrollador.html',
+        )
+        .refine(
+          (list) => new Set(list.flatMap((cat) => cat.items.map((t) => t.icon))).size === 36,
+          'Se esperan 36 tecnologías con ícono único',
+        ),
+    }),
+  }),
+});
+
 export const collections = {
   pages,
   experiencePage,
+  developerPage,
   personSeo,
   educationEntries,
   educationPage,

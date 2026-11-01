@@ -4,7 +4,8 @@
  * datos (certificaciones y redes). Corre con `pnpm build && pnpm verify:seo`.
  * Valida sintaxis y estructura; NO reemplaza la Prueba de resultados enriquecidos de
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
- * Cubre la portada (E40-I03), Educación (E50) y Experiencia (E60-I01, con control de enlaces).
+ * Cubre la portada (E40-I03), Educación (E50), Experiencia (E60-I01, con control de enlaces) y
+ * Desarrollador (E70-I01: 36 tecnologías y paridad).
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -431,10 +432,8 @@ const PROFILE_LINKS = {
 // Lista cerrada de páginas de perfil que aún no existen (ADR-065). Solo vale para el control de
 // enlaces de esta página. Cada épica retira las suyas al crear la página: E70 desarrollador,
 // E80 docente, E90 instructor y E100 talento-digital. Si una ruta de la lista ya existe en
-// dist/, el control falla hasta que se retire.
+// dist/, el control falla hasta que se retire. E70-I01 retiró /es/desarrollador/ y /en/developer/.
 const PENDING_PROFILE_ROUTES = [
-  '/es/desarrollador/',
-  '/en/developer/',
   '/es/docente/',
   '/en/lecturer/',
   '/es/instructor/',
@@ -592,6 +591,174 @@ for (const [lang, info] of Object.entries(LANGS)) {
 check(
   same(experience.es, experience.en),
   'misma grilla (fotos, etiquetas y enlaces) en /es/ y /en/',
+);
+
+// --- Desarrollador (E70-I01, ADR-067): metadatos, cabecera, aspectos técnicos y 36 tecnologías ---
+const DEVELOPER = { es: 'es/desarrollador', en: 'en/developer' };
+// Cantidad de tecnologías por categoría, en el orden de main:desarrollador.html (36 en total).
+const TECH_COUNTS = [4, 12, 9, 6, 5];
+const DEVELOPER_TEXT = {
+  es: { h1: 'Desarrollador Full Stack', meta: '2011 - Actualidad · Modalidad presencial' },
+  en: { h1: 'Full Stack Developer', meta: '2011 - Present · On-site' },
+};
+const developer = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = DEVELOPER[lang];
+  const other = DEVELOPER[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${DEVELOPER.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  // Cabecera (ADR-067): institución igual a Experiencia y sin «UTECH INACAP | Duoc UC».
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(h1 === DEVELOPER_TEXT[lang].h1, `<h1> = «${DEVELOPER_TEXT[lang].h1}» (${h1})`);
+  const header = mainHtml.slice(0, mainHtml.indexOf('</h1>') + 400);
+  check(/class="institutions[^"]*"[^>]*>\s*INACAP\s*</.test(header), 'institución «INACAP»');
+  check(
+    text(/data-period[^>]*>([\s\S]*?)<\/p>/.exec(mainHtml)?.[1] ?? '') ===
+      DEVELOPER_TEXT[lang].meta,
+    `periodo y modalidad = «${DEVELOPER_TEXT[lang].meta}»`,
+  );
+  check(!/UTECH|Duoc/i.test(mainHtml), 'sin «UTECH INACAP | Duoc UC» en la página (ADR-067)');
+
+  // Aspectos técnicos: 4 entradas con h3 e ícono decorativo de icons.ts.
+  const aspects = /<ul[^>]*data-aspects[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const aspectItems = [...aspects.matchAll(/<li[\s>][\s\S]*?<\/li>/g)].map((m) => m[0]);
+  check(aspectItems.length === 4, `4 aspectos técnicos (${aspectItems.length})`);
+  check(
+    aspectItems.every((item) => /<h3[\s>]/.test(item) && /<svg[^>]*aria-hidden="true"/.test(item)),
+    'cada aspecto con h3 e ícono decorativo',
+  );
+
+  // Muro de tecnologías: 5 categorías con h3 y lista, 36 fichas con SVG presente en dist/.
+  const wall = /<div[^>]*data-technologies[^>]*>([\s\S]*)/.exec(mainHtml)?.[1] ?? '';
+  const categories = [
+    ...wall.matchAll(
+      /<h3[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/h3>\s*<ul[^>]*aria-labelledby="([^"]+)"[^>]*>([\s\S]*?)<\/ul>/g,
+    ),
+  ];
+  check(categories.length === 5, `5 categorías de tecnologías (${categories.length})`);
+  check(
+    categories.every((m) => m[1] === m[3]),
+    'cada lista nombrada por el h3 de su categoría',
+  );
+  const tiles = categories.map((m) =>
+    [...m[4].matchAll(/<li[^>]*data-tech="([^"]+)"[^>]*>([\s\S]*?)<\/li>/g)].map((t) => ({
+      id: t[1],
+      html: t[2],
+      name: text(/class="name[^"]*"[^>]*>([\s\S]*?)<\/span>/.exec(t[2])?.[1] ?? ''),
+    })),
+  );
+  const flat = tiles.flat();
+  check(
+    same(
+      tiles.map((list) => list.length),
+      TECH_COUNTS,
+    ),
+    `tecnologías por categoría ${TECH_COUNTS.join('/')} (${tiles.map((l) => l.length).join('/')})`,
+  );
+  check(
+    flat.length === 36 && new Set(flat.map((t) => t.id)).size === 36,
+    `36 tecnologías sin repetir (${flat.length})`,
+  );
+  const images = flat.map((t) => /<img\s[^>]*>/.exec(t.html)?.[0] ?? '');
+  check(
+    images.every(
+      (img) =>
+        /\salt=""/.test(img) &&
+        /\swidth="28"/.test(img) &&
+        /\sheight="28"/.test(img) &&
+        /\sloading="lazy"/.test(img),
+    ),
+    'cada logo decorativo, de 28 × 28 declarados y con carga diferida',
+  );
+  check(
+    images.every((img) => {
+      const src = /\ssrc="([^"]+)"/.exec(img)?.[1] ?? '';
+      return src.startsWith('/_astro/') && src.endsWith('.svg') && existsSync(join(DIST, src));
+    }),
+    'cada logo es un SVG presente en dist/_astro/ (sin data URI)',
+  );
+  check(
+    flat.every((t) => t.name.length > 0 && /class="role/.test(t.html)),
+    'cada ficha con nombre y rol visibles',
+  );
+  check(
+    !/<button|<input|<select|<script|<dialog/.test(mainHtml),
+    'página sin controles ni scripts',
+  );
+  developer[lang] = {
+    counts: tiles.map((list) => list.length),
+    ids: flat.map((t) => t.id),
+    names: flat.map((t) => t.name),
+    aspects: aspectItems.length,
+    levels,
+  };
+}
+check(
+  same(developer.es?.ids, developer.en?.ids) &&
+    same(developer.es?.names, developer.en?.names) &&
+    same(developer.es?.counts, developer.en?.counts) &&
+    developer.es?.aspects === developer.en?.aspects &&
+    same(developer.es?.levels, developer.en?.levels),
+  'paridad Desarrollador: mismas 36 tecnologías, nombres, categorías y encabezados en /es/ y /en/',
 );
 
 // --- Paridad entre idiomas ---

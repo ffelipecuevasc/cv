@@ -737,3 +737,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (31-10-2026):** en `page.json`, el periodo de cada perfil aparece en `timeline.items[].period` y en `profiles[].period`. Hoy coinciden en Instructor (2023), Docente (2013) y Desarrollador (2011). Esa duplicación fue el origen de la contradicción que se encontró en E60-I02: el sitio antiguo traía «2011 - Actualidad» en el hito y «2011 - 2020» en la tarjeta.
 - **Impacto:** si se edita uno y no el otro, la página vuelve a contradecirse. `verify:seo` solo comprueba los periodos de los hitos, que la tarjeta Desarrollador diga «2011 - hoy» y que no quede «2020».
 - **Recomendación:** que el hito tome el periodo del perfil (un campo `profile` en cada hito, con el id de la tarjeta) y que `verify:seo` compare ambos. No se hizo ahora porque los títulos e instituciones de hitos y tarjetas no coinciden del todo («Instructor Certificado» frente a «Instructor de Bootcamps», «INACAP» frente a «INACAP | Duoc UC | IPLACEX»).
+
+### AT-082 · Redacción de la tarjeta Desarrollador de Experiencia
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01 (revisión pendiente con Felipe)
+- **Evidencia (E70-I01, 01-11-2026):** en `src/content/experience/page.json`, el texto de la tarjeta Desarrollador dice «… en **Java y Python** a lo largo de todo el tiempo que trabajo como docente universitario …» (`es-CL`) y «… in **Java and Python** throughout my time as a university lecturer …» (`en-US`). Tras ADR-066 (verbos en presente), «a lo largo de todo el tiempo que trabajo» queda forzado. Felipe validó el inglés de la línea de tiempo el 01-11-2026; esta frase queda aparte.
+- **Impacto:** redacción poco natural en una tarjeta visible; sin efecto funcional.
+- **Recomendación:** alternativas: «mientras trabajo como docente universitario» (`es-CL`) y «alongside my work as a university lecturer» (`en-US`). Felipe elige en E170-I01; no se cambia en E70-I01.
+
+### AT-083 · Logos de tecnologías oscuros que casi no se ven en el tema oscuro
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01 (decisión de Felipe)
+- **Evidencia (E70-I01, 01-11-2026):** los SVG se copiaron sin cambios de `main` (DESIGN.md 7.14). En oscuro, sobre el fondo de 44 px (`bg`), los logos negros o muy oscuros de Express.js, GitHub, Maven y Sequelize/Hibernate se distinguen poco; Express.js se ve tenue también en claro. Además, `oracle-cloud-infrastructure.svg` y `oracle-database.svg` son idénticos en `main` (mismo archivo), así que OCI muestra el logo de Oracle. No se midió el contraste: los logos son decorativos (el nombre va en texto).
+- **Impacto:** visual; el contenido sigue legible porque el nombre y el rol están en texto.
+- **Recomendación:** dar a la caja del logo un fondo claro fijo en ambos temas, o pedir a Felipe versiones claras de esos SVG y un logo propio de OCI.

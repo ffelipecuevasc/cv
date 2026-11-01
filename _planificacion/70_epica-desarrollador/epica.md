@@ -1,5 +1,5 @@
 # E70 · Página Desarrollador (desarrollador.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
 
 ## Objetivo
 Reconstruir el perfil de desarrollador con aspectos técnicos, muro de tecnologías y portafolio filtrable, en ambos idiomas.
@@ -19,7 +19,7 @@ E60-I01.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E70-I01](E70-I01-tecnologias.md) | Aspectos técnicos y muro de tecnologías | P1 | M | E60-I01 | [ ] Pendiente |
+| [E70-I01](E70-I01-tecnologias.md) | Aspectos técnicos y muro de tecnologías | P1 | M | E60-I01 | [x] Terminada |
 | [E70-I02](E70-I02-portafolio.md) | Portafolio filtrable y JSON-LD | P1 | M | E70-I01 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

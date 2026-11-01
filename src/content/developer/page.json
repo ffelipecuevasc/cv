@@ -1,0 +1,430 @@
+{
+  "header": {
+    "kicker": {
+      "es": "Perfil profesional",
+      "en": "Professional profile"
+    },
+    "title": {
+      "es": "Desarrollador Full Stack",
+      "en": "Full Stack Developer"
+    },
+    "institutions": "INACAP",
+    "period": {
+      "es": "2011 - Actualidad",
+      "en": "2011 - Present"
+    },
+    "modality": {
+      "es": "Modalidad presencial",
+      "en": "On-site"
+    }
+  },
+  "aspects": {
+    "kicker": {
+      "es": "Enfoque técnico",
+      "en": "Technical approach"
+    },
+    "title": {
+      "es": "Aspectos Técnicos de los Desarrollos",
+      "en": "Technical Aspects of My Work"
+    },
+    "lead": {
+      "es": "Mi trayectoria como desarrollador se ha centrado en construir bases sólidas para aplicaciones web, priorizando código limpio, mantenibilidad y escalabilidad. Mi enfoque combina el uso de frameworks empresariales consolidados con arquitecturas modernas.",
+      "en": "My work as a developer has focused on building solid foundations for web applications, prioritizing clean code, maintainability and scalability. My approach combines well-established enterprise frameworks with modern architectures."
+    },
+    "items": [
+      {
+        "icon": "api",
+        "title": {
+          "es": "Backend & Desarrollo de APIs",
+          "en": "Backend & API Development"
+        },
+        "text": {
+          "es": "Desarrollo de servicios robustos en **Java (Spring Boot, Spring Security, JPA, Hibernate)** y ecosistemas ágiles en **Python (Django, Django Ninja)**.",
+          "en": "Building robust services in **Java (Spring Boot, Spring Security, JPA, Hibernate)** and agile ecosystems in **Python (Django, Django Ninja)**."
+        }
+      },
+      {
+        "icon": "account-tree",
+        "title": {
+          "es": "Arquitectura & Patrones",
+          "en": "Architecture & Patterns"
+        },
+        "text": {
+          "es": "Implementación de patrones **MVC**, diseño de arquitecturas **RESTful**, aproximación a microservicios y aseguramiento mediante **tokens JWT**.",
+          "en": "Implementing **MVC** patterns, designing **RESTful** architectures, moving toward microservices and securing them with **JWT tokens**."
+        }
+      },
+      {
+        "icon": "sync",
+        "title": {
+          "es": "Metodología & Herramientas",
+          "en": "Methodology & Tools"
+        },
+        "text": {
+          "es": "Integración de flujos de trabajo colaborativos con **Git y GitHub**, desarrollo bajo marcos ágiles (**Scrum**, Trello/Jira) y prácticas de Code Review.",
+          "en": "Collaborative workflows with **Git and GitHub**, development under agile frameworks (**Scrum**, Trello/Jira) and code review practices."
+        }
+      },
+      {
+        "icon": "cloud-upload",
+        "title": {
+          "es": "Despliegue & Cloud",
+          "en": "Deployment & Cloud"
+        },
+        "text": {
+          "es": "Experiencia en llevar aplicaciones a producción en plataformas como **AlwaysData, PythonAnywhere** y entornos cloud de nivel enterprise (**Google Cloud Run, AWS**).",
+          "en": "Experience taking applications to production on platforms such as **AlwaysData, PythonAnywhere** and enterprise-grade cloud environments (**Google Cloud Run, AWS**)."
+        }
+      }
+    ]
+  },
+  "technologies": {
+    "kicker": {
+      "es": "Tecnologías",
+      "en": "Technologies"
+    },
+    "title": {
+      "es": "Conjunto de Tecnologías",
+      "en": "Technology Stack"
+    },
+    "lead": {
+      "es": "Acá listo todas las tecnologías que he trabajado en distintos proyectos que he desarrollado.",
+      "en": "Here are all the technologies I have worked with across the projects I have built."
+    },
+    "categories": [
+      {
+        "id": "ai",
+        "title": {
+          "es": "Inteligencia Artificial",
+          "en": "Artificial Intelligence"
+        },
+        "items": [
+          {
+            "icon": "claude",
+            "name": "Claude",
+            "role": {
+              "es": "Asistente de IA",
+              "en": "AI assistant"
+            }
+          },
+          {
+            "icon": "claude-code",
+            "name": "Claude Code",
+            "role": {
+              "es": "Agente de IA",
+              "en": "AI agent"
+            }
+          },
+          {
+            "icon": "google-antigravity",
+            "name": "Google Antigravity",
+            "role": {
+              "es": "Agente de IA",
+              "en": "AI agent"
+            }
+          },
+          {
+            "icon": "google-gemini",
+            "name": "Google Gemini",
+            "role": {
+              "es": "Asistente de IA",
+              "en": "AI assistant"
+            }
+          }
+        ]
+      },
+      {
+        "id": "languages",
+        "title": {
+          "es": "Lenguajes y Frameworks",
+          "en": "Languages and Frameworks"
+        },
+        "items": [
+          {
+            "icon": "html5",
+            "name": "HTML5",
+            "role": {
+              "es": "Lenguaje de Etiquetado",
+              "en": "Markup language"
+            }
+          },
+          {
+            "icon": "css3",
+            "name": "CSS3",
+            "role": {
+              "es": "Lenguaje de Estilos",
+              "en": "Style sheet language"
+            }
+          },
+          {
+            "icon": "javascript",
+            "name": "JavaScript",
+            "role": {
+              "es": "Lenguaje de Programación",
+              "en": "Programming language"
+            }
+          },
+          {
+            "icon": "java",
+            "name": "Java",
+            "role": {
+              "es": "Lenguaje de Programación",
+              "en": "Programming language"
+            }
+          },
+          {
+            "icon": "python",
+            "name": "Python",
+            "role": {
+              "es": "Lenguaje de Programación",
+              "en": "Programming language"
+            }
+          },
+          {
+            "icon": "spring",
+            "name": "Spring",
+            "role": {
+              "es": "Framework",
+              "en": "Framework"
+            }
+          },
+          {
+            "icon": "django",
+            "name": "Django",
+            "role": {
+              "es": "Framework",
+              "en": "Framework"
+            }
+          },
+          {
+            "icon": "expressjs",
+            "name": "Express.js",
+            "role": {
+              "es": "Framework",
+              "en": "Framework"
+            }
+          },
+          {
+            "icon": "tailwindcss",
+            "name": "Tailwind CSS",
+            "role": {
+              "es": "Framework",
+              "en": "Framework"
+            }
+          },
+          {
+            "icon": "nodejs",
+            "name": "Node.js",
+            "role": {
+              "es": "Entorno de Ejecución",
+              "en": "Runtime environment"
+            }
+          },
+          {
+            "icon": "hibernate",
+            "name": "Hibernate",
+            "role": {
+              "es": "ORM",
+              "en": "ORM"
+            }
+          },
+          {
+            "icon": "sequelize",
+            "name": "Sequelize",
+            "role": {
+              "es": "ORM",
+              "en": "ORM"
+            }
+          }
+        ]
+      },
+      {
+        "id": "data",
+        "title": {
+          "es": "Datos, APIs y Seguridad",
+          "en": "Data, APIs and Security"
+        },
+        "items": [
+          {
+            "icon": "restful-apis",
+            "name": "API REST",
+            "role": {
+              "es": "Arquitectura de APIs",
+              "en": "API architecture"
+            }
+          },
+          {
+            "icon": "jwt",
+            "name": "JWT",
+            "role": {
+              "es": "Autenticación",
+              "en": "Authentication"
+            }
+          },
+          {
+            "icon": "oauth2",
+            "name": "OAuth2",
+            "role": {
+              "es": "Autenticación",
+              "en": "Authentication"
+            }
+          },
+          {
+            "icon": "google-authenticator",
+            "name": "Google Authenticator",
+            "role": {
+              "es": "Seguridad / 2FA",
+              "en": "Security / 2FA"
+            }
+          },
+          {
+            "icon": "mysql",
+            "name": "MySQL",
+            "role": {
+              "es": "Base de Datos",
+              "en": "Database"
+            }
+          },
+          {
+            "icon": "postgresql",
+            "name": "PostgreSQL",
+            "role": {
+              "es": "Base de Datos",
+              "en": "Database"
+            }
+          },
+          {
+            "icon": "oracle-database",
+            "name": "Oracle Database",
+            "role": {
+              "es": "Base de Datos",
+              "en": "Database"
+            }
+          },
+          {
+            "icon": "redis",
+            "name": "Redis",
+            "role": {
+              "es": "Caché",
+              "en": "Cache"
+            }
+          },
+          {
+            "icon": "rabbitmq",
+            "name": "RabbitMQ",
+            "role": {
+              "es": "Mensajería",
+              "en": "Messaging"
+            }
+          }
+        ]
+      },
+      {
+        "id": "infrastructure",
+        "title": {
+          "es": "Infraestructura y Despliegue",
+          "en": "Infrastructure and Deployment"
+        },
+        "items": [
+          {
+            "icon": "docker",
+            "name": "Docker",
+            "role": {
+              "es": "Contenedores",
+              "en": "Containers"
+            }
+          },
+          {
+            "icon": "aws",
+            "name": "AWS",
+            "role": {
+              "es": "Infraestructura PaaS",
+              "en": "PaaS infrastructure"
+            }
+          },
+          {
+            "icon": "cloudflare",
+            "name": "Cloudflare",
+            "role": {
+              "es": "Infraestructura PaaS",
+              "en": "PaaS infrastructure"
+            }
+          },
+          {
+            "icon": "cloudflare-workers",
+            "name": "Cloudflare Workers",
+            "role": {
+              "es": "Backend Serverless",
+              "en": "Serverless backend"
+            }
+          },
+          {
+            "icon": "alwaysdata",
+            "name": "AlwaysData",
+            "role": {
+              "es": "Infraestructura PaaS",
+              "en": "PaaS infrastructure"
+            }
+          },
+          {
+            "icon": "oracle-cloud-infrastructure",
+            "name": "OCI",
+            "role": {
+              "es": "Infraestructura PaaS",
+              "en": "PaaS infrastructure"
+            }
+          }
+        ]
+      },
+      {
+        "id": "tools",
+        "title": {
+          "es": "Herramientas y Control de Versiones",
+          "en": "Tools and Version Control"
+        },
+        "items": [
+          {
+            "icon": "maven",
+            "name": "Maven",
+            "role": {
+              "es": "Gestor de Dependencias",
+              "en": "Dependency manager"
+            }
+          },
+          {
+            "icon": "npm",
+            "name": "NPM",
+            "role": {
+              "es": "Gestor de Paquetes",
+              "en": "Package manager"
+            }
+          },
+          {
+            "icon": "pnpm",
+            "name": "PNPM",
+            "role": {
+              "es": "Gestor de Paquetes",
+              "en": "Package manager"
+            }
+          },
+          {
+            "icon": "git",
+            "name": "Git",
+            "role": {
+              "es": "Control de Versiones",
+              "en": "Version control"
+            }
+          },
+          {
+            "icon": "github",
+            "name": "GitHub",
+            "role": {
+              "es": "Control de Versiones",
+              "en": "Version control"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

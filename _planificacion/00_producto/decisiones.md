@@ -656,6 +656,20 @@ Reglas del registro:
 - **Consecuencias:** modifica `DESIGN.md` 11.2 (la línea de tiempo pasa a estar asignada) y 11.5 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-065 (descarte de la línea de tiempo y periodo «2011 - 2020»); ADR-065 no se edita. Los periodos viven en dos lugares de `page.json` (hitos y tarjetas): AT-081. No había otro «2020» ligado a esa tarjeta en datos, JSON-LD ni descripciones.
 - **Origen:** decisiones de Felipe el 31-10-2026 (E60-I02). **Estado:** Aceptada.
 
+## ADR-067 · Desarrollador: composición, cabecera y muro de tecnologías
+- **Contexto:** E70-I01. ADR-036 pide definir y validar el patrón de cada página al inicio de su épica. La cabecera de `main:desarrollador.html` decía «UTECH INACAP | Duoc UC», «Ene 2011 — Actualidad» y «Semipresencial», lo que contradecía el hito y la tarjeta Desarrollador de Experiencia (ADR-066: «INACAP», «2011 - Actualidad», «Modalidad presencial»).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición:** aspectos técnicos con el patrón reservado «lista de servicios a dos columnas con regla superior» (aprobado para esta página); las 36 tecnologías en una sola **banda de ancho completo**, con las 5 categorías apiladas, cada una con rótulo kicker (h3) y retícula de fichas.
+  - **Cabecera:** «Desarrollador Full Stack», institución «INACAP» (igual a Experiencia), «2011 - Actualidad» y «Modalidad presencial» (igual a la tarjeta de Experiencia). Se quita «UTECH INACAP | Duoc UC» y se deja de mostrar «Semipresencial» y el mes «Ene».
+- **Decisión (de implementación):**
+  - Colección `developerPage` (`src/content/developer/page.json`) con `localized()`; el esquema exige 4 aspectos, 5 categorías con 4/12/9/6/5 tecnologías y 36 íconos únicos. Metadatos en `src/content/pages/developer.json` (los de `main`).
+  - Los 36 SVG se copian sin cambios de `main:static/img/iconos/` a `src/assets/technologies/` y se emiten como archivos (`?no-inline`): sin `?no-inline`, Vite incrustaba 29 como data URI y el HTML subía de 51 a 108 KB. Van en `<img alt="">` (el nombre está en el texto) de 28 × 28 con carga diferida.
+  - Íconos de los aspectos de `icons.ts` (ADR-063), con los nombres de `main`: `api`, `account-tree`, `sync` y `cloud-upload`.
+  - Los roles se traducen; nombres de tecnologías e instituciones, no (ADR-025). La bajada del muro cambia el «:» final por punto.
+  - `verify:seo` retira `/es/desarrollador/` y `/en/developer/` de `PENDING_PROFILE_ROUTES` y suma controles de la página (cabecera, 4 aspectos, 36 tecnologías por categoría, logos en `dist/` y paridad).
+- **Consecuencias:** `DESIGN.md` 11.2 (la lista a dos columnas deja de estar reservada para Desarrollador) y una sección nueva de Desarrollador: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I01). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
