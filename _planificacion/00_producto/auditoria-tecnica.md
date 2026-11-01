@@ -715,7 +715,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Felipe entrega los PNG (Credly / Oracle), se guardan en `src/assets/badges/` y se cambia `badge` en los datos; nada más cambia.
 
 ### AT-078 · El botón del menú móvil sigue visible desde 1.280 px
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** a definir (ajuste de la navbar)
+- **Severidad:** Baja · **Estado:** Resuelto en E30-I08 (31-10-2026): la regla que lo oculta ahora es `:global(.icon-button.icon.mobile-menu-toggle)` (0,3,0), sin `!important` · **Resuelve:** E30-I08
 - **Evidencia (E20-I06, 31-10-2026):** a 1.280 px, claro y oscuro, la navbar muestra los enlaces y el botón de hamburguesa a la vez. `MobileMenuButton.astro` lo oculta con `.mobile-menu-toggle { display: none }` desde 80 rem, pero `IconButton.astro` fija `display: inline-flex` con `.icon-button[data-astro-cid]`, de mayor especificidad y anterior en la hoja. No lo causa E20-I06: ni `IconButton` ni la navbar cambiaron.
 - **Impacto:** duplica la navegación en escritorio y ocupa espacio en la barra.
 - **Recomendación:** subir la especificidad de la regla de ocultar (por ejemplo `.icon-button.mobile-menu-toggle`) y comprobarlo a 1.279 y 1.280 px en la iteración que corresponda.

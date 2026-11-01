@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E60 · Página Experiencia (experiencia.html)
-- **Iteración actual:** E60-I01 · Página de resumen de experiencia (E20 terminada otra vez el 31-10-2026, con E20-I06).
+- **Iteración actual:** E60-I01 · Página de resumen de experiencia (E30 terminada otra vez el 31-10-2026, con E30-I08).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 29 de 57 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03). Épicas E10, E20, E30, E40 y E50 terminadas.
+- **Terminadas:** 30 de 58 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03). Épicas E10, E20, E30, E40 y E50 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -39,6 +39,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E30-I05 · Navbar móvil (P0, M)
 - [x] E30-I06 · Pie de página rediseñado y volver arriba (P0, S)
 - [x] E30-I07 · Ajustes de navbar y pie tras la revisión en la preview (P0, M)
+- [x] E30-I08 · Botón de menú móvil oculto desde 1.280 px (P1, S)
 
 **E40 · Página Inicio (index.html)** (`40_epica-inicio/`)
 - [x] E40-I01 · Hero rediseñado sin scroll en escritorio (P0, M)

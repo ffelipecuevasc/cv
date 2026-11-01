@@ -360,7 +360,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 | `rail` | `0 0 0 1px orient-950/8 %, 0 10px 22px -12px orient-800/45 %` | `0 0 0 1px orient-50/10 %, 0 12px 24px -12px black/70 %` |
 
 ### 7.14 Iconografía
-Íconos de línea propios en SVG en línea, trazo de 1,4–1,8 px, puntas y uniones redondeadas, color `currentColor`, decorativos (`aria-hidden`) salvo que sean el único contenido de un control (entonces el control lleva nombre accesible). Las redes usan los SVG de marca del sitio actual. Sin fuentes de íconos (AT-016).
+Íconos de contorno de **Material Symbols Light** (Google, licencia Apache 2.0; ADR-063), de la colección `material-symbols-light` de Iconify: peso 200, tamaño óptico 24, grado 0, variantes «-outline», con el mismo nombre que tenían en el sitio antiguo. Las rutas SVG se copian a `icons.ts` y se pintan rellenas en SVG en línea, con `viewBox="0 0 24 24"` y color `currentColor`. No hay paquetes ni fuentes de íconos (AT-016). Son decorativos (`aria-hidden`) salvo que sean el único contenido de un control (entonces el control lleva nombre accesible). Las redes y los SVG de tecnologías conservan sus SVG de marca propios, sin cambios. El trazo de 1 px se validó a simple vista en Educación; el contraste de los íconos que transmiten información se mide en E170-I01.
 
 ## 8. Movimiento y accesibilidad
 - **Obligatorio:**

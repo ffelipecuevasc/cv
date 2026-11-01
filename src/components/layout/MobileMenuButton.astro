@@ -35,8 +35,11 @@ const t = useTranslations(langFromLocale(Astro.currentLocale));
   :global(.mobile-menu-toggle[aria-expanded='true'] .toggle-icon-close) {
     display: block;
   }
+  /* IconButton fija `display: inline-flex` con `.icon-button[data-astro-cid-…]` (0,2,0). Una
+     regla `.mobile-menu-toggle` sola (0,1,0) perdía y el botón seguía visible desde 1.280 px
+     (AT-078). Con las tres clases del botón (0,3,0) gana sin `!important`. */
   @media (min-width: 80rem) {
-    :global(.mobile-menu-toggle) {
+    :global(.icon-button.icon.mobile-menu-toggle) {
       display: none;
     }
   }

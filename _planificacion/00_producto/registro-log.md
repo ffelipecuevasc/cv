@@ -2,8 +2,8 @@
 
 **Fuente única de verdad** del trabajo pendiente. Si discrepa con `_planificacion/README.md`, prevalece este archivo.
 
-- **Épica actual:** E60 · **Iteración actual:** E60-I01 (E20 terminada otra vez el 31-10-2026 con E20-I06, reabierta ese día por el cambio de íconos, ADR-056. E50 terminada el 31-10-2026 con E50-I03, reabierta ese día por los ajustes de la preview (ADR-056), con el inglés validado y su cierre documental en `99_bitacora/2026-10-31_E50-cierre.md`; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
-- **Resumen:** 20 épicas · 57 iteraciones · 29 terminadas
+- **Épica actual:** E60 · **Iteración actual:** E60-I01 (E30 terminada otra vez el 31-10-2026 con E30-I08, reabierta ese día por el botón de menú móvil, ADR-056. E20 terminada otra vez el 31-10-2026 con E20-I06, reabierta ese día por el cambio de íconos, ADR-056. E50 terminada el 31-10-2026 con E50-I03, reabierta ese día por los ajustes de la preview (ADR-056), con el inglés validado y su cierre documental en `99_bitacora/2026-10-31_E50-cierre.md`; E40 terminada el 31-10-2026, con el inglés validado por Felipe el 30-10-2026; ver `99_bitacora/2026-10-31_E40-cierre.md`)
+- **Resumen:** 20 épicas · 58 iteraciones · 30 terminadas
 - **Orden de ejecución de épicas:** E10 → E20 → E30 → E40 → E50 → E60 → E70 → E80 → E90 → E100 → E110 → E120 → E130 → E140 → E150 → E155 → E160 → E170 → E180 → E190. Dentro de cada épica se respetan las dependencias declaradas. E155 depende de E140-I02, que define la constante de versión de la política (ADR-035).
 - Estados: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -42,6 +42,7 @@
 | P0 | E30-I05 | Navbar móvil | M | E30-I04 | [x] Terminada |
 | P0 | E30-I06 | Pie de página rediseñado y volver arriba | S | E30-I04 | [x] Terminada |
 | P0 | E30-I07 | Ajustes de navbar y pie tras la revisión en la preview | M | E30-I06 | [x] Terminada |
+| P1 | E30-I08 | Botón de menú móvil oculto desde 1.280 px | S | E30-I05, E30-I07 | [x] Terminada |
 
 ### E40 · Página Inicio (index.html) (`40_epica-inicio/`)
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
