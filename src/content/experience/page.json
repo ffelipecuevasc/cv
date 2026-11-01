@@ -1,0 +1,106 @@
+{
+  "header": {
+    "kicker": { "es": "Resumen de experiencia", "en": "Experience overview" },
+    "title": { "es": "Experiencia Laboral", "en": "Work Experience" },
+    "lead": {
+      "es": "Acá tienes un resumen de toda mi experiencia profesional en los 3 perfiles laborales en los que me he desempeñado.",
+      "en": "Here is a summary of my professional experience across the 3 job profiles I have worked in."
+    }
+  },
+  "listLabel": { "es": "Perfiles laborales", "en": "Job profiles" },
+  "profiles": [
+    {
+      "id": "lecturer",
+      "image": "../../assets/experience/lecturer.webp",
+      "imageAlt": {
+        "es": "Sala de clases universitaria durante una sesión",
+        "en": "University classroom during a session"
+      },
+      "kicker": { "es": "Experiencia académica", "en": "Academic experience" },
+      "title": { "es": "Docente Universitario", "en": "University Lecturer" },
+      "institutions": "Universidad Tecnológica de Chile INACAP | Duoc UC | IPLACEX",
+      "paragraph": {
+        "es": "Fui por más de 10 años docente universitario de especialidad en las Carreras de Ingeniería Informática. Actualmente trabajo como docente universitario en el Campus de Educación a Distancia (CED) de **IPLACEX** en la Escuela de Informática y Tecnología.",
+        "en": "I spent more than 10 years as a specialty university lecturer in Computer Engineering programs. I currently work as a university lecturer at the Distance Education Campus (CED) of **IPLACEX**, in the School of Computing and Technology."
+      },
+      "tags": {
+        "es": ["Desarrollo Full Stack", "Administración de BD", "Ingeniería de Datos"],
+        "en": ["Full Stack Development", "Database Administration", "Data Engineering"]
+      },
+      "period": { "es": "2013 - Actualidad", "en": "2013 - Present" },
+      "modality": { "es": "Modalidad semipresencial", "en": "Blended format" },
+      "links": [
+        {
+          "route": "lecturer",
+          "text": { "es": "Más detalles", "en": "More details" },
+          "label": {
+            "es": "Más detalles: Docente Universitario",
+            "en": "More details: University Lecturer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "image": "../../assets/experience/developer.webp",
+      "imageAlt": {
+        "es": "Escritorio de desarrollo con código en pantalla",
+        "en": "Development desk with code on screen"
+      },
+      "kicker": { "es": "Experiencia en desarrollo", "en": "Development experience" },
+      "title": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
+      "institutions": "Universidad Tecnológica de Chile INACAP | Duoc UC | IPLACEX",
+      "paragraph": {
+        "es": "Me desempeñé como desarrollador full stack en **Java y Python** a lo largo de todo el tiempo que trabajé como docente universitario creando aplicaciones orientadas al ámbito educativo para el desarrollo de asignaturas, evaluaciones y exámenes finales.",
+        "en": "I worked as a full stack developer in **Java and Python** throughout my time as a university lecturer, building applications for the educational field to support courses, assessments and final exams."
+      },
+      "tags": {
+        "es": ["Java", "Framework Spring", "Python", "Framework Django"],
+        "en": ["Java", "Spring Framework", "Python", "Django Framework"]
+      },
+      "period": { "es": "2011 - 2020", "en": "2011 - 2020" },
+      "modality": { "es": "Modalidad presencial", "en": "On-site" },
+      "links": [
+        {
+          "route": "developer",
+          "text": { "es": "Más detalles", "en": "More details" },
+          "label": {
+            "es": "Más detalles: Desarrollador Full Stack",
+            "en": "More details: Full Stack Developer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "instructor",
+      "image": "../../assets/experience/instructor.webp",
+      "imageAlt": {
+        "es": "Grupo de participantes trabajando en una sesión de capacitación",
+        "en": "Group of participants working in a training session"
+      },
+      "kicker": { "es": "Experiencia en bootcamps", "en": "Bootcamp experience" },
+      "title": { "es": "Instructor de Bootcamps", "en": "Bootcamp Instructor" },
+      "institutions": "Talento Digital para Chile SENCE",
+      "paragraph": {
+        "es": "He participado en varios bootcamps de **Talento Digital** como instructor titular acumulando más de 3 años de experiencia. Me ha tocado trabajar en bootcamps de desarrollo full stack en Java, Python, ingeniería de datos y también inteligencia artificial.",
+        "en": "I have taken part in several **Talento Digital** bootcamps as lead instructor, with more than 3 years of experience. I have worked on bootcamps in Java and Python full stack development, data engineering and also artificial intelligence."
+      },
+      "tags": {
+        "es": ["Full Stack Java", "Full Stack Python", "Inteligencia Artificial"],
+        "en": ["Java Full Stack", "Python Full Stack", "Artificial Intelligence"]
+      },
+      "period": { "es": "2023 - Actualidad", "en": "2023 - Present" },
+      "modality": { "es": "Modalidad a distancia", "en": "Remote" },
+      "links": [
+        {
+          "route": "instructor",
+          "text": { "es": "Instructor REUF", "en": "REUF Instructor" }
+        },
+        {
+          "route": "talentoDigital",
+          "text": { "es": "Talento Digital", "en": "Talento Digital" }
+        }
+      ]
+    }
+  ]
+}

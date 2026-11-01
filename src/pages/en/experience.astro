@@ -1,0 +1,20 @@
+---
+// Resumen de experiencia de /en/ (E60-I01). Título, descripción y texto alternativo de la
+// imagen OG vienen de src/content/pages/experience.json; el contenido, de
+// src/content/experience/page.json.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExperienceHeader from '../../components/experience/ExperienceHeader.astro';
+import ProfilesGrid from '../../components/experience/ProfilesGrid.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'experience');
+if (!page) throw new Error('Falta src/content/pages/experience.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
+---
+
+<BaseLayout title={title.en} description={description.en} route="experience" ogImage={og}>
+  <ExperienceHeader />
+  <ProfilesGrid />
+</BaseLayout>

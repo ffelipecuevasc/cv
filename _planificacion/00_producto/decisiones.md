@@ -625,6 +625,22 @@ Reglas del registro:
 - **Consecuencias:** modifica `DESIGN.md` 4.3, 4.4 y 7.6 (bloque en la bitácora; lo edita Felipe, ADR-033). Aclara ADR-063 en las estrellas: ya no son todas de contorno. Contraste medido de la estrella encendida: 6,25:1 en claro (sobre `surface` blanco) y 10,97:1 en oscuro (sobre `surface` `orient-900`), iguales a los de 4.4. ADR-063 no se edita.
 - **Origen:** decisión de Felipe el 31-10-2026 (E20-I07). **Estado:** Aceptada.
 
+## ADR-065 · Experiencia: grilla de perfiles y enlaces a páginas futuras
+- **Contexto:** E60-I01. `DESIGN.md` 11.2 dejaba la «grilla simétrica de tarjetas» sin asignar, y ADR-036 pide definir y validar el patrón de cada página al inicio de su épica. Las páginas a las que enlaza el resumen (Desarrollador, Docente, Instructor y Talento Digital) las crean E70, E80, E90 y E100, después de E60. El criterio original de la iteración pedía «páginas de prueba» para que los enlaces resolvieran.
+- **Decisión (de Felipe, 31-10-2026):**
+  - **Patrón «grilla simétrica de tarjetas»:** tres tarjetas iguales con foto, rótulo, título, instituciones, texto, etiquetas y enlace; tres columnas desde 1.024 px y una bajo esa medida. Encabezado centrado.
+  - **Perfiles:** Docente Universitario, Instructor de Bootcamps y Desarrollador Full Stack. Instructor lleva dos enlaces (Instructor REUF y Talento Digital); los otros, uno. Son tres perfiles y cuatro destinos.
+  - **Enlaces a rutas futuras:** salen de `src/i18n/routes.ts` y apuntan a las páginas reales aunque den 404 hasta E70 a E100. No se crean páginas de prueba, que se habrían tenido que borrar y habrían entrado al sitemap por error.
+  - **Docente dice «más de 10 años»** en lugar de «unos 8».
+  - **Sin «Descargar CV»** en la página (ADR-057; ADR-061 lo permite solo en Educación).
+- **Decisión (de implementación):**
+  - **Excepción de `verify:seo`:** el script no tenía control de enlaces. Se agrega uno acotado al `<main>` de las dos páginas de Experiencia: cada enlace debe existir en `dist/` o estar en `PENDING_PROFILE_ROUTES`, una **lista cerrada de 8 rutas** (4 destinos × 2 idiomas) que vale solo para esa comprobación. Si una ruta de la lista ya existe en `dist/`, el control **falla** hasta que se retire: E70 retira `/desarrollador/` y `/developer/`, E80 `/docente/` y `/lecturer/`, E90 `/instructor/` (es y en) y E100 `/talento-digital/` (es y en). Cualquier otro enlace roto sigue fallando; el control global es E170-I04.
+  - **Contenido del sitio antiguo:** se conserva el periodo y la modalidad de cada perfil (2013 - Actualidad, 2011 - 2020 y 2023 - Actualidad; semipresencial, presencial y a distancia) en una línea de metadatos bajo las instituciones. Se descartan la mini línea de tiempo de tres tarjetas, que repetía los títulos y daba años distintos a los de las tarjetas detalladas (Docente 2023 frente a 2013 y Desarrollador «Actualidad» frente a 2011 - 2020), y el subtítulo «Resumen de Experiencia Laboral por Perfil», que repetía el `<h1>` y la bajada. Felipe confirma o corrige.
+  - **Nombre accesible:** los tres «Más Detalles» del sitio antiguo eran idénticos; ahora llevan «Más detalles: <perfil>». Los dos enlaces de Instructor se distinguen por su texto visible.
+  - **Datos:** `src/content/experience/page.json` con la colección `experiencePage` (paridad obligatoria, rutas por clave del mapa) y metadatos en `src/content/pages/experience.json`. Las fotos del sitio antiguo se copian a `src/assets/experience/` (Astro las sirve en WebP de 320 y 640 px, de 6 a 41 KB frente a 69 a 358 KB) y llevan `alt` en ambos idiomas; los textos `alt` en español son los del sitio antiguo. La primera foto carga con prioridad y las otras se difieren.
+- **Consecuencias:** `DESIGN.md` 11.2 y una sección 11.5 deben recoger el patrón (bloque en la bitácora; Felipe lo edita, ADR-033). Mientras E70 a E100 no existan, los cuatro enlaces dan 404 en la preview. Los textos `en-US` los valida Felipe (ADR-017).
+- **Origen:** decisiones de Felipe el 31-10-2026 (E60-I01). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

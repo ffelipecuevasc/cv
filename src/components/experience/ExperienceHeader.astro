@@ -1,0 +1,41 @@
+---
+/*
+ * Encabezado de Experiencia (E60-I01, DESIGN.md 7.5 y 11.2): el único <h1> de la página, con
+ * rótulo y bajada, centrado como pide el patrón «grilla simétrica de tarjetas». Fondo `bg`.
+ * Dentro de <main>.
+ */
+import { getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('experiencePage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/experience/page.json');
+const { header } = page;
+---
+
+<div class="experience-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      variant="center"
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      lead={header.lead[lang]}
+      id="experience-title"
+    />
+  </Container>
+</div>
+
+<style>
+  .experience-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  @media (min-width: 48rem) {
+    .experience-header {
+      padding-block: 80px 64px;
+    }
+  }
+</style>

@@ -4,6 +4,7 @@
  * datos (certificaciones y redes). Corre con `pnpm build && pnpm verify:seo`.
  * Valida sintaxis y estructura; NO reemplaza la Prueba de resultados enriquecidos de
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
+ * Cubre la portada (E40-I03), Educación (E50) y Experiencia (E60-I01, con control de enlaces).
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -418,6 +419,158 @@ check(
 check(
   same(education.es?.credentials, pages.es?.person?.hasCredential),
   'hasCredential de Educación = el de la portada',
+);
+
+// --- Experiencia (E60-I01, ADR-065): metadatos, estructura, grilla de 3 perfiles y enlaces ---
+const EXPERIENCE = { es: 'es/experiencia', en: 'en/experience' };
+// Destinos de los cuatro perfiles, en el orden en que aparecen en las tarjetas.
+const PROFILE_LINKS = {
+  es: ['/es/docente/', '/es/desarrollador/', '/es/instructor/', '/es/talento-digital/'],
+  en: ['/en/lecturer/', '/en/developer/', '/en/instructor/', '/en/talento-digital/'],
+};
+// Lista cerrada de páginas de perfil que aún no existen (ADR-065). Solo vale para el control de
+// enlaces de esta página. Cada épica retira las suyas al crear la página: E70 desarrollador,
+// E80 docente, E90 instructor y E100 talento-digital. Si una ruta de la lista ya existe en
+// dist/, el control falla hasta que se retire.
+const PENDING_PROFILE_ROUTES = [
+  '/es/desarrollador/',
+  '/en/developer/',
+  '/es/docente/',
+  '/en/lecturer/',
+  '/es/instructor/',
+  '/en/instructor/',
+  '/es/talento-digital/',
+  '/en/talento-digital/',
+];
+const routeExists = (path) => existsSync(join(DIST, path, 'index.html'));
+const experience = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = EXPERIENCE[lang];
+  const other = EXPERIENCE[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${EXPERIENCE.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  const ogImage = meta('og:image');
+  check(
+    Boolean(ogImage) &&
+      ogImage === meta('twitter:image') &&
+      existsSync(join(DIST, new URL(ogImage).pathname)),
+    'og:image absoluta, igual a twitter:image y presente en dist/',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  check(/<h1[\s>]/.test(mainHtml), 'el <h1> está dentro de <main>');
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `encabezados sin saltos (${levels.join(',')})`,
+  );
+
+  // Grilla simétrica de 3 tarjetas, sin controles ni scripts (DESIGN.md 11.5).
+  const cards = [...mainHtml.matchAll(/<article[^>]*profile-card[^>]*>[\s\S]*?<\/article>/g)].map(
+    (m) => m[0],
+  );
+  check(cards.length === 3, `3 tarjetas de perfil (${cards.length})`);
+  check(
+    cards.every((card) => (card.match(/<h2[\s>]/g) ?? []).length === 1),
+    'cada tarjeta con un solo <h2>',
+  );
+  check(
+    cards.every((card) => /<img[^>]*\salt="[^"]{10,}"/.test(card)),
+    'cada foto con texto alternativo',
+  );
+  check(
+    cards.every(
+      (card) => /<img[^>]*\swidth="\d+"[^>]*\sheight="\d+"/.test(card) && /srcset=/.test(card),
+    ),
+    'cada foto con ancho y alto declarados y srcset',
+  );
+  check(
+    cards.every((card) => (card.match(/class="tag"/g) ?? []).length >= 3),
+    'cada tarjeta con sus etiquetas',
+  );
+  check(
+    !/<button|<input|<select|<script|<dialog/.test(mainHtml),
+    'página sin controles ni scripts',
+  );
+  check(!/\sdownload[=\s>]/.test(mainHtml), 'sin «Descargar CV» en la página (ADR-057)');
+
+  // Enlaces internos del <main>: cada uno existe en dist/ o está en la lista cerrada (ADR-065).
+  const hrefs = [...mainHtml.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map((m) => decode(m[1]));
+  check(
+    same(hrefs, PROFILE_LINKS[lang]),
+    `4 enlaces a los perfiles, en orden (${hrefs.join(', ')})`,
+  );
+  check(
+    hrefs.every(
+      (href) => href.startsWith(`/${lang}/`) && href.endsWith('/') && !href.includes('.html'),
+    ),
+    'enlaces con prefijo de idioma, barra final y sin .html',
+  );
+  const unresolved = hrefs.filter(
+    (href) => !routeExists(href) && !PENDING_PROFILE_ROUTES.includes(href),
+  );
+  check(
+    unresolved.length === 0,
+    `todo enlace existe en dist/ o está en la lista cerrada de ADR-065 (${unresolved.join(', ') || 'ok'})`,
+  );
+  const retire = PENDING_PROFILE_ROUTES.filter(routeExists);
+  check(
+    retire.length === 0,
+    `la lista cerrada no incluye rutas que ya existen (retira ${retire.join(', ') || 'ninguna'})`,
+  );
+  experience[lang] = {
+    photos: cards.map((card) => /<img[^>]*\ssrc="[^"]*\/([a-z]+)\./.exec(card)?.[1]),
+    tags: cards.map((card) => (card.match(/class="tag"/g) ?? []).length),
+    links: hrefs.length,
+    h2: levels.filter((level) => level === 2).length,
+  };
+}
+check(
+  same(experience.es, experience.en),
+  'misma grilla (fotos, etiquetas y enlaces) en /es/ y /en/',
 );
 
 // --- Paridad entre idiomas ---

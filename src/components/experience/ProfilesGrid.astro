@@ -1,0 +1,78 @@
+---
+/*
+ * Perfiles de Experiencia (E60-I01, DESIGN.md 11.2 y 11.5, ADR-065): patrón «grilla simétrica
+ * de tarjetas». Tres tarjetas iguales, una columna bajo 1.024 px y tres desde 1.024 px, sin
+ * JavaScript. Fondo `bg-alt` para que las tarjetas (`surface`) se distingan. Dentro de <main>.
+ * Los enlaces salen del mapa de rutas y pueden apuntar a páginas que aún no existen.
+ */
+import { getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import ProfileCard, { type ProfileItem } from './ProfileCard.astro';
+import { getRoute } from '../../i18n/routes';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('experiencePage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/experience/page.json');
+
+const items: ProfileItem[] = page.profiles.map((profile, index) => ({
+  id: profile.id,
+  image: profile.image,
+  imageAlt: profile.imageAlt[lang],
+  kicker: profile.kicker[lang],
+  title: profile.title[lang],
+  institutions: profile.institutions,
+  paragraph: profile.paragraph[lang],
+  tags: profile.tags[lang],
+  meta: `${profile.period[lang]} · ${profile.modality[lang]}`,
+  links: profile.links.map((link) => ({
+    href: getRoute(link.route, lang),
+    text: link.text[lang],
+    label: link.label?.[lang],
+  })),
+  // La primera foto puede ser el LCP en escritorio; las demás cargan al acercarse.
+  eager: index === 0,
+}));
+---
+
+<section class="profiles" aria-label={page.listLabel[lang]}>
+  <Container>
+    <ul class="grid">
+      {items.map((item) => (
+        <li class="cell">
+          <ProfileCard item={item} />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  /* Relleno vertical de sección: 80 px bajo 768 px y 96 px desde 768 px (DESIGN.md 6). */
+  .profiles {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cell > :global(.card) {
+    height: 100%;
+  }
+  @media (min-width: 48rem) {
+    .profiles {
+      padding-block: 96px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+</style>

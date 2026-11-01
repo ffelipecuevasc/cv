@@ -6,6 +6,7 @@
  * Cada épica de página agrega aquí su colección (testimonios, certificaciones, etc.).
  */
 import { defineCollection } from 'astro:content';
+import type { ImageFunction } from 'astro/content/config';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { routes } from './i18n/routes';
@@ -234,8 +235,55 @@ const educationPage = defineCollection({
   }),
 });
 
+/*
+ * Resumen de experiencia (E60-I01, ADR-065): encabezado y 3 perfiles en una grilla simétrica de
+ * tarjetas. Un perfil puede llevar uno o dos enlaces; `route` es una clave del mapa de rutas
+ * (src/i18n/routes.ts), así que la URL nunca se escribe a mano y puede apuntar a una página
+ * que todavía no existe. Instituciones, periodo y nombres de tecnologías son nombres propios y
+ * cifras; el resto lleva `localized()`. Los textos `en` los redacta el agente y Felipe los valida
+ * (ADR-017). Las fotos viven en src/assets/experience/ y Astro las optimiza.
+ */
+const experienceProfile = (image: ImageFunction) =>
+  z.object({
+    id: z.enum(['lecturer', 'developer', 'instructor']),
+    image: image(),
+    imageAlt: localized(),
+    kicker: localized(),
+    title: localized(),
+    /** Instituciones: nombres propios, no se traducen (ADR-025). */
+    institutions: z.string().trim().min(1),
+    /** `**texto**` marca énfasis. */
+    paragraph: localized(),
+    tags: localizedList(),
+    period: localized(),
+    modality: localized(),
+    links: z
+      .array(
+        z.object({
+          route: z.enum(Object.keys(routes) as [keyof typeof routes, ...(keyof typeof routes)[]]),
+          text: localized(),
+          /** Nombre accesible si el texto visible no basta (varios «Más detalles» iguales). */
+          label: localized().optional(),
+        }),
+      )
+      .min(1)
+      .max(2),
+  });
+
+const experiencePage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/experience' }),
+  schema: ({ image }) =>
+    z.object({
+      header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+      /** Nombre accesible de la lista de perfiles. */
+      listLabel: localized(),
+      profiles: z.array(experienceProfile(image)).length(3),
+    }),
+});
+
 export const collections = {
   pages,
+  experiencePage,
   personSeo,
   educationEntries,
   educationPage,
