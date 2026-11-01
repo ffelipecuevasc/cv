@@ -435,10 +435,10 @@ La página abre con el `<h1>` y su bajada, sigue con la formación y las certifi
 - Un ícono por categoría (universitaria, diplomado, técnica y reconocimiento), no uno por entrada.
 - El diploma de la Universidad de Chile se publica como «Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral».
 
-**Certificaciones** (ADR-036, ADR-061 y ADR-062): tres franjas temáticas (7.8) bajo el rótulo «Certificaciones», en este orden:
+**Certificaciones** (ADR-036, ADR-061 y ADR-062): la sección lleva su propio encabezado, con «Validación Oficial» y «Certificaciones Profesionales» (`es-CL`), y debajo van tres franjas temáticas (7.8), cada una con el rótulo «Certificaciones», en este orden:
 1. **Inteligencia artificial** (5): Claude Certified Developer – Foundations, Oracle AI Associate, Oracle AI Professional, AWS AI Practitioner y Agentic AI Certified Foundations Associate.
 2. **Tecnología Cloud** (`en-US`: Cloud Technology) (2): AWS Cloud Practitioner y Oracle OCI Associate. Es la franja espejo (7.8).
-3. **Desarrollo y datos** (4): AWS Developer Associate, Python Institute PCEP, Oracle Developer Professional y Oracle Data Science Professional.
+3. **Desarrollo y datos** (4): AWS Developer Associate, Python Institute PCEP, Oracle Data Science Professional y Oracle Developer Professional.
 
 - El orden dentro de cada franja lo fija el campo `position` de `src/data/certifications.ts`, que es la única lista de credenciales (11). La cifra del hero y el JSON-LD salen de esa lista (ADR-053) y no dependen de la franja.
 - Fondos alternos `band` / `bg` y zigzag; en móvil, una columna.

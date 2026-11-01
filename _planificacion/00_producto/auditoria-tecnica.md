@@ -719,3 +719,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E20-I06, 31-10-2026):** a 1.280 px, claro y oscuro, la navbar muestra los enlaces y el botón de hamburguesa a la vez. `MobileMenuButton.astro` lo oculta con `.mobile-menu-toggle { display: none }` desde 80 rem, pero `IconButton.astro` fija `display: inline-flex` con `.icon-button[data-astro-cid]`, de mayor especificidad y anterior en la hoja. No lo causa E20-I06: ni `IconButton` ni la navbar cambiaron.
 - **Impacto:** duplica la navegación en escritorio y ocupa espacio en la barra.
 - **Recomendación:** subir la especificidad de la regla de ocultar (por ejemplo `.icon-button.mobile-menu-toggle`) y comprobarlo a 1.279 y 1.280 px en la iteración que corresponda.
+
+### AT-079 · Respaldo por emisor sin uso en `CertificationsSection`
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si se toca el componente
+- **Evidencia (31-10-2026):** en `src/components/education/CertificationsSection.astro`, `badgeFor` (líneas 47-53) elige la insignia del emisor (`issuerBadges`, líneas 37-39, y `issuerFile`, líneas 41-46) cuando `badge` es `null` (rama `: issuerBadges[…]` de la línea 50); los comentarios de las líneas 8 y 40 lo describen como marcador (AT-077). Desde AT-077, las 11 credenciales de `src/data/certifications.ts` tienen `badge` propio, así que esa rama no se ejecuta. El tipo `badge: string | null` (línea 46 de `certifications.ts`) todavía permite el `null`. `src/assets/insignias/` sigue en uso por `HeroCertifications.astro`, de modo que los PNG no son código muerto.
+- **Impacto:** código muerto en un componente de página: un glob de 4 imágenes, un mapa emisor → archivo y una rama que no se alcanza. No cambia lo que se ve ni el rendimiento.
+- **Recomendación:** borrar `issuerBadges`, `issuerFile` y la rama del `null` en E170-I01 o al tocar el componente, y valorar si `badge` pasa a ser `string` obligatorio. No se borra ahora.
