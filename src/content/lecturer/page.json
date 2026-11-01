@@ -1,0 +1,152 @@
+{
+  "header": {
+    "kicker": { "es": "Perfil profesional", "en": "Professional profile" },
+    "title": { "es": "Docente Universitario", "en": "University Lecturer" },
+    "institutions": "INACAP | Duoc UC | IPLACEX",
+    "highlight": {
+      "es": "Docente con {years} años de experiencia",
+      "en": "Lecturer with {years} years of experience"
+    },
+    "indexLabel": { "es": "Instituciones", "en": "Institutions" }
+  },
+  "courses": {
+    "kicker": { "es": "Docencia", "en": "Teaching" },
+    "title": { "es": "Asignaturas Impartidas", "en": "Courses Taught" },
+    "items": [
+      {
+        "title": { "es": "Fundamentos de Programación", "en": "Programming Fundamentals" },
+        "text": {
+          "es": "En varios semestres dicté esta asignatura, inicialmente solo utilizando DFDs y pseudocódigo, pero después me tocó enseñar esta asignatura utilizando el lenguaje de programación **Python**.",
+          "en": "I taught this course over several semesters, at first using only data flow diagrams and pseudocode, and later using the **Python** programming language."
+        },
+        "tags": { "es": ["Pseudocódigo", "Python"], "en": ["Pseudocode", "Python"] }
+      },
+      {
+        "title": { "es": "Programación de Aplicaciones", "en": "Application Programming" },
+        "text": {
+          "es": "Me especialicé en hacer clases de programación en **Java**, **PHP** y **Python**. Enseñé a programar en frameworks como **Django** y **Flask** en el caso de Python, y **Spring** y **Spring Boot** en el caso de Java.",
+          "en": "I specialized in teaching programming in **Java**, **PHP** and **Python**. I taught frameworks such as **Django** and **Flask** for Python, and **Spring** and **Spring Boot** for Java."
+        },
+        "tags": {
+          "es": ["Python (Django)", "Java (Spring)"],
+          "en": ["Python (Django)", "Java (Spring)"]
+        }
+      },
+      {
+        "title": { "es": "Administración de Bases de Datos", "en": "Database Administration" },
+        "text": {
+          "es": "Hice clases como instructor certificado en administración de **Oracle DB**; también me tocó impartir asignaturas de administración en **SQL Server 2019** y asignaturas de diseño de bases de datos con **MySQL**.",
+          "en": "I taught as a certified instructor in **Oracle DB** administration; I also taught administration courses in **SQL Server 2019** and database design courses with **MySQL**."
+        },
+        "tags": { "es": ["Oracle DB", "MySQL"], "en": ["Oracle DB", "MySQL"] }
+      },
+      {
+        "title": { "es": "Ingeniería de Datos", "en": "Data Engineering" },
+        "text": {
+          "es": "Actualmente imparto asignaturas relacionadas con **Data Engineering** para el Campus a Distancia (CED) de **IPLACEX**, donde soy el docente que desarrolló el plan formativo de la asignatura **Limpieza y Preparación de Datos - Python**.",
+          "en": "I currently teach **Data Engineering** courses for the Distance Campus (CED) of **IPLACEX**, where I am the lecturer who developed the training plan for the course **Data Cleaning and Preparation - Python**."
+        },
+        "tags": { "es": ["Python", "Ingeniería de Datos"], "en": ["Python", "Data Engineering"] }
+      }
+    ]
+  },
+  "institutions": {
+    "kicker": { "es": "Trayectoria académica", "en": "Academic background" },
+    "title": { "es": "Experiencia por Institución", "en": "Experience by Institution" },
+    "moreInfo": { "es": "Ver más información", "en": "See more information" },
+    "moreInfoUrl": "https://www.linkedin.com/in/ffelipecuevasc/details/experience/",
+    "items": [
+      {
+        "id": "iplacex",
+        "name": "Instituto Profesional IPLACEX",
+        "shortName": "IPLACEX",
+        "period": { "es": "2024 - Actualidad", "en": "2024 - Present" },
+        "summary": { "es": "Docente desde el 2024", "en": "Lecturer since 2024" },
+        "text": {
+          "es": "Actualmente soy docente instructor en la **Escuela de Informática y Tecnologías Aplicadas**, donde me especializo en hacer clases en el **Campus de Educación a Distancia**. Las asignaturas que imparto son variadas: desde Programación y Administración de Bases de Datos propias de la **Carrera de Ingeniería Informática**, hasta Programación y Limpieza de Datos en la **Carrera de Ingeniería de Datos**.",
+          "en": "I am currently an instructor lecturer at the **School of Computing and Applied Technologies**, where I specialize in teaching at the **Distance Education Campus**. The courses I teach are varied: from Programming and Database Administration in the **Computer Engineering program** to Programming and Data Cleaning in the **Data Engineering program**."
+        }
+      },
+      {
+        "id": "duoc",
+        "name": "Instituto Profesional Duoc UC",
+        "shortName": "Duoc UC",
+        "period": { "es": "2023 - 2024", "en": "2023 - 2024" },
+        "summary": { "es": "Docente entre el 2023 - 2024", "en": "Lecturer from 2023 to 2024" },
+        "text": {
+          "es": "Fui docente en la **Escuela de Informática y Tecnologías Aplicadas**, donde me centré en hacer clases enfocadas al desarrollo de aplicaciones con **Java + MySQL**. Trabajé en la **Sede Plaza Vespucio**, ubicada en La Florida, Santiago.",
+          "en": "I was a lecturer at the **School of Computing and Applied Technologies**, where I focused on teaching application development with **Java + MySQL**. I worked at the **Plaza Vespucio campus**, in La Florida, Santiago."
+        }
+      },
+      {
+        "id": "inacap",
+        "name": "Universidad Tecnológica de Chile INACAP",
+        "shortName": "INACAP",
+        "period": { "es": "2013 - 2020", "en": "2013 - 2020" },
+        "summary": { "es": "Docente entre el 2013 - 2020", "en": "Lecturer from 2013 to 2020" },
+        "text": {
+          "es": "Fui docente instructor por 8 años en la **Carrera de Ingeniería Informática y Tecnologías Aplicadas**, donde hice clases en numerosas asignaturas. Me tocó desarrollar el **Examen Final de Competencias (EFC)**, que era el examen para que los alumnos se pudieran titular como Técnicos Analistas Programadores. Trabajé en la **Sede Santiago Centro** y también en la **Sede Curicó**.",
+          "en": "I was an instructor lecturer for 8 years in the **Computer Engineering and Applied Technologies program**, where I taught numerous courses. I developed the **Final Competency Exam (EFC)**, the exam students had to pass to graduate as Programmer Analyst Technicians. I worked at the **Santiago Centro campus** and also at the **Curicó campus**."
+        },
+        "photo": {
+          "image": "../../assets/lecturer/inacap.webp",
+          "alt": {
+            "es": "Sede de INACAP Santiago Centro",
+            "en": "INACAP Santiago Centro campus"
+          },
+          "caption": { "es": "INACAP - Santiago Centro", "en": "INACAP - Santiago Centro" },
+          "note": {
+            "es": "Mis inicios como Docente Universitario",
+            "en": "Where I started as a university lecturer"
+          }
+        }
+      }
+    ]
+  },
+  "mentoring": {
+    "kicker": { "es": "Acompañamiento", "en": "Mentoring" },
+    "title": { "es": "Tutor de Alumnos", "en": "Student Mentor" },
+    "role": { "es": "Docente Tutor", "en": "Faculty Mentor" },
+    "text": {
+      "es": "Fui el mentor y docente guía de alumnos tesistas en algunas ocasiones para cursos de 4° año en la Carrera de Ingeniería Informática mientras trabajé en **INACAP**.",
+      "en": "On several occasions I was the mentor and supervising lecturer for thesis students in 4th-year courses of the Computer Engineering program while I worked at **INACAP**."
+    },
+    "stats": [
+      { "source": "teaching-years", "label": { "es": "Años docente", "en": "Years teaching" } },
+      { "source": "students", "label": { "es": "Alumnos", "en": "Students" } },
+      {
+        "value": 1,
+        "label": { "es": "Hackatón como docente guía", "en": "Hackathon as faculty advisor" }
+      }
+    ]
+  },
+  "roles": {
+    "kicker": { "es": "Reconocimientos", "en": "Recognition" },
+    "title": { "es": "Cargos Especiales", "en": "Special Roles" },
+    "items": [
+      {
+        "icon": "medal",
+        "title": {
+          "es": "Docente Responsable Examen Final de Competencias",
+          "en": "Lecturer in Charge of the Final Competency Exam"
+        },
+        "detail": {
+          "es": "Examen de Titulación Técnico Analista Programador",
+          "en": "Graduation exam for Programmer Analyst Technicians"
+        },
+        "year": 2015,
+        "institution": "INACAP"
+      },
+      {
+        "icon": "certificate",
+        "title": { "es": "Docente Guía Hackatón", "en": "Hackathon Faculty Advisor" },
+        "detail": {
+          "es": "«Los Genios no Duermen»",
+          "en": "“Los Genios no Duermen” (Geniuses Don’t Sleep)"
+        },
+        "year": 2018,
+        "institution": "INACAP"
+      }
+    ]
+  }
+}

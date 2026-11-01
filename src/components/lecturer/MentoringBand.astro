@@ -1,0 +1,126 @@
+---
+/*
+ * Tutor de alumnos (E80-I01, ADR-070): banda de ancho completo (7.8) con encabezado de banda,
+ * el texto «Docente Tutor» y 3 cifras en un `dl`. «+10» y «+2.000» salen de
+ * src/content/home/stats.json (ADR-053); la hackatón es un dato propio de esta página. Signo
+ * «+» en `--metric-sign` (4.3). Sin animación.
+ */
+import Band from '../ui/Band.astro';
+import { formatNumber, parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getLecturerPage, getStat } from './lecturer-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { mentoring } = await getLecturerPage();
+const stats = await Promise.all(
+  mentoring.stats.map(async (item) => {
+    const { value, plus } =
+      'source' in item ? await getStat(item.source) : { value: item.value, plus: false };
+    return { label: item.label[lang], value: formatNumber(value, lang), plus };
+  }),
+);
+---
+
+<Band id="mentoring" kicker={mentoring.kicker[lang]} title={mentoring.title[lang]}>
+  <div class="layout">
+    <div class="role">
+      <h3 class="role-title">{mentoring.role[lang]}</h3>
+      <p class="text">
+        {parseEmphasis(mentoring.text[lang]).map((part) =>
+          part.strong ? <strong>{part.text}</strong> : part.text,
+        )}
+      </p>
+    </div>
+    <dl class="stats" data-mentoring-stats>
+      {stats.map((stat) => (
+        <div class="stat">
+          <dt>{stat.label}</dt>
+          <dd>
+            {stat.plus && <span class="sign">+</span>}
+            {stat.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</Band>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 40px;
+    max-width: 64rem;
+    margin-inline: auto;
+  }
+  .role-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .text {
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+  }
+  .stat {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+    min-width: 0;
+    padding-inline: 16px;
+  }
+  .stat:first-child {
+    padding-inline-start: 0;
+  }
+  .stat + .stat::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--color-gold), var(--color-vibrant));
+  }
+  dt {
+    color: var(--color-text-soft);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  dd {
+    margin: 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .sign {
+    color: var(--metric-sign);
+  }
+  @media (min-width: 64rem) {
+    .layout {
+      grid-template-columns: 5fr 7fr;
+      align-items: center;
+      gap: 56px;
+    }
+    .stat {
+      padding-inline: 24px;
+    }
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+  "route": "lecturer",
+  "title": {
+    "es": "Docente Universitario | Felipe Cuevas",
+    "en": "University Lecturer | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Docencia universitaria en INACAP, Duoc UC e IPLACEX: asignaturas de programación y desarrollo de aplicaciones, tutoría de alumnos y cargos académicos especiales.",
+    "en": "University teaching at INACAP, Duoc UC and IPLACEX: programming and application development courses, student mentoring and special academic roles."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

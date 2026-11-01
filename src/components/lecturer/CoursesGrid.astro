@@ -1,0 +1,102 @@
+---
+/*
+ * Asignaturas impartidas (E80-I01, ADR-070): patrón «grilla simétrica de tarjetas»
+ * (DESIGN.md 11.2) en su variante 2 × 2 sin foto: 4 tarjetas iguales (7.6) con h3, texto con
+ * énfasis y etiquetas (7.7). Dos columnas desde 1.024 px; una bajo esa medida. Encabezado
+ * centrado. Fondo `bg-alt`. Sin JavaScript.
+ */
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Tag from '../ui/Tag.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getLecturerPage } from './lecturer-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { courses } = await getLecturerPage();
+---
+
+<section class="courses" aria-labelledby="courses-title">
+  <Container>
+    <SectionHeader
+      variant="center"
+      kicker={courses.kicker[lang]}
+      title={courses.title[lang]}
+      id="courses-title"
+    />
+    <ul class="grid" data-courses>
+      {courses.items.map((item) => (
+        <Card as="li" class="course">
+          <h3 class="course-title">{item.title[lang]}</h3>
+          <p class="text">
+            {parseEmphasis(item.text[lang]).map((part) =>
+              part.strong ? <strong>{part.text}</strong> : part.text,
+            )}
+          </p>
+          <p class="tags">
+            {item.tags[lang].map((tag) => (
+              <Tag>{tag}</Tag>
+            ))}
+          </p>
+        </Card>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .courses {
+    padding-block: 72px;
+    background-color: var(--color-bg-alt);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .grid :global(.course) {
+    display: flex;
+    flex-direction: column;
+  }
+  .course-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .text {
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.65;
+  }
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: auto 0 0;
+    padding-top: 20px;
+  }
+  @media (min-width: 48rem) {
+    .courses {
+      padding-block: 96px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+</style>

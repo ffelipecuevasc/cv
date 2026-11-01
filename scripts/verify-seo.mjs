@@ -6,7 +6,8 @@
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
  * Cubre la portada (E40-I03), Educación (E50), Experiencia (E60-I01, con control de enlaces) y
  * Desarrollador (E70-I01: 36 tecnologías y paridad; E70-I02: portafolio, filtros e ItemList;
- * E70-I03: placa de los logos en oscuro).
+ * E70-I03: placa de los logos en oscuro) y Docente (E80-I01: cabecera, asignaturas, franjas por
+ * institución, tutoría, cargos especiales y paridad).
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -433,10 +434,9 @@ const PROFILE_LINKS = {
 // Lista cerrada de páginas de perfil que aún no existen (ADR-065). Solo vale para el control de
 // enlaces de esta página. Cada épica retira las suyas al crear la página: E70 desarrollador,
 // E80 docente, E90 instructor y E100 talento-digital. Si una ruta de la lista ya existe en
-// dist/, el control falla hasta que se retire. E70-I01 retiró /es/desarrollador/ y /en/developer/.
+// dist/, el control falla hasta que se retire. E70-I01 retiró /es/desarrollador/ y /en/developer/;
+// E80-I01, /es/docente/ y /en/lecturer/.
 const PENDING_PROFILE_ROUTES = [
-  '/es/docente/',
-  '/en/lecturer/',
   '/es/instructor/',
   '/en/instructor/',
   '/es/talento-digital/',
@@ -761,6 +761,199 @@ check(
     developer.es?.aspects === developer.en?.aspects &&
     same(developer.es?.levels, developer.en?.levels),
   'paridad Desarrollador: mismas 36 tecnologías, nombres, categorías y encabezados en /es/ y /en/',
+);
+
+// --- Docente (E80-I01, ADR-070): metadatos, cabecera, asignaturas, zigzag, tutoría y cargos ---
+const LECTURER = { es: 'es/docente', en: 'en/lecturer' };
+const LECTURER_TEXT = {
+  es: {
+    h1: 'Docente Universitario',
+    meta: '2013 - Actualidad · Modalidad semipresencial',
+    highlight: 'Docente con +10 años de experiencia',
+    stats: ['+10', '+2.000', '1'],
+  },
+  en: {
+    h1: 'University Lecturer',
+    meta: '2013 - Present · Blended format',
+    highlight: 'Lecturer with +10 years of experience',
+    stats: ['+10', '+2,000', '1'],
+  },
+};
+const LECTURER_INSTITUTIONS = ['iplacex', 'duoc', 'inacap'];
+const LINKEDIN_EXPERIENCE = 'https://www.linkedin.com/in/ffelipecuevasc/details/experience/';
+const lecturer = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = LECTURER[lang];
+  const other = LECTURER[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${LECTURER.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  // Cabecera (ADR-070): instituciones sin UTECH, periodo y modalidad de Experiencia y cifra
+  // derivada de stats.json, como texto (no <button>).
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(h1 === LECTURER_TEXT[lang].h1, `<h1> = «${LECTURER_TEXT[lang].h1}» (${h1})`);
+  check(
+    /class="institutions[^"]*"[^>]*>\s*INACAP \| Duoc UC \| IPLACEX\s*</.test(mainHtml),
+    'instituciones «INACAP | Duoc UC | IPLACEX»',
+  );
+  check(!/UTECH/.test(mainHtml), 'sin «UTECH» en la página (ADR-070)');
+  check(
+    text(/data-period[^>]*>([\s\S]*?)<\/p>/.exec(mainHtml)?.[1] ?? '') === LECTURER_TEXT[lang].meta,
+    `periodo y modalidad = «${LECTURER_TEXT[lang].meta}»`,
+  );
+  const highlight = text(/data-highlight[^>]*>([\s\S]*?)<\/p>/.exec(mainHtml)?.[1] ?? '').replace(
+    /\+\s+/g,
+    '+',
+  );
+  check(
+    highlight === LECTURER_TEXT[lang].highlight,
+    `cifra de la cabecera = «${LECTURER_TEXT[lang].highlight}» (${highlight})`,
+  );
+  const index = /<nav[^>]*class="index[^"]*"[^>]*>([\s\S]*?)<\/nav>/.exec(mainHtml)?.[1] ?? '';
+  check(
+    same(
+      [...index.matchAll(/href="#([a-z]+)"/g)].map((m) => m[1]),
+      LECTURER_INSTITUTIONS,
+    ),
+    'índice de instituciones con enlaces a #iplacex, #duoc e #inacap',
+  );
+
+  // Asignaturas: grilla de 4 tarjetas con h3 y 2 etiquetas cada una.
+  const courses = /<ul[^>]*data-courses[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const courseItems = [...courses.matchAll(/<li[\s>][\s\S]*?<\/li>/g)].map((m) => m[0]);
+  check(courseItems.length === 4, `4 asignaturas (${courseItems.length})`);
+  check(
+    courseItems.every(
+      (item) => /<h3[\s>]/.test(item) && (item.match(/class="tag"/g) ?? []).length === 2,
+    ),
+    'cada asignatura con h3 y 2 etiquetas',
+  );
+
+  // Zigzag: 3 franjas con id, h3, enlace externo avisado y nombre accesible distinto.
+  const stripes = LECTURER_INSTITUTIONS.map((id) => {
+    const start = mainHtml.indexOf(`<section id="${id}"`);
+    return start < 0 ? '' : mainHtml.slice(start, mainHtml.indexOf('</section>', start));
+  });
+  check(
+    stripes.every((s) => s.length > 0 && /<h3[\s>]/.test(s)),
+    '3 franjas (#iplacex, #duoc, #inacap) con h3',
+  );
+  check(
+    stripes.every((s) => {
+      const a = /<a\s[^>]*>[\s\S]*?<\/a>/.exec(s)?.[0] ?? '';
+      return (
+        a.includes(`href="${LINKEDIN_EXPERIENCE}"`) &&
+        /target="_blank"/.test(a) &&
+        /rel="noopener noreferrer"/.test(a) &&
+        /class="sr-only"/.test(a)
+      );
+    }),
+    '«Ver más información» a LinkedIn en pestaña nueva, avisada',
+  );
+  const moreNames = stripes.map((s) => text(/<a\s[^>]*>([\s\S]*?)<\/a>/.exec(s)?.[1] ?? ''));
+  check(new Set(moreNames).size === 3, 'los 3 enlaces a LinkedIn con nombre accesible distinto');
+  const photo = /<img\s[^>]*>/.exec(stripes[2])?.[0] ?? '';
+  check(
+    /\salt="[^"]{10,}"/.test(photo) &&
+      /\swidth="\d+"/.test(photo) &&
+      /\sheight="\d+"/.test(photo) &&
+      /\sloading="lazy"/.test(photo),
+    'foto de INACAP con alt, ancho y alto declarados y carga diferida',
+  );
+  check(
+    !/2014/.test(stripes[2]),
+    'el texto de INACAP no repite el año del EFC (un solo hito, 2015)',
+  );
+
+  // Tutoría: 3 cifras, «+10» y «+2.000» derivadas de stats.json.
+  const statsHtml = /<dl[^>]*data-mentoring-stats[^>]*>([\s\S]*?)<\/dl>/.exec(mainHtml)?.[1] ?? '';
+  const figures = [...statsHtml.matchAll(/<dd[^>]*>([\s\S]*?)<\/dd>/g)].map((m) =>
+    text(m[1]).replace(/\s+/g, ''),
+  );
+  check(
+    same(figures, LECTURER_TEXT[lang].stats),
+    `cifras de tutoría ${LECTURER_TEXT[lang].stats.join(' / ')} (${figures.join(' / ')})`,
+  );
+
+  // Cargos especiales: 2 entradas; EFC en 2015 y hackatón en 2018, ambos en INACAP.
+  const roles = /<ul[^>]*data-roles[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const years = [...roles.matchAll(/data-year[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]));
+  check(
+    same(years, ['2015 · INACAP', '2018 · INACAP']),
+    `cargos especiales 2015 y 2018 en INACAP (${years.join(' / ')})`,
+  );
+  check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
+
+  lecturer[lang] = {
+    levels,
+    courses: courseItems.length,
+    stripes: stripes.map((s) => s.length > 0),
+    figures: figures.map((f) => f.replace(/[.,]/g, '')),
+    years,
+    hrefs: [...mainHtml.matchAll(/href="([^"]+)"/g)].map((m) => m[1]),
+  };
+}
+check(
+  same(lecturer.es, lecturer.en),
+  'paridad Docente: mismos encabezados, asignaturas, franjas, cifras, cargos y enlaces en /es/ y /en/',
 );
 
 // --- Placa de los logos en oscuro (E70-I03, ADR-069): variable de componente por tema ---

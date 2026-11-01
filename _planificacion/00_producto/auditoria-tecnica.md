@@ -736,6 +736,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si se vuelve a tocar `src/content/experience/page.json`
 - **Evidencia (31-10-2026):** en `page.json`, el periodo de cada perfil aparece en `timeline.items[].period` y en `profiles[].period`. Hoy coinciden en Instructor (2023), Docente (2013) y Desarrollador (2011). Esa duplicación fue el origen de la contradicción que se encontró en E60-I02: el sitio antiguo traía «2011 - Actualidad» en el hito y «2011 - 2020» en la tarjeta.
 - **Impacto:** si se edita uno y no el otro, la página vuelve a contradecirse. `verify:seo` solo comprueba los periodos de los hitos, que la tarjeta Desarrollador diga «2011 - hoy» y que no quede «2020».
+- **Nota (E80-I01, 01-11-2026):** el periodo «2013 - Actualidad» y la modalidad del perfil Docente aparecen también en la cabecera de `/es/docente/` y `/en/lecturer/`, pero no se copian: `LecturerHeader.astro` los lee de `profiles[id=lecturer]` de `src/content/experience/page.json`. El hito Docente de la línea de tiempo sigue con su propia copia. Los periodos por institución (2024 - Actualidad, 2023 - 2024 y 2013 - 2020) viven solo en `src/content/lecturer/page.json`.
 - **Recomendación:** que el hito tome el periodo del perfil (un campo `profile` en cada hito, con el id de la tarjeta) y que `verify:seo` compare ambos. No se hizo ahora porque los títulos e instituciones de hitos y tarjetas no coinciden del todo («Instructor Certificado» frente a «Instructor de Bootcamps», «INACAP» frente a «INACAP | Duoc UC | IPLACEX»).
 
 ### AT-082 · Redacción de la tarjeta Desarrollador de Experiencia
@@ -767,3 +768,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E70-I04, 01-11-2026):** `src/assets/technologies/expressjs.svg` es un logo gris claro. Se ve tenue en el muro de tecnologías en claro (placa `bg`) y en oscuro (placa `orient-50`, ADR-069), y en la etiqueta de 10 px del portafolio. Los SVG de marca no se tocan (`DESIGN.md` 7.14). No se midió el contraste.
 - **Impacto:** visual; el nombre «Express.js» va en texto, así que el contenido no se pierde.
 - **Recomendación:** medir con herramienta en E170-I01 y, si no alcanza, decidir con Felipe una placa más oscura solo para ese logo o una versión de marca con más contraste.
+
+### AT-087 · Los tres «Ver más información» de Docente llevan a la misma página de LinkedIn
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I04 (decisión de Felipe)
+- **Evidencia (E80-I01, 01-11-2026):** en `main:docente.html`, las tres instituciones enlazan a `https://www.linkedin.com/in/ffelipecuevasc/details/experience/`. Se migró igual (`institutions.moreInfoUrl`, ADR-070). El nombre accesible ya distingue cada enlace, pero el destino es el mismo y no lleva a la experiencia de cada institución.
+- **Impacto:** quien abre el enlace desde IPLACEX, Duoc UC o INACAP llega a la misma lista general; no es un enlace roto.
+- **Recomendación:** si LinkedIn ofrece una URL estable por cargo, usar una por institución; si no, dejar un solo enlace al final de la sección.

@@ -6,10 +6,10 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
-- **Épica actual:** E80 · Página Docente (docente.html)
-- **Iteración actual:** E80-I01 · Página de docencia universitaria (E70 terminada otra vez el 01-11-2026, con E70-I04).
+- **Épica actual:** E90 · Página Instructor (instructor.html)
+- **Iteración actual:** E90-I01 · Trayectoria como instructor REUF (E80 terminada el 01-11-2026 con E80-I01, ADR-070).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 37 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04). Épicas E10, E20, E30, E40, E50, E60 y E70 terminadas.
+- **Terminadas:** 38 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01). Épicas E10, E20, E30, E40, E50, E60, E70 y E80 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -64,7 +64,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E70-I04 · Ajuste del JSON-LD del portafolio (P1, S)
 
 **E80 · Página Docente (docente.html)** (`80_epica-docente/`)
-- [ ] E80-I01 · Página de docencia universitaria (P1, M)
+- [x] E80-I01 · Página de docencia universitaria (P1, M)
 
 **E90 · Página Instructor (instructor.html)** (`90_epica-instructor/`)
 - [ ] E90-I01 · Trayectoria como instructor REUF (P1, M)

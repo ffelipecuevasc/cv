@@ -698,6 +698,27 @@ Reglas del registro:
 
 ---
 
+## ADR-070 · Docente: grilla 2 × 2, zigzag por institución y cifras derivadas
+- **Contexto:** E80-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:docente.html` decía «UTECH INACAP | Duoc UC | IPLACEX», «Ene 2013 — Ene 2024» y «Presencial», en contradicción con la tarjeta y el hito Docente de Experiencia («2013 - Actualidad», «Modalidad semipresencial»). El Examen Final de Competencias figuraba en 2014 (texto de INACAP) y en 2015 (Cargos Especiales), y la tutoría decía «8 Años» frente a «+10 años» del resto del sitio.
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición (opción B):** asignaturas en **grilla simétrica de tarjetas** en variante 2 × 2 sin foto; experiencia por institución en **zigzag**, una franja por institución (IPLACEX, Duoc UC, INACAP), con la foto de INACAP en su franja; tutoría en **banda** con 3 cifras; cargos especiales en lista.
+  - **Cabecera:** «2013 - Actualidad», «Semipresencial» (como Experiencia) e «INACAP | Duoc UC | IPLACEX», sin UTECH.
+  - **EFC:** un solo hito, 2015; el texto de INACAP deja de citar el año.
+  - **Tutor de alumnos:** «más de 10 años» y «+2.000 alumnos» se derivan de `src/content/home/stats.json` (ADR-053), igual que la cifra «Docente con +10 años de experiencia».
+  - **Hero de la portada:** el perfil Docente pierde «donde ejerzo actualmente» (en: «where I currently teach») y queda con redacción neutra.
+  - **«Ver más información»:** enlace externo a LinkedIn en pestaña nueva, avisado a lectores de pantalla.
+- **Decisión (de implementación):**
+  - Colección `lecturerPage` (`src/content/lecturer/page.json`) con `localized()`; metadatos en `src/content/pages/lecturer.json` (los de `main`). El esquema exige 4 asignaturas, 3 instituciones, 3 cifras y 2 cargos.
+  - Las cifras de `stats.json` reciben un `id` obligatorio (`reuf-years`, `reuf-modules`, `teaching-years`, `students`); Docente las lee por id, no por posición.
+  - El periodo y la modalidad de la cabecera se leen del perfil `lecturer` de Experiencia: no se escriben otra vez (AT-081).
+  - El `<button>` sin acción «Docente con +10 años de Experiencia» pasa a texto destacado. La tarjeta «Instituciones» de `main` pasa a un índice `<nav>` en la cabecera con enlaces a `#iplacex`, `#duoc` e `#inacap`.
+  - Los tres «Ver más información» llevan el nombre de la institución en texto oculto, para no repetir el mismo nombre accesible.
+  - Franjas con `ThemeStripe` (h3 bajo el h2 de la sección), fondos `bg` / `band` / `bg` y la del medio en espejo. Foto de INACAP en `src/assets/lecturer/` (WebP de 480, 800 y 1.200 px, de 20 a 75 KB frente a 358 KB), con carga diferida.
+  - «UTECH INACAP» se escribe «INACAP» (como ADR-066 y ADR-067). Sin íconos nuevos: `graduation-cap`, `medal` y `certificate` de ADR-063. Sin JavaScript ni animaciones (se descarta AOS, ADR-045).
+  - `verify:seo` retira `/es/docente/` y `/en/lecturer/` de `PENDING_PROFILE_ROUTES` y suma controles de la página (metadatos, cabecera, índice, 4 asignaturas, 3 franjas con enlace externo avisado, foto, cifras 10 y 2.000, cargos 2015 y 2018, sin controles ni scripts y paridad).
+- **Consecuencias:** `DESIGN.md` 11.2 (grilla y zigzag pasan a estar disponibles para Docente; variante 2 × 2) y una sección 11.7 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E80-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

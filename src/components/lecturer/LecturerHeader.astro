@@ -1,0 +1,147 @@
+---
+/*
+ * Cabecera de Docente (E80-I01, ADR-070): el único <h1>, con rótulo, instituciones y
+ * periodo · modalidad iguales a la tarjeta de Experiencia (se leen de ella), la cifra
+ * «Docente con +10 años de experiencia» (texto, no botón) y el índice de instituciones con
+ * enlaces a cada franja. Alineada a la izquierda, fondo `bg`, sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { formatNumber } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getLecturerPage, getLecturerProfile, getStat } from './lecturer-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { header, institutions } = await getLecturerPage();
+const profile = await getLecturerProfile();
+const years = await getStat('teaching-years');
+const [before, after] = header.highlight[lang].split('{years}');
+---
+
+<div class="lecturer-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      id="lecturer-title"
+    />
+    <p class="institutions">{header.institutions}</p>
+    <p class="meta" data-period>
+      {profile.period[lang]} · {profile.modality[lang]}
+    </p>
+    <p class="highlight" data-highlight>
+      {before}
+      <span class="figure">
+        {years.plus && <span class="sign">+</span>}
+        {formatNumber(years.value, lang)}
+      </span>
+      {after}
+    </p>
+    <nav class="index" aria-label={header.indexLabel[lang]}>
+      <ul>
+        {institutions.items.map((item) => (
+          <li>
+            <a href={`#${item.id}`}>
+              <Icon name="graduation-cap" size={22} />
+              <span>
+                <span class="index-name">{item.shortName}</span>
+                <span class="index-summary">{item.summary[lang]}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </Container>
+</div>
+
+<style>
+  .lecturer-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  p {
+    margin: 0;
+  }
+  .institutions {
+    margin-top: 20px;
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .meta {
+    margin-top: 8px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .highlight {
+    margin-top: 28px;
+    color: var(--color-text);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .figure {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .sign {
+    color: var(--metric-sign);
+  }
+  .index ul {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .index a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 44px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: border-color var(--duration-base) ease;
+  }
+  .index a:hover {
+    border-color: var(--color-border-strong);
+  }
+  .index :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  .index-name {
+    display: block;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+  }
+  .index-summary {
+    display: block;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 48rem) {
+    .lecturer-header {
+      padding-block: 80px 72px;
+    }
+    .index ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+  }
+</style>

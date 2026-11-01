@@ -21,6 +21,7 @@
     },
     {
       "kind": "number",
+      "id": "reuf-years",
       "value": 3,
       "plus": true,
       "label": {
@@ -34,6 +35,7 @@
     },
     {
       "kind": "number",
+      "id": "reuf-modules",
       "value": 150,
       "plus": true,
       "label": {
@@ -47,6 +49,7 @@
     },
     {
       "kind": "number",
+      "id": "teaching-years",
       "value": 10,
       "plus": true,
       "label": {
@@ -60,6 +63,7 @@
     },
     {
       "kind": "number",
+      "id": "students",
       "value": 2000,
       "plus": true,
       "label": {

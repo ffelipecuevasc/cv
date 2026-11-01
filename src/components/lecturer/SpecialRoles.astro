@@ -1,0 +1,94 @@
+---
+/*
+ * Cargos especiales (E80-I01, ADR-070): lista de 2 entradas con ícono decorativo (ADR-063),
+ * cargo en Cinzel, detalle y «año · institución» en mayúsculas. El Examen Final de
+ * Competencias es un solo hito, 2015 (el texto de INACAP ya no lleva año). Fondo `bg-alt`.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getLecturerPage } from './lecturer-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { roles } = await getLecturerPage();
+---
+
+<section class="roles" aria-labelledby="roles-title">
+  <Container>
+    <SectionHeader
+      variant="center"
+      kicker={roles.kicker[lang]}
+      title={roles.title[lang]}
+      id="roles-title"
+    />
+    <ul class="list" data-roles>
+      {roles.items.map((item) => (
+        <li class="item">
+          <span class="icon">
+            <Icon name={item.icon} size={32} />
+          </span>
+          <div>
+            <h3 class="item-title">{item.title[lang]}</h3>
+            <p class="detail">{item.detail[lang]}</p>
+            <p class="meta" data-year>
+              {item.year} · {item.institution}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .roles {
+    padding-block: 72px;
+    background-color: var(--color-bg-alt);
+  }
+  .list {
+    display: grid;
+    gap: 24px;
+    max-width: 52rem;
+    margin: 48px auto 0;
+    padding: 0;
+    list-style: none;
+  }
+  .item {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+  .icon {
+    flex: none;
+    color: var(--color-icon);
+  }
+  .item-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+  .detail {
+    margin: 8px 0 0;
+    color: var(--color-text-muted);
+    font-weight: 300;
+  }
+  .meta {
+    margin: 8px 0 0;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .roles {
+      padding-block: 96px;
+    }
+  }
+</style>

@@ -81,6 +81,9 @@ const heroShared = defineCollection({
  * testimonios es una traducción del español (ADR-017): la tarjeta lo indica. Las fotos
  * viven en src/assets/testimonials/ y Astro las optimiza (la ruta es relativa al JSON).
  */
+export const STAT_IDS = ['reuf-years', 'reuf-modules', 'teaching-years', 'students'] as const;
+export type StatId = (typeof STAT_IDS)[number];
+
 const homeStats = defineCollection({
   loader: glob({ pattern: 'stats.json', base: './src/content/home' }),
   schema: z.object({
@@ -91,6 +94,8 @@ const homeStats = defineCollection({
         z.discriminatedUnion('kind', [
           z.object({
             kind: z.literal('number'),
+            /** Clave estable para que otras páginas lean la cifra sin repetirla (Docente, ADR-070). */
+            id: z.enum(STAT_IDS),
             value: z.number().int().nonnegative(),
             plus: z.boolean(),
             label: localized(),
@@ -398,11 +403,99 @@ const portfolioPage = defineCollection({
     }),
 });
 
+/*
+ * Página Docente (E80-I01, ADR-070): cabecera, asignaturas en grilla 2 × 2, una franja por
+ * institución en zigzag, banda de tutoría y cargos especiales. Periodo y modalidad de la
+ * cabecera salen del perfil «lecturer» de Experiencia y las cifras «+10 años» y «+2.000» de
+ * src/content/home/stats.json (ADR-053): no se repiten aquí. Instituciones, años y nombres de
+ * tecnologías son nombres propios y cifras (ADR-025).
+ */
+const lecturerPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/lecturer' }),
+  schema: ({ image }) =>
+    z.object({
+      header: z.object({
+        kicker: localized(),
+        title: localized(),
+        institutions: z.string().trim().min(1),
+        /** Lleva `{years}`: la cifra de años docente de stats.json. */
+        highlight: localized().refine(
+          (t) => t.es.includes('{years}') && t.en.includes('{years}'),
+          'highlight debe llevar {years} en es y en',
+        ),
+        indexLabel: localized(),
+      }),
+      courses: z.object({
+        kicker: localized(),
+        title: localized(),
+        items: z
+          .array(z.object({ title: localized(), text: localized(), tags: localizedList() }))
+          .length(4),
+      }),
+      institutions: z.object({
+        kicker: localized(),
+        title: localized(),
+        moreInfo: localized(),
+        moreInfoUrl: z.url(),
+        items: z
+          .array(
+            z.object({
+              id: z.enum(['iplacex', 'duoc', 'inacap']),
+              name: z.string().trim().min(1),
+              shortName: z.string().trim().min(1),
+              period: localized(),
+              summary: localized(),
+              text: localized(),
+              photo: z
+                .object({
+                  image: image(),
+                  alt: localized(),
+                  caption: localized(),
+                  note: localized(),
+                })
+                .optional(),
+            }),
+          )
+          .length(3),
+      }),
+      mentoring: z.object({
+        kicker: localized(),
+        title: localized(),
+        role: localized(),
+        text: localized(),
+        stats: z
+          .array(
+            z.union([
+              z.object({ source: z.enum(STAT_IDS), label: localized() }),
+              z.object({ value: z.number().int().positive(), label: localized() }),
+            ]),
+          )
+          .length(3),
+      }),
+      roles: z.object({
+        kicker: localized(),
+        title: localized(),
+        items: z
+          .array(
+            z.object({
+              icon: z.enum(SYMBOL_NAMES),
+              title: localized(),
+              detail: localized(),
+              year: z.number().int(),
+              institution: z.string().trim().min(1),
+            }),
+          )
+          .length(2),
+      }),
+    }),
+});
+
 export const collections = {
   pages,
   experiencePage,
   developerPage,
   portfolioPage,
+  lecturerPage,
   personSeo,
   educationEntries,
   educationPage,

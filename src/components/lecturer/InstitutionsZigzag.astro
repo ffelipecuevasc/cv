@@ -1,0 +1,131 @@
+---
+/*
+ * Experiencia por institución (E80-I01, ADR-070): patrón «zigzag» (DESIGN.md 11.2) con una
+ * franja temática (7.8) por institución, de la más reciente a la más antigua. Fondos `bg`,
+ * `band` y `bg`; la franja del medio va en espejo. Rótulo: periodo; titular (h3): nombre de la
+ * institución; contenido: texto con énfasis, foto (solo INACAP) y «Ver más información» a
+ * LinkedIn, externo y avisado. Cada franja tiene el id que usa el índice de la cabecera.
+ */
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import ThemeStripe from '../ui/ThemeStripe.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getLecturerPage } from './lecturer-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { institutions } = await getLecturerPage();
+---
+
+<section class="institutions" aria-labelledby="institutions-title" data-institutions>
+  <div class="intro">
+    <Container>
+      <SectionHeader
+        kicker={institutions.kicker[lang]}
+        title={institutions.title[lang]}
+        id="institutions-title"
+      />
+    </Container>
+  </div>
+  {institutions.items.map((item, i) => (
+    <ThemeStripe
+      id={item.id}
+      kicker={item.period[lang]}
+      title={item.name}
+      level={3}
+      tone={i % 2 === 1 ? 'band' : 'bg'}
+      reverse={i % 2 === 1}
+      mirror={i % 2 === 1}
+    >
+      {item.photo && (
+        <figure class="photo">
+          <Image
+            src={item.photo.image}
+            alt={item.photo.alt[lang]}
+            widths={[480, 800, 1200]}
+            width={1200}
+            height={800}
+            sizes="(min-width: 1024px) 680px, 100vw"
+            loading="lazy"
+          />
+          <figcaption>
+            <span class="caption">{item.photo.caption[lang]}</span>
+            <span class="note">{item.photo.note[lang]}</span>
+          </figcaption>
+        </figure>
+      )}
+      <p class="text">
+        {parseEmphasis(item.text[lang]).map((part) =>
+          part.strong ? <strong>{part.text}</strong> : part.text,
+        )}
+      </p>
+      <p class="more">
+        <ExternalLink href={institutions.moreInfoUrl} lang={lang}>
+          {institutions.moreInfo[lang]}
+          <span class="sr-only">: {item.shortName}</span>
+        </ExternalLink>
+      </p>
+    </ThemeStripe>
+  ))}
+</section>
+
+<style>
+  .intro {
+    padding-top: 72px;
+    background-color: var(--color-bg);
+  }
+  .institutions :global(section[id]) {
+    scroll-margin-top: 96px;
+  }
+  .text {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .more {
+    margin: 20px 0 0;
+    font-size: 15px;
+  }
+  .more :global(a) {
+    min-height: 44px;
+  }
+  .photo {
+    margin: 0 0 24px;
+  }
+  .photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .caption {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .note {
+    color: var(--color-text-soft);
+  }
+  @media (min-width: 48rem) {
+    .intro {
+      padding-top: 96px;
+    }
+  }
+</style>
