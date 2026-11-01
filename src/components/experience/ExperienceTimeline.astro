@@ -1,0 +1,119 @@
+---
+/*
+ * Línea de tiempo compacta de Experiencia (E60-I02, DESIGN.md 11.2 y 11.5, ADR-066): los 3 hitos
+ * de la mini línea de tiempo del sitio antiguo, en su orden, como secuencia vertical. Cada hito
+ * lleva un ícono de Material Symbols Light (ADR-063), título, instituciones y periodo. Sin
+ * JavaScript y sin título visible: el <h1> de la página ya la presenta. Fondo `bg`, continuación
+ * del encabezado. Dentro de <main>.
+ */
+import { getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('experiencePage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/experience/page.json');
+const { timeline } = page;
+---
+
+<section class="timeline" aria-label={timeline.label[lang]}>
+  <Container>
+    <ol class="list" data-timeline>
+      {timeline.items.map((item) => (
+        <li class="milestone">
+          <span class="marker">
+            <Icon name={item.icon} size={22} />
+          </span>
+          <div class="body">
+            <p class="title">{item.title[lang]}</p>
+            <p class="institutions">{item.institutions}</p>
+            <p class="period">{item.period[lang]}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>
+
+<style>
+  /* El encabezado ya deja 56 / 64 px abajo: aquí solo se agrega el cierre de la sección. */
+  .timeline {
+    padding-block: 0 64px;
+    background-color: var(--color-bg);
+  }
+  @media (min-width: 48rem) {
+    .timeline {
+      padding-block: 0 80px;
+    }
+  }
+  .list {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .milestone {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 20px;
+    padding-bottom: 28px;
+  }
+  .milestone:last-child {
+    padding-bottom: 0;
+  }
+  /* Riel entre un marcador y el siguiente: línea de 1 px decorativa. */
+  .milestone:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 44px;
+    bottom: 0;
+    left: 21.5px;
+    width: 1px;
+    background-color: var(--color-border-strong);
+  }
+  /* Indicador circular (DESIGN.md 1.3: el círculo se admite en indicadores). */
+  .marker {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-border-strong);
+    color: var(--color-icon);
+  }
+  .body {
+    padding-top: 2px;
+    min-width: 0;
+  }
+  .body p {
+    margin: 0;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    color: var(--color-heading);
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  .institutions {
+    margin-top: 4px;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .period {
+    margin-top: 2px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+</style>

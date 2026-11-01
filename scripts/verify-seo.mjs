@@ -531,6 +531,26 @@ for (const [lang, info] of Object.entries(LANGS)) {
     cards.every((card) => (card.match(/class="tag"/g) ?? []).length >= 3),
     'cada tarjeta con sus etiquetas',
   );
+  // Línea de tiempo compacta (E60-I02, ADR-066): 3 hitos con ícono decorativo y periodo.
+  const timeline = /<ol[^>]*data-timeline[^>]*>([\s\S]*?)<\/ol>/.exec(mainHtml)?.[1] ?? '';
+  const milestones = [...timeline.matchAll(/<li[\s>][\s\S]*?<\/li>/g)].map((m) => m[0]);
+  check(milestones.length === 3, `línea de tiempo con 3 hitos (${milestones.length})`);
+  check(
+    milestones.every((item) => /<svg[^>]*aria-hidden="true"/.test(item)),
+    'cada hito con un ícono decorativo (aria-hidden)',
+  );
+  const present = lang === 'es' ? 'Actualidad' : 'Present';
+  check(
+    same(
+      milestones.map((item) => /class="period[^"]*"[^>]*>([^<]*)</.exec(item)?.[1]),
+      [`2023 - ${present}`, `2013 - ${present}`, `2011 - ${present}`],
+    ),
+    'periodos de los hitos: 2023, 2013 y 2011, hasta la actualidad',
+  );
+  check(
+    cards.some((card) => card.includes(`2011 - ${present}`)) && !/2020/.test(mainHtml),
+    'tarjeta Desarrollador vigente (2011 - hoy) y sin «2020» en la página',
+  );
   check(
     !/<button|<input|<select|<script|<dialog/.test(mainHtml),
     'página sin controles ni scripts',
@@ -562,6 +582,7 @@ for (const [lang, info] of Object.entries(LANGS)) {
     `la lista cerrada no incluye rutas que ya existen (retira ${retire.join(', ') || 'ninguna'})`,
   );
   experience[lang] = {
+    milestones: milestones.length,
     photos: cards.map((card) => /<img[^>]*\ssrc="[^"]*\/([a-z]+)\./.exec(card)?.[1]),
     tags: cards.map((card) => (card.match(/class="tag"/g) ?? []).length),
     links: hrefs.length,

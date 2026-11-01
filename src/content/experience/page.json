@@ -7,6 +7,29 @@
       "en": "Here is a summary of my professional experience across the 3 job profiles I have worked in."
     }
   },
+  "timeline": {
+    "label": { "es": "Hitos de mi trayectoria", "en": "Career milestones" },
+    "items": [
+      {
+        "icon": "certificate",
+        "title": { "es": "Instructor Certificado", "en": "Certified Instructor" },
+        "institutions": "Talento Digital para Chile",
+        "period": { "es": "2023 - Actualidad", "en": "2023 - Present" }
+      },
+      {
+        "icon": "graduation-cap",
+        "title": { "es": "Docente Universitario", "en": "University Lecturer" },
+        "institutions": "INACAP | Duoc UC | IPLACEX",
+        "period": { "es": "2013 - Actualidad", "en": "2013 - Present" }
+      },
+      {
+        "icon": "terminal",
+        "title": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
+        "institutions": "INACAP",
+        "period": { "es": "2011 - Actualidad", "en": "2011 - Present" }
+      }
+    ]
+  },
   "listLabel": { "es": "Perfiles laborales", "en": "Job profiles" },
   "profiles": [
     {
@@ -51,14 +74,14 @@
       "title": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
       "institutions": "Universidad Tecnológica de Chile INACAP | Duoc UC | IPLACEX",
       "paragraph": {
-        "es": "Me desempeñé como desarrollador full stack en **Java y Python** a lo largo de todo el tiempo que trabajé como docente universitario creando aplicaciones orientadas al ámbito educativo para el desarrollo de asignaturas, evaluaciones y exámenes finales.",
-        "en": "I worked as a full stack developer in **Java and Python** throughout my time as a university lecturer, building applications for the educational field to support courses, assessments and final exams."
+        "es": "Me desempeño como desarrollador full stack en **Java y Python** a lo largo de todo el tiempo que trabajo como docente universitario creando aplicaciones orientadas al ámbito educativo para el desarrollo de asignaturas, evaluaciones y exámenes finales.",
+        "en": "I work as a full stack developer in **Java and Python** throughout my time as a university lecturer, building applications for the educational field to support courses, assessments and final exams."
       },
       "tags": {
         "es": ["Java", "Framework Spring", "Python", "Framework Django"],
         "en": ["Java", "Spring Framework", "Python", "Django Framework"]
       },
-      "period": { "es": "2011 - 2020", "en": "2011 - 2020" },
+      "period": { "es": "2011 - Actualidad", "en": "2011 - Present" },
       "modality": { "es": "Modalidad presencial", "en": "On-site" },
       "links": [
         {

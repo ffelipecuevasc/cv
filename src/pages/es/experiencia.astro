@@ -5,6 +5,7 @@
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ExperienceHeader from '../../components/experience/ExperienceHeader.astro';
+import ExperienceTimeline from '../../components/experience/ExperienceTimeline.astro';
 import ProfilesGrid from '../../components/experience/ProfilesGrid.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
@@ -16,5 +17,6 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 
 <BaseLayout title={title.es} description={description.es} route="experience" ogImage={og}>
   <ExperienceHeader />
+  <ExperienceTimeline />
   <ProfilesGrid />
 </BaseLayout>

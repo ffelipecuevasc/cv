@@ -641,6 +641,21 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 y una sección 11.5 deben recoger el patrón (bloque en la bitácora; Felipe lo edita, ADR-033). Mientras E70 a E100 no existan, los cuatro enlaces dan 404 en la preview. Los textos `en-US` los valida Felipe (ADR-017).
 - **Origen:** decisiones de Felipe el 31-10-2026 (E60-I01). **Estado:** Aceptada.
 
+## ADR-066 · Experiencia: línea de tiempo restaurada y tarjeta Desarrollador vigente
+- **Contexto:** E60-I02. Al revisar Experiencia en la preview (31-10-2026), Felipe pidió recuperar la mini línea de tiempo que ADR-065 había descartado. Siguiendo ADR-056, se agrega como una iteración nueva al final de E60, que se reabrió y se cerró el mismo día; E60-I01 y su bitácora no se editan. Felipe validó el inglés de la página de Experiencia el 31-10-2026 (ADR-017).
+- **Decisión (de Felipe, 31-10-2026), que sustituye en parte a ADR-065:**
+  - **Línea de tiempo restaurada**, en el orden de `main`: Instructor Certificado · Talento Digital para Chile · 2023 - Actualidad; Docente Universitario · INACAP | Duoc UC | IPLACEX · 2013 - Actualidad; Desarrollador Full Stack · INACAP · 2011 - Actualidad.
+  - **Subtítulo h2** «Resumen de Experiencia Laboral por Perfil»: sigue descartado, porque repite el `<h1>` y la bajada.
+  - **Periodo y modalidad** de las tarjetas: se conservan.
+  - **Tarjeta Desarrollador vigente hasta hoy:** el hito 3 dice «Actualidad», así que su periodo pasa de «2011 - 2020» a «2011 - Actualidad» (en: «2011 - Present») y los verbos de su texto pasan al presente («Me desempeño…», «trabajo»; en: «I work…»), sin agregar contenido. «UTECH Inacap» del sitio antiguo se escribe «INACAP».
+- **Decisión (de implementación):**
+  - Componente `ExperienceTimeline.astro`, entre el encabezado y la grilla, sin título visible (el `<h1>` la presenta) y con nombre accesible «Hitos de mi trayectoria» / «Career milestones». Es el patrón «línea de tiempo» de `DESIGN.md` 11.2 en versión compacta: lista ordenada vertical de 36 rem de ancho, con un riel de 1 px (`border-strong`) entre los marcadores. Cada hito lleva un marcador circular de 44 px (`surface`, contorno `border-strong`, ícono `icon`), título (Cinzel), instituciones y periodo en mayúsculas. Sin JavaScript, sin animación y sin enlaces (no entra en el tabulador).
+  - **Íconos de ADR-063, sin trazados nuevos:** `certificate` (workspace-premium-outline), `graduation-cap` (school-outline) y `terminal` (terminal-outline), que Educación ya usa. Los del sitio antiguo eran SVG en línea rellenos; estos son sus equivalentes de contorno.
+  - Datos en `src/content/experience/page.json` (`timeline`), con paridad es/en y el ícono validado contra `icons.ts` en el esquema. Instituciones, como nombres propios, sin traducir (ADR-025).
+  - `pnpm verify:seo` comprueba la lista (3 hitos, íconos decorativos, periodos 2023, 2013 y 2011 hasta hoy), que la tarjeta Desarrollador sea vigente y que no quede «2020» en la página.
+- **Consecuencias:** modifica `DESIGN.md` 11.2 (la línea de tiempo pasa a estar asignada) y 11.5 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-065 (descarte de la línea de tiempo y periodo «2011 - 2020»); ADR-065 no se edita. Los periodos viven en dos lugares de `page.json` (hitos y tarjetas): AT-081. No había otro «2020» ligado a esa tarjeta en datos, JSON-LD ni descripciones.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E60-I02). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

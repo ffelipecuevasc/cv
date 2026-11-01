@@ -10,6 +10,7 @@ import type { ImageFunction } from 'astro/content/config';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { routes } from './i18n/routes';
+import { symbolIcons, type SymbolIconName } from './components/ui/icons';
 
 /** Texto con paridad obligatoria es-CL / en-US. */
 export const localized = () =>
@@ -275,6 +276,23 @@ const experiencePage = defineCollection({
   schema: ({ image }) =>
     z.object({
       header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+      /** Línea de tiempo compacta (ADR-066): 3 hitos en el orden del sitio antiguo. */
+      timeline: z.object({
+        /** Nombre accesible de la lista de hitos. */
+        label: localized(),
+        items: z
+          .array(
+            z.object({
+              /** Ícono de Material Symbols Light de `icons.ts` (ADR-063). */
+              icon: z.enum(Object.keys(symbolIcons) as [SymbolIconName, ...SymbolIconName[]]),
+              title: localized(),
+              /** Instituciones: nombres propios, no se traducen (ADR-025). */
+              institutions: z.string().trim().min(1),
+              period: localized(),
+            }),
+          )
+          .length(3),
+      }),
       /** Nombre accesible de la lista de perfiles. */
       listLabel: localized(),
       profiles: z.array(experienceProfile(image)).length(3),
