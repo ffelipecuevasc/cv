@@ -145,7 +145,7 @@ No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y 
 ### 4.3 Reglas de uso
 - El texto nunca baja de la opacidad de `text-soft`.
 - `vibrant` nunca es texto ni foco sobre fondo claro (2,51:1).
-- `gold` nunca es texto sobre fondo claro; en claro, las estrellas llevan trazo `gold-deep`.
+- `gold` nunca es texto sobre fondo claro; en claro, las estrellas encendidas llevan relleno `gold-deep` (token `--star-fill`).
 - Signos "+", "%" y "/ 5" de las cifras: `primary` en claro y `gold` en oscuro, siempre a tamaño de display.
 - Avatares de iniciales: fondo `orient-800`, `primary` u `orient-600`, con texto blanco. No se usa `orient-400` de fondo con texto blanco (3,39:1).
 - `accent` sobre `band`, en claro y en oscuro, se usa solo en texto grande (24 px o más, o 18,66 px en negrita). En texto pequeño dentro de la banda se usa `text` o `text-soft`.
@@ -167,7 +167,7 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | `orient-950` | botón dorado | 12,43 | 4,5 | Cumple |
 | Blanco | avatar `orient-800` / `primary` / `orient-600` | 12,04 / 4,62 / 6,35 | 4,5 | Cumple |
 | `focus` | `bg` / `bg-alt` / `band` | 4,62 / 4,37 / 4,09 | 3 | Cumple |
-| Trazo de estrella `gold-deep` | `surface` | 6,25 | 3 | Cumple |
+| Relleno de estrella `gold-deep` | `surface` | 6,25 | 3 | Cumple |
 
 **Tema oscuro**
 | Texto o elemento | Fondo | Contraste | Umbral | Resultado |
@@ -185,7 +185,7 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | `orient-950` | botón primario `orient-50` / al pasar `vibrant` / dorado | 16,71 / 7,54 / 12,43 | 4,5 | Cumple |
 | Blanco | avatar `primary` / `orient-600` / `orient-800` | 4,62 / 6,35 / 12,04 | 4,5 | Cumple |
 | `focus` | `bg` / `surface` | 7,54 / 6,65 | 3 | Cumple |
-| Estrella `gold` | `surface` | 10,97 | 3 | Cumple |
+| Relleno de estrella `gold` | `surface` | 10,97 | 3 | Cumple |
 
 Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se identifican por su texto o su nombre accesible. El campo de puntos, la retícula, la regla dorada y el halo son decorativos (`aria-hidden`).
 
@@ -311,7 +311,7 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 
 ### 7.6 Tarjetas
 - **Base:** fondo `surface`, sin radio, relleno de 40 × 34 px (arriba, lados) y 32 px abajo; línea superior de 2 px con degradado `gold` → `vibrant` inserta 34 px desde los lados; sombra `card`. Al pasar el cursor sube 4 px y pasa a sombra `card-hover` en 400 ms. En oscuro suma un contorno de 1 px `orient-50` al 6 % (al pasar, `vibrant` al 25 %).
-- **Tarjeta de testimonio:** comilla decorativa, 5 estrellas de 15 px (`gold` con trazo `gold-deep` en claro) con la nota también en texto para lectores de pantalla, cita en `<blockquote>`, y pie con regla `border` a 32 px: foto circular de 48 px con anillo de 2 px del color de la tarjeta y 1 px `gold`; nombre en Cinzel 1 rem; cargo en `text-soft` 14 px. No se muestra el programa (los datos del sitio actual no lo traen). Si la foto no carga o no existe, se muestran las iniciales sobre `orient-800`, `primary` u `orient-600` (4.3); nunca se consulta un servicio externo (AT-024). En `en-US` lleva la marca "Translated from Spanish" (ADR-017).
+- **Tarjeta de testimonio:** comilla decorativa, 5 estrellas de 15 px (las encendidas, rellenas con `gold-deep` en claro y `gold` en oscuro, token `--star-fill`; las apagadas, de contorno con opacidad 0,35) con la nota también en texto para lectores de pantalla, cita en `<blockquote>`, y pie con regla `border` a 32 px: foto circular de 48 px con anillo de 2 px del color de la tarjeta y 1 px `gold`; nombre en Cinzel 1 rem; cargo en `text-soft` 14 px. No se muestra el programa (los datos del sitio actual no lo traen). Si la foto no carga o no existe, se muestran las iniciales sobre `orient-800`, `primary` u `orient-600` (4.3); nunca se consulta un servicio externo (AT-024). En `en-US` lleva la marca "Translated from Spanish" (ADR-017).
 
 ### 7.7 Etiqueta (chip)
 Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80 % (oscuro: blanco al 4 %), texto `orient-800` (oscuro: `orient-50` al 85 %), relleno de 6 × 12 px, sin radio.
@@ -384,7 +384,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - No se usan colores, tamaños ni sombras arbitrarias fuera de los tokens, salvo con una justificación escrita en la iteración.
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
-  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, trazo de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
+  - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, relleno de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
   - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4) y `--metric-sign` (signo de toda cifra de display, 4.3). Los separadores de la banda usan los tokens `gold` y `vibrant`, sin variable propia (ADR-058).
   - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
