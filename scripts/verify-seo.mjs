@@ -876,6 +876,11 @@ for (const [lang, info] of Object.entries(LANGS)) {
     list?.numberOfItems === 12 && list?.itemListElement?.length === 12,
     'ItemList con 12 elementos',
   );
+  check(
+    !('inLanguage' in (list ?? {})) &&
+      (list?.itemListElement ?? []).every((e) => e.item?.inLanguage === info.code),
+    `inLanguage solo en cada SoftwareSourceCode (${info.code}), no en la raíz del ItemList (E70-I04)`,
+  );
   const elements = list?.itemListElement ?? [];
   check(
     elements.every((e, i) => e.position === i + 1 && e.item?.['@type'] === 'SoftwareSourceCode'),

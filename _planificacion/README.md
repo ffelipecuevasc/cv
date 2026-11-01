@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E80 · Página Docente (docente.html)
-- **Iteración actual:** E80-I01 · Página de docencia universitaria (E70 terminada el 01-11-2026, con E70-I03).
+- **Iteración actual:** E80-I01 · Página de docencia universitaria (E70 terminada otra vez el 01-11-2026, con E70-I04).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 36 de 61 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03). Épicas E10, E20, E30, E40, E50, E60 y E70 terminadas.
+- **Terminadas:** 37 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04). Épicas E10, E20, E30, E40, E50, E60 y E70 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -61,6 +61,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E70-I01 · Aspectos técnicos y muro de tecnologías (P1, M)
 - [x] E70-I02 · Portafolio filtrable y JSON-LD (P1, M)
 - [x] E70-I03 · Ajustes de Desarrollador tras la revisión en la preview (P1, S)
+- [x] E70-I04 · Ajuste del JSON-LD del portafolio (P1, S)
 
 **E80 · Página Docente (docente.html)** (`80_epica-docente/`)
 - [ ] E80-I01 · Página de docencia universitaria (P1, M)

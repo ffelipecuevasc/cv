@@ -1,5 +1,5 @@
 # E70 · Página Desarrollador (desarrollador.html)
-- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada (01-11-2026)
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada (01-11-2026, otra vez con E70-I04)
 
 ## Objetivo
 Reconstruir el perfil de desarrollador con aspectos técnicos, muro de tecnologías y portafolio filtrable, en ambos idiomas.
@@ -22,9 +22,10 @@ E60-I01.
 | [E70-I01](E70-I01-tecnologias.md) | Aspectos técnicos y muro de tecnologías | P1 | M | E60-I01 | [x] Terminada |
 | [E70-I02](E70-I02-portafolio.md) | Portafolio filtrable y JSON-LD | P1 | M | E70-I01 | [x] Terminada |
 | [E70-I03](E70-I03-ajustes-desarrollador.md) | Ajustes de Desarrollador tras la revisión en la preview | P1 | S | E70-I02 | [x] Terminada |
+| [E70-I04](E70-I04-ajuste-jsonld-portafolio.md) | Ajuste del JSON-LD del portafolio | P1 | S | E70-I03 | [x] Terminada |
 
 ## Nota (01-11-2026)
-Se agregó **E70-I03** de ajustes tras la revisión en la preview (ADR-056), que resolvió AT-083 (ADR-069). La épica se cerró el 01-11-2026.
+Se agregó **E70-I03** de ajustes tras la revisión en la preview (ADR-056), que resolvió AT-083 (ADR-069). La épica se cerró el 01-11-2026, se reabrió ese día por **E70-I04** (advertencia del validador de schema.org en el ItemList) y se cerró otra vez.
 
 ## Criterios de aceptación de la épica
 - [x] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.

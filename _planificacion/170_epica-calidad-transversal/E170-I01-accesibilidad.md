@@ -9,6 +9,7 @@
 Auditar y corregir la accesibilidad de todas las páginas en ambos idiomas.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
+- **Medición pendiente (E70-I04, 01-11-2026):** contraste del logo gris claro de Express.js en ambos temas (AT-086).
 - **Revisión pendiente (E70-I01, 01-11-2026):** redacción de la tarjeta Desarrollador de Experiencia (AT-082). Felipe validó el inglés de la línea de tiempo de Experiencia el 01-11-2026.
 - Línea base Lighthouse de accesibilidad del sitio actual: 91–96 (`docs/linea-base/2026-08-12/resumen-lighthouse.md`).
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.

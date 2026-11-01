@@ -4,6 +4,7 @@
  * portafolio, derivado de src/content/portfolio/page.json (mismo orden y textos que las
  * tarjetas). @id con la URL canónica de la página, con barra final; el autor es la Person de
  * la portada. URL externas tal como están en main; imagen, el WebP optimizado por Astro.
+ * `inLanguage` va solo en cada SoftwareSourceCode: schema.org no la reconoce en ItemList (E70-I04).
  */
 import { getEntry } from 'astro:content';
 import { getImage } from 'astro:assets';
@@ -47,7 +48,6 @@ const data = {
   '@id': `${pageUrl}#portfolio`,
   url: pageUrl,
   name: page.listName[lang],
-  inLanguage: langCodes[lang],
   numberOfItems: items.length,
   itemListElement: items,
 };

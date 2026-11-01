@@ -755,3 +755,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E70-I02, 01-11-2026):** `dist/es/desarrollador/index.html` pasa de 51 KB (E70-I01) a 102 KB (17 KB gzip). Lo explican los `srcset` de 12 portadas en 3 anchos y unas 90 etiquetas con su `<img>` de 10 px. Todas las imágenes son diferidas; no se midieron Core Web Vitals.
 - **Impacto:** más bytes de HTML en la carga inicial; sin efecto visible.
 - **Recomendación:** medir en E170-I02 frente a ADR-015; si hace falta, bajar a 2 anchos o pintar los íconos de etiqueta como fondo CSS.
+
+### AT-085 · El proyecto 1 del portafolio describe el sitio antiguo
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (decisión de Felipe antes del cutover)
+- **Evidencia (E70-I04, 01-11-2026):** en `src/content/portfolio/page.json`, el proyecto `cv` («Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios») dice «HTML5 semántico, Tailwind CSS y JavaScript Vanilla», «animaciones con AOS» y «despliegue en Cloudflare Pages» (en inglés: «vanilla JavaScript», «AOS animations», «Cloudflare Pages»), y sus etiquetas incluyen AOS y Cloudflare Pages. El sitio nuevo usa Astro, no usa AOS (ADR-045) y su destino en Cloudflare se define en el cutover (ADR-037). El texto se migró tal cual desde `main` (ADR-068) y también alimenta el JSON-LD ItemList.
+- **Impacto:** tras el cutover, el portafolio describiría con datos desactualizados al propio sitio, en la página y en los datos estructurados.
+- **Recomendación:** Felipe redacta el texto nuevo (es y en) y las etiquetas antes del cutover; no se cambia ahora.
+
+### AT-086 · El logo de Express.js se ve tenue en ambos temas
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Evidencia (E70-I04, 01-11-2026):** `src/assets/technologies/expressjs.svg` es un logo gris claro. Se ve tenue en el muro de tecnologías en claro (placa `bg`) y en oscuro (placa `orient-50`, ADR-069), y en la etiqueta de 10 px del portafolio. Los SVG de marca no se tocan (`DESIGN.md` 7.14). No se midió el contraste.
+- **Impacto:** visual; el nombre «Express.js» va en texto, así que el contenido no se pierde.
+- **Recomendación:** medir con herramienta en E170-I01 y, si no alcanza, decidir con Felipe una placa más oscura solo para ese logo o una versión de marca con más contraste.

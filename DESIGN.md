@@ -385,7 +385,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Convenciones de nombres (en inglés, ADR-025):**
   - paleta base: `--color-orient-50` … `--color-orient-950`, `--color-orient-925`, `--color-stone`, `--color-primary`, `--color-vibrant`, `--color-gold`, `--color-gold-deep`;
   - semánticos: `--color-bg`, `--color-bg-alt`, `--color-surface`, `--color-band`, `--color-footer`, `--color-text`, `--color-heading`, `--color-text-muted`, `--color-text-soft`, `--color-accent`, `--color-kicker`, `--color-icon`, `--color-icon-rail`, `--color-border`, `--color-border-strong`, `--color-focus`; cambian de valor según el tema y los componentes usan solo estos;  Los colores por tema que la sección 7 fija para un componente y que no son semánticos (hover del botón de ícono y de la flecha, contorno de tarjeta en oscuro, etiqueta, relleno de estrella) se declaran como variables de componente en la hoja global, con los valores exactos de la sección 7 (ADR-046). No se agrega ninguna otra sin que esté escrita en la sección 7.
-  - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4) y `--metric-sign` (signo de toda cifra de display, 4.3). Los separadores de la banda usan los tokens `gold` y `vibrant`, sin variable propia (ADR-058).
+  - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4), `--metric-sign` (signo de toda cifra de display, 4.3) y `--tech-plate-bg` (placa del logo de tecnología en Desarrollador: `bg` en claro y `orient-50` en oscuro, ADR-069). Los separadores de la banda usan los tokens `gold` y `vibrant`, sin variable propia (ADR-058).
   - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
   - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;
@@ -411,13 +411,14 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Patrón | Descripción | Disponible para |
 |---|---|---|
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
-| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas) |
+| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías) |
 | Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones) |
-| Grilla simétrica de tarjetas | Encabezado centrado, tarjetas iguales y controles centrados | Sin asignar (los testimonios de Inicio usan el carril) |
+| Grilla simétrica de tarjetas | Encabezado centrado y tarjetas iguales en 3 columnas desde 1.024 px (una bajo esa medida), sin JavaScript. Cada tarjeta lleva foto, rótulo, título, instituciones, periodo y modalidad, texto, etiquetas y enlaces al pie | Experiencia (resumen) |
 | Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
-| Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación) |
-| Línea de tiempo | Hitos en secuencia vertical | Sin asignar |
-| **Reservados** (prototipo): pestañas verticales de trayectoria, lista de servicios a dos columnas con regla superior, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
+| Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación), Desarrollador (portafolio, ritmo 7/5) |
+| Línea de tiempo | Hitos en secuencia vertical. Versión compacta: lista ordenada con riel de 1 px y marcadores circulares con ícono | Experiencia (resumen) |
+| Lista a dos columnas con regla superior | Entradas con regla de 1 px `border-strong` y tramo dorado de 48 px, ícono de 32 px, h3 en Cinzel y texto con énfasis; una columna bajo 768 px | Desarrollador (aspectos técnicos) |
+| **Reservados** (prototipo): pestañas verticales de trayectoria, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
 
 ### 11.3 Inicio
 1. **Hero asimétrico** (7.4), fondo `bg`.
@@ -445,6 +446,21 @@ La página abre con el `<h1>` y su bajada, sigue con la formación y las certifi
 - Cada insignia abre su detalle en un `<dialog>` nativo, con foco atrapado, Escape que lo cierra y retorno del foco al botón. Sin JavaScript, los 11 detalles se ven en la propia franja y los botones no aparecen.
 - Las insignias van en tamaño pequeño, con carga diferida y ancho y alto declarados.
 - No se muestran vencimientos.
+
+### 11.5 Experiencia
+La página abre con el `<h1>` «Experiencia Laboral» (`en-US`: «Work Experience»), centrado, con rótulo «Resumen de experiencia» y bajada, sobre fondo `bg`. Sigue una **línea de tiempo compacta** y luego los tres perfiles en el patrón **grilla simétrica de tarjetas** (11.2, ADR-065 y ADR-066). Sin JavaScript, sin animación de entrada y sin «Descargar CV» (ADR-057). No lleva subtítulo h2: el `<h1>` y la bajada ya presentan la página.
+
+**Línea de tiempo** (fondo `bg`, continuación del encabezado): lista ordenada vertical de 36 rem de ancho máximo, centrada, sin título visible y con nombre accesible «Hitos de mi trayectoria» (`en-US`: «Career milestones»). Tres hitos, en este orden: Instructor Certificado · Talento Digital para Chile · 2023 - Actualidad; Docente Universitario · INACAP | Duoc UC | IPLACEX · 2013 - Actualidad; Desarrollador Full Stack · INACAP · 2011 - Actualidad. Cada hito: marcador circular de 44 px (`surface`, contorno `border-strong` de 1 px, ícono de 22 px en `icon`: `certificate`, `graduation-cap` y `terminal`, ADR-063), título (Cinzel, 1,05 rem), instituciones (`text-muted`, 15 px) y periodo (13 px, mayúsculas, `text-soft`, números tabulares). Un riel de 1 px `border-strong` une los marcadores (decorativo). Separación de 28 px entre hitos. Los hitos no son enlaces.
+
+**Grilla de perfiles** (fondo `bg-alt`): tarjetas `surface` de 7.6, de igual alto, en 3 columnas desde 1.024 px (separación de 32 px; 24 px bajo esa medida) y en una columna bajo ella. Cada tarjeta, de arriba abajo: foto en proporción 3:2 con contorno `border`, rótulo (kicker), título (Cinzel, 1,15 rem, `<h2>`), instituciones (`text-muted`, 15 px), línea de periodo y modalidad (13 px, mayúsculas, `text-soft`), texto (Josefin 300, 16 px, con énfasis en `text`), etiquetas (7.7) y enlaces al pie, alineados abajo aunque el texto de cada tarjeta mida distinto. Los perfiles son Docente Universitario (2013 - Actualidad), Desarrollador Full Stack (2011 - Actualidad) e Instructor de Bootcamps (2023 - Actualidad), en ese orden.
+
+**Enlaces de las tarjetas:** botones de ancho completo y 46 px (7.3), apilados con 12 px de separación. **Variante de un enlace** (Docente y Desarrollador): un botón primario «Más detalles» (`en-US`: «More details»), con nombre accesible «Más detalles: <perfil>». **Variante de dos enlaces** (Instructor): un botón primario «Instructor REUF» y debajo uno secundario «Talento Digital»; el texto visible de cada uno nombra su destino. Los destinos salen del mapa de rutas y pueden apuntar a páginas aún no publicadas.
+
+### 11.6 Desarrollador
+1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Perfil profesional», `<h1>` «Desarrollador Full Stack», institución «INACAP» (Cinzel) y «2011 - Actualidad · Modalidad presencial» en mayúsculas, iguales a Experiencia (ADR-067).
+2. **Aspectos técnicos:** encabezado alineado a la izquierda y lista a dos columnas con regla superior (4 entradas), fondo `bg`.
+3. **Tecnologías:** banda (7.8) con encabezado de banda y las 5 categorías apiladas; cada una con h3 en estilo kicker y regla dorada de 32 px, y retícula de fichas de 2, 3, 4 y 6 columnas (bajo 640, desde 640, 1.024 y 1.280 px). Ficha: fondo `surface`, contorno 1 px `border`, caja de logo de 44 px (`--tech-plate-bg`: `bg` en claro y placa `orient-50` en oscuro, para que los logos de marca oscuros se distingan; los SVG no cambian, ADR-069) con el SVG de marca a 28 px, nombre (600, 15 px) y rol (`text-soft`, 13 px). OCI usa el mismo SVG que Oracle Database, como en el sitio antiguo; el nombre de la ficha los distingue.
+4. **Portafolio:** fondo `bg-alt`; encabezado alineado a la izquierda («Proyectos Reales», «Mi Portafolio Web») con bajada y, bajo ella, el grupo de filtros (Todos, Front-End, Full-Stack, Back-End): botones de 44 px con contorno `border-strong`, Josefin 600 12,5 px en mayúsculas e ícono de 18 px; el activo usa los colores del idioma actual (7.2) y `aria-pressed`. Sin JavaScript el grupo no se muestra y se ven los 12 proyectos. Mosaico de 12 columnas desde 1.024 px con el ritmo 7/5, 5/7, 6/6 (se recalcula sobre las tarjetas visibles al filtrar); una columna bajo esa medida. Tarjeta base (7.6) con portada 16:9 y la pastilla de categoría arriba a la izquierda (colores del idioma actual), h3 en Cinzel, descripción con énfasis, etiquetas (7.7 reducida: 11,5 px, relleno 4 × 8) con logo de 10 px y enlace «Ver repositorio» / «Ver proyecto» en `accent`, siempre visible.
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.

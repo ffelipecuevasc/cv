@@ -9,6 +9,7 @@
 Verificar que todo está listo para el cutover y que no hay contenido nuevo de `main` sin portar.
 
 ## Contexto y referencias (DESIGN.md, ADR, hallazgos, archivos del sitio actual)
+- **Pendiente (E70-I04, 01-11-2026):** AT-085, el texto y las etiquetas del proyecto 1 del portafolio (este sitio) describen el sitio antiguo; Felipe los redacta antes del cutover.
 - ADR-014: con la rama derivada de `main`, `git log main --not HEAD` y `git diff` muestran lo publicado en producción durante la migración.
 - Documentos obligatorios: `DESIGN.md`, `_planificacion/00_producto/decisiones.md`, `_planificacion/00_producto/auditoria-tecnica.md`.
 - El sitio actual es referencia de solo lectura: se consulta con `git show main:<ruta>` y nunca se edita.
