@@ -670,6 +670,23 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (la lista a dos columnas deja de estar reservada para Desarrollador) y una sección nueva de Desarrollador: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 01-11-2026 (E70-I01). **Estado:** Aceptada.
 
+## ADR-068 · Desarrollador: portafolio en mosaico, filtros y JSON-LD
+- **Contexto:** E70-I02. `main` generaba el portafolio con JavaScript (`portafolio.js`, `portafolio.datos.js`, `portafolio.config.js`): sin JavaScript la grilla quedaba vacía. ADR-036 pide validar el patrón con Felipe.
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Patrón:** «mosaico por peso» con el ritmo de `main`: 7/5, 5/7 y 6/6 en 12 columnas desde 1.024 px, repetido cada seis tarjetas; una columna bajo esa medida.
+  - **Etiquetas con el ícono de 10 px** de `main` (mismo mapa de `portafolio.config.js`; sin entrada, solo texto).
+  - **JSON-LD:** barra final solo en las URL del sitio (`@id` `…/es/desarrollador/#portfolio` y `url` de la página); las URL externas quedan como en `main`.
+- **Decisión (de implementación):**
+  - Colección `portfolioPage` (`src/content/portfolio/page.json`): 12 proyectos en el orden de `main`, con `localized()`; las tarjetas, los filtros y el ItemList salen de ahí.
+  - Las tarjetas se generan al construir: sin JavaScript se ven las 12 y el grupo de filtros queda oculto (`hidden`). `src/scripts/portfolio.ts` (850 B en línea) lo muestra; los filtros son `<button>` nativos con `aria-pressed`, ocultan con `hidden`, recalculan el ritmo sobre las visibles y anuncian «Mostrando N de 12 proyectos: …» en una región `aria-live="polite"`. Sin animaciones.
+  - El enlace del proyecto está siempre visible (en `main` solo aparecía al pasar el cursor), con «Ver repositorio» o «Ver proyecto» según el destino y el título y «se abre en una pestaña nueva» para lectores de pantalla.
+  - Imágenes: los 12 WebP de `main:static/img/portafolio/` se copian a `src/assets/portfolio/`; Astro emite 480, 800 y 1.200 px, con ancho y alto declarados y carga diferida. El ItemList usa la de 1.200 px.
+  - Íconos nuevos en `icons.ts` (ADR-063): `apps`, `web`, `layers` y `code`.
+  - Se descartan la animación AOS, el zoom de la imagen al pasar el cursor, los colores propios por categoría (la pastilla usa los valores del idioma actual, 7.2) y las cursivas `<em>` de «crimson» y «cover flow» (el contenido usa solo `**`); los textos se conservan.
+  - El ItemList suma `inLanguage` y `url`; `codeRepository` solo en los 5 repositorios de GitHub, como en `main`.
+- **Consecuencias:** `DESIGN.md` 11.2 y 11.6 (bloque en la bitácora; lo edita Felipe, ADR-033). El HTML de la página sube de 51 a 102 KB (17 KB gzip): AT-084. Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I02). **Estado:** Aceptada.
+
 ---
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)

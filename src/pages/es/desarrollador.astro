@@ -1,12 +1,14 @@
 ---
 // Página Desarrollador de /es/ (E70-I01, ADR-067). Título, descripción y texto alternativo de la
 // imagen OG vienen de src/content/pages/developer.json; el contenido, de
-// src/content/developer/page.json. El portafolio llega en E70-I02.
+// src/content/developer/page.json. Portafolio y JSON-LD: E70-I02.
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import DeveloperHeader from '../../components/developer/DeveloperHeader.astro';
 import TechnicalAspects from '../../components/developer/TechnicalAspects.astro';
 import TechnologyWall from '../../components/developer/TechnologyWall.astro';
+import Portfolio from '../../components/developer/Portfolio.astro';
+import DeveloperJsonLd from '../../components/seo/DeveloperJsonLd.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
 const page = await getEntry('pages', 'developer');
@@ -16,7 +18,9 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 ---
 
 <BaseLayout title={title.es} description={description.es} route="developer" ogImage={og}>
+  <DeveloperJsonLd slot="json-ld" />
   <DeveloperHeader />
   <TechnicalAspects />
   <TechnologyWall />
+  <Portfolio />
 </BaseLayout>

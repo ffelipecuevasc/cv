@@ -359,10 +359,50 @@ const developerPage = defineCollection({
   }),
 });
 
+/*
+ * Portafolio de Desarrollador (E70-I02, ADR-068): los 12 proyectos de
+ * main:static/js/datos/portafolio.datos.js, en el mismo orden. De aquí salen las tarjetas, los
+ * filtros y el JSON-LD ItemList. Etiquetas de tecnología: nombres propios, no se traducen.
+ */
+const PORTFOLIO_CATEGORIES = ['frontend', 'fullstack', 'backend'] as const;
+const portfolioCategory = () => z.object({ icon: z.enum(SYMBOL_NAMES), label: localized() });
+const portfolioPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/portfolio' }),
+  schema: ({ image }) =>
+    z.object({
+      header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+      filters: z.object({ label: localized(), all: localized(), status: localized() }),
+      categories: z.object({
+        frontend: portfolioCategory(),
+        fullstack: portfolioCategory(),
+        backend: portfolioCategory(),
+      }),
+      actions: z.object({ repository: localized(), site: localized() }),
+      listName: localized(),
+      projects: z
+        .array(
+          z.object({
+            id: z.string().regex(/^[a-z0-9-]+$/),
+            category: z.enum(PORTFOLIO_CATEGORIES),
+            image: image(),
+            programmingLanguage: z.string().trim().min(1),
+            url: z.url(),
+            title: localized(),
+            imageAlt: localized(),
+            description: localized(),
+            tags: z.array(z.string().trim().min(1)).min(1),
+          }),
+        )
+        .length(12)
+        .refine((list) => new Set(list.map((p) => p.id)).size === 12, 'ids repetidos'),
+    }),
+});
+
 export const collections = {
   pages,
   experiencePage,
   developerPage,
+  portfolioPage,
   personSeo,
   educationEntries,
   educationPage,

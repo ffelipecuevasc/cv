@@ -1,0 +1,56 @@
+---
+/*
+ * Datos estructurados de Desarrollador (E70-I02, ADR-068): ItemList de los 12 proyectos del
+ * portafolio, derivado de src/content/portfolio/page.json (mismo orden y textos que las
+ * tarjetas). @id con la URL canónica de la página, con barra final; el autor es la Person de
+ * la portada. URL externas tal como están en main; imagen, el WebP optimizado por Astro.
+ */
+import { getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import JsonLd from './JsonLd.astro';
+import { entityIds } from './structured-data';
+import { langFromLocale, langCodes } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+
+const lang = langFromLocale(Astro.currentLocale);
+const site = Astro.site as URL;
+const page = (await getEntry('portfolioPage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/portfolio/page.json');
+const pageUrl = new URL(getRoute('developer', lang), site).href;
+const plain = (text: string) => text.replaceAll('**', '');
+
+const items = await Promise.all(
+  page.projects.map(async (project, index) => {
+    const image = await getImage({ src: project.image, width: 1200, format: 'webp' });
+    const isRepository = /github\.com/.test(project.url);
+    return {
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'SoftwareSourceCode',
+        name: project.title[lang],
+        description: plain(project.description[lang]),
+        url: project.url,
+        ...(isRepository ? { codeRepository: project.url } : {}),
+        image: new URL(image.src, site).href,
+        author: { '@id': entityIds(site).person },
+        programmingLanguage: project.programmingLanguage,
+        inLanguage: langCodes[lang],
+      },
+    };
+  }),
+);
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${pageUrl}#portfolio`,
+  url: pageUrl,
+  name: page.listName[lang],
+  inLanguage: langCodes[lang],
+  numberOfItems: items.length,
+  itemListElement: items,
+};
+---
+
+<JsonLd data={data} />

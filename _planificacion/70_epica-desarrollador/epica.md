@@ -20,7 +20,10 @@ E60-I01.
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E70-I01](E70-I01-tecnologias.md) | Aspectos técnicos y muro de tecnologías | P1 | M | E60-I01 | [x] Terminada |
-| [E70-I02](E70-I02-portafolio.md) | Portafolio filtrable y JSON-LD | P1 | M | E70-I01 | [ ] Pendiente |
+| [E70-I02](E70-I02-portafolio.md) | Portafolio filtrable y JSON-LD | P1 | M | E70-I01 | [x] Terminada |
+
+## Nota (01-11-2026)
+Se agregará **E70-I03** de ajustes tras la revisión en la preview (ADR-056), que incluye AT-083 (logos oscuros). La épica sigue en curso hasta cerrarla.
 
 ## Criterios de aceptación de la épica
 - [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.

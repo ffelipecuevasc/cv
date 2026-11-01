@@ -1,0 +1,369 @@
+{
+  "header": {
+    "kicker": {
+      "es": "Proyectos Reales",
+      "en": "Real Projects"
+    },
+    "title": {
+      "es": "Mi Portafolio Web",
+      "en": "My Web Portfolio"
+    },
+    "lead": {
+      "es": "Acá tienes los proyectos más importantes que he desarrollado a nivel personal como dentro de bootcamps para **Talento Digital para Chile** y otras instituciones educativas.",
+      "en": "Here are the most important projects I have built, both on my own and within bootcamps for **Talento Digital para Chile** and other educational institutions."
+    }
+  },
+  "filters": {
+    "label": {
+      "es": "Filtrar proyectos por tipo",
+      "en": "Filter projects by type"
+    },
+    "all": {
+      "es": "Todos",
+      "en": "All"
+    },
+    "status": {
+      "es": "Mostrando {count} de {total} proyectos: {filter}",
+      "en": "Showing {count} of {total} projects: {filter}"
+    }
+  },
+  "categories": {
+    "frontend": {
+      "icon": "web",
+      "label": {
+        "es": "Front-End",
+        "en": "Front-End"
+      }
+    },
+    "fullstack": {
+      "icon": "layers",
+      "label": {
+        "es": "Full-Stack",
+        "en": "Full-Stack"
+      }
+    },
+    "backend": {
+      "icon": "api",
+      "label": {
+        "es": "Back-End",
+        "en": "Back-End"
+      }
+    }
+  },
+  "actions": {
+    "repository": {
+      "es": "Ver repositorio",
+      "en": "View repository"
+    },
+    "site": {
+      "es": "Ver proyecto",
+      "en": "View project"
+    }
+  },
+  "listName": {
+    "es": "Portafolio de proyectos",
+    "en": "Project portfolio"
+  },
+  "projects": [
+    {
+      "id": "cv",
+      "category": "frontend",
+      "image": "../../assets/portfolio/felipe-cuevas-dev.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://felipecuevas.dev/",
+      "title": {
+        "es": "Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios",
+        "en": "Felipe Cuevas · Professional Website, Online CV and Portfolios"
+      },
+      "imageAlt": {
+        "es": "Portada de este sitio web, Felipe Cuevas — CV Online y Portafolio",
+        "en": "Cover of this website, Felipe Cuevas — Online CV and Portfolio"
+      },
+      "description": {
+        "es": "Este mismo sitio: currículum interactivo y portafolio profesional con **HTML5 semántico, Tailwind CSS y JavaScript Vanilla**. Modo claro y oscuro, animaciones con AOS, formulario de contacto protegido con Cloudflare Turnstile y despliegue en Cloudflare Pages.",
+        "en": "This very site: an interactive résumé and professional portfolio built with **semantic HTML5, Tailwind CSS and vanilla JavaScript**. Light and dark mode, AOS animations, a contact form protected by Cloudflare Turnstile and deployment on Cloudflare Pages."
+      },
+      "tags": [
+        "HTML5",
+        "CSS3",
+        "Tailwind CSS",
+        "JavaScript",
+        "AOS",
+        "Cloudflare Pages",
+        "Cloudflare Turnstile",
+        "NPM"
+      ]
+    },
+    {
+      "id": "monolito",
+      "category": "backend",
+      "image": "../../assets/portfolio/api-rest-monolito-java.webp",
+      "programmingLanguage": "Java",
+      "url": "https://github.com/ffelipecuevasc/api-rest-monolito-spring",
+      "title": {
+        "es": "API REST Monolítica con Spring Boot",
+        "en": "Monolithic REST API with Spring Boot"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto API REST Monolítica con Spring Boot",
+        "en": "Cover of the Monolithic REST API with Spring Boot project"
+      },
+      "description": {
+        "es": "API REST monolítica construida con **Java y Spring Boot**, con persistencia mediante Spring Data JPA y Hibernate en una arquitectura de capas desacopladas. Integra microservicios de apoyo: AWS S3 para archivos, RabbitMQ para mensajería, Redis para caché y Zipkin para trazabilidad.",
+        "en": "A monolithic REST API built with **Java and Spring Boot**, with persistence through Spring Data JPA and Hibernate in a decoupled layered architecture. It integrates supporting microservices: AWS S3 for files, RabbitMQ for messaging, Redis for caching and Zipkin for tracing."
+      },
+      "tags": [
+        "Java",
+        "Spring Boot",
+        "Spring Data JPA",
+        "Hibernate",
+        "RESTful APIs",
+        "Maven",
+        "AWS",
+        "RabbitMQ",
+        "Redis",
+        "Zipkin"
+      ]
+    },
+    {
+      "id": "oauth2",
+      "category": "backend",
+      "image": "../../assets/portfolio/api-rest-oauth-google-github.webp",
+      "programmingLanguage": "Java",
+      "url": "https://github.com/ffelipecuevasc/api-rest-oaut2-spring",
+      "title": {
+        "es": "API REST con OAuth2, JWT y 2FA en Spring Boot",
+        "en": "REST API with OAuth2, JWT and 2FA in Spring Boot"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto API REST con OAuth2, JWT y 2FA",
+        "en": "Cover of the REST API with OAuth2, JWT and 2FA project"
+      },
+      "description": {
+        "es": "API REST educativa de seguridad con **Java 21, Spring Boot y Spring Security**: autenticación con BCrypt, tokens JWT, inicio de sesión social OAuth2 (Google y GitHub) y verificación en dos pasos con Google Authenticator, sobre MySQL en Docker.",
+        "en": "An educational security REST API with **Java 21, Spring Boot and Spring Security**: BCrypt authentication, JWT tokens, OAuth2 social login (Google and GitHub) and two-step verification with Google Authenticator, on MySQL in Docker."
+      },
+      "tags": [
+        "Java 21",
+        "Spring Boot",
+        "Spring Security",
+        "OAuth2",
+        "JWT",
+        "Spring Data JPA",
+        "MySQL",
+        "Docker",
+        "Maven"
+      ]
+    },
+    {
+      "id": "jardinera",
+      "category": "frontend",
+      "image": "../../assets/portfolio/la-jardinera.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://lajardinerafloreria.cl/",
+      "title": {
+        "es": "La Jardinera Florería · Sitio Web y Catálogo Comercial",
+        "en": "La Jardinera Florería · Website and Product Catalog"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto La Jardinera Florería",
+        "en": "Cover of the La Jardinera Florería project"
+      },
+      "description": {
+        "es": "Catálogo comercial multi-página para una florería de Valdivia, con **HTML5, Tailwind CSS y JavaScript Vanilla**. Identidad visual botánica, tema claro/oscuro, carrusel de reseñas, calculadora de suscripciones florales y galería con filtrado dinámico.",
+        "en": "A multi-page product catalog for a flower shop in Valdivia, built with **HTML5, Tailwind CSS and vanilla JavaScript**. Botanical visual identity, light/dark theme, review carousel, flower subscription calculator and a gallery with dynamic filtering."
+      },
+      "tags": ["HTML5", "CSS3", "Tailwind CSS", "JavaScript", "PNPM"]
+    },
+    {
+      "id": "manza",
+      "category": "fullstack",
+      "image": "../../assets/portfolio/manzagrafica.webp",
+      "programmingLanguage": "Python",
+      "url": "https://github.com/ffelipecuevasc/ManzagraficaPedidosApp",
+      "title": {
+        "es": "Manza Gráfica ERP · Sistema de Gestión para Imprenta",
+        "en": "Manza Gráfica ERP · Print Shop Management System"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Manza Gráfica ERP",
+        "en": "Cover of the Manza Gráfica ERP project"
+      },
+      "description": {
+        "es": "ERP a medida con **Python y Django** para la gestión de clientes, cotizaciones y producción de una imprenta. Genera reportes y presupuestos en PDF con WeasyPrint, incluye panel de Business Intelligence y respaldos automatizados de MySQL.",
+        "en": "A custom ERP built with **Python and Django** to manage a print shop's clients, quotes and production. It generates PDF reports and estimates with WeasyPrint, includes a Business Intelligence dashboard and automated MySQL backups."
+      },
+      "tags": [
+        "Python",
+        "Django",
+        "MySQL",
+        "Docker",
+        "HTML5",
+        "Tailwind CSS",
+        "JavaScript",
+        "WeasyPrint"
+      ]
+    },
+    {
+      "id": "gestion",
+      "category": "fullstack",
+      "image": "../../assets/portfolio/gestion-escolar.webp",
+      "programmingLanguage": "Python",
+      "url": "https://github.com/ffelipecuevasc/GestionEscolar",
+      "title": {
+        "es": "SGE · Sistema de Gestión Escolar",
+        "en": "SGE · School Management System"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Sistema de Gestión Escolar",
+        "en": "Cover of the School Management System project"
+      },
+      "description": {
+        "es": "Aplicación web para la administración académica de instituciones educativas, con **Python y Django** (MVT). Gestiona el ciclo CRUD de estudiantes, docentes y asignaturas, con autenticación, señales y middlewares personalizados sobre SQLite.",
+        "en": "A web application for the academic administration of educational institutions, built with **Python and Django** (MVT). It handles the CRUD cycle for students, teachers and courses, with authentication, signals and custom middlewares on SQLite."
+      },
+      "tags": ["Python", "Django", "SQLite", "Django ORM", "HTML5", "CSS3", "JavaScript"]
+    },
+    {
+      "id": "valdivia",
+      "category": "frontend",
+      "image": "../../assets/portfolio/turismo-valdivia.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://turismovaldivia.cl/",
+      "title": {
+        "es": "Valdivia · La Perla del Sur",
+        "en": "Valdivia · La Perla del Sur"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Valdivia — La Perla del Sur",
+        "en": "Cover of the Valdivia — La Perla del Sur project"
+      },
+      "description": {
+        "es": "Landing page editorial y turística de la ciudad de Valdivia, con **HTML5, Tailwind CSS y JavaScript Vanilla**. Paleta crimson personalizada, navegación flotante reactiva al scroll con máscara SVG, animaciones de revelado y galería fotográfica.",
+        "en": "An editorial tourism landing page for the city of Valdivia, built with **HTML5, Tailwind CSS and vanilla JavaScript**. Custom crimson palette, floating scroll-aware navigation with an SVG mask, reveal animations and a photo gallery."
+      },
+      "tags": ["HTML5", "CSS3", "Tailwind CSS", "JavaScript", "PostCSS", "Autoprefixer", "PNPM"]
+    },
+    {
+      "id": "vet",
+      "category": "fullstack",
+      "image": "../../assets/portfolio/veterinaria-express.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://github.com/ffelipecuevasc/vet_express",
+      "title": {
+        "es": "VetCare Pro · Sistema de Gestión para Clínica Veterinaria",
+        "en": "VetCare Pro · Veterinary Clinic Management System"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto VetCare Pro — Veterinaria Express",
+        "en": "Cover of the VetCare Pro — Veterinaria Express project"
+      },
+      "description": {
+        "es": "Sistema de administración para clínica veterinaria con **Node.js y Express.js** (MVC): CRUD de pacientes y tutores con Sequelize sobre PostgreSQL, autenticación con contraseñas encriptadas, sesiones persistentes y notificaciones por correo con Nodemailer.",
+        "en": "A management system for a veterinary clinic built with **Node.js and Express.js** (MVC): CRUD for patients and owners with Sequelize on PostgreSQL, authentication with hashed passwords, persistent sessions and email notifications with Nodemailer."
+      },
+      "tags": [
+        "Node.js",
+        "Express.js",
+        "JavaScript ES6+",
+        "PostgreSQL",
+        "Sequelize",
+        "EJS",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "bcryptjs",
+        "Nodemailer"
+      ]
+    },
+    {
+      "id": "examen-td",
+      "category": "fullstack",
+      "image": "../../assets/portfolio/examen-td.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://examen-certificacion-td-js.pages.dev/",
+      "title": {
+        "es": "Examen de Certificación JavaScript - Talento Digital",
+        "en": "JavaScript Certification Exam - Talento Digital"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Examen de Certificación JavaScript — Talento Digital",
+        "en": "Cover of the JavaScript Certification Exam — Talento Digital project"
+      },
+      "description": {
+        "es": "Plataforma de simulacros y cuestionarios para el examen de certificación de **Talento Digital**, con HTML5, Tailwind CSS y JavaScript. Servicios de API con Cloudflare Workers y base de datos relacional en Cloudflare D1.",
+        "en": "A practice-test and quiz platform for the **Talento Digital** certification exam, built with HTML5, Tailwind CSS and JavaScript. API services on Cloudflare Workers and a relational database on Cloudflare D1."
+      },
+      "tags": [
+        "HTML5",
+        "Tailwind CSS",
+        "JavaScript",
+        "Cloudflare Workers",
+        "Cloudflare D1",
+        "Cloudflare Pages",
+        "Node.js",
+        "Wrangler"
+      ]
+    },
+    {
+      "id": "bodas",
+      "category": "frontend",
+      "image": "../../assets/portfolio/catalogo-bodas.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://ffelipecuevasc.github.io/portafoliobodas/",
+      "title": {
+        "es": "Portafolio · Invitaciones Web para Bodas",
+        "en": "Portfolio · Wedding Web Invitations"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Portafolio de Invitaciones Web para Bodas",
+        "en": "Cover of the Wedding Web Invitations Portfolio project"
+      },
+      "description": {
+        "es": "Portafolio de invitaciones digitales para bodas, con **HTML5, Tailwind CSS y JavaScript Vanilla**. Maquetación a dos columnas, paleta reactiva a temas claro/oscuro con Material Design 3, tipografías editoriales y etiquetas Open Graph para redes sociales.",
+        "en": "A portfolio of digital wedding invitations, built with **HTML5, Tailwind CSS and vanilla JavaScript**. Two-column layout, a palette that responds to light/dark themes with Material Design 3, editorial typography and Open Graph tags for social media."
+      },
+      "tags": ["HTML5", "CSS3", "Tailwind CSS", "JavaScript", "Material Design 3", "Google Fonts"]
+    },
+    {
+      "id": "franjacob",
+      "category": "frontend",
+      "image": "../../assets/portfolio/francisca-jacob.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://ffelipecuevasc.github.io/franjacob/",
+      "title": {
+        "es": "Francisca Jacob · Sitio Web Profesional y CV Online",
+        "en": "Francisca Jacob · Professional Website and Online CV"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Francisca Jacob — Sitio Web Profesional",
+        "en": "Cover of the Francisca Jacob — Professional Website project"
+      },
+      "description": {
+        "es": "Sitio personal y portafolio de una periodista bilingüe, con **HTML5, Tailwind CSS y JavaScript Vanilla**. Modo claro/oscuro persistente, efecto linterna, barra de progreso de lectura y carrusel cover flow para hitos profesionales.",
+        "en": "A personal website and portfolio for a bilingual journalist, built with **HTML5, Tailwind CSS and vanilla JavaScript**. Persistent light/dark mode, a flashlight effect, a reading progress bar and a cover flow carousel for career milestones."
+      },
+      "tags": ["HTML5", "CSS3", "Tailwind CSS", "JavaScript", "PostCSS", "Autoprefixer"]
+    },
+    {
+      "id": "natalia",
+      "category": "frontend",
+      "image": "../../assets/portfolio/natalia-martinez.webp",
+      "programmingLanguage": "JavaScript",
+      "url": "https://nataliamartinez.cl/",
+      "title": {
+        "es": "Natalia Martínez · Orfebrería y Joyería Sustentable",
+        "en": "Natalia Martínez · Sustainable Silversmithing and Jewelry"
+      },
+      "imageAlt": {
+        "es": "Portada del proyecto Natalia Martínez — Orfebrería y Joyería",
+        "en": "Cover of the Natalia Martínez — Silversmithing and Jewelry project"
+      },
+      "description": {
+        "es": "Sitio de presentación para joyería y talleres de orfebrería sustentable, con **HTML5, Tailwind CSS y JavaScript Vanilla**. Gestión de temas, animaciones de revelado por desplazamiento y transiciones de vista fluidas.",
+        "en": "A showcase website for sustainable jewelry and silversmithing workshops, built with **HTML5, Tailwind CSS and vanilla JavaScript**. Theme management, scroll reveal animations and smooth view transitions."
+      },
+      "tags": ["HTML5", "Tailwind CSS", "JavaScript", "PostCSS", "PNPM"]
+    }
+  ]
+}

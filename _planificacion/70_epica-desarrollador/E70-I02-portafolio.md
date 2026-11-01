@@ -1,7 +1,7 @@
 # E70-I02 · Portafolio filtrable y JSON-LD
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (01-11-2026)
 - **Épica:** E70 · Página Desarrollador (desarrollador.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E70-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017
+- **Depende de:** E70-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-036, ADR-048, ADR-056, ADR-063, ADR-067
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -21,16 +21,16 @@ Migrar el portafolio de 12 proyectos en WEBP con filtros por categoría y su JSO
 - —
 
 ## Tareas
-- [ ] Migrar datos y filtros.
-- [ ] Optimizar imágenes.
-- [ ] Traducir descripciones y textos alternativos.
+- [x] Migrar datos y filtros.
+- [x] Optimizar imágenes.
+- [x] Traducir descripciones y textos alternativos.
 
 ## Archivos previstos (crear / modificar)
 - Crear: componentes de portafolio y contenido.
 
 ## Criterios de aceptación (verificables)
-- [ ] Los 12 proyectos y todos los filtros funcionan en ambos idiomas; sin JavaScript se listan todos.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Los 12 proyectos y todos los filtros funcionan en ambos idiomas; sin JavaScript se listan todos.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -39,10 +39,10 @@ Migrar el portafolio de 12 proyectos en WEBP con filtros por categoría y su JSO
 - Validador de schema.org.
 
 ## Riesgos y notas
-- —
+- Patrón, filtros y JSON-LD: ADR-068. Hallazgo nuevo: AT-084. Inglés por validar (ADR-017). Validador de schema.org: lo corre Felipe con la URL de preview.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

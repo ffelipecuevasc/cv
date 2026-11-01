@@ -749,3 +749,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E70-I01, 01-11-2026):** los SVG se copiaron sin cambios de `main` (DESIGN.md 7.14). En oscuro, sobre el fondo de 44 px (`bg`), los logos negros o muy oscuros de Express.js, GitHub, Maven y Sequelize/Hibernate se distinguen poco; Express.js se ve tenue también en claro. Además, `oracle-cloud-infrastructure.svg` y `oracle-database.svg` son idénticos en `main` (mismo archivo), así que OCI muestra el logo de Oracle. No se midió el contraste: los logos son decorativos (el nombre va en texto).
 - **Impacto:** visual; el contenido sigue legible porque el nombre y el rol están en texto.
 - **Recomendación:** dar a la caja del logo un fondo claro fijo en ambos temas, o pedir a Felipe versiones claras de esos SVG y un logo propio de OCI.
+
+### AT-084 · El HTML de Desarrollador duplica su peso con el portafolio
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I02
+- **Evidencia (E70-I02, 01-11-2026):** `dist/es/desarrollador/index.html` pasa de 51 KB (E70-I01) a 102 KB (17 KB gzip). Lo explican los `srcset` de 12 portadas en 3 anchos y unas 90 etiquetas con su `<img>` de 10 px. Todas las imágenes son diferidas; no se midieron Core Web Vitals.
+- **Impacto:** más bytes de HTML en la carga inicial; sin efecto visible.
+- **Recomendación:** medir en E170-I02 frente a ADR-015; si hace falta, bajar a 2 anchos o pintar los íconos de etiqueta como fondo CSS.

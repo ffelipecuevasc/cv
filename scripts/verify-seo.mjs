@@ -5,7 +5,7 @@
  * Valida sintaxis y estructura; NO reemplaza la Prueba de resultados enriquecidos de
  * Google ni el validador de schema.org, que Felipe corre con las URL de preview.
  * Cubre la portada (E40-I03), Educación (E50), Experiencia (E60-I01, con control de enlaces) y
- * Desarrollador (E70-I01: 36 tecnologías y paridad).
+ * Desarrollador (E70-I01: 36 tecnologías y paridad; E70-I02: portafolio, filtros e ItemList).
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -740,9 +740,10 @@ for (const [lang, info] of Object.entries(LANGS)) {
     flat.every((t) => t.name.length > 0 && /class="role/.test(t.html)),
     'cada ficha con nombre y rol visibles',
   );
+  // Desde E70-I02 el portafolio lleva filtros: el control se acota a lo anterior a él.
   check(
-    !/<button|<input|<select|<script|<dialog/.test(mainHtml),
-    'página sin controles ni scripts',
+    !/<button|<input|<select|<script|<dialog/.test(mainHtml.split('data-portfolio')[0]),
+    'cabecera, aspectos y tecnologías sin controles ni scripts',
   );
   developer[lang] = {
     counts: tiles.map((list) => list.length),
@@ -759,6 +760,162 @@ check(
     developer.es?.aspects === developer.en?.aspects &&
     same(developer.es?.levels, developer.en?.levels),
   'paridad Desarrollador: mismas 36 tecnologías, nombres, categorías y encabezados en /es/ y /en/',
+);
+
+// --- Portafolio de Desarrollador (E70-I02, ADR-068): 12 proyectos, filtros e ItemList ---
+const PORTFOLIO_FILTERS = ['all', 'frontend', 'fullstack', 'backend'];
+const portfolio = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = DEVELOPER[lang];
+  console.log(`\n/${route}/ portafolio (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) continue;
+  const html = read(`${route}/index.html`);
+  const mainHtml = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+  const section = /<section[^>]*data-portfolio[\s\S]*?<\/section>/.exec(mainHtml)?.[0] ?? '';
+  check(section.length > 0, 'sección del portafolio dentro de <main>');
+
+  // Filtros: grupo oculto sin JavaScript, botones nativos con aria-pressed y región anunciada.
+  const group = /<div[^>]*data-portfolio-filters[^>]*>/.exec(section)?.[0] ?? '';
+  check(
+    /role="group"/.test(group) && /aria-label="[^"]{5,}"/.test(group) && /\shidden/.test(group),
+    'grupo de filtros con nombre accesible y oculto sin JavaScript',
+  );
+  const buttons = [...section.matchAll(/<button\s[^>]*>/g)].map((m) => attrs(m[0]));
+  check(
+    same(
+      buttons.map((b) => b['data-filter']),
+      PORTFOLIO_FILTERS,
+    ),
+    `4 filtros en orden (${buttons.map((b) => b['data-filter']).join(', ')})`,
+  );
+  check(
+    buttons.every((b) => b.type === 'button') &&
+      same(
+        buttons.map((b) => b['aria-pressed']),
+        ['true', 'false', 'false', 'false'],
+      ),
+    'filtros type="button" con aria-pressed («Todos» activo)',
+  );
+  check(
+    /aria-live="polite"[^>]*data-portfolio-status/.test(section),
+    'resultado anunciado (aria-live)',
+  );
+  check(
+    /<script[^>]*type="module"/.test(html) || /<script[^>]*src="[^"]+\.js"/.test(html),
+    'script de filtros enlazado',
+  );
+
+  // Tarjetas: 12, ninguna oculta en el HTML, con h3, imagen optimizada y enlace externo.
+  const cells = [
+    ...section.matchAll(
+      /<li[^>]*data-category="([a-z]+)"[^>]*data-project="([a-z0-9-]+)"[^>]*>([\s\S]*?)<\/article>/g,
+    ),
+  ];
+  check(cells.length === 12, `12 proyectos (${cells.length})`);
+  check(
+    cells.every((c) => !/^[^>]*\shidden/.test(c[0])),
+    'sin JavaScript se listan los 12',
+  );
+  check(
+    cells.every((c) => (c[3].match(/<h3[\s>]/g) ?? []).length === 1),
+    'cada proyecto con un solo h3',
+  );
+  const covers = cells.map((c) => /<img\s[^>]*srcset=[^>]*>/.exec(c[3])?.[0] ?? '');
+  check(
+    covers.every(
+      (img) =>
+        /\salt="[^"]{10,}"/.test(img) &&
+        /\swidth="\d+"/.test(img) &&
+        /\sheight="\d+"/.test(img) &&
+        /\sloading="lazy"/.test(img) &&
+        /\.webp/.test(img),
+    ),
+    'cada portada WebP con srcset, alt, ancho, alto y carga diferida',
+  );
+  const actions = cells.map((c) => attrs(/<a\s[^>]*class="action[^>]*>/.exec(c[3])?.[0] ?? ''));
+  check(
+    actions.every(
+      (a) =>
+        /^https:\/\//.test(a.href ?? '') && a.target === '_blank' && /noopener/.test(a.rel ?? ''),
+    ),
+    'cada proyecto con enlace externo en pestaña nueva (noopener)',
+  );
+
+  // JSON-LD ItemList derivado del mismo contenido.
+  const blocks = [
+    ...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g),
+  ].map((m) => JSON.parse(m[1]));
+  const list = blocks.find((b) => b['@type'] === 'ItemList');
+  const pageUrl = `${SITE}/${route}/`;
+  check(Boolean(list), 'JSON-LD ItemList presente');
+  check(
+    list?.['@id'] === `${pageUrl}#portfolio` && list?.url === pageUrl,
+    '@id y url del ItemList absolutos con barra final',
+  );
+  check(
+    list?.numberOfItems === 12 && list?.itemListElement?.length === 12,
+    'ItemList con 12 elementos',
+  );
+  const elements = list?.itemListElement ?? [];
+  check(
+    elements.every((e, i) => e.position === i + 1 && e.item?.['@type'] === 'SoftwareSourceCode'),
+    'posiciones 1 a 12 de tipo SoftwareSourceCode',
+  );
+  const titles = cells.map((c) =>
+    decode(/<h3[^>]*>([\s\S]*?)<\/h3>/.exec(c[3])?.[1] ?? '')
+      .replace(/\s+/g, ' ')
+      .trim(),
+  );
+  check(
+    same(
+      elements.map((e) => e.item?.name),
+      titles,
+    ),
+    'nombres del ItemList = títulos de las tarjetas, en orden',
+  );
+  check(
+    same(
+      elements.map((e) => e.item?.url),
+      actions.map((a) => a.href),
+    ),
+    'url del ItemList = enlaces de las tarjetas',
+  );
+  check(
+    elements.every(
+      (e) =>
+        /^https:\/\//.test(e.item?.image ?? '') &&
+        existsSync(join(DIST, new URL(e.item.image).pathname)) &&
+        e.item?.author?.['@id'] === `${SITE}/#felipe-cuevas` &&
+        !/\*\*/.test(e.item?.description ?? ''),
+    ),
+    'imagen absoluta presente en dist/, autor = Person y descripción sin marcas',
+  );
+  check(
+    elements.every((e) =>
+      /github\.com/.test(e.item.url)
+        ? e.item.codeRepository === e.item.url
+        : !e.item.codeRepository,
+    ),
+    'codeRepository solo en los repositorios de GitHub',
+  );
+  portfolio[lang] = {
+    ids: cells.map((c) => c[2]),
+    categories: cells.map((c) => c[1]),
+    urls: actions.map((a) => a.href),
+    languages: elements.map((e) => e.item?.programmingLanguage),
+    descriptions: elements.map((e) => e.item?.description),
+  };
+}
+check(
+  same(portfolio.es?.ids, portfolio.en?.ids) &&
+    same(portfolio.es?.categories, portfolio.en?.categories) &&
+    same(portfolio.es?.urls, portfolio.en?.urls) &&
+    same(portfolio.es?.languages, portfolio.en?.languages),
+  'paridad del portafolio: mismos 12 proyectos, categorías y enlaces en /es/ y /en/',
+);
+check(
+  (portfolio.es?.descriptions ?? []).every((d, i) => d !== portfolio.en?.descriptions?.[i]),
+  'descripciones del ItemList traducidas en /en/',
 );
 
 // --- Paridad entre idiomas ---
