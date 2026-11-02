@@ -7,7 +7,7 @@
 felipecuevas.dev es la presencia profesional de Felipe Cuevas y cumple tres funciones a la vez:
 1. **CV online profesional:** trayectoria como instructor de bootcamps, docente universitario y desarrollador full stack, con formación y certificaciones verificables.
 2. **Portafolio de proyectos:** proyectos web reales con tecnologías y enlaces.
-3. **Comunidad (fecudev, por validar como nombre de marca):** eventos en vivo, foro abierto sobre GitHub Discussions y rutas de aprendizaje con recursos descargables.
+3. **Comunidad (fecudev, por validar como nombre de marca):** los eventos salieron del sitio y viven en el sitio de la comunidad Pulso Devs (ADR-077); quedan el foro abierto sobre GitHub Discussions y rutas de aprendizaje con recursos descargables.
 
 ## Objetivo de la migración
 - Llevar el sitio a Astro con estructura bilingüe (`es-CL` y `en-US`) y componentes compartidos.
@@ -26,7 +26,7 @@ felipecuevas.dev es la presencia profesional de Felipe Cuevas y cumple tres func
 |---|---|---|
 | Instituciones de educación superior y organismos de capacitación (OTEC, programas SENCE) | Validar experiencia docente y como relator | Inicio, Docente, Instructor, Talento Digital, Educación |
 | Empleadores y clientes de desarrollo de software | Evaluar capacidad técnica y proyectos | Inicio, Desarrollador, Educación, Contacto |
-| Estudiantes y egresados de bootcamps (comunidad) | Aprender, resolver dudas y asistir a eventos | Recursos, Foro, Eventos |
+| Estudiantes y egresados de bootcamps (comunidad) | Aprender y resolver dudas | Recursos, Foro |
 | Audiencia internacional (nueva, por validar) | Conocer el perfil en inglés | Todas en `/en/` |
 
 ## Propuesta de valor
@@ -60,4 +60,4 @@ felipecuevas.dev es la presencia profesional de Felipe Cuevas y cumple tres func
 | URLs antiguas que siguen funcionando tras el cutover | — | 100 % |
 | Páginas con paridad es/en | 0 de 13 | 13 de 13 |
 | Mensajes recibidos por el formulario y reuniones agendadas | Por validar | Por validar |
-| Participación en foro y eventos | Por validar | Por validar |
+| Participación en el foro | Por validar | Por validar |

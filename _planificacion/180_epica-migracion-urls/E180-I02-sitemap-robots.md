@@ -30,7 +30,7 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 - Modificar: `astro.config.mjs`; crear `public/robots.txt`.
 
 ## Criterios de aceptación (verificables)
-- [ ] El sitemap lista 24 URLs indexables (12 × 2: 14 páginas menos agradecimiento y 404) con alternativas recíprocas y excluye agradecimiento y 404 (ADR-035).
+- [ ] El sitemap lista 22 URLs indexables (11 × 2: 13 páginas menos agradecimiento y 404; sin Eventos, ADR-077) con alternativas recíprocas y excluye agradecimiento y 404 (ADR-035).
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 - [ ] El sitemap incluye `/es/privacidad` y `/en/privacy` con `hreflang` recíprocos. Si en E155-I01 Felipe decide `noindex`, se excluyen y el total baja a 22 (ADR-035).
 

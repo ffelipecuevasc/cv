@@ -29,7 +29,6 @@ export const getNavItems = (t: ReturnType<typeof useTranslations>): NavItem[] =>
     id: 'community',
     label: t.nav.community,
     children: [
-      { key: 'events', label: t.nav.events },
       { key: 'forum', label: t.nav.forum },
       { key: 'resources', label: t.nav.resources },
     ],

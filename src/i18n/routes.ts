@@ -1,6 +1,7 @@
 /*
  * Mapa de rutas equivalentes es-CL ↔ en-US (ADR-020, ADR-035, ADR-047, ADR-048).
- * - Las 12 páginas navegables del área L de la auditoría más la política de privacidad.
+ * - Las 11 páginas navegables del área L de la auditoría (sin Eventos, ADR-077) más la
+ *   política de privacidad.
  * - Toda ruta empieza con /es/ o /en/, termina en barra y nunca lleva .html (AT-005).
  * - La 404 no está en el mapa: no es una URL navegable; su selector de idioma lleva a la
  *   portada del otro idioma (E160-I01).
@@ -16,7 +17,6 @@ export const routes = {
   lecturer: { es: '/es/docente/', en: '/en/lecturer/' },
   instructor: { es: '/es/instructor/', en: '/en/instructor/' },
   talentoDigital: { es: '/es/talento-digital/', en: '/en/talento-digital/' },
-  events: { es: '/es/eventos/', en: '/en/events/' },
   forum: { es: '/es/foro/', en: '/en/forum/' },
   resources: { es: '/es/recursos/', en: '/en/resources/' },
   contact: { es: '/es/contacto/', en: '/en/contact/' },

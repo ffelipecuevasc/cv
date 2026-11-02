@@ -798,6 +798,24 @@ Reglas del registro:
 - **Consecuencias:** cierra E100. `DESIGN.md`: el punto 3 de 11.9 y la fila «Lista a dos columnas» de 11.2 pasan a incluir Talento Digital (bloque en la bitácora; lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 02-11-2026 (E100-I02). **Estado:** Aceptada.
 
+## ADR-077 · Eventos sale del sitio personal
+- **Contexto:** el 02-11-2026, al iniciar E110-I01 («Página de eventos con estado por fecha»), Felipe decide que los eventos ya no se publican en felipecuevas.dev: viven ahora en el sitio de su comunidad, Pulso Devs.
+- **Decisión (de Felipe, 02-11-2026):**
+  - La página Eventos no se migra. E110-I01 se reconvierte en «Retiro de Eventos» (ADR-056: la iteración no estaba cerrada, así que se reescribe en lugar de agregar una nueva).
+  - `/eventos`, `/eventos.html`, `/es/eventos/` y `/en/events/` responden **404**, sin redirección.
+  - Por ahora no se enlaza a Pulso Devs desde el sitio.
+  - No se agrega JSON-LD `Event`: BL-03 queda descartado y AT-038 sin objeto.
+- **Decisión (de implementación):**
+  - Se retiran la opción «Eventos» / «Events» de `nav-items.ts` (navbar de escritorio y menú móvil), la clave `events` de `src/i18n/routes.ts` y `nav.events` de `src/i18n/ui.ts`. El pie no la tenía. `verify:seo` no tenía controles de eventos. El ícono `event` se conserva: lo usa la relatoría de Instructor.
+  - El menú Comunidad queda con Foro y Recursos.
+- **Sustituye en parte a:**
+  - **ADR-008 / D-08** (y `DESIGN.md` 2.1): las opciones de menú ya no son «exactamente las mismas» del sitio actual; Comunidad pierde Eventos.
+  - **ADR-044:** la comunidad conserva foro y recursos, ya no eventos.
+  - **ADR-048:** el mapa de rutas deja de tener el par `/es/eventos/` ↔ `/en/events/`; pasa a 11 páginas navegables más privacidad.
+  - También ADR-007 (13 épicas de página) y ADR-018 (estado de eventos en el cliente) en lo que tocan a eventos. Ninguno de esos ADR se edita.
+- **Consecuencias:** el sitio pasa de 14 a 13 páginas por idioma (26 en total). E180-I01 no escribe 301 para `/eventos`: documenta el 404. AT-039 se resuelve por esta decisión. `DESIGN.md` 2.1, 7.2 (menú móvil: «Comunidad» con 2 opciones) y 7.9 se ajustan con el bloque de la bitácora `2026-11-02_E110-I01.md` (lo edita Felipe, ADR-033). Cierra E110.
+- **Origen:** decisión de Felipe el 02-11-2026 (E110-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
@@ -828,4 +846,4 @@ Reglas del registro:
 ### P-05 · Marca "fecudev"
 - **Estado:** Pendiente (BL-05).
 - **Contexto:** el término no aparece en el sitio actual.
-- **Propuesta:** tratarlo como nombre de la comunidad (foro, eventos, recursos y Discord) en textos de contenido, sin cambiar la etiqueta "Comunidad" del menú (ADR-008).
+- **Propuesta:** tratarlo como nombre de la comunidad (foro, eventos, recursos y Discord; Discord salió por ADR-044 y eventos por ADR-077) en textos de contenido, sin cambiar la etiqueta "Comunidad" del menú (ADR-008).

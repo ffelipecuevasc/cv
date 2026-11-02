@@ -260,7 +260,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** alinear con Felipe.
 
 ### AT-038 · Eventos sin datos estructurados
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** backlog BL-03
+- **Severidad:** Baja · **Estado:** Descartado por ADR-077 (02-11-2026): la página Eventos no se migra y BL-03 queda descartado · **Resuelve:** backlog BL-03
 - **Evidencia:** `eventos.html` no tiene JSON-LD.
 - **Impacto:** oportunidad de resultados enriquecidos perdida.
 - **Recomendación:** JSON-LD Event cuando se agende.
@@ -385,7 +385,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 | `/docente` | `/es/docente` | `/en/lecturer` |
 | `/instructor` | `/es/instructor` | `/en/instructor` |
 | `/talento-digital` | `/es/talento-digital` | `/en/talento-digital` |
-| `/eventos` | `/es/eventos` | `/en/events` |
+| `/eventos` | 404, sin redirección (ADR-077, 02-11-2026) | — |
 | `/foro` | `/es/foro` | `/en/forum` |
 | `/recursos` | `/es/recursos` | `/en/resources` |
 | `/contacto` | `/es/contacto` | `/en/contact` |
@@ -496,7 +496,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** verificar con la línea de arranque o preguntando al agente (ADR-024).
 
 ### AT-039 · Estado de eventos dependiente de la fecha
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E110-I01
+- **Severidad:** Media · **Estado:** Resuelto por ADR-077 en E110-I01 (02-11-2026): la página Eventos sale del sitio, así que no hay estado que calcular · **Resuelve:** E110-I01
 - **Evidencia:** `static/js/eventos.js` calcula "Próximo" o "Finalizado" comparando con la fecha actual.
 - **Impacto:** con salida estática, calcularlo solo en el build dejaría estados obsoletos.
 - **Recomendación:** estado base en el build y recálculo en el cliente.

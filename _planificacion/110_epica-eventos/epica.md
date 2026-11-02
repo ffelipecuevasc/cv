@@ -1,15 +1,17 @@
-# E110 · Página Eventos (eventos.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+# E110 · Retiro de Eventos
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada (02-11-2026)
+
+> **Reconversión (ADR-077, 02-11-2026):** la épica se planificó como «Página Eventos (eventos.html)». Felipe decidió que los eventos salen del sitio personal porque viven en el sitio de su comunidad, Pulso Devs. La épica se reescribe como retiro (ADR-056: su única iteración no estaba cerrada). El nombre de la carpeta `110_epica-eventos/` se conserva porque los IDs y rutas son estables.
 
 ## Objetivo
-Reconstruir la página de eventos con su estado Próximo/Finalizado calculado por fecha, en ambos idiomas.
+Retirar Eventos del sitio nuevo: sin página, sin opción de menú, sin ruta en el mapa y con `/eventos` en 404.
 
 ## Alcance
-- Página completa con capa de datos de eventos.
-- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E110-I01 y se documenta en `DESIGN.md` (ADR-036).
+- Navbar de escritorio y móvil, diccionario, mapa de rutas, pie y `verify:seo`.
+- Documentos pendientes que contaban 14 páginas.
 
 ## Páginas cubiertas
-`eventos.html` → `/es/eventos` y `/en/events`.
+Ninguna. `eventos.html` no se migra: `/eventos`, `/eventos.html`, `/es/eventos/` y `/en/events/` dan 404 (ADR-077).
 
 ## Dependencias
 E30 completa.
@@ -17,14 +19,13 @@ E30 completa.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E110-I01](E110-I01-pagina-completa.md) | Página de eventos con estado por fecha | P1 | M | E30-I06 | [ ] Pendiente |
+| [E110-I01](E110-I01-pagina-completa.md) | Retiro de Eventos | P1 | S | E30-I06 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
-- [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
-- [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
-- [ ] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
-- [ ] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [x] Ninguna página del sitio nuevo enlaza a eventos, en `es-CL` ni en `en-US`.
+- [x] El menú Comunidad queda con Foro y Recursos.
+- [x] El contenido del sitio actual se retira por un ADR que lo autoriza (ADR-077).
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 
 ## Riesgos
-- En un sitio estático, el estado del evento no puede depender solo del momento del build (AT-039).
+- Enlaces entrantes a `/eventos` darán 404 tras el cutover (aceptado, ADR-077).
