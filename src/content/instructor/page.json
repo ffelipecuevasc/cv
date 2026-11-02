@@ -257,13 +257,14 @@
           },
           {
             "featured": false,
+            "plan": "PF1163",
             "title": {
               "es": "Desarrollo de Aplicaciones Full Stack JavaScript",
               "en": "Full Stack JavaScript Application Development"
             },
             "text": {
-              "es": "Plan Formativo **PF1163** de Talento Digital para Chile, de 472 horas y diez módulos: desarrollo front-end, programación avanzada en JavaScript, bases de datos relacionales, aplicaciones web con Node Express, acceso a datos con ORM e implementación de APIs backend securizadas con JWT.",
-              "en": "Talento Digital para Chile Training Plan **PF1163**, with 472 hours and ten modules: front-end development, advanced JavaScript programming, relational databases, web applications with Node Express, data access with ORM and JWT-secured backend APIs."
+              "es": "Plan Formativo **PF1163** de Talento Digital para Chile, de {hours} horas y diez módulos: desarrollo front-end, programación avanzada en JavaScript, bases de datos relacionales, aplicaciones web con Node Express, acceso a datos con ORM e implementación de APIs backend securizadas con JWT.",
+              "en": "Talento Digital para Chile Training Plan **PF1163**, with {hours} hours and ten modules: front-end development, advanced JavaScript programming, relational databases, web applications with Node Express, data access with ORM and JWT-secured backend APIs."
             }
           }
         ]

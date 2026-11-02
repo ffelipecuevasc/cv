@@ -757,6 +757,32 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (grilla simétrica disponible para Instructor) y un punto nuevo en 11.8: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
 - **Origen:** decisión de Felipe el 01-11-2026 (E90-I02). **Estado:** Aceptada.
 
+## ADR-074 · Talento Digital: zigzag por bootcamp, horas de fuente única y «2.000 horas» derivada
+- **Contexto:** E100-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:talento-digital.html` tiene 3 secciones: hero con foto, 6 tarjetas de bootcamps y «Logros». «2.000 horas» se escribía a mano dos veces y no estaba en `stats.json`. PF1163 (472 h) aparece también en los planes SENCE de Instructor (ADR-072). Se propusieron tres composiciones: A (grilla con portada + banda), B (zigzag por bootcamp) y C (línea de tiempo).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición B:** cabecera alineada a la izquierda y sin foto (rótulo «Instructor Senior», `<h1>` «Talento Digital para Chile», bajada con énfasis y 3 insignias como chips 7.7). Debajo, una **franja en zigzag** (7.8) por bootcamp, 6 en total, con espejo alterno como en Docente (ADR-070). Cada una lleva portada SVG en `<img>` con alt bilingüe, pastilla, h3, texto, etiquetas, «Logros» y «horas | años». Sin AOS ni JavaScript.
+  - **Corte:** E100-I01 = estructura, metadatos, cabecera y las 6 franjas con sus 5 SVG; E100-I02 = Logros, comparación completa con `main` y JSON-LD si corresponde.
+  - **«2.000 horas»:** nuevo fact `class-hours` (2000, `plus`) en `stats.json`, leído por id (ADR-053).
+  - **PF1163:** una sola fuente de horas, que leen Talento Digital y los planes de Instructor; `verify:seo` compara ambas páginas.
+  - **Insignia del diploma:** nombre largo, como en Educación (`DESIGN.md` 11.4).
+  - **`bootcamp-javascript-v1.svg`:** se copia sin cambios, como los demás (AT-091).
+- **Decisión (de implementación):**
+  - Colección `talentoDigitalPage` (`src/content/talento-digital/page.json`) con `localized()`; metadatos en `src/content/pages/talento-digital.json` (el loader `glob` pasa los id a minúsculas, por eso el archivo no se llama `talentoDigital.json`; `route` sigue siendo `talentoDigital`). El esquema exige el título literal «Talento Digital para Chile», el marcador `{class-hours}` en ambos idiomas, 3 insignias y 6 bootcamps con id únicos.
+  - Horas en `src/data/training-plans.ts` (`TRAINING_PLAN_HOURS`, las de los 5 planes de la página). El plan PF1163 de Instructor gana el campo `plan` y su texto usa `{hours}`; el esquema exige que `plan` y `{hours}` vayan juntos.
+  - La insignia del diploma lee su nombre de la entrada `02-diplomado-formacion-laboral` de Educación (`educationEntry`): no se escribe dos veces. A 375 px ocupa 2 renglones sin desbordar (AT-092).
+  - `FACT_IDS` pasa a `['bootcamps', 'class-hours']`. La bajada usa la cifra con separador de miles del idioma («2.000» / «2,000»), sin «+», porque el texto ya dice «más de».
+  - Las franjas usan `ThemeStripe` con una opción nueva, `labelWithLead`, que suma la bajada («Plan formativo PF1164 · Primera ejecución»…) al nombre accesible, porque hay dos titulares repetidos (Python y JavaScript). `SectionHeader` acepta `leadId`.
+  - Portadas en `public/static/img/` con la URL de `main` (AT-043), 1000 × 400 declarados y carga diferida. Íconos nuevos de Material Symbols Light (ADR-063): `verified` y `timer`; el del diploma es `graduation-cap` (`school` en `main`).
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** `DESIGN.md` 11.2 (zigzag disponible para Talento Digital) y una sección 11.9 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Contenido y código de Instructor cambian (campo `plan` y `{hours}`) sin editar documentos de E90 (ADR-056).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E100-I01). **Estado:** Aceptada.
+
+## ADR-075 · `verify:seo`: se retira la lista cerrada de rutas pendientes de ADR-065
+- **Contexto:** ADR-065 creó `PENDING_PROFILE_ROUTES`, una lista de rutas de perfil aún inexistentes que el control de enlaces de Experiencia aceptaba, y un control que fallaba si una ruta de la lista ya existía. Con E100-I01 existen las 4 páginas de perfil.
+- **Decisión (de Felipe, 01-11-2026):** se eliminan `PENDING_PROFILE_ROUTES` y su verificación de rutas existentes. El control de enlaces de Experiencia queda estricto: todo enlace del `<main>` debe existir en `dist/`.
+- **Consecuencias:** sustituye en parte a ADR-065 (la excepción de `verify:seo`); ADR-065 no se edita. El control global de enlaces sigue siendo E170-I04.
+- **Origen:** decisión de Felipe el 01-11-2026 (E100-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

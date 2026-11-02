@@ -5,7 +5,7 @@
  * con marcador circular de 44 px y su fecha como h3; cada plan, un h4 con su texto. El plan
  * destacado (PF1822) lleva el ícono `new-releases` y un tramo dorado; el resto, `task-alt`.
  * Encabezado alineado a la izquierda, fondo `bg` (pasa de `bg-alt` a `bg` con la relatoría, ADR-073),
- * sin JavaScript.
+ * sin JavaScript. Las horas de PF1163 salen de src/data/training-plans.ts (E100-I01).
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -13,6 +13,7 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import { parseEmphasis } from '../home/hero-text';
 import { langFromLocale } from '../../i18n/lang';
 import { getInstructorPage } from './instructor-data';
+import { withPlanHours } from '../../data/training-plans';
 
 const lang = langFromLocale(Astro.currentLocale);
 const { plans } = await getInstructorPage();
@@ -37,7 +38,7 @@ const { plans } = await getInstructorPage();
                     <span>{item.title[lang]}</span>
                   </h4>
                   <p class="text">
-                    {parseEmphasis(item.text[lang]).map((part) =>
+                    {parseEmphasis(withPlanHours(item.text[lang], item.plan)).map((part) =>
                       part.strong ? <strong>{part.text}</strong> : part.text,
                     )}
                   </p>

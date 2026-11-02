@@ -18,6 +18,11 @@ interface Props {
   level?: 2 | 3;
   /** Con `reverse`, alinea rótulo, titular y barra a la derecha desde 1.024 px (espejo de la franja anterior). */
   mirror?: boolean;
+  /**
+   * Suma la bajada al nombre accesible de la franja. Sirve cuando dos franjas comparten titular
+   * (Talento Digital: dos ejecuciones de Python y dos de JavaScript, E100-I01).
+   */
+  labelWithLead?: boolean;
 }
 const {
   kicker,
@@ -28,12 +33,14 @@ const {
   tone = 'band',
   level = 2,
   mirror = false,
+  labelWithLead = false,
 } = Astro.props;
+const labelledBy = labelWithLead && lead ? `${id}-title ${id}-lead` : `${id}-title`;
 ---
 
 <section
   id={id}
-  aria-labelledby={`${id}-title`}
+  aria-labelledby={labelledBy}
   class:list={['stripe', tone === 'band' ? 'texture-band' : 'tone-bg', { reverse }]}
 >
   <Container class="stripe-grid">
@@ -45,6 +52,7 @@ const {
         level={level}
         id={`${id}-title`}
         align={mirror ? 'end-lg' : 'start'}
+        leadId={labelWithLead ? `${id}-lead` : undefined}
       />
     </div>
     <div class="stripe-content">

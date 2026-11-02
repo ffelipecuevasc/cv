@@ -15,6 +15,8 @@ Migrar las secciones restantes y cerrar la paridad completa de la página.
 
 ## Alcance
 - Secciones restantes en ambos idiomas.
+- Según el corte de E100-I01 (ADR-074, bitácora `99_bitacora/2026-11-02_E100-I01.md`): sección «Logros» de `main` (rótulo «Alianzas Estratégicas», párrafo, 3 logros con ícono y cifras «2.000+ Horas de Clase», «5+ Bootcamps» y «Registro REUF · Más de 150 módulos aprobados», leídas de `stats.json` por id: `class-hours`, `bootcamps` y `reuf-modules`), comparación completa con `main` y JSON-LD si corresponde. La composición de Logros se propone a Felipe al inicio (ADR-036).
+- Decidir AT-092 (insignia del diploma en dos renglones a 375 px) si Felipe lo agenda aquí.
 
 ## Fuera de alcance
 - —

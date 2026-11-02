@@ -1,5 +1,5 @@
 # E100-I01 · Talento Digital, primera mitad de secciones
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E100 · Página Talento Digital (talento-digital.html) · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E60-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-007, ADR-017, ADR-036
 
@@ -20,16 +20,16 @@ Migrar la primera mitad de las secciones de la página (hasta la mitad del conte
 - Segunda mitad (E100-I02).
 
 ## Tareas
-- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
-- [ ] Definir el corte exacto de secciones y registrarlo en la bitácora.
-- [ ] Construir y traducir.
+- [x] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
+- [x] Definir el corte exacto de secciones y registrarlo en la bitácora.
+- [x] Construir y traducir.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/pages/es/talento-digital.astro`, `src/pages/en/talento-digital.astro`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Las secciones del bloque tienen paridad en ambos idiomas y la página compila completa.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Las secciones del bloque tienen paridad en ambos idiomas y la página compila completa.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -39,7 +39,7 @@ Migrar la primera mitad de las secciones de la página (hasta la mitad del conte
 - —
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

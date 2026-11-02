@@ -81,6 +81,11 @@
       "id": "bootcamps",
       "value": 5,
       "plus": true
+    },
+    {
+      "id": "class-hours",
+      "value": 2000,
+      "plus": true
     }
   ]
 }

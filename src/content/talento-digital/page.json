@@ -1,0 +1,184 @@
+{
+  "header": {
+    "kicker": { "es": "Instructor Senior", "en": "Senior Instructor" },
+    "title": "Talento Digital para Chile",
+    "lead": {
+      "es": "Tengo más de **{class-hours} horas de experiencia** formando a la nueva generación de profesionales IT. Instructor oficial con certificaciones internacionales de **Oracle, Java, Inteligencia Artificial, Python y AWS**.",
+      "en": "I have more than **{class-hours} hours of experience** training the next generation of IT professionals. Official instructor with international certifications in **Oracle, Java, Artificial Intelligence, Python and AWS**."
+    },
+    "badgesLabel": { "es": "Credenciales", "en": "Credentials" },
+    "badges": [
+      {
+        "icon": "verified",
+        "label": { "es": "Certificaciones Profesionales", "en": "Professional Certifications" }
+      },
+      { "icon": "verified", "label": { "es": "Relator REUF", "en": "REUF Instructor" } },
+      { "icon": "graduation-cap", "educationEntry": "02-diplomado-formacion-laboral" }
+    ]
+  },
+  "bootcamps": {
+    "kicker": { "es": "Planes formativos", "en": "Training plans" },
+    "title": { "es": "Bootcamps Realizados", "en": "Bootcamps Delivered" },
+    "lead": {
+      "es": "He sido **instructor titular** en los siguientes bootcamps.",
+      "en": "I have been the **lead instructor** in the following bootcamps."
+    },
+    "achievementsTitle": { "es": "Logros", "en": "Achievements" },
+    "hoursLabel": { "es": "{hours} horas | {years}", "en": "{hours} hours | {years}" },
+    "items": [
+      {
+        "id": "pf1162",
+        "plan": "PF1162",
+        "pill": { "es": "Java - Spring Framework", "en": "Java - Spring Framework" },
+        "title": { "es": "Desarrollo Full Stack Java", "en": "Full Stack Java Development" },
+        "context": { "es": "Plan formativo PF1162", "en": "Training plan PF1162" },
+        "years": "2023-2024",
+        "cover": "bootcamp-java.svg",
+        "coverAlt": {
+          "es": "Bootcamp Full Stack Java: Java y Spring Framework",
+          "en": "Full Stack Java bootcamp: Java and Spring Framework"
+        },
+        "text": {
+          "es": "Plan formativo **PF1162**: construcción de software empresarial con orientación a objetos y patrón **MVC**. Del front-end con HTML5, CSS3 y Bootstrap al back-end con **Java, JSP/Servlets y Spring Boot**, persistencia con JPA y Spring Data, seguridad con Spring Security y JWT, y pruebas unitarias con JUnit bajo TDD.",
+          "en": "Training plan **PF1162**: building enterprise software with object orientation and the **MVC** pattern. From the front end with HTML5, CSS3 and Bootstrap to the back end with **Java, JSP/Servlets and Spring Boot**, persistence with JPA and Spring Data, security with Spring Security and JWT, and unit testing with JUnit under TDD."
+        },
+        "tags": ["Spring Boot", "JPA", "Maven", "JUnit / TDD", "Tomcat"],
+        "achievement": {
+          "es": "Actualicé todo el contenido pedagógico relacionado a Jakarta EE y Spring Framework. Conseguí **certificaciones oficiales de Oracle** para todo el curso.",
+          "en": "I updated all the teaching content related to Jakarta EE and Spring Framework. I secured **official Oracle certifications** for the whole course."
+        }
+      },
+      {
+        "id": "pf1487",
+        "plan": "PF1487",
+        "pill": { "es": "IA Aprendizaje Automático - AWS", "en": "AI Machine Learning - AWS" },
+        "title": {
+          "es": "Fundamentos de Ingeniería de Datos",
+          "en": "Data Engineering Fundamentals"
+        },
+        "context": { "es": "Plan formativo PF1487", "en": "Training plan PF1487" },
+        "years": "2024-2025",
+        "cover": "bootcamp-datos.svg",
+        "coverAlt": {
+          "es": "Bootcamp Fundamentos de Ingeniería de Datos: Python y AWS",
+          "en": "Data Engineering Fundamentals bootcamp: Python and AWS"
+        },
+        "text": {
+          "es": "Plan formativo **PF1487**: gobierno y gestión de datos a gran volumen. Modelado y **Data Warehouse**, bases relacionales y NoSQL, procesamiento distribuido con **Apache Spark**, orquestación de pipelines y despliegue sobre **AWS**, con analítica y Machine Learning en Python.",
+          "en": "Training plan **PF1487**: governance and management of large-scale data. Modeling and **Data Warehouse**, relational and NoSQL databases, distributed processing with **Apache Spark**, pipeline orchestration and deployment on **AWS**, with analytics and Machine Learning in Python."
+        },
+        "tags": ["PySpark", "Kafka / Airflow", "Redshift / Glue", "MongoDB", "Scikit-learn"],
+        "achievement": {
+          "es": "Logré conseguir **4 exámenes de certificación de AWS** completamente gratuitos para cada alumno junto a cuentas profesionales del IDE PyCharm JetBrains para todo el curso.",
+          "en": "I secured **4 AWS certification exams** completely free for every student, along with professional JetBrains PyCharm IDE accounts for the whole course."
+        }
+      },
+      {
+        "id": "pf1164-1",
+        "plan": "PF1164",
+        "pill": { "es": "Python - Django Framework", "en": "Python - Django Framework" },
+        "title": { "es": "Desarrollo Full Stack Python", "en": "Full Stack Python Development" },
+        "context": {
+          "es": "Plan formativo PF1164 · Primera ejecución",
+          "en": "Training plan PF1164 · First run"
+        },
+        "years": "2025",
+        "cover": "bootcamp-python.svg",
+        "coverAlt": {
+          "es": "Bootcamp Full Stack Python: Python y Django",
+          "en": "Full Stack Python bootcamp: Python and Django"
+        },
+        "text": {
+          "es": "Plan formativo **PF1164**: aplicaciones web bajo el patrón **MTV de Django**. Front-end con HTML5, CSS3, Bootstrap y jQuery; back-end con Python, vistas, formularios, modelo de autenticación y Admin Site; persistencia en **PostgreSQL** vía ORM y SQL nativo, con entornos virtuales y control de versiones.",
+          "en": "Training plan **PF1164**: web applications under the **Django MTV** pattern. Front end with HTML5, CSS3, Bootstrap and jQuery; back end with Python, views, forms, the authentication model and the Admin Site; persistence in **PostgreSQL** through the ORM and native SQL, with virtual environments and version control."
+        },
+        "tags": ["Django ORM", "PostgreSQL", "venv / pip", "Bootstrap", "Git / GitHub"],
+        "achievement": {
+          "es": "Conseguí **cuentas profesionales del IDE PyCharm JetBrains** para todos los alumnos y potencié el contenido relacionado al Framework Django generando un proyecto web integral.",
+          "en": "I secured **professional JetBrains PyCharm IDE accounts** for all students and strengthened the Django Framework content by building a comprehensive web project."
+        }
+      },
+      {
+        "id": "pf1164-2",
+        "plan": "PF1164",
+        "pill": { "es": "Python - Django Framework", "en": "Python - Django Framework" },
+        "title": { "es": "Desarrollo Full Stack Python", "en": "Full Stack Python Development" },
+        "context": {
+          "es": "Plan formativo PF1164 · Segunda ejecución",
+          "en": "Training plan PF1164 · Second run"
+        },
+        "years": "2025-2026",
+        "cover": "bootcamp-python.svg",
+        "coverAlt": {
+          "es": "Bootcamp Full Stack Python: Python y Django",
+          "en": "Full Stack Python bootcamp: Python and Django"
+        },
+        "text": {
+          "es": "Segunda ejecución del plan **PF1164**, con el mismo estándar de contenidos: estructura MTV, manipulación de bases de datos con **ORM**, formularios y autenticación, y despliegue de una plataforma interactiva con front-end responsivo.",
+          "en": "Second run of plan **PF1164**, with the same content standard: MTV structure, database handling with the **ORM**, forms and authentication, and deployment of an interactive platform with a responsive front end."
+        },
+        "tags": ["Django", "psycopg2", "jQuery", "Markdown"],
+        "achievement": {
+          "es": "Obtuve cupos en empresas para que los alumnos del bootcamp hicieran pasantías (prácticas pagadas). Conseguí una **charla del Vice-Presidente de Python** para todos los estudiantes.",
+          "en": "I obtained company placements so bootcamp students could do internships (paid placements). I arranged a **talk by the Vice-President of Python** for all students."
+        }
+      },
+      {
+        "id": "pf1479",
+        "plan": "PF1479",
+        "pill": { "es": "JavaScript - Node Express", "en": "JavaScript - Node Express" },
+        "title": {
+          "es": "Desarrollo Full Stack JavaScript",
+          "en": "Full Stack JavaScript Development"
+        },
+        "context": {
+          "es": "Plan formativo PF1479 · ISEG Chile",
+          "en": "Training plan PF1479 · ISEG Chile"
+        },
+        "years": "2026",
+        "cover": "bootcamp-javascript.svg",
+        "coverAlt": {
+          "es": "Bootcamp Full Stack JavaScript: JavaScript, Node.js y Express (PF1479)",
+          "en": "Full Stack JavaScript bootcamp: JavaScript, Node.js and Express (PF1479)"
+        },
+        "text": {
+          "es": "Plan formativo **PF1479** para **ISEG Chile**: ecosistema JavaScript de cliente y servidor. **ES6+** con asincronía y manipulación del DOM, APIs RESTful con **Node.js y Express**, persistencia en PostgreSQL con **Sequelize** y seguridad con JWT. Incorpora sobriedad digital y uso de IA como asistencia al código.",
+          "en": "Training plan **PF1479** for **ISEG Chile**: the client- and server-side JavaScript ecosystem. **ES6+** with asynchrony and DOM manipulation, RESTful APIs with **Node.js and Express**, persistence in PostgreSQL with **Sequelize** and security with JWT. It includes digital sobriety and the use of AI as coding assistance."
+        },
+        "tags": ["Express.js", "Sequelize", "JWT", "Socket.io", "Mocha"],
+        "achievement": {
+          "es": "Ejecuté la **versión actualizada del plan formativo**, incorporando programación asistida por IA (Stitch y Claude Code) y prácticas de sobriedad digital al aula.",
+          "en": "I delivered the **updated version of the training plan**, bringing AI-assisted programming (Stitch and Claude Code) and digital sobriety practices into the classroom."
+        }
+      },
+      {
+        "id": "pf1163",
+        "plan": "PF1163",
+        "pill": { "es": "JavaScript - Node Express", "en": "JavaScript - Node Express" },
+        "title": {
+          "es": "Desarrollo Full Stack JavaScript",
+          "en": "Full Stack JavaScript Development"
+        },
+        "context": {
+          "es": "Plan formativo PF1163 · Posiciona Capacitación",
+          "en": "Training plan PF1163 · Posiciona Capacitación"
+        },
+        "years": "2026",
+        "cover": "bootcamp-javascript-v1.svg",
+        "coverAlt": {
+          "es": "Bootcamp Full Stack JavaScript: JavaScript, Node.js y Express (PF1163)",
+          "en": "Full Stack JavaScript bootcamp: JavaScript, Node.js and Express (PF1163)"
+        },
+        "text": {
+          "es": "Plan formativo **PF1163** para **Posiciona Capacitación**: programación avanzada en JavaScript con orientación a objetos y asincronía, bases de datos relacionales, aplicaciones web con **Node Express**, acceso a datos con ORM y APIs backend securizadas con JWT.",
+          "en": "Training plan **PF1163** for **Posiciona Capacitación**: advanced JavaScript programming with object orientation and asynchrony, relational databases, web applications with **Node Express**, data access with ORM and JWT-secured backend APIs."
+        },
+        "tags": ["Node.js", "Express.js", "PostgreSQL", "API Fetch", "Postman"],
+        "achievement": {
+          "es": "Ejecuté este bootcamp en paralelo con la versión actualizada del plan formativo, incorporando programación asistida por IA (Stitch y Claude Code) y despliegue de aplicaciones en producción con AlwaysData.",
+          "en": "I ran this bootcamp in parallel with the updated version of the training plan, bringing in AI-assisted programming (Stitch and Claude Code) and production deployment with AlwaysData."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400"
+     role="img" aria-label="Bootcamp Full Stack JavaScript: JavaScript, Node.js y Express"
+     font-family="Lexend, 'Segoe UI', system-ui, sans-serif">
+    <title>Bootcamp Full Stack JavaScript: JavaScript, Node.js y Express</title>
+    <!-- Portada de bootcamp — lienzo 1000x400. Fondo, tipografia y conectores usan
+         la paleta de marca (primary #007EA7, orient-950 #00131D, orient-200 #5DC9FF,
+         primary-vibrant #00B0E8); cada tarjeta conserva el matiz de su propio
+         logotipo en version aclarada, el mismo sistema de halo cromatico del sitio.
+         Todo el contenido vive dentro de la zona segura x 170..830 / y 62..334 para
+         sobrevivir al recorte de bg-cover en tarjetas de cualquier proporcion. -->
+    <defs>
+        <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#007EA7"/>
+            <stop offset="1" stop-color="#00131D"/>
+        </linearGradient>
+        <radialGradient id="resplandor" cx="0.5" cy="0.42" r="0.62">
+            <stop offset="0" stop-color="#00B0E8" stop-opacity="0.30"/>
+            <stop offset="1" stop-color="#00B0E8" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="malla" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0H0v40" fill="none" stroke="#5DC9FF" stroke-opacity="0.10" stroke-width="1"/>
+        </pattern>
+        <linearGradient id="cristal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5DC9FF" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#5DC9FF" stop-opacity="0.02"/>
+        </linearGradient>
+        <filter id="sombra-nodo" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#00131D" flood-opacity="0.6"/>
+        </filter>
+        <radialGradient id="brillo-javascript" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#EFD92A" stop-opacity="0.30"/>
+            <stop offset="1" stop-color="#EFD92A" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="sombra-javascript" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#EFD92A" flood-opacity="0.25"/>
+        </filter>
+        <radialGradient id="brillo-nodejs" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#67C653" stop-opacity="0.30"/>
+            <stop offset="1" stop-color="#67C653" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="sombra-nodejs" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#67C653" flood-opacity="0.25"/>
+        </filter>
+        <radialGradient id="brillo-express" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#7390A5" stop-opacity="0.30"/>
+            <stop offset="1" stop-color="#7390A5" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="sombra-express" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#7390A5" flood-opacity="0.25"/>
+        </filter>
+    </defs>
+
+    <!-- 1. Fondo de marca: degradado, malla y resplandor -->
+    <rect width="1000" height="400" fill="url(#fondo)"/>
+    <rect width="1000" height="400" fill="url(#malla)"/>
+    <rect width="1000" height="400" fill="url(#resplandor)"/>
+
+    <!-- 2. Llaves de codigo difuminadas y oleaje inferior -->
+    <g aria-hidden="true">
+        <text x="80" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+              font-size="180" font-weight="700" fill="#5DC9FF" fill-opacity="0.05">{</text>
+        <text x="850" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+              font-size="180" font-weight="700" fill="#5DC9FF" fill-opacity="0.05">}</text>
+        <path d="M0 400 L0 330 C 250 300, 420 366, 620 336 C 800 310, 900 340, 1000 322 L1000 400 Z"
+              fill="#00131D" fill-opacity="0.55"/>
+        <path d="M0 400 L0 358 C 350 328, 650 400, 1000 350 L1000 400 Z"
+              fill="#00131D" fill-opacity="0.75"/>
+    </g>
+
+    <!-- 3. Halos cromaticos detras de cada tarjeta -->
+    <g aria-hidden="true">
+    <circle cx="250" cy="202" r="120" fill="url(#brillo-javascript)"/>
+    <circle cx="500" cy="202" r="120" fill="url(#brillo-nodejs)"/>
+    <circle cx="750" cy="202" r="120" fill="url(#brillo-express)"/>
+    </g>
+
+    <!-- 4. Volanta e insignia de tecnologias -->
+    <g aria-hidden="true">
+        <text x="500" y="72" text-anchor="middle" font-size="14" font-weight="700"
+              letter-spacing="8" fill="#5DC9FF">FULLSTACK BOOTCAMP</text>
+        <rect x="366" y="84" width="268" height="26" rx="13"
+              fill="#007EA7" fill-opacity="0.22" stroke="#5DC9FF" stroke-opacity="0.45"/>
+        <text x="500" y="101" text-anchor="middle" font-size="11" font-weight="800"
+              letter-spacing="2" fill="#E4F3FF">JAVASCRIPT · NODE · EXPRESS</text>
+    </g>
+
+    <!-- 5. Conector entre tecnologias -->
+    <g aria-hidden="true">
+    <line x1="250" y1="202" x2="750" y2="202" stroke="#5DC9FF" stroke-opacity="0.30"
+          stroke-width="3" stroke-dasharray="8 6"/>
+    <circle cx="375" cy="202" r="6" fill="#5DC9FF" fill-opacity="0.55"/>
+    <circle cx="625" cy="202" r="6" fill="#5DC9FF" fill-opacity="0.55"/>
+    </g>
+
+    <!-- 6. Tarjetas de cristal con los logotipos oficiales -->
+    <g aria-hidden="true">
+    <g transform="translate(170 122)">
+        <rect width="160" height="160" rx="36" fill="#00131D" fill-opacity="0.55"/>
+        <rect width="160" height="160" rx="36" fill="url(#cristal)"
+              stroke="#EFD92A" stroke-opacity="0.5" stroke-width="1.5" filter="url(#sombra-javascript)"/>
+        <path d="M50 0h60" stroke="#EFD92A" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(38.0 38.0) scale(0.3281)"><path fill="#f7df1e" d="M0 0h256v256H0z"/><path fill="#161616" d="m67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371c7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259c-19.245 0-30.416-9.967-36.087-21.996m85.07-2.576l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607c9.969 0 16.325-4.984 16.325-11.858c0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257c0-18.044 13.747-31.792 35.228-31.792c15.294 0 26.292 5.328 34.196 19.247l-18.732 12.03c-4.125-7.389-8.591-10.31-15.465-10.31c-7.046 0-11.514 4.468-11.514 10.31c0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804c0 21.654-17.012 33.51-39.867 33.51c-22.339 0-36.774-10.654-43.819-24.574"/></g>
+    </g>
+    <g transform="translate(420 122)">
+        <rect width="160" height="160" rx="36" fill="#00131D" fill-opacity="0.55"/>
+        <rect width="160" height="160" rx="36" fill="url(#cristal)"
+              stroke="#67C653" stroke-opacity="0.5" stroke-width="1.5" filter="url(#sombra-nodejs)"/>
+        <path d="M50 0h60" stroke="#67C653" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(40.14 35.0) scale(0.3114)"><path fill="#6FBE4C" d="M128 288.464c-3.975 0-7.685-1.06-11.13-2.915l-35.247-20.936c-5.3-2.915-2.65-3.975-1.06-4.505c7.155-2.385 8.48-2.915 15.9-7.156c.796-.53 1.856-.265 2.65.265l27.032 16.166c1.06.53 2.385.53 3.18 0l105.74-61.217c1.06-.53 1.59-1.59 1.59-2.915V83.08c0-1.325-.53-2.385-1.59-2.915l-105.74-60.953c-1.06-.53-2.385-.53-3.18 0L20.405 80.166c-1.06.53-1.59 1.855-1.59 2.915v122.17c0 1.06.53 2.385 1.59 2.915l28.887 16.695c15.636 7.95 25.44-1.325 25.44-10.6V93.68c0-1.59 1.326-3.18 3.181-3.18h13.516c1.59 0 3.18 1.325 3.18 3.18v120.58c0 20.936-11.396 33.126-31.272 33.126c-6.095 0-10.865 0-24.38-6.625l-27.827-15.9C4.24 220.885 0 213.465 0 205.515V83.346C0 75.396 4.24 67.976 11.13 64L116.87 2.783c6.625-3.71 15.635-3.71 22.26 0L244.87 64C251.76 67.975 256 75.395 256 83.346v122.17c0 7.95-4.24 15.37-11.13 19.345L139.13 286.08c-3.445 1.59-7.42 2.385-11.13 2.385m32.596-84.009c-46.377 0-55.917-21.2-55.917-39.221c0-1.59 1.325-3.18 3.18-3.18h13.78c1.59 0 2.916 1.06 2.916 2.65c2.12 14.045 8.215 20.936 36.306 20.936c22.261 0 31.802-5.035 31.802-16.96c0-6.891-2.65-11.926-37.367-15.372c-28.886-2.915-46.907-9.275-46.907-32.33c0-21.467 18.02-34.187 48.232-34.187c33.921 0 50.617 11.66 52.737 37.101q0 1.193-.795 2.385c-.53.53-1.325 1.06-2.12 1.06h-13.78c-1.326 0-2.65-1.06-2.916-2.385c-3.18-14.575-11.395-19.345-33.126-19.345c-24.38 0-27.296 8.48-27.296 14.84c0 7.686 3.445 10.07 36.306 14.31c32.597 4.24 47.967 10.336 47.967 33.127c-.265 23.321-19.345 36.571-53.002 36.571"/></g>
+    </g>
+    <g transform="translate(670 122)">
+        <rect width="160" height="160" rx="36" fill="#00131D" fill-opacity="0.55"/>
+        <rect width="160" height="160" rx="36" fill="url(#cristal)"
+              stroke="#7390A5" stroke-opacity="0.5" stroke-width="1.5" filter="url(#sombra-express)"/>
+        <path d="M50 0h60" stroke="#7390A5" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(20.0 62.54) scale(0.2344)"><path fill="#E4F3FF" d="M3.332 115.629V58.648h71.144v-3.333H3.332V3.332h75.642V0H0v118.961h79.64v-3.332zm140.455-82.307l-29.49 38.821l-28.825-38.82H81.14l31.157 41.32L78.14 118.96h3.999l32.156-41.82l32.323 41.82h4.165l-34.322-44.319l31.323-41.32zm16.994 114.963V94.97h.333q3 11.662 11.83 18.744q8.83 7.08 22.492 7.081q8.83 0 15.662-3.582q6.83-3.582 11.413-9.747q4.581-6.165 6.998-14.329t2.416-17.16q0-9.665-2.5-17.828q-2.5-8.165-7.247-14.162q-4.749-6-11.497-9.33q-6.747-3.333-15.245-3.333q-6.498 0-12.079 1.916t-9.913 5.415a36.7 36.7 0 0 0-7.498 8.247q-3.165 4.749-4.832 10.414h-.333V33.322h-3.332v114.963zm34.655-30.657q-15.66 0-25.158-10.746q-9.497-10.746-9.497-30.907q0-8.331 2.333-15.828t6.747-13.162t10.913-8.997t14.662-3.333q8.331 0 14.579 3.333q6.248 3.332 10.33 9.08t6.165 13.162t2.082 15.745q0 7.499-1.916 14.912t-5.915 13.33q-3.997 5.913-10.246 9.663q-6.249 3.748-15.079 3.748m54.816 1.333V70.477q0-6.998 2-13.662q1.998-6.665 6.164-11.746t10.58-7.998t15.245-2.416v-3.332q-7.664-.166-13.412 1.666q-5.749 1.833-9.914 4.999t-6.664 7.414a33.2 33.2 0 0 0-3.666 9.08h-.333v-21.16h-3.332v85.64zm38.154-42.153h71.643q.334-8.83-1.749-16.994q-2.082-8.165-6.664-14.495q-4.582-6.332-11.83-10.164t-17.244-3.832q-7.165 0-13.996 3q-6.831 2.998-11.996 8.746t-8.33 14.08t-3.166 18.993q0 9.497 2.166 17.744t6.664 14.329q4.5 6.081 11.58 9.413q7.08 3.333 17.078 3.166q14.661 0 24.658-8.247t11.83-23.243h-3.332q-2.166 14.163-11.08 21.243q-8.914 7.081-22.41 7.081q-9.163 0-15.495-3.165q-6.33-3.166-10.33-8.664q-3.998-5.499-5.914-12.913q-1.917-7.413-2.083-16.078m68.311-3.332h-68.31q.498-8.997 3.331-16.161q2.833-7.166 7.415-12.246q4.581-5.081 10.663-7.748t13.079-2.666q8.33 0 14.662 3.083q6.33 3.083 10.58 8.414q4.248 5.332 6.414 12.412q2.166 7.082 2.166 14.912m72.477-14.828h3.332q0-14.33-8.33-20.827q-8.332-6.498-22.66-6.498q-7.998 0-13.496 2t-8.997 5.164q-3.498 3.165-4.998 6.998t-1.5 7.331q0 6.997 2.5 11.163q2.499 4.165 7.83 6.498q3.665 1.665 8.331 3q4.665 1.332 10.83 2.831q5.497 1.335 10.83 2.666q5.331 1.334 9.413 3.582q4.083 2.25 6.665 5.749t2.582 9.163q0 5.499-2.582 9.33a20.8 20.8 0 0 1-6.581 6.249q-4 2.415-8.914 3.498q-4.915 1.083-9.58 1.083q-15.162 0-23.243-6.747q-8.08-6.748-8.08-21.244h-3.333q0 16.162 8.747 23.66q8.748 7.497 25.909 7.497q5.497 0 11.08-1.25q5.58-1.249 9.996-4.082a22.6 22.6 0 0 0 7.164-7.33q2.75-4.5 2.75-10.997q0-6.165-2.416-9.997t-6.332-6.331t-8.83-3.915a516 516 0 0 0-9.914-2.75a1727 1727 0 0 0-12.246-3.165q-5.247-1.333-9.746-3.166q-4.332-1.833-6.915-5.248q-2.582-3.416-2.582-9.747q0-1.166.666-4.165q.667-3 3.166-6.082t7.664-5.498t14.162-2.416q6.164 0 11.246 1.333t8.747 4.249t5.665 7.414q2 4.5 2 10.997m77.141 0h3.332q0-14.33-8.33-20.827t-22.66-6.498q-7.997 0-13.495 2q-5.499 1.999-8.997 5.164q-3.5 3.165-4.999 6.998q-1.5 3.833-1.499 7.331q0 6.997 2.5 11.163q2.498 4.165 7.83 6.498q3.666 1.665 8.33 3q4.665 1.332 10.83 2.831q5.499 1.335 10.83 2.666q5.332 1.334 9.414 3.582q4.082 2.25 6.664 5.749q2.583 3.498 2.583 9.163q0 5.499-2.583 9.33a20.8 20.8 0 0 1-6.58 6.249q-4 2.415-8.915 3.498t-9.58 1.083q-15.162 0-23.242-6.747q-8.082-6.748-8.081-21.244h-3.332q0 16.162 8.747 23.66q8.746 7.497 25.908 7.497q5.499 0 11.08-1.25q5.58-1.249 9.997-4.082a22.6 22.6 0 0 0 7.164-7.33q2.75-4.5 2.749-10.997q0-6.165-2.416-9.997t-6.331-6.331t-8.83-3.915a516 516 0 0 0-9.914-2.75a1727 1727 0 0 0-12.246-3.165q-5.249-1.333-9.747-3.166q-4.332-1.833-6.914-5.248q-2.583-3.416-2.583-9.747q0-1.166.667-4.165t3.165-6.082q2.5-3.081 7.664-5.498q5.165-2.415 14.163-2.416q6.164 0 11.246 1.333t8.747 4.249t5.665 7.414q2 4.5 2 10.997"/></g>
+    </g>
+    </g>
+
+    <!-- 7. Codigo del plan formativo -->
+    <g aria-hidden="true">
+        <line x1="390" y1="322" x2="435" y2="322" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"
+              stroke-linecap="round"/>
+        <text x="500" y="329" text-anchor="middle" font-size="22" font-weight="700"
+              letter-spacing="6" fill="#B9E2FF" fill-opacity="0.9">PF1479</text>
+        <line x1="565" y1="322" x2="610" y2="322" stroke="#5DC9FF" stroke-opacity="0.55" stroke-width="2"
+              stroke-linecap="round"/>
+    </g>
+
+    <!-- 8. Particulas de fondo -->
+    <g aria-hidden="true">
+        <circle cx="180" cy="104" r="1.5" fill="#5DC9FF" fill-opacity="0.6"/>
+        <circle cx="828" cy="118" r="2" fill="#00B0E8" fill-opacity="0.7"/>
+        <circle cx="140" cy="252" r="1" fill="#B9E2FF" fill-opacity="0.35"/>
+        <circle cx="864" cy="236" r="1.5" fill="#5DC9FF" fill-opacity="0.5"/>
+    </g>
+</svg>

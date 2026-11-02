@@ -792,3 +792,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E90-I01, 01-11-2026):** la `description` (copiada de `main`) dice «bootcamps de Talento Digital SENCE, Alura Latam y Skillnest». El contenido visible de E90-I01 solo nombra Talento Digital, ISEG Chile y Posiciona Capacitación; en `main`, el resto venía de la relatoría cargada con JavaScript.
 - **Impacto:** el resultado de búsqueda promete algo que la página no muestra hasta E90-I02.
 - **Recomendación:** comprobar en E90-I02 que la relatoría nombra a Alura Latam y Skillnest; si no, ajustar la descripción con Felipe.
+
+### AT-091 · `bootcamp-javascript-v1.svg` es un duplicado casi exacto de `bootcamp-javascript.svg`
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin agendar (iteración de ajuste de E100 si Felipe lo pide)
+- **Evidencia (E100-I01, 02-11-2026):** los dos SVG de `main` pesan 13.613 bytes y solo difieren en una línea: el código de plan «PF1479» frente a «PF1163». Ambos se usan en Talento Digital y se copiaron sin cambios a `public/static/img/` (ADR-074).
+- **Impacto:** dos archivos casi iguales que mantener; un cambio de diseño en uno puede olvidarse en el otro.
+- **Recomendación:** dejar un solo SVG sin código de plan y mostrar el código en el texto, o generar las portadas desde una plantilla.
+
+### AT-092 · La insignia del diploma ocupa dos renglones a 375 px
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (E100-I02 o ajuste de E100)
+- **Evidencia (E100-I01, 02-11-2026):** con el nombre largo de Educación (ADR-074), el chip mide 343 × 65 px a 375 px, en es y en, y en ambos temas. No desborda: el ancho de página es 375 px y no hay desplazamiento horizontal. Desde 768 px ocupa un solo renglón.
+- **Impacto:** visual; el chip de 7.7 está pensado para un renglón.
+- **Recomendación:** que Felipe decida si lo acepta así, si prefiere el nombre corto «Diploma U. de Chile» solo en el chip o si el diploma sale del grupo de chips.

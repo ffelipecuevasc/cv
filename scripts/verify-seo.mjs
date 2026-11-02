@@ -431,12 +431,6 @@ const PROFILE_LINKS = {
   es: ['/es/docente/', '/es/desarrollador/', '/es/instructor/', '/es/talento-digital/'],
   en: ['/en/lecturer/', '/en/developer/', '/en/instructor/', '/en/talento-digital/'],
 };
-// Lista cerrada de páginas de perfil que aún no existen (ADR-065). Solo vale para el control de
-// enlaces de esta página. Cada épica retira las suyas al crear la página: E70 desarrollador,
-// E80 docente, E90 instructor y E100 talento-digital. Si una ruta de la lista ya existe en
-// dist/, el control falla hasta que se retire. E70-I01 retiró /es/desarrollador/ y /en/developer/;
-// E80-I01, /es/docente/ y /en/lecturer/; E90-I01, /es/instructor/ y /en/instructor/.
-const PENDING_PROFILE_ROUTES = ['/es/talento-digital/', '/en/talento-digital/'];
 const routeExists = (path) => existsSync(join(DIST, path, 'index.html'));
 const experience = {};
 for (const [lang, info] of Object.entries(LANGS)) {
@@ -552,7 +546,8 @@ for (const [lang, info] of Object.entries(LANGS)) {
   );
   check(!/\sdownload[=\s>]/.test(mainHtml), 'sin «Descargar CV» en la página (ADR-057)');
 
-  // Enlaces internos del <main>: cada uno existe en dist/ o está en la lista cerrada (ADR-065).
+  // Enlaces internos del <main>: cada uno existe en dist/. La lista cerrada de rutas pendientes
+  // de ADR-065 se retiró en E100-I01, al existir las 4 páginas de perfil (ADR-075).
   const hrefs = [...mainHtml.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map((m) => decode(m[1]));
   check(
     same(hrefs, PROFILE_LINKS[lang]),
@@ -564,18 +559,8 @@ for (const [lang, info] of Object.entries(LANGS)) {
     ),
     'enlaces con prefijo de idioma, barra final y sin .html',
   );
-  const unresolved = hrefs.filter(
-    (href) => !routeExists(href) && !PENDING_PROFILE_ROUTES.includes(href),
-  );
-  check(
-    unresolved.length === 0,
-    `todo enlace existe en dist/ o está en la lista cerrada de ADR-065 (${unresolved.join(', ') || 'ok'})`,
-  );
-  const retire = PENDING_PROFILE_ROUTES.filter(routeExists);
-  check(
-    retire.length === 0,
-    `la lista cerrada no incluye rutas que ya existen (retira ${retire.join(', ') || 'ninguna'})`,
-  );
+  const unresolved = hrefs.filter((href) => !routeExists(href));
+  check(unresolved.length === 0, `todo enlace existe en dist/ (${unresolved.join(', ') || 'ok'})`);
   experience[lang] = {
     milestones: milestones.length,
     photos: cards.map((card) => /<img[^>]*\ssrc="[^"]*\/([a-z]+)\./.exec(card)?.[1]),
@@ -1148,6 +1133,189 @@ for (const [lang, info] of Object.entries(LANGS)) {
 check(
   same(instructor.es, instructor.en),
   'paridad Instructor: mismos encabezados, cifras, cursos, planes y enlaces en /es/ y /en/',
+);
+
+// --- Talento Digital (E100-I01, ADR-074): metadatos, cabecera, 6 franjas y horas de fuente única ---
+const TALENTO = { es: 'es/talento-digital', en: 'en/talento-digital' };
+const TALENTO_TEXT = {
+  es: {
+    lead: '2.000 horas',
+    hours: 'horas',
+    diploma: 'Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral',
+  },
+  en: {
+    lead: '2,000 hours',
+    hours: 'hours',
+    diploma: 'Diploma in Methodological and Assessment Strategies for Workforce Training',
+  },
+};
+// Orden de main: plan, horas, años y portada (las 5 portadas de main, sin cambios).
+const BOOTCAMPS = [
+  ['PF1162', 480, '2023-2024', 'bootcamp-java.svg'],
+  ['PF1487', 207, '2024-2025', 'bootcamp-datos.svg'],
+  ['PF1164', 462, '2025', 'bootcamp-python.svg'],
+  ['PF1164', 462, '2025-2026', 'bootcamp-python.svg'],
+  ['PF1479', 475, '2026', 'bootcamp-javascript.svg'],
+  ['PF1163', 472, '2026', 'bootcamp-javascript-v1.svg'],
+];
+const talento = {};
+console.log('\nPortadas de los bootcamps');
+for (const cover of new Set(BOOTCAMPS.map((b) => b[3]))) {
+  check(existsSync(join(DIST, 'static/img', cover)), `existe dist/static/img/${cover} (AT-043)`);
+}
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = TALENTO[lang];
+  const other = TALENTO[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(title.includes('Talento Digital para Chile'), 'el title nombra el programa sin traducir');
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${TALENTO.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(
+    h1 === 'Talento Digital para Chile',
+    `<h1> «Talento Digital para Chile» sin traducir (${h1})`,
+  );
+  const lead = /<p[^>]*data-lead[^>]*>([\s\S]*?)<\/p>/.exec(mainHtml)?.[1] ?? '';
+  check(
+    text(lead).includes(TALENTO_TEXT[lang].lead) && /<strong[^>]*>[^<]*\d/.test(lead),
+    `bajada con «${TALENTO_TEXT[lang].lead}» de stats.json, con énfasis (ADR-053)`,
+  );
+  check(
+    !mainHtml.includes('**') && !/\{[a-z-]+\}/.test(mainHtml),
+    'sin ** ni marcadores sin procesar',
+  );
+  const badgesHtml = /<ul[^>]*data-badges[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const badges = [...badgesHtml.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => text(m[1]));
+  check(badges.length === 3, `3 insignias (${badges.length})`);
+  check(
+    badges[2] === TALENTO_TEXT[lang].diploma,
+    'la insignia del diploma usa el nombre largo de Educación (DESIGN.md 11.4)',
+  );
+
+  // Franjas: 6 bootcamps en el orden de main, con portada, etiquetas, Logros y horas | años.
+  const stripes = [
+    ...mainHtml.matchAll(/data-bootcamp="([^"]+)"[\s\S]*?data-duration[^>]*>([\s\S]*?)<\/p>/g),
+  ];
+  check(
+    same(
+      stripes.map((m) => m[1]),
+      BOOTCAMPS.map((b) => b[0]),
+    ),
+    `6 franjas en el orden de main (${stripes.map((m) => m[1]).join(', ')})`,
+  );
+  const durations = stripes.map((m) => text(m[2]));
+  check(
+    BOOTCAMPS.every(
+      ([, hours, years], i) => durations[i] === `${hours} ${TALENTO_TEXT[lang].hours} | ${years}`,
+    ),
+    `horas | años de cada franja (${durations.join(' / ')})`,
+  );
+  const covers = [...mainHtml.matchAll(/<img[^>]*class="cover"[^>]*>/g)].map((m) => attrs(m[0]));
+  check(
+    same(
+      covers.map((c) => c.src),
+      BOOTCAMPS.map((b) => `/static/img/${b[3]}`),
+    ),
+    'cada franja usa su portada de main en /static/img/',
+  );
+  check(
+    covers.every((c) => (c.alt ?? '').length > 10 && c.width && c.height && c.loading === 'lazy'),
+    'portadas con alt, ancho y alto declarados y carga diferida',
+  );
+  check(count(/class="achievements-title/g) === 6, '6 subtítulos «Logros» (h4)');
+  const sections = [...mainHtml.matchAll(/<section[^>]*aria-labelledby="([^"]+)"/g)].map(
+    (m) => m[1],
+  );
+  const stripeLabels = sections.filter((s) => s.includes(' '));
+  check(
+    stripeLabels.length === 6 &&
+      stripeLabels.every((s) => s.split(' ').every((id) => mainHtml.includes(`id="${id}"`))),
+    'cada franja se nombra por titular y bajada (titulares repetidos)',
+  );
+  check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
+  check(!/data-aos/.test(html), 'sin AOS');
+
+  // Fuente única de horas de PF1163 (E100-I01): el plan SENCE de Instructor dice lo mismo.
+  const instructorHtml = read(`${INSTRUCTOR[lang]}/index.html`);
+  const pf1163 = [...instructorHtml.matchAll(/<li[^>]*data-plan[\s>][\s\S]*?<\/li>/g)]
+    .map((m) => text(m[0]))
+    .find((t) => t.includes('PF1163'));
+  check(
+    Boolean(pf1163) &&
+      pf1163.includes(`472 ${TALENTO_TEXT[lang].hours}`) &&
+      Boolean(durations[5]?.startsWith('472 ')),
+    'PF1163: 472 horas en Talento Digital y en los planes de Instructor (fuente única)',
+  );
+
+  talento[lang] = {
+    levels,
+    badges: badges.length,
+    plans: stripes.map((m) => m[1]),
+    covers: covers.map((c) => c.src),
+    tags: [...mainHtml.matchAll(/class="tag[\s"]/g)].length,
+    years: durations.map((d) => d.split('|')[1]?.trim()),
+  };
+}
+check(
+  same(talento.es, talento.en),
+  'paridad Talento Digital: mismos encabezados, insignias, franjas, portadas, etiquetas y años',
 );
 
 // --- Destacados REUF de Educación (E90-I01, ADR-072): «10+» y «5+» salen de stats.json ---

@@ -19,8 +19,19 @@ interface Props {
    * la barra dorada a la derecha del rótulo, en espejo; bajo esa medida queda a la izquierda.
    */
   align?: 'start' | 'end-lg';
+  /** id de la bajada, para sumarla al nombre accesible de la sección (E100-I01). */
+  leadId?: string;
 }
-const { kicker, title, lead, variant = 'left', level = 2, id, align = 'start' } = Astro.props;
+const {
+  kicker,
+  title,
+  lead,
+  variant = 'left',
+  level = 2,
+  id,
+  align = 'start',
+  leadId,
+} = Astro.props;
 const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
 ---
 
@@ -35,7 +46,11 @@ const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
     {title}
   </Heading>
   {variant === 'band' && <GoldRule class="band-rule" />}
-  {lead && <p class="lead">{lead}</p>}
+  {lead && (
+    <p class="lead" id={leadId}>
+      {lead}
+    </p>
+  )}
 </header>
 
 <style>

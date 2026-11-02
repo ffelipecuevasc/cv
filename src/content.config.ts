@@ -11,6 +11,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { routes } from './i18n/routes';
 import { symbolIcons, type SymbolIconName } from './components/ui/icons';
+import { PLAN_CODES } from './data/training-plans';
 
 /** Texto con paridad obligatoria es-CL / en-US. */
 export const localized = () =>
@@ -83,7 +84,7 @@ const heroShared = defineCollection({
  */
 export const STAT_IDS = ['reuf-years', 'reuf-modules', 'teaching-years', 'students'] as const;
 /** Cifras que no se pintan en la banda de Inicio (ADR-072): Educación las lee por id. */
-export const FACT_IDS = ['bootcamps'] as const;
+export const FACT_IDS = ['bootcamps', 'class-hours'] as const;
 export type StatId = (typeof STAT_IDS)[number] | (typeof FACT_IDS)[number];
 
 const homeStats = defineCollection({
@@ -578,7 +579,23 @@ const instructorPage = defineCollection({
           z.object({
             date: localized(),
             items: z
-              .array(z.object({ featured: z.boolean(), title: localized(), text: localized() }))
+              .array(
+                z
+                  .object({
+                    featured: z.boolean(),
+                    /** Plan cuyas horas reemplazan «{hours}» (fuente única, E100-I01). */
+                    plan: z.enum(PLAN_CODES).optional(),
+                    title: localized(),
+                    text: localized(),
+                  })
+                  .refine(
+                    (item) =>
+                      [item.text.es, item.text.en].every(
+                        (t) => t.includes('{hours}') === Boolean(item.plan),
+                      ),
+                    'Un plan con «plan» usa «{hours}» en ambos idiomas, y viceversa',
+                  ),
+              )
               .min(1),
           }),
         )
@@ -587,7 +604,86 @@ const instructorPage = defineCollection({
   }),
 });
 
+/*
+ * Página Talento Digital (E100-I01, ADR-074): cabecera con 3 insignias y una franja en zigzag
+ * por bootcamp (6). Las horas salen de src/data/training-plans.ts y «2.000 horas» de
+ * src/content/home/stats.json (`class-hours`, ADR-053). «Talento Digital para Chile», los
+ * códigos de plan, las OTEC y las etiquetas de tecnologías no se traducen (ADR-025).
+ * Logros queda para E100-I02.
+ */
+const BOOTCAMP_COVERS = [
+  'bootcamp-java.svg',
+  'bootcamp-datos.svg',
+  'bootcamp-python.svg',
+  'bootcamp-javascript.svg',
+  'bootcamp-javascript-v1.svg',
+] as const;
+
+const talentoDigitalPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/talento-digital' }),
+  schema: z.object({
+    header: z.object({
+      kicker: localized(),
+      title: z.literal('Talento Digital para Chile'),
+      /** «{class-hours}» se reemplaza por la cifra de stats.json. */
+      lead: localized().refine(
+        (t) => t.es.includes('{class-hours}') && t.en.includes('{class-hours}'),
+        'La bajada usa «{class-hours}» en ambos idiomas',
+      ),
+      badgesLabel: localized(),
+      /*
+       * Insignias (chips 7.7). La del diploma lee su nombre de la entrada de Educación
+       * (`educationEntry`), para escribirlo una sola vez (DESIGN.md 11.4).
+       */
+      badges: z
+        .array(
+          z
+            .object({
+              icon: z.enum(SYMBOL_NAMES),
+              label: localized().optional(),
+              educationEntry: z.string().trim().min(1).optional(),
+            })
+            .refine(
+              (b) => Boolean(b.label) !== Boolean(b.educationEntry),
+              'Cada insignia lleva «label» o «educationEntry», no ambos',
+            ),
+        )
+        .length(3),
+    }),
+    bootcamps: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      achievementsTitle: localized(),
+      hoursLabel: localized(),
+      items: z
+        .array(
+          z.object({
+            id: z.string().regex(/^[a-z0-9-]+$/),
+            plan: z.enum(PLAN_CODES),
+            pill: localized(),
+            title: localized(),
+            /** Distingue las franjas con el mismo título (ejecución u OTEC). */
+            context: localized(),
+            years: z.string().regex(/^\d{4}(-\d{4})?$/),
+            cover: z.enum(BOOTCAMP_COVERS),
+            coverAlt: localized(),
+            text: localized(),
+            tags: z.array(z.string().trim().min(1)).min(4),
+            achievement: localized(),
+          }),
+        )
+        .length(6)
+        .refine(
+          (items) => new Set(items.map((item) => item.id)).size === items.length,
+          'Los id de los bootcamps no se repiten',
+        ),
+    }),
+  }),
+});
+
 export const collections = {
+  talentoDigitalPage,
   instructorPage,
   pages,
   experiencePage,

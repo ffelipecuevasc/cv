@@ -1,0 +1,20 @@
+---
+// Página Talento Digital de /en/ (E100-I01, ADR-074). Título, descripción y texto alternativo de
+// la imagen OG vienen de src/content/pages/talento-digital.json; el contenido, de
+// src/content/talento-digital/page.json. Logros se agrega en E100-I02.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TalentoDigitalHeader from '../../components/talento-digital/TalentoDigitalHeader.astro';
+import BootcampsZigzag from '../../components/talento-digital/BootcampsZigzag.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'talento-digital');
+if (!page) throw new Error('Falta src/content/pages/talento-digital.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
+---
+
+<BaseLayout title={title.en} description={description.en} route="talentoDigital" ogImage={og}>
+  <TalentoDigitalHeader />
+  <BootcampsZigzag />
+</BaseLayout>

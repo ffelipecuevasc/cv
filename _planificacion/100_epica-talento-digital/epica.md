@@ -1,5 +1,5 @@
 # E100 · Página Talento Digital (talento-digital.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
 
 ## Objetivo
 Reconstruir la página de bootcamps de Talento Digital para Chile en ambos idiomas.
@@ -17,7 +17,7 @@ E60-I01.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E100-I01](E100-I01-bloque-1.md) | Talento Digital, primera mitad de secciones | P1 | M | E60-I01 | [ ] Pendiente |
+| [E100-I01](E100-I01-bloque-1.md) | Talento Digital, primera mitad de secciones | P1 | M | E60-I01 | [x] Terminada |
 | [E100-I02](E100-I02-bloque-2.md) | Talento Digital, segunda mitad de secciones | P1 | M | E100-I01 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
