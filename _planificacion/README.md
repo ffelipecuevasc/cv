@@ -6,10 +6,10 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
-- **Épica actual:** E90 · Página Instructor (instructor.html)
-- **Iteración actual:** E90-I02 · Trayectoria como relator (capa de datos) (E90-I01 terminada el 01-11-2026 con la composición A, ADR-072; inglés por validar por Felipe).
+- **Épica actual:** E100 · Página Talento Digital (talento-digital.html)
+- **Iteración actual:** E100-I01 · Talento Digital, primera mitad de secciones (E90 terminada el 01-11-2026 con E90-I02: relatoría en grilla de 2 columnas, ADR-073; antes E90-I01, ADR-072; inglés de Instructor por validar por Felipe).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 39 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01). Épicas E10, E20, E30, E40, E50, E60, E70 y E80 terminadas.
+- **Terminadas:** 40 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01, E90-I02). Épicas E10, E20, E30, E40, E50, E60, E70, E80 y E90 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -68,7 +68,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 **E90 · Página Instructor (instructor.html)** (`90_epica-instructor/`)
 - [x] E90-I01 · Trayectoria como instructor REUF (P1, M)
-- [ ] E90-I02 · Trayectoria como relator (capa de datos) (P2, S)
+- [x] E90-I02 · Trayectoria como relator (capa de datos) (P2, S)
 
 **E100 · Página Talento Digital (talento-digital.html)** (`100_epica-talento-digital/`)
 - [ ] E100-I01 · Talento Digital, primera mitad de secciones (P1, M)

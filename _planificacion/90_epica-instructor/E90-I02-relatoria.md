@@ -1,7 +1,7 @@
 # E90-I02 · Trayectoria como relator (capa de datos)
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (01-11-2026)
 - **Épica:** E90 · Página Instructor (instructor.html) · **Prioridad:** P2 · **Tamaño:** S
-- **Depende de:** E90-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017
+- **Depende de:** E90-I01 · **Hallazgos que cierra:** AT-090 · **ADR relacionados:** ADR-017, ADR-025, ADR-036, ADR-063, ADR-068, ADR-072
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,27 +17,27 @@ Migrar las 6 experiencias de relatoría al modelo de contenido bilingüe.
 - Listado en orden cronológico descendente.
 
 ## Fuera de alcance
-- —
+- Composición A elegida por Felipe el 01-11-2026 (ADR-073). Datos en `src/content/instructor/page.json` (`teaching`), renderizados al construir.
 
 ## Tareas
-- [ ] Migrar datos y renderizado.
+- [x] Migrar datos y renderizado.
 
 ## Archivos previstos (crear / modificar)
 - Crear: componente y contenido de relatoría.
 
 ## Criterios de aceptación (verificables)
-- [ ] Las 6 experiencias presentes en ambos idiomas.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Las 6 experiencias presentes en ambos idiomas.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
 - `pnpm check` y `pnpm lint` sin errores (DoD)
 
 ## Riesgos y notas
-- —
+- Composición A elegida por Felipe el 01-11-2026 (ADR-073). Datos en `src/content/instructor/page.json` (`teaching`), renderizados al construir.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

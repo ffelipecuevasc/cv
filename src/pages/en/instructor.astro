@@ -1,12 +1,13 @@
 ---
 // Página Instructor de /en/ (E90-I01, ADR-072). Título, descripción y texto alternativo de la
 // imagen OG vienen de src/content/pages/instructor.json; el contenido, de
-// src/content/instructor/page.json. La relatoría la agrega E90-I02.
+// src/content/instructor/page.json, incluida la relatoría (E90-I02, ADR-073).
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InstructorHeader from '../../components/instructor/InstructorHeader.astro';
 import TitularBand from '../../components/instructor/TitularBand.astro';
 import CoursesMosaic from '../../components/instructor/CoursesMosaic.astro';
+import TeachingGrid from '../../components/instructor/TeachingGrid.astro';
 import PlansTimeline from '../../components/instructor/PlansTimeline.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
@@ -20,5 +21,6 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
   <InstructorHeader />
   <TitularBand />
   <CoursesMosaic />
+  <TeachingGrid />
   <PlansTimeline />
 </BaseLayout>

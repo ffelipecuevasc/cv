@@ -504,8 +504,8 @@ const lecturerPage = defineCollection({
 /*
  * Página Instructor (E90-I01, ADR-072): cabecera, banda del instructor titular con las cifras
  * «+3 años» y «+150 módulos» (de src/content/home/stats.json, ADR-053) y el certificado,
- * principales cursos en mosaico por peso y planes SENCE en línea de tiempo por fecha. La
- * relatoría la agrega E90-I02. Nombres de programas, OTEC y códigos de plan no se traducen.
+ * principales cursos en mosaico por peso, relatoría en grilla de 2 columnas (E90-I02, ADR-073) y
+ * planes SENCE en línea de tiempo por fecha. Nombres de programas, OTEC y códigos de plan no se traducen.
  */
 const instructorPage = defineCollection({
   loader: glob({ pattern: 'page.json', base: './src/content/instructor' }),
@@ -538,6 +538,37 @@ const instructorPage = defineCollection({
       items: z
         .array(z.object({ icon: z.enum(SYMBOL_NAMES), title: localized(), text: localized() }))
         .length(7),
+    }),
+    /*
+     * Relatoría (E90-I02, ADR-073): 6 experiencias, de la más reciente a la más antigua.
+     * `start` (AAAA-MM) solo sirve para exigir ese orden; no se muestra. La institución es un
+     * nombre propio y no se traduce (ADR-025).
+     */
+    teaching: z.object({
+      kicker: localized(),
+      title: localized(),
+      items: z
+        .array(
+          z.object({
+            id: z.string().regex(/^[a-z0-9-]+$/),
+            start: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
+            institution: z.string().trim().min(1),
+            icon: z.enum(SYMBOL_NAMES),
+            role: localized(),
+            period: localized(),
+            modality: localized(),
+            text: localized(),
+          }),
+        )
+        .length(6)
+        .refine(
+          (items) => items.every((item, i) => i === 0 || items[i - 1].start >= item.start),
+          'La relatoría va en orden cronológico descendente (campo start)',
+        )
+        .refine(
+          (items) => new Set(items.map((item) => item.id)).size === items.length,
+          'Los id de la relatoría no se repiten',
+        ),
     }),
     plans: z.object({
       kicker: localized(),

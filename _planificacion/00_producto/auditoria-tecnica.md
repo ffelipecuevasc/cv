@@ -788,7 +788,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** que el plan tome horas y módulos de la tarjeta, o que `verify:seo` compare ambos.
 
 ### AT-090 · La descripción de Instructor nombra a Alura Latam y Skillnest, que la página aún no muestra
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E90-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E90-I02 (01-11-2026): la relatoría muestra Skillnest y Alura Latam, y la descripción se reescribió para nombrar bootcamps de Talento Digital, cursos para Alura Latam y Skillnest y relatorías para OTEC (ADR-073) · **Resuelve:** E90-I02
 - **Evidencia (E90-I01, 01-11-2026):** la `description` (copiada de `main`) dice «bootcamps de Talento Digital SENCE, Alura Latam y Skillnest». El contenido visible de E90-I01 solo nombra Talento Digital, ISEG Chile y Posiciona Capacitación; en `main`, el resto venía de la relatoría cargada con JavaScript.
 - **Impacto:** el resultado de búsqueda promete algo que la página no muestra hasta E90-I02.
 - **Recomendación:** comprobar en E90-I02 que la relatoría nombra a Alura Latam y Skillnest; si no, ajustar la descripción con Felipe.

@@ -744,6 +744,19 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (mosaico, banda y línea de tiempo disponibles para Instructor) y una sección 11.8 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 01-11-2026 (E90-I01). **Estado:** Aceptada.
 
+## ADR-073 · Instructor: relatoría en grilla simétrica de 2 columnas
+- **Contexto:** E90-I02. En `main`, las 6 experiencias de relatoría (Skillnest, Alura Latam, OTEC Transversal, OTEC Planacap, OTEC Los Andes y OTEC DEGASA) se pintaban en el navegador con `relatoria.js`, desde `relatoria.datos.js`, con `<strong>` con clases y AOS. Se propusieron tres composiciones coherentes con ADR-072: A, grilla de 2 columnas; B, lista a dos columnas con regla superior; C, banda con línea de tiempo.
+- **Decisión (de Felipe, 01-11-2026):** **composición A.** La sección «Otros Cursos, Capacitaciones y Bootcamps impartidos» va entre «Principales Cursos» y los planes SENCE, en **grilla simétrica** de 6 tarjetas compactas (7.6), 2 columnas desde 1.024 px y una bajo esa medida, fondo `bg-alt`. Los planes SENCE pasan de `bg-alt` a `bg` para que los fondos sigan alternando (sustituye ese punto de ADR-072).
+- **Decisión (de implementación):**
+  - Datos en `src/content/instructor/page.json` (`teaching`), con claves en inglés (ADR-025), `localized()` en cargo, periodo, modalidad y texto, e institución sin traducir. El campo `start` (AAAA-MM), que no se muestra, permite que el esquema exija el orden descendente y 6 entradas con `id` únicos. El énfasis va con `**` (ADR-068).
+  - Se renderiza al construir (`TeachingGrid.astro`): sin JavaScript, sin AOS y sin estado vacío (el esquema exige 6). Cada tarjeta conserva su ancla de `main` (`#skillnest`, `#alura-latam`…).
+  - Tarjeta: caja de ícono de 44 px, institución en h3, cargo en chip (7.7), periodo · modalidad con el ícono `event` y texto.
+  - Íconos de Material Symbols Light con el mismo nombre que en `main` (ADR-063): `smart-toy`, `table-chart`, `cast-for-education` y `event` son nuevos; `code-blocks` y `apps` ya estaban. No hizo falta ningún equivalente. El ícono `hub` del h2 de `main` no se usa: los encabezados de sección del sistema no llevan ícono (7.5).
+  - Descripción de la página revisada para que coincida con lo que muestra (cierra AT-090); el título no cambia.
+  - Los nombres de cursos en español (Moodle Intermedio, Excel Básico y los de Alura Latam) se conservan en `en-US` con una glosa entre paréntesis.
+- **Consecuencias:** `DESIGN.md` 11.2 (grilla simétrica disponible para Instructor) y un punto nuevo en 11.8: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisión de Felipe el 01-11-2026 (E90-I02). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

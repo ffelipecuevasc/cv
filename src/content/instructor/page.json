@@ -138,6 +138,102 @@
       }
     ]
   },
+  "teaching": {
+    "kicker": { "es": "Relatorías", "en": "Training delivery" },
+    "title": {
+      "es": "Otros Cursos, Capacitaciones y Bootcamps impartidos",
+      "en": "Other Courses, Trainings and Bootcamps Taught"
+    },
+    "items": [
+      {
+        "id": "skillnest",
+        "start": "2026-06",
+        "institution": "Skillnest",
+        "icon": "smart-toy",
+        "role": { "es": "Instructor Senior", "en": "Senior Instructor" },
+        "period": { "es": "Junio 2026 – Agosto 2026", "en": "June 2026 – August 2026" },
+        "modality": { "es": "Remoto", "en": "Remote" },
+        "text": {
+          "es": "Como Instructor Senior, dicté el programa **IA Lab — Google (Gemini)** para la empresa Mine-Class: 32 horas teórico-prácticas de ingeniería de prompts con Gemini, NotebookLM y Google AI Studio, automatización de procesos y análisis de datos aplicados al trabajo. Profesionales sin experiencia previa en desarrollo terminaron aplicando IA generativa a sus propias áreas.",
+          "en": "As Senior Instructor, I taught the **IA Lab — Google (Gemini)** program for the company Mine-Class: 32 hours of theory and practice in prompt engineering with Gemini, NotebookLM and Google AI Studio, process automation and data analysis applied to work. Professionals with no prior development experience ended up applying generative AI to their own areas."
+        }
+      },
+      {
+        "id": "alura-latam",
+        "start": "2026-01",
+        "institution": "Alura Latam",
+        "icon": "code-blocks",
+        "role": { "es": "Instructor Certificado", "en": "Certified Instructor" },
+        "period": { "es": "Enero 2026 – Julio 2026", "en": "January 2026 – July 2026" },
+        "modality": { "es": "Remoto", "en": "Remote" },
+        "text": {
+          "es": "Como **Instructor Certificado**, lidero el diseño pedagógico y la creación de contenidos técnicos avanzados para la comunidad hispanohablante de desarrolladores. Desarrollé el curso **Inicio de Sesión con GitHub y Google con Java 21 — Spring Boot y Spring Security**, sobre APIs REST con autenticación OAuth2 y verificación en dos pasos, y el curso **Docker con Java 21 — Spring Boot**, sobre contenedorización y despliegue de aplicaciones en producción.",
+          "en": "As a **Certified Instructor**, I lead the instructional design and creation of advanced technical content for the Spanish-speaking developer community. I developed the course **Inicio de Sesión con GitHub y Google con Java 21 — Spring Boot y Spring Security** (GitHub and Google sign-in with Java 21), on REST APIs with OAuth2 authentication and two-step verification, and the course **Docker con Java 21 — Spring Boot** (Docker with Java 21), on containerizing and deploying applications to production."
+        }
+      },
+      {
+        "id": "otec-transversal",
+        "start": "2025-09",
+        "institution": "OTEC Transversal",
+        "icon": "cast-for-education",
+        "role": {
+          "es": "Relator y Diseñador Instruccional",
+          "en": "Trainer and Instructional Designer"
+        },
+        "period": { "es": "Septiembre 2025", "en": "September 2025" },
+        "modality": { "es": "Remoto", "en": "Remote" },
+        "text": {
+          "es": "Relator y diseñador instruccional del curso **Moodle Intermedio**, de 8 horas, para funcionarios del Servicio de Salud de Iquique, incluyendo la preparación de material pedagógico e instrumentos evaluativos.",
+          "en": "Trainer and instructional designer of the 8-hour **Moodle Intermedio** (intermediate Moodle) course for staff of the Servicio de Salud de Iquique, including the preparation of teaching materials and assessment instruments."
+        }
+      },
+      {
+        "id": "otec-planacap",
+        "start": "2025-06",
+        "institution": "OTEC Planacap",
+        "icon": "table-chart",
+        "role": {
+          "es": "Relator y Diseñador Instruccional",
+          "en": "Trainer and Instructional Designer"
+        },
+        "period": { "es": "Junio 2025 – Julio 2025", "en": "June 2025 – July 2025" },
+        "modality": { "es": "Remoto", "en": "Remote" },
+        "text": {
+          "es": "Relator y diseñador instruccional del curso **Excel 365 (Básico a Intermedio)**, de 20 horas, para 30 funcionarios de la Municipalidad de Lo Barnechea, incluyendo la preparación de material pedagógico e instrumentos evaluativos.",
+          "en": "Trainer and instructional designer of the 20-hour **Excel 365 (Basic to Intermediate)** course for 30 staff members of the Municipalidad de Lo Barnechea, including the preparation of teaching materials and assessment instruments."
+        }
+      },
+      {
+        "id": "otec-los-andes",
+        "start": "2024-06",
+        "institution": "OTEC Los Andes",
+        "icon": "apps",
+        "role": { "es": "Relator", "en": "Trainer" },
+        "period": { "es": "Junio 2024", "en": "June 2024" },
+        "modality": { "es": "Remoto (sincrónico)", "en": "Remote (synchronous)" },
+        "text": {
+          "es": "Relator del curso de **herramientas ofimáticas** —Excel, OneDrive y Canvas—, de 8 horas, dictado en modalidad remota sincrónica.",
+          "en": "Trainer of the 8-hour **office tools** course (Excel, OneDrive and Canvas), taught remotely in real time."
+        }
+      },
+      {
+        "id": "otec-degasa",
+        "start": "2023-11",
+        "institution": "OTEC DEGASA",
+        "icon": "table-chart",
+        "role": {
+          "es": "Relator y Diseñador Instruccional",
+          "en": "Trainer and Instructional Designer"
+        },
+        "period": { "es": "Noviembre 2023", "en": "November 2023" },
+        "modality": { "es": "Presencial", "en": "On-site" },
+        "text": {
+          "es": "Relator y diseñador instruccional para los cursos **Excel Básico** (8 horas) y **Excel Intermedio** (16 horas), dictados en modalidad presencial, incluyendo el desarrollo del material pedagógico de ambos programas.",
+          "en": "Trainer and instructional designer for the **Excel Básico** (8 hours) and **Excel Intermedio** (16 hours) courses (basic and intermediate Excel), taught on-site, including the development of the teaching materials for both programs."
+        }
+      }
+    ]
+  },
   "plans": {
     "kicker": { "es": "SENCE", "en": "SENCE" },
     "title": {

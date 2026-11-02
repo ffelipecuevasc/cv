@@ -4,7 +4,8 @@
  * agrupada por fecha de aprobación, de la más reciente a la más antigua. Cada grupo es un hito
  * con marcador circular de 44 px y su fecha como h3; cada plan, un h4 con su texto. El plan
  * destacado (PF1822) lleva el ícono `new-releases` y un tramo dorado; el resto, `task-alt`.
- * Encabezado alineado a la izquierda, fondo `bg-alt`, sin JavaScript.
+ * Encabezado alineado a la izquierda, fondo `bg` (pasa de `bg-alt` a `bg` con la relatoría, ADR-073),
+ * sin JavaScript.
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -53,7 +54,7 @@ const { plans } = await getInstructorPage();
 <style>
   .plans {
     padding-block: 80px;
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg);
   }
   .list {
     max-width: 52rem;

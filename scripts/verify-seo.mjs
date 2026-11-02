@@ -959,6 +959,24 @@ const INSTRUCTOR_TEXT = {
 };
 // La misma URL de main (AT-043): el PDF se copia sin cambios a public/static/.
 const REUF_CERTIFICATE = '/static/Certificado_REUF_Aprobados_Felipe_Cuevas_2026.pdf';
+// Relatoría (E90-I02): ids, instituciones y año de inicio, del más reciente al más antiguo.
+const TEACHING_IDS = [
+  'skillnest',
+  'alura-latam',
+  'otec-transversal',
+  'otec-planacap',
+  'otec-los-andes',
+  'otec-degasa',
+];
+const TEACHING_INSTITUTIONS = [
+  'Skillnest',
+  'Alura Latam',
+  'OTEC Transversal',
+  'OTEC Planacap',
+  'OTEC Los Andes',
+  'OTEC DEGASA',
+];
+const TEACHING_YEARS = ['2026', '2026', '2025', '2025', '2024', '2023'];
 const instructor = {};
 console.log('\nCertificado REUF');
 check(existsSync(join(DIST, REUF_CERTIFICATE)), `existe dist${REUF_CERTIFICATE} (AT-043)`);
@@ -1077,11 +1095,51 @@ for (const [lang, info] of Object.entries(LANGS)) {
   check(/PF1163/.test(planItems[1] ?? ''), 'PF1163 es el segundo plan');
   check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
 
+  // Relatoría (E90-I02, ADR-073): 6 experiencias en orden descendente, con instituciones sin
+  // traducir, un periodo cada una y énfasis sin clases (ADR-068).
+  const teachingHtml = /<ul[^>]*data-teaching[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1];
+  check(teachingHtml !== undefined, 'existe la sección de relatoría');
+  const experiences = [...(teachingHtml ?? '').matchAll(/data-experience="([^"]+)"/g)].map(
+    (m) => m[1],
+  );
+  check(
+    same(experiences, TEACHING_IDS),
+    `6 experiencias en orden descendente (${experiences.join(', ')})`,
+  );
+  const institutions = [...(teachingHtml ?? '').matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>
+    text(m[1]),
+  );
+  check(
+    same(institutions, TEACHING_INSTITUTIONS),
+    `instituciones sin traducir (${institutions.join(', ')})`,
+  );
+  const periods = [...(teachingHtml ?? '').matchAll(/<p class="meta"[^>]*>([\s\S]*?)<\/p>/g)].map(
+    (m) => text(m[1]),
+  );
+  check(
+    periods.length === 6 && periods.every((p, i) => p.includes(TEACHING_YEARS[i])),
+    `periodo con el año correcto en cada experiencia (${periods.map((p) => /\d{4}/.exec(p)?.[0]).join(', ')})`,
+  );
+  check(
+    (teachingHtml ?? '').includes('<strong'),
+    'la relatoría lleva énfasis renderizado como <strong>',
+  );
+  check(
+    !/<strong[^>]*\sclass=/.test(mainHtml),
+    'ningún <strong> lleva clases (énfasis con **, ADR-068)',
+  );
+  check(
+    TEACHING_IDS.every((id) => new RegExp(`\\sid="${id}"`).test(teachingHtml ?? '')),
+    'cada experiencia conserva su ancla de main (#skillnest, #alura-latam…)',
+  );
+
   instructor[lang] = {
     levels,
     figures,
     facts,
     courses,
+    experiences,
+    institutions,
     dates: dates.length,
     plans: planItems.map((p) => /featured/.test(p)),
     hrefs: [...mainHtml.matchAll(/href="([^"]+)"/g)].map((m) => m[1]),
