@@ -82,7 +82,9 @@ const heroShared = defineCollection({
  * viven en src/assets/testimonials/ y Astro las optimiza (la ruta es relativa al JSON).
  */
 export const STAT_IDS = ['reuf-years', 'reuf-modules', 'teaching-years', 'students'] as const;
-export type StatId = (typeof STAT_IDS)[number];
+/** Cifras que no se pintan en la banda de Inicio (ADR-072): Educación las lee por id. */
+export const FACT_IDS = ['bootcamps'] as const;
+export type StatId = (typeof STAT_IDS)[number] | (typeof FACT_IDS)[number];
 
 const homeStats = defineCollection({
   loader: glob({ pattern: 'stats.json', base: './src/content/home' }),
@@ -106,6 +108,15 @@ const homeStats = defineCollection({
         ]),
       )
       .length(5),
+    facts: z
+      .array(
+        z.object({
+          id: z.enum(FACT_IDS),
+          value: z.number().int().nonnegative(),
+          plus: z.boolean(),
+        }),
+      )
+      .length(FACT_IDS.length),
   }),
 });
 
@@ -490,7 +501,63 @@ const lecturerPage = defineCollection({
     }),
 });
 
+/*
+ * Página Instructor (E90-I01, ADR-072): cabecera, banda del instructor titular con las cifras
+ * «+3 años» y «+150 módulos» (de src/content/home/stats.json, ADR-053) y el certificado,
+ * principales cursos en mosaico por peso y planes SENCE en línea de tiempo por fecha. La
+ * relatoría la agrega E90-I02. Nombres de programas, OTEC y códigos de plan no se traducen.
+ */
+const instructorPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/instructor' }),
+  schema: z.object({
+    header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+    titular: z.object({
+      kicker: localized(),
+      title: localized(),
+      text: localized(),
+      stats: z.array(z.object({ source: z.enum(STAT_IDS), label: localized() })).length(2),
+      certificate: z.object({
+        label: localized(),
+        accessibleName: localized(),
+        text: localized(),
+        /** Aviso de ADR-017: solo se muestra en en-US. */
+        languageNote: localized(),
+      }),
+    }),
+    courses: z.object({
+      kicker: localized(),
+      title: localized(),
+      featured: z.object({
+        badge: localized(),
+        code: localized(),
+        title: localized(),
+        text: localized(),
+        facts: z.array(z.object({ value: z.string().trim().min(1), label: localized() })).length(4),
+        tags: localizedList(),
+      }),
+      items: z
+        .array(z.object({ icon: z.enum(SYMBOL_NAMES), title: localized(), text: localized() }))
+        .length(7),
+    }),
+    plans: z.object({
+      kicker: localized(),
+      title: localized(),
+      groups: z
+        .array(
+          z.object({
+            date: localized(),
+            items: z
+              .array(z.object({ featured: z.boolean(), title: localized(), text: localized() }))
+              .min(1),
+          }),
+        )
+        .min(1),
+    }),
+  }),
+});
+
 export const collections = {
+  instructorPage,
   pages,
   experiencePage,
   developerPage,

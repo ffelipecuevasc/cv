@@ -435,13 +435,8 @@ const PROFILE_LINKS = {
 // enlaces de esta página. Cada épica retira las suyas al crear la página: E70 desarrollador,
 // E80 docente, E90 instructor y E100 talento-digital. Si una ruta de la lista ya existe en
 // dist/, el control falla hasta que se retire. E70-I01 retiró /es/desarrollador/ y /en/developer/;
-// E80-I01, /es/docente/ y /en/lecturer/.
-const PENDING_PROFILE_ROUTES = [
-  '/es/instructor/',
-  '/en/instructor/',
-  '/es/talento-digital/',
-  '/en/talento-digital/',
-];
+// E80-I01, /es/docente/ y /en/lecturer/; E90-I01, /es/instructor/ y /en/instructor/.
+const PENDING_PROFILE_ROUTES = ['/es/talento-digital/', '/en/talento-digital/'];
 const routeExists = (path) => existsSync(join(DIST, path, 'index.html'));
 const experience = {};
 for (const [lang, info] of Object.entries(LANGS)) {
@@ -955,6 +950,159 @@ check(
   same(lecturer.es, lecturer.en),
   'paridad Docente: mismos encabezados, asignaturas, franjas, cifras, cargos y enlaces en /es/ y /en/',
 );
+
+// --- Instructor (E90-I01, ADR-072): metadatos, cabecera, banda titular, cursos y planes SENCE ---
+const INSTRUCTOR = { es: 'es/instructor', en: 'en/instructor' };
+const INSTRUCTOR_TEXT = {
+  es: { h1: 'Instructor REUF', certificate: 'Descargar Certificado REUF (PDF)' },
+  en: { h1: 'REUF Instructor', certificate: 'Download REUF certificate (PDF, Spanish)' },
+};
+// La misma URL de main (AT-043): el PDF se copia sin cambios a public/static/.
+const REUF_CERTIFICATE = '/static/Certificado_REUF_Aprobados_Felipe_Cuevas_2026.pdf';
+const instructor = {};
+console.log('\nCertificado REUF');
+check(existsSync(join(DIST, REUF_CERTIFICATE)), `existe dist${REUF_CERTIFICATE} (AT-043)`);
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = INSTRUCTOR[lang];
+  const other = INSTRUCTOR[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${INSTRUCTOR.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(h1 === INSTRUCTOR_TEXT[lang].h1, `<h1> «${INSTRUCTOR_TEXT[lang].h1}» (${h1})`);
+  const lead = /<p[^>]*data-lead[^>]*>([\s\S]*?)<\/p>/.exec(mainHtml)?.[1] ?? '';
+  check(/<strong[^>]*>REUF<\/strong>/.test(lead), 'bajada con énfasis en REUF (ADR-068)');
+  check(!mainHtml.includes('**'), 'sin asteriscos de énfasis sin procesar');
+
+  // Banda titular: «+3» y «+150» derivadas de stats.json; certificado con la URL de main.
+  const statsHtml = /<dl[^>]*data-titular-stats[^>]*>([\s\S]*?)<\/dl>/.exec(mainHtml)?.[1] ?? '';
+  const figures = [...statsHtml.matchAll(/<dd[^>]*>([\s\S]*?)<\/dd>/g)].map((m) =>
+    text(m[1]).replace(/\s+/g, ''),
+  );
+  check(same(figures, ['+3', '+150']), `cifras del titular +3 / +150 (${figures.join(' / ')})`);
+  const cert = /<div[^>]*data-certificate[^>]*>([\s\S]*?)<\/div>/.exec(mainHtml)?.[1] ?? '';
+  const certLink = attrs(/<a\s[^>]*>/.exec(cert)?.[0] ?? '');
+  check(certLink.href === REUF_CERTIFICATE, `certificado en ${REUF_CERTIFICATE}`);
+  check('download' in certLink, 'el enlace del certificado lleva el atributo de descarga');
+  check(
+    certLink['aria-label'] === INSTRUCTOR_TEXT[lang].certificate,
+    `nombre accesible «${INSTRUCTOR_TEXT[lang].certificate}» (${certLink['aria-label']})`,
+  );
+  check(
+    /data-language-note/.test(cert) === (lang === 'en'),
+    lang === 'en' ? 'aviso de PDF en español (ADR-017)' : 'sin aviso de idioma en es-CL',
+  );
+
+  // Principales cursos: 1 destacado con 4 datos y 6 etiquetas, y 7 bootcamps.
+  const featured = /data-featured-course[^>]*>([\s\S]*?)<\/article>/.exec(mainHtml)?.[1] ?? '';
+  const facts = [...featured.matchAll(/<dd[^>]*>([\s\S]*?)<\/dd>/g)].map((m) => text(m[1]));
+  check(
+    same(facts, ['190', '9', 'N4', '2026']),
+    `PF1822: 190 h, 9 módulos, N4 y 2026 (${facts.join(' / ')})`,
+  );
+  check((featured.match(/class="tag[\s"]/g) ?? []).length === 6, 'PF1822 con 6 etiquetas');
+  const courses = count(/data-course[\s>]/g);
+  check(courses === 7, `7 bootcamps (${courses})`);
+
+  // Planes SENCE: 2 fechas (agosto 2026 y octubre 2025) y 6 planes, PF1822 destacado.
+  const plans = /<ol[^>]*data-plans[^>]*>([\s\S]*?)<\/ol>/.exec(mainHtml)?.[1] ?? '';
+  const dates = [...plans.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) => text(m[1]));
+  check(
+    dates.length === 2 && /2026/.test(dates[0]) && /2025/.test(dates[1]),
+    `fechas 2026 y 2025 (${dates.join(' / ')})`,
+  );
+  const planItems = [...plans.matchAll(/<li[^>]*data-plan[\s>][\s\S]*?<\/li>/g)].map((m) => m[0]);
+  check(planItems.length === 6, `6 planes SENCE (${planItems.length})`);
+  check(
+    /featured/.test(planItems[0] ?? '') && /PF1822/.test(planItems[0] ?? ''),
+    'PF1822 es el plan destacado',
+  );
+  check(/PF1163/.test(planItems[1] ?? ''), 'PF1163 es el segundo plan');
+  check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
+
+  instructor[lang] = {
+    levels,
+    figures,
+    facts,
+    courses,
+    dates: dates.length,
+    plans: planItems.map((p) => /featured/.test(p)),
+    hrefs: [...mainHtml.matchAll(/href="([^"]+)"/g)].map((m) => m[1]),
+  };
+}
+check(
+  same(instructor.es, instructor.en),
+  'paridad Instructor: mismos encabezados, cifras, cursos, planes y enlaces en /es/ y /en/',
+);
+
+// --- Destacados REUF de Educación (E90-I01, ADR-072): «10+» y «5+» salen de stats.json ---
+console.log('\nDestacados REUF de Educación');
+for (const [lang, expected] of Object.entries({
+  es: ['10+ Años de Experiencia', '5+ Bootcamps de Talento Digital'],
+  en: ['10+ years of experience', '5+ Talento Digital bootcamps'],
+})) {
+  const html = read(`${EDUCATION[lang]}/index.html`);
+  const list = /<ul class="highlights"[^>]*>([\s\S]*?)<\/ul>/.exec(html)?.[1] ?? '';
+  const items = [...list.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => decode(m[1]).trim());
+  check(same(items, expected), `${lang}: ${expected.join(' · ')} (${items.join(' · ')})`);
+}
 
 // --- Placa de los logos en oscuro (E70-I03, ADR-069): variable de componente por tema ---
 {

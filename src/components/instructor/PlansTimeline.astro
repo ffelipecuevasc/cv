@@ -1,0 +1,159 @@
+---
+/*
+ * Últimos planes formativos SENCE (E90-I01, ADR-072): línea de tiempo compacta (DESIGN.md 11.2)
+ * agrupada por fecha de aprobación, de la más reciente a la más antigua. Cada grupo es un hito
+ * con marcador circular de 44 px y su fecha como h3; cada plan, un h4 con su texto. El plan
+ * destacado (PF1822) lleva el ícono `new-releases` y un tramo dorado; el resto, `task-alt`.
+ * Encabezado alineado a la izquierda, fondo `bg-alt`, sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getInstructorPage } from './instructor-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { plans } = await getInstructorPage();
+---
+
+<section class="plans" aria-labelledby="plans-title">
+  <Container>
+    <SectionHeader kicker={plans.kicker[lang]} title={plans.title[lang]} id="plans-title" />
+    <ol class="list" data-plans>
+      {plans.groups.map((group) => (
+        <li class="milestone">
+          <span class="marker">
+            <Icon name="medal" size={22} />
+          </span>
+          <div class="body">
+            <h3 class="date">{group.date[lang]}</h3>
+            <ul class="items">
+              {group.items.map((item) => (
+                <li class:list={['plan', { featured: item.featured }]} data-plan>
+                  <h4 class="plan-title">
+                    <Icon name={item.featured ? 'new-releases' : 'task-alt'} size={20} />
+                    <span>{item.title[lang]}</span>
+                  </h4>
+                  <p class="text">
+                    {parseEmphasis(item.text[lang]).map((part) =>
+                      part.strong ? <strong>{part.text}</strong> : part.text,
+                    )}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>
+
+<style>
+  .plans {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  .list {
+    max-width: 52rem;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .milestone {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 20px;
+    padding-bottom: 40px;
+  }
+  .milestone:last-child {
+    padding-bottom: 0;
+  }
+  /* Riel decorativo de 1 px entre marcadores (como Experiencia, 11.5). */
+  .milestone:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 44px;
+    bottom: 0;
+    left: 21.5px;
+    width: 1px;
+    background-color: var(--color-border-strong);
+  }
+  .marker {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-border-strong);
+    color: var(--color-icon);
+  }
+  .body {
+    min-width: 0;
+  }
+  .date {
+    margin: 0;
+    padding-top: 12px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .items {
+    display: grid;
+    gap: 16px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .plan {
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-inline-start: 2px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+  }
+  .plan.featured {
+    border-inline-start-color: var(--color-gold);
+  }
+  .plan-title {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+  .plan-title :global(svg) {
+    flex: none;
+    margin-top: 1px;
+    color: var(--color-icon);
+  }
+  .featured .plan-title :global(svg) {
+    color: var(--color-accent);
+  }
+  .text {
+    margin: 10px 0 0;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  @media (min-width: 48rem) {
+    .plans {
+      padding-block: 96px;
+    }
+  }
+</style>

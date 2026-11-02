@@ -719,6 +719,31 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (grilla y zigzag pasan a estar disponibles para Docente; variante 2 × 2) y una sección 11.7 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
 - **Origen:** decisiones de Felipe el 01-11-2026 (E80-I01). **Estado:** Aceptada.
 
+## ADR-071 · Docente: un solo enlace a LinkedIn y textos de E80-I01 aceptados
+- **Contexto:** AT-087 (E80-I01): los tres «Ver más información» de Docente llevan a la misma página general de experiencia de LinkedIn. ADR-070 dejó por validar algunos textos de la página.
+- **Decisión (de Felipe, 01-11-2026):**
+  - Se descartan los tres enlaces por institución: Docente deja **un solo enlace general a LinkedIn**.
+  - El cambio no se hace en E90-I01: va en una iteración de ajuste al final de E80 (ADR-056), que se crea cuando Felipe la agende.
+  - Se aceptan el texto destacado «Docente con +10 años» y el índice de instituciones de la cabecera.
+- **Consecuencias:** AT-087 queda resuelto por esta decisión; la implementación queda pendiente de la iteración de ajuste de E80. ADR-070 sigue vigente salvo en el punto «Ver más información», que esta entrada sustituye.
+- **Origen:** decisión de Felipe el 01-11-2026, comunicada al inicio de E90-I01. **Estado:** Aceptada.
+
+## ADR-072 · Instructor: mosaico de cursos, línea de tiempo de planes y cifras derivadas
+- **Contexto:** E90-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. Se propusieron tres composiciones (A: mosaico + línea de tiempo; B: lista a dos columnas + zigzag; C: grilla simétrica). En `main:instructor.html`, PF1822 aparece como tarjeta destacada y como primer plan aprobado, y Educación escribía a mano «10+ Años» y «5+ Bootcamps».
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición A:** cabecera alineada a la izquierda (fondo `bg`); **banda** «Instructor Titular» con 2 cifras y la descarga del certificado; «Principales Cursos» en **mosaico por peso** (PF1822 a todo el ancho y 7 bootcamps con el ritmo 7/5, 5/7, 6/6 y el último a todo el ancho, fondo `bg`); «Últimos Planes Formativos SENCE Aprobados» en **línea de tiempo compacta** agrupada por fecha (fondo `bg-alt`).
+  - PF1822 se mantiene en ambos lugares, como en `main`.
+  - Los bootcamps de Educación se guardan en una lista aparte de `stats.json` (`facts`), que la banda de Inicio no pinta.
+- **Decisión (de implementación):**
+  - Colección `instructorPage` (`src/content/instructor/page.json`) con `localized()`; metadatos en `src/content/pages/instructor.json` (los de `main`). El esquema exige 2 cifras, 4 datos y 7 bootcamps.
+  - «+3» y «+150» se leen por id (`reuf-years`, `reuf-modules`). Nuevo `FACT_IDS = ['bootcamps']` (valor 5). El lector `getStat` pasa a `src/data/stats.ts` y lo comparten Docente, Instructor y Educación. En Educación, `{teaching-years}` y `{bootcamps}` se reemplazan por la cifra con «+» al final, como en `main`.
+  - El certificado se copia sin cambios a `public/static/` (misma URL, AT-043), con atributo de descarga, botón dorado y nombre accesible con formato; en `en-US` dice «(PDF, Spanish)» y un aviso visible «The certificate is in Spanish.» (ADR-017).
+  - Íconos nuevos copiados de `main` con su nombre (ADR-063): `code-blocks`, `storage`, `query-stats`, `cloud`, `new-releases` y `task-alt`. Python e IA usaban en `main` símbolos inexistentes (AT-088): se usan `terminal` y `api`. Las etiquetas de PF1822 van como chip de 7.7, sin el microícono de `main`.
+  - Planes: fecha como h3 y plan como h4; PF1822 con ícono `new-releases` y borde dorado. Sin JavaScript ni animaciones (se descarta AOS, ADR-045).
+  - `verify:seo` retira `/es/instructor/` y `/en/instructor/` de `PENDING_PROFILE_ROUTES` y suma controles de la página y de los destacados de Educación.
+- **Consecuencias:** `DESIGN.md` 11.2 (mosaico, banda y línea de tiempo disponibles para Instructor) y una sección 11.8 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E90-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

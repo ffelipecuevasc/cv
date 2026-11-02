@@ -1,5 +1,5 @@
 # E90 · Página Instructor (instructor.html)
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso
 
 ## Objetivo
 Reconstruir la página de instructor REUF/SENCE y la trayectoria como relator, en ambos idiomas.
@@ -18,7 +18,7 @@ E60-I01.
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E90-I01](E90-I01-trayectoria-reuf.md) | Trayectoria como instructor REUF | P1 | M | E60-I01 | [ ] Pendiente |
+| [E90-I01](E90-I01-trayectoria-reuf.md) | Trayectoria como instructor REUF | P1 | M | E60-I01 | [x] Terminada |
 | [E90-I02](E90-I02-relatoria.md) | Trayectoria como relator (capa de datos) | P2 | S | E90-I01 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

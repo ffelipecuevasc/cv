@@ -2,7 +2,9 @@
 /*
  * Bloque «Instructor REUF» y cierre de Educación (E50-I02, AT-076, ADR-061), migrados de
  * `main:educacion.html`. La cifra de módulos se toma de src/content/home/stats.json (la misma
- * que muestra la portada), para que no se desfase (ADR-053). El cierre repite el CV del pie
+ * que muestra la portada), para que no se desfase (ADR-053), y también las de los destacados:
+ * «{teaching-years}» y «{bootcamps}» se reemplazan por la cifra con su «+» al final, como en main
+ * (E90-I01, ADR-072). El cierre repite el CV del pie
  * (ADR-050, ADR-057) y enlaza a Contacto. Sin JavaScript. Dentro de <main>.
  */
 import { getEntry } from 'astro:content';
@@ -14,17 +16,23 @@ import { parseEmphasis, formatNumber } from '../home/hero-text';
 import { cv } from '../layout/footer-links';
 import { getRoute } from '../../i18n/routes';
 import { langFromLocale } from '../../i18n/lang';
+import { getStat } from '../../data/stats';
 
 const lang = langFromLocale(Astro.currentLocale);
 const page = (await getEntry('educationPage', 'page'))?.data;
-const stats = (await getEntry('homeStats', 'stats'))?.data;
-if (!page || !stats) throw new Error('Faltan los textos de Educación o las cifras de Inicio');
+if (!page) throw new Error('Faltan los textos de Educación');
 
-const modules = stats.items.find(
-  (item) => item.kind === 'number' && item.label.es === 'Módulos REUF',
+const modules = await getStat('reuf-modules');
+const figures = {
+  'teaching-years': await getStat('teaching-years'),
+  bootcamps: await getStat('bootcamps'),
+};
+const highlights = page.reuf.highlights[lang].map((item) =>
+  item.replace(/{(teaching-years|bootcamps)}/g, (_, id: keyof typeof figures) => {
+    const { value, plus } = figures[id];
+    return `${formatNumber(value, lang)}${plus ? '+' : ''}`;
+  }),
 );
-if (!modules || modules.kind !== 'number')
-  throw new Error('Falta la cifra «Módulos REUF» en stats.json');
 const paragraph = parseEmphasis(
   page.reuf.paragraph[lang].replace('{modules}', formatNumber(modules.value, lang)),
 );
@@ -44,7 +52,7 @@ const { closing } = page;
             {paragraph.map((part) => (part.strong ? <strong>{part.text}</strong> : part.text))}
           </p>
           <ul class="highlights">
-            {page.reuf.highlights[lang].map((item) => (
+            {highlights.map((item) => (
               <li>
                 <Icon name="check" size={16} />
                 <span>{item}</span>

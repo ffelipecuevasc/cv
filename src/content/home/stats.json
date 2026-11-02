@@ -75,5 +75,12 @@
         "en": "Trained in Java, Python, AI and Data"
       }
     }
+  ],
+  "facts": [
+    {
+      "id": "bootcamps",
+      "value": 5,
+      "plus": true
+    }
   ]
 }

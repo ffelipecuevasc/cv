@@ -4,19 +4,14 @@
  * perfil «lecturer» de Experiencia (AT-081): ninguno se escribe dos veces.
  */
 import { getEntry } from 'astro:content';
-import type { StatId } from '../../content.config';
+
+// El lector de cifras es común a Docente, Instructor y Educación (E90-I01).
+export { getStat } from '../../data/stats';
 
 export async function getLecturerPage() {
   const page = (await getEntry('lecturerPage', 'page'))?.data;
   if (!page) throw new Error('Falta src/content/lecturer/page.json');
   return page;
-}
-
-export async function getStat(id: StatId) {
-  const stats = (await getEntry('homeStats', 'stats'))?.data;
-  const item = stats?.items.find((i) => i.kind === 'number' && i.id === id);
-  if (!item || item.kind !== 'number') throw new Error(`Falta la cifra «${id}» en stats.json`);
-  return { value: item.value, plus: item.plus };
 }
 
 export async function getLecturerProfile() {

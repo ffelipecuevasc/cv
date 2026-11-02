@@ -1,0 +1,222 @@
+---
+/*
+ * Principales cursos (E90-I01, ADR-072): mosaico por peso (DESIGN.md 11.2). El plan PF1822 va
+ * en una tarjeta destacada a todo el ancho y los 7 bootcamps en tarjetas compactas con el ritmo
+ * 7/5, 5/7, 6/6 y la última a todo el ancho, desde 1.024 px; una columna bajo esa medida.
+ * Encabezado alineado a la izquierda, fondo `bg`, sin JavaScript.
+ */
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Tag from '../ui/Tag.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getInstructorPage } from './instructor-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { courses } = await getInstructorPage();
+const { featured } = courses;
+---
+
+<section class="courses" aria-labelledby="courses-title">
+  <Container>
+    <SectionHeader kicker={courses.kicker[lang]} title={courses.title[lang]} id="courses-title" />
+    <div class="mosaic" data-courses>
+      <Card class="featured" as="article">
+        <div data-featured-course>
+          <p class="badge">
+            <Icon name="new-releases" size={18} />
+            <span>{featured.badge[lang]}</span>
+            <span class="code">· {featured.code[lang]}</span>
+          </p>
+          <h3 class="featured-title">{featured.title[lang]}</h3>
+          <p class="text featured-text">
+            {parseEmphasis(featured.text[lang]).map((part) =>
+              part.strong ? <strong>{part.text}</strong> : part.text,
+            )}
+          </p>
+          <dl class="facts">
+            {featured.facts.map((fact) => (
+              <div class="fact">
+                <dt>{fact.label[lang]}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <ul class="tags">
+            {featured.tags[lang].map((tag) => (
+              <li>
+                <Tag>{tag}</Tag>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Card>
+      {courses.items.map((item) => (
+        <Card size="compact" class="course" as="article">
+          <div class="course-body" data-course>
+            <span class="icon-box">
+              <Icon name={item.icon} size={24} />
+            </span>
+            <div>
+              <h3 class="course-title">{item.title[lang]}</h3>
+              <p class="text">
+                {parseEmphasis(item.text[lang]).map((part) =>
+                  part.strong ? <strong>{part.text}</strong> : part.text,
+                )}
+              </p>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .courses {
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  .mosaic {
+    display: grid;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  p,
+  h3 {
+    margin: 0;
+  }
+  .badge {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .badge :global(svg) {
+    color: var(--color-accent);
+  }
+  .code {
+    color: var(--color-text-soft);
+    font-weight: 400;
+  }
+  .featured-title {
+    margin-top: 16px;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .text {
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .featured-text {
+    max-width: 62ch;
+    margin-top: 16px;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 24px;
+    margin: 28px 0 0;
+  }
+  .fact {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 6px;
+  }
+  .fact dt {
+    color: var(--color-text-soft);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .fact dd {
+    margin: 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 28px 0 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--color-border);
+    list-style: none;
+  }
+  .course-body {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+    height: 100%;
+  }
+  .icon-box {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 0 0 1px var(--color-border-strong);
+    color: var(--color-icon);
+  }
+  .course-title {
+    margin-bottom: 8px;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  @media (min-width: 40rem) {
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 48rem) {
+    .courses {
+      padding-block: 96px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .mosaic {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 32px;
+    }
+    .mosaic > :global(.featured) {
+      grid-column: 1 / -1;
+    }
+    /* Ritmo 7/5, 5/7, 6/6 y la última a todo el ancho (la 1.ª hija es la destacada). */
+    .mosaic > :global(.course) {
+      grid-column: span 6;
+    }
+    .mosaic > :global(.course:nth-child(2)),
+    .mosaic > :global(.course:nth-child(5)) {
+      grid-column: span 7;
+    }
+    .mosaic > :global(.course:nth-child(3)),
+    .mosaic > :global(.course:nth-child(4)) {
+      grid-column: span 5;
+    }
+    .mosaic > :global(.course:nth-child(8)) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

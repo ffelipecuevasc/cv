@@ -1,0 +1,15 @@
+{
+  "route": "instructor",
+  "title": {
+    "es": "Instructor REUF de SENCE | Felipe Cuevas",
+    "en": "SENCE REUF Instructor | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Instructor senior en bootcamps de Talento Digital SENCE, Alura Latam y Skillnest: Java, Python, Ingeniería de Datos e Inteligencia Artificial aplicada.",
+    "en": "Senior instructor in Talento Digital (SENCE), Alura Latam and Skillnest bootcamps: Java, Python, Data Engineering and applied Artificial Intelligence."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

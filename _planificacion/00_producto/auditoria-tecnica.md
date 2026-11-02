@@ -427,7 +427,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** redirigir directo a `/es/foro`, sin cadena.
 
 ### AT-043 · Rutas públicas de descargables
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E90-I01, E130-I02, E180-I01
+- **Severidad:** Alta · **Estado:** Resuelto en parte: el certificado REUF se sirve desde `public/static/` con la misma URL desde E90-I01 (01-11-2026), como el CV desde ADR-050; faltan `static/recursos/**` (E130-I02) y la verificación tras el cutover (E180-I01) · **Resuelve:** E90-I01 (certificado), E130-I02, E180-I01
 - **Evidencia:** `static/CV_Felipe_Cuevas_2026.pdf`, `static/Certificado_REUF_Aprobados_Felipe_Cuevas_2026.pdf` y `static/recursos/**`, enlazados desde el sitio y probablemente compartidos fuera de él (no verificado).
 - **Impacto:** enlaces externos rotos tras el cutover.
 - **Recomendación:** servirlos desde las mismas rutas en `public/static/`.
@@ -770,7 +770,25 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** medir con herramienta en E170-I01 y, si no alcanza, decidir con Felipe una placa más oscura solo para ese logo o una versión de marca con más contraste.
 
 ### AT-087 · Los tres «Ver más información» de Docente llevan a la misma página de LinkedIn
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I04 (decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto por ADR-071 (01-11-2026): Felipe descarta los enlaces por institución y deja un solo enlace general a LinkedIn; el cambio se implementa en una iteración de ajuste al final de E80 (ADR-056) · **Resuelve:** ADR-071 (decisión); iteración de ajuste de E80 (implementación)
 - **Evidencia (E80-I01, 01-11-2026):** en `main:docente.html`, las tres instituciones enlazan a `https://www.linkedin.com/in/ffelipecuevasc/details/experience/`. Se migró igual (`institutions.moreInfoUrl`, ADR-070). El nombre accesible ya distingue cada enlace, pero el destino es el mismo y no lleva a la experiencia de cada institución.
 - **Impacto:** quien abre el enlace desde IPLACEX, Duoc UC o INACAP llega a la misma lista general; no es un enlace roto.
 - **Recomendación:** si LinkedIn ofrece una URL estable por cargo, usar una por institución; si no, dejar un solo enlace al final de la sección.
+
+### AT-088 · Dos bootcamps de Instructor usaban íconos que no existían en `main`
+- **Severidad:** Baja · **Estado:** Resuelto en E90-I01 (01-11-2026): Python usa `terminal` y Artificial Intelligence usa `api` (ADR-072) · **Resuelve:** E90-I01
+- **Evidencia (E90-I01, 01-11-2026):** `main:instructor.html` usa `#ico-terminal-2` (Full Stack Python) y `#ico-robot-2` (Inteligencia Artificial), pero esos `<symbol>` no están en su colección: en el sitio antiguo esas dos tarjetas se veían sin ícono.
+- **Impacto:** visual; se eligieron íconos ya presentes en `icons.ts`.
+- **Recomendación:** si Felipe quiere íconos propios para Python e IA, copiar los trazos de Material Symbols Light (`terminal-2` no existe en la colección; `robot-2-outline` sí) en una iteración de ajuste.
+
+### AT-089 · PF1822 se describe dos veces en el contenido de Instructor
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si cambia el plan
+- **Evidencia (E90-I01, 01-11-2026):** en `src/content/instructor/page.json`, PF1822 está en `courses.featured` (190 horas, 9 módulos, 2026) y en `plans.groups[0].items[0]` («190 horas y nueve módulos»). Felipe pidió mantener ambos (ADR-072). `verify:seo` comprueba los datos de la tarjeta, no los del texto del plan.
+- **Impacto:** si se edita uno y no el otro, la página se contradice (como AT-081 en Experiencia).
+- **Recomendación:** que el plan tome horas y módulos de la tarjeta, o que `verify:seo` compare ambos.
+
+### AT-090 · La descripción de Instructor nombra a Alura Latam y Skillnest, que la página aún no muestra
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E90-I02
+- **Evidencia (E90-I01, 01-11-2026):** la `description` (copiada de `main`) dice «bootcamps de Talento Digital SENCE, Alura Latam y Skillnest». El contenido visible de E90-I01 solo nombra Talento Digital, ISEG Chile y Posiciona Capacitación; en `main`, el resto venía de la relatoría cargada con JavaScript.
+- **Impacto:** el resultado de búsqueda promete algo que la página no muestra hasta E90-I02.
+- **Recomendación:** comprobar en E90-I02 que la relatoría nombra a Alura Latam y Skillnest; si no, ajustar la descripción con Felipe.

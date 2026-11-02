@@ -1,0 +1,226 @@
+{
+  "header": {
+    "kicker": { "es": "Perfil profesional", "en": "Professional profile" },
+    "title": { "es": "Instructor REUF", "en": "REUF Instructor" },
+    "lead": {
+      "es": "Acá detallo todo lo relacionado con mi registro en el **REUF** de SENCE para realizar distintos tipos de bootcamps en Chile.",
+      "en": "Here I cover everything about my registration in the SENCE **REUF** to deliver different kinds of bootcamps in Chile."
+    }
+  },
+  "titular": {
+    "kicker": { "es": "REUF - SENCE", "en": "REUF - SENCE" },
+    "title": { "es": "Instructor Titular", "en": "Lead Instructor" },
+    "text": {
+      "es": "He sido instructor titular de varios bootcamps relacionados a **Talento Digital para Chile** desde el 2023 hasta la fecha.",
+      "en": "I have been the lead instructor of several **Talento Digital para Chile** bootcamps from 2023 to date."
+    },
+    "stats": [
+      {
+        "source": "reuf-years",
+        "label": { "es": "Años de Experiencia", "en": "Years of experience" }
+      },
+      {
+        "source": "reuf-modules",
+        "label": { "es": "Módulos REUF Aprobados", "en": "Approved REUF modules" }
+      }
+    ],
+    "certificate": {
+      "label": { "es": "Descargar Certificado REUF", "en": "Download REUF certificate" },
+      "accessibleName": {
+        "es": "Descargar Certificado REUF (PDF)",
+        "en": "Download REUF certificate (PDF, Spanish)"
+      },
+      "text": {
+        "es": "Pincha acá para descargar mi certificado **REUF** en PDF.",
+        "en": "Click here to download my **REUF** certificate as a PDF."
+      },
+      "languageNote": {
+        "es": "El certificado está en español.",
+        "en": "The certificate is in Spanish."
+      }
+    }
+  },
+  "courses": {
+    "kicker": { "es": "Bootcamps", "en": "Bootcamps" },
+    "title": { "es": "Principales Cursos", "en": "Main Courses" },
+    "featured": {
+      "badge": { "es": "Recién aprobado", "en": "Newly approved" },
+      "code": { "es": "Plan Formativo 1822", "en": "Training Plan 1822" },
+      "title": {
+        "es": "Especialización en Desarrollo con IA",
+        "en": "Specialization in AI Development"
+      },
+      "text": {
+        "es": "Nuevo plan formativo aprobado por **SENCE** en agosto de 2026 para llevar la **IA generativa** a producción: consumo de modelos por API, orquestación de agentes, recuperación aumentada con almacenamiento vectorial, personalización de modelos y despliegue con MLOps, seguridad y gobernanza.",
+        "en": "New training plan approved by **SENCE** in August 2026 to take **generative AI** to production: consuming models through APIs, agent orchestration, retrieval augmented with vector storage, model customization and deployment with MLOps, security and governance."
+      },
+      "facts": [
+        { "value": "190", "label": { "es": "Horas", "en": "Hours" } },
+        { "value": "9", "label": { "es": "Módulos", "en": "Modules" } },
+        { "value": "N4", "label": { "es": "Cualificación", "en": "Qualification" } },
+        { "value": "2026", "label": { "es": "Vigente", "en": "Current" } }
+      ],
+      "tags": {
+        "es": [
+          "Consumo de APIs",
+          "Agentes y orquestación",
+          "RAG y vector stores",
+          "Fine-tuning y LoRA",
+          "MLOps y gobernanza",
+          "Modalidad e-learning"
+        ],
+        "en": [
+          "API consumption",
+          "Agents and orchestration",
+          "RAG and vector stores",
+          "Fine-tuning and LoRA",
+          "MLOps and governance",
+          "E-learning format"
+        ]
+      }
+    },
+    "items": [
+      {
+        "icon": "terminal",
+        "title": { "es": "Full Stack Java", "en": "Full Stack Java" },
+        "text": {
+          "es": "Principal bootcamp que imparto para **Talento Digital** ya que tengo certificaciones oficiales de **Oracle** como instructor REUF.",
+          "en": "The main bootcamp I teach for **Talento Digital**, since I hold official **Oracle** certifications as a REUF instructor."
+        }
+      },
+      {
+        "icon": "terminal",
+        "title": { "es": "Full Stack Python", "en": "Full Stack Python" },
+        "text": {
+          "es": "Otro importante bootcamp que imparto para **Talento Digital** ya que soy instructor REUF con certificación oficial de **Python**.",
+          "en": "Another key bootcamp I teach for **Talento Digital**, as a REUF instructor with an official **Python** certification."
+        }
+      },
+      {
+        "icon": "storage",
+        "title": { "es": "Ingeniería de Datos", "en": "Data Engineering" },
+        "text": {
+          "es": "Imparto este bootcamp para **Talento Digital** como instructor REUF donde además cuento con certificaciones oficiales de **AWS**.",
+          "en": "I teach this bootcamp for **Talento Digital** as a REUF instructor, and I also hold official **AWS** certifications."
+        }
+      },
+      {
+        "icon": "query-stats",
+        "title": { "es": "Ciencia de Datos", "en": "Data Science" },
+        "text": {
+          "es": "Imparto este bootcamp para **Talento Digital** como instructor REUF donde tengo certificaciones oficiales de **AWS**.",
+          "en": "I teach this bootcamp for **Talento Digital** as a REUF instructor, backed by official **AWS** certifications."
+        }
+      },
+      {
+        "icon": "cloud",
+        "title": { "es": "Tecnología de la Nube", "en": "Cloud Technology" },
+        "text": {
+          "es": "Estoy habilitado como instructor para este bootcamp de **Talento Digital** el cual apoyo con certificaciones oficiales de **AWS** y **OCI**.",
+          "en": "I am qualified to teach this **Talento Digital** bootcamp, which I support with official **AWS** and **OCI** certifications."
+        }
+      },
+      {
+        "icon": "api",
+        "title": { "es": "Inteligencia Artificial", "en": "Artificial Intelligence" },
+        "text": {
+          "es": "Soy instructor de varios cursos relacionados a inteligencia artificial como instructor REUF para **Talento Digital**.",
+          "en": "I teach several artificial intelligence courses as a REUF instructor for **Talento Digital**."
+        }
+      },
+      {
+        "icon": "code-blocks",
+        "title": { "es": "Full Stack JavaScript", "en": "Full Stack JavaScript" },
+        "text": {
+          "es": "Bootcamp de **Node Express** y APIs backend con JWT, dictado en dos cohortes paralelas para las OTEC **ISEG Chile** y **Posiciona Capacitación**.",
+          "en": "A **Node Express** and JWT-secured backend API bootcamp, taught to two parallel cohorts for the training providers (OTEC) **ISEG Chile** and **Posiciona Capacitación**."
+        }
+      }
+    ]
+  },
+  "plans": {
+    "kicker": { "es": "SENCE", "en": "SENCE" },
+    "title": {
+      "es": "Últimos Planes Formativos SENCE Aprobados",
+      "en": "Latest Approved SENCE Training Plans"
+    },
+    "groups": [
+      {
+        "date": { "es": "Agosto 2026 - SENCE", "en": "August 2026 - SENCE" },
+        "items": [
+          {
+            "featured": true,
+            "title": {
+              "es": "Especialización en Desarrollo con IA Generativa",
+              "en": "Specialization in Generative AI Development"
+            },
+            "text": {
+              "es": "Plan Formativo **PF1822** aprobado por SENCE, de 190 horas y nueve módulos: consumo de modelos generativos por API, orquestación de flujos y agentes con frameworks, recuperación aumentada por generación (RAG) con almacenamiento vectorial, fine-tuning con LoRA y QLoRA, y MLOps con monitoreo, seguridad y gobernanza de modelos.",
+              "en": "Training Plan **PF1822**, approved by SENCE, with 190 hours and nine modules: consuming generative models through APIs, orchestrating flows and agents with frameworks, retrieval-augmented generation (RAG) with vector storage, fine-tuning with LoRA and QLoRA, and MLOps with model monitoring, security and governance."
+            }
+          },
+          {
+            "featured": false,
+            "title": {
+              "es": "Desarrollo de Aplicaciones Full Stack JavaScript",
+              "en": "Full Stack JavaScript Application Development"
+            },
+            "text": {
+              "es": "Plan Formativo **PF1163** de Talento Digital para Chile, de 472 horas y diez módulos: desarrollo front-end, programación avanzada en JavaScript, bases de datos relacionales, aplicaciones web con Node Express, acceso a datos con ORM e implementación de APIs backend securizadas con JWT.",
+              "en": "Talento Digital para Chile Training Plan **PF1163**, with 472 hours and ten modules: front-end development, advanced JavaScript programming, relational databases, web applications with Node Express, data access with ORM and JWT-secured backend APIs."
+            }
+          }
+        ]
+      },
+      {
+        "date": { "es": "Octubre 2025 - SENCE", "en": "October 2025 - SENCE" },
+        "items": [
+          {
+            "featured": false,
+            "title": {
+              "es": "Programación de Inteligencia Artificial",
+              "en": "Artificial Intelligence Programming"
+            },
+            "text": {
+              "es": "Plan Formativo aprobado por SENCE (REUF) enfocado en el desarrollo de modelos de IA, procesos de monitoreo de funcionalidades, selección de características de datos y configuración de entornos de desarrollo con Inteligencia Artificial.",
+              "en": "Training plan approved by SENCE (REUF) focused on building AI models, monitoring functionality, selecting data features and setting up development environments with Artificial Intelligence."
+            }
+          },
+          {
+            "featured": false,
+            "title": {
+              "es": "Gestión de Datos para Inteligencia Artificial",
+              "en": "Data Management for Artificial Intelligence"
+            },
+            "text": {
+              "es": "Módulos oficiales aprobados para la enseñanza del manejo de datos, aseguramiento de la calidad y seguridad de la información crítica para el entrenamiento eficaz de modelos de Inteligencia Artificial.",
+              "en": "Official modules approved to teach data handling, quality assurance and the security of critical information for effective training of Artificial Intelligence models."
+            }
+          },
+          {
+            "featured": false,
+            "title": {
+              "es": "Transformación Digital basadas en IA",
+              "en": "AI-Based Digital Transformation"
+            },
+            "text": {
+              "es": "Acreditación REUF para impartir y guiar procesos de adopción tecnológica. Centrado en el diseño de planes estratégicos y la facilitación para la implementación de Inteligencia Artificial en organizaciones y empresas.",
+              "en": "REUF accreditation to teach and guide technology adoption processes, centered on designing strategic plans and facilitating the implementation of Artificial Intelligence in organizations and companies."
+            }
+          },
+          {
+            "featured": false,
+            "title": {
+              "es": "Procesos de Interacción con IA Generativa",
+              "en": "Generative AI Interaction Processes"
+            },
+            "text": {
+              "es": "Certificación para la enseñanza avanzada del diseño de estrategias de interacción, integración de modelos de IA de última generación y la gestión de consultas e interacciones generadas (Prompt Engineering).",
+              "en": "Certification for advanced teaching of interaction strategy design, integration of state-of-the-art AI models and management of generated queries and interactions (Prompt Engineering)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
