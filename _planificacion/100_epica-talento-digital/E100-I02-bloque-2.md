@@ -1,5 +1,5 @@
 # E100-I02 · Talento Digital, segunda mitad de secciones
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E100 · Página Talento Digital (talento-digital.html) · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E100-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017
 
@@ -22,15 +22,15 @@ Migrar las secciones restantes y cerrar la paridad completa de la página.
 - —
 
 ## Tareas
-- [ ] Construir y traducir.
-- [ ] Comparar la página completa con la actual.
+- [x] Construir y traducir.
+- [x] Comparar la página completa con la actual.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: páginas de Talento Digital.
 
 ## Criterios de aceptación (verificables)
-- [ ] Ninguna sección del sitio actual queda sin migrar.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Ninguna sección del sitio actual queda sin migrar.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -40,7 +40,7 @@ Migrar las secciones restantes y cerrar la paridad completa de la página.
 - —
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

@@ -1158,6 +1158,21 @@ const BOOTCAMPS = [
   ['PF1479', 475, '2026', 'bootcamp-javascript.svg'],
   ['PF1163', 472, '2026', 'bootcamp-javascript-v1.svg'],
 ];
+// Logros (E100-I02): textos esperados por idioma; las cifras, las de stats.json.
+const TALENTO_ACHIEVEMENTS = {
+  es: {
+    kicker: 'Alianzas Estratégicas',
+    title: 'Logros',
+    alliances: ['JetBrains', 'AWS', 'Masterclasses'],
+    figures: ['+2.000', '+5', '+150'],
+  },
+  en: {
+    kicker: 'Strategic Partnerships',
+    title: 'Achievements',
+    alliances: ['JetBrains', 'AWS', 'Masterclasses'],
+    figures: ['+2,000', '+5', '+150'],
+  },
+};
 const talento = {};
 console.log('\nPortadas de los bootcamps');
 for (const cover of new Set(BOOTCAMPS.map((b) => b[3]))) {
@@ -1304,7 +1319,56 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'PF1163: 472 horas en Talento Digital y en los planes de Instructor (fuente única)',
   );
 
+  // Logros (E100-I02, ADR-076): «Alianzas Estratégicas», 3 alianzas con ícono y 3 cifras de
+  // stats.json por id (class-hours, bootcamps y reuf-modules, ADR-053).
+  const achievementsHtml =
+    /<section[^>]*data-achievements[^>]*>([\s\S]*?)<\/dl>/.exec(mainHtml)?.[1] ?? '';
+  check(achievementsHtml.length > 0, 'existe la sección Logros');
+  const achievementsH2 = text(/<h2[^>]*>([\s\S]*?)<\/h2>/.exec(achievementsHtml)?.[1] ?? '');
+  check(
+    achievementsH2 === TALENTO_ACHIEVEMENTS[lang].title,
+    `h2 «${TALENTO_ACHIEVEMENTS[lang].title}» (${achievementsH2})`,
+  );
+  check(
+    text(achievementsHtml).includes(TALENTO_ACHIEVEMENTS[lang].kicker),
+    `rótulo «${TALENTO_ACHIEVEMENTS[lang].kicker}»`,
+  );
+  check(
+    (achievementsHtml.match(/<strong/g) ?? []).length === 2,
+    'bajada de Logros con 2 énfasis, como main',
+  );
+  const alliancesHtml = /<ul[^>]*data-alliances[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const alliances = [...alliancesHtml.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+  check(
+    alliances.length === 3 && alliances.every((li) => /<svg[^>]*aria-hidden="true"/.test(li)),
+    `3 alianzas con ícono decorativo (${alliances.length})`,
+  );
+  check(
+    TALENTO_ACHIEVEMENTS[lang].alliances.every((word, i) =>
+      text(alliances[i] ?? '').includes(word),
+    ),
+    'alianzas en el orden de main (JetBrains, AWS, Masterclasses)',
+  );
+  const achievementStatsHtml =
+    /<dl[^>]*data-achievement-stats[^>]*>([\s\S]*?)<\/dl>/.exec(mainHtml)?.[1] ?? '';
+  const achievementFigures = [...achievementStatsHtml.matchAll(/<dd[^>]*>([\s\S]*?)<\/dd>/g)].map(
+    (m) => text(m[1]).replace(/\s+/g, ''),
+  );
+  check(
+    same(achievementFigures, TALENTO_ACHIEVEMENTS[lang].figures),
+    `cifras de Logros ${TALENTO_ACHIEVEMENTS[lang].figures.join(' / ')} (${achievementFigures.join(' / ')})`,
+  );
+  check(
+    /<section[^>]*class="[^"]*texture-band[^"]*"[^>]*>[\s\S]*?data-achievement-stats/.test(
+      mainHtml.slice(mainHtml.indexOf('data-achievements')),
+    ),
+    'las cifras de Logros van en una banda (7.8)',
+  );
+  check(!/ld\+json/.test(html), 'sin JSON-LD propio (ADR-076, AT-093)');
+
   talento[lang] = {
+    achievements: achievementFigures.map((f) => f.replace(/[.,]/g, '')),
+    alliances: alliances.length,
     levels,
     badges: badges.length,
     plans: stripes.map((m) => m[1]),

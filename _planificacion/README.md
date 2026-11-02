@@ -6,10 +6,10 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
-- **Épica actual:** E100 · Página Talento Digital (talento-digital.html)
-- **Iteración actual:** E100-I02 · Talento Digital, segunda mitad de secciones (E100-I01 terminada el 02-11-2026: cabecera y 6 franjas en zigzag, ADR-074 y ADR-075; inglés por validar por Felipe).
+- **Épica actual:** E110 · Página Eventos (eventos.html)
+- **Iteración actual:** E110-I01 · Página de eventos con estado por fecha (E100 terminada el 02-11-2026 con E100-I02: Logros de Talento Digital, ADR-076; antes E100-I01, ADR-074 y ADR-075; inglés de Talento Digital por validar por Felipe).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 41 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01, E90-I02, E100-I01). Épicas E10, E20, E30, E40, E50, E60, E70, E80 y E90 terminadas.
+- **Terminadas:** 42 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01, E90-I02, E100-I01, E100-I02). Épicas E10, E20, E30, E40, E50, E60, E70, E80, E90 y E100 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -72,7 +72,7 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 
 **E100 · Página Talento Digital (talento-digital.html)** (`100_epica-talento-digital/`)
 - [x] E100-I01 · Talento Digital, primera mitad de secciones (P1, M)
-- [ ] E100-I02 · Talento Digital, segunda mitad de secciones (P1, M)
+- [x] E100-I02 · Talento Digital, segunda mitad de secciones (P1, M)
 
 **E110 · Página Eventos (eventos.html)** (`110_epica-eventos/`)
 - [ ] E110-I01 · Página de eventos con estado por fecha (P1, M)

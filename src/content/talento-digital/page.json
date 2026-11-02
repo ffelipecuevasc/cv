@@ -1,37 +1,76 @@
 {
   "header": {
-    "kicker": { "es": "Instructor Senior", "en": "Senior Instructor" },
+    "kicker": {
+      "es": "Instructor Senior",
+      "en": "Senior Instructor"
+    },
     "title": "Talento Digital para Chile",
     "lead": {
       "es": "Tengo más de **{class-hours} horas de experiencia** formando a la nueva generación de profesionales IT. Instructor oficial con certificaciones internacionales de **Oracle, Java, Inteligencia Artificial, Python y AWS**.",
       "en": "I have more than **{class-hours} hours of experience** training the next generation of IT professionals. Official instructor with international certifications in **Oracle, Java, Artificial Intelligence, Python and AWS**."
     },
-    "badgesLabel": { "es": "Credenciales", "en": "Credentials" },
+    "badgesLabel": {
+      "es": "Credenciales",
+      "en": "Credentials"
+    },
     "badges": [
       {
         "icon": "verified",
-        "label": { "es": "Certificaciones Profesionales", "en": "Professional Certifications" }
+        "label": {
+          "es": "Certificaciones Profesionales",
+          "en": "Professional Certifications"
+        }
       },
-      { "icon": "verified", "label": { "es": "Relator REUF", "en": "REUF Instructor" } },
-      { "icon": "graduation-cap", "educationEntry": "02-diplomado-formacion-laboral" }
+      {
+        "icon": "verified",
+        "label": {
+          "es": "Relator REUF",
+          "en": "REUF Instructor"
+        }
+      },
+      {
+        "icon": "graduation-cap",
+        "educationEntry": "02-diplomado-formacion-laboral"
+      }
     ]
   },
   "bootcamps": {
-    "kicker": { "es": "Planes formativos", "en": "Training plans" },
-    "title": { "es": "Bootcamps Realizados", "en": "Bootcamps Delivered" },
+    "kicker": {
+      "es": "Planes formativos",
+      "en": "Training plans"
+    },
+    "title": {
+      "es": "Bootcamps Realizados",
+      "en": "Bootcamps Delivered"
+    },
     "lead": {
       "es": "He sido **instructor titular** en los siguientes bootcamps.",
       "en": "I have been the **lead instructor** in the following bootcamps."
     },
-    "achievementsTitle": { "es": "Logros", "en": "Achievements" },
-    "hoursLabel": { "es": "{hours} horas | {years}", "en": "{hours} hours | {years}" },
+    "achievementsTitle": {
+      "es": "Logros",
+      "en": "Achievements"
+    },
+    "hoursLabel": {
+      "es": "{hours} horas | {years}",
+      "en": "{hours} hours | {years}"
+    },
     "items": [
       {
         "id": "pf1162",
         "plan": "PF1162",
-        "pill": { "es": "Java - Spring Framework", "en": "Java - Spring Framework" },
-        "title": { "es": "Desarrollo Full Stack Java", "en": "Full Stack Java Development" },
-        "context": { "es": "Plan formativo PF1162", "en": "Training plan PF1162" },
+        "pill": {
+          "es": "Java - Spring Framework",
+          "en": "Java - Spring Framework"
+        },
+        "title": {
+          "es": "Desarrollo Full Stack Java",
+          "en": "Full Stack Java Development"
+        },
+        "context": {
+          "es": "Plan formativo PF1162",
+          "en": "Training plan PF1162"
+        },
         "years": "2023-2024",
         "cover": "bootcamp-java.svg",
         "coverAlt": {
@@ -51,12 +90,18 @@
       {
         "id": "pf1487",
         "plan": "PF1487",
-        "pill": { "es": "IA Aprendizaje Automático - AWS", "en": "AI Machine Learning - AWS" },
+        "pill": {
+          "es": "IA Aprendizaje Automático - AWS",
+          "en": "AI Machine Learning - AWS"
+        },
         "title": {
           "es": "Fundamentos de Ingeniería de Datos",
           "en": "Data Engineering Fundamentals"
         },
-        "context": { "es": "Plan formativo PF1487", "en": "Training plan PF1487" },
+        "context": {
+          "es": "Plan formativo PF1487",
+          "en": "Training plan PF1487"
+        },
         "years": "2024-2025",
         "cover": "bootcamp-datos.svg",
         "coverAlt": {
@@ -76,8 +121,14 @@
       {
         "id": "pf1164-1",
         "plan": "PF1164",
-        "pill": { "es": "Python - Django Framework", "en": "Python - Django Framework" },
-        "title": { "es": "Desarrollo Full Stack Python", "en": "Full Stack Python Development" },
+        "pill": {
+          "es": "Python - Django Framework",
+          "en": "Python - Django Framework"
+        },
+        "title": {
+          "es": "Desarrollo Full Stack Python",
+          "en": "Full Stack Python Development"
+        },
         "context": {
           "es": "Plan formativo PF1164 · Primera ejecución",
           "en": "Training plan PF1164 · First run"
@@ -101,8 +152,14 @@
       {
         "id": "pf1164-2",
         "plan": "PF1164",
-        "pill": { "es": "Python - Django Framework", "en": "Python - Django Framework" },
-        "title": { "es": "Desarrollo Full Stack Python", "en": "Full Stack Python Development" },
+        "pill": {
+          "es": "Python - Django Framework",
+          "en": "Python - Django Framework"
+        },
+        "title": {
+          "es": "Desarrollo Full Stack Python",
+          "en": "Full Stack Python Development"
+        },
         "context": {
           "es": "Plan formativo PF1164 · Segunda ejecución",
           "en": "Training plan PF1164 · Second run"
@@ -126,7 +183,10 @@
       {
         "id": "pf1479",
         "plan": "PF1479",
-        "pill": { "es": "JavaScript - Node Express", "en": "JavaScript - Node Express" },
+        "pill": {
+          "es": "JavaScript - Node Express",
+          "en": "JavaScript - Node Express"
+        },
         "title": {
           "es": "Desarrollo Full Stack JavaScript",
           "en": "Full Stack JavaScript Development"
@@ -154,7 +214,10 @@
       {
         "id": "pf1163",
         "plan": "PF1163",
-        "pill": { "es": "JavaScript - Node Express", "en": "JavaScript - Node Express" },
+        "pill": {
+          "es": "JavaScript - Node Express",
+          "en": "JavaScript - Node Express"
+        },
         "title": {
           "es": "Desarrollo Full Stack JavaScript",
           "en": "Full Stack JavaScript Development"
@@ -177,6 +240,70 @@
         "achievement": {
           "es": "Ejecuté este bootcamp en paralelo con la versión actualizada del plan formativo, incorporando programación asistida por IA (Stitch y Claude Code) y despliegue de aplicaciones en producción con AlwaysData.",
           "en": "I ran this bootcamp in parallel with the updated version of the training plan, bringing in AI-assisted programming (Stitch and Claude Code) and production deployment with AlwaysData."
+        }
+      }
+    ]
+  },
+  "achievements": {
+    "kicker": {
+      "es": "Alianzas Estratégicas",
+      "en": "Strategic Partnerships"
+    },
+    "title": {
+      "es": "Logros",
+      "en": "Achievements"
+    },
+    "lead": {
+      "es": "Mi compromiso formativo va más allá de la entrega de contenido técnico. Gestiono **alianzas** con los **líderes de la industria tecnológica** para llevar recursos de clase mundial directamente a mis estudiantes. Acá tienes algunos de mis logros:",
+      "en": "My commitment to teaching goes beyond delivering technical content. I build **partnerships** with **technology industry leaders** to bring world-class resources straight to my students. Here are some of my achievements:"
+    },
+    "items": [
+      {
+        "icon": "terminal",
+        "text": {
+          "es": "Conseguí licencias de IDEs profesionales (JetBrains)",
+          "en": "I secured professional IDE licenses (JetBrains)"
+        }
+      },
+      {
+        "icon": "cloud-done",
+        "text": {
+          "es": "Gestioné vouchers gratuitos para certificaciones AWS",
+          "en": "I arranged free vouchers for AWS certifications"
+        }
+      },
+      {
+        "icon": "record-voice-over",
+        "text": {
+          "es": "Organizo Masterclasses exclusivas.",
+          "en": "I organize exclusive Masterclasses."
+        }
+      }
+    ],
+    "statsLabel": {
+      "es": "Logros en cifras",
+      "en": "Achievements in numbers"
+    },
+    "stats": [
+      {
+        "source": "class-hours",
+        "label": {
+          "es": "Horas de Clase",
+          "en": "Class hours"
+        }
+      },
+      {
+        "source": "bootcamps",
+        "label": {
+          "es": "Bootcamps",
+          "en": "Bootcamps"
+        }
+      },
+      {
+        "source": "reuf-modules",
+        "label": {
+          "es": "Registro REUF · Módulos aprobados",
+          "en": "REUF registry · Approved modules"
         }
       }
     ]

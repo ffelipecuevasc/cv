@@ -783,6 +783,21 @@ Reglas del registro:
 - **Consecuencias:** sustituye en parte a ADR-065 (la excepción de `verify:seo`); ADR-065 no se edita. El control global de enlaces sigue siendo E170-I04.
 - **Origen:** decisión de Felipe el 01-11-2026 (E100-I01). **Estado:** Aceptada.
 
+## ADR-076 · Talento Digital: Logros, insignia del diploma aceptada y sin JSON-LD
+- **Contexto:** E100-I02, segunda mitad de la página (corte de ADR-074). La sección «Logros» de `main` tiene el rótulo «Alianzas Estratégicas», un párrafo, 3 logros con ícono y 3 cifras escritas a mano («2.000+ Horas de Clase», «5+ Bootcamps» y «Registro REUF · Más de 150 módulos aprobados»). AT-092 dejó abierta la insignia del diploma, que ocupa 2 renglones a 375 px. `main` no tenía JSON-LD en esta página.
+- **Decisión (de Felipe, 02-11-2026):**
+  - **AT-092:** la insignia del diploma queda con el nombre largo, en 2 renglones a 375 px.
+  - **JSON-LD:** no se agrega, porque `main` no lo tenía; se registra AT-093 para valorarlo después.
+  - **Logros**, con la composición B ya elegida (ADR-074): las 3 alianzas en **lista a dos columnas con regla superior** (`DESIGN.md` 11.2, como Desarrollador) y las 3 cifras en una **banda** (7.8) al cierre.
+- **Decisión (de implementación):**
+  - Datos en `achievements` de `src/content/talento-digital/page.json`. Las cifras se leen por id de `stats.json` (`class-hours`, `bootcamps` y `reuf-modules`, ADR-053) y el esquema exige 3 alianzas y 3 cifras.
+  - Encabezado alineado a la izquierda sobre `bg` (h2 «Logros» / «Achievements») con bajada con énfasis. Las alianzas no llevan h3: el texto de `main` es una frase corta y se muestra en Cinzel, sin inventar títulos. Íconos: `terminal` (ya estaba), y `cloud-done` y `record-voice-over`, nuevos, copiados de Material Symbols Light (ADR-063).
+  - La banda de cifras es un `dl` sin encabezado visible, con nombre accesible «Logros en cifras» / «Achievements in numbers». El signo va delante y en `--metric-sign` («+2.000», «+5», «+150»), como en el resto del sitio (4.3), no detrás como en `main` («2.000+»). «Registro REUF · Más de 150 módulos aprobados» pasa a la etiqueta «Registro REUF · Módulos aprobados» con la cifra «+150». Se descarta el ícono decorativo `award_star` de esa cifra.
+  - Ritmo de fondos: la última franja (`band`) → Logros en `bg` → banda de cifras (`band`) → pie. Sin JavaScript ni AOS (ADR-045).
+  - `verify:seo` suma controles de Logros (rótulo, h2, énfasis, 3 alianzas con ícono decorativo y en orden, cifras de `stats.json` dentro de una banda, sin JSON-LD) y los agrega a la paridad es/en.
+- **Consecuencias:** cierra E100. `DESIGN.md`: el punto 3 de 11.9 y la fila «Lista a dos columnas» de 11.2 pasan a incluir Talento Digital (bloque en la bitácora; lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 02-11-2026 (E100-I02). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

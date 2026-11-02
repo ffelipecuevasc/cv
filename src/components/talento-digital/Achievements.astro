@@ -1,0 +1,181 @@
+---
+/*
+ * Logros (E100-I02, ADR-076), sección S3 de main. Encabezado alineado a la izquierda («Alianzas
+ * Estratégicas», h2 «Logros») con bajada con énfasis sobre `bg`; las 3 alianzas en el patrón
+ * «lista a dos columnas con regla superior» (DESIGN.md 11.2, como Desarrollador) y, al cierre,
+ * una banda (7.8) con 3 cifras en `dl` leídas de stats.json por id (ADR-053), separadas por la
+ * barra degradada de la banda de cifras. Fondos: `bg` y `band`, alternos con la última franja
+ * (`band`). Sin JavaScript.
+ */
+import Band from '../ui/Band.astro';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { formatNumber, parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getStat, getTalentoDigitalPage } from './talento-digital-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { achievements } = await getTalentoDigitalPage();
+const stats = await Promise.all(
+  achievements.stats.map(async (item) => {
+    const { value, plus } = await getStat(item.source);
+    return { label: item.label[lang], value: formatNumber(value, lang), plus };
+  }),
+);
+---
+
+<section class="achievements" aria-labelledby="achievements-title" data-achievements>
+  <div class="intro">
+    <Container>
+      <SectionHeader
+        kicker={achievements.kicker[lang]}
+        title={achievements.title[lang]}
+        id="achievements-title"
+      />
+      <p class="lead">
+        {parseEmphasis(achievements.lead[lang]).map((part) =>
+          part.strong ? <strong>{part.text}</strong> : part.text,
+        )}
+      </p>
+      <ul class="list" data-alliances>
+        {achievements.items.map((item) => (
+          <li class="item">
+            <span class="icon">
+              <Icon name={item.icon} size={32} />
+            </span>
+            <p class="item-text">{item.text[lang]}</p>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </div>
+  <Band class="figures">
+    <dl class="stats" aria-label={achievements.statsLabel[lang]} data-achievement-stats>
+      {stats.map((stat) => (
+        <div class="stat">
+          <dt>{stat.label}</dt>
+          <dd>
+            {stat.plus && <span class="sign">+</span>}
+            {stat.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </Band>
+</section>
+
+<style>
+  .intro {
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  .lead {
+    max-width: 60ch;
+    margin: 20px 0 0;
+    color: var(--color-text-soft);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .lead strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* Regla superior de 1 px con tramo degradado de 48 px, como Desarrollador (11.2). */
+  .item {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-border-strong);
+  }
+  .item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+  }
+  .icon {
+    flex: none;
+    color: var(--color-icon);
+  }
+  .item-text {
+    margin: 4px 0 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .stat {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+    min-width: 0;
+    padding-inline: 16px;
+  }
+  .stat:first-child {
+    padding-inline-start: 0;
+  }
+  .stat + .stat::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--color-gold), var(--color-vibrant));
+  }
+  dt {
+    color: var(--color-text-soft);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  dd {
+    margin: 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .sign {
+    color: var(--metric-sign);
+  }
+  @media (min-width: 48rem) {
+    .intro {
+      padding-block: 96px;
+    }
+    .list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 48px 56px;
+    }
+    .stat {
+      padding-inline: 24px;
+    }
+  }
+</style>

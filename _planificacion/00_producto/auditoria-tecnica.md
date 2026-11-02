@@ -800,7 +800,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** dejar un solo SVG sin código de plan y mostrar el código en el texto, o generar las portadas desde una plantilla.
 
 ### AT-092 · La insignia del diploma ocupa dos renglones a 375 px
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (E100-I02 o ajuste de E100)
+- **Severidad:** Baja · **Estado:** Resuelto por ADR-076 (02-11-2026): Felipe acepta el nombre largo en 2 renglones a 375 px · **Resuelve:** E100-I02 (decisión)
 - **Evidencia (E100-I01, 02-11-2026):** con el nombre largo de Educación (ADR-074), el chip mide 343 × 65 px a 375 px, en es y en, y en ambos temas. No desborda: el ancho de página es 375 px y no hay desplazamiento horizontal. Desde 768 px ocupa un solo renglón.
 - **Impacto:** visual; el chip de 7.7 está pensado para un renglón.
 - **Recomendación:** que Felipe decida si lo acepta así, si prefiere el nombre corto «Diploma U. de Chile» solo en el chip o si el diploma sale del grupo de chips.
+
+### AT-093 · Talento Digital no tiene datos estructurados
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin agendar (valorar en E170 o E180)
+- **Evidencia (E100-I02, 02-11-2026):** ni `main:talento-digital.html` ni la página migrada tienen JSON-LD (ADR-076). Las 6 ejecuciones de bootcamp, con plan, horas y años, podrían describirse como `Course` / `CourseInstance` enlazados al `Person` de la portada.
+- **Impacto:** se pierde la opción de resultados enriquecidos; no es un error.
+- **Recomendación:** valorarlo junto con el JSON-LD `Course` de Recursos (E130-I02) para no duplicar el modelo.

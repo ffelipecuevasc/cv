@@ -679,6 +679,20 @@ const talentoDigitalPage = defineCollection({
           'Los id de los bootcamps no se repiten',
         ),
     }),
+    /*
+     * Logros (E100-I02, ADR-076): 3 alianzas en lista a dos columnas con regla superior y 3 cifras
+     * en banda, leídas de stats.json por id (ADR-053): ninguna se escribe aquí.
+     */
+    achievements: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      items: z.array(z.object({ icon: z.enum(SYMBOL_NAMES), text: localized() })).length(3),
+      statsLabel: localized(),
+      stats: z
+        .array(z.object({ source: z.enum([...STAT_IDS, ...FACT_IDS]), label: localized() }))
+        .length(3),
+    }),
   }),
 });
 
