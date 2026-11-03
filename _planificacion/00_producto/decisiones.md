@@ -816,6 +816,25 @@ Reglas del registro:
 - **Consecuencias:** el sitio pasa de 14 a 13 páginas por idioma (26 en total). E180-I01 no escribe 301 para `/eventos`: documenta el 404. AT-039 se resuelve por esta decisión. `DESIGN.md` 2.1, 7.2 (menú móvil: «Comunidad» con 2 opciones) y 7.9 se ajustan con el bloque de la bitácora `2026-11-02_E110-I01.md` (lo edita Felipe, ADR-033). Cierra E110.
 - **Origen:** decisión de Felipe el 02-11-2026 (E110-I01). **Estado:** Aceptada.
 
+## ADR-078 · Foro: composición A, Giscus diferido por idioma y aviso de transparencia
+- **Contexto:** E120-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:foro.html` tiene cabecera, 3 pasos, 4 categorías y la conversación de Giscus (repo `ffelipecuevasc/comunidad`, categoría «Dudas por ruta», término `foro-general`) con idioma fijo `es` (AT-027), spinner giratorio, AOS y un aviso que prometía «sin rastreo de terceros».
+- **Decisión (de Felipe, 02-11-2026):**
+  - El foro se queda en este sitio, con el mismo repo de Giscus y el hilo `foro-general` en `/es/foro/` y `/en/forum/` (ADR-022). Se conservan los identificadores públicos de `main`.
+  - **Composición A**, sin patrones nuevos: cabecera alineada a la izquierda (`bg`) → banda (7.8) con 3 pasos, 3 columnas desde 1.024 px → categorías en grilla 2 × 2 sin foto (`bg-alt`) → «Conversación» con aviso, panel de Giscus y enlace a GitHub (`bg`).
+  - Paso 2: «Ocho reglas breves» (AT-094).
+  - Aviso: «La conversación se aloja en GitHub Discussions y se muestra con Giscus (código abierto, sin publicidad). Al cargarla, tu navegador se conecta a giscus.app y a GitHub.», con hueco para enlazar a la política de privacidad (ADR-035). La meta description no dice «sin rastreo de terceros».
+  - No se migran Eventos ni Discord (ADR-044, ADR-077), AOS (ADR-045) ni el spinner giratorio (`DESIGN.md` 8): el marcador de carga es estático.
+- **Decisión (de implementación):**
+  - Colección `forumPage` (`src/content/forum/page.json`) con `localized()`; metadatos en `src/content/pages/forum.json`. El esquema exige 3 pasos y 4 categorías, y que un paso con enlace use `{link}` en ambos idiomas. Identificadores de Giscus en `src/data/giscus.ts` (públicos, no secretos).
+  - `src/scripts/giscus.ts`: inyecta `client.js` con IntersectionObserver y margen de 400 px (sin él, de inmediato); retira el marcador al aparecer el iframe; `data-lang` por página; tema en vivo observando la clase `.dark` de `<html>` y enviando `setConfig` por `postMessage` (también al cargar el iframe). Temas de `main`: `light` y `transparent_dark`.
+  - Panel `surface` con alto mínimo de 520 px para no desplazar el contenido. Sin JavaScript, un `<style>` dentro de `<noscript>` oculta el panel y se muestra un bloque con enlace a las discusiones.
+  - El hueco de la política es la prop opcional `privacy` de `Conversation.astro`; E155-I01 la pasa desde las dos páginas.
+  - Íconos nuevos de Material Symbols Light (ADR-063), copiados del tarball npm de `@iconify-json/material-symbols-light` 1.2.98 sin instalarlo: `account-circle` (outline), `rule` (sin variante outline) y `forum` (outline).
+  - Sin JSON-LD, como en `main`. `verify:seo` suma controles de estructura, metadatos, Giscus, `<noscript>`, ausencia de claves privadas y paridad es/en (602 comprobaciones).
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** cierra E120 y AT-027. `DESIGN.md` 11.2 (banda y grilla simétrica disponibles para el Foro) y sección 11.9 nueva: bloque en la bitácora `2026-11-02_E120-I01.md` (lo edita Felipe, ADR-033). E170-I03: la CSP debe permitir `giscus.app` en `script-src` y `frame-src`. Con Giscus cargado, el panel crece con los comentarios: CLS medido de 0,051 a 375 px y 0,013 a 1.280 px (bajo 0,1, ADR-015).
+- **Origen:** decisiones de Felipe el 02-11-2026 (E120-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

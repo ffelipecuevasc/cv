@@ -1,5 +1,5 @@
 # E120-I01 · Página del foro con Giscus bilingüe
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (02-11-2026)
 - **Épica:** E120 · Página Foro (foro.html) · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E30-I06 · **Hallazgos que cierra:** AT-027 · **ADR relacionados:** ADR-007, ADR-022, ADR-036
 
@@ -22,18 +22,18 @@ Migrar la página del foro con Giscus cargado de forma diferida, tema sincroniza
 - —
 
 ## Tareas
-- [ ] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
-- [ ] Migrar la integración.
-- [ ] Pasar el idioma de Giscus según la página.
-- [ ] Verificar que `/es/foro` y `/en/forum` muestran los mismos mensajes existentes.
+- [x] Definir y validar con Felipe el patrón de composición de la página y documentarlo en DESIGN.md (ADR-036).
+- [x] Migrar la integración.
+- [x] Pasar el idioma de Giscus según la página.
+- [x] Verificar que `/es/foro` y `/en/forum` muestran los mismos mensajes existentes.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/pages/es/foro.astro`, `src/pages/en/forum.astro`, componente de Giscus.
 
 ## Criterios de aceptación (verificables)
-- [ ] Ambas rutas muestran el hilo existente con sus mensajes.
-- [ ] El tema de Giscus cambia con el del sitio.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Ambas rutas muestran el hilo existente con sus mensajes.
+- [x] El tema de Giscus cambia con el del sitio.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -44,7 +44,7 @@ Migrar la página del foro con Giscus cargado de forma diferida, tema sincroniza
 - La CSP de E170-I03 debe permitir `giscus.app`.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

@@ -696,7 +696,57 @@ const talentoDigitalPage = defineCollection({
   }),
 });
 
+/*
+ * Foro (E120-I01, ADR-078): composición A de ADR-036, sin patrones nuevos. Cabecera, banda con
+ * 3 pasos, 4 categorías en grilla 2 × 2 sin foto y «Conversación» con aviso, panel de Giscus y
+ * enlace a GitHub. Los identificadores públicos de Giscus viven en src/data/giscus.ts, no aquí.
+ * `{link}` en el texto de un paso se reemplaza por su enlace externo (`link`); van juntos.
+ */
+const forumPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/forum' }),
+  schema: z.object({
+    header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+    steps: z.object({
+      kicker: localized(),
+      title: localized(),
+      items: z
+        .array(
+          z
+            .object({
+              icon: z.enum(SYMBOL_NAMES),
+              title: localized(),
+              text: localized(),
+              link: z
+                .object({ label: localized(), href: z.url().startsWith('https://') })
+                .optional(),
+            })
+            .refine(
+              (s) =>
+                Boolean(s.link) === (s.text.es.includes('{link}') && s.text.en.includes('{link}')),
+              'Un paso con «link» usa «{link}» en ambos idiomas, y uno sin «link» no lo usa',
+            ),
+        )
+        .length(3),
+    }),
+    categories: z.object({
+      kicker: localized(),
+      title: localized(),
+      items: z.array(z.object({ title: localized(), text: localized() })).length(4),
+    }),
+    conversation: z.object({
+      kicker: localized(),
+      title: localized(),
+      notice: localized(),
+      loading: localized(),
+      noscript: localized(),
+      noscriptCta: localized(),
+      githubLink: localized(),
+    }),
+  }),
+});
+
 export const collections = {
+  forumPage,
   talentoDigitalPage,
   instructorPage,
   pages,

@@ -1,0 +1,170 @@
+---
+/*
+ * «Conversación» (E120-I01, ADR-022 y ADR-078): encabezado alineado a la izquierda sobre `bg`,
+ * aviso de transparencia, panel de Giscus y enlace a GitHub.
+ * - Panel `surface` con alto mínimo reservado (520 px) antes de la carga: el contenido de abajo
+ *   no se desplaza (sin CLS). El marcador es estático: sin spinner giratorio (DESIGN.md 8).
+ * - Carga diferida: src/scripts/giscus.ts inyecta Giscus cuando el panel queda a 400 px de la
+ *   pantalla. Mismo término `foro-general` en ambos idiomas; `data-lang` según la página
+ *   (AT-027) y tema en vivo con la clase `.dark` de <html> (ADR-023).
+ * - Sin JavaScript el panel no se muestra y el <noscript> enlaza a las discusiones.
+ */
+import Container from '../ui/Container.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { GISCUS, GISCUS_LANG, getForumPage } from './forum-data';
+
+interface Props {
+  /*
+   * Hueco para el enlace a la política de privacidad (ADR-035): E155-I01 lo pasa desde la página
+   * con la ruta `privacy` del mapa de rutas y su texto. Mientras no exista, el aviso va sin enlace.
+   */
+  privacy?: { href: string; label: string };
+}
+const { privacy } = Astro.props;
+const lang = langFromLocale(Astro.currentLocale);
+const { conversation } = await getForumPage();
+---
+
+<section class="conversation" aria-labelledby="conversation-title">
+  <Container>
+    <SectionHeader
+      kicker={conversation.kicker[lang]}
+      title={conversation.title[lang]}
+      id="conversation-title"
+    />
+    <p class="notice" data-forum-notice>
+      <Icon name="info" size={20} class="notice-icon" />
+      <span>
+        {conversation.notice[lang]}
+        {privacy && (
+          <>
+            {' '}
+            <a href={privacy.href}>{privacy.label}</a>
+          </>
+        )}
+      </span>
+    </p>
+    <div
+      class="panel"
+      id="forum-thread"
+      data-forum-thread
+      data-repo={GISCUS.repo}
+      data-repo-id={GISCUS.repoId}
+      data-category={GISCUS.category}
+      data-category-id={GISCUS.categoryId}
+      data-term={GISCUS.term}
+      data-lang={GISCUS_LANG[lang]}
+      data-theme-light={GISCUS.themes.light}
+      data-theme-dark={GISCUS.themes.dark}
+      data-root-margin={GISCUS.rootMargin}
+      data-script={GISCUS.script}
+      data-origin={GISCUS.origin}
+    >
+      <div class="placeholder" data-forum-placeholder>
+        <Icon name="forum" size={32} class="placeholder-icon" />
+        <p role="status">{conversation.loading[lang]}</p>
+      </div>
+    </div>
+    <noscript>
+      <style is:inline>
+        [data-forum-thread] {
+          display: none !important;
+        }
+      </style>
+      <div class="panel panel-static" data-forum-noscript>
+        <p>{conversation.noscript[lang]}</p>
+        <p class="noscript-cta">
+          <ExternalLink href={GISCUS.discussionsUrl} {lang}>
+            {conversation.noscriptCta[lang]}
+          </ExternalLink>
+        </p>
+      </div>
+    </noscript>
+    <p class="github-link">
+      <ExternalLink href={GISCUS.discussionsUrl} {lang}>
+        {conversation.githubLink[lang]}
+      </ExternalLink>
+    </p>
+  </Container>
+</section>
+
+<script>
+  import { initGiscus } from '../../scripts/giscus';
+
+  initGiscus();
+</script>
+
+<style>
+  .conversation {
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  .notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 62ch;
+    margin: 32px 0 0;
+    padding: 16px 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .notice :global(.notice-icon) {
+    flex: none;
+    margin-top: 1px;
+    color: var(--color-icon);
+  }
+  .panel {
+    min-height: 520px;
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .panel-static {
+    min-height: 0;
+    padding: 24px;
+    color: var(--color-text-muted);
+  }
+  .noscript-cta {
+    margin-top: 16px;
+  }
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 486px;
+    color: var(--color-text-soft);
+    font-size: 15px;
+    text-align: center;
+  }
+  .placeholder :global(.placeholder-icon) {
+    color: var(--color-icon);
+  }
+  .github-link {
+    margin: 24px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+  }
+  @media (min-width: 48rem) {
+    .conversation {
+      padding-block: 96px;
+    }
+    .panel {
+      padding: 24px;
+    }
+    .placeholder {
+      min-height: 470px;
+    }
+  }
+</style>

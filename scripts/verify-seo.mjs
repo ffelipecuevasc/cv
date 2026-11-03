@@ -1574,6 +1574,179 @@ check(
   'descripciones del ItemList traducidas en /en/',
 );
 
+// --- Foro (E120-I01, ADR-022 y ADR-078): metadatos, estructura, Giscus y paridad ---
+const FORUM = { es: 'es/foro', en: 'en/forum' };
+// Identificadores públicos de main (static/js/config/comunidad.config.js): no se cambian.
+const FORUM_GISCUS = {
+  'data-repo': 'ffelipecuevasc/comunidad',
+  'data-repo-id': 'R_kgDOT6gwGg',
+  'data-category': 'Dudas por ruta',
+  'data-category-id': 'DIC_kwDOT6gwGs4DDiHV',
+  'data-term': 'foro-general',
+  'data-theme-light': 'light',
+  'data-theme-dark': 'transparent_dark',
+  'data-root-margin': '400px',
+  'data-script': 'https://giscus.app/client.js',
+  'data-origin': 'https://giscus.app',
+};
+const FORUM_DISCUSSIONS = 'https://github.com/ffelipecuevasc/comunidad/discussions';
+const FORUM_TEXT = {
+  es: { h1: 'Foro de Aprendizaje', rules: 'Ocho reglas breves', notice: 'giscus.app y a GitHub' },
+  en: { h1: 'Learning Forum', rules: 'Eight short rules', notice: 'giscus.app and GitHub' },
+};
+const forum = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = FORUM[lang];
+  const other = FORUM[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(
+    !/rastreo|tracking/i.test(description),
+    'la description no promete «sin rastreo de terceros» (ADR-078)',
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${FORUM.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+  check(!head.includes('application/ld+json'), 'sin JSON-LD (main no lo tenía)');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(h1 === FORUM_TEXT[lang].h1, `<h1> = «${FORUM_TEXT[lang].h1}»`);
+  check(
+    tags(body, 'a').some((a) => a.href === `/${other}/` && a.hreflang === LANGS[info.other].code),
+    'el selector de idioma lleva a la página equivalente',
+  );
+
+  // Pasos (banda), categorías (bg-alt) y conversación, en ese orden.
+  const steps = /<ul[^>]*data-steps[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const stepItems = steps.match(/<li[\s>]/g) ?? [];
+  check(stepItems.length === 3, `3 pasos (${stepItems.length})`);
+  check(
+    /texture-band[^>]*>[\s\S]*data-steps/.test(mainHtml),
+    'los pasos van dentro de una banda (7.8)',
+  );
+  check(
+    text(steps).includes(FORUM_TEXT[lang].rules),
+    `paso 2: «${FORUM_TEXT[lang].rules}» (AT-094)`,
+  );
+  check(
+    (steps.match(/target="_blank" rel="noopener noreferrer"/g) ?? []).length === 2,
+    'los pasos 1 y 2 enlazan afuera con pestaña nueva',
+  );
+  const categories = /<ul[^>]*data-categories[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const categoryItems = categories.match(/<li[\s>]/g) ?? [];
+  check(categoryItems.length === 4, `4 categorías (${categoryItems.length})`);
+  check(!/<img[\s>]/.test(categories), 'las categorías no llevan foto');
+  const order = ['data-steps', 'data-categories', 'data-forum-notice', 'data-forum-thread'].map(
+    (marker) => mainHtml.indexOf(marker),
+  );
+  check(
+    order.every((pos, i) => pos > 0 && (i === 0 || pos > order[i - 1])),
+    'orden: pasos → categorías → aviso → panel de Giscus',
+  );
+
+  // Giscus: identificadores públicos de main, idioma por página y nada cargado en el HTML.
+  const panelTag = /<div[^>]*data-forum-thread[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const panel = attrs(panelTag);
+  for (const [name, value] of Object.entries(FORUM_GISCUS)) {
+    check(panel[name] === value, `${name} = ${value}`);
+  }
+  check(panel['data-lang'] === lang, `data-lang = ${lang} (AT-027)`);
+  check(
+    !/<script[^>]*giscus\.app/.test(html),
+    'giscus.app no se carga en el HTML (carga diferida)',
+  );
+  check(!/<iframe[\s>]/.test(mainHtml), 'sin iframe en el HTML');
+  check(
+    /data-forum-placeholder[\s\S]*?role="status"/.test(mainHtml) && !/animate-spin/.test(mainHtml),
+    'marcador estático con role="status", sin spinner (DESIGN.md 8)',
+  );
+  check(text(mainHtml).includes(FORUM_TEXT[lang].notice), 'el aviso nombra giscus.app y GitHub');
+  const noscript = /<noscript>([\s\S]*?)<\/noscript>/.exec(mainHtml)?.[1] ?? '';
+  check(
+    noscript.includes(`href="${FORUM_DISCUSSIONS}"`) &&
+      /\[data-forum-thread\]\s*\{[^}]*display:\s*none/.test(noscript),
+    '<noscript> oculta el panel y enlaza a las discusiones',
+  );
+  check(
+    (mainHtml.match(new RegExp(`href="${FORUM_DISCUSSIONS}"`, 'g')) ?? []).length === 2,
+    'enlace a GitHub bajo el panel y en <noscript>',
+  );
+  check(
+    !/(client_secret|ghp_[A-Za-z0-9]|github_pat_|gho_[A-Za-z0-9]|api[_-]?key|token=)/i.test(html),
+    'sin claves privadas ni tokens en el HTML',
+  );
+
+  forum[lang] = {
+    giscus: Object.keys(FORUM_GISCUS).map((name) => panel[name]),
+    steps: stepItems.length,
+    categories: categoryItems.length,
+    levels,
+  };
+}
+check(
+  same(forum.es?.giscus, forum.en?.giscus),
+  'mismo repo, categoría y término en /es/ y /en/ (ADR-022)',
+);
+check(
+  forum.es?.steps === forum.en?.steps && forum.es?.categories === forum.en?.categories,
+  'mismos pasos y categorías en /es/ y /en/',
+);
+check(same(forum.es?.levels, forum.en?.levels), 'misma estructura de encabezados en /es/ y /en/');
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

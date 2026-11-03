@@ -341,7 +341,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (E30-I02):** modelo bilingüe con `localized()` en `src/content.config.ts`: una entrada sin uno de los idiomas hace fallar `pnpm build`; diccionario tipado del armazón en `src/i18n/ui.ts`. Sigue abierto: migrar los textos de `static/js/datos/`, `config/` y de la función de contacto en cada épica de página.
 
 ### AT-027 · Giscus con idioma fijo
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E120-I01
+- **Severidad:** Media · **Estado:** Resuelto en E120-I01 (02-11-2026): `data-lang` sale del idioma de la página (`es` en `/es/foro/`, `en` en `/en/forum/`) con el mismo término `foro-general` (ADR-022, ADR-078); `verify:seo` lo comprueba · **Resuelve:** E120-I01
 - **Evidencia:** `static/js/config/comunidad.config.js:17` (`idioma: "es"`); término `foro-general` en `foro.html:289`.
 - **Impacto:** interfaz en español dentro de `/en/`.
 - **Recomendación:** idioma por página y término compartido (ADR-022).
@@ -810,3 +810,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E100-I02, 02-11-2026):** ni `main:talento-digital.html` ni la página migrada tienen JSON-LD (ADR-076). Las 6 ejecuciones de bootcamp, con plan, horas y años, podrían describirse como `Course` / `CourseInstance` enlazados al `Person` de la portada.
 - **Impacto:** se pierde la opción de resultados enriquecidos; no es un error.
 - **Recomendación:** valorarlo junto con el JSON-LD `Course` de Recursos (E130-I02) para no duplicar el modelo.
+
+### AT-094 · El foro de `main` dice «Siete reglas» y la comunidad tiene ocho
+- **Severidad:** Baja · **Estado:** Resuelto en E120-I01 (02-11-2026): el paso 2 dice «Ocho reglas breves» / «Eight short rules» (decisión de Felipe, ADR-078) · **Resuelve:** E120-I01
+- **Evidencia:** `main:foro.html`, paso «2 · Lee las normas»: «Siete reglas breves…». Según Felipe, el `README.md` del repositorio `ffelipecuevasc/comunidad` publica 8 reglas.
+- **Impacto:** el sitio contradecía las normas que enlaza.
+- **Recomendación:** si cambia el número de reglas de la comunidad, actualizar `src/content/forum/page.json` y el texto esperado en `verify:seo`.

@@ -42,6 +42,7 @@ Publicar un archivo `_headers` con CSP y cabeceras de seguridad compatibles con 
 
 ## Riesgos y notas
 - Consultar antes de cambiar configuración de despliegue.
+- Nota de E120-I01 (ADR-078): el foro inyecta `https://giscus.app/client.js` (`script-src`), que crea un iframe de `https://giscus.app` (`frame-src`) y recibe `postMessage` del sitio. El `<noscript>` del foro lleva un `<style>` en línea: considerar `style-src` o reemplazarlo.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md

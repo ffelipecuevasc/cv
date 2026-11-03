@@ -1,0 +1,85 @@
+---
+/*
+ * «Participar en tres pasos» (E120-I01, ADR-078): banda (DESIGN.md 7.8) con encabezado de banda y
+ * 3 pasos en una lista, 3 columnas desde 1.024 px y una bajo esa medida. Cada paso: ícono de
+ * 32 px, h3 en Cinzel y texto; el enlace del paso es externo y avisado. Dentro de la banda el
+ * texto pequeño no usa `accent` (4.3): los enlaces van en `text`, subrayados. Sin JavaScript.
+ */
+import Band from '../ui/Band.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getForumPage } from './forum-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { steps } = await getForumPage();
+---
+
+<Band id="forum-steps" kicker={steps.kicker[lang]} title={steps.title[lang]}>
+  <ul class="steps" data-steps>
+    {steps.items.map((step) => {
+      const [before, after] = step.text[lang].split('{link}');
+      return (
+        <li class="step">
+          <Icon name={step.icon} size={32} class="step-icon" />
+          <h3 class="step-title">{step.title[lang]}</h3>
+          <p class="step-text">
+            {before}
+            {step.link && (
+              <ExternalLink href={step.link.href} {lang} class="step-link">
+                {step.link.label[lang]}
+              </ExternalLink>
+            )}
+            {after}
+          </p>
+        </li>
+      );
+    })}
+  </ul>
+</Band>
+
+<style>
+  .steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border-strong);
+  }
+  .step :global(.step-icon) {
+    color: var(--color-icon);
+  }
+  .step-title {
+    margin: 16px 0 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .step-text {
+    margin: 12px 0 0;
+    color: var(--color-text);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.65;
+  }
+  .step-text :global(a.step-link) {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .step-text :global(a.step-link:hover) {
+    color: var(--color-heading);
+  }
+  @media (min-width: 64rem) {
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+  }
+</style>
