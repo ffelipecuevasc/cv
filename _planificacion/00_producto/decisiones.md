@@ -862,6 +862,30 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (banda, línea de tiempo y grilla simétrica disponibles para Recursos) y una sección nueva de Recursos en 11: bloque en la bitácora `2026-11-03_E130-I01.md` (lo edita Felipe, ADR-033).
 - **Origen:** elección de Felipe el 03-11-2026 (E130-I01). **Estado:** Aceptada.
 
+## ADR-081 · Recursos: temáticas en grilla por grupo y peso como dato
+- **Contexto:** E130-I02 (ADR-036) pidió 3 composiciones para las temáticas, coherentes con la composición A (ADR-080): **1**, grilla por grupo (un h3 por temática y sus tarjetas); **2**, una sola grilla con filtro por temática (solo con JavaScript); **3**, una columna por temática con lista compacta. También había que decidir el grupo del recurso 8, que en `main` estaba en las rutas Python y Java.
+- **Decisión (de Felipe, 03-11-2026):**
+  - **Composición 1.** Sección «Más recursos» (`bg-alt`) después del hilo de la ruta, con encabezado 7.5 a la izquierda. Debajo, un h3 por temática (Cinzel 1,3 rem con el número de recursos al lado, oculto a lectores de pantalla) y sus tarjetas `surface` con contorno `border`, en grilla de 1, 2 y 3 columnas (desde 768 y 1.024 px). Cada tarjeta lleva los chips de la ruta, un h4, la descripción y el enlace. Sin progreso ni JavaScript.
+  - Grupos: Empleabilidad (1, 3), Python (2, 4, 5, 6, 7) y Java (8). **El recurso 8 va solo en Java.**
+  - El id 34 no se migra: existe solo en la copia antigua de la rama.
+- **Decisión (de implementación):**
+  - Los chips y el enlace pasan a componentes comunes (`ResourceChips` y `ResourceAction`) que usan la ruta y las temáticas.
+  - Junto a cada descarga local: tipo y peso en `text-soft` de 14 px («PDF · 6,0 MB» en es-CL, «PDF · 6.0 MB» en en-US, base 1.024) y, en /en/, «In Spanish» (AT-034). Lo mismo vale para los 10 pasos locales de la ruta.
+  - El peso se guarda como dato (`bytes` en `items.json`, obligatorio para `/static/` y prohibido para lo externo), porque el proyecto no tiene tipos de Node para leer el archivo al compilar y no se agregan dependencias. `verify:seo` compara cada `data-bytes` con el archivo en `dist/`.
+  - Los 5 archivos de los recursos 1 al 8 se copian desde `main` con la misma URL, idénticos en bytes (AT-043).
+  - Temáticas en `page.json` (`themes.groups`, en orden); el build falla si un recurso apunta a una temática inexistente o si una queda vacía.
+- **Consecuencias:** cierra AT-034 (para Recursos) y la parte de recursos de AT-043; registra AT-096 y AT-097. `DESIGN.md` 11.2 y la sección de Recursos, con el bloque de la bitácora `2026-11-03_E130-I02.md` (lo aplica Felipe, ADR-033).
+- **Origen:** elección de Felipe el 03-11-2026 (E130-I02). **Estado:** Aceptada.
+
+## ADR-082 · Recursos: JSON-LD `Course` solo para la ruta
+- **Contexto:** `main:recursos.html` tenía un `ItemList` de 3 `Course`, uno por ruta (python, empleabilidad y java, con `CourseInstance` en línea de 8 horas). No incluía `desarrollo-web-ia`. ADR-079 retiró esas 3 rutas. La iteración pedía evaluar `Course` solo para la ruta, `ItemList` u omitirlo (ver AT-093).
+- **Decisión (del agente, dentro del alcance de E130-I02):**
+  - Un solo bloque `Course` para la ruta `desarrollo-web-ia`, con `@id` `<canonical>#ruta-desarrollo-web-ia`, `url` con `?ruta=desarrollo-web-ia`, `name` y `description` en el idioma de la página, `teaches` y `coursePrerequisites` desde la ficha, `inLanguage: "es"` en ambas versiones (los materiales están en español), `isAccessibleForFree`, `provider` e `instructor` como el `Person` de la portada por `@id`, y `CourseInstance` en línea con `courseWorkload` `PT8H`.
+  - Sin `ItemList`: con una sola ruta no aporta, y las temáticas son materiales sueltos, no un curso.
+  - Se usa `coursePrerequisites` (la propiedad de schema.org); `main` escribía `coursePrerequisite`, que no existe.
+- **Consecuencias:** `verify:seo` valida la estructura del bloque (743 controles en total). El validador de schema.org y la prueba de resultados enriquecidos de Google los pasa Felipe.
+- **Origen:** E130-I02, 03-11-2026. **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

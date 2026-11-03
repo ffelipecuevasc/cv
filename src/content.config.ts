@@ -765,7 +765,7 @@ const resources = defineCollection({
       difficulty: z.enum(RESOURCE_DIFFICULTIES),
       /** Etapa de la ruta (solo los pasos de la ruta). */
       stage: STAGE_ID.optional(),
-      /** Temática de la bóveda (E130-I02). */
+      /** Temática de la bóveda (E130-I02); debe existir en `themes.groups` de page.json. */
       theme: z
         .string()
         .regex(/^[a-z-]+$/)
@@ -774,10 +774,16 @@ const resources = defineCollection({
       title: localized(),
       description: localized(),
       url: z.string().regex(/^(https:\/\/|\/static\/)/, 'URL https:// o /static/...'),
+      /** Peso del archivo local en bytes (E130-I02, AT-034); verify:seo lo compara con dist/. */
+      bytes: z.number().int().positive().optional(),
     })
     .refine(
       (r) => (r.kind === 'article') === (r.format === 'article'),
       'Un artículo usa el formato «article»',
+    )
+    .refine(
+      (r) => r.url.startsWith('/static/') === (r.bytes !== undefined),
+      'Un archivo local lleva su peso en «bytes» y uno externo no',
     )
     .refine(
       (r) => Boolean(r.stage) !== Boolean(r.theme),
@@ -840,6 +846,21 @@ const resourcesPage = defineCollection({
         >,
       ),
       difficultyLabel: localized(),
+      /** Aviso de idioma de los archivos locales, solo en /en/ (AT-034): están en español. */
+      fileLanguage: z.object({ en: z.string().min(1) }),
+    }),
+    /** Temáticas de la bóveda (E130-I02, ADR-081): el orden de `groups` es el de la página. */
+    themes: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      groups: z
+        .array(z.object({ id: z.string().regex(/^[a-z-]+$/), title: localized() }))
+        .min(1)
+        .refine(
+          (g) => new Set(g.map((x) => x.id)).size === g.length,
+          'Las temáticas no se repiten',
+        ),
     }),
     thread: z.object({ kicker: localized(), title: localized() }),
   }),

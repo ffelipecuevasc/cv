@@ -229,6 +229,9 @@
     "difficultyLabel": {
       "es": "Dificultad",
       "en": "Difficulty"
+    },
+    "fileLanguage": {
+      "en": "In Spanish"
     }
   },
   "thread": {
@@ -240,5 +243,42 @@
       "es": "Conversación de la ruta",
       "en": "Path conversation"
     }
+  },
+  "themes": {
+    "kicker": {
+      "es": "Por temática",
+      "en": "By topic"
+    },
+    "title": {
+      "es": "Más recursos",
+      "en": "More resources"
+    },
+    "lead": {
+      "es": "Materiales sueltos de talleres y clases, sin orden fijo: elige el que te sirva.",
+      "en": "Standalone materials from workshops and classes, in no set order: pick whichever helps you."
+    },
+    "groups": [
+      {
+        "id": "empleabilidad",
+        "title": {
+          "es": "Empleabilidad",
+          "en": "Employability"
+        }
+      },
+      {
+        "id": "python",
+        "title": {
+          "es": "Python",
+          "en": "Python"
+        }
+      },
+      {
+        "id": "java",
+        "title": {
+          "es": "Java",
+          "en": "Java"
+        }
+      }
+    ]
   }
 }

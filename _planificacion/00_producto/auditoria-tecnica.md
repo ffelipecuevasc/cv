@@ -356,7 +356,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (E40-I01, 30-10-2026):** `perfil-hero` se conserva con los mismos valores (`instructor`, `docente`, `desarrollador`) y `?perfil=` se lee y se refleja con `replaceState`; `?perfil=` prevalece sobre la clave y un valor inválido se ignora. Falta `rutas-progreso` (E130-I01).
 
 ### AT-034 · Descargables pesados y solo en español
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E130-I02, BL-04
+- **Severidad:** Media · **Estado:** Resuelto en E130-I02 (03-11-2026) para Recursos: las 15 descargas muestran tipo y peso, y en /en/ el aviso «In Spanish»; la traducción de los PDF sigue en BL-04, y el CV y el certificado REUF quedan como están · **Resuelve:** E130-I02, BL-04
 - **Evidencia:** `static/recursos/python/taller-despliegue-plataforma-google-cloud.pdf` (12 MB), `static/recursos/empleabilidad/manual-optimizar-perfil-linkedin.pdf` (6,1 MB); CV y certificado REUF solo en español.
 - **Impacto:** experiencia en `/en/` y consumo de datos.
 - **Recomendación:** aviso de idioma y peso visible (ADR-017).
@@ -428,7 +428,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** redirigir directo a `/es/foro`, sin cadena.
 
 ### AT-043 · Rutas públicas de descargables
-- **Severidad:** Alta · **Estado:** Resuelto en parte: el certificado REUF se sirve desde `public/static/` con la misma URL desde E90-I01 (01-11-2026), como el CV desde ADR-050; faltan `static/recursos/**` (E130-I02) y la verificación tras el cutover (E180-I01) · **Resuelve:** E90-I01 (certificado), E130-I02, E180-I01
+- **Severidad:** Alta · **Estado:** Resuelto en parte: el certificado REUF se sirve desde `public/static/` con la misma URL desde E90-I01 (01-11-2026), como el CV desde ADR-050, y los 15 archivos de `static/recursos/**` desde E130-I01 y E130-I02 (03-11-2026, idénticos en bytes y comprobados en `verify:seo`); falta la verificación tras el cutover (E180-I01) · **Resuelve:** E90-I01 (certificado), E130-I02, E180-I01
 - **Evidencia:** `static/CV_Felipe_Cuevas_2026.pdf`, `static/Certificado_REUF_Aprobados_Felipe_Cuevas_2026.pdf` y `static/recursos/**`, enlazados desde el sitio y probablemente compartidos fuera de él (no verificado).
 - **Impacto:** enlaces externos rotos tras el cutover.
 - **Recomendación:** servirlos desde las mismas rutas en `public/static/`.
@@ -811,6 +811,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E100-I02, 02-11-2026):** ni `main:talento-digital.html` ni la página migrada tienen JSON-LD (ADR-076). Las 6 ejecuciones de bootcamp, con plan, horas y años, podrían describirse como `Course` / `CourseInstance` enlazados al `Person` de la portada.
 - **Impacto:** se pierde la opción de resultados enriquecidos; no es un error.
 - **Recomendación:** valorarlo junto con el JSON-LD `Course` de Recursos (E130-I02) para no duplicar el modelo.
+- **Avance (E130-I02, 03-11-2026):** Recursos ya publica un `Course` con `provider`, `instructor` y `CourseInstance` (ADR-082); Talento Digital puede reutilizar ese molde.
 
 ### AT-094 · El foro de `main` dice «Siete reglas» y la comunidad tiene ocho
 - **Severidad:** Baja · **Estado:** Resuelto en E120-I01 (02-11-2026): el paso 2 dice «Ocho reglas breves» / «Eight short rules» (decisión de Felipe, ADR-078) · **Resuelve:** E120-I01
@@ -823,3 +824,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** 10 pasos de la ruta (ids 9, 12, 17, 18, 20, 21, 23, 24, 25 y 28) apuntan a `/static/recursos/ia/desarrollo-web/`: 7 PDF (unos 5,4 MB), 2 `.txt` y 1 `.yml`. El corte de ADR-079 dejaba los archivos para E130-I02.
 - **Impacto:** sin copiarlos, esos enlaces quedaban rotos entre I01 e I02.
 - **Recomendación:** aplicada. Se copiaron desde `main` con la misma URL (AT-043) y `verify:seo` compara su peso en bytes. E130-I02 copia los 5 archivos de los recursos 1 al 8 y suma el peso visible también a estos pasos.
+
+### AT-096 · Las imágenes, CSS y JS de `main` no se sirven con su URL antigua
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I01 (valorar)
+- **Evidencia (E130-I02, 03-11-2026):** al comparar los 157 archivos de `main:static/` con `dist/`, faltan 142: `static/img/**` (íconos, logos, portafolio, testimonios y fotos), `static/css/*` y `static/js/**`. Todos los de `static/recursos/**` están.
+- **Impacto:** CSS y JS no importan tras el cutover. Alguna imagen podría estar enlazada desde fuera (por ejemplo, `static/img/felipe_cuevas_cv.png` como vista previa compartida): no verificado.
+- **Recomendación:** en E180-I01, revisar con las analíticas o el registro de Cloudflare qué URL de `static/img/` reciben visitas externas y servirlas o redirigirlas.
+
+### AT-097 · Los videos de Recursos están en español y en /en/ no lo avisan
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin agendar (valorar con BL-04)
+- **Evidencia (E130-I02, 03-11-2026):** el aviso «In Spanish» (AT-034) cubre los 15 archivos locales. Los 3 videos de YouTube de las temáticas (ids 6, 7 y 8) y algunos enlaces externos de la ruta también están en español, pero solo muestran «Watch» / «Learn more».
+- **Impacto:** un visitante de /en/ puede abrir un video que no entiende.
+- **Recomendación:** decidir si se agrega un campo `language` al modelo `resources` para avisar también en los enlaces externos.

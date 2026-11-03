@@ -1765,12 +1765,26 @@ const ROUTE_FILES = {
   '/static/recursos/ia/desarrollo-web/esqueleto-workflow-publicar.yml': 1286,
   '/static/recursos/ia/desarrollo-web/etapa-5-delegar-claude-code.pdf': 976904,
 };
+// Archivos de los recursos 1 al 8 (E130-I02, AT-043), también con la URL y el peso de main.
+const THEME_FILES = {
+  '/static/recursos/empleabilidad/manual-optimizar-perfil-linkedin.pdf': 6320756,
+  '/static/recursos/empleabilidad/taller-cv-online.pdf': 1588681,
+  '/static/recursos/python/actividad-hackaton-de-estudio.pdf': 2985165,
+  '/static/recursos/python/taller-despliegue-plataforma-alwaysdata.pdf': 2122586,
+  '/static/recursos/python/taller-despliegue-plataforma-google-cloud.pdf': 12077850,
+};
+// Temáticas en orden, con sus recursos (decisión de Felipe, 03-11-2026; ADR-081).
+const THEMES = [
+  ['empleabilidad', [1, 3]],
+  ['python', [2, 4, 5, 6, 7]],
+  ['java', [8]],
+];
 const RESOURCES_TEXT = {
   es: { h1: 'Bóveda de recursos', title: 'Bóveda de recursos | Felipe Cuevas' },
   en: { h1: 'Resource vault', title: 'Resource vault | Felipe Cuevas' },
 };
-console.log('\nArchivos locales de la ruta Web & IA');
-for (const [path, size] of Object.entries(ROUTE_FILES)) {
+console.log('\nArchivos locales de Recursos (ruta y temáticas)');
+for (const [path, size] of Object.entries({ ...ROUTE_FILES, ...THEME_FILES })) {
   const file = join(DIST, path);
   check(existsSync(file) && statSync(file).size === size, `dist${path} (${size} bytes, AT-043)`);
 }
@@ -1887,7 +1901,11 @@ for (const [lang, info] of Object.entries(LANGS)) {
       `descarga ${path.split('/').pop()}`,
     );
   }
-  const external = [...mainHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)].filter(
+  const routeHtml = mainHtml.slice(
+    mainHtml.indexOf('data-stages'),
+    mainHtml.indexOf('data-forum-thread'),
+  );
+  const external = [...routeHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)].filter(
     ([, href]) => !href.startsWith('https://github.com/ffelipecuevasc/comunidad'),
   );
   check(
@@ -1912,7 +1930,111 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'orden: ficha → pasos → conversación',
   );
 
-  resources[lang] = { stepIds, levels, term: panel['data-term'], starts };
+  // Temáticas (E130-I02, ADR-081): grilla sobre bg-alt después del hilo, sin progreso.
+  const themesHtml = mainHtml.slice(mainHtml.indexOf('<section class="themes'));
+  check(
+    /<section class="themes[^"]*"[^>]*aria-labelledby="themes-title"/.test(mainHtml) &&
+      mainHtml.indexOf('data-forum-thread') < mainHtml.indexOf('<section class="themes'),
+    'orden: … → conversación → temáticas',
+  );
+  const themeIds = [...themesHtml.matchAll(/data-theme="([a-z-]+)"/g)].map((m) => m[1]);
+  check(
+    same(
+      themeIds,
+      THEMES.map(([id]) => id),
+    ),
+    'temáticas Empleabilidad, Python y Java en orden',
+  );
+  const themeItems = themesHtml
+    .split(/data-theme="/)
+    .slice(1)
+    .map((chunk) => [...chunk.matchAll(/data-resource="(\d+)"/g)].map((m) => Number(m[1])));
+  check(
+    same(
+      themeItems,
+      THEMES.map(([, ids]) => ids),
+    ),
+    'recursos 1 al 8 en su temática (el 8 solo en Java)',
+  );
+  check(
+    (themesHtml.match(/<h3[\s>]/g) ?? []).length === THEMES.length &&
+      (themesHtml.match(/<h4[\s>]/g) ?? []).length === 8,
+    'un h3 por temática y un h4 por recurso',
+  );
+  check(!/type="checkbox"|data-step=/.test(themesHtml), 'las temáticas no tienen progreso');
+  for (const path of Object.keys(THEME_FILES)) {
+    check(
+      new RegExp(`<a href="${path.replace(/\./g, '\\.')}" download`).test(themesHtml),
+      `descarga ${path.split('/').pop()}`,
+    );
+  }
+  check(
+    [...themesHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)].length === 3,
+    '3 videos externos en las temáticas',
+  );
+
+  // Peso visible y aviso de idioma junto a cada archivo local (AT-034).
+  const downloads = [
+    ...mainHtml.matchAll(
+      /<a href="(\/static\/[^"]+)" download[^>]*data-bytes="(\d+)"[\s\S]*?<\/a>\s*<span class="file-meta[^"]*"[^>]*>([^<]*)<\/span>/g,
+    ),
+  ];
+  const allFiles = { ...ROUTE_FILES, ...THEME_FILES };
+  check(
+    downloads.length === Object.keys(allFiles).length &&
+      downloads.every(([, path, bytes]) => allFiles[path] === Number(bytes)),
+    `${Object.keys(allFiles).length} descargas con su peso exacto (data-bytes = archivo)`,
+  );
+  const sizeRe = lang === 'es' ? /\d+(,\d)? (MB|KB)/ : /\d+(\.\d)? (MB|KB)/;
+  check(
+    downloads.every(
+      ([, path, , meta]) =>
+        decode(meta).startsWith(path.split('.').pop().toUpperCase()) && sizeRe.test(meta),
+    ),
+    `tipo y peso visibles junto al enlace (${lang === 'es' ? '«6,0 MB»' : '«6.0 MB»'})`,
+  );
+  check(
+    downloads.every(([, , , meta]) => meta.includes('In Spanish') === (lang === 'en')),
+    lang === 'en' ? 'aviso «In Spanish» en cada archivo (AT-034)' : 'sin aviso de idioma en /es/',
+  );
+
+  // JSON-LD (ADR-082): un solo Course para la ruta, sin ItemList.
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  let course;
+  try {
+    course = JSON.parse(blocks[0]?.[1] ?? '{}');
+  } catch {
+    course = {};
+  }
+  check(blocks.length === 1 && course['@type'] === 'Course', 'un solo JSON-LD, de tipo Course');
+  check(
+    course['@context'] === 'https://schema.org' &&
+      course['@id'] === `${canonical}#ruta-desarrollo-web-ia` &&
+      course.url === `${canonical}?ruta=desarrollo-web-ia`,
+    'Course: @context, @id y url con ?ruta=',
+  );
+  check(
+    [course.name, course.description, course.teaches, course.coursePrerequisites].every(
+      (value) => typeof value === 'string' && value.length > 0,
+    ),
+    'Course: name, description, teaches y coursePrerequisites',
+  );
+  check(
+    course.inLanguage === 'es' && course.isAccessibleForFree === true,
+    'Course: inLanguage es (materiales en español) y gratuito',
+  );
+  const personId = `${SITE}/#felipe-cuevas`;
+  check(
+    course.provider?.['@id'] === personId &&
+      course.hasCourseInstance?.['@type'] === 'CourseInstance' &&
+      course.hasCourseInstance?.courseMode === 'online' &&
+      course.hasCourseInstance?.courseWorkload === 'PT8H' &&
+      course.hasCourseInstance?.instructor?.['@id'] === personId,
+    'Course: proveedor e instructor = Person de la portada; CourseInstance en línea, PT8H',
+  );
+  check(!/ItemList/.test(html), 'sin ItemList (las temáticas no se describen)');
+
+  resources[lang] = { stepIds, levels, term: panel['data-term'], starts, themeItems };
 }
 check(
   same(resources.es?.stepIds, resources.en?.stepIds) &&
@@ -1921,6 +2043,7 @@ check(
 );
 check(same(resources.es?.levels, resources.en?.levels), 'misma estructura de encabezados');
 check(resources.es?.term === resources.en?.term, 'mismo hilo de Giscus en /es/ y /en/ (ADR-022)');
+check(same(resources.es?.themeItems, resources.en?.themeItems), 'mismas temáticas en /es/ y /en/');
 
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');

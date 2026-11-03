@@ -7,30 +7,20 @@
  * - Sin JavaScript se ven todos los pasos y sus enlaces; las casillas, los contadores y el
  *   buscador nacen `hidden` y los muestra src/scripts/resources.ts.
  * - Colores solo de tokens (4.1): formato con ícono en `icon`; dificultad con 3 marcas en
- *   `accent` / `border-strong` y el nombre en texto.
- * - Un archivo local (/static/...) se descarga con su URL de main; lo externo abre en otra pestaña.
+ *   `accent` / `border-strong` y el nombre en texto (ResourceChips).
+ * - Enlace con ResourceAction: archivo local con tipo, peso y aviso de idioma en /en/ (E130-I02).
  */
 import Container from '../ui/Container.astro';
-import ExternalLink from '../ui/ExternalLink.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import type { IconName } from '../ui/icons';
+import ResourceAction from './ResourceAction.astro';
+import ResourceChips from './ResourceChips.astro';
 import { langFromLocale } from '../../i18n/lang';
-import { fill, getResourcesPage, getRouteStages, isLocal } from './resources-data';
+import { fill, getResourcesPage, getRouteStages } from './resources-data';
 
 const lang = langFromLocale(Astro.currentLocale);
 const { ui } = await getResourcesPage();
 const { route, stages, total } = await getRouteStages();
-
-const FORMAT_ICONS: Record<string, IconName> = {
-  pdf: 'pdf',
-  video: 'play-circle',
-  link: 'link',
-  repo: 'github',
-  template: 'description',
-  article: 'description',
-};
-const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
 ---
 
 <section
@@ -79,7 +69,6 @@ const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
               aria-labelledby={`stage-${stage.number}`}
             >
               {stage.steps.map((step) => {
-                const local = isLocal(step.url);
                 const titleId = `step-${step.id}-title`;
                 return (
                   <li
@@ -93,22 +82,7 @@ const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
                       <Icon name="check" size={24} class="check-on" />
                     </label>
                     <div class="step-body">
-                      <p class="chips">
-                        <span class="chip format">
-                          <Icon name={FORMAT_ICONS[step.format]} size={16} />
-                          {ui.formats[step.format][lang]}
-                        </span>
-                        <span class="chip difficulty">
-                          <span class="levels" aria-hidden="true">
-                            {[1, 2, 3].map((n) => (
-                              <span class:list={['level', { on: n <= LEVELS[step.difficulty] }]} />
-                            ))}
-                          </span>
-                          <span class="sr-only">{ui.difficultyLabel[lang]}: </span>
-                          {ui.difficulties[step.difficulty][lang]}
-                        </span>
-                        <span class="chip">{step.technology[lang]}</span>
-                      </p>
+                      <ResourceChips resource={step} {lang} />
                       <h4 class="step-title" id={titleId}>
                         <span class="step-number" aria-hidden="true">
                           {String(step.number).padStart(2, '0')}
@@ -116,20 +90,7 @@ const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
                         {step.title[lang]}
                       </h4>
                       <p class="text">{step.description[lang]}</p>
-                      <p class="action">
-                        {local ? (
-                          <a href={step.url} download class="download">
-                            <Icon name="download" size={16} />
-                            {ui.actions[step.format][lang]}
-                            <span class="sr-only">: {step.title[lang]}</span>
-                          </a>
-                        ) : (
-                          <ExternalLink href={step.url} {lang}>
-                            {ui.actions[step.format][lang]}
-                            <span class="sr-only">: {step.title[lang]}</span>
-                          </ExternalLink>
-                        )}
-                      </p>
+                      <ResourceAction resource={step} {lang} />
                     </div>
                   </li>
                 );
@@ -330,40 +291,6 @@ const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
     flex: 1;
     min-width: 0;
   }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0;
-  }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 8px;
-    border: 1px solid var(--chip-border);
-    background-color: var(--chip-bg);
-    color: var(--chip-fg);
-    font-size: 11.5px;
-    letter-spacing: 0.08em;
-    line-height: 1.3;
-    text-transform: uppercase;
-  }
-  .format :global(svg) {
-    color: var(--color-icon);
-  }
-  .levels {
-    display: inline-flex;
-    gap: 2px;
-  }
-  .level {
-    width: 6px;
-    height: 10px;
-    background-color: var(--color-border-strong);
-  }
-  .level.on {
-    background-color: var(--color-accent);
-  }
   .step-title {
     margin: 12px 0 0;
     font-family: var(--font-display);
@@ -382,22 +309,6 @@ const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
     font-size: 15px;
     font-weight: 300;
     line-height: 1.7;
-  }
-  .action {
-    margin: 12px 0 0;
-    font-size: 15px;
-    font-weight: 600;
-  }
-  .download {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .download:hover {
-    color: var(--color-heading);
   }
   .coming-soon {
     display: flex;

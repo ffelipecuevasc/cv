@@ -1,7 +1,7 @@
 # E130-I02 · Bóveda mixta: temáticas, descargables y JSON-LD
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (03-11-2026)
 - **Épica:** E130 · Página Recursos (recursos.html) · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E130-I01 · **Hallazgos que cierra:** AT-034, AT-043 · **ADR relacionados:** ADR-017, ADR-079, ADR-080
+- **Depende de:** E130-I01 · **Hallazgos que cierra:** AT-034, AT-043 · **ADR relacionados:** ADR-017, ADR-036, ADR-079, ADR-080, ADR-081, ADR-082
 
 > Reescrita el 03-11-2026 por ADR-079 (ADR-056). Antes: «Bóveda de recursos y JSON-LD Course». El nombre del archivo se conserva.
 
@@ -27,27 +27,29 @@ Completar la bóveda con los recursos 1 al 8 agrupados por temática, sus descar
 - Traducción de los PDF (BL-04). Artículos (BL-09).
 
 ## Tareas
-- [ ] Copiar los 5 archivos de los recursos 1 al 8 a `public/static/` preservando rutas.
-- [ ] Migrar datos y traducir descripciones.
-- [ ] Sección de temáticas, aviso de idioma y peso visible.
-- [ ] JSON-LD y controles de `verify:seo`.
+- [x] Copiar los 5 archivos de los recursos 1 al 8 a `public/static/` preservando rutas.
+- [x] Migrar datos y traducir descripciones.
+- [x] Sección de temáticas, aviso de idioma y peso visible.
+- [x] JSON-LD y controles de `verify:seo`.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `public/static/recursos/empleabilidad/*`, `public/static/recursos/python/*`, componente de temáticas.
 
 ## Criterios de aceptación (verificables)
-- [ ] Todas las rutas públicas de PDF y plantillas de `main` responden igual en la preview.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Todas las rutas públicas de PDF y plantillas de `main` responden igual en la preview.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación
 - `pnpm build`, `check`, `lint`, `format:check` y `verify:seo`.
 - Comparación de la lista de rutas de `static/recursos/` de `main` con `dist/`.
 
 ## Riesgos y notas
+- El id 34 (grabación del taller del 3 de octubre) existe solo en la copia antigua de la rama, no en `main`: no se migra (Felipe, 03-11-2026).
+- El recurso 8 va solo en Java (Felipe, 03-11-2026; ADR-081).
 - `taller-despliegue-plataforma-google-cloud.pdf` pesa 12 MB (AT-034).
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

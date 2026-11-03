@@ -1,0 +1,42 @@
+---
+/*
+ * Datos estructurados de Recursos (E130-I02, ADR-082): un solo `Course` para la ruta
+ * `desarrollo-web-ia`, con el mismo esquema que main usaba para sus rutas (proveedor e
+ * instructor = Person de la portada por @id, CourseInstance en línea de 8 horas). Las temáticas
+ * no se describen: son materiales sueltos, no un curso. `inLanguage` es «es» en ambas versiones
+ * porque los materiales están en español (AT-034).
+ */
+import JsonLd from './JsonLd.astro';
+import { entityIds } from './structured-data';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { getResourcesPage } from '../resources/resources-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const site = Astro.site as URL;
+const { route } = await getResourcesPage();
+const page = new URL(getRoute('resources', lang), site);
+const person = { '@id': entityIds(site).person };
+
+const course = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  '@id': `${page.href}#ruta-${route.id}`,
+  name: route.title[lang],
+  description: route.summary[lang],
+  url: `${page.href}?ruta=${route.id}`,
+  inLanguage: 'es',
+  teaches: route.facts[0].text[lang],
+  coursePrerequisites: route.facts[1].text[lang],
+  isAccessibleForFree: true,
+  provider: person,
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'online',
+    courseWorkload: 'PT8H',
+    instructor: person,
+  },
+};
+---
+
+<JsonLd data={course} />

@@ -1,13 +1,15 @@
 ---
 // Página Recursos de /en/ (E130-I01, ADR-079): bóveda mixta. Título, descripción y texto
 // alternativo de la imagen OG vienen de src/content/pages/resources.json; el contenido, de
-// src/content/resources/. Las temáticas de los recursos 1 al 8 llegan en E130-I02.
+// src/content/resources/. Temáticas de los recursos 1 al 8 y JSON-LD Course desde E130-I02.
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourcesHeader from '../../components/resources/ResourcesHeader.astro';
 import RouteBand from '../../components/resources/RouteBand.astro';
 import RouteSteps from '../../components/resources/RouteSteps.astro';
 import RouteThread from '../../components/resources/RouteThread.astro';
+import ThemeGrid from '../../components/resources/ThemeGrid.astro';
+import ResourcesJsonLd from '../../components/seo/ResourcesJsonLd.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
 const page = await getEntry('pages', 'resources');
@@ -21,4 +23,6 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
   <RouteBand />
   <RouteSteps />
   <RouteThread />
+  <ThemeGrid />
+  <ResourcesJsonLd slot="json-ld" />
 </BaseLayout>

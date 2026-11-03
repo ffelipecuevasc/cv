@@ -1,0 +1,73 @@
+---
+/*
+ * Enlace de un recurso (E130-I01, común desde E130-I02).
+ * - Archivo local (/static/...): descarga con la URL de main (AT-043) y, al lado, su tipo y peso
+ *   desde `bytes` de items.json (verify:seo lo compara con dist/); en /en/ suma el aviso de que está en español (AT-034).
+ * - Lo demás abre en otra pestaña con el aviso de ExternalLink.
+ */
+import ExternalLink from '../ui/ExternalLink.astro';
+import Icon from '../ui/Icon.astro';
+import type { Resource } from './resources-data';
+import { formatBytes, getResourcesPage, isLocal } from './resources-data';
+
+interface Props {
+  resource: Resource;
+  lang: 'es' | 'en';
+}
+const { resource, lang } = Astro.props;
+const { ui } = await getResourcesPage();
+const local = isLocal(resource.url);
+const meta = local
+  ? [
+      resource.url.split('.').pop()!.toUpperCase(),
+      formatBytes(resource.bytes!, lang),
+      ...(lang === 'en' ? [ui.fileLanguage.en] : []),
+    ].join(' · ')
+  : '';
+---
+
+<p class="action">
+  {local ? (
+    <a href={resource.url} download class="download" data-bytes={resource.bytes!}>
+      <Icon name="download" size={16} />
+      {ui.actions[resource.format][lang]}
+      <span class="sr-only">: {resource.title[lang]}</span>
+    </a>
+  ) : (
+    <ExternalLink href={resource.url} {lang}>
+      {ui.actions[resource.format][lang]}
+      <span class="sr-only">: {resource.title[lang]}</span>
+    </ExternalLink>
+  )}
+  {local && <span class="file-meta">{meta}</span>}
+</p>
+
+<style>
+  .action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+    margin: 12px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: center;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .download:hover {
+    color: var(--color-heading);
+  }
+  .file-meta {
+    color: var(--color-text-soft);
+    font-size: 14px;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+</style>
