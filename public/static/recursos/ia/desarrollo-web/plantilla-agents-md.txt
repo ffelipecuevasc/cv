@@ -1,0 +1,27 @@
+# AGENTS.md · mi-portafolio
+
+## Proyecto
+Landing page con mi CV en línea y mi portafolio de proyectos.
+El contexto completo está en la carpeta _planificacion/.
+
+## Stack
+- HTML5 semántico, Tailwind CSS por CDN y JavaScript puro.
+- Sin frameworks de JavaScript (nada de React, Vue ni Angular).
+
+## Estructura
+- index.html: la página completa.
+- DESIGN.md: sistema visual. Respeta sus colores y tipografías.
+- _planificacion/: definición, visión, épicas, registro y decisiones.
+
+## Convenciones
+- Todo el contenido y los comentarios en español.
+- Los id de las secciones en español: #inicio, #sobre-mi, #experiencia, #proyectos, #contacto.
+
+## Lo que NO debes hacer
+- No agregar dependencias ni librerías sin preguntar.
+- No modificar secciones que no se mencionan en la tarea.
+- No crear un archivo CLAUDE.md.
+
+## Definición de terminado
+Se ve bien en celular y escritorio, no hay errores en la consola
+y el registro-log.md está actualizado.

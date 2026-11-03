@@ -1,0 +1,19 @@
+---
+/*
+ * Conversación de la ruta (E130-I01, ADR-022 y ADR-079): la sección común de Giscus del Foro con
+ * el hilo `ruta-desarrollo-web-ia`, igual en /es/ y /en/.
+ */
+import GiscusSection from '../forum/GiscusSection.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getResourcesPage } from './resources-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { thread } = await getResourcesPage();
+---
+
+<GiscusSection
+  term="ruta-desarrollo-web-ia"
+  kicker={thread.kicker[lang]}
+  title={thread.title[lang]}
+  id="route-thread-title"
+/>

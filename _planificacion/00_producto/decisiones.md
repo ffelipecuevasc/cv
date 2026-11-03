@@ -835,6 +835,33 @@ Reglas del registro:
 - **Consecuencias:** cierra E120 y AT-027. `DESIGN.md` 11.2 (banda y grilla simétrica disponibles para el Foro) y sección 11.9 nueva: bloque en la bitácora `2026-11-02_E120-I01.md` (lo edita Felipe, ADR-033). E170-I03: la CSP debe permitir `giscus.app` en `script-src` y `frame-src`. Con Giscus cargado, el panel crece con los comentarios: CLS medido de 0,051 a 375 px y 0,013 a 1.280 px (bajo 0,1, ADR-015).
 - **Origen:** decisiones de Felipe el 02-11-2026 (E120-I01). **Estado:** Aceptada.
 
+## ADR-079 · Recursos: bóveda mixta con una sola ruta con progreso
+- **Contexto:** al iniciar E130-I01, el 03-11-2026. En `main` la página era «solo rutas» (decisión D-07 del sitio antiguo, en `static/js/rutas.js`: las rutas reemplazaban al catálogo filtrable). Había 4 rutas (`desarrollo-web-ia`, `python`, `empleabilidad` y `java`), 33 recursos y un hilo de Giscus por ruta. El `<title>` decía «Rutas de Aprendizaje» y el `<h1>`, «Bóveda de Recursos» (AT-037).
+- **Decisión (de Felipe, 03-11-2026):**
+  - La página pasa de «solo rutas» a **bóveda mixta**: una ruta con progreso, solo `desarrollo-web-ia` (pasos 9 al 33, como en `main`: el «34» del pedido no existe), y los demás recursos agrupados por temática, sin progreso: Empleabilidad (1, 3), Python (2, 4, 5, 6, 7) y Java (8). **Sustituye a D-07** del sitio antiguo en esta página.
+  - Las rutas `python`, `empleabilidad` y `java` dejan de existir como rutas; sus recursos siguen en la bóveda. Sus hilos de Giscus (`ruta-python`, `ruta-empleabilidad` y `ruta-java`) dejan de mostrarse en el sitio y siguen en GitHub.
+  - La ruta reutiliza el Giscus de E120 con el hilo `ruta-desarrollo-web-ia`, igual en es y en (ADR-022).
+  - **Corte:** E130-I01 = página, modelo y ruta («Bóveda mixta: página, modelo y ruta Web & IA»); E130-I02 = recursos 1 al 8, archivos en `public/static/recursos`, aviso de idioma, peso visible y JSON-LD («Bóveda mixta: temáticas, descargables y JSON-LD»). La épica y las dos iteraciones se reescriben (ADR-056).
+  - Los 10 archivos locales de la ruta se copian en E130-I01 (AT-095).
+  - AT-037: título y `<h1>` «Bóveda de recursos» (`en-US`: «Resource vault»).
+  - **Artículos:** el modelo y el diseño prevén el tipo «artículo», sin páginas ni contenido. Backlog BL-09, posterior al cutover.
+- **Decisión (de implementación):**
+  - `rutas-progreso` conserva el formato `{"ruta": [ids]}`; la página lee y escribe solo `desarrollo-web-ia`, relee la clave antes de escribir y nunca borra otras claves. Un id que ya no es paso se ignora al contar y no se borra. «Reiniciar progreso» quita solo los pasos de la ruta. `?ruta=desarrollo-web-ia` lleva a la ficha de la ruta; otro valor se ignora.
+  - Colecciones `resources` (`items.json`, loader `file`, id = id de `main`) y `resourcesPage`. Formatos `pdf`, `video`, `link`, `repo`, `template` y `article`; dificultades `basic`, `intermediate` y `advanced`. Cada recurso lleva `stage` (ruta) o `theme` (bóveda), nunca ambos.
+  - Se conserva el buscador de `main` dentro de la ruta. Casillas, contadores, barra y buscador nacen `hidden` y los muestra el script: sin JavaScript la ruta se lee completa con sus enlaces.
+  - Colores de formato y dificultad solo de tokens: ícono de formato en `icon` y dificultad con 3 marcas en `accent` / `border-strong` más su nombre en texto (los colores rojo, verde y amarillo de `main` no existen en la paleta, `DESIGN.md` 4.1).
+  - La sección de Giscus del Foro pasa a ser un componente común (`GiscusSection`) con el término como prop.
+  - Íconos nuevos de Material Symbols Light (ADR-063): `pdf`, `play-circle`, `link`, `description`, `flag`, `checklist`, `schedule`, `restart`, `search` y `more-horiz`.
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** cierra AT-028 y AT-037; registra AT-095 y BL-09. ADR-007 no cambia (la página sigue siendo una épica). `verify:seo` suma 95 controles (697 en total).
+- **Origen:** decisiones de Felipe el 03-11-2026 (E130-I01). **Estado:** Aceptada.
+
+## ADR-080 · Recursos: composición A (ficha en banda y línea de tiempo por etapas)
+- **Contexto:** ADR-036 pide validar la composición al inicio de la épica. Se propusieron 3, todas con patrones de `DESIGN.md` 11.2: **A**, ficha de la ruta en banda y pasos en línea de tiempo por etapas, con temáticas en grilla simétrica; **B**, zigzag con una franja por etapa y temáticas en mosaico; **C**, dos columnas con ficha pegajosa y temáticas en zigzag.
+- **Decisión (de Felipe, 03-11-2026):** **composición A.** Cabecera alineada a la izquierda (`bg`) → banda (7.8) con la ficha de la ruta (resumen, `dl` «Qué logras / Conocimientos previos / Duración estimada», progreso y «Reiniciar progreso») → «Pasos de la ruta» en **línea de tiempo compacta** (`bg`): un hito por etapa (marcador de 44 px con el número de la etapa, h3 «Etapa N» + título y contador), y sus pasos en lista ordenada con numeración de corrido, en bloques `surface` con borde izquierdo de 2 px (`border-strong`; `gold` al completar) → hilo de Giscus de la ruta (`bg`) → temáticas en **grilla simétrica de tarjetas** sobre `bg-alt` (E130-I02).
+- **Consecuencias:** `DESIGN.md` 11.2 (banda, línea de tiempo y grilla simétrica disponibles para Recursos) y una sección nueva de Recursos en 11: bloque en la bitácora `2026-11-03_E130-I01.md` (lo edita Felipe, ADR-033).
+- **Origen:** elección de Felipe el 03-11-2026 (E130-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

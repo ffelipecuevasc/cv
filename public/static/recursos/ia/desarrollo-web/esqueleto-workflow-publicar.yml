@@ -1,0 +1,38 @@
+# ESQUELETO · Épica 2 · Iteración 2
+# Guarda este archivo como .github/workflows/publicar.yml
+# Completa cada ___ con ayuda de Claude (pídele que te guíe, no que te dé la respuesta).
+# Antes del push: Settings → Pages → Source → GitHub Actions
+
+name: Publicar portafolio
+
+on:
+  push:
+    branches: [ ___ ]            # ¿qué rama dispara la publicación?
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  construir-y-publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6     # pista: lee la versión de pnpm del package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ___        # ¿qué versión LTS de Node.js usas?
+          cache: pnpm
+      - run: pnpm install
+      - run: ___                   # el script de build de la Iteración 1
+      - run: ___                   # ojo: el .gitignore NO aplica dentro del runner
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ___                # ¿qué carpeta publicas? (la raíz)
+      - id: despliegue
+        uses: actions/deploy-pages@v5

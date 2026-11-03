@@ -1,0 +1,244 @@
+{
+  "header": {
+    "kicker": {
+      "es": "Comunidad",
+      "en": "Community"
+    },
+    "title": {
+      "es": "Bóveda de recursos",
+      "en": "Resource vault"
+    },
+    "lead": {
+      "es": "Una ruta de aprendizaje con pasos ordenados para avanzar a tu ritmo, y materiales sueltos agrupados por temática. En la ruta puedes marcar lo que vas completando: el progreso queda guardado en tu navegador.",
+      "en": "A learning path with ordered steps to move at your own pace, plus standalone materials grouped by topic. On the path you can mark what you complete: your progress is saved in your browser."
+    }
+  },
+  "route": {
+    "id": "desarrollo-web-ia",
+    "kicker": {
+      "es": "Ruta de aprendizaje",
+      "en": "Learning path"
+    },
+    "title": {
+      "es": "Desarrollo Web & IA",
+      "en": "Web Development & AI"
+    },
+    "summary": {
+      "es": "De la intuición al criterio: planifica, diseña, estructura, publica y delega tu propio portafolio con ayuda de Claude.",
+      "en": "From intuition to judgment: plan, design, structure, publish and delegate your own portfolio with help from Claude."
+    },
+    "facts": [
+      {
+        "icon": "flag",
+        "label": {
+          "es": "Qué logras",
+          "en": "What you achieve"
+        },
+        "text": {
+          "es": "Al terminar tienes tu propio portafolio diseñado, estructurado, publicado en internet, y un flujo de trabajo real con Claude Code para seguir construyendo.",
+          "en": "By the end you have your own portfolio designed, structured and published online, plus a real Claude Code workflow to keep building."
+        }
+      },
+      {
+        "icon": "checklist",
+        "label": {
+          "es": "Conocimientos previos",
+          "en": "Prerequisites"
+        },
+        "text": {
+          "es": "Ninguno para empezar. Antes de la Etapa 5 necesitas una cuenta de GitHub y el plan Claude Pro.",
+          "en": "None to get started. Before Stage 5 you need a GitHub account and the Claude Pro plan."
+        }
+      },
+      {
+        "icon": "schedule",
+        "label": {
+          "es": "Duración estimada",
+          "en": "Estimated time"
+        },
+        "text": {
+          "es": "Alrededor de 8 horas",
+          "en": "About 8 hours"
+        }
+      }
+    ],
+    "comingSoon": {
+      "es": "Próximamente: la grabación completa del taller en video.",
+      "en": "Coming soon: the full video recording of the workshop."
+    },
+    "stepsTitle": {
+      "es": "Pasos de la ruta",
+      "en": "Path steps"
+    },
+    "stages": [
+      {
+        "id": "stage-0",
+        "title": {
+          "es": "Introducción y materiales",
+          "en": "Introduction and materials"
+        }
+      },
+      {
+        "id": "stage-1",
+        "title": {
+          "es": "Planificación: del Vibe Coding a la Ingeniería con IA",
+          "en": "Planning: from Vibe Coding to AI Engineering"
+        }
+      },
+      {
+        "id": "stage-2",
+        "title": {
+          "es": "Diseño de interfaces con Google Stitch",
+          "en": "Interface design with Google Stitch"
+        }
+      },
+      {
+        "id": "stage-3",
+        "title": {
+          "es": "Arquitectura del proyecto: WebStorm, stack y archivos de contexto",
+          "en": "Project architecture: WebStorm, stack and context files"
+        }
+      },
+      {
+        "id": "stage-4",
+        "title": {
+          "es": "Publicación: Git, GitHub y CI/CD",
+          "en": "Publishing: Git, GitHub and CI/CD"
+        }
+      },
+      {
+        "id": "stage-5",
+        "title": {
+          "es": "Delegar en Claude Code",
+          "en": "Delegating to Claude Code"
+        }
+      }
+    ],
+    "steps": [
+      9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+      33
+    ]
+  },
+  "ui": {
+    "stage": {
+      "es": "Etapa {n}",
+      "en": "Stage {n}"
+    },
+    "progress": {
+      "es": "{done} de {total} pasos completados",
+      "en": "{done} of {total} steps completed"
+    },
+    "completed": {
+      "es": "Ruta completada",
+      "en": "Path completed"
+    },
+    "progressLabel": {
+      "es": "Progreso de la ruta",
+      "en": "Path progress"
+    },
+    "reset": {
+      "es": "Reiniciar progreso",
+      "en": "Reset progress"
+    },
+    "markDone": {
+      "es": "Marcar como completado",
+      "en": "Mark as completed"
+    },
+    "localNotice": {
+      "es": "Tu progreso se guarda solo en este navegador y en este dispositivo. Si limpias los datos de navegación, se pierde.",
+      "en": "Your progress is saved only in this browser and on this device. If you clear your browsing data, it is lost."
+    },
+    "search": {
+      "es": "Buscar dentro de la ruta por título, tecnología o descripción",
+      "en": "Search the path by title, technology or description"
+    },
+    "searchPlaceholder": {
+      "es": "Buscar dentro de la ruta…",
+      "en": "Search the path…"
+    },
+    "noResults": {
+      "es": "Ningún paso de esta ruta coincide con la búsqueda.",
+      "en": "No step on this path matches your search."
+    },
+    "formats": {
+      "pdf": {
+        "es": "PDF",
+        "en": "PDF"
+      },
+      "video": {
+        "es": "Video",
+        "en": "Video"
+      },
+      "link": {
+        "es": "Enlace",
+        "en": "Link"
+      },
+      "repo": {
+        "es": "Repositorio",
+        "en": "Repository"
+      },
+      "template": {
+        "es": "Plantilla",
+        "en": "Template"
+      },
+      "article": {
+        "es": "Artículo",
+        "en": "Article"
+      }
+    },
+    "actions": {
+      "pdf": {
+        "es": "Descargar",
+        "en": "Download"
+      },
+      "video": {
+        "es": "Ver clase",
+        "en": "Watch"
+      },
+      "link": {
+        "es": "Ver más",
+        "en": "Learn more"
+      },
+      "repo": {
+        "es": "Ver repositorio",
+        "en": "View repository"
+      },
+      "template": {
+        "es": "Descargar plantilla",
+        "en": "Download template"
+      },
+      "article": {
+        "es": "Leer",
+        "en": "Read"
+      }
+    },
+    "difficulties": {
+      "basic": {
+        "es": "Básico",
+        "en": "Beginner"
+      },
+      "intermediate": {
+        "es": "Intermedio",
+        "en": "Intermediate"
+      },
+      "advanced": {
+        "es": "Avanzado",
+        "en": "Advanced"
+      }
+    },
+    "difficultyLabel": {
+      "es": "Dificultad",
+      "en": "Difficulty"
+    }
+  },
+  "thread": {
+    "kicker": {
+      "es": "Dudas de la ruta",
+      "en": "Path questions"
+    },
+    "title": {
+      "es": "Conversación de la ruta",
+      "en": "Path conversation"
+    }
+  }
+}

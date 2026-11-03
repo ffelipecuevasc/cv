@@ -1,0 +1,388 @@
+[
+  {
+    "id": "9",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "basic",
+    "stage": "stage-0",
+    "technology": { "es": "Glosario", "en": "Glossary" },
+    "title": { "es": "Glosario completo del taller", "en": "Complete workshop glossary" },
+    "description": {
+      "es": "Todos los conceptos del taller, del Vibe Coding a la ingeniería con IA, en un solo documento.",
+      "en": "Every concept from the workshop, from Vibe Coding to AI-assisted engineering, in a single document."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/glosario-vibe-coding-ingenieria-ia.pdf"
+  },
+  {
+    "id": "10",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-0",
+    "technology": { "es": "Claude Code", "en": "Claude Code" },
+    "title": {
+      "es": "Documentación oficial de Claude Code",
+      "en": "Official Claude Code documentation"
+    },
+    "description": {
+      "es": "Referencia oficial de Anthropic para instalar, configurar y trabajar con Claude Code.",
+      "en": "Anthropic's official reference for installing, configuring and working with Claude Code."
+    },
+    "url": "https://docs.claude.com/en/docs/claude-code/overview"
+  },
+  {
+    "id": "11",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-0",
+    "technology": { "es": "Anthropic Academy", "en": "Anthropic Academy" },
+    "title": {
+      "es": "Anthropic Academy: cursos gratuitos",
+      "en": "Anthropic Academy: free courses"
+    },
+    "description": {
+      "es": "Catálogo de cursos gratuitos de Anthropic para aprender a trabajar con Claude.",
+      "en": "Anthropic's catalog of free courses to learn how to work with Claude."
+    },
+    "url": "https://academy.claude.com"
+  },
+  {
+    "id": "12",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "basic",
+    "stage": "stage-1",
+    "technology": { "es": "Planificación", "en": "Planning" },
+    "title": {
+      "es": "Planificación: del Vibe Coding a la Ingeniería con IA (PDF)",
+      "en": "Planning: from Vibe Coding to AI Engineering (PDF)"
+    },
+    "description": {
+      "es": "Material de la Etapa 1: cómo pasar de la intuición a un plan antes de pedirle código a la IA.",
+      "en": "Stage 1 material: how to go from intuition to a plan before asking the AI for code."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/etapa-1-planificacion.pdf"
+  },
+  {
+    "id": "13",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-1",
+    "technology": { "es": "LinkedIn", "en": "LinkedIn" },
+    "title": { "es": "Addy Osmani en LinkedIn", "en": "Addy Osmani on LinkedIn" },
+    "description": {
+      "es": "Perfil de Addy Osmani, referente en ingeniería web y en desarrollo asistido por IA.",
+      "en": "Profile of Addy Osmani, a leading voice in web engineering and AI-assisted development."
+    },
+    "url": "https://www.linkedin.com/in/addyosmani"
+  },
+  {
+    "id": "14",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-1",
+    "technology": { "es": "LinkedIn", "en": "LinkedIn" },
+    "title": { "es": "Andrej Karpathy en LinkedIn", "en": "Andrej Karpathy on LinkedIn" },
+    "description": {
+      "es": "Perfil de Andrej Karpathy, quien acuñó el término Vibe Coding.",
+      "en": "Profile of Andrej Karpathy, who coined the term Vibe Coding."
+    },
+    "url": "https://www.linkedin.com/in/andrej-karpathy-9a650716/"
+  },
+  {
+    "id": "15",
+    "kind": "resource",
+    "format": "video",
+    "difficulty": "basic",
+    "stage": "stage-1",
+    "technology": { "es": "YouTube", "en": "YouTube" },
+    "title": {
+      "es": "Entrevista a Addy Osmani sobre Beyond Vibe Coding",
+      "en": "Interview with Addy Osmani on Beyond Vibe Coding"
+    },
+    "description": {
+      "es": "Conversación sobre cómo ir más allá del Vibe Coding hacia una ingeniería asistida por IA.",
+      "en": "A conversation about moving beyond Vibe Coding toward AI-assisted engineering."
+    },
+    "url": "https://youtu.be/dHIppEqwi0g?si=_whEHzNwe6FgDBNu"
+  },
+  {
+    "id": "16",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-1",
+    "technology": { "es": "O'Reilly", "en": "O'Reilly" },
+    "title": { "es": "Beyond Vibe Coding (O'Reilly)", "en": "Beyond Vibe Coding (O'Reilly)" },
+    "description": {
+      "es": "Libro de Addy Osmani sobre desarrollo profesional de software con asistentes de IA.",
+      "en": "Addy Osmani's book on professional software development with AI assistants."
+    },
+    "url": "https://www.oreilly.com/library/view/beyond-vibe-coding/9798341634749/"
+  },
+  {
+    "id": "17",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "basic",
+    "stage": "stage-2",
+    "technology": { "es": "Google Stitch", "en": "Google Stitch" },
+    "title": {
+      "es": "Diseño de interfaces con Google Stitch (PDF)",
+      "en": "Interface design with Google Stitch (PDF)"
+    },
+    "description": {
+      "es": "Material de la Etapa 2: diseña la interfaz de tu portafolio con Google Stitch.",
+      "en": "Stage 2 material: design your portfolio's interface with Google Stitch."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/etapa-2-diseno-google-stitch.pdf"
+  },
+  {
+    "id": "18",
+    "kind": "resource",
+    "format": "template",
+    "difficulty": "intermediate",
+    "stage": "stage-2",
+    "technology": { "es": "Google Stitch", "en": "Google Stitch" },
+    "title": {
+      "es": "Prompt maestro para Stitch (plantilla)",
+      "en": "Master prompt for Stitch (template)"
+    },
+    "description": {
+      "es": "Plantilla de prompt lista para completar y generar el diseño de tu portafolio en Stitch.",
+      "en": "A ready-to-fill prompt template to generate your portfolio's design in Stitch."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/prompt-maestro-stitch.txt"
+  },
+  {
+    "id": "19",
+    "kind": "resource",
+    "format": "repo",
+    "difficulty": "intermediate",
+    "stage": "stage-2",
+    "technology": { "es": "DESIGN.md", "en": "DESIGN.md" },
+    "title": { "es": "Especificación abierta de DESIGN.md", "en": "DESIGN.md open specification" },
+    "description": {
+      "es": "Repositorio con la especificación abierta para describir un sistema visual a los agentes de IA.",
+      "en": "Repository with the open specification for describing a visual system to AI agents."
+    },
+    "url": "https://github.com/google-labs-code/design.md"
+  },
+  {
+    "id": "20",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "intermediate",
+    "stage": "stage-3",
+    "technology": { "es": "Arquitectura", "en": "Architecture" },
+    "title": { "es": "Arquitectura del proyecto (PDF)", "en": "Project architecture (PDF)" },
+    "description": {
+      "es": "Material de la Etapa 3: WebStorm, elección del stack y archivos de contexto para la IA.",
+      "en": "Stage 3 material: WebStorm, choosing the stack and context files for the AI."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/etapa-3-arquitectura-proyecto.pdf"
+  },
+  {
+    "id": "21",
+    "kind": "resource",
+    "format": "template",
+    "difficulty": "intermediate",
+    "stage": "stage-3",
+    "technology": { "es": "AGENTS.md", "en": "AGENTS.md" },
+    "title": { "es": "Plantilla de AGENTS.md", "en": "AGENTS.md template" },
+    "description": {
+      "es": "Punto de partida para escribir las instrucciones que los agentes de IA siguen en tu proyecto.",
+      "en": "A starting point for writing the instructions AI agents follow in your project."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/plantilla-agents-md.txt"
+  },
+  {
+    "id": "22",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-3",
+    "technology": { "es": "AGENTS.md", "en": "AGENTS.md" },
+    "title": { "es": "agents.md: el estándar abierto", "en": "agents.md: the open standard" },
+    "description": {
+      "es": "Sitio oficial del formato abierto AGENTS.md para dar contexto a los agentes de programación.",
+      "en": "Official site of the open AGENTS.md format for giving context to coding agents."
+    },
+    "url": "https://agents.md/"
+  },
+  {
+    "id": "23",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "intermediate",
+    "stage": "stage-4",
+    "technology": { "es": "Git y GitHub", "en": "Git and GitHub" },
+    "title": {
+      "es": "Publicación: Git, GitHub y CI/CD (PDF)",
+      "en": "Publishing: Git, GitHub and CI/CD (PDF)"
+    },
+    "description": {
+      "es": "Material de la Etapa 4: versiona tu portafolio y publícalo con un flujo automatizado.",
+      "en": "Stage 4 material: version your portfolio and publish it with an automated workflow."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/etapa-4-publicacion-git-github-cicd.pdf"
+  },
+  {
+    "id": "24",
+    "kind": "resource",
+    "format": "template",
+    "difficulty": "basic",
+    "stage": "stage-4",
+    "technology": { "es": "Git", "en": "Git" },
+    "title": { "es": "Plantilla de .gitignore", "en": ".gitignore template" },
+    "description": {
+      "es": "Lista base de archivos y carpetas que no deben subirse a tu repositorio.",
+      "en": "A base list of files and folders that should not be pushed to your repository."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/plantilla-gitignore.txt"
+  },
+  {
+    "id": "25",
+    "kind": "resource",
+    "format": "template",
+    "difficulty": "intermediate",
+    "stage": "stage-4",
+    "technology": { "es": "GitHub Actions", "en": "GitHub Actions" },
+    "title": {
+      "es": "Esqueleto del workflow de publicación",
+      "en": "Publishing workflow skeleton"
+    },
+    "description": {
+      "es": "Estructura base de un workflow de GitHub Actions para publicar tu sitio automáticamente.",
+      "en": "The base structure of a GitHub Actions workflow to publish your site automatically."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/esqueleto-workflow-publicar.yml"
+  },
+  {
+    "id": "26",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-4",
+    "technology": { "es": "GitHub Pages", "en": "GitHub Pages" },
+    "title": {
+      "es": "Documentación oficial de GitHub Pages",
+      "en": "Official GitHub Pages documentation"
+    },
+    "description": {
+      "es": "Guía oficial para alojar un sitio estático gratis directamente desde tu repositorio.",
+      "en": "Official guide to hosting a static site for free straight from your repository."
+    },
+    "url": "https://docs.github.com/es/pages"
+  },
+  {
+    "id": "27",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-4",
+    "technology": { "es": "GitHub Actions", "en": "GitHub Actions" },
+    "title": {
+      "es": "Documentación oficial de GitHub Actions",
+      "en": "Official GitHub Actions documentation"
+    },
+    "description": {
+      "es": "Guía oficial para automatizar compilaciones, pruebas y despliegues desde GitHub.",
+      "en": "Official guide to automating builds, tests and deployments from GitHub."
+    },
+    "url": "https://docs.github.com/es/actions"
+  },
+  {
+    "id": "28",
+    "kind": "resource",
+    "format": "pdf",
+    "difficulty": "intermediate",
+    "stage": "stage-5",
+    "technology": { "es": "Claude Code", "en": "Claude Code" },
+    "title": { "es": "Delegar en Claude Code (PDF)", "en": "Delegating to Claude Code (PDF)" },
+    "description": {
+      "es": "Material de la Etapa 5: cómo delegar tareas en Claude Code y revisar lo que entrega.",
+      "en": "Stage 5 material: how to delegate tasks to Claude Code and review what it delivers."
+    },
+    "url": "/static/recursos/ia/desarrollo-web/etapa-5-delegar-claude-code.pdf"
+  },
+  {
+    "id": "29",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-5",
+    "technology": { "es": "Anthropic Academy", "en": "Anthropic Academy" },
+    "title": { "es": "Curso: Claude Code 101", "en": "Course: Claude Code 101" },
+    "description": {
+      "es": "Curso introductorio de Anthropic Academy para dar tus primeros pasos con Claude Code.",
+      "en": "Anthropic Academy's introductory course to take your first steps with Claude Code."
+    },
+    "url": "https://academy.claude.com/es/courses/claude-code-101"
+  },
+  {
+    "id": "30",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-5",
+    "technology": { "es": "Anthropic Academy", "en": "Anthropic Academy" },
+    "title": { "es": "Curso: Claude Code in Action", "en": "Course: Claude Code in Action" },
+    "description": {
+      "es": "Curso práctico de Anthropic Academy para integrar Claude Code en tu flujo de desarrollo.",
+      "en": "Anthropic Academy's hands-on course to bring Claude Code into your development workflow."
+    },
+    "url": "https://academy.claude.com/courses/claude-code-in-action"
+  },
+  {
+    "id": "31",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "intermediate",
+    "stage": "stage-5",
+    "technology": { "es": "Anthropic Academy", "en": "Anthropic Academy" },
+    "title": {
+      "es": "Curso: Introducción a los subagentes",
+      "en": "Course: Introduction to subagents"
+    },
+    "description": {
+      "es": "Curso de Anthropic Academy sobre cómo repartir el trabajo entre subagentes de Claude Code.",
+      "en": "Anthropic Academy course on how to split work across Claude Code subagents."
+    },
+    "url": "https://academy.claude.com/es/courses/introduction-to-subagents"
+  },
+  {
+    "id": "32",
+    "kind": "resource",
+    "format": "link",
+    "difficulty": "basic",
+    "stage": "stage-5",
+    "technology": { "es": "Anthropic Academy", "en": "Anthropic Academy" },
+    "title": {
+      "es": "Curso: AI Fluency, marco y fundamentos",
+      "en": "Course: AI Fluency, framework and foundations"
+    },
+    "description": {
+      "es": "Curso de Anthropic Academy sobre el marco para colaborar con la IA de forma eficaz y responsable.",
+      "en": "Anthropic Academy course on the framework for collaborating with AI effectively and responsibly."
+    },
+    "url": "https://academy.claude.com/es/courses/ai-fluency-framework-foundations"
+  },
+  {
+    "id": "33",
+    "kind": "resource",
+    "format": "repo",
+    "difficulty": "advanced",
+    "stage": "stage-5",
+    "technology": { "es": "Claude Code", "en": "Claude Code" },
+    "title": { "es": "agent-skills, por Addy Osmani", "en": "agent-skills, by Addy Osmani" },
+    "description": {
+      "es": "Repositorio de habilidades reutilizables para ampliar lo que un agente como Claude Code sabe hacer.",
+      "en": "Repository of reusable skills that extend what an agent like Claude Code can do."
+    },
+    "url": "https://github.com/addyosmani/agent-skills"
+  }
+]

@@ -1,0 +1,435 @@
+---
+/*
+ * Pasos de la ruta (E130-I01, ADR-079): línea de tiempo compacta (DESIGN.md 11.2) con un hito por
+ * etapa (marcador de 44 px con su número, h3 con «Etapa N · título» y contador) y, bajo él, sus
+ * pasos en una lista ordenada con numeración de corrido. Cada paso: casilla «Marcar como
+ * completado», h4, chips de formato, dificultad y tecnología, descripción y enlace.
+ * - Sin JavaScript se ven todos los pasos y sus enlaces; las casillas, los contadores y el
+ *   buscador nacen `hidden` y los muestra src/scripts/resources.ts.
+ * - Colores solo de tokens (4.1): formato con ícono en `icon`; dificultad con 3 marcas en
+ *   `accent` / `border-strong` y el nombre en texto.
+ * - Un archivo local (/static/...) se descarga con su URL de main; lo externo abre en otra pestaña.
+ */
+import Container from '../ui/Container.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import type { IconName } from '../ui/icons';
+import { langFromLocale } from '../../i18n/lang';
+import { fill, getResourcesPage, getRouteStages, isLocal } from './resources-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { ui } = await getResourcesPage();
+const { route, stages, total } = await getRouteStages();
+
+const FORMAT_ICONS: Record<string, IconName> = {
+  pdf: 'pdf',
+  video: 'play-circle',
+  link: 'link',
+  repo: 'github',
+  template: 'description',
+  article: 'description',
+};
+const LEVELS = { basic: 1, intermediate: 2, advanced: 3 } as const;
+---
+
+<section
+  class="route-steps"
+  aria-labelledby="route-steps-title"
+  data-route={route.id}
+  data-total={total}
+  data-progress-template={ui.progress[lang]}
+  data-completed={ui.completed[lang]}
+>
+  <Container>
+    <SectionHeader
+      kicker={route.title[lang]}
+      title={route.stepsTitle[lang]}
+      id="route-steps-title"
+    />
+
+    <div class="search" role="search" data-route-search hidden>
+      <label for="route-search">{ui.search[lang]}</label>
+      <div class="search-field">
+        <Icon name="search" size={20} />
+        <input id="route-search" type="search" placeholder={ui.searchPlaceholder[lang]} />
+      </div>
+      <p class="no-results" data-no-results role="status" hidden>
+        {ui.noResults[lang]}
+      </p>
+    </div>
+
+    <ol class="stages" data-stages>
+      {stages.map((stage) => (
+        <li class="stage" data-stage={stage.id}>
+          <span class="marker" aria-hidden="true">
+            {stage.number}
+          </span>
+          <div class="body">
+            <h3 class="stage-title" id={`stage-${stage.number}`}>
+              <span class="stage-number">{fill(ui.stage[lang], { n: stage.number })}</span>
+              <span class="stage-name">{stage.title[lang]}</span>
+            </h3>
+            <p class="stage-count" data-stage-count hidden>
+              0 / {stage.steps.length}
+            </p>
+            <ol
+              class="steps"
+              start={stage.steps[0].number}
+              aria-labelledby={`stage-${stage.number}`}
+            >
+              {stage.steps.map((step) => {
+                const local = isLocal(step.url);
+                const titleId = `step-${step.id}-title`;
+                return (
+                  <li
+                    class="step"
+                    data-step={step.id}
+                    data-search={`${step.title[lang]} ${step.description[lang]} ${step.technology[lang]}`.toLowerCase()}
+                  >
+                    <label class="check" data-step-check hidden>
+                      <input type="checkbox" value={step.id} aria-describedby={titleId} />
+                      <span class="sr-only">{ui.markDone[lang]}</span>
+                      <Icon name="check" size={24} class="check-on" />
+                    </label>
+                    <div class="step-body">
+                      <p class="chips">
+                        <span class="chip format">
+                          <Icon name={FORMAT_ICONS[step.format]} size={16} />
+                          {ui.formats[step.format][lang]}
+                        </span>
+                        <span class="chip difficulty">
+                          <span class="levels" aria-hidden="true">
+                            {[1, 2, 3].map((n) => (
+                              <span class:list={['level', { on: n <= LEVELS[step.difficulty] }]} />
+                            ))}
+                          </span>
+                          <span class="sr-only">{ui.difficultyLabel[lang]}: </span>
+                          {ui.difficulties[step.difficulty][lang]}
+                        </span>
+                        <span class="chip">{step.technology[lang]}</span>
+                      </p>
+                      <h4 class="step-title" id={titleId}>
+                        <span class="step-number" aria-hidden="true">
+                          {String(step.number).padStart(2, '0')}
+                        </span>
+                        {step.title[lang]}
+                      </h4>
+                      <p class="text">{step.description[lang]}</p>
+                      <p class="action">
+                        {local ? (
+                          <a href={step.url} download class="download">
+                            <Icon name="download" size={16} />
+                            {ui.actions[step.format][lang]}
+                            <span class="sr-only">: {step.title[lang]}</span>
+                          </a>
+                        ) : (
+                          <ExternalLink href={step.url} {lang}>
+                            {ui.actions[step.format][lang]}
+                            <span class="sr-only">: {step.title[lang]}</span>
+                          </ExternalLink>
+                        )}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </li>
+      ))}
+    </ol>
+    {route.comingSoon && (
+      <p class="coming-soon">
+        <Icon name="more-horiz" size={20} />
+        {route.comingSoon[lang]}
+      </p>
+    )}
+  </Container>
+</section>
+
+<script>
+  import { initRouteProgress } from '../../scripts/resources';
+
+  initRouteProgress();
+</script>
+
+<style>
+  .route-steps {
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  [hidden] {
+    display: none !important;
+  }
+  .search {
+    max-width: 36rem;
+    margin-top: 40px;
+  }
+  .search label {
+    display: block;
+    color: var(--color-text-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .search-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    margin-top: 8px;
+    padding-inline: 14px;
+    border: 1px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-icon);
+  }
+  .search-field:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  .search-field input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 16px;
+    outline: none;
+  }
+  .no-results {
+    margin: 16px 0 0;
+    color: var(--color-text-muted);
+  }
+  .stages {
+    max-width: 56rem;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 20px;
+    padding-bottom: 48px;
+  }
+  .stage:last-child {
+    padding-bottom: 0;
+  }
+  .stage:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 44px;
+    bottom: 0;
+    left: 21.5px;
+    width: 1px;
+    background-color: var(--color-border-strong);
+  }
+  .marker {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-border-strong);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .body {
+    min-width: 0;
+  }
+  .stage-title {
+    margin: 0;
+    padding-top: 4px;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+  .stage-number {
+    display: block;
+    color: var(--color-kicker);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .stage-count {
+    margin: 6px 0 0;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .steps {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-inline-start: 2px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    transition: border-color var(--duration-base) ease;
+  }
+  .step.is-done {
+    border-inline-start-color: var(--color-gold);
+  }
+  .check {
+    position: relative;
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin: -8px 0 0 -8px;
+    cursor: pointer;
+  }
+  .check input {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    appearance: none;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    cursor: pointer;
+  }
+  .check input:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  .check :global(.check-on) {
+    position: absolute;
+    display: none;
+    color: var(--color-accent);
+    pointer-events: none;
+  }
+  .check input:checked {
+    border-color: transparent;
+  }
+  .check input:checked ~ :global(.check-on) {
+    display: block;
+  }
+  .step-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--chip-border);
+    background-color: var(--chip-bg);
+    color: var(--chip-fg);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+  .format :global(svg) {
+    color: var(--color-icon);
+  }
+  .levels {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .level {
+    width: 6px;
+    height: 10px;
+    background-color: var(--color-border-strong);
+  }
+  .level.on {
+    background-color: var(--color-accent);
+  }
+  .step-title {
+    margin: 12px 0 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+  .step-number {
+    margin-inline-end: 8px;
+    color: var(--color-text-soft);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .text {
+    margin: 8px 0 0;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .action {
+    margin: 12px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .download:hover {
+    color: var(--color-heading);
+  }
+  .coming-soon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 56rem;
+    margin: 40px 0 0;
+    padding: 16px 20px;
+    border: 1px dashed var(--color-border-strong);
+    color: var(--color-text-muted);
+    font-size: 15px;
+  }
+  .coming-soon :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  /* Bajo 640 px se recortan rellenos y separaciones para que el texto del paso respire. */
+  @media (max-width: 39.99rem) {
+    .stage {
+      column-gap: 12px;
+    }
+    .steps {
+      margin-inline-start: -56px;
+    }
+    .step {
+      gap: 4px;
+      padding: 16px 16px 16px 8px;
+    }
+  }
+  @media (min-width: 48rem) {
+    .route-steps {
+      padding-block: 96px;
+    }
+  }
+</style>

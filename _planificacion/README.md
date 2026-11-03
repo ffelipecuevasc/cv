@@ -7,9 +7,9 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 ## Estado actual
 - **Rama de trabajo:** `migracion-astro` (confirmada en E10-I01). Parte desde `main`. Nunca se trabaja en `main`.
 - **Épica actual:** E130 · Página Recursos (recursos.html)
-- **Iteración actual:** E130-I01 · Rutas de aprendizaje con progreso (E120 terminada el 02-11-2026 con E120-I01: Página del foro con Giscus bilingüe, ADR-078; cierra AT-027, registra AT-094; inglés del foro por validar por Felipe. E110 terminada el 02-11-2026 con E110-I01: Retiro de Eventos, ADR-077; Eventos sale del sitio y `/eventos` da 404. E100 terminada el 02-11-2026 con E100-I02: Logros de Talento Digital, ADR-076; antes E100-I01, ADR-074 y ADR-075; inglés de Talento Digital por validar por Felipe).
+- **Iteración actual:** E130-I02 · Bóveda mixta: temáticas, descargables y JSON-LD (E130-I01 terminada el 03-11-2026: bóveda mixta con la ruta Web & IA y progreso, ADR-079 y ADR-080; cierra AT-028 y AT-037; inglés por validar por Felipe. E120 terminada el 02-11-2026 con E120-I01: Página del foro con Giscus bilingüe, ADR-078; cierra AT-027, registra AT-094; inglés del foro por validar por Felipe. E110 terminada el 02-11-2026 con E110-I01: Retiro de Eventos, ADR-077; Eventos sale del sitio y `/eventos` da 404. E100 terminada el 02-11-2026 con E100-I02: Logros de Talento Digital, ADR-076; antes E100-I01, ADR-074 y ADR-075; inglés de Talento Digital por validar por Felipe).
 - **Orden de ejecución de épicas:** numérico, E10 → E20 → … → E140 → E150 → E155 → E160 → E170 → E180 → E190 (detalle en `registro-log.md`).
-- **Terminadas:** 44 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01, E90-I02, E100-I01, E100-I02, E110-I01, E120-I01). Épicas E10, E20, E30, E40, E50, E60, E70, E80, E90, E100, E110 y E120 terminadas.
+- **Terminadas:** 45 de 62 (E10-I01, E10-I02, E10-I03, E10-I04, E10-I05, E10-I06, E10-I07, E10-I08, E10-I09, E20-I01, E20-I02, E20-I03, E20-I04, E20-I05, E20-I06, E20-I07, E30-I01, E30-I02, E30-I03, E30-I04, E30-I05, E30-I06, E30-I07, E30-I08, E40-I01, E40-I02, E40-I03, E40-I04, E50-I01, E50-I02, E50-I03, E60-I01, E60-I02, E70-I01, E70-I02, E70-I03, E70-I04, E80-I01, E90-I01, E90-I02, E100-I01, E100-I02, E110-I01, E120-I01, E130-I01). Épicas E10, E20, E30, E40, E50, E60, E70, E80, E90, E100, E110 y E120 terminadas.
 
 ## Iteraciones terminadas y pendientes
 **E10 · Fundaciones técnicas** (`10_epica-fundaciones/`)
@@ -81,8 +81,8 @@ Este README describe **el trabajo de migración**. No es el `README.md` de la ra
 - [x] E120-I01 · Página del foro con Giscus bilingüe (P1, M)
 
 **E130 · Página Recursos (recursos.html)** (`130_epica-recursos/`)
-- [ ] E130-I01 · Rutas de aprendizaje con progreso (P1, M)
-- [ ] E130-I02 · Bóveda de recursos y JSON-LD Course (P1, M)
+- [x] E130-I01 · Bóveda mixta: página, modelo y ruta Web & IA (P1, M)
+- [ ] E130-I02 · Bóveda mixta: temáticas, descargables y JSON-LD (P1, M)
 
 **E140 · Página Contacto (contacto.html)** (`140_epica-contacto/`)
 - [ ] E140-I01 · Página, formulario, Turnstile y Calendly (P1, M)

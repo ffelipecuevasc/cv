@@ -1747,6 +1747,181 @@ check(
 );
 check(same(forum.es?.levels, forum.en?.levels), 'misma estructura de encabezados en /es/ y /en/');
 
+// --- Recursos (E130-I01, ADR-079): bóveda mixta, ruta Web & IA con progreso y su hilo ---
+const RESOURCES = { es: 'es/recursos', en: 'en/resources' };
+// Pasos de la ruta desarrollo-web-ia de main, en orden (ids de rutas-progreso, ADR-023).
+const ROUTE_STEPS = Array.from({ length: 25 }, (_, i) => i + 9);
+const ROUTE_STAGES = 6;
+// Archivos locales de la ruta con la URL de main (AT-043) y su peso exacto en bytes.
+const ROUTE_FILES = {
+  '/static/recursos/ia/desarrollo-web/glosario-vibe-coding-ingenieria-ia.pdf': 136278,
+  '/static/recursos/ia/desarrollo-web/etapa-1-planificacion.pdf': 926842,
+  '/static/recursos/ia/desarrollo-web/etapa-2-diseno-google-stitch.pdf': 707648,
+  '/static/recursos/ia/desarrollo-web/prompt-maestro-stitch.txt': 3110,
+  '/static/recursos/ia/desarrollo-web/etapa-3-arquitectura-proyecto.pdf': 715117,
+  '/static/recursos/ia/desarrollo-web/plantilla-agents-md.txt': 955,
+  '/static/recursos/ia/desarrollo-web/etapa-4-publicacion-git-github-cicd.pdf': 923064,
+  '/static/recursos/ia/desarrollo-web/plantilla-gitignore.txt': 214,
+  '/static/recursos/ia/desarrollo-web/esqueleto-workflow-publicar.yml': 1286,
+  '/static/recursos/ia/desarrollo-web/etapa-5-delegar-claude-code.pdf': 976904,
+};
+const RESOURCES_TEXT = {
+  es: { h1: 'Bóveda de recursos', title: 'Bóveda de recursos | Felipe Cuevas' },
+  en: { h1: 'Resource vault', title: 'Resource vault | Felipe Cuevas' },
+};
+console.log('\nArchivos locales de la ruta Web & IA');
+for (const [path, size] of Object.entries(ROUTE_FILES)) {
+  const file = join(DIST, path);
+  check(existsSync(file) && statSync(file).size === size, `dist${path} (${size} bytes, AT-043)`);
+}
+const resources = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = RESOURCES[lang];
+  const other = RESOURCES[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title === RESOURCES_TEXT[lang].title, `title = «${RESOURCES_TEXT[lang].title}» (AT-037)`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${RESOURCES.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('twitter:title') === title,
+    'og:title y twitter:title = title',
+  );
+  check(
+    meta('og:description') === description && meta('twitter:description') === description,
+    'og:description y twitter:description = description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  const h1 = text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '');
+  check(h1 === RESOURCES_TEXT[lang].h1, `<h1> = «${RESOURCES_TEXT[lang].h1}» (AT-037)`);
+  check(
+    tags(body, 'a').some((a) => a.href === `/${other}/` && a.hreflang === LANGS[info.other].code),
+    'el selector de idioma lleva a la página equivalente',
+  );
+
+  // Ruta: ficha en banda, pasos en orden, etapas y progreso solo con JavaScript.
+  check(
+    /texture-band[^>]*>[\s\S]*data-route-progress/.test(mainHtml),
+    'la ficha de la ruta va en una banda (7.8)',
+  );
+  check(
+    /<dl class="facts[^"]*"[^>]*>/.test(mainHtml) &&
+      (mainHtml.match(/<dt[\s>]/g) ?? []).length === 3,
+    'ficha con 3 datos en <dl>',
+  );
+  const sectionTag = /<section[^>]*data-route="[^"]*"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const section = attrs(sectionTag);
+  check(section['data-route'] === 'desarrollo-web-ia', 'data-route = desarrollo-web-ia (ADR-023)');
+  check(section['data-total'] === String(ROUTE_STEPS.length), `data-total = ${ROUTE_STEPS.length}`);
+  const stepIds = [...mainHtml.matchAll(/data-step="(\d+)"/g)].map((m) => Number(m[1]));
+  check(same(stepIds, ROUTE_STEPS), 'pasos 9 al 33 en el orden de main');
+  check(
+    (mainHtml.match(/data-stage="stage-\d+"/g) ?? []).length === ROUTE_STAGES,
+    `${ROUTE_STAGES} etapas`,
+  );
+  check(
+    (mainHtml.match(/<input type="checkbox" value="(\d+)"/g) ?? []).length === ROUTE_STEPS.length,
+    'una casilla por paso, con el id como valor',
+  );
+  check(
+    [...mainHtml.matchAll(/<label[^>]*data-step-check[^>]*>/g)].every((m) =>
+      /\shidden/.test(m[0]),
+    ) &&
+      /<div[^>]*data-route-progress[^>]*hidden/.test(mainHtml) &&
+      /<div[^>]*data-route-search[^>]*hidden/.test(mainHtml),
+    'casillas, progreso y buscador nacen ocultos (sin JavaScript se lee la ruta)',
+  );
+  const starts = [...mainHtml.matchAll(/<ol class="steps[^"]*" start="(\d+)"/g)].map((m) =>
+    Number(m[1]),
+  );
+  check(starts.length === ROUTE_STAGES && starts[0] === 1, 'numeración de pasos de corrido');
+  for (const path of Object.keys(ROUTE_FILES)) {
+    check(
+      new RegExp(`<a href="${path.replace(/\./g, '\\.')}" download`).test(mainHtml),
+      `descarga ${path.split('/').pop()}`,
+    );
+  }
+  const external = [...mainHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)].filter(
+    ([, href]) => !href.startsWith('https://github.com/ffelipecuevasc/comunidad'),
+  );
+  check(
+    external.length === ROUTE_STEPS.length - Object.keys(ROUTE_FILES).length &&
+      external.every(([, , rest]) => rest.includes('target="_blank" rel="noopener noreferrer"')),
+    'pasos externos con pestaña nueva avisada',
+  );
+  check(
+    !/static\/js\/|rutas\.js|data-aos|animate-spin/.test(html),
+    'sin JS de main, AOS ni spinner',
+  );
+
+  // Hilo de la ruta con la sección común de Giscus.
+  const panel = attrs(/<div[^>]*data-forum-thread[^>]*>/.exec(mainHtml)?.[0] ?? '');
+  check(panel['data-term'] === 'ruta-desarrollo-web-ia', 'Giscus: término ruta-desarrollo-web-ia');
+  check(panel['data-repo'] === 'ffelipecuevasc/comunidad', 'Giscus: repo de main');
+  check(panel['data-lang'] === lang, `Giscus: data-lang = ${lang}`);
+  check(!/ruta-(python|empleabilidad|java)\b/.test(html), 'sin los hilos de las rutas retiradas');
+  check(!/<script[^>]*giscus\.app/.test(html), 'giscus.app no se carga en el HTML');
+  check(
+    mainHtml.indexOf('data-stages') < mainHtml.indexOf('data-forum-thread'),
+    'orden: ficha → pasos → conversación',
+  );
+
+  resources[lang] = { stepIds, levels, term: panel['data-term'], starts };
+}
+check(
+  same(resources.es?.stepIds, resources.en?.stepIds) &&
+    same(resources.es?.starts, resources.en?.starts),
+  'mismos pasos y etapas en /es/ y /en/',
+);
+check(same(resources.es?.levels, resources.en?.levels), 'misma estructura de encabezados');
+check(resources.es?.term === resources.en?.term, 'mismo hilo de Giscus en /es/ y /en/ (ADR-022)');
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

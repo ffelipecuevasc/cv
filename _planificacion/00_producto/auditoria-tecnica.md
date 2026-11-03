@@ -254,7 +254,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** no migrarla.
 
 ### AT-037 · Título y encabezado inconsistentes en recursos
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E130-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E130-I01 (03-11-2026): `<title>` y `<h1>` dicen «Bóveda de recursos» / «Resource vault» (decisión de Felipe, ADR-079) · **Resuelve:** E130-I01
 - **Evidencia:** `<title>` "Rutas de Aprendizaje" (`recursos.html:7`) frente a `<h1>` "Bóveda de Recursos" (`recursos.html:267`).
 - **Impacto:** señal de SEO confusa.
 - **Recomendación:** alinear con Felipe.
@@ -347,11 +347,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** idioma por página y término compartido (ADR-022).
 
 ### AT-028 · Claves de `localStorage` que deben conservarse
-- **Severidad:** Media · **Estado:** Abierto (parcial: `theme` en E30-I01 y `perfil-hero` en E40-I01; falta `rutas-progreso`, E130-I01) · **Resuelve:** E30-I01, E40-I01, E130-I01
+- **Severidad:** Media · **Estado:** Resuelto en E130-I01 (03-11-2026): `theme` (E30-I01), `perfil-hero` (E40-I01) y `rutas-progreso` (E130-I01) se conservan con el formato de main · **Resuelve:** E30-I01, E40-I01, E130-I01
 - **Evidencia:** `theme` (`static/js/servicios/tema.js`), `perfil-hero` (`static/js/config/perfiles.config.js:10`) y `rutas-progreso` (`static/js/config/rutas.config.js:10`).
 - **Impacto:** los visitantes perderían sus preferencias y su progreso.
 - **Recomendación:** ADR-023.
 - **Avance (E30-I01):** la clave `theme` se conserva con los mismos valores (`dark`/`light`) en el script de tema. Siguen `perfil-hero` (E40-I01) y `rutas-progreso` (E130-I01).
+- **Avance (E130-I01, 03-11-2026):** `rutas-progreso` conserva el formato `{"ruta": [ids numéricos]}`; la página solo lee y escribe `desarrollo-web-ia` y nunca borra las demás claves (python, empleabilidad, java), aunque ya no se muestren (ADR-079). Probado con un valor precargado.
 - **Avance (E40-I01, 30-10-2026):** `perfil-hero` se conserva con los mismos valores (`instructor`, `docente`, `desarrollador`) y `?perfil=` se lee y se refleja con `replaceState`; `?perfil=` prevalece sobre la clave y un valor inválido se ignora. Falta `rutas-progreso` (E130-I01).
 
 ### AT-034 · Descargables pesados y solo en español
@@ -816,3 +817,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `main:foro.html`, paso «2 · Lee las normas»: «Siete reglas breves…». Según Felipe, el `README.md` del repositorio `ffelipecuevasc/comunidad` publica 8 reglas.
 - **Impacto:** el sitio contradecía las normas que enlaza.
 - **Recomendación:** si cambia el número de reglas de la comunidad, actualizar `src/content/forum/page.json` y el texto esperado en `verify:seo`.
+
+### AT-095 · Los pasos de la ruta Web & IA enlazan archivos locales que E130-I02 iba a copiar
+- **Severidad:** Baja · **Estado:** Resuelto en E130-I01 (03-11-2026): por decisión de Felipe se copiaron en esta iteración · **Resuelve:** E130-I01
+- **Evidencia:** 10 pasos de la ruta (ids 9, 12, 17, 18, 20, 21, 23, 24, 25 y 28) apuntan a `/static/recursos/ia/desarrollo-web/`: 7 PDF (unos 5,4 MB), 2 `.txt` y 1 `.yml`. El corte de ADR-079 dejaba los archivos para E130-I02.
+- **Impacto:** sin copiarlos, esos enlaces quedaban rotos entre I01 e I02.
+- **Recomendación:** aplicada. Se copiaron desde `main` con la misma URL (AT-043) y `verify:seo` compara su peso en bytes. E130-I02 copia los 5 archivos de los recursos 1 al 8 y suma el peso visible también a estos pasos.

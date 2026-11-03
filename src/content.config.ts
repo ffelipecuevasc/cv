@@ -7,7 +7,7 @@
  */
 import { defineCollection } from 'astro:content';
 import type { ImageFunction } from 'astro/content/config';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { routes } from './i18n/routes';
 import { symbolIcons, type SymbolIconName } from './components/ui/icons';
@@ -745,7 +745,109 @@ const forumPage = defineCollection({
   }),
 });
 
+/*
+ * Recursos (E130-I01, ADR-079): bóveda mixta. Una ruta con progreso (solo `desarrollo-web-ia`)
+ * y recursos sueltos agrupados por temática (E130-I02). `items.json` guarda todos los recursos
+ * con el id numérico de main (es la clave del progreso guardado en `rutas-progreso`, ADR-023).
+ * El tipo `article` queda previsto en el modelo, sin páginas ni contenido (backlog posterior al
+ * cutover). Un archivo local empieza con /static/ y conserva la URL de main (AT-043).
+ */
+const RESOURCE_FORMATS = ['pdf', 'video', 'link', 'repo', 'template', 'article'] as const;
+const RESOURCE_DIFFICULTIES = ['basic', 'intermediate', 'advanced'] as const;
+const STAGE_ID = z.string().regex(/^stage-\d+$/);
+
+const resources = defineCollection({
+  loader: file('./src/content/resources/items.json'),
+  schema: z
+    .object({
+      kind: z.enum(['resource', 'article']),
+      format: z.enum(RESOURCE_FORMATS),
+      difficulty: z.enum(RESOURCE_DIFFICULTIES),
+      /** Etapa de la ruta (solo los pasos de la ruta). */
+      stage: STAGE_ID.optional(),
+      /** Temática de la bóveda (E130-I02). */
+      theme: z
+        .string()
+        .regex(/^[a-z-]+$/)
+        .optional(),
+      technology: localized(),
+      title: localized(),
+      description: localized(),
+      url: z.string().regex(/^(https:\/\/|\/static\/)/, 'URL https:// o /static/...'),
+    })
+    .refine(
+      (r) => (r.kind === 'article') === (r.format === 'article'),
+      'Un artículo usa el formato «article»',
+    )
+    .refine(
+      (r) => Boolean(r.stage) !== Boolean(r.theme),
+      'Cada recurso va en una etapa o en una temática',
+    ),
+});
+
+const resourcesPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/resources' }),
+  schema: z.object({
+    header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+    route: z.object({
+      /** Clave de la ruta en `rutas-progreso` y valor de `?ruta=` (ADR-023, ADR-025). */
+      id: z.literal('desarrollo-web-ia'),
+      kicker: localized(),
+      title: localized(),
+      summary: localized(),
+      facts: z
+        .array(z.object({ icon: z.enum(SYMBOL_NAMES), label: localized(), text: localized() }))
+        .length(3),
+      comingSoon: localized().optional(),
+      stepsTitle: localized(),
+      stages: z.array(z.object({ id: STAGE_ID, title: localized() })).min(1),
+      /** Ids de main en orden pedagógico. */
+      steps: z
+        .array(z.number().int().positive())
+        .min(1)
+        .refine((s) => new Set(s).size === s.length, 'Los pasos no se repiten'),
+    }),
+    ui: z.object({
+      stage: localized().refine((t) => t.es.includes('{n}') && t.en.includes('{n}'), 'Usa «{n}»'),
+      progress: localized().refine(
+        (t) => ['{done}', '{total}'].every((k) => t.es.includes(k) && t.en.includes(k)),
+        'Usa «{done}» y «{total}»',
+      ),
+      completed: localized(),
+      progressLabel: localized(),
+      reset: localized(),
+      markDone: localized(),
+      localNotice: localized(),
+      search: localized(),
+      searchPlaceholder: localized(),
+      noResults: localized(),
+      formats: z.object(
+        Object.fromEntries(RESOURCE_FORMATS.map((f) => [f, localized()])) as Record<
+          (typeof RESOURCE_FORMATS)[number],
+          ReturnType<typeof localized>
+        >,
+      ),
+      actions: z.object(
+        Object.fromEntries(RESOURCE_FORMATS.map((f) => [f, localized()])) as Record<
+          (typeof RESOURCE_FORMATS)[number],
+          ReturnType<typeof localized>
+        >,
+      ),
+      difficulties: z.object(
+        Object.fromEntries(RESOURCE_DIFFICULTIES.map((f) => [f, localized()])) as Record<
+          (typeof RESOURCE_DIFFICULTIES)[number],
+          ReturnType<typeof localized>
+        >,
+      ),
+      difficultyLabel: localized(),
+    }),
+    thread: z.object({ kicker: localized(), title: localized() }),
+  }),
+});
+
 export const collections = {
+  resources,
+  resourcesPage,
   forumPage,
   talentoDigitalPage,
   instructorPage,
