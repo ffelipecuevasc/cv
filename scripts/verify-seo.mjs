@@ -14,6 +14,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { certifications, getCountDisplay } from '../src/data/certifications.ts';
 import { socialLinks } from '../src/components/layout/social-links.ts';
+import { PRIVACY_POLICY_VERSION } from '../src/data/privacy-policy.ts';
 
 const SITE = 'https://felipecuevas.dev';
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
@@ -2044,6 +2045,214 @@ check(
 check(same(resources.es?.levels, resources.en?.levels), 'misma estructura de encabezados');
 check(resources.es?.term === resources.en?.term, 'mismo hilo de Giscus en /es/ y /en/ (ADR-022)');
 check(same(resources.es?.themeItems, resources.en?.themeItems), 'mismas temáticas en /es/ y /en/');
+
+// --- Contacto (E140-I01, ADR-035 y ADR-083): metadatos, estructura, formulario y terceros ---
+const CONTACT_ROUTES = { es: 'es/contacto', en: 'en/contact' };
+const CONTACT_TEXT = {
+  es: { h1: 'Contáctame', privacy: '/es/privacidad/' },
+  en: { h1: 'Get in touch', privacy: '/en/privacy/' },
+};
+// Canales de main:contacto.html, en orden, sin Discord (ADR-044).
+const CONTACT_CHANNELS = [
+  'mailto:contacto@felipecuevas.dev',
+  'https://www.linkedin.com/in/ffelipecuevasc/',
+  'https://github.com/ffelipecuevasc',
+  'https://chilefacilitadores.cl/users/detail/ffelipecuevasc',
+];
+/*
+ * EXCEPCIÓN TEMPORAL (ADR-083): /es/privacidad/ y /en/privacy/ aún no existen; las publica
+ * E155-I01. Mientras tanto, el control de enlaces internos de Contacto las acepta sin página.
+ * E155-I01 debe retirar esta excepción (vaciar la lista).
+ */
+const PENDING_ROUTES = ['/es/privacidad/', '/en/privacy/'];
+const CONTACT_FIELDS = [
+  'contact-name',
+  'contact-email',
+  'contact-subject',
+  'contact-message',
+  'contact-consent',
+];
+const contact = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = CONTACT_ROUTES[lang];
+  const other = CONTACT_ROUTES[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${CONTACT_ROUTES.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('og:description') === description,
+    'og:title y og:description = title y description',
+  );
+  check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+  check(!head.includes('application/ld+json'), 'sin JSON-LD (main no lo tenía)');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  check(
+    text(/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '') === CONTACT_TEXT[lang].h1,
+    `<h1> = «${CONTACT_TEXT[lang].h1}»`,
+  );
+  check(
+    tags(body, 'a').some((a) => a.href === `/${other}/` && a.hreflang === LANGS[info.other].code),
+    'el selector de idioma lleva a la página equivalente',
+  );
+
+  // Composición A: canales en banda → formulario → Calendly.
+  const channels = /<ul[^>]*data-channels[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
+  const channelLinks = tags(channels, 'a');
+  check(
+    same(
+      channelLinks.map((a) => a.href),
+      CONTACT_CHANNELS,
+    ),
+    'los 4 canales de main sin Discord, en orden (ADR-044)',
+  );
+  check(
+    channelLinks.every((a) =>
+      a.href.startsWith('mailto:')
+        ? !a.target
+        : a.target === '_blank' && a.rel === 'noopener noreferrer',
+    ),
+    'los canales externos abren pestaña nueva; el correo no',
+  );
+  check(
+    /texture-band[^>]*>[\s\S]*data-channels/.test(mainHtml),
+    'los canales van en una banda (7.8)',
+  );
+  const order = ['data-channels', 'data-contact-form', 'data-calendly'].map((m) =>
+    mainHtml.indexOf(m),
+  );
+  check(
+    order.every((pos, i) => pos > 0 && (i === 0 || pos > order[i - 1])),
+    'orden: canales → formulario → Calendly',
+  );
+
+  // Formulario: destino, campos con etiqueta, consentimiento y versión de la política.
+  const formTag = attrs(/<form[^>]*data-contact-form[^>]*>/.exec(mainHtml)?.[0] ?? '');
+  const formHtml = /<form[^>]*data-contact-form[\s\S]*?<\/form>/.exec(mainHtml)?.[0] ?? '';
+  check(
+    formTag.action === '/api/contacto' && formTag.method === 'post',
+    'envía por POST a /api/contacto',
+  );
+  for (const id of CONTACT_FIELDS) {
+    const control = /<(input|textarea)\b[^>]*>/g;
+    const tag = [...formHtml.matchAll(control)]
+      .map((m) => m[0])
+      .find((t) => t.includes(`id="${id}"`));
+    check(
+      new RegExp(`<label[^>]*for="${id}"`).test(formHtml) && /\srequired/.test(tag ?? ''),
+      `${id}: etiqueta visible y obligatorio`,
+    );
+    check(formHtml.includes(`id="${id}-error"`), `${id}: mensaje de error propio`);
+  }
+  check(
+    /id="contact-consent"[^>]*type="checkbox"/.test(formHtml),
+    'el consentimiento es un checkbox',
+  );
+  check(
+    tags(formHtml, 'a').some((a) => a.href === CONTACT_TEXT[lang].privacy),
+    `el checkbox enlaza a ${CONTACT_TEXT[lang].privacy} (ADR-035)`,
+  );
+  const version = tags(formHtml, 'input').find((i) => i.name === 'versionPolitica');
+  check(
+    version?.type === 'hidden' && version.value === PRIVACY_POLICY_VERSION,
+    `versión de la política = ${PRIVACY_POLICY_VERSION} (constante única, ADR-083)`,
+  );
+  check(
+    /<button[^>]*type="submit"/.test(formHtml) &&
+      !/<button[^>]*type="submit"[^>]*\sdisabled/.test(formHtml),
+    'botón de envío presente y no deshabilitado (ADR-035)',
+  );
+  check(!/<(input|textarea)[^>]*\sdisabled/.test(formHtml), 'ningún campo nace deshabilitado');
+  check(/<noscript>[\s\S]*data-contact-noscript/.test(formHtml), 'aviso sin JavaScript');
+  check(/role="status"[^>]*data-form-status/.test(formHtml), 'región de estado del envío');
+
+  // Terceros diferidos: ni Turnstile ni Calendly se cargan en el HTML (AT-024).
+  check(
+    !/<script[^>]*(challenges\.cloudflare\.com|calendly\.com)/.test(html) &&
+      !/<iframe[\s>]/.test(mainHtml),
+    'Turnstile y Calendly no se cargan en el HTML',
+  );
+  check(
+    attrs(/<div[^>]*data-turnstile[^>]*>/.exec(mainHtml)?.[0] ?? '')['data-language'] === lang,
+    `Turnstile en el idioma de la página (${lang})`,
+  );
+  check(
+    /<noscript>[\s\S]*data-calendly-load/.test(mainHtml),
+    'sin JavaScript se oculta «Cargar el calendario»',
+  );
+  check(
+    mainHtml.includes('href="https://calendly.com/ffelipecuevasc/entrevista-breve"'),
+    'enlace directo a Calendly',
+  );
+  check(
+    !/(client_secret|TURNSTILE_SECRET|CF_EMAIL_TOKEN|api[_-]?key|token=)/i.test(html),
+    'sin claves privadas ni tokens en el HTML',
+  );
+
+  // Enlaces internos: todos existen, salvo la excepción temporal de la política (E155-I01).
+  const internal = [
+    ...new Set(
+      tags(mainHtml, 'a')
+        .map((a) => a.href)
+        .filter((h) => h?.startsWith('/')),
+    ),
+  ];
+  const unresolved = internal.filter((h) => !routeExists(h) && !PENDING_ROUTES.includes(h));
+  check(
+    unresolved.length === 0,
+    `enlaces internos existentes (${unresolved.join(', ') || 'todos'})`,
+  );
+
+  contact[lang] = { levels, channels: channelLinks.map((a) => a.href) };
+}
+check(same(contact.es?.levels, contact.en?.levels), 'Contacto: misma estructura de encabezados');
+check(same(contact.es?.channels, contact.en?.channels), 'Contacto: mismos canales en /es/ y /en/');
 
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');

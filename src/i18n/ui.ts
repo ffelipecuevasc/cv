@@ -49,6 +49,38 @@ const es = {
     privacy: 'Política de privacidad',
     newTab: '(se abre en una pestaña nueva)',
   },
+  // Formulario de contacto (E140-I01, ADR-035 y ADR-083). Textos en-US por validar (ADR-017).
+  contactForm: {
+    name: 'Nombre completo',
+    namePlaceholder: 'Ej.: Ana Rojas',
+    email: 'Correo electrónico',
+    emailPlaceholder: 'Ej.: ana@correo.cl',
+    subject: 'Asunto',
+    subjectPlaceholder: 'Ej.: Propuesta de trabajo',
+    message: 'Mensaje',
+    messagePlaceholder: 'Cuéntame tu propuesta o consulta…',
+    // El checkbox se arma como: consentBefore + enlace (consentLink) + consentAfter.
+    consentBefore: 'Leí y acepto la ',
+    consentLink: 'política de privacidad',
+    consentAfter: '.',
+    required: '(obligatorio)',
+    submit: 'Enviar mensaje',
+    sending: 'Enviando tu mensaje…',
+    errorSummary: 'Revisa los campos marcados para poder enviar tu mensaje.',
+    errorName: 'Escribe tu nombre.',
+    errorEmail: 'Escribe un correo válido, por ejemplo ana@correo.cl.',
+    errorSubject: 'Escribe el asunto del mensaje.',
+    errorMessage: 'Escribe tu mensaje.',
+    errorConsent: 'Para enviar el mensaje debes aceptar la política de privacidad.',
+    errorTurnstile:
+      'Espera un momento a que termine la verificación de seguridad y vuelve a enviar.',
+    errorTurnstileDown:
+      'La verificación de seguridad no está disponible. Escríbeme a contacto@felipecuevas.dev mientras tanto.',
+    errorSend:
+      'No pude enviar tu mensaje. Inténtalo de nuevo en unos minutos o escríbeme a contacto@felipecuevas.dev.',
+    noscript:
+      'Este formulario necesita JavaScript para verificar que no eres un robot. Si prefieres no activarlo, escríbeme a contacto@felipecuevas.dev o por LinkedIn.',
+  },
   backToTop: 'Volver arriba',
 };
 
@@ -98,6 +130,35 @@ const en: Dictionary = {
     downloadCvLabel: 'Download CV (PDF, Spanish)',
     privacy: 'Privacy policy',
     newTab: '(opens in a new tab)',
+  },
+  contactForm: {
+    name: 'Full name',
+    namePlaceholder: 'E.g. Jane Doe',
+    email: 'Email',
+    emailPlaceholder: 'E.g. jane@example.com',
+    subject: 'Subject',
+    subjectPlaceholder: 'E.g. Job offer',
+    message: 'Message',
+    messagePlaceholder: 'Tell me about your proposal or question…',
+    consentBefore: 'I have read and accept the ',
+    consentLink: 'privacy policy',
+    consentAfter: '.',
+    required: '(required)',
+    submit: 'Send message',
+    sending: 'Sending your message…',
+    errorSummary: 'Please check the highlighted fields to send your message.',
+    errorName: 'Enter your name.',
+    errorEmail: 'Enter a valid email address, for example jane@example.com.',
+    errorSubject: 'Enter a subject for your message.',
+    errorMessage: 'Enter your message.',
+    errorConsent: 'You must accept the privacy policy to send your message.',
+    errorTurnstile: 'Please wait for the security check to finish, then send again.',
+    errorTurnstileDown:
+      'The security check is not available. Please email me at contacto@felipecuevas.dev in the meantime.',
+    errorSend:
+      'Your message could not be sent. Please try again in a few minutes or email me at contacto@felipecuevas.dev.',
+    noscript:
+      'This form needs JavaScript to check that you are not a robot. If you prefer not to enable it, email me at contacto@felipecuevas.dev or reach me on LinkedIn.',
   },
   backToTop: 'Back to top',
 };

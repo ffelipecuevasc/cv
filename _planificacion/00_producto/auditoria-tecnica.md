@@ -459,7 +459,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** `_headers` con CSP compatible.
 
 ### AT-024 · Terceros y envío de nombres a un servicio externo
-- **Severidad:** Media · **Estado:** Abierto (parcial: el respaldo de ui-avatars se retiró en E40-I02, 30-10-2026; faltan Calendly bajo demanda, E140-I01, y la CSP, E170-I03) · **Resuelve:** E140-I01, E40-I02, E170-I03
+- **Severidad:** Media · **Estado:** Abierto (parcial: el respaldo de ui-avatars se retiró en E40-I02, 30-10-2026; Calendly se carga al hacer clic y Turnstile al primer foco desde E140-I01, 03-11-2026, ADR-083; falta la CSP, E170-I03) · **Resuelve:** E140-I01, E40-I02, E170-I03
 - **Evidencia:**
   - Calendly (`contacto.html:365`) carga su widget al abrir la página;
   - `static/js/servicios/resiliencia.js:39` envía el `alt` (nombre de la persona) a `ui-avatars.com` cuando falla una foto;
@@ -832,7 +832,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** en E180-I01, revisar con las analíticas o el registro de Cloudflare qué URL de `static/img/` reciben visitas externas y servirlas o redirigirlas.
 
 ### AT-097 · Los videos de Recursos están en español y en /en/ no lo avisan
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin agendar (valorar con BL-04)
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170 (valorar con BL-04; decisión de Felipe en E140-I01, ADR-083)
 - **Evidencia (E130-I02, 03-11-2026):** el aviso «In Spanish» (AT-034) cubre los 15 archivos locales. Los 3 videos de YouTube de las temáticas (ids 6, 7 y 8) y algunos enlaces externos de la ruta también están en español, pero solo muestran «Watch» / «Learn more».
 - **Impacto:** un visitante de /en/ puede abrir un video que no entiende.
 - **Recomendación:** decidir si se agrega un campo `language` al modelo `resources` para avisar también en los enlaces externos.
+
+### AT-098 · El sistema no tiene un color de error para los formularios
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01 (valorar)
+- **Evidencia (E140-I01, 03-11-2026):** `DESIGN.md` 4.1 no tiene un tono de error y 9 prohíbe colores fuera de los tokens. El formulario de Contacto marca el error con ícono `alert` en `accent`, texto 600 en `text`, `aria-invalid` y contorno de 2 px en `focus`, el mismo color del foco.
+- **Impacto:** el error se distingue por el ícono y el texto, no por el color; cumple «ícono además del color» de 7.10, pero el campo con error y el campo con foco se ven parecidos.
+- **Recomendación:** decidir en E170-I01 si se agrega un token de error con contraste AA en ambos temas (ADR nuevo y `DESIGN.md` 4).
+
+### AT-099 · Tras un envío correcto el formulario redirige a una página que aún no existe
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E150-I01
+- **Evidencia (E140-I01, 03-11-2026):** `src/scripts/contact.ts` redirige a la ruta `thankYou` del mapa (`/es/agradecimiento/` o `/en/thank-you/`), que publica E150-I01. La función de envío llega en E140-I02.
+- **Impacto:** si E140-I02 se publica antes que E150, un envío correcto termina en la 404.
+- **Recomendación:** publicar E140-I02 y E150-I01 juntos en la preview, o probar el envío de E140-I02 sabiendo que la redirección da 404 hasta E150.

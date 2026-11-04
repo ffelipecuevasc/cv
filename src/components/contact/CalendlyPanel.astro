@@ -1,0 +1,90 @@
+---
+/*
+ * Agenda de Calendly (E140-I01, ADR-083): carga por interacción (AT-024). Nada de calendly.com se
+ * descarga hasta que la persona pulsa «Cargar el calendario»; el aviso explica que es un servicio
+ * externo. El panel reserva el alto del widget para que el contenido no salte. El enlace directo
+ * a Calendly está siempre visible y es la alternativa sin JavaScript (el botón se oculta).
+ */
+import Button from '../ui/Button.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { CONTACT, getContactPage } from './contact-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { calendly } = await getContactPage();
+---
+
+<div
+  class="calendly"
+  data-calendly
+  data-url={CONTACT.calendly.embed}
+  data-script={CONTACT.calendly.script}
+  data-loading-text={calendly.loading[lang]}
+>
+  <div class="placeholder" data-calendly-placeholder>
+    <Icon name="event" size={32} class="placeholder-icon" />
+    <p>{calendly.notice[lang]}</p>
+    <div data-calendly-load>
+      <Button variant="secondary" icon="event">
+        {calendly.load[lang]}
+      </Button>
+    </div>
+    <p class="calendly-status" role="status" data-calendly-status></p>
+  </div>
+</div>
+<noscript>
+  <style is:inline>
+    [data-calendly-load] {
+      display: none !important;
+    }
+  </style>
+</noscript>
+<p class="direct">
+  <ExternalLink href={CONTACT.calendly.page} {lang}>
+    {calendly.direct[lang]}
+  </ExternalLink>
+</p>
+
+<style>
+  .calendly {
+    min-height: 700px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 698px;
+    padding: 32px 24px;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  .placeholder p {
+    max-width: 36ch;
+    margin: 0;
+  }
+  .placeholder :global(.placeholder-icon) {
+    color: var(--color-icon);
+  }
+  .calendly-status:empty {
+    display: none;
+  }
+  .calendly :global(.calendly-inline-widget) {
+    width: 100%;
+    min-width: 280px;
+    height: 698px;
+  }
+  .direct {
+    margin: 16px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+  }
+</style>

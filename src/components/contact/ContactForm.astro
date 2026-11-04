@@ -1,0 +1,296 @@
+---
+/*
+ * Formulario de contacto (E140-I01; ADR-035 y ADR-083; DESIGN.md 7.10).
+ * - Etiqueta visible sobre cada campo; campos de 48 px `surface` con contorno `border-strong`.
+ * - Checkbox obligatorio de la política de privacidad con enlace a /es/privacidad o /en/privacy
+ *   (la página la publica E155-I01). La versión de la política viaja en el envío desde la
+ *   constante única de src/data/privacy-policy.ts.
+ * - El botón de envío nunca se deshabilita. Con JavaScript (src/scripts/contact.ts) la validación
+ *   es propia: cada error se muestra bajo su campo con ícono, se asocia con aria-describedby y el
+ *   foco va al primer campo con error. Un fallo del envío se anuncia en la región de estado,
+ *   asociada al botón, y el botón sigue activo.
+ * - Turnstile se descarga al primer foco en el formulario, no al abrir la página (AT-024).
+ * - Sin JavaScript el formulario se ve y valida con el navegador; un aviso ofrece el correo y
+ *   LinkedIn, porque sin Turnstile la función de E140-I02 rechaza el envío.
+ */
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+import { PRIVACY_POLICY_VERSION } from '../../data/privacy-policy';
+import { CONTACT, TURNSTILE_LANG } from './contact-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang).contactForm;
+
+const inputs = [
+  {
+    id: 'contact-name',
+    name: 'nombre',
+    type: 'text',
+    autocomplete: 'name',
+    label: t.name,
+    placeholder: t.namePlaceholder,
+    error: t.errorName,
+    half: true,
+    maxlength: 120,
+  },
+  {
+    id: 'contact-email',
+    name: 'correo',
+    type: 'email',
+    autocomplete: 'email',
+    label: t.email,
+    placeholder: t.emailPlaceholder,
+    error: t.errorEmail,
+    half: true,
+    maxlength: 254,
+  },
+  {
+    id: 'contact-subject',
+    name: 'asunto',
+    type: 'text',
+    autocomplete: 'off',
+    label: t.subject,
+    placeholder: t.subjectPlaceholder,
+    error: t.errorSubject,
+    half: false,
+    maxlength: 150,
+  },
+] as const;
+---
+
+<form
+  class="contact-form"
+  id="contact-form"
+  method="post"
+  action={CONTACT.endpoint}
+  data-contact-form
+  data-lang={lang}
+  data-thank-you={getRoute('thankYou', lang)}
+  data-error-turnstile={t.errorTurnstile}
+  data-error-turnstile-down={t.errorTurnstileDown}
+  data-error-send={t.errorSend}
+  data-sending={t.sending}
+>
+  <input type="hidden" name="versionPolitica" value={PRIVACY_POLICY_VERSION} />
+  <input type="hidden" name="idioma" value={lang} />
+
+  <div class="grid-fields">
+    {inputs.map((field) => (
+      <div class:list={['field', { half: field.half }]}>
+        <label for={field.id}>
+          {field.label} <span class="sr-only">{t.required}</span>
+        </label>
+        <input
+          id={field.id}
+          name={field.name}
+          type={field.type}
+          autocomplete={field.autocomplete}
+          placeholder={field.placeholder}
+          maxlength={field.maxlength}
+          required
+        />
+        <p class="field-error" id={`${field.id}-error`} hidden data-error-for={field.id}>
+          <Icon name="alert" size={18} />
+          <span>{field.error}</span>
+        </p>
+      </div>
+    ))}
+    <div class="field">
+      <label for="contact-message">
+        {t.message} <span class="sr-only">{t.required}</span>
+      </label>
+      <textarea
+        id="contact-message"
+        name="mensaje"
+        rows="6"
+        placeholder={t.messagePlaceholder}
+        maxlength="5000"
+        required
+      ></textarea>
+      <p class="field-error" id="contact-message-error" hidden data-error-for="contact-message">
+        <Icon name="alert" size={18} />
+        <span>{t.errorMessage}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="consent">
+    <div class="consent-row">
+      <input id="contact-consent" name="consentimiento" type="checkbox" value="si" required />
+      <label for="contact-consent">
+        {t.consentBefore}
+        <a href={getRoute('privacy', lang)} data-privacy-link>
+          {t.consentLink}
+        </a>
+        {t.consentAfter} <span class="sr-only">{t.required}</span>
+      </label>
+    </div>
+    <p class="field-error" id="contact-consent-error" hidden data-error-for="contact-consent">
+      <Icon name="alert" size={18} />
+      <span>{t.errorConsent}</span>
+    </p>
+  </div>
+
+  <div
+    class="turnstile"
+    data-turnstile
+    data-sitekey={CONTACT.turnstile.siteKey}
+    data-script={CONTACT.turnstile.script}
+    data-language={TURNSTILE_LANG[lang]}
+  ></div>
+
+  <noscript>
+    <p class="noscript-notice" data-contact-noscript>
+      {t.noscript}
+    </p>
+  </noscript>
+
+  <p class="form-status" id="contact-status" role="status" data-form-status></p>
+
+  <div class="submit-row" data-submit>
+    <Button type="submit" icon="send">
+      {t.submit}
+    </Button>
+  </div>
+</form>
+
+<script>
+  import { initContactForm } from '../../scripts/contact';
+
+  initContactForm();
+</script>
+
+<style>
+  .grid-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .field label {
+    color: var(--color-text-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  input:not([type='checkbox']):not([type='hidden']),
+  textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 16px;
+    transition: border-color var(--duration-base) ease;
+  }
+  textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-soft);
+    opacity: 1;
+  }
+  input:not([type='checkbox']):hover,
+  textarea:hover {
+    border-color: var(--color-vibrant);
+  }
+  [aria-invalid='true'] {
+    border-color: var(--color-focus) !important;
+    box-shadow: inset 0 0 0 1px var(--color-focus);
+  }
+  .field-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .field-error[hidden] {
+    display: none;
+  }
+  .field-error :global(svg) {
+    flex: none;
+    margin-top: 1px;
+    color: var(--color-accent);
+  }
+  .consent {
+    margin-top: 24px;
+  }
+  .consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .consent-row input {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    margin: 1px 0 0;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+  .consent-row label {
+    color: var(--color-text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .consent-row a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .consent .field-error {
+    margin-top: 8px;
+  }
+  .turnstile:not(:empty) {
+    margin-top: 24px;
+  }
+  .noscript-notice {
+    margin: 24px 0 0;
+    padding: 16px 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .form-status {
+    margin: 24px 0 0;
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .form-status:empty {
+    display: none;
+  }
+  .submit-row {
+    margin-top: 24px;
+  }
+  @media (min-width: 40rem) {
+    .grid-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field:not(.half) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

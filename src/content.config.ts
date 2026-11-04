@@ -866,7 +866,48 @@ const resourcesPage = defineCollection({
   }),
 });
 
+/*
+ * Contacto (E140-I01, ADR-083): composición A. Cabecera, banda con los 4 canales de main (sin Discord, ADR-044) y
+ * formulario + Calendly en dos columnas. Los textos de interfaz del formulario viven en el
+ * diccionario (src/i18n/ui.ts); la configuración pública, en src/data/contact.ts.
+ */
+const contactPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/contact' }),
+  schema: z.object({
+    header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
+    channels: z.object({
+      kicker: localized(),
+      title: localized(),
+      items: z
+        .array(
+          z.object({
+            icon: z.enum(['email', 'linkedin', 'github', 'reuf']),
+            name: localized(),
+            detail: localized(),
+            href: z.string().regex(/^(https:\/\/|mailto:)/),
+          }),
+        )
+        .length(4),
+    }),
+    form: z.object({
+      kicker: localized(),
+      title: localized(),
+      location: localized(),
+      response: localized(),
+    }),
+    calendly: z.object({
+      kicker: localized(),
+      title: localized(),
+      notice: localized(),
+      load: localized(),
+      loading: localized(),
+      direct: localized(),
+    }),
+  }),
+});
+
 export const collections = {
+  contactPage,
   resources,
   resourcesPage,
   forumPage,

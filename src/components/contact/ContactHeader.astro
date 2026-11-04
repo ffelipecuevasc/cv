@@ -1,0 +1,37 @@
+---
+/*
+ * Cabecera de Contacto (E140-I01, ADR-083): el único <h1>, con rótulo y bajada, alineada a la
+ * izquierda sobre `bg`, como el Foro. Sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getContactPage } from './contact-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { header } = await getContactPage();
+---
+
+<div class="contact-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      lead={header.lead[lang]}
+      id="contact-title"
+    />
+  </Container>
+</div>
+
+<style>
+  .contact-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  @media (min-width: 48rem) {
+    .contact-header {
+      padding-block: 80px 72px;
+    }
+  }
+</style>

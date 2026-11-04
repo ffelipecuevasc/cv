@@ -886,6 +886,21 @@ Reglas del registro:
 - **Consecuencias:** `verify:seo` valida la estructura del bloque (743 controles en total). El validador de schema.org y la prueba de resultados enriquecidos de Google los pasa Felipe.
 - **Origen:** E130-I02, 03-11-2026. **Estado:** Aceptada.
 
+## ADR-083 · Contacto: composición A, constante de la política y carga diferida de terceros
+- **Contexto:** E140-I01. ADR-036 pide validar la composición al inicio de la épica; ADR-035 dejaba la constante de versión de la política en E140-I02, pero el formulario de I01 ya debe enviarla. Se propusieron 3 composiciones con patrones de `DESIGN.md` 11.2: **A**, banda con los canales y formulario + Calendly en dos columnas; **B**, ficha pegajosa con los canales y Calendly en banda aparte; **C**, línea de tiempo de tres pasos.
+- **Decisión (de Felipe, 03-11-2026):**
+  1. **Composición A.** Cabecera alineada a la izquierda (`bg`) → banda (7.8) «Canales directos» / «Canales de contacto» con los canales de `main` → sección `bg-alt` con el formulario en 7 columnas (panel `surface` con la ficha de ubicación y tiempo de respuesta) y Calendly en 5 desde 1.024 px; una columna bajo esa medida.
+  2. **Constante única de versión de la política** en `src/data/privacy-policy.ts` (`PRIVACY_POLICY_VERSION`, formato AAAA-MM-DD, hoy `2026-11-03`). La define E140-I01; E140-I02 y E155-I01 la importan. Sustituye en ese punto a ADR-035 (que la asignaba a E140-I02); ADR-035 no se edita.
+  3. El formulario envía por POST JSON a `/api/contacto` (E140-I02) los campos de `main` más `consentimiento`, `versionPolitica` e `idioma`. Si falla, el error se anuncia en una región `role="status"` asociada al botón con `aria-describedby`, y el botón sigue activo.
+  4. ADR-035 se aplica tal cual: checkbox obligatorio, botón siempre activo (nunca `disabled`), error bajo cada campo con ícono y `aria-describedby`, y foco en el primer error.
+  5. El checkbox enlaza a `/es/privacidad/` y `/en/privacy/`, que publica E155-I01. `verify:seo` los acepta como **excepción temporal** (`PENDING_ROUTES`) que E155-I01 debe retirar.
+  6. **Calendly se carga al hacer clic** en «Cargar el calendario», con aviso de servicio externo y enlace directo siempre visible (cierra la parte de Calendly de AT-024).
+  7. **Turnstile se carga al primer foco** en el formulario (o al enviar). Sin JavaScript el formulario se ve, el navegador valida y un aviso ofrece el correo y LinkedIn; no se deshabilitan campos como en `main`.
+  8. AT-097 se valora en E170. La migración a Node 26 (BL-02) se hace en **E190-I01**.
+- **Decisión (del agente, dentro del alcance):** Discord no está entre los canales (ADR-044): son 4 (correo, LinkedIn, GitHub y REUF). Las preguntas de la ronda de composición mostraban 5 por error; se corrigió antes del cierre. Los textos del formulario viven en el diccionario (`contactForm` en `src/i18n/ui.ts`); el resto, en `src/content/contact/page.json`. Sin dependencias nuevas.
+- **Consecuencias:** `DESIGN.md` 11.2 (banda disponible para Contacto) y una sección nueva 11.12 Contacto: bloque en la bitácora `2026-11-03_E140-I01.md` (lo edita Felipe, ADR-033). E140-I02 importa la constante en vez de definirla. `verify:seo` suma los controles de Contacto (829 en total). Inglés por validar por Felipe (ADR-017).
+- **Origen:** elección de Felipe el 03-11-2026 (E140-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
