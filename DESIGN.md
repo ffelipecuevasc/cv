@@ -1,6 +1,6 @@
 # DESIGN.md · felipecuevas.dev
 
-> **Estado: v1 (E20-I01, 29-10-2026).** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
+> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 03-11-2026 con los bloques de E100, E110, E120 y E130.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
 > Este archivo es la **única fuente de verdad del diseño** (ADR-010). Si un prototipo y este archivo difieren, **prevalece este archivo**.
 > Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes** y solo cambian con un ADR nuevo.
 > Nombres de tokens en inglés (ADR-025); textos en español de Chile.
@@ -17,11 +17,11 @@
 ## 2. Restricciones cerradas
 
 ### 2.1 Barra de navegación (ADR-008 · D-08)
-- Rediseño total de diseño y estilo, con **exactamente las mismas opciones de menú** del sitio actual:
+- Rediseño total de diseño y estilo, con las opciones de menú del sitio actual, salvo Eventos (ADR-077):
   - Inicio;
   - Educación;
   - **Experiencia ▾**: Resumen, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital;
-  - **Comunidad ▾**: Eventos, Foro, Recursos;
+  - **Comunidad ▾**: Foro, Recursos (Eventos salió del sitio, ADR-077);
   - Contacto;
   - el llamado a la acción "Descargar CV" (ADR-021) no va en la barra: vive en el pie (7.9, ADR-057).
 - En móvil, "Experiencia" y "Comunidad" son rótulos de grupo no navegables.
@@ -271,7 +271,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 - **Acciones:** botón de apariencia de 44 × 44 y selector de idioma. "Descargar CV" no va en la barra (ADR-057, 7.9).
 - **Botón de apariencia:** ícono de luna en claro y de sol en oscuro, en `icon` (en oscuro, `gold`). El nombre accesible dice la acción: "Activar tema oscuro" / "Activar tema claro" (y su equivalente en `en-US`).
 - **Selector de idioma:** control segmentado de 44 px de alto con "ES" y "EN" (Josefin 600, 12,5 px, interletraje 0,12 em) y divisor `border-strong`. El idioma actual va relleno (`orient-950` con texto blanco en claro; `orient-50` con texto `orient-950` en oscuro) y marcado con `aria-current="true"`. El otro idioma es un **enlace** a la página equivalente con `hreflang` y `lang`, y un nombre accesible del tipo "English version of this page" / "Versión en español de esta página". No se usan botones con `aria-pressed`.
-- **Móvil y tableta (bajo 1.280 px):** se oculta el menú; aparece un botón de menú de 44 × 44 con el estilo del botón de ícono. El panel se despliega bajo la barra a todo el ancho, con fondo `bg` al 98 %, borde inferior `border` y relleno de 24 px. Contiene, en este orden: Inicio, Educación, rótulo de grupo "Experiencia" (no navegable) con sus 5 opciones, rótulo "Comunidad" con sus 3 opciones y Contacto. No lleva "Descargar CV" (ADR-057). Los rótulos de grupo usan el estilo kicker y las opciones hijas llevan una regla vertical `border` a la izquierda. Altura sin límite fijo (AT-011): el panel se desplaza si no cabe. Cerrado lleva `inert`. Escape lo cierra. Desde 420 px, el botón de apariencia y el selector de idioma quedan en la barra, junto al botón de menú; bajo 420 px pasan al final del panel del menú, después de Contacto y separados por una línea `border` (ADR-051). El logotipo no se achica.
+- **Móvil y tableta (bajo 1.280 px):** se oculta el menú; aparece un botón de menú de 44 × 44 con el estilo del botón de ícono. El panel se despliega bajo la barra a todo el ancho, con fondo `bg` al 98 %, borde inferior `border` y relleno de 24 px. Contiene, en este orden: Inicio, Educación, rótulo de grupo "Experiencia" (no navegable) con sus 5 opciones, rótulo "Comunidad" con sus 2 opciones y Contacto. No lleva "Descargar CV" (ADR-057). Los rótulos de grupo usan el estilo kicker y las opciones hijas llevan una regla vertical `border` a la izquierda. Altura sin límite fijo (AT-011): el panel se desplaza si no cabe. Cerrado lleva `inert`. Escape lo cierra. Desde 420 px, el botón de apariencia y el selector de idioma quedan en la barra, junto al botón de menú; bajo 420 px pasan al final del panel del menú, después de Contacto y separados por una línea `border` (ADR-051). El logotipo no se achica.
 
 ### 7.3 Botones
 | Variante | Claro | Oscuro | Medidas |
@@ -330,7 +330,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - **Relleno:** 64 px arriba y 40 px abajo.
 - **Columnas (3 desde 768 px; una bajo esa medida):**
   1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho). Bajo la frase, el botón secundario "Descargar CV" de 46 px (7.3) con ícono de descarga, atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017 y ADR-057). Es el acceso al CV de todo el sitio.
-  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad lo agrega E155-I01 cuando exista la página (ADR-035); hasta entonces son 5.
+  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad lo agrega E155-I01 cuando exista la página (ADR-035); hasta entonces son 5. No lleva Eventos (ADR-077).
   3. **Redes** (alineada a la izquierda en todos los anchos): rótulo y lista de las 4 redes; en cada una, el ícono de marca de 18 px en `icon` va antes del texto `text-muted`; al pasar, `accent`.
 - **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año y "Felipe Cuevas", en `text-soft` 14 px. El enlace de privacidad va en la columna de navegación (ADR-057).
 - El botón de apariencia ya no está en el pie (ADR-021). Las columnas "Tecnologías" y "Certificaciones" del pie actual no forman parte del diseño nuevo.
@@ -411,13 +411,13 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Patrón | Descripción | Disponible para |
 |---|---|---|
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
-| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular) |
-| Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones), Docente (una franja por institución) |
-| Grilla simétrica de tarjetas | Encabezado centrado y tarjetas iguales en 3 columnas desde 1.024 px (una bajo esa medida), sin JavaScript. Cada tarjeta lleva foto, rótulo, título, instituciones, periodo y modalidad, texto, etiquetas y enlaces al pie | Experiencia (resumen), Docente (asignaturas, variante 2 × 2 sin foto: 2 columnas desde 1.024 px), Instructor (relatoría, variante sin foto: tarjetas compactas en 2 columnas desde 1.024 px) |
+| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular), Talento Digital (cifras de Logros), Foro (pasos), Recursos (ficha de la ruta) |
+| Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones), Docente (una franja por institución), Talento Digital (una franja por bootcamp, con portada) |
+| Grilla simétrica de tarjetas | Encabezado centrado y tarjetas iguales en 3 columnas desde 1.024 px (una bajo esa medida), sin JavaScript. Cada tarjeta lleva foto, rótulo, título, instituciones, periodo y modalidad, texto, etiquetas y enlaces al pie | Experiencia (resumen), Docente (asignaturas, variante 2 × 2 sin foto: 2 columnas desde 1.024 px), Instructor (relatoría, variante sin foto: tarjetas compactas en 2 columnas desde 1.024 px), Foro (categorías, variante 2 × 2 sin foto, como Docente), Recursos (temáticas, una grilla por grupo) |
 | Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
 | Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación), Desarrollador (portafolio, ritmo 7/5), Instructor (cursos: destacada a todo el ancho y ritmo 7/5, 5/7, 6/6, 12) |
-| Línea de tiempo | Hitos en secuencia vertical. Versión compacta: lista ordenada con riel de 1 px y marcadores circulares con ícono | Experiencia (resumen), Instructor (planes SENCE agrupados por fecha) |
-| Lista a dos columnas con regla superior | Entradas con regla de 1 px `border-strong` y tramo dorado de 48 px, ícono de 32 px, h3 en Cinzel y texto con énfasis; una columna bajo 768 px | Desarrollador (aspectos técnicos) |
+| Línea de tiempo | Hitos en secuencia vertical. Versión compacta: lista ordenada con riel de 1 px y marcadores circulares con ícono | Experiencia (resumen), Instructor (planes SENCE agrupados por fecha), Recursos (etapas de la ruta, con pasos marcables) |
+| Lista a dos columnas con regla superior | Entradas con regla de 1 px `border-strong` y tramo dorado de 48 px, ícono de 32 px, h3 en Cinzel y texto con énfasis; una columna bajo 768 px | Desarrollador (aspectos técnicos), Talento Digital (alianzas de Logros, sin h3: frase en Cinzel) |
 | **Reservados** (prototipo): pestañas verticales de trayectoria, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
 
 ### 11.3 Inicio
@@ -479,6 +479,31 @@ Sin JavaScript ni animaciones de entrada.
 5. **Planes SENCE:** encabezado alineado a la izquierda, fondo `bg`. Línea de tiempo compacta (riel de 1 px y marcadores de 44 px con `medal`), un hito por fecha (h3 de 13 px en mayúsculas) y, bajo él, cada plan en un bloque `surface` con contorno `border` y borde izquierdo de 2 px (`border-strong`; `gold` en el destacado), h4 en Cinzel con ícono `task-alt` (`new-releases` en el destacado) y texto de 15 px.
 
 Ritmo de fondos: `bg` → `band` → `bg` → `bg-alt` → `bg`. Sin JavaScript ni animaciones de entrada.
+
+### 11.9 Talento Digital
+1. **Cabecera** alineada a la izquierda, fondo `bg`, sin foto: rótulo «Instructor Senior» (`en-US`: «Senior Instructor»), `<h1>` «Talento Digital para Chile» (no se traduce), bajada con énfasis cuyo «2.000 horas» sale de `stats.json` (`class-hours`), y 3 insignias como chips (7.7) con ícono de 18 px: «Certificaciones Profesionales» y «Relator REUF» (`verified`) y el nombre largo del diplomado de Educación (`graduation-cap`), que ocupa dos renglones a 375 px (aceptado, ADR-076).
+2. **Bootcamps realizados:** encabezado alineado a la izquierda sobre `bg` con bajada con énfasis, y 6 franjas (7.8) en zigzag, en el orden de `main`, con fondos `bg` / `band` y espejo en las pares (como Docente). Rótulo: pastilla de tecnologías; titular h3: bootcamp; bajada: plan y ejecución u OTEC, que se suma al nombre accesible. Contenido: portada SVG 5:2 con contorno `border`, texto con énfasis, etiquetas (7.7), «Logros» (h4 en Cinzel 1,1 rem) con su texto y una línea `timer` · «horas | años» (13 px, mayúsculas, `text-soft`, números tabulares) bajo una regla `border`. Las horas salen de `src/data/training-plans.ts` (ADR-074).
+3. **Logros:** encabezado alineado a la izquierda sobre `bg` («Alianzas Estratégicas», h2 «Logros») con bajada con énfasis; 3 alianzas en lista a dos columnas con regla superior (ícono de 32 px y frase en Cinzel 1,15 rem; una columna bajo 768 px). Al cierre, una banda (7.8) sin encabezado con un `dl` de 3 cifras de `stats.json` («+2.000» horas de clase, «+5» bootcamps y «+150» módulos REUF), signo en `--metric-sign` y barras degradadas `gold` → `vibrant` entre cifras (ADR-076).
+
+Ritmo de fondos: `bg` → `bg` / `band` alternos en las 6 franjas → `bg` → `band`. Sin JavaScript ni animaciones de entrada. Sin JSON-LD (AT-093).
+
+### 11.10 Foro
+1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Comunidad» (`en-US`: «Community»), `<h1>` «Foro de Aprendizaje» («Learning Forum») y bajada (ADR-078).
+2. **Participar en tres pasos:** banda (7.8) con encabezado de banda («Cómo funciona» / «Participar en tres pasos»). Lista de 3 pasos, 3 columnas desde 1.024 px (separación de 40 px; una columna bajo esa medida). Cada paso: regla superior de 1 px `border-strong`, ícono de 32 px en `icon` (`account-circle`, `rule` y `forum`), h3 en Cinzel 1,15 rem y texto de 16 px en `text`. Los enlaces externos del texto van en `text`, 600 y subrayados (no `accent`, 4.3).
+3. **Dónde publicar cada cosa:** fondo `bg-alt`, encabezado centrado y 4 tarjetas base (7.6) en 2 columnas desde 1.024 px, sin foto, con h3 en Cinzel y texto.
+4. **Conversación:** fondo `bg`, encabezado alineado a la izquierda («Hilo general» / «Conversación»). Aviso de transparencia (fondo `bg-alt`, contorno `border`, ícono `info` de 20 px, 15 px, ancho máximo de 62 caracteres), con hueco para el enlace a la política (ADR-035). Panel `surface` con contorno `border` y sombra `card`, alto mínimo de 520 px, con un marcador estático (ícono `forum` y «Cargando la conversación…», `role="status"`), sin spinner. Giscus se carga a 400 px de la pantalla, con tema `light` / `transparent_dark` sincronizado en vivo. Debajo, «Abrir la conversación completa en GitHub», centrado. Sin JavaScript, el panel se oculta y un bloque `surface` enlaza a las discusiones.
+
+Ritmo de fondos: `bg` → `band` → `bg-alt` → `bg`. Sin AOS ni animaciones de entrada.
+
+### 11.11 Recursos
+Bóveda mixta (ADR-079, composición A de ADR-080): una ruta con progreso y recursos por temática.
+1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Comunidad», `<h1>` «Bóveda de recursos» (`en-US`: «Resource vault») y bajada.
+2. **Ficha de la ruta:** banda (7.8) con encabezado de banda («Ruta de aprendizaje» / «Desarrollo Web & IA»), resumen centrado (Josefin 300, 1,08 rem), `dl` de 3 datos (Qué logras, Conocimientos previos y Duración estimada; `dt` de 12,5 px en mayúsculas con ícono de 20 px en `icon`, regla superior `border-strong`; 3 columnas desde 1.024 px) y bloque de progreso: texto «N de 25 pasos completados» (600, 15 px, números tabulares), botón «Reiniciar progreso» (contorno `border-strong`, 44 px, ícono `restart`), barra de 6 px (fondo `border-strong`, relleno con el degradado `gold` → `vibrant`) y aviso de almacenamiento local (`text-soft`, 14 px). El progreso solo aparece con JavaScript.
+3. **Pasos de la ruta:** fondo `bg`, encabezado alineado a la izquierda y buscador (etiqueta visible, campo de 48 px `surface` con ícono `search`; solo con JavaScript). **Línea de tiempo compacta:** un hito por etapa (marcador de 44 px con el número de la etapa en Cinzel, riel de 1 px, h3 con «Etapa N» en estilo kicker y el título en Cinzel 1,15 rem, contador «n / total» de 13 px). Bajo cada hito, sus pasos en lista ordenada de numeración continua: bloque `surface` con contorno `border` y borde izquierdo de 2 px (`border-strong`; `gold` si está completado); casilla circular de 22 px en zona de 44 px (marcada: ícono `check` en `accent`); chips 7.7 reducidos (11,5 px, relleno 4 × 8) de formato (ícono en `icon`), dificultad (3 marcas de 6 × 10 px en `accent` / `border-strong` más el nombre) y tecnología; h4 en Cinzel 1,1 rem con el número de paso en `text-soft`; descripción de 15 px y enlace en `accent` (descarga para archivos locales con su tipo y peso al lado en `text-soft` de 14 px, «PDF · 6,0 MB», y en `en-US` «· In Spanish»; externo avisado para el resto). Bajo 640 px se reducen rellenos y los bloques ocupan el ancho bajo el marcador. Al final, la nota «Próximamente» con contorno discontinuo `border-strong` e ícono `more-horiz`.
+4. **Conversación de la ruta:** la sección común de Giscus del Foro (11.10) con el hilo `ruta-desarrollo-web-ia`, fondo `bg`.
+5. **Temáticas:** sección «Más recursos» sobre `bg-alt`, encabezado 7.5 a la izquierda («Por temática» / «More resources»). Un bloque por grupo (Empleabilidad, Python y Java): h3 en Cinzel 1,3 rem con el número de recursos en 13 px `text-soft` (oculto a lectores de pantalla) y debajo una grilla simétrica de tarjetas (1 columna, 2 desde 768 px y 3 desde 1.024 px; separación de 24 y 32 px). Tarjeta `surface` con contorno `border` y relleno de 24 px: chips de la ruta, h4 en Cinzel 1,1 rem, descripción de 15 px y enlace con su tipo y peso. Sin progreso ni JavaScript.
+
+Sin AOS ni animaciones de entrada; solo cambian el color del borde y el ancho de la barra.
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.
