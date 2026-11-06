@@ -2254,6 +2254,63 @@ for (const [lang, info] of Object.entries(LANGS)) {
 check(same(contact.es?.levels, contact.en?.levels), 'Contacto: misma estructura de encabezados');
 check(same(contact.es?.channels, contact.en?.channels), 'Contacto: mismos canales en /es/ y /en/');
 
+// --- Función de envío (E140-I02, ADR-084): Worker solo para /api/*, política y redirección ---
+console.log('\nFunción de envío /api/contacto');
+const SRC = fileURLToPath(new URL('../src/', import.meta.url));
+const srcText = (path) => readFileSync(join(SRC, path), 'utf8');
+const workerEntry = srcText('worker/index.ts');
+const workerContact = srcText('worker/contact.ts');
+check(
+  workerEntry.includes("'/api/contacto'") && workerEntry.includes('handleContact'),
+  'src/worker/index.ts atiende /api/contacto',
+);
+check(
+  /import \{ PRIVACY_POLICY_VERSION \} from '\.\.\/data\/privacy-policy\.ts'/.test(workerContact) &&
+    !/PRIVACY_POLICY_VERSION\s*=/.test(workerContact),
+  'el Worker importa PRIVACY_POLICY_VERSION y no la redefine (ADR-083)',
+);
+const versionDefinitions = [
+  'data/privacy-policy.ts',
+  'worker/contact.ts',
+  'worker/index.ts',
+  'scripts/contact.ts',
+  'data/contact.ts',
+].filter((path) => /PRIVACY_POLICY_VERSION\s*=/.test(srcText(path)));
+check(
+  same(versionDefinitions, ['data/privacy-policy.ts']),
+  'una sola definición de la versión de la política',
+);
+check(
+  /raw\.consentimiento !== true/.test(workerContact) &&
+    /raw\.versionPolitica !== PRIVACY_POLICY_VERSION/.test(workerContact),
+  'el Worker exige consentimiento y la versión vigente (ADR-035)',
+);
+check(
+  workerContact.includes('challenges.cloudflare.com/turnstile/v0/siteverify'),
+  'el Worker verifica Turnstile en el servidor',
+);
+check(
+  !/(0x4AAAAAA[A-Za-z0-9_-]{6,}|Bearer [A-Za-z0-9]{20,}|secret\s*[:=]\s*['"][^'"]{8,})/.test(
+    workerEntry + workerContact,
+  ),
+  'sin claves ni tokens escritos en el Worker',
+);
+check(!/console\.(log|error)\([^)]*fields\./.test(workerContact), 'los registros no usan campos');
+check(!existsSync(join(DIST, 'functions')), 'dist/ no incluye functions/ de Pages');
+// La página de agradecimiento existe en el mapa; su página llega en E150-I01 (AT-099, ADR-084).
+const routesSource = srcText('i18n/routes.ts');
+for (const [lang, path] of Object.entries({ es: '/es/agradecimiento/', en: '/en/thank-you/' })) {
+  check(
+    routesSource.includes(`thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' }`),
+    `thankYou.${lang} = ${path} en el mapa de rutas`,
+  );
+  const formHtml = read(`${CONTACT_ROUTES[lang]}/index.html`);
+  check(
+    attrs(/<form[^>]*data-contact-form[^>]*>/.exec(formHtml)?.[0] ?? '')['data-thank-you'] === path,
+    `el formulario /${lang}/ redirige a ${path} tras un envío correcto`,
+  );
+}
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

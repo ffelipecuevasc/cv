@@ -474,7 +474,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ADR-017 (indicación "traducido del español") y confirmación de consentimiento.
 
 ### AT-029 · Función de contacto ligada a Pages
-- **Severidad:** Media · **Estado:** Abierto (plataforma resuelta en E10-I09 con ADR-037; la reescritura queda para E140-I02) · **Resuelve:** E10-I09, E140-I02
+- **Severidad:** Media · **Estado:** Resuelto en E140-I02 (06-11-2026): la función se reescribió como Worker en `src/worker/`, solo para `/api/*` (ADR-084); falta que Felipe aplique el bloque de `wrangler.jsonc` y cargue los secretos · **Resuelve:** E10-I09, E140-I02
 - **Evidencia:** `functions/api/contacto.js` usa el formato de Pages Functions; la guía oficial indica compilarla o reescribirla para Workers.
 - **Impacto:** trabajo adicional según D-14; los secretos deben reconfigurarse.
 - **Recomendación:** resolver D-14 antes de E140-I02.
@@ -844,7 +844,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** decidir en E170-I01 si se agrega un token de error con contraste AA en ambos temas (ADR nuevo y `DESIGN.md` 4).
 
 ### AT-099 · Tras un envío correcto el formulario redirige a una página que aún no existe
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E150-I01
+- **Severidad:** Baja · **Estado:** Aceptado hasta E150-I01 (decisión de Felipe en E140-I02, 06-11-2026, ADR-084): el cliente redirige a la ruta `thankYou` del mapa, que existe; `verify:seo` lo comprueba. La página no se adelanta · **Resuelve:** E150-I01
 - **Evidencia (E140-I01, 03-11-2026):** `src/scripts/contact.ts` redirige a la ruta `thankYou` del mapa (`/es/agradecimiento/` o `/en/thank-you/`), que publica E150-I01. La función de envío llega en E140-I02.
 - **Impacto:** si E140-I02 se publica antes que E150, un envío correcto termina en la 404.
 - **Recomendación:** publicar E140-I02 y E150-I01 juntos en la preview, o probar el envío de E140-I02 sabiendo que la redirección da 404 hasta E150.
+
+### AT-100 · Turnstile debe autorizar el hostname de workers.dev para probar el envío en la preview
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E140-I02 (configuración manual de Felipe) y E190-I02
+- **Evidencia (E140-I02, 06-11-2026):** el widget usa la clave de sitio de `main` (`src/data/contact.ts`). Turnstile solo funciona en los hostnames autorizados del widget; la preview responde en `felipecuevas-dev.felipe-cuevas.workers.dev` (ADR-037). Sin ese hostname el widget falla, el formulario muestra «La verificación de seguridad no está disponible» y no se puede probar el envío.
+- **Impacto:** la prueba de envío real en la preview queda bloqueada hasta configurarlo.
+- **Recomendación:** agregar el hostname de workers.dev al widget en el panel de Turnstile (y conservar `felipecuevas.dev` para el cutover), o probar con las claves de prueba de Turnstile sin publicarlas en `main`. Retirar el hostname de workers.dev tras E190-I04 si se desactiva esa URL.

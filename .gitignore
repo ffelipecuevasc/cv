@@ -19,6 +19,7 @@ bun.lockb
 .env
 .env.*
 .dev.vars
+.wrangler/
 
 # WebStorm / IntelliJ: .idea/ no se versiona; las configuraciones de ejecución
 # compartidas viven en .run/ (ADR-031)

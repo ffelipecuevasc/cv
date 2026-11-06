@@ -901,6 +901,21 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` 11.2 (banda disponible para Contacto) y una sección nueva 11.12 Contacto: bloque en la bitácora `2026-11-03_E140-I01.md` (lo edita Felipe, ADR-033). E140-I02 importa la constante en vez de definirla. `verify:seo` suma los controles de Contacto (829 en total). Inglés por validar por Felipe (ADR-017).
 - **Origen:** elección de Felipe el 03-11-2026 (E140-I01). **Estado:** Aceptada.
 
+## ADR-084 · Función de contacto: Worker propio solo para /api/*
+- **Contexto:** E140-I02 y AT-029. La función de `main` (`functions/api/contacto.js`) usa el formato de Pages Functions; ADR-037 dejó el Worker `felipecuevas-dev` solo con assets y sin `main`. El formulario de E140-I01 envía JSON a `/api/contacto` con el contrato de ADR-083.
+- **Decisión (de Felipe, 06-11-2026):**
+  1. **Worker propio solo para `/api/*`:** un archivo de entrada, `src/worker/index.ts`, que atiende `/api/contacto` y responde 404 JSON al resto de `/api/*`. `assets.run_worker_first` se limita a `["/api/*"]`: todo lo demás lo sirven los assets estáticos sin pasar por el Worker. No se usa la carpeta `functions/`. Felipe aplica a mano el bloque de `wrangler.jsonc` (`main` y `assets`) que está en la bitácora `2026-11-06_E140-I02.md` (ADR-033).
+  2. No se instala `wrangler`: ya es devDependency desde E10-I09 (4.153.0), así que no hizo falta un ADR de dependencia.
+  3. Tras un envío correcto el cliente redirige a la ruta `thankYou` del mapa (`/es/agradecimiento/`, `/en/thank-you/`). Hasta E150-I01 esa ruta da 404 y se acepta (AT-099). No se crea ni se adelanta la página.
+- **Decisión (del agente, dentro del alcance):**
+  - `src/worker/contact.ts` valida en el servidor: solo POST (405 con `Allow`), mismo origen si llega `Origin` (403), `Content-Type: application/json` (415), cuerpo de hasta 16 KB (413), campos de texto obligatorios con los topes del formulario (nombre 120, correo 254, asunto 150, mensaje 5.000), correo con el mismo patrón del cliente, `consentimiento === true` y `versionPolitica === PRIVACY_POLICY_VERSION` (importada de `src/data/privacy-policy.ts`, sin redefinirla). Errores en el idioma de `idioma` (o del `Referer`), con `{ ok: false, error }`.
+  - Turnstile se verifica con `siteverify` antes de entregar (403 si falla). El correo sale por la misma API de correo de Cloudflare y el mismo remitente de `main` (el proveedor no cambia) e incluye la evidencia del consentimiento: versión de la política y fecha y hora en `America/Santiago` y en UTC. Asunto y nombre sin saltos de línea (evita inyección de cabeceras).
+  - Registros solo con códigos (`rejected_consent`, `turnstile_rejected`, `email_rejected status=…`, `config_missing <nombres>`), sin datos personales. Respuestas con `Cache-Control: no-store` y `X-Content-Type-Options: nosniff`.
+  - Secretos que Felipe configura en el panel, sin valores en el repositorio: `CF_ACCOUNT_ID`, `CF_EMAIL_TOKEN`, `TURNSTILE_SECRET_KEY` y `CONTACTO_DESTINO`. Si falta alguno, responde 500 con el error de entrega.
+  - El Worker vive en `src/worker/` para que `astro check` y ESLint lo revisen; Astro no lo compila (no está en `src/pages/`) y Wrangler lo empaqueta en el despliegue. `.wrangler/` se agrega a `.gitignore`.
+- **Consecuencias:** resuelve AT-029. Completa ADR-037 (que dejaba el Worker sin `main`); ADR-037 no se edita. `verify:seo` suma 12 controles (841 en total). La prueba de envío real en la preview la hace Felipe tras aplicar el bloque de `wrangler.jsonc`, cargar los secretos y autorizar el hostname de workers.dev en Turnstile (AT-100). La CSP de E170-I03 debe permitir `challenges.cloudflare.com` y `calendly.com`.
+- **Origen:** decisión de Felipe el 06-11-2026 (E140-I02). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
