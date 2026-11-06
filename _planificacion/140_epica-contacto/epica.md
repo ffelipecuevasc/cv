@@ -1,5 +1,5 @@
 # E140 · Página Contacto (contacto.html)
-- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada (06-11-2026; envío real en la preview pendiente de Felipe)
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada otra vez (06-11-2026 con E140-I03, reabierta ese día por la 404 del Worker, ADR-056 y ADR-085; envío probado por Felipe en es y en)
 
 ## Objetivo
 Reconstruir la página de contacto con formulario protegido por Turnstile, envío por función de Cloudflare y agenda de Calendly, en ambos idiomas.
@@ -21,6 +21,7 @@ E30 completa y E10-I09. No depende de E155: el formulario enlaza a `/es/privacid
 |---|---|---|---|---|---|
 | [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06 | [x] Terminada |
 | [E140-I02](E140-I02-funcion-envio.md) | Función de envío del formulario | P1 | M | E140-I01, E10-I09 | [x] Terminada |
+| [E140-I03](E140-I03-worker-404.md) | Corrección: el Worker no atiende los 404 del sitio | P1 | S | E140-I02 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
 - [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.

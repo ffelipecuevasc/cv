@@ -916,6 +916,12 @@ Reglas del registro:
 - **Consecuencias:** resuelve AT-029. Completa ADR-037 (que dejaba el Worker sin `main`); ADR-037 no se edita. `verify:seo` suma 12 controles (841 en total). La prueba de envío real en la preview la hace Felipe tras aplicar el bloque de `wrangler.jsonc`, cargar los secretos y autorizar el hostname de workers.dev en Turnstile (AT-100). La CSP de E170-I03 debe permitir `challenges.cloudflare.com` y `calendly.com`.
 - **Origen:** decisión de Felipe el 06-11-2026 (E140-I02). **Estado:** Aceptada.
 
+## ADR-085 · El Worker devuelve a los assets todo lo que no es /api/*
+- **Contexto:** E140-I03 y AT-102. ADR-084 supuso que, con `run_worker_first: ["/api/*"]`, el Worker solo recibiría `/api/*`. En la preview, Cloudflare también le entrega toda URL que no existe en `dist/`, y el Worker respondía 404 JSON en lugar de la página 404 del sitio.
+- **Decisión:** se agrega `"binding": "ASSETS"` en `assets` de `wrangler.jsonc` (lo aplica Felipe, ADR-033). `src/worker/index.ts` atiende `/api/contacto`, responde 404 JSON solo en `/api` y `/api/*`, y para todo lo demás devuelve `env.ASSETS.fetch(request)`, con lo que vuelve a aplicar `not_found_handling: "404-page"`. Tipos propios (`AssetsBinding`, `WorkerEnv`), sin `@cloudflare/workers-types`.
+- **Consecuencias:** complementa ADR-084 (no lo edita): sigue sin usarse `functions/` y los assets existentes se sirven sin pasar por el Worker. `verify:seo` ejecuta el Worker con `ASSETS` simulado (5 controles, 846 en total). Sin el binding, las rutas inexistentes darían 500: código y bloque se aplican juntos. Resuelve AT-102.
+- **Origen:** prueba de Felipe en la preview y prompt de E140-I03, 06-11-2026. **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

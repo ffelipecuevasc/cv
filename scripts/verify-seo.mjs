@@ -2311,6 +2311,39 @@ for (const [lang, path] of Object.entries({ es: '/es/agradecimiento/', en: '/en/
   );
 }
 
+// --- Worker fuera de /api/* (E140-I03, ADR-085, AT-102): las rutas inexistentes van a los assets ---
+console.log('\nWorker: rutas fuera de /api/*');
+{
+  const worker = (await import('../src/worker/index.ts')).default;
+  const assetsCalls = [];
+  const env = {
+    ASSETS: {
+      fetch: async (request) => {
+        assetsCalls.push(new URL(request.url).pathname);
+        return new Response('<!doctype html><title>404</title>', {
+          status: 404,
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
+      },
+    },
+  };
+  for (const path of ['/es/agradecimiento/', '/en/thank-you/', '/favicon.ico', '/es/no-existe/']) {
+    const res = await worker.fetch(new Request(`https://site.dev${path}`), env);
+    const type = res.headers.get('Content-Type') ?? '';
+    check(
+      assetsCalls.at(-1) === path && !type.includes('application/json'),
+      `${path} lo responden los assets (no JSON)`,
+    );
+  }
+  const apiRes = await worker.fetch(new Request('https://site.dev/api/otra'), env);
+  check(
+    apiRes.status === 404 &&
+      (apiRes.headers.get('Content-Type') ?? '').includes('application/json') &&
+      assetsCalls.length === 4,
+    '/api/otra responde 404 JSON sin pasar por los assets',
+  );
+}
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

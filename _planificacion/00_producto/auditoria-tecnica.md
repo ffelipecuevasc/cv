@@ -850,7 +850,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** publicar E140-I02 y E150-I01 juntos en la preview, o probar el envío de E140-I02 sabiendo que la redirección da 404 hasta E150.
 
 ### AT-100 · Turnstile debe autorizar el hostname de workers.dev para probar el envío en la preview
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E140-I02 (configuración manual de Felipe) y E190-I02
+- **Severidad:** Media · **Estado:** Resuelto en E140-I03 (06-11-2026): Felipe autorizó el hostname de workers.dev en el widget y el envío funciona en es y en. Retirar ese hostname tras E190-I04 sigue vigente · **Resuelve:** E140-I03
 - **Evidencia (E140-I02, 06-11-2026):** el widget usa la clave de sitio de `main` (`src/data/contact.ts`). Turnstile solo funciona en los hostnames autorizados del widget; la preview responde en `felipecuevas-dev.felipe-cuevas.workers.dev` (ADR-037). Sin ese hostname el widget falla, el formulario muestra «La verificación de seguridad no está disponible» y no se puede probar el envío.
 - **Impacto:** la prueba de envío real en la preview queda bloqueada hasta configurarlo.
 - **Recomendación:** agregar el hostname de workers.dev al widget en el panel de Turnstile (y conservar `felipecuevas.dev` para el cutover), o probar con las claves de prueba de Turnstile sin publicarlas en `main`. Retirar el hostname de workers.dev tras E190-I04 si se desactiva esa URL.
+
+### AT-101 · CONTACTO_DESTINO debe ser una dirección verificada en Email Routing
+- **Severidad:** Media · **Estado:** Resuelto en E140-I03 (06-11-2026, configuración de Felipe) · **Resuelve:** E140-I03
+- **Evidencia (prueba de Felipe en la preview, 06-11-2026):** en el plan Free, la API de correo de Cloudflare solo entrega a direcciones verificadas en Email Routing → Destination addresses; con otra dirección en `CONTACTO_DESTINO` el envío falla con 403 y el Worker responde 502.
+- **Impacto:** el formulario parece roto aunque el código esté bien.
+- **Recomendación:** usar en `CONTACTO_DESTINO` solo una dirección verificada (nota corregida en la bitácora `2026-11-06_E140-I03.md`).
+
+### AT-102 · El Worker respondía JSON en todas las URL que no existen en dist/
+- **Severidad:** Alta · **Estado:** Resuelto en E140-I03 (06-11-2026, ADR-085) · **Resuelve:** E140-I03
+- **Evidencia (prueba de Felipe en la preview, 06-11-2026):** con `main` en `wrangler.jsonc`, Cloudflare entrega al Worker toda petición que no coincide con un asset, aunque `run_worker_first` se limite a `/api/*`. `src/worker/index.ts` respondía `{"ok":false,"error":"Not found"}` en `/es/agradecimiento/`, `/en/thank-you/` y `/favicon.ico`; `not_found_handling: "404-page"` dejaba de aplicar, en contra de ADR-084.
+- **Impacto:** el visitante veía JSON en lugar de la página 404 del sitio.
+- **Recomendación:** aplicada: fuera de `/api/*` el Worker devuelve `env.ASSETS.fetch(request)` (binding `ASSETS`); `verify:seo` lo comprueba.
