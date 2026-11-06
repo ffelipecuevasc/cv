@@ -1,6 +1,6 @@
 # DESIGN.md · felipecuevas.dev
 
-> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 03-11-2026 con los bloques de E100, E110, E120 y E130.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
+> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 06-11-2026 con los bloques de E100, E110, E120, E130 y E140-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
 > Este archivo es la **única fuente de verdad del diseño** (ADR-010). Si un prototipo y este archivo difieren, **prevalece este archivo**.
 > Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes** y solo cambian con un ADR nuevo.
 > Nombres de tokens en inglés (ADR-025); textos en español de Chile.
@@ -336,7 +336,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - El botón de apariencia ya no está en el pie (ADR-021). Las columnas "Tecnologías" y "Certificaciones" del pie actual no forman parte del diseño nuevo.
 
 ### 7.10 Formularios (lenguaje base para E140)
-Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`); campo de 48 px de alto, fondo `surface`, contorno 1 px `border-strong`, sin radio; foco con contorno `focus`; error en texto bajo el campo, asociado con `aria-describedby` y anunciado, con ícono además del color. El botón de envío es el primario y nunca se deshabilita (ADR-035).
+Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`); campo de 48 px de alto, fondo `surface`, contorno 1 px `border-strong`, sin radio; foco con contorno `focus`; error en texto bajo el campo, asociado con `aria-describedby` y anunciado, con ícono además del color. El botón de envío es el primario y nunca se deshabilita (ADR-035). En Contacto (E140-I01), el error marca el campo con `aria-invalid`, contorno de 2 px en `focus` y, bajo el campo, ícono `alert` de 18 px en `accent` con texto 600 de 14 px en `text`. El sistema no tiene color de error (AT-098).
 
 ### 7.11 Aviso y volver arriba
 - **Aviso (toast):** fijo abajo al centro, 24 px sobre la zona segura; fondo `orient-950` y texto blanco en claro, fondo `orient-50` y texto `orient-950` en oscuro; línea superior de 2 px (`vibrant` en claro, `gold` en oscuro); `role="status"`; desaparece a los 2,8 s.
@@ -411,7 +411,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Patrón | Descripción | Disponible para |
 |---|---|---|
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
-| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular), Talento Digital (cifras de Logros), Foro (pasos), Recursos (ficha de la ruta) |
+| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular), Talento Digital (cifras de Logros), Foro (pasos), Recursos (ficha de la ruta), Contacto (canales) |
 | Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones), Docente (una franja por institución), Talento Digital (una franja por bootcamp, con portada) |
 | Grilla simétrica de tarjetas | Encabezado centrado y tarjetas iguales en 3 columnas desde 1.024 px (una bajo esa medida), sin JavaScript. Cada tarjeta lleva foto, rótulo, título, instituciones, periodo y modalidad, texto, etiquetas y enlaces al pie | Experiencia (resumen), Docente (asignaturas, variante 2 × 2 sin foto: 2 columnas desde 1.024 px), Instructor (relatoría, variante sin foto: tarjetas compactas en 2 columnas desde 1.024 px), Foro (categorías, variante 2 × 2 sin foto, como Docente), Recursos (temáticas, una grilla por grupo) |
 | Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
@@ -504,6 +504,16 @@ Bóveda mixta (ADR-079, composición A de ADR-080): una ruta con progreso y recu
 5. **Temáticas:** sección «Más recursos» sobre `bg-alt`, encabezado 7.5 a la izquierda («Por temática» / «More resources»). Un bloque por grupo (Empleabilidad, Python y Java): h3 en Cinzel 1,3 rem con el número de recursos en 13 px `text-soft` (oculto a lectores de pantalla) y debajo una grilla simétrica de tarjetas (1 columna, 2 desde 768 px y 3 desde 1.024 px; separación de 24 y 32 px). Tarjeta `surface` con contorno `border` y relleno de 24 px: chips de la ruta, h4 en Cinzel 1,1 rem, descripción de 15 px y enlace con su tipo y peso. Sin progreso ni JavaScript.
 
 Sin AOS ni animaciones de entrada; solo cambian el color del borde y el ancho de la barra.
+
+### 11.12 Contacto
+Composición A (ADR-083).
+1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Contacto» (`en-US`: «Contact»), `<h1>` «Contáctame» («Get in touch») y bajada.
+2. **Canales de contacto:** banda (7.8) con encabezado de banda («Canales directos» / «Canales de contacto»). Lista de 4 canales de `main`, sin Discord (ADR-044): correo, LinkedIn, GitHub y REUF. 4 columnas desde 1.024 px, 2 desde 640 px y una bajo esa medida (separación de 16 px). Cada canal es un enlace `surface` con contorno `border`, alto mínimo de 76 px: caja de ícono de 44 px (contorno `border-strong`, ícono de marca de 22 px en `icon`), nombre en Cinzel 1 rem (`heading`) y detalle de 14 px en `text-soft`; los externos llevan el ícono `external-link` de 16 px y aviso para lectores de pantalla. Desde 1.024 px el contenido se apila y el ícono externo va arriba a la derecha. Al pasar: contorno `vibrant` y subida de 2 px.
+3. **Formulario y agenda:** fondo `bg-alt`. Retícula de 12 columnas desde 1.024 px (48 px de separación): formulario en 7 y Calendly en 5; una columna bajo esa medida (64 px de separación), formulario primero. Cada columna es una sección con encabezado alineado a la izquierda.
+   - **Formulario** («Formulario» / «Envíame un mensaje»): ficha con ubicación (`location-on`) y tiempo de respuesta (`schedule`), íconos de 20 px en `icon` y texto de 15 px en `text-muted`; debajo, panel `surface` con contorno `border` y sombra `card` (relleno de 40 × 34 px desde 768 px; 32 × 20 px bajo esa medida). Campos de 7.10: nombre y correo en dos columnas desde 640 px; asunto y mensaje (160 px de alto mínimo) a todo el ancho. Checkbox de 22 px con el texto «Leí y acepto la política de privacidad» (15 px, `text`) y el enlace en `accent`, 600 y subrayado. Turnstile, aviso sin JavaScript (`bg-alt`, contorno `border`), región de estado y botón primario «Enviar mensaje» con ícono `send`, nunca deshabilitado (ADR-035).
+   - **Agenda** («Videollamada» / «Agenda una reunión (15 min)»): panel `surface` con contorno `border` y sombra `card` que reserva 700 px de alto. Antes de cargar muestra el ícono `event` de 32 px, el aviso de servicio externo y el botón secundario «Cargar el calendario»; al pulsarlo carga Calendly. Debajo, enlace externo «Abrir el calendario en Calendly», siempre visible. Sin JavaScript se oculta el botón.
+
+Ritmo de fondos: `bg` → `band` → `bg-alt`. Sin AOS ni animaciones de entrada. Sin JSON-LD.
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.
