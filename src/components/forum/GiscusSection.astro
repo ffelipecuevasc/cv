@@ -17,6 +17,8 @@ import ExternalLink from '../ui/ExternalLink.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
 import { GISCUS, GISCUS_LANG, getForumPage } from './forum-data';
 import type { GiscusTerm } from '../../data/giscus';
 
@@ -27,13 +29,17 @@ interface Props {
   /** id del titular; nombra la sección. */
   id: string;
   /*
-   * Hueco para el enlace a la política de privacidad (ADR-035): E155-I01 lo pasa desde la página
-   * con la ruta `privacy` del mapa de rutas y su texto. Mientras no exista, el aviso va sin enlace.
+   * Enlace a la política de privacidad del aviso (ADR-035). Por defecto es la ruta `privacy` del
+   * mapa de rutas con el texto del pie (E155-I01); se puede reemplazar o pasar `null` para quitarlo.
    */
-  privacy?: { href: string; label: string };
+  privacy?: { href: string; label: string } | null;
 }
-const { term, kicker, title, id, privacy } = Astro.props;
+const { term, kicker, title, id } = Astro.props;
 const lang = langFromLocale(Astro.currentLocale);
+const privacy =
+  Astro.props.privacy === undefined
+    ? { href: getRoute('privacy', lang), label: useTranslations(lang).footer.privacy }
+    : Astro.props.privacy;
 const { conversation } = await getForumPage();
 ---
 
@@ -124,6 +130,16 @@ const { conversation } = await getForumPage();
     flex: none;
     margin-top: 1px;
     color: var(--color-icon);
+  }
+  /* Enlace de texto: `text`, 600 y subrayado (DESIGN.md 11.10 y 4.3). */
+  .notice a {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .notice a:hover {
+    color: var(--color-heading);
   }
   .panel {
     min-height: 520px;

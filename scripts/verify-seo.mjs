@@ -9,7 +9,7 @@
  * E70-I03: placa de los logos en oscuro) y Docente (E80-I01: cabecera, asignaturas, franjas por
  * institución, tutoría, cargos especiales y paridad).
  */
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { certifications, getCountDisplay } from '../src/data/certifications.ts';
@@ -2060,11 +2060,10 @@ const CONTACT_CHANNELS = [
   'https://chilefacilitadores.cl/users/detail/ffelipecuevasc',
 ];
 /*
- * EXCEPCIÓN TEMPORAL (ADR-083): /es/privacidad/ y /en/privacy/ aún no existen; las publica
- * E155-I01. Mientras tanto, el control de enlaces internos de Contacto las acepta sin página.
- * E155-I01 debe retirar esta excepción (vaciar la lista).
+ * Rutas que se aceptan como enlace interno aunque aún no tengan página. Sin excepciones vigentes:
+ * E155-I01 publicó /es/privacidad/ y /en/privacy/ y vació esta lista (ADR-083, ADR-087).
  */
-const PENDING_ROUTES = ['/es/privacidad/', '/en/privacy/'];
+const PENDING_ROUTES = [];
 const CONTACT_FIELDS = [
   'contact-name',
   'contact-email',
@@ -2297,7 +2296,7 @@ check(
 );
 check(!/console\.(log|error)\([^)]*fields\./.test(workerContact), 'los registros no usan campos');
 check(!existsSync(join(DIST, 'functions')), 'dist/ no incluye functions/ de Pages');
-// La página de agradecimiento existe en el mapa; su página llega en E150-I01 (AT-099, ADR-084).
+// La página de agradecimiento (ruta interna) está en el mapa; la publicó E150-I01 (AT-099, ADR-086).
 const routesSource = srcText('i18n/routes.ts');
 for (const [lang, path] of Object.entries({ es: '/es/agradecimiento/', en: '/en/thank-you/' })) {
   check(
@@ -2341,6 +2340,192 @@ console.log('\nWorker: rutas fuera de /api/*');
       (apiRes.headers.get('Content-Type') ?? '').includes('application/json') &&
       assetsCalls.length === 4,
     '/api/otra responde 404 JSON sin pasar por los assets',
+  );
+}
+
+// --- Política de privacidad (E155-I01, ADR-035 y ADR-087): página, versión, pie y avisos ---
+const PRIVACY_ROUTES = { es: 'es/privacidad', en: 'en/privacy' };
+const PRIVACY_SECTIONS = [
+  'responsable',
+  'datos',
+  'formulario',
+  'turnstile',
+  'agenda',
+  'conversaciones',
+  'navegador',
+  'cambios',
+];
+// Cada tratamiento de ADR-035 debe nombrarse en la página (texto en minúsculas).
+const PRIVACY_TERMS = [
+  'turnstile',
+  'calendly',
+  'giscus',
+  'github',
+  'cloudflare',
+  'theme',
+  'perfil-hero',
+  'rutas-progreso',
+];
+const PRIVACY_DISCLAIMER = { es: 'no constituye asesoría legal', en: 'not legal advice' };
+const privacy = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = PRIVACY_ROUTES[lang];
+  const other = PRIVACY_ROUTES[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const metas = tags(head, 'meta');
+  const links = tags(head, 'link');
+  const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+  const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+  const description = meta('description') ?? '';
+  const canonical = `${SITE}/${route}/`;
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+  check(
+    description.length >= 50 && description.length <= 170,
+    `description de 50 a 170 caracteres (${description.length})`,
+  );
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${PRIVACY_ROUTES.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  check(meta('og:url') === canonical && meta('og:locale') === info.og, 'og:url y og:locale');
+  check(
+    meta('og:title') === title && meta('og:description') === description,
+    'og:title y og:description = title y description',
+  );
+  check(!meta('robots'), 'indexable: sin metaetiqueta robots (ADR-087)');
+  check(!head.includes('application/ld+json'), 'sin JSON-LD');
+
+  const body = html.slice(html.indexOf('<body'));
+  const count = (re) => (body.match(re) ?? []).length;
+  check(count(/<main[\s>]/g) === 1, 'un solo <main>');
+  check(count(/<h1[\s>]/g) === 1, 'un solo <h1>');
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    levels[0] === 1 && levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    `el <h1> abre el <main> y los encabezados no saltan (${levels.join(',')})`,
+  );
+  const mainText = decode(mainHtml.replace(/<[^>]+>/g, ' '))
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+
+  // Versión y vigencia visibles; la versión sale de la constante única (no se duplica).
+  check(
+    new RegExp(`<dd[^>]*data-policy-version[^>]*>${PRIVACY_POLICY_VERSION}</dd>`).test(mainHtml),
+    `versión visible = constante (${PRIVACY_POLICY_VERSION})`,
+  );
+  check(
+    mainHtml.includes(`<time datetime="${PRIVACY_POLICY_VERSION}"`),
+    'fecha de vigencia visible con <time datetime>',
+  );
+  check(mainText.includes(PRIVACY_DISCLAIMER[lang]), 'declara que no es asesoría legal');
+
+  // Índice con anclas: una por sección y cada una existe.
+  const indexHtml = /<nav[^>]*class="index[^"]*"[\s\S]*?<\/nav>/.exec(mainHtml)?.[0] ?? '';
+  const anchors = [...indexHtml.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+  check(same(anchors, PRIVACY_SECTIONS), `índice con las ${PRIVACY_SECTIONS.length} secciones`);
+  check(
+    anchors.every((id) => new RegExp(`<section[^>]*id="${id}"`).test(mainHtml)),
+    'cada ancla del índice tiene su sección',
+  );
+  const missing = PRIVACY_TERMS.filter((term) => !mainText.includes(term));
+  check(
+    missing.length === 0,
+    `cubre los tratamientos de ADR-035 (${missing.join(', ') || 'todos'})`,
+  );
+  const externals = tags(mainHtml, 'a').filter((a) => a.href?.startsWith('https://'));
+  check(
+    externals.length > 0 &&
+      externals.every((a) => a.target === '_blank' && /noopener/.test(a.rel ?? '')),
+    'enlaces externos con rel="noopener noreferrer"',
+  );
+  check(
+    tags(html, 'a').some((a) => a.hreflang === LANGS[info.other].code && a.href === `/${other}/`),
+    'el selector de idioma lleva a la política del otro idioma',
+  );
+  privacy[lang] = { levels, anchors };
+}
+check(same(privacy.es?.levels, privacy.en?.levels), 'Privacidad: misma estructura de encabezados');
+check(
+  same(privacy.es?.anchors, privacy.en?.anchors),
+  'Privacidad: mismas secciones en /es/ y /en/',
+);
+
+// La versión vive solo en la constante: no se repite en componentes, contenido ni páginas.
+console.log('\nVersión única de la política');
+{
+  const literal = new RegExp(PRIVACY_POLICY_VERSION);
+  const files = ['components', 'content', 'pages', 'worker', 'scripts'].flatMap((dir) =>
+    readdirSync(join(SRC, dir), { recursive: true, withFileTypes: true })
+      .filter((f) => f.isFile())
+      .map((f) => join(f.parentPath, f.name)),
+  );
+  const duplicated = files.filter((file) => literal.test(readFileSync(file, 'utf8')));
+  check(
+    duplicated.length === 0,
+    `la versión no se repite fuera de la constante (${duplicated.length})`,
+  );
+}
+
+// El pie de todas las páginas (también agradecimiento) enlaza a la política del idioma activo, la
+// navbar no cambia y el aviso de Giscus del Foro y de Recursos la enlaza.
+console.log('\nEnlace a la política (pie y avisos)');
+{
+  const pages = readdirSync(DIST, { recursive: true })
+    .map((f) => String(f).replaceAll('\\', '/'))
+    .filter((f) => /^(es|en)\/.*index\.html$/.test(f));
+  const withoutFooterLink = [];
+  const navbarWithLink = [];
+  for (const file of pages) {
+    const lang = file.startsWith('es/') ? 'es' : 'en';
+    const html = read(file);
+    // El pie del sitio es `<footer class="footer">`; las tarjetas de testimonio también usan <footer>.
+    const footer = /<footer class="footer"[\s\S]*<\/footer>/.exec(html)?.[0] ?? '';
+    const header = /<header[\s\S]*?<\/header>/.exec(html)?.[0] ?? '';
+    const href = `/${PRIVACY_ROUTES[lang]}/`;
+    if (!tags(footer, 'a').some((a) => a.href === href)) withoutFooterLink.push(file);
+    if (tags(header, 'a').some((a) => a.href === href)) navbarWithLink.push(file);
+  }
+  check(pages.length >= 24, `páginas revisadas (${pages.length})`);
+  check(
+    withoutFooterLink.length === 0,
+    `el pie enlaza a la política en todas las páginas (${withoutFooterLink.join(', ') || 'todas'})`,
+  );
+  check(navbarWithLink.length === 0, 'la navbar no enlaza a la política');
+  for (const [lang, file] of [
+    ['es', 'es/foro/index.html'],
+    ['en', 'en/forum/index.html'],
+    ['es', 'es/recursos/index.html'],
+    ['en', 'en/resources/index.html'],
+  ]) {
+    const notice = /<p[^>]*data-forum-notice[\s\S]*?<\/p>/.exec(read(file))?.[0] ?? '';
+    check(
+      tags(notice, 'a').some((a) => a.href === `/${PRIVACY_ROUTES[lang]}/`),
+      `/${file.replace('/index.html', '')}/: el aviso de Giscus enlaza a la política`,
+    );
+  }
+  const routesText = srcText('i18n/routes.ts');
+  check(
+    routesText.indexOf('privacy:') < routesText.indexOf('export const internalRoutes'),
+    'privacy está en `routes` (indexable) y no en `internalRoutes`',
   );
 }
 

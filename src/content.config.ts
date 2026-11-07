@@ -906,8 +906,53 @@ const contactPage = defineCollection({
   }),
 });
 
+/*
+ * Política de privacidad (E155-I01, ADR-087): composición A, documento con índice. El texto vive en
+ * src/content/privacy/page.json con paridad es/en; la versión sale de src/data/privacy-policy.ts
+ * (constante única, ADR-083) y no se escribe aquí. Borrador informativo sin validar (BL-08).
+ */
+const privacyPage = defineCollection({
+  loader: glob({ pattern: 'page.json', base: './src/content/privacy' }),
+  schema: z.object({
+    header: z.object({
+      kicker: localized(),
+      title: localized(),
+      lead: localized(),
+      version: localized(),
+      effective: localized(),
+      disclaimer: localized(),
+    }),
+    indexLabel: localized(),
+    indexTitle: localized(),
+    sections: z
+      .array(
+        z.object({
+          /** Ancla de la sección y del índice; en minúsculas y con guiones. */
+          id: z.string().regex(/^[a-z]+(-[a-z]+)*$/),
+          title: localized(),
+          paragraphs: z.array(localized()).min(1),
+          /** Lista con la clave de almacenamiento local (no se traduce, ADR-025). */
+          items: z.array(z.object({ key: z.string().min(1), text: localized() })).optional(),
+          /** Párrafos que van después de la lista. */
+          after: z.array(localized()).optional(),
+          links: z
+            .array(
+              z.object({ label: localized(), href: z.string().regex(/^(https:\/\/|mailto:)/) }),
+            )
+            .optional(),
+        }),
+      )
+      .min(1)
+      .refine(
+        (sections) => new Set(sections.map((s) => s.id)).size === sections.length,
+        'Los id de las secciones no se repiten',
+      ),
+  }),
+});
+
 export const collections = {
   contactPage,
+  privacyPage,
   resources,
   resourcesPage,
   forumPage,

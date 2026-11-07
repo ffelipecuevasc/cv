@@ -935,6 +935,22 @@ Reglas del registro:
 - **Consecuencias:** `DESIGN.md` suma el patrón «Confirmación centrada» (11.2), la nota del slot en 7.5 y la sección 11.13: el bloque está en la bitácora `2026-11-07_E150-I01.md` y lo aplica Felipe (ADR-033). Cierra AT-099 y AT-030 en su parte de agradecimiento; registra AT-103 (`noindex` frente al `Disallow` de `robots.txt`, para E180-I02). Inglés por validar por Felipe.
 - **Origen:** elección de Felipe el 06-11-2026 y prompt de E150-I01. **Estado:** Aceptada.
 
+## ADR-087 · Privacidad: composición A «Documento con índice», indexable y texto solo con hechos
+- **Contexto:** E155-I01, ADR-035 y AT-047. ADR-036 pide validar la composición al inicio de la épica y `DESIGN.md` no fijaba ninguna para esta página. Se propusieron tres con piezas existentes: **A**, documento con índice lateral; **B**, resumen en banda y tarjetas por tratamiento; **C**, texto continuo de una columna. Ni la iteración ni el sitio actual traen texto de política.
+- **Decisión (de Felipe, 07-11-2026):**
+  1. **Composición A «Documento con índice»:** cabecera alineada a la izquierda (7.5) con la ficha de versión y vigencia; debajo, índice de anclas y secciones con h2. Desde 1.024 px el índice va a la izquierda, pegajoso bajo la barra; bajo esa medida va arriba.
+  2. **Indexable y en el sitemap:** sin `noindex`, `privacy` queda en `routes` (11 rutas × 2 = 22 URL para E180-I02).
+  3. **Texto solo con hechos del sitio:** describe únicamente lo que el código hace; sin plazos de conservación, base legal, domicilio ni lista de derechos, que agrega el especialista (BL-08, AT-105). La página declara que es informativa y no asesoría legal.
+  4. **Versión:** `PRIVACY_POLICY_VERSION` sube a la fecha del texto, `2026-11-07`; la página muestra «Versión» y «Vigente desde» con ese valor. El formulario y el Worker la importan de la misma constante, así que no hay valores desfasados.
+- **Decisión (del agente, dentro del alcance):**
+  - Reparto de la retícula: índice en 4 columnas y texto en 8 (en la propuesta se mostró 5 y 7; 4 y 8 deja el texto en 62 caracteres sin desperdiciar ancho).
+  - 8 secciones, en este orden: responsable, datos que recibe el sitio (incluye el alojamiento en Cloudflare), formulario, Turnstile, Calendly, Giscus y GitHub, almacenamiento local y versión y cambios. Cada tercero enlaza a su propia política; los enlaces externos abren en pestaña nueva con aviso.
+  - El texto vive en `src/content/privacy/page.json` (colección `privacyPage` con paridad y `id` únicos); los metadatos, en `src/content/pages/privacy.json`. La versión no se escribe en ningún archivo de contenido: `verify:seo` lo comprueba.
+  - **Enlace a la política:** sexto enlace de `footer-links.ts` (todas las páginas, y la 404 de E160 lo hereda) y enlace por defecto en el aviso de `GiscusSection`, que sirve al Foro y a la ruta de Recursos (el hueco de ADR-078 se llena en el componente común y no por página). La navbar no cambia.
+  - `PENDING_ROUTES` de `verify:seo` queda vacía (cumple ADR-083) y se suman controles de la política, del pie y de los avisos.
+- **Consecuencias:** complementa ADR-035 y ADR-083 sin editarlos. `DESIGN.md` suma 11.2, 7.9 (sin cambios: ya decía 6 enlaces) y la sección 11.14: el bloque está en la bitácora `2026-11-07_E155-I01.md` y lo aplica Felipe (ADR-033). Cierra AT-047 en lo técnico; registra AT-104 y AT-105. E180-I02 debe incluir las dos rutas en el sitemap. Inglés por validar por Felipe (ADR-017).
+- **Origen:** elección de Felipe el 07-11-2026 (E155-I01). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

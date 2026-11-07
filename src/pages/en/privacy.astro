@@ -1,0 +1,20 @@
+---
+// Política de privacidad de /en/ (E155-I01, ADR-035 y ADR-087, composición A). Indexable y en el
+// sitemap. Título, descripción y texto alternativo de la imagen OG vienen de
+// src/content/pages/privacy.json; el texto, de src/content/privacy/page.json.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivacyHeader from '../../components/privacy/PrivacyHeader.astro';
+import PrivacyDocument from '../../components/privacy/PrivacyDocument.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'privacy');
+if (!page) throw new Error('Falta src/content/pages/privacy.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
+---
+
+<BaseLayout title={title.en} description={description.en} route="privacy" ogImage={og}>
+  <PrivacyHeader />
+  <PrivacyDocument />
+</BaseLayout>

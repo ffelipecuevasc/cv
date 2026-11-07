@@ -1,0 +1,201 @@
+{
+  "header": {
+    "kicker": { "es": "Privacidad", "en": "Privacy" },
+    "title": { "es": "Política de privacidad", "en": "Privacy policy" },
+    "lead": {
+      "es": "Cómo trato los datos personales cuando usas este sitio: qué datos recibo, para qué los uso y qué servicios de terceros participan.",
+      "en": "How I handle personal data when you use this site: what data I receive, what I use it for and which third-party services take part."
+    },
+    "version": { "es": "Versión", "en": "Version" },
+    "effective": { "es": "Vigente desde", "en": "Effective since" },
+    "disclaimer": {
+      "es": "Este texto es informativo y no constituye asesoría legal.",
+      "en": "This text is for information only and is not legal advice."
+    }
+  },
+  "indexLabel": { "es": "Contenido de la política", "en": "Policy contents" },
+  "indexTitle": { "es": "En esta página", "en": "On this page" },
+  "sections": [
+    {
+      "id": "responsable",
+      "title": { "es": "Quién es el responsable", "en": "Who is responsible" },
+      "paragraphs": [
+        {
+          "es": "Este es un sitio personal y lo administra Felipe Cuevas. Si tienes dudas sobre esta política, escríbeme a contacto@felipecuevas.dev.",
+          "en": "This is a personal website run by Felipe Cuevas. If you have any questions about this policy, write to me at contacto@felipecuevas.dev."
+        }
+      ],
+      "links": [
+        {
+          "label": { "es": "Escribirme por correo", "en": "Email me" },
+          "href": "mailto:contacto@felipecuevas.dev"
+        }
+      ]
+    },
+    {
+      "id": "datos",
+      "title": { "es": "Qué datos recibe el sitio", "en": "What data the site receives" },
+      "paragraphs": [
+        {
+          "es": "Puedes leer el sitio sin crear una cuenta ni darme tus datos. Recibo datos personales solo si tú los envías: al escribirme por el formulario, al agendar una reunión o al comentar en una conversación.",
+          "en": "You can read the site without creating an account or giving me your data. I receive personal data only if you send it: when you write to me through the form, book a meeting or comment in a conversation."
+        },
+        {
+          "es": "El sitio no instala cookies propias y no usa herramientas de analítica ni de publicidad. Se sirve desde Cloudflare, que recibe datos técnicos de tu visita, como tu dirección IP, para entregarte las páginas, y los trata según su propia política.",
+          "en": "The site does not set its own cookies and does not use analytics or advertising tools. It is served from Cloudflare, which receives technical data about your visit, such as your IP address, in order to deliver the pages, and handles it under its own policy."
+        }
+      ],
+      "links": [
+        {
+          "label": {
+            "es": "Política de privacidad de Cloudflare",
+            "en": "Cloudflare privacy policy"
+          },
+          "href": "https://www.cloudflare.com/privacypolicy/"
+        }
+      ]
+    },
+    {
+      "id": "formulario",
+      "title": { "es": "Formulario de contacto", "en": "Contact form" },
+      "paragraphs": [
+        {
+          "es": "El formulario pide tu nombre, tu correo electrónico, un asunto y tu mensaje. Los uso solo para leer y responder tu mensaje.",
+          "en": "The form asks for your name, your email address, a subject and your message. I use them only to read and reply to your message."
+        },
+        {
+          "es": "Al enviarlo, el mensaje llega a mi correo mediante el servicio de correo de Cloudflare. El sitio no guarda los mensajes en una base de datos propia.",
+          "en": "When you send it, the message reaches my inbox through the Cloudflare email service. The site does not store messages in a database of its own."
+        },
+        {
+          "es": "Para poder demostrar que aceptaste esta política, el correo que recibo incluye la versión de la política que aceptaste y la fecha y hora del envío. Los registros técnicos del servidor guardan solo códigos de error, sin tus datos.",
+          "en": "So that I can show that you accepted this policy, the email I receive includes the version of the policy you accepted and the date and time of sending. The server technical logs keep only error codes, never your data."
+        }
+      ]
+    },
+    {
+      "id": "turnstile",
+      "title": {
+        "es": "Verificación de seguridad (Turnstile)",
+        "en": "Security check (Turnstile)"
+      },
+      "paragraphs": [
+        {
+          "es": "El formulario usa Turnstile, un servicio de Cloudflare que comprueba que quien escribe es una persona y no un robot.",
+          "en": "The form uses Turnstile, a Cloudflare service that checks that the sender is a person and not a bot."
+        },
+        {
+          "es": "Se carga cuando haces foco en el formulario o lo envías. En ese momento tu navegador se conecta a challenges.cloudflare.com y Cloudflare recibe datos técnicos de tu navegador para hacer la verificación.",
+          "en": "It loads when you focus on the form or submit it. At that point your browser connects to challenges.cloudflare.com and Cloudflare receives technical data from your browser to run the check."
+        }
+      ],
+      "links": [
+        {
+          "label": {
+            "es": "Política de privacidad de Cloudflare",
+            "en": "Cloudflare privacy policy"
+          },
+          "href": "https://www.cloudflare.com/privacypolicy/"
+        }
+      ]
+    },
+    {
+      "id": "agenda",
+      "title": { "es": "Agenda de reuniones (Calendly)", "en": "Meeting scheduler (Calendly)" },
+      "paragraphs": [
+        {
+          "es": "La agenda usa Calendly. No se carga al abrir la página: solo cuando pulsas «Cargar el calendario». Desde ese momento tu navegador se conecta a Calendly, que trata los datos que ingreses al agendar según su propia política.",
+          "en": "The scheduler uses Calendly. It does not load when you open the page, only when you press “Load the calendar”. From then on your browser connects to Calendly, which handles the data you enter when booking under its own policy."
+        },
+        {
+          "es": "Si prefieres no usarlo, puedes escribirme por el formulario o por correo.",
+          "en": "If you prefer not to use it, you can write to me through the form or by email."
+        }
+      ],
+      "links": [
+        {
+          "label": { "es": "Política de privacidad de Calendly", "en": "Calendly privacy policy" },
+          "href": "https://calendly.com/privacy"
+        }
+      ]
+    },
+    {
+      "id": "conversaciones",
+      "title": {
+        "es": "Conversaciones (Giscus y GitHub)",
+        "en": "Conversations (Giscus and GitHub)"
+      },
+      "paragraphs": [
+        {
+          "es": "El Foro y la ruta de aprendizaje de Recursos usan Giscus, que muestra conversaciones alojadas en GitHub Discussions.",
+          "en": "The Forum and the learning path in Resources use Giscus, which shows conversations hosted on GitHub Discussions."
+        },
+        {
+          "es": "Se carga cuando la sección está por aparecer en pantalla. En ese momento tu navegador se conecta a giscus.app y a GitHub. Para comentar debes iniciar sesión en GitHub; tus comentarios son públicos, quedan en GitHub y los trata según su propia política.",
+          "en": "It loads when the section is about to appear on screen. At that point your browser connects to giscus.app and GitHub. To comment you must sign in to GitHub; your comments are public, stay on GitHub and are handled under its own policy."
+        }
+      ],
+      "links": [
+        {
+          "label": {
+            "es": "Declaración de privacidad de GitHub",
+            "en": "GitHub privacy statement"
+          },
+          "href": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+        }
+      ]
+    },
+    {
+      "id": "navegador",
+      "title": {
+        "es": "Lo que se guarda en tu navegador",
+        "en": "What is stored in your browser"
+      },
+      "paragraphs": [
+        {
+          "es": "El sitio guarda estos datos en tu navegador, y solo ahí. No se envían a ningún servidor:",
+          "en": "The site stores this data in your browser, and only there. It is not sent to any server:"
+        }
+      ],
+      "items": [
+        {
+          "key": "theme",
+          "text": {
+            "es": "tu elección de tema claro u oscuro.",
+            "en": "your choice of light or dark theme."
+          }
+        },
+        {
+          "key": "perfil-hero",
+          "text": {
+            "es": "el perfil que elegiste en la portada.",
+            "en": "the profile you chose on the home page."
+          }
+        },
+        {
+          "key": "rutas-progreso",
+          "text": {
+            "es": "los pasos que marcaste como completados en la ruta de aprendizaje de Recursos.",
+            "en": "the steps you marked as completed in the learning path in Resources."
+          }
+        }
+      ],
+      "after": [
+        {
+          "es": "Puedes borrarlos desde la configuración de tu navegador. El progreso de la ruta también se borra con el botón «Reiniciar progreso».",
+          "en": "You can delete them from your browser settings. The learning path progress can also be cleared with the “Reset progress” button."
+        }
+      ]
+    },
+    {
+      "id": "cambios",
+      "title": { "es": "Versión y cambios", "en": "Version and changes" },
+      "paragraphs": [
+        {
+          "es": "Si cambia el texto de esta política o se agrega un servicio de terceros, publicaré una versión nueva y actualizaré la fecha de vigencia. La versión y la fecha aparecen al inicio de esta página.",
+          "en": "If the text of this policy changes or a third-party service is added, I will publish a new version and update the effective date. The version and the date appear at the top of this page."
+        }
+      ]
+    }
+  ]
+}

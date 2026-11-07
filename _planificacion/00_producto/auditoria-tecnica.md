@@ -420,6 +420,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `sitemap.xml:5` (`lastmod` 2026-08-13), sin alternativas de idioma; `robots.txt:5` bloquea `/agradecimiento`.
 - **Impacto:** señales de SEO desactualizadas.
 - **Recomendación:** sitemap generado con `hreflang`.
+- **Nota (E155-I01, 07-11-2026):** cierre parcial en E150-I01: agradecimiento queda `noindex, follow` y fuera del sitemap por ser ruta interna. El sitemap con `hreflang` y el `robots.txt` se completan en E180-I02, que además debe respetar `internalRoutes` (las páginas `thankYou` no van en el sitemap) y resolver AT-103.
 
 ### AT-031 · Redirección existente que debe preservarse
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E180-I01
@@ -480,7 +481,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** resolver D-14 antes de E140-I02.
 
 ### AT-047 · Sin política de privacidad ni consentimiento en el formulario de contacto
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E140-I01, E140-I02, E155-I01
+- **Severidad:** Alta · **Estado:** Resuelto en lo técnico por E140-I01 (checkbox), E140-I02 (consentimiento y evidencia en el servidor) y E155-I01 (política publicada, 07-11-2026, ADR-087). Queda la validación del texto por un especialista antes del cutover (BL-08, AT-105) · **Resuelve:** E140-I01, E140-I02, E155-I01
 - **Evidencia:**
   - el formulario `contacto.html:289-354` (`<form id="contacto-formulario" method="POST">`) pide datos personales (`nombre` en `:294`, `email` en `:300`, `asunto` en `:305` y `mensaje` en `:309`), con Turnstile en `:326` y el botón de envío en `:349`, pero no tiene checkbox de consentimiento ni enlace a una política;
   - el sitio actual no tiene página de privacidad: no hay archivo de privacidad en la raíz de `main` (`git ls-tree --name-only main`) y el pie (`contacto.html:376` en adelante) no la enlaza;
@@ -872,3 +873,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E150-I01, 07-11-2026):** `main:robots.txt` tiene `Disallow: /agradecimiento`, una ruta antigua sin `/es/` ni `/en/`. Las páginas nuevas (`/es/agradecimiento/` y `/en/thank-you/`) llevan `noindex, follow`.
 - **Impacto:** un rastreador que obedece el `Disallow` no descarga la página, así que no ve el `noindex` ni sigue sus enlaces (`follow`); si otro sitio enlaza la URL, el buscador puede listarla sin contenido. Además, la regla antigua no cubre las rutas nuevas.
 - **Recomendación:** decidir en E180-I02 entre (a) quitar el `Disallow` y dejar solo `noindex, follow` (recomendada: es la forma en que el buscador puede leer la directiva) o (b) escribir `Disallow` para las dos rutas nuevas y aceptar que el `noindex` no se lea. En ambos casos, el sitemap las excluye porque son rutas internas (ADR-086).
+
+### AT-104 · El widget de Calendly oculta su propio aviso de consentimiento
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar con BL-08)
+- **Evidencia (E155-I01, 07-11-2026):** `src/data/contact.ts` carga Calendly con `hide_gdpr_banner=1`, parámetro heredado de `main`. El visitante ve antes un aviso propio y la política (E140-I01, E155-I01), pero el widget no le muestra el suyo.
+- **Impacto:** si el especialista considera que Calendly debe pedir su propio consentimiento, ocultar su aviso podría no bastar.
+- **Recomendación:** que el especialista de BL-08 lo revise; si hace falta, quitar el parámetro en una iteración nueva (cambia el widget, no la política).
+
+### AT-105 · La política es un borrador sin conservación, base legal, domicilio ni derechos
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E190-I01 (precondición, BL-08)
+- **Evidencia (E155-I01, 07-11-2026):** por decisión de Felipe (ADR-087), el texto describe solo hechos verificables del código: datos del formulario, Turnstile, Calendly, Giscus, almacenamiento local y alojamiento. No incluye plazos de conservación del correo, base legal del tratamiento, domicilio del responsable ni la lista de derechos de los titulares, que ni la iteración ni el sitio actual proporcionaban.
+- **Impacto:** la Ley 21.719 rige desde el 01-12-2026; sin esas cláusulas, validadas por un especialista, la política puede no cumplirla.
+- **Recomendación:** que el especialista agregue esas secciones antes de E190; al cambiar el texto, subir `PRIVACY_POLICY_VERSION` (ADR-083) y mantener el en-US en paridad. La estructura de la página admite secciones nuevas en `src/content/privacy/page.json` sin tocar componentes.

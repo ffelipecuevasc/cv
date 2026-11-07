@@ -7,11 +7,6 @@ import GiscusSection from './GiscusSection.astro';
 import { langFromLocale } from '../../i18n/lang';
 import { getForumPage } from './forum-data';
 
-interface Props {
-  /** Hueco para el enlace a la política de privacidad (ADR-035), lo llena E155-I01. */
-  privacy?: { href: string; label: string };
-}
-const { privacy } = Astro.props;
 const lang = langFromLocale(Astro.currentLocale);
 const { conversation } = await getForumPage();
 ---
@@ -21,5 +16,4 @@ const { conversation } = await getForumPage();
   kicker={conversation.kicker[lang]}
   title={conversation.title[lang]}
   id="conversation-title"
-  {privacy}
 />

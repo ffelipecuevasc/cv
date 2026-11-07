@@ -1,0 +1,15 @@
+{
+  "route": "privacy",
+  "title": {
+    "es": "Política de privacidad | Felipe Cuevas",
+    "en": "Privacy policy | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Cómo trato tus datos personales en este sitio: formulario de contacto, Turnstile, Calendly, Giscus y lo que se guarda en tu navegador.",
+    "en": "How I handle your personal data on this site: contact form, Turnstile, Calendly, Giscus and what is stored in your browser."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

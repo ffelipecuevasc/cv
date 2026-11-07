@@ -1,5 +1,5 @@
 # E155 · Página Política de privacidad
-- **Prioridad de la épica:** P0 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada
 
 ## Objetivo
 Publicar una política de privacidad breve y bilingüe que informe todos los tratamientos de datos del sitio, como requisito legal antes del cutover (Ley 21.719, vigente desde el 1 de diciembre de 2026; ADR-035).
@@ -20,16 +20,16 @@ E30 completa, la decisión de plataforma P-01 (E10-I09), porque la política deb
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E155-I01](E155-I01-pagina-completa.md) | Página de política de privacidad | P0 | S | E30-I06, E10-I09, E140-I02 | [ ] Pendiente |
+| [E155-I01](E155-I01-pagina-completa.md) | Página de política de privacidad | P0 | S | E30-I06, E10-I09, E140-I02 | [x] Terminada |
 
 ## Criterios de aceptación de la épica
-- [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
-- [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
-- [ ] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
-- [ ] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
-- [ ] El pie de todas las páginas enlaza a la política del idioma activo.
-- [ ] La fecha de vigencia y la versión de la política son visibles en la página.
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+- [x] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
+- [x] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
+- [x] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
+- [x] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
+- [x] El pie de todas las páginas enlaza a la política del idioma activo.
+- [x] La fecha de vigencia y la versión de la política son visibles en la página.
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
 
 ## Riesgos
 - Texto legal sin validar: la política no es asesoría legal y la valida un especialista externo antes del cutover (BL-08).
