@@ -25,11 +25,13 @@ interface Props {
   route: AnyRouteKey;
   ogImage?: OgImage;
   noindex?: boolean;
+  /** Con `noindex`, emite `noindex, follow` en lugar de `noindex, nofollow` (E150-I01). */
+  follow?: boolean;
   /** Clases del <main>, para la composición propia de cada página. */
   mainClass?: string;
 }
 
-const { title, description, route, ogImage, noindex, mainClass } = Astro.props;
+const { title, description, route, ogImage, noindex, follow, mainClass } = Astro.props;
 const htmlLang = Astro.currentLocale ?? 'es-CL';
 const lang = langFromLocale(htmlLang);
 const paths = routePaths(route);
@@ -87,7 +89,7 @@ const t = useTranslations(lang);
     </noscript>
     <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
     <Font cssVariable="--font-cinzel" preload />
-    <Seo {lang} {title} {description} {paths} {ogImage} {noindex}>
+    <Seo {lang} {title} {description} {paths} {ogImage} {noindex} {follow}>
       <slot name="json-ld" slot="json-ld" />
     </Seo>
   </head>

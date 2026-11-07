@@ -3,6 +3,7 @@
  * Encabezado de sección (DESIGN.md 7.5): regla dorada + rótulo kicker + titular + bajada.
  * Variantes: left (alineado), center (rótulo entre reglas en espejo) y band (h2 de banda
  * con la regla bajo el titular, en ambos temas).
+ * Slot opcional `after-kicker`: contenido decorativo entre el rótulo y el titular (E150-I01).
  */
 import GoldRule from './GoldRule.astro';
 
@@ -42,6 +43,7 @@ const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
     {variant === 'center' && <GoldRule mirror />}
     {align === 'end-lg' && <GoldRule mirror class="rule-end" />}
   </p>
+  <slot name="after-kicker" />
   <Heading id={id} class="title">
     {title}
   </Heading>

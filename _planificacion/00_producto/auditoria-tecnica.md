@@ -416,7 +416,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (E30-I02):** el mapa de rutas (`src/i18n/routes.ts`) genera todas las rutas internas con barra final y sin `.html`, y el build falla si alguna lleva `.html`; en `dist/` no queda ningún `href` con `.html`. Sigue abierto: 301 de las URL antiguas con `.html` (E180-I01).
 
 ### AT-030 · Sitemap manual y desactualizado
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02, E150-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086) en lo que toca a agradecimiento: las páginas nuevas llevan `noindex, follow` y su ruta es interna, así que queda fuera del sitemap que se genere. La generación del sitemap con `hreflang` y el `robots.txt` siguen en E180-I02 (AT-103) · **Resuelve:** E180-I02, E150-I01
 - **Evidencia:** `sitemap.xml:5` (`lastmod` 2026-08-13), sin alternativas de idioma; `robots.txt:5` bloquea `/agradecimiento`.
 - **Impacto:** señales de SEO desactualizadas.
 - **Recomendación:** sitemap generado con `hreflang`.
@@ -844,7 +844,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** decidir en E170-I01 si se agrega un token de error con contraste AA en ambos temas (ADR nuevo y `DESIGN.md` 4).
 
 ### AT-099 · Tras un envío correcto el formulario redirige a una página que aún no existe
-- **Severidad:** Baja · **Estado:** Aceptado hasta E150-I01 (decisión de Felipe en E140-I02, 06-11-2026, ADR-084): el cliente redirige a la ruta `thankYou` del mapa, que existe; `verify:seo` lo comprueba. La página no se adelanta · **Resuelve:** E150-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086): `/es/agradecimiento/` y `/en/thank-you/` existen en `dist/` y coinciden con el `data-thank-you` del formulario de cada idioma; antes, aceptado hasta E150-I01 (decisión de Felipe en E140-I02, 06-11-2026, ADR-084) · **Resuelve:** E150-I01
 - **Evidencia (E140-I01, 03-11-2026):** `src/scripts/contact.ts` redirige a la ruta `thankYou` del mapa (`/es/agradecimiento/` o `/en/thank-you/`), que publica E150-I01. La función de envío llega en E140-I02.
 - **Impacto:** si E140-I02 se publica antes que E150, un envío correcto termina en la 404.
 - **Recomendación:** publicar E140-I02 y E150-I01 juntos en la preview, o probar el envío de E140-I02 sabiendo que la redirección da 404 hasta E150.
@@ -866,3 +866,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (prueba de Felipe en la preview, 06-11-2026):** con `main` en `wrangler.jsonc`, Cloudflare entrega al Worker toda petición que no coincide con un asset, aunque `run_worker_first` se limite a `/api/*`. `src/worker/index.ts` respondía `{"ok":false,"error":"Not found"}` en `/es/agradecimiento/`, `/en/thank-you/` y `/favicon.ico`; `not_found_handling: "404-page"` dejaba de aplicar, en contra de ADR-084.
 - **Impacto:** el visitante veía JSON en lugar de la página 404 del sitio.
 - **Recomendación:** aplicada: fuera de `/api/*` el Worker devuelve `env.ASSETS.fetch(request)` (binding `ASSETS`); `verify:seo` lo comprueba.
+
+### AT-103 · El Disallow de robots.txt impide que se lea el noindex de agradecimiento
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02
+- **Evidencia (E150-I01, 07-11-2026):** `main:robots.txt` tiene `Disallow: /agradecimiento`, una ruta antigua sin `/es/` ni `/en/`. Las páginas nuevas (`/es/agradecimiento/` y `/en/thank-you/`) llevan `noindex, follow`.
+- **Impacto:** un rastreador que obedece el `Disallow` no descarga la página, así que no ve el `noindex` ni sigue sus enlaces (`follow`); si otro sitio enlaza la URL, el buscador puede listarla sin contenido. Además, la regla antigua no cubre las rutas nuevas.
+- **Recomendación:** decidir en E180-I02 entre (a) quitar el `Disallow` y dejar solo `noindex, follow` (recomendada: es la forma en que el buscador puede leer la directiva) o (b) escribir `Disallow` para las dos rutas nuevas y aceptar que el `noindex` no se lea. En ambos casos, el sitemap las excluye porque son rutas internas (ADR-086).

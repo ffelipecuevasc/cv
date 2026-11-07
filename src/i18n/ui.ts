@@ -81,6 +81,19 @@ const es = {
     noscript:
       'Este formulario necesita JavaScript para verificar que no eres un robot. Si prefieres no activarlo, escríbeme a contacto@felipecuevas.dev o por LinkedIn.',
   },
+  // Página de agradecimiento (E150-I01, ADR-086). Textos en-US por validar (ADR-017).
+  thankYou: {
+    metaTitle: 'Mensaje enviado | Felipe Cuevas',
+    metaDescription:
+      'Tu mensaje fue enviado correctamente. Te responderé a la brevedad al correo que indicaste.',
+    ogImageAlt:
+      'Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic',
+    kicker: 'Contacto',
+    title: '¡Mensaje enviado!',
+    lead: 'Gracias por contactarme. Recibí tu mensaje correctamente y me comprometo a responderte a la brevedad posible (usualmente dentro de 24-48 horas).',
+    home: 'Volver al inicio',
+    another: 'Enviar otro mensaje',
+  },
   backToTop: 'Volver arriba',
 };
 
@@ -159,6 +172,18 @@ const en: Dictionary = {
       'Your message could not be sent. Please try again in a few minutes or email me at contacto@felipecuevas.dev.',
     noscript:
       'This form needs JavaScript to check that you are not a robot. If you prefer not to enable it, email me at contacto@felipecuevas.dev or reach me on LinkedIn.',
+  },
+  thankYou: {
+    metaTitle: 'Message sent | Felipe Cuevas',
+    metaDescription:
+      'Your message was sent successfully. I will reply as soon as possible to the email address you provided.',
+    ogImageAlt:
+      'Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications',
+    kicker: 'Contact',
+    title: 'Message sent!',
+    lead: 'Thank you for reaching out. I received your message and I will get back to you as soon as possible (usually within 24-48 hours).',
+    home: 'Back to home',
+    another: 'Send another message',
   },
   backToTop: 'Back to top',
 };

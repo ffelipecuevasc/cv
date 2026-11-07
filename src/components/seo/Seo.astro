@@ -26,9 +26,11 @@ export interface Props {
   paths: Record<Lang, string>;
   ogImage?: OgImage;
   noindex?: boolean;
+  /** Con `noindex`: permite seguir los enlaces (`noindex, follow`); por defecto `noindex, nofollow`. */
+  follow?: boolean;
 }
 
-const { lang, title, description, paths, ogImage, noindex = false } = Astro.props;
+const { lang, title, description, paths, ogImage, noindex = false, follow = false } = Astro.props;
 
 const other = otherLang(lang);
 
@@ -40,7 +42,7 @@ const image = ogImage && { ...ogImage, src: abs(ogImage.src) };
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="author" content="Felipe Cuevas" />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{noindex && <meta name="robots" content={follow ? 'noindex, follow' : 'noindex, nofollow'} />}
 <link rel="canonical" href={canonical} />
 <link rel="alternate" hreflang={langCodes.es} href={abs(paths.es)} />
 <link rel="alternate" hreflang={langCodes.en} href={abs(paths.en)} />

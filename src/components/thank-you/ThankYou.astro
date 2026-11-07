@@ -1,0 +1,85 @@
+---
+/*
+ * Confirmación de envío (E150-I01, ADR-086, composición B «Confirmación centrada»): encabezado
+ * centrado de DESIGN.md 7.5 con el ícono de sobre entre el rótulo y el único <h1>, el texto y
+ * dos botones, todo sobre `bg`, sin tarjeta, sin animación de entrada y sin JavaScript.
+ * Los textos salen del diccionario (`thankYou`).
+ */
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section class="thank-you" aria-labelledby="thank-you-title">
+  <Container>
+    <div class="content">
+      <SectionHeader
+        variant="center"
+        level={1}
+        id="thank-you-title"
+        kicker={t.thankYou.kicker}
+        title={t.thankYou.title}
+        lead={t.thankYou.lead}
+      >
+        <span slot="after-kicker" class="envelope">
+          <Icon name="mail" size={56} />
+        </span>
+      </SectionHeader>
+      <div class="actions">
+        <Button href={getRoute('home', lang)}>{t.thankYou.home}</Button>
+        <Button variant="secondary" href={getRoute('contact', lang)}>
+          {t.thankYou.another}
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .thank-you {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  .thank-you :global(.container-page) {
+    width: 100%;
+  }
+  .content {
+    margin-inline: auto;
+    max-width: 40rem;
+  }
+  .envelope {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    color: var(--color-icon);
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  @media (min-width: 40rem) {
+    .actions {
+      flex-direction: row;
+      justify-content: center;
+      gap: 16px;
+    }
+  }
+  @media (min-width: 48rem) {
+    .thank-you {
+      padding-block: 96px;
+    }
+  }
+</style>

@@ -922,6 +922,19 @@ Reglas del registro:
 - **Consecuencias:** complementa ADR-084 (no lo edita): sigue sin usarse `functions/` y los assets existentes se sirven sin pasar por el Worker. `verify:seo` ejecuta el Worker con `ASSETS` simulado (5 controles, 846 en total). Sin el binding, las rutas inexistentes darían 500: código y bloque se aplican juntos. Resuelve AT-102.
 - **Origen:** prueba de Felipe en la preview y prompt de E140-I03, 06-11-2026. **Estado:** Aceptada.
 
+## ADR-086 · Agradecimiento: composición B «Confirmación centrada» y ruta interna
+- **Contexto:** E150-I01 y AT-099. ADR-036 pide validar la composición de cada página al inicio de su épica. La página confirma el envío del formulario de Contacto (ADR-083) y debe ser `noindex, follow` y quedar fuera del sitemap.
+- **Decisión (de Felipe, 06-11-2026):** composición **B «Confirmación centrada»**: encabezado centrado de `DESIGN.md` 7.5 con el rótulo «Contacto» (`en-US`: «Contact»), ícono de sobre de contorno (`mail`, 7.14, color `icon`, decorativo), `<h1>`, texto, botón primario «Volver al inicio» y botón secundario «Enviar otro mensaje» (a Contacto), todo centrado sobre `bg`, sin tarjeta, sin animación de entrada y sin colores nuevos. Se conserva el texto actual (respuesta en 24-48 horas); no se replican el verde ni `icon-animate` del sitio antiguo. El `en-US` lo redacta el agente y Felipe lo valida (ADR-017).
+- **Decisión (del agente, dentro del alcance):**
+  1. **`noindex, follow`:** `Seo` y `BaseLayout` suman la opción `follow`; con `noindex` sola sigue saliendo `noindex, nofollow` (la muestra de diseño no cambia).
+  2. **Fuera del sitemap:** `thankYou` pasa de `routes` a `internalRoutes` de `src/i18n/routes.ts`, que es el mecanismo existente para páginas «noindex, fuera del sitemap y de la navegación». Aún no hay sitemap en el proyecto (lo genera E180-I02) y no se agrega ninguna dependencia. `getRoute`, `routePaths` y `getEquivalentPath` siguen resolviéndola, así que la redirección del formulario y el selector de idioma no cambian. E180-I02 arma el sitemap solo con `routes`: 11 rutas × 2 = 22 URL.
+  3. **Rutas con barra final** (`/es/agradecimiento/`, `/en/thank-you/`), idénticas a `data-thank-you` del formulario, que no se tocó.
+  4. **`SectionHeader`** suma el slot opcional `after-kicker` para poner el ícono entre el rótulo y el `<h1>`, sin cambiar sus usos actuales.
+  5. **Textos y metadatos en el diccionario** (`thankYou` en `src/i18n/ui.ts`), no en la colección `pages`, cuyo esquema exige una clave de `routes`. Sin JSON-LD, sin AOS y sin JavaScript. Imagen Open Graph de la portada, con su texto alternativo por idioma.
+  6. Título en minúsculas de oración («¡Mensaje enviado!»), como el resto del sitio; ícono de 56 px, el tamaño del sitio antiguo.
+- **Consecuencias:** `DESIGN.md` suma el patrón «Confirmación centrada» (11.2), la nota del slot en 7.5 y la sección 11.13: el bloque está en la bitácora `2026-11-07_E150-I01.md` y lo aplica Felipe (ADR-033). Cierra AT-099 y AT-030 en su parte de agradecimiento; registra AT-103 (`noindex` frente al `Disallow` de `robots.txt`, para E180-I02). Inglés por validar por Felipe.
+- **Origen:** elección de Felipe el 06-11-2026 y prompt de E150-I01. **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

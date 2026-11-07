@@ -1,7 +1,8 @@
 /*
  * Mapa de rutas equivalentes es-CL ↔ en-US (ADR-020, ADR-035, ADR-047, ADR-048).
- * - Las 11 páginas navegables del área L de la auditoría (sin Eventos, ADR-077) más la
- *   política de privacidad.
+ * - Las 10 páginas navegables del área L de la auditoría (sin Eventos, ADR-077) más la
+ *   política de privacidad: las 11 páginas indexables. Agradecimiento va aparte, en
+ *   `internalRoutes` (ADR-086).
  * - Toda ruta empieza con /es/ o /en/, termina en barra y nunca lleva .html (AT-005).
  * - La 404 no está en el mapa: no es una URL navegable; su selector de idioma lleva a la
  *   portada del otro idioma (E160-I01).
@@ -20,13 +21,17 @@ export const routes = {
   forum: { es: '/es/foro/', en: '/en/forum/' },
   resources: { es: '/es/recursos/', en: '/en/resources/' },
   contact: { es: '/es/contacto/', en: '/en/contact/' },
-  thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' },
   privacy: { es: '/es/privacidad/', en: '/en/privacy/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
-/** Páginas internas (noindex, fuera del sitemap y de la navegación). */
+/**
+ * Páginas internas (noindex, fuera del sitemap y de la navegación). El sitemap de E180-I02 se
+ * arma solo con `routes`, así que lo que vive aquí queda excluido sin lista aparte.
+ * Agradecimiento es `noindex, follow` y la usa la redirección del formulario (E150-I01).
+ */
 export const internalRoutes = {
   designSample: { es: '/es/muestra-diseno/', en: '/en/design-sample/' },
+  thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;
