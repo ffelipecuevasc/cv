@@ -1,6 +1,6 @@
 # DESIGN.md · felipecuevas.dev
 
-> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 06-11-2026 con los bloques de E100, E110, E120, E130 y E140-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
+> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 07-11-2026 con los bloques de E100, E110, E120, E130, E140-I01, E150-I01 y E155-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
 > Este archivo es la **única fuente de verdad del diseño** (ADR-010). Si un prototipo y este archivo difieren, **prevalece este archivo**.
 > Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes** y solo cambian con un ADR nuevo.
 > Nombres de tokens en inglés (ADR-025); textos en español de Chile.
@@ -308,6 +308,7 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 - **Alineado a la izquierda:** regla dorada (48 × 2 px, degradado `gold` → `vibrant`) + rótulo kicker en una fila con 16 px de separación; titular h2 a 20 px; bajada opcional (`text-soft`, 300) a 20 px con ancho máximo de 52 caracteres.
 - **Centrado:** rótulo entre dos reglas doradas simétricas (la derecha en espejo); titular y bajada centrados.
 - **De banda:** rótulo centrado, h2 de banda y regla dorada bajo el titular, **en ambos temas**.
+- **Con elemento decorativo:** `SectionHeader` admite un slot opcional entre el rótulo y el titular para un elemento decorativo (por ejemplo, el ícono de Agradecimiento, 11.13).
 
 ### 7.6 Tarjetas
 - **Base:** fondo `surface`, sin radio, relleno de 40 × 34 px (arriba, lados) y 32 px abajo; línea superior de 2 px con degradado `gold` → `vibrant` inserta 34 px desde los lados; sombra `card`. Al pasar el cursor sube 4 px y pasa a sombra `card-hover` en 400 ms. En oscuro suma un contorno de 1 px `orient-50` al 6 % (al pasar, `vibrant` al 25 %).
@@ -330,7 +331,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - **Relleno:** 64 px arriba y 40 px abajo.
 - **Columnas (3 desde 768 px; una bajo esa medida):**
   1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho). Bajo la frase, el botón secundario "Descargar CV" de 46 px (7.3) con ícono de descarga, atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017 y ADR-057). Es el acceso al CV de todo el sitio.
-  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad lo agrega E155-I01 cuando exista la página (ADR-035); hasta entonces son 5. No lleva Eventos (ADR-077).
+  2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad es el sexto y está en el pie de todas las páginas (E155-I01, ADR-087). No lleva Eventos (ADR-077).
   3. **Redes** (alineada a la izquierda en todos los anchos): rótulo y lista de las 4 redes; en cada una, el ícono de marca de 18 px en `icon` va antes del texto `text-muted`; al pasar, `accent`.
 - **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año y "Felipe Cuevas", en `text-soft` 14 px. El enlace de privacidad va en la columna de navegación (ADR-057).
 - El botón de apariencia ya no está en el pie (ADR-021). Las columnas "Tecnologías" y "Certificaciones" del pie actual no forman parte del diseño nuevo.
@@ -418,6 +419,8 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación), Desarrollador (portafolio, ritmo 7/5), Instructor (cursos: destacada a todo el ancho y ritmo 7/5, 5/7, 6/6, 12) |
 | Línea de tiempo | Hitos en secuencia vertical. Versión compacta: lista ordenada con riel de 1 px y marcadores circulares con ícono | Experiencia (resumen), Instructor (planes SENCE agrupados por fecha), Recursos (etapas de la ruta, con pasos marcables) |
 | Lista a dos columnas con regla superior | Entradas con regla de 1 px `border-strong` y tramo dorado de 48 px, ícono de 32 px, h3 en Cinzel y texto con énfasis; una columna bajo 768 px | Desarrollador (aspectos técnicos), Talento Digital (alianzas de Logros, sin h3: frase en Cinzel) |
+| Confirmación centrada | Encabezado centrado (7.5) con un ícono entre el rótulo y el `<h1>`, texto y dos botones, todo sobre `bg`, sin tarjeta ni animación | Agradecimiento |
+| Documento con índice | Cabecera alineada a la izquierda con ficha de versión y vigencia, índice de anclas (lateral y pegajoso desde 1.024 px, arriba bajo esa medida) y secciones de texto con h2 | Privacidad |
 | **Reservados** (prototipo): pestañas verticales de trayectoria, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
 
 ### 11.3 Inicio
@@ -491,7 +494,7 @@ Ritmo de fondos: `bg` → `bg` / `band` alternos en las 6 franjas → `bg` → `
 1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Comunidad» (`en-US`: «Community»), `<h1>` «Foro de Aprendizaje» («Learning Forum») y bajada (ADR-078).
 2. **Participar en tres pasos:** banda (7.8) con encabezado de banda («Cómo funciona» / «Participar en tres pasos»). Lista de 3 pasos, 3 columnas desde 1.024 px (separación de 40 px; una columna bajo esa medida). Cada paso: regla superior de 1 px `border-strong`, ícono de 32 px en `icon` (`account-circle`, `rule` y `forum`), h3 en Cinzel 1,15 rem y texto de 16 px en `text`. Los enlaces externos del texto van en `text`, 600 y subrayados (no `accent`, 4.3).
 3. **Dónde publicar cada cosa:** fondo `bg-alt`, encabezado centrado y 4 tarjetas base (7.6) en 2 columnas desde 1.024 px, sin foto, con h3 en Cinzel y texto.
-4. **Conversación:** fondo `bg`, encabezado alineado a la izquierda («Hilo general» / «Conversación»). Aviso de transparencia (fondo `bg-alt`, contorno `border`, ícono `info` de 20 px, 15 px, ancho máximo de 62 caracteres), con hueco para el enlace a la política (ADR-035). Panel `surface` con contorno `border` y sombra `card`, alto mínimo de 520 px, con un marcador estático (ícono `forum` y «Cargando la conversación…», `role="status"`), sin spinner. Giscus se carga a 400 px de la pantalla, con tema `light` / `transparent_dark` sincronizado en vivo. Debajo, «Abrir la conversación completa en GitHub», centrado. Sin JavaScript, el panel se oculta y un bloque `surface` enlaza a las discusiones.
+4. **Conversación:** fondo `bg`, encabezado alineado a la izquierda («Hilo general» / «Conversación»). Aviso de transparencia (fondo `bg-alt`, contorno `border`, ícono `info` de 20 px, 15 px, ancho máximo de 62 caracteres), con enlace a la política de privacidad (E155-I01). Panel `surface` con contorno `border` y sombra `card`, alto mínimo de 520 px, con un marcador estático (ícono `forum` y «Cargando la conversación…», `role="status"`), sin spinner. Giscus se carga a 400 px de la pantalla, con tema `light` / `transparent_dark` sincronizado en vivo. Debajo, «Abrir la conversación completa en GitHub», centrado. Sin JavaScript, el panel se oculta y un bloque `surface` enlaza a las discusiones.
 
 Ritmo de fondos: `bg` → `band` → `bg-alt` → `bg`. Sin AOS ni animaciones de entrada.
 
@@ -514,6 +517,27 @@ Composición A (ADR-083).
    - **Agenda** («Videollamada» / «Agenda una reunión (15 min)»): panel `surface` con contorno `border` y sombra `card` que reserva 700 px de alto. Antes de cargar muestra el ícono `event` de 32 px, el aviso de servicio externo y el botón secundario «Cargar el calendario»; al pulsarlo carga Calendly. Debajo, enlace externo «Abrir el calendario en Calendly», siempre visible. Sin JavaScript se oculta el botón.
 
 Ritmo de fondos: `bg` → `band` → `bg-alt`. Sin AOS ni animaciones de entrada. Sin JSON-LD.
+
+### 11.13 Agradecimiento
+Composición B «Confirmación centrada» (ADR-086). Página `noindex, follow` y fuera del sitemap, a la que redirige el formulario de Contacto tras un envío correcto.
+1. **Contenido único**, fondo `bg`, sin tarjeta, centrado en horizontal y en vertical entre la barra y el pie, con relleno vertical de 80 px (96 px desde 768 px) y ancho máximo de 40 rem:
+   - encabezado centrado (7.5): rótulo «Contacto» (`en-US`: «Contact») entre dos reglas doradas;
+   - ícono `mail` (sobre de contorno, 7.14) de 56 px en `icon`, decorativo, a 24 px del rótulo;
+   - `<h1>` «¡Mensaje enviado!» («Message sent!») a 20 px del ícono;
+   - texto (bajada de 7.5, `text-soft`, 300, máximo de 52 caracteres): «Gracias por contactarme. Recibí tu mensaje correctamente y me comprometo a responderte a la brevedad posible (usualmente dentro de 24-48 horas).» («Thank you for reaching out. I received your message and I will get back to you as soon as possible (usually within 24-48 hours).»).
+2. **Botones**, a 40 px bajo el texto, de 46 px (7.3): primario «Volver al inicio» («Back to home»), a la portada del idioma, y secundario «Enviar otro mensaje» («Send another message»), a Contacto. Apilados y a todo el ancho bajo 640 px (12 px de separación); en fila centrada desde 640 px (16 px).
+
+Sin color de éxito (el sistema no tiene), sin tarjeta, sin animación de entrada ni del ícono, sin AOS, sin JavaScript y sin JSON-LD.
+
+### 11.14 Privacidad
+Composición A «Documento con índice» (ADR-087). Página indexable y en el sitemap, a la que enlazan el formulario de Contacto, el pie y el aviso de Giscus.
+1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Privacidad» (`en-US`: «Privacy»), `<h1>` «Política de privacidad» («Privacy policy») y bajada. Debajo, un `dl` con «Versión» y «Vigente desde» (`dt` de 12,5 px en mayúsculas, `text-soft`; `dd` en Cinzel 1,15 rem, números tabulares): la versión sale de la constante única `PRIVACY_POLICY_VERSION` y la fecha va en `<time datetime>`, en formato largo del idioma. Debajo, el aviso «Este texto es informativo y no constituye asesoría legal.» (14 px, `text-soft`).
+2. **Documento**, fondo `bg`: retícula de 12 columnas desde 1.024 px (48 px de separación), con el índice en 4 y el texto en 8; una columna bajo esa medida, con el índice arriba (2 columnas desde 640 px).
+   - **Índice** (`<nav>` «Contenido de la política» con lista ordenada): rótulo kicker «En esta página» y enlaces de 44 px de alto (15 px, `text-muted`) con regla vertical de 1 px `border` a la izquierda; al pasar, la regla pasa a `vibrant` y el texto a `text`. Desde 1.024 px es pegajoso a 100 px del borde superior. Sin JavaScript.
+   - **Secciones** (8, con `id` para el índice y `scroll-margin-top` de 8 px sobre el `scroll-padding` de la barra): regla superior de 1 px `border-strong` con tramo dorado de 48 px (`gold` → `vibrant`, patrón de 11.2), `<h2>` en Cinzel 1,5 rem, párrafos de Josefin 300, 1,08 rem, interlineado 1,75 y 62 caracteres de ancho en `text-muted`, y separación de 40 px entre secciones. Las claves de almacenamiento local (`theme`, `perfil-hero`, `rutas-progreso`) van en una lista con la clave en un recuadro de 1 px `border-strong` (600, `text`). Los enlaces a las políticas de terceros (Cloudflare, Calendly y GitHub) son enlaces externos en `accent`, 600 y subrayados, de 44 px de alto, con ícono y aviso de pestaña nueva; el del responsable es un `mailto:`.
+   - Las 8 secciones, en orden: responsable, datos que recibe el sitio, formulario de contacto, Turnstile, Calendly, Giscus y GitHub, lo que se guarda en el navegador, y versión y cambios.
+
+Ritmo de fondos: `bg` → `bg`. Sin AOS ni animaciones de entrada, sin JavaScript y sin JSON-LD. El texto es un borrador informativo sin validar por un especialista (BL-08, AT-105).
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.
