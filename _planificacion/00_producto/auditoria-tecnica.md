@@ -90,7 +90,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Dependencias:** ninguna externa, salvo la fuente Lexend desde Google Fonts.
 
 ### AT-003 · Logotipo sin animación en la 404
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I03, E160-I01
+- **Severidad:** Media · **Estado:** Resuelto en E160-I01 (11-11-2026, ADR-088): las 404 de la raíz, /es/ y /en/ usan `BaseLayout` y el componente `Logo`; verificado que el texto del renglón 2 cambia con el tiempo · **Resuelve:** E30-I03, E160-I01
 - **Evidencia:** `404.html:87`, el `span` del logotipo no tiene `data-maquina="logotipo"`.
 - **Impacto:** comportamiento inconsistente del logotipo.
 - **Recomendación:** un único componente de logotipo para todas las páginas.
@@ -403,7 +403,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - Sitemap bilingüe generado en el build.
 
 ### AT-004 · La 404 usa rutas relativas
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E160-I01
+- **Severidad:** Alta · **Estado:** Resuelto en E160-I01 (11-11-2026, ADR-088 y ADR-089): las tres 404 no tienen ninguna URL relativa (`verify:seo` lo comprueba) y se probaron a uno, dos y tres niveles de profundidad con una emulación de Cloudflare; falta la prueba en workers.dev · **Resuelve:** E160-I01
 - **Evidencia:** `404.html:37` (`static/css/tailwind.css`) y `:98` (`index.html`) son relativas.
 - **Impacto:** en una ruta inexistente anidada (por ejemplo `/a/b`) los estilos y enlaces fallan; será más frecuente con `/es/` y `/en/`.
 - **Recomendación:** rutas absolutas y 404 por idioma.
@@ -885,3 +885,21 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E155-I01, 07-11-2026):** por decisión de Felipe (ADR-087), el texto describe solo hechos verificables del código: datos del formulario, Turnstile, Calendly, Giscus, almacenamiento local y alojamiento. No incluye plazos de conservación del correo, base legal del tratamiento, domicilio del responsable ni la lista de derechos de los titulares, que ni la iteración ni el sitio actual proporcionaban.
 - **Impacto:** la Ley 21.719 rige desde el 01-12-2026; sin esas cláusulas, validadas por un especialista, la política puede no cumplirla.
 - **Recomendación:** que el especialista agregue esas secciones antes de E190; al cambiar el texto, subir `PRIVACY_POLICY_VERSION` (ADR-083) y mantener el en-US en paridad. La estructura de la página admite secciones nuevas en `src/content/privacy/page.json` sin tocar componentes.
+
+### AT-106 · El sitemap de E180-I02 debe excluir las 404 (y agradecimiento)
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02
+- **Evidencia (E160-I01, 11-11-2026):** `notFound` (`/es/404/` y `/en/404/`) y `thankYou` viven en `internalRoutes` de `src/i18n/routes.ts`, y la 404 de la raíz (`/404/`) se resuelve como `notFound`. Aún no hay sitemap en el proyecto. Si E180-I02 usa una integración que lista las páginas generadas (por ejemplo `@astrojs/sitemap`, que exige un ADR), esas páginas aparecerían aunque `routes` no las incluya.
+- **Impacto:** URL de error en el sitemap, con `noindex`, que Google trata como una contradicción.
+- **Recomendación:** armar el sitemap solo con `routes` (22 URL) o filtrar `/404/`, `/es/404/`, `/en/404/`, `/es/agradecimiento/` y `/en/thank-you/`; comprobar `dist/sitemap*.xml`. No listar las 404 en `robots.txt` (AT-103).
+
+### AT-107 · /es/404/ y /en/404/ responden 200 si se piden directo
+- **Severidad:** Baja · **Estado:** Aceptado (decisión de Felipe, 09-11-2026, ADR-089); **no verificado en Cloudflare** · **Resuelve:** E190-I04 (verificar)
+- **Evidencia (E160-I01, 11-11-2026):** la documentación de `html_handling` (por defecto `auto-trailing-slash`, página de Cloudflare actualizada el 23-04-2026) indica que `/file` responde 200 con `file.html` y `/file/` redirige 307 a `/file`. Aplicado por analogía a `dist/es/404.html`, `/es/404/` redirigiría a `/es/404` y respondería 200; la documentación no trata `404.html` como caso especial. El enlace del selector de idioma de la 404 usa la ruta con barra final (`/en/404/`), así que añade ese salto 307.
+- **Impacto:** quien pida `/es/404` ve la 404 con estado 200 (sin efecto de SEO: `noindex, follow` y fuera del sitemap).
+- **Recomendación:** comprobar con `curl -I` en la preview y tras el cutover; si importa el estado 404 en esa URL, se resolvería en E180-I01 con una regla propia.
+
+### AT-108 · Las 404 de idioma dependen de un paso posterior al build
+- **Severidad:** Baja · **Estado:** Abierto (mitigado: `verify:seo` lo comprueba) · **Resuelve:** E190-I01 (precondición)
+- **Evidencia (E160-I01, 11-11-2026):** con el `build.format` por defecto, Astro genera `dist/es/404/index.html` y `dist/en/404/index.html`; Cloudflare solo reconoce `404.html`. `scripts/place-404.mjs` los mueve y corre en el script `build` (`astro build && node scripts/place-404.mjs`). Workers Builds ejecuta `pnpm build` (ADR-037), pero `pnpm astro build` o un cambio de `build.format` dejarían las 404 sin nombre válido.
+- **Impacto:** sin el script, `/es/x/y` y `/en/x/y` caerían en la 404 de la raíz, en español.
+- **Recomendación:** no ejecutar `astro build` directo para publicar; si cambia `build.format`, revisar el script; `verify:seo` falla si faltan `dist/es/404.html` o `dist/en/404.html` o si quedan las carpetas. Confirmarlo en el ensayo de E190-I01.

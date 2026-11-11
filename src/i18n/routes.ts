@@ -4,8 +4,8 @@
  *   política de privacidad: las 11 páginas indexables. Agradecimiento va aparte, en
  *   `internalRoutes` (ADR-086).
  * - Toda ruta empieza con /es/ o /en/, termina en barra y nunca lleva .html (AT-005).
- * - La 404 no está en el mapa: no es una URL navegable; su selector de idioma lleva a la
- *   portada del otro idioma (E160-I01).
+ * - La 404 vive en `internalRoutes` (`notFound`, ADR-088): su selector de idioma lleva a la 404
+ *   del otro idioma. La 404 de la raíz (`/404/`) se resuelve como la de /es/.
  * Cambiar un slug después del cutover exige una 301 (E180-I01).
  */
 import { langs, otherLang, type Lang } from './lang';
@@ -32,6 +32,8 @@ export const routes = {
 export const internalRoutes = {
   designSample: { es: '/es/muestra-diseno/', en: '/en/design-sample/' },
   thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' },
+  /** 404 por idioma (E160-I01, ADR-088): noindex, follow y fuera del sitemap. */
+  notFound: { es: '/es/404/', en: '/en/404/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;
@@ -62,6 +64,8 @@ export const getRoute = (key: AnyRouteKey, lang: Lang): string => allRoutes[key]
 /** Clave de la página a partir de su ruta (con o sin barra final). */
 export const routeKeyFromPath = (path: string): AnyRouteKey | undefined => {
   const normalized = path.endsWith('/') ? path : `${path}/`;
+  // La 404 de la raíz (`src/pages/404.astro`, en español) equivale a la de /es/.
+  if (normalized === '/404/') return 'notFound';
   return (Object.keys(allRoutes) as AnyRouteKey[]).find((key) =>
     Object.values(allRoutes[key]).includes(normalized),
   );

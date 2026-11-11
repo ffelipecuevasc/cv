@@ -1,0 +1,25 @@
+---
+// 404 de la raíz (E160-I01, ADR-088): la que sirve Cloudflare para las rutas inexistentes sin
+// prefijo de idioma (por ejemplo /x). Va en español y el selector de idioma del encabezado lleva
+// a la 404 en inglés (/en/404/). Astro la genera como dist/404.html. noindex, follow y fuera del
+// sitemap (ruta interna).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NotFound from '../components/not-found/NotFound.astro';
+import { getHomeOgImage } from '../components/seo/home-og-image';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('es');
+const og = { ...(await getHomeOgImage()), alt: t.notFound.ogImageAlt };
+---
+
+<BaseLayout
+  title={t.notFound.metaTitle}
+  description={t.notFound.metaDescription}
+  route="notFound"
+  ogImage={og}
+  noindex
+  follow
+  mainClass="flex flex-col"
+>
+  <NotFound />
+</BaseLayout>

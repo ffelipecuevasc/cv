@@ -2529,6 +2529,162 @@ console.log('\nEnlace a la política (pie y avisos)');
   );
 }
 
+// --- Página 404 (E160-I01, ADR-088 y ADR-089): tres 404.html con el nombre que busca Cloudflare ---
+console.log('\n404 (raíz, /es/ y /en/)');
+{
+  const NOT_FOUND = {
+    root: {
+      file: '404.html',
+      code: 'es-CL',
+      og: 'es_CL',
+      h1: 'Página no encontrada',
+      home: '/es/',
+      contact: '/es/contacto/',
+      switchTo: '/en/404/',
+    },
+    es: {
+      file: 'es/404.html',
+      code: 'es-CL',
+      og: 'es_CL',
+      h1: 'Página no encontrada',
+      home: '/es/',
+      contact: '/es/contacto/',
+      switchTo: '/en/404/',
+    },
+    en: {
+      file: 'en/404.html',
+      code: 'en-US',
+      og: 'en_US',
+      h1: 'Page not found',
+      home: '/en/',
+      contact: '/en/contact/',
+      switchTo: '/es/404/',
+    },
+  };
+  const canonical404 = { root: `${SITE}/es/404/`, es: `${SITE}/es/404/`, en: `${SITE}/en/404/` };
+  // Cloudflare solo reconoce archivos llamados exactamente 404.html (ADR-037): nada de carpetas.
+  check(
+    !existsSync(join(DIST, 'es/404')) && !existsSync(join(DIST, 'en/404')),
+    'sin carpetas es/404 ni en/404 (las movió scripts/place-404.mjs)',
+  );
+  const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+  check(
+    /node scripts\/place-404\.mjs/.test(packageJson.scripts.build),
+    'el script build ejecuta scripts/place-404.mjs',
+  );
+  const notFoundHtml = {};
+  for (const [name, info] of Object.entries(NOT_FOUND)) {
+    console.log(`  ${info.file}`);
+    if (!existsSync(join(DIST, info.file))) {
+      check(false, `existe dist/${info.file}`);
+      continue;
+    }
+    const html = read(info.file);
+    notFoundHtml[name] = html;
+    const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+    const metas = tags(head, 'meta');
+    const links = tags(head, 'link');
+    const meta = (key) => metas.find((m) => m.name === key || m.property === key)?.content;
+    const title = decode(/<title>([^<]*)<\/title>/.exec(head)?.[1] ?? '');
+    const description = meta('description') ?? '';
+    const other = name === 'en' ? 'es' : 'en';
+    check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+    check(title.length > 0 && title.length <= 70, `title de hasta 70 caracteres (${title.length})`);
+    check(
+      description.length >= 50 && description.length <= 170,
+      `description de 50 a 170 caracteres (${description.length})`,
+    );
+    check(meta('robots') === 'noindex, follow', 'robots = noindex, follow');
+    check(
+      links.find((l) => l.rel === 'canonical')?.href === canonical404[name],
+      `canonical = ${canonical404[name]}`,
+    );
+    check(
+      same(
+        links
+          .filter((l) => l.rel === 'alternate' && l.hreflang)
+          .map((l) => [l.hreflang, l.href])
+          .sort(),
+        [
+          ['es-CL', `${SITE}/es/404/`],
+          ['en-US', `${SITE}/en/404/`],
+          ['x-default', `${SITE}/es/404/`],
+        ].sort(),
+      ),
+      'hreflang recíprocos hacia /es/404/ y /en/404/ y x-default → /es/',
+    );
+    check(
+      meta('og:url') === canonical404[name] && meta('og:locale') === info.og,
+      'og:url y og:locale',
+    );
+    check(
+      meta('og:title') === title && meta('og:description') === description,
+      'og:title y og:description = title y description',
+    );
+    check((meta('og:image:alt') ?? '').length > 10, 'texto alternativo de la imagen OG');
+    check(!head.includes('application/ld+json'), 'sin JSON-LD');
+    const body = html.slice(html.indexOf('<body'));
+    const count = (re) => (body.match(re) ?? []).length;
+    check(count(/<main[\s>]/g) === 1 && count(/<h1[\s>]/g) === 1, 'un solo <main> y un solo <h1>');
+    const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+    check(
+      new RegExp(`<h1[^>]*>${info.h1}</h1>`).test(mainHtml),
+      `h1 = «${info.h1}» dentro del <main>`,
+    );
+    const buttons = tags(mainHtml, 'a').map((a) => a.href);
+    check(same(buttons, [info.home, info.contact]), `botones → ${info.home} y ${info.contact}`);
+    // AT-004: ninguna URL relativa, para que la 404 funcione a cualquier profundidad de ruta.
+    const relative = [...html.matchAll(/\s(?:href|src)="([^"]*)"/g)]
+      .map((m) => decode(m[1]))
+      .filter((u) => u && !/^(\/|#|https?:|mailto:|data:)/.test(u));
+    check(
+      relative.length === 0,
+      `todas las URL son absolutas (${relative.join(', ') || 'ninguna relativa'})`,
+    );
+    const stylesheets = tags(html, 'link').filter((l) => l.rel === 'stylesheet');
+    check(
+      stylesheets.every((l) => l.href.startsWith('/')) &&
+        (/<style/.test(html) || stylesheets.length > 0),
+      'estilos por ruta absoluta o en línea',
+    );
+    // AT-003: el logotipo es el mismo componente y su script anima.
+    check(
+      /data-typewriter=/.test(html),
+      'el logotipo lleva su máquina de escribir (data-typewriter)',
+    );
+    check(
+      tags(html, 'script').some((s) => /Logo\.astro_astro_type_script/.test(s.src ?? '')),
+      'carga el script del logotipo',
+    );
+    const footer = /<footer class="footer"[\s\S]*<\/footer>/.exec(html)?.[0] ?? '';
+    const privacyHref = `/${PRIVACY_ROUTES[name === 'en' ? 'en' : 'es']}/`;
+    check(
+      tags(footer, 'a').some((a) => a.href === privacyHref),
+      `el pie enlaza a ${privacyHref}`,
+    );
+    check(
+      tags(html, 'a').some(
+        (a) =>
+          a.hreflang === NOT_FOUND[other === 'es' ? 'es' : 'en'].code && a.href === info.switchTo,
+      ),
+      `el selector de idioma lleva a ${info.switchTo}`,
+    );
+  }
+  // La 404 raíz y la de /es/ son la misma página; la de /en/ difiere solo en el idioma.
+  check(
+    notFoundHtml.root !== undefined &&
+      notFoundHtml.es !== undefined &&
+      notFoundHtml.root === notFoundHtml.es,
+    '404 raíz = 404 de /es/ (misma página en español)',
+  );
+  const routesText404 = srcText('i18n/routes.ts');
+  check(
+    routesText404.indexOf('notFound:') > routesText404.indexOf('export const internalRoutes') &&
+      routesText404.includes("notFound: { es: '/es/404/', en: '/en/404/' }"),
+    'notFound está en `internalRoutes` (fuera del sitemap)',
+  );
+}
+
 // --- Paridad entre idiomas ---
 console.log('\nParidad es / en');
 const { es, en } = pages;

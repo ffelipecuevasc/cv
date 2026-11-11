@@ -94,6 +94,19 @@ const es = {
     home: 'Volver al inicio',
     another: 'Enviar otro mensaje',
   },
+  // 404 por idioma (E160-I01, ADR-088). Textos de main:404.html; en-US por validar (ADR-017).
+  notFound: {
+    metaTitle: 'Página no encontrada | Felipe Cuevas',
+    metaDescription:
+      'La página que buscas no existe o fue movida. Vuelve al inicio del sitio de Felipe Cuevas.',
+    ogImageAlt:
+      'Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic',
+    kicker: 'Error 404',
+    title: 'Página no encontrada',
+    lead: 'La página que buscas no existe o fue movida. Revisa que la dirección esté bien escrita, o vuelve al inicio.',
+    home: 'Volver al inicio',
+    contact: 'Contactar',
+  },
   backToTop: 'Volver arriba',
 };
 
@@ -184,6 +197,18 @@ const en: Dictionary = {
     lead: 'Thank you for reaching out. I received your message and I will get back to you as soon as possible (usually within 24-48 hours).',
     home: 'Back to home',
     another: 'Send another message',
+  },
+  notFound: {
+    metaTitle: 'Page not found | Felipe Cuevas',
+    metaDescription:
+      'The page you are looking for does not exist or has been moved. Go back to the home page of the Felipe Cuevas website.',
+    ogImageAlt:
+      'Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications',
+    kicker: 'Error 404',
+    title: 'Page not found',
+    lead: 'The page you are looking for does not exist or has been moved. Check that the address is spelled correctly, or go back to the home page.',
+    home: 'Back to home',
+    contact: 'Contact',
   },
   backToTop: 'Back to top',
 };
