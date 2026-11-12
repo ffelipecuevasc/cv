@@ -144,7 +144,8 @@ const year = new Date().getFullYear();
     font-size: 15.5px;
     font-weight: 300;
     line-height: 1.75;
-    color: var(--color-text-soft);
+    /* AT-115: 5.3 prohíbe Josefin 300 de 16 px o menos con `text-soft`. */
+    color: var(--color-text-muted);
   }
 
   /* Rótulo kicker (5.2) con regla dorada corta de 32 × 2 px. */

@@ -94,8 +94,11 @@ const { institutions } = await getLecturerPage();
     margin: 20px 0 0;
     font-size: 15px;
   }
+  /* AT-114: en `text`, 600 y subrayado (no `accent`: sobre `band` da 4,09:1 en claro). */
   .more :global(a) {
     min-height: 44px;
+    color: var(--color-text);
+    font-weight: 600;
   }
   .photo {
     margin: 0 0 24px;

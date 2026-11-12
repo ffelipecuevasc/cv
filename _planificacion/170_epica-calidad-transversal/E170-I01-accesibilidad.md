@@ -53,17 +53,20 @@ Auditar y corregir la accesibilidad de las páginas del sitio en ambos idiomas, 
 - [x] Felipe hizo commit y push (`89b637f`, sobre `281a378`), hizo el recorrido manual y re-midió Contacto con PSI (100, versión `cb699d8e`).
 - [x] Verificar los avisos de `DESIGN.md` 7.9, 11.7 y 7.14 (sección 9 de la bitácora): AT-114 (enlace de Docente, 4,09:1 sobre `band`) y AT-115 (frase del pie en 300 con `text-soft`) registrados; íconos sin hallazgo.
 - [ ] Repetir pa11y + axe sobre la preview (22 URL en claro y oscuro, Educación con diálogo, Contacto con errores, sin la muestra de tokens) y anotar el hash de git medido: a la espera del ID de versión de Cloudflare que indique Felipe.
-- [ ] Felipe decide AT-114 y AT-115 (corregir en esta iteración, pasarlos a E170-I05 o aceptarlos).
+- [x] AT-114 y AT-115: **decisión de Felipe (12-11-2026): se corrigen en E170-I01.** Enlace «Ver más información» en `text`, 600 y subrayado (`InstitutionsZigzag.astro`); frase del pie en `text-muted` (`Footer.astro`). Verificados en Chrome (es y en, claro y oscuro): enlace 10,64 a 18,90:1, pie 6,73 y 9,60:1.
+- [x] Repetir el barrido de Josefin 300 sobre todo el `body` (la medición original usó `querySelector('footer')` y vio la tarjeta de un testimonio, no el pie): antes de AT-115, 1 caso; ahora, 0 (bitácora, sección 7).
+- [x] Bloques de `DESIGN.md` listos para pegar en la sección 9 de la bitácora (5.3, 4.2, 7.9, 11.7 y 7.14); `pnpm check`, `lint`, `format:check`, `build` y `verify:seo` en verde; línea base del `dist/` de E170-I05 recalculada.
+- [ ] Felipe aplica los bloques de la sección 9, hace commit y push y da el ID de versión de Cloudflare.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `scripts/psi.mjs`, `_planificacion/170_epica-calidad-transversal/E170-I05-limpieza-tecnica.md`, la bitácora de la iteración.
-- Modificar: `src/content/experience/page.json` y los componentes con hallazgos de accesibilidad: `src/layouts/BaseLayout.astro` (AT-060), `src/components/contact/CalendlyPanel.astro` (AT-110), `src/components/home/Hero.astro` (AT-065) y `src/scripts/testimonials.ts` (AT-112).
+- Modificar: `src/content/experience/page.json` y los componentes con hallazgos de accesibilidad: `src/layouts/BaseLayout.astro` (AT-060), `src/components/contact/CalendlyPanel.astro` (AT-110), `src/components/home/Hero.astro` (AT-065), `src/scripts/testimonials.ts` (AT-112), `src/components/lecturer/InstitutionsZigzag.astro` (AT-114) y `src/components/layout/Footer.astro` (AT-115).
 - Modificar (documentos): `epica.md`, `_planificacion/README.md`, `registro-log.md`, `auditoria-tecnica.md`, `decisiones.md`.
 
 ## Criterios de aceptación (verificables)
 - [x] Accesibilidad de Lighthouse ≥ 96 en las páginas medidas, o un AT que justifique cada excepción. (Medición inicial: mínimo 96 en las 52 mediciones; el 96 de Contacto era AT-110, ya corregido. Se confirma tras el push.)
 - [x] Sin errores críticos ni serios en la herramienta de reglas, o un AT que justifique cada excepción. (pa11y sobre el build local: 0 violaciones tras corregir AT-112; los «incompletos» de contraste, AT-113. Se repite sobre la preview.)
-- [ ] Hallazgos de accesibilidad de esta iteración resueltos o registrados. (AT-098 y Josefin 300 resueltos; AT-060, AT-065, AT-110 y AT-112 confirmados por Felipe en la preview. Quedan por decidir AT-114 y AT-115, y repetir pa11y sobre la preview.)
+- [ ] Hallazgos de accesibilidad de esta iteración resueltos o registrados. (AT-098 y Josefin 300 resueltos; AT-060, AT-065, AT-110 y AT-112 confirmados por Felipe en la preview; AT-114 y AT-115 corregidos y verificados en el build local. Falta repetir pa11y sobre la preview para confirmarlos.)
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
