@@ -1,6 +1,6 @@
 # DESIGN.md · felipecuevas.dev
 
-> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 11-11-2026 con los bloques de E100, E110, E120, E130, E140-I01, E150-I01, E155-I01 y E160-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
+> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 12-11-2026 con los bloques de E100, E110, E120, E130, E140-I01, E150-I01, E155-I01, E160-I01 y E170-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
 > Este archivo es la **única fuente de verdad del diseño** (ADR-010). Si un prototipo y este archivo difieren, **prevalece este archivo**.
 > Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes** y solo cambian con un ADR nuevo.
 > Nombres de tokens en inglés (ADR-025); textos en español de Chile.
@@ -231,7 +231,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 - h1, h2 y h3 con `text-wrap: balance`.
 - Cifras, años y contadores con números tabulares y de altura de línea (`tabular-nums lining-nums`).
 - Ningún texto en mayúsculas se escribe en mayúsculas en el contenido: se transforma por estilo, para que los lectores de pantalla y la traducción no se vean afectados.
-- **Nota de legibilidad:** Josefin Sans 300 en tamaños de 16 px o menos y con `text-soft` es el punto más débil del sistema. Se mantiene por decisión de Felipe (fidelidad al prototipo) y se revisa en E170-I01.
+- **Nota de legibilidad:** Josefin 300 se mantiene (ADR-041). La combinación de peso 300, 16 px o menos y `text-soft` queda **prohibida** hacia adelante: el texto fino pequeño va siempre en `text-muted` o más oscuro (7,15:1 en claro y 9,60:1 en oscuro, 4.4). Medición del 12-11-2026 sobre `main` (español, claro, 1.280 px): 0 caracteres con esa combinación; 18.151 de 43.007 caracteres son 300 de 16 px o menos, todos en `text-muted` o `text`. La lectura a ojo en la portada, en claro y oscuro, resultó cómoda (E170-I01).
 
 ## 6. Espaciado y layout
 - **Escala de espaciado:** múltiplos de 4 px (escala por defecto de Tailwind). Valores frecuentes: 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80 y 96 px.
@@ -294,7 +294,7 @@ Lenguaje visual del prototipo, recompuesto para la lista de conservación de E40
 - **Columna de texto, en orden:**
   1. Rótulo "Ingeniero Informático" (kicker con regla dorada).
   2. Conmutador de 3 perfiles: control segmentado con el estilo del selector de idioma (44 px), `tablist` con flechas, Inicio y Fin; oculto sin JavaScript; recuerda el perfil en `perfil-hero` (ADR-023).
-  3. `<h1>` con el titular del perfil (Cinzel). La parte destacada va en su propia línea, en Josefin 300 cursiva, color `accent`, con máquina de escribir (motor de E30-I03); con movimiento reducido o sin JavaScript queda estática. Deja 16 px de separación con el rótulo y el conmutador.
+  3. `<h1>` con el titular del perfil (Cinzel). La parte destacada va en su propia línea, en Josefin 300 cursiva, color `accent`, con máquina de escribir (motor de E30-I03); con movimiento reducido o sin JavaScript queda estática. Deja 16 px de separación con el rótulo y el conmutador. Bajo 640 px el cursor de la máquina de escribir de la parte destacada no se dibuja: la frase puede partirse en varias líneas y el cursor, que es el fondo de la caja del texto, quedaría al borde derecho y no al final de la última línea (AT-065). Desde 640 px y en escritorio no cambia, y quitarlo no mueve ninguna caja (CLS 0).
   4. Párrafo del perfil (`text-muted`): Josefin 300, 1,0625 rem, interlineado 1,7, ancho máximo de 62 caracteres, a 16 px bajo el `<h1>`.
   5. Certificaciones, sin contenedor: rótulo "Profesional certificado" (`en-US`: "Certified professional") en estilo kicker y las 4 insignias de 40 px con su nombre al lado: Oracle, AWS, Python y Anthropic (ADR-054 y ADR-058). "Python" abrevia "Python Institute"; el nombre completo va en Educación y en el JSON-LD. Van en una fila; si bajo 640 px no caben, en 2 × 2. Las separaciones con el párrafo las mide y fija E40-I04. El hero no lleva llamados a la acción ni métricas por perfil (ADR-058).
 - **Columna del retrato:**
@@ -351,6 +351,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - **Sin avance automático.**
 - Cada página nueva se anuncia de forma discreta (región `aria-live="polite"` con el contador) y el foco no salta.
 - Sin JavaScript no hay carril ni controles: las 12 tarjetas se ven en una grilla de 1, 2 o 3 columnas.
+- Con JavaScript, el carril es una parada de tabulación (`tabindex="0"`, con el nombre accesible «Testimonios de alumnos») y se desplaza con las flechas del teclado, con el contorno de foco de 2 px de 7.3 (AT-112). Sin JavaScript no hay carril y no hay parada extra.
 
 ### 7.13 Sombras (tokens)
 | Token | Claro | Oscuro |
@@ -402,6 +403,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 - Fidelidad: cada componente se compara con el prototipo en ambos temas; las diferencias deben estar escritas en este archivo.
 - Ningún valor de color, tamaño o sombra fuera de los tokens.
 - Contraste de la sección 4.4 comprobado con herramienta en la implementación (E20-I02 y E170-I01).
+- axe deja sin veredicto el contraste del texto sobre degradados, texturas y pseudoelementos (AT-113): para esas superficies, la prueba es la tabla 4.4 y la revisión visual, no la ausencia de violaciones de la herramienta.
 
 ## 11. Composición por página (ADR-036)
 
@@ -514,7 +516,7 @@ Composición A (ADR-083).
 2. **Canales de contacto:** banda (7.8) con encabezado de banda («Canales directos» / «Canales de contacto»). Lista de 4 canales de `main`, sin Discord (ADR-044): correo, LinkedIn, GitHub y REUF. 4 columnas desde 1.024 px, 2 desde 640 px y una bajo esa medida (separación de 16 px). Cada canal es un enlace `surface` con contorno `border`, alto mínimo de 76 px: caja de ícono de 44 px (contorno `border-strong`, ícono de marca de 22 px en `icon`), nombre en Cinzel 1 rem (`heading`) y detalle de 14 px en `text-soft`; los externos llevan el ícono `external-link` de 16 px y aviso para lectores de pantalla. Desde 1.024 px el contenido se apila y el ícono externo va arriba a la derecha. Al pasar: contorno `vibrant` y subida de 2 px.
 3. **Formulario y agenda:** fondo `bg-alt`. Retícula de 12 columnas desde 1.024 px (48 px de separación): formulario en 7 y Calendly en 5; una columna bajo esa medida (64 px de separación), formulario primero. Cada columna es una sección con encabezado alineado a la izquierda.
    - **Formulario** («Formulario» / «Envíame un mensaje»): ficha con ubicación (`location-on`) y tiempo de respuesta (`schedule`), íconos de 20 px en `icon` y texto de 15 px en `text-muted`; debajo, panel `surface` con contorno `border` y sombra `card` (relleno de 40 × 34 px desde 768 px; 32 × 20 px bajo esa medida). Campos de 7.10: nombre y correo en dos columnas desde 640 px; asunto y mensaje (160 px de alto mínimo) a todo el ancho. Checkbox de 22 px con el texto «Leí y acepto la política de privacidad» (15 px, `text`) y el enlace en `accent`, 600 y subrayado. Turnstile, aviso sin JavaScript (`bg-alt`, contorno `border`), región de estado y botón primario «Enviar mensaje» con ícono `send`, nunca deshabilitado (ADR-035).
-   - **Agenda** («Videollamada» / «Agenda una reunión (15 min)»): panel `surface` con contorno `border` y sombra `card` que reserva 700 px de alto. Antes de cargar muestra el ícono `event` de 32 px, el aviso de servicio externo y el botón secundario «Cargar el calendario»; al pulsarlo carga Calendly. Debajo, enlace externo «Abrir el calendario en Calendly», siempre visible. Sin JavaScript se oculta el botón.
+   - **Agenda** («Videollamada» / «Agenda una reunión (15 min)»): panel `surface` con contorno `border` y sombra `card` que reserva 700 px de alto. Antes de cargar muestra el ícono `event` de 32 px, el aviso de servicio externo y el botón secundario «Cargar el calendario»; al pulsarlo carga Calendly. Debajo, enlace externo «Abrir el calendario en Calendly», siempre visible, en `text`, 600 y subrayado (no `accent`: sobre `bg-alt` da 4,37:1 y 4.4 lo limita a texto grande, AT-110). Sin JavaScript se oculta el botón.
 
 Ritmo de fondos: `bg` → `band` → `bg-alt`. Sin AOS ni animaciones de entrada. Sin JSON-LD.
 
