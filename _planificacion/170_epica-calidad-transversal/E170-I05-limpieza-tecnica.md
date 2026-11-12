@@ -51,6 +51,7 @@ Quitar código muerto y duplicaciones de contenido que dejaron las épicas de p�
 ## Riesgos y notas
 - Es una limpieza: si algo cambia lo que se ve, se detiene y se consulta.
 - **Línea base de la comparación del `dist/`:** E170-I01 cambia HTML, CSS y JavaScript publicados (AT-060 en `BaseLayout.astro`, AT-065 en `Hero.astro`, AT-082 en `experience/page.json`, AT-110 en `CalendlyPanel.astro` y AT-112 en `testimonials.ts`). La comparación «antes y después» de esta iteración debe partir de un `pnpm build` hecho **con los cambios de E170-I01 ya aplicados** (idealmente después de su commit), para que esos ajustes no se confundan con la limpieza.
+- **Línea base registrada (12-11-2026):** `pnpm build` del commit `89b637f` (E170-I01 aplicada, árbol limpio): 207 archivos, 30 `.html`, huella sha256 (rutas y contenido, orden alfabético) `371c73d497d52c95`. Si E170-I01 corrige después AT-114 o AT-115 (cambian `InstitutionsZigzag.astro`, `ExternalLink` o `Footer.astro`), la línea base se toma de nuevo después de ese commit; E170-I05 no debe partir antes de que E170-I01 esté en `[x]`.
 - E170-I01 también toca `src/content/experience/page.json` (solo el texto de la tarjeta Desarrollador, AT-082); AT-081 trabaja sobre los periodos del mismo archivo.
 
 ## Cierre obligatorio

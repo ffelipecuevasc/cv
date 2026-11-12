@@ -1,7 +1,7 @@
 # E170-I01 · Revisión de accesibilidad global
 - **Estado:** [~] En curso
 - **Épica:** E170 · Calidad transversal · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E40–E160 (todas las épicas de página) · **Hallazgos que cierra:** AT-060, AT-065, AT-082, AT-086, AT-098 (valorar), AT-056 (decisión: retiro en E190-I03) y la legibilidad de Josefin Sans 300 (ADR-041); verifica AT-054; registra AT-110 a AT-113 · **ADR relacionados:** ADR-005, ADR-041, ADR-056, ADR-090, ADR-091
+- **Depende de:** E40–E160 (todas las épicas de página) · **Hallazgos que cierra:** AT-060, AT-065, AT-082, AT-086, AT-098 (valorar), AT-056 (decisión: retiro en E190-I03) y la legibilidad de Josefin Sans 300 (ADR-041); verifica AT-054; registra AT-110 a AT-115 · **ADR relacionados:** ADR-005, ADR-041, ADR-056, ADR-090, ADR-091
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -48,9 +48,12 @@ Auditar y corregir la accesibilidad de las páginas del sitio en ambos idiomas, 
 - [x] AT-056: decisión de Felipe (retiro en E190-I03, sin corregir el destello), ADR-091; anotado en E190-I03 y E180-I02.
 - [x] AT-086: medir el contraste de Express.js en ambos temas (sin problema).
 - [x] Preparar en la bitácora el checklist manual de teclado y NVDA para Felipe (sección 6).
-- [ ] AT-098: la prueba automática no encuentra problema; falta la respuesta de Felipe al punto 4 de Contacto del checklist (¿se distingue el error del foco?). Solo si es «no», proponer un token de error con contraste AA (ADR nuevo y bloque de `DESIGN.md` en la bitácora).
-- [ ] Legibilidad de Josefin Sans 300 (ADR-041): inventario hecho (el caso débil, 300 ≤ 16 px con `text-soft`, no aparece en `main`; ver la bitácora). Falta la decisión de Felipe después de su recorrido con teclado, NVDA y a ojo.
-- [ ] Re-medir con `scripts/psi.mjs` y repetir pa11y sobre la preview después de que Felipe haga `git commit` y `git push` de esta iteración (hoy la preview no tiene AT-060, AT-065, AT-082, AT-110 ni AT-112).
+- [x] AT-098: **cerrado el 12-11-2026.** Felipe distingue con claridad el campo con error del campo con foco (Contacto, punto 4: sí); sin token de error.
+- [x] Legibilidad de Josefin Sans 300 (ADR-041): **opción A, decisión de Felipe (12-11-2026)**; `DESIGN.md` 5.3 ya aplicado. El barrido posterior halló un solo caso vivo de la regla, la frase del pie (AT-115), que queda para decidir.
+- [x] Felipe hizo commit y push (`89b637f`, sobre `281a378`), hizo el recorrido manual y re-midió Contacto con PSI (100, versión `cb699d8e`).
+- [x] Verificar los avisos de `DESIGN.md` 7.9, 11.7 y 7.14 (sección 9 de la bitácora): AT-114 (enlace de Docente, 4,09:1 sobre `band`) y AT-115 (frase del pie en 300 con `text-soft`) registrados; íconos sin hallazgo.
+- [ ] Repetir pa11y + axe sobre la preview (22 URL en claro y oscuro, Educación con diálogo, Contacto con errores, sin la muestra de tokens) y anotar el hash de git medido: a la espera del ID de versión de Cloudflare que indique Felipe.
+- [ ] Felipe decide AT-114 y AT-115 (corregir en esta iteración, pasarlos a E170-I05 o aceptarlos).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `scripts/psi.mjs`, `_planificacion/170_epica-calidad-transversal/E170-I05-limpieza-tecnica.md`, la bitácora de la iteración.
@@ -60,7 +63,7 @@ Auditar y corregir la accesibilidad de las páginas del sitio en ambos idiomas, 
 ## Criterios de aceptación (verificables)
 - [x] Accesibilidad de Lighthouse ≥ 96 en las páginas medidas, o un AT que justifique cada excepción. (Medición inicial: mínimo 96 en las 52 mediciones; el 96 de Contacto era AT-110, ya corregido. Se confirma tras el push.)
 - [x] Sin errores críticos ni serios en la herramienta de reglas, o un AT que justifique cada excepción. (pa11y sobre el build local: 0 violaciones tras corregir AT-112; los «incompletos» de contraste, AT-113. Se repite sobre la preview.)
-- [ ] Hallazgos de accesibilidad de esta iteración resueltos o registrados. (Quedan AT-098 y la legibilidad de Josefin 300, que dependen del recorrido manual de Felipe; AT-060, AT-065, AT-110 y AT-112 por confirmar en la preview.)
+- [ ] Hallazgos de accesibilidad de esta iteración resueltos o registrados. (AT-098 y Josefin 300 resueltos; AT-060, AT-065, AT-110 y AT-112 confirmados por Felipe en la preview. Quedan por decidir AT-114 y AT-115, y repetir pa11y sobre la preview.)
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
