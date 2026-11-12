@@ -1,6 +1,6 @@
 # DESIGN.md · felipecuevas.dev
 
-> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 07-11-2026 con los bloques de E100, E110, E120, E130, E140-I01, E150-I01 y E155-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
+> **Estado: v1 (E20-I01, 29-10-2026); actualizado el 11-11-2026 con los bloques de E100, E110, E120, E130, E140-I01, E150-I01, E155-I01 y E160-I01.** Plasma los prototipos aprobados por Felipe Cuevas (ADR-039), que están en `_planificacion/20_epica-sistema-diseno/prototipos/`.
 > Este archivo es la **única fuente de verdad del diseño** (ADR-010). Si un prototipo y este archivo difieren, **prevalece este archivo**.
 > Las secciones "Restricciones cerradas" y "Logotipo que se conserva" son **vinculantes** y solo cambian con un ADR nuevo.
 > Nombres de tokens en inglés (ADR-025); textos en español de Chile.
@@ -419,7 +419,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Mosaico por peso | Retícula de piezas de tamaños distintos según su peso (mayor, intermedio, menor), sin JavaScript | Educación (formación), Desarrollador (portafolio, ritmo 7/5), Instructor (cursos: destacada a todo el ancho y ritmo 7/5, 5/7, 6/6, 12) |
 | Línea de tiempo | Hitos en secuencia vertical. Versión compacta: lista ordenada con riel de 1 px y marcadores circulares con ícono | Experiencia (resumen), Instructor (planes SENCE agrupados por fecha), Recursos (etapas de la ruta, con pasos marcables) |
 | Lista a dos columnas con regla superior | Entradas con regla de 1 px `border-strong` y tramo dorado de 48 px, ícono de 32 px, h3 en Cinzel y texto con énfasis; una columna bajo 768 px | Desarrollador (aspectos técnicos), Talento Digital (alianzas de Logros, sin h3: frase en Cinzel) |
-| Confirmación centrada | Encabezado centrado (7.5) con un ícono entre el rótulo y el `<h1>`, texto y dos botones, todo sobre `bg`, sin tarjeta ni animación | Agradecimiento |
+| Confirmación centrada | Encabezado centrado (7.5) con un ícono entre el rótulo y el `<h1>`, texto y dos botones, todo sobre `bg`, sin tarjeta ni animación | Agradecimiento, 404 |
 | Documento con índice | Cabecera alineada a la izquierda con ficha de versión y vigencia, índice de anclas (lateral y pegajoso desde 1.024 px, arriba bajo esa medida) y secciones de texto con h2 | Privacidad |
 | **Reservados** (prototipo): pestañas verticales de trayectoria, cita destacada entre reglas, tarjeta de contacto | Patrones del prototipo que no están en el index | **Solo con aprobación de Felipe** para cada página |
 
@@ -538,6 +538,17 @@ Composición A «Documento con índice» (ADR-087). Página indexable y en el si
    - Las 8 secciones, en orden: responsable, datos que recibe el sitio, formulario de contacto, Turnstile, Calendly, Giscus y GitHub, lo que se guarda en el navegador, y versión y cambios.
 
 Ritmo de fondos: `bg` → `bg`. Sin AOS ni animaciones de entrada, sin JavaScript y sin JSON-LD. El texto es un borrador informativo sin validar por un especialista (BL-08, AT-105).
+
+### 11.15 404
+Composición A «Confirmación centrada» (ADR-088), la misma de Agradecimiento (11.13) sobre el componente `CenteredMessage`. Página `noindex, follow` y fuera del sitemap; hay tres archivos: `404.html` (raíz, en español), `es/404.html` y `en/404.html`, que Cloudflare sirve con estado 404 para las rutas inexistentes. El selector de idioma lleva a `/es/404/` ↔ `/en/404/`; en la 404 de la raíz lleva a `/en/404/`.
+1. **Contenido único**, fondo `bg`, sin tarjeta, centrado en horizontal y en vertical entre la barra y el pie, con relleno vertical de 80 px (96 px desde 768 px) y ancho máximo de 40 rem:
+   - encabezado centrado (7.5): rótulo «Error 404» (`en-US`: «Error 404») entre dos reglas doradas;
+   - ícono `search` (lupa de contorno, 7.14) de 56 px en `icon`, decorativo, a 24 px del rótulo;
+   - `<h1>` «Página no encontrada» («Page not found») a 20 px del ícono;
+   - texto (bajada de 7.5, `text-soft`, 300, máximo de 52 caracteres): «La página que buscas no existe o fue movida. Revisa que la dirección esté bien escrita, o vuelve al inicio.» («The page you are looking for does not exist or has been moved. Check that the address is spelled correctly, or go back to the home page.»).
+2. **Botones**, a 40 px bajo el texto, de 46 px (7.3): primario «Volver al inicio» («Back to home»), a la portada del idioma, y secundario «Contactar» («Contact»), a Contacto. Apilados y a todo el ancho bajo 640 px (12 px de separación); en fila centrada desde 640 px (16 px).
+
+Todas las URL de la página son absolutas, para que funcione a cualquier profundidad de ruta (AT-004). El logotipo anima como en el resto del sitio (3.3, AT-003). Sin color de éxito ni de error, sin animación de entrada ni del ícono, sin AOS, sin JavaScript propio y sin JSON-LD.
 
 ## 12. Prototipos de referencia
 - **Ubicación:** `_planificacion/20_epica-sistema-diseno/prototipos/felipe-cuevas-ia.html` (claro) y `felipe-cuevas-ia-oscuro.html` (oscuro). No se publican ni se compilan.
