@@ -555,6 +555,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E20-I02, 29-10-2026, fórmula de WCAG 2.2 componiendo la transparencia):** en oscuro, la banda es un degradado `orient-800` → `orient-925` con líneas `vibrant` al 8 % cada 48 px (`DESIGN.md` 4.5, `src/styles/global.css`, utilidad `texture-band`). Sobre una línea y en el punto más claro del degradado, `text-soft` da **4,41:1** y `accent` **4,20:1** (en liso, 4,86 y 4,80). El kicker dorado (6,93) y el blanco al 60 % (4,84) cumplen. En claro, `text-soft` sobre una línea de la retícula da 4,63 y cumple.
 - **Impacto:** los píxeles de texto que caen sobre una línea de 1 px quedan bajo 4,5:1 (1.4.3). El efecto es local y pequeño, pero la tabla 4.4 no lo refleja.
 - **Recomendación:** que el asesor elija una de estas opciones en `DESIGN.md`: bajar las líneas oscuras al 5 % (o menos), usar `orient-50` al 70 % como texto secundario dentro de la banda oscura, o limitar `accent` en la banda oscura a texto grande. El agente no cambia el token hasta que `DESIGN.md` lo indique.
+- **Verificación (E170-I01, 12-11-2026):** en claro, PSI no la reprodujo (portada 100) y pa11y no da violaciones. En oscuro, axe no puede evaluar el texto sobre la retícula (`bgGradient`, ver AT-113), así que **no hay medición independiente en el navegador**; sigue valiendo la medición por fórmula de E20-I02 (`text-soft` 4,57:1; `DESIGN.md` 4.4). No se reabre.
 
 ### AT-055 · Tailwind v4 eliminaba variables de `@theme` sin uso en clases
 - **Severidad:** Media · **Estado:** Resuelto en E20-I04 (`@theme static`, ADR-045) · **Resuelve:** E20-I04
@@ -563,10 +564,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** mantener `@theme static`. Tras la corrección, las 56 filas de la muestra cumplen en Chrome y coinciden con `DESIGN.md` 4.4 (diferencia máxima de 0,01).
 
 ### AT-056 · La muestra de tokens puede destellar en oscuro al cargar
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir (herramienta interna; candidata a E170-I01 o a su retiro antes de E190)
+- **Severidad:** Baja · **Estado:** Aceptado, sin corregir: la muestra se retira en E190-I03 (decisión de Felipe, 12-11-2026, ADR-091) · **Resuelve:** E190-I03 (retiro) y E180-I02 (fuera del sitemap mientras exista)
 - **Evidencia (E30-I01, 29-10-2026):** `src/components/dev/DesignSample.astro` quita `.dark` de `<html>` en un script de módulo, que corre después del primer pintado. Con tema oscuro guardado o del sistema, el script de tema de `BaseLayout` pone `.dark` antes de pintar y la mitad "clara" de la muestra puede verse oscura un instante.
 - **Impacto:** solo en la muestra interna (`noindex`); no afecta páginas del sitio.
 - **Recomendación:** que la mitad clara declare sus tokens claros con una clase propia, o que la muestra indique al layout que no aplique el tema.
+- **Decisión (de Felipe, 12-11-2026, E170-I01; ADR-091):** no se corrige el destello. La muestra (`src/pages/es/muestra-diseno.astro`, `src/pages/en/design-sample.astro` y su componente) se retira en E190-I03, antes del cutover. Mientras exista, queda **excluida de las auditorías de E170** (accesibilidad, rendimiento, cabeceras y enlaces) y fuera del sitemap (E180-I02). Un arreglo en línea, además, habría sumado otro script al CSP de E170-I03.
 
 ### AT-057 · DESIGN.md 3.2 nombra el token `text` con los valores de `heading`
 - **Severidad:** Baja · **Estado:** Resuelto antes de E30-I04 (Felipe corrigió `DESIGN.md` 3.2 a `heading`) · **Resuelve:** edición de `DESIGN.md` por Felipe
@@ -587,7 +589,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** decidir dónde vive el PDF en el proyecto nuevo (por ejemplo `public/static/`, para conservar la URL y evitar una 301) y agendarlo antes de E190-I01.
 
 ### AT-060 · Botón de apariencia sin efecto sin JavaScript
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026) en el código y verificado en el build local con JavaScript desactivado; falta confirmarlo en la preview tras el `git push` de Felipe · **Resuelve:** E170-I01
+- **Cierre (E170-I01, 12-11-2026):** `BaseLayout.astro` suma al `<noscript>` existente `[data-theme-toggle] { visibility: hidden }` (la barra conserva el espacio, sin CLS) y `display: none` dentro del menú móvil. Verificado con Chrome sin JavaScript a 1.280 y 390 px: `visibility: hidden` en los dos botones; en escritorio el de la barra mantiene 44 × 44 px. Comparte el hash pendiente de AT-063 (E170-I03).
 - **Evidencia (E30-I04, 29-10-2026):** el botón se muestra siempre para no causar CLS. Sin JavaScript no corre el script de tema: la página queda en claro y el clic en el botón no hace nada.
 - **Impacto:** control visible que no responde para quien navega sin JavaScript.
 - **Recomendación:** evaluar ocultarlo sin JS reservando su espacio (por ejemplo, con `<noscript>` y `visibility: hidden`), sin romper la CSP de E170-I03.
@@ -620,7 +623,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** incorporar el bloque que entrega la bitácora de E40-I01 a `DESIGN.md` 5.2 y 7.4.
 
 ### AT-065 · Cursor del titular del hero separado del texto si la frase se parte
-- **Severidad:** Baja · **Estado:** Abierto (agendado en E170-I01 por decisión de Felipe, 30-10-2026) · **Resuelve:** E170-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026, decisión de Felipe): el cursor del titular del hero no se dibuja bajo 640 px; escritorio sin cambios y sin CLS. Falta confirmarlo en la preview tras el `git push` · **Resuelve:** E170-I01
+- **Cierre (E170-I01, 12-11-2026):** `Hero.astro` suma `@media (max-width: 39.99rem) { .accent .typewriter-text { background-image: none } }`. El cursor es el fondo de la caja del texto, así que quitarlo no mueve nada. Verificado en Chrome: a 360 px la frase se parte en 2 líneas y el fondo es `none` (es y en); a 639 px, `none`; desde 640 px y a 1.280 px sigue el degradado del cursor. El bloque de `DESIGN.md` 7.4 va en la bitácora `2026-11-11_E170-I01.md` (ADR-033).
 - **Evidencia (E40-I01, 30-10-2026):** el cursor de la máquina de escribir se dibuja como fondo de la caja del texto (CLS 0). Si la frase destacada no cabe en una línea (a 360 px de ancho, por ejemplo "Programming Bootcamps"), la caja ocupa todo el ancho y el cursor queda al borde derecho, no al final de la última línea. En escritorio la frase cabe en una línea y el cursor queda pegado.
 - **Impacto:** detalle visual en móvil; no afecta contenido ni CLS.
 - **Recomendación:** revisar en un móvil real; si molesta, ocultar el cursor bajo 640 px o dibujarlo con un elemento en línea que no mueva nada.
@@ -723,26 +727,26 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** subir la especificidad de la regla de ocultar (por ejemplo `.icon-button.mobile-menu-toggle`) y comprobarlo a 1.279 y 1.280 px en la iteración que corresponda.
 
 ### AT-079 · Respaldo por emisor sin uso en `CertificationsSection`
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si se toca el componente
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I05 (reasignado desde E170-I01 por ADR-090), o antes si se toca el componente
 - **Evidencia (31-10-2026):** en `src/components/education/CertificationsSection.astro`, `badgeFor` (líneas 47-53) elige la insignia del emisor (`issuerBadges`, líneas 37-39, y `issuerFile`, líneas 41-46) cuando `badge` es `null` (rama `: issuerBadges[…]` de la línea 50); los comentarios de las líneas 8 y 40 lo describen como marcador (AT-077). Desde AT-077, las 11 credenciales de `src/data/certifications.ts` tienen `badge` propio, así que esa rama no se ejecuta. El tipo `badge: string | null` (línea 46 de `certifications.ts`) todavía permite el `null`. `src/assets/insignias/` sigue en uso por `HeroCertifications.astro`, de modo que los PNG no son código muerto.
 - **Impacto:** código muerto en un componente de página: un glob de 4 imágenes, un mapa emisor → archivo y una rama que no se alcanza. No cambia lo que se ve ni el rendimiento.
 - **Recomendación:** borrar `issuerBadges`, `issuerFile` y la rama del `null` en E170-I01 o al tocar el componente, y valorar si `badge` pasa a ser `string` obligatorio. No se borra ahora.
 
 ### AT-080 · Un botón de ícono con clase propia puede perder por especificidad frente a `IconButton`
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si se toca otro botón de ícono
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I05 (reasignado desde E170-I01 por ADR-090), o antes si se toca otro botón de ícono
 - **Evidencia (31-10-2026):** es el mismo origen de AT-078. `IconButton.astro` fija `display: inline-flex` con `.icon-button[data-astro-cid]` (especificidad 0,2,0, y anterior en la hoja), de modo que la clase de un componente que lo usa (con un solo selector de clase) pierde cuando quiere cambiar `display`. AT-078 se resolvió subiendo la especificidad solo en `MobileMenuButton.astro` (`:global(.icon-button.icon.mobile-menu-toggle)`). No se detectó otro uso de `IconButton` que hoy falle (`ThemeToggle`, `BackToTop` y las flechas de `Testimonials`), pero no se revisó cada regla de `display` de sus contenedores.
 - **Impacto:** el próximo componente que oculte, muestre o reordene un `IconButton` con una regla de clase simple no tendrá efecto y no avisará.
 - **Recomendación:** o bien `IconButton` baja la especificidad de sus reglas base con `:where()`, o bien acepta una propiedad `hidden` o `class` documentada; decidir en E170-I01 y probar a los anchos de cambio de la navbar.
 
 ### AT-081 · Los periodos de la línea de tiempo y de las tarjetas de Experiencia se escriben dos veces
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si se vuelve a tocar `src/content/experience/page.json`
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I05 (reasignado desde E170-I01 por ADR-090), o antes si se vuelve a tocar `src/content/experience/page.json`
 - **Evidencia (31-10-2026):** en `page.json`, el periodo de cada perfil aparece en `timeline.items[].period` y en `profiles[].period`. Hoy coinciden en Instructor (2023), Docente (2013) y Desarrollador (2011). Esa duplicación fue el origen de la contradicción que se encontró en E60-I02: el sitio antiguo traía «2011 - Actualidad» en el hito y «2011 - 2020» en la tarjeta.
 - **Impacto:** si se edita uno y no el otro, la página vuelve a contradecirse. `verify:seo` solo comprueba los periodos de los hitos, que la tarjeta Desarrollador diga «2011 - hoy» y que no quede «2020».
 - **Nota (E80-I01, 01-11-2026):** el periodo «2013 - Actualidad» y la modalidad del perfil Docente aparecen también en la cabecera de `/es/docente/` y `/en/lecturer/`, pero no se copian: `LecturerHeader.astro` los lee de `profiles[id=lecturer]` de `src/content/experience/page.json`. El hito Docente de la línea de tiempo sigue con su propia copia. Los periodos por institución (2024 - Actualidad, 2023 - 2024 y 2013 - 2020) viven solo en `src/content/lecturer/page.json`.
 - **Recomendación:** que el hito tome el periodo del perfil (un campo `profile` en cada hito, con el id de la tarjeta) y que `verify:seo` compare ambos. No se hizo ahora porque los títulos e instituciones de hitos y tarjetas no coinciden del todo («Instructor Certificado» frente a «Instructor de Bootcamps», «INACAP» frente a «INACAP | Duoc UC | IPLACEX»).
 
 ### AT-082 · Redacción de la tarjeta Desarrollador de Experiencia
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01 (revisión pendiente con Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (11-11-2026): Felipe aprobó las alternativas y se aplicaron en `src/content/experience/page.json` («mientras trabajo como docente universitario» y «alongside my work as a university lecturer»; en `es-CL` con coma antes de «creando») · **Resuelve:** E170-I01
 - **Evidencia (E70-I01, 01-11-2026):** en `src/content/experience/page.json`, el texto de la tarjeta Desarrollador dice «… en **Java y Python** a lo largo de todo el tiempo que trabajo como docente universitario …» (`es-CL`) y «… in **Java and Python** throughout my time as a university lecturer …» (`en-US`). Tras ADR-066 (verbos en presente), «a lo largo de todo el tiempo que trabajo» queda forzado. Felipe validó el inglés de la línea de tiempo el 01-11-2026; esta frase queda aparte.
 - **Impacto:** redacción poco natural en una tarjeta visible; sin efecto funcional.
 - **Recomendación:** alternativas: «mientras trabajo como docente universitario» (`es-CL`) y «alongside my work as a university lecturer» (`en-US`). Felipe elige en E170-I01; no se cambia en E70-I01.
@@ -766,7 +770,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Felipe redacta el texto nuevo (es y en) y las etiquetas antes del cutover; no se cambia ahora.
 
 ### AT-086 · El logo de Express.js se ve tenue en ambos temas
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026): medido, sin problema de contraste; no se cambia nada · **Resuelve:** E170-I01
+- **Cierre (E170-I01, 12-11-2026):** `expressjs.svg` tiene un solo relleno `#222` (no es gris claro, como decía la evidencia): 15,91:1 sobre la placa clara (`bg`, `#FFFFFF`) y 14,06:1 sobre la placa del tema oscuro (`orient-50`), con la fórmula de WCAG 2.2 (no se midió con herramienta: el logo es una imagen). La impresión de «tenue» viene del trazo fino del logotipo a 28 px. En la etiqueta de 10 px del portafolio el logo es decorativo (`alt=""`) y el nombre va en texto, así que 1.4.11 no aplica; en oscuro esa etiqueta no lleva placa y el logo se ve poco, solo estético (`DESIGN.md` 7.14).
 - **Evidencia (E70-I04, 01-11-2026):** `src/assets/technologies/expressjs.svg` es un logo gris claro. Se ve tenue en el muro de tecnologías en claro (placa `bg`) y en oscuro (placa `orient-50`, ADR-069), y en la etiqueta de 10 px del portafolio. Los SVG de marca no se tocan (`DESIGN.md` 7.14). No se midió el contraste.
 - **Impacto:** visual; el nombre «Express.js» va en texto, así que el contenido no se pierde.
 - **Recomendación:** medir con herramienta en E170-I01 y, si no alcanza, decidir con Felipe una placa más oscura solo para ese logo o una versión de marca con más contraste.
@@ -784,7 +789,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** si Felipe quiere íconos propios para Python e IA, copiar los trazos de Material Symbols Light (`terminal-2` no existe en la colección; `robot-2-outline` sí) en una iteración de ajuste.
 
 ### AT-089 · PF1822 se describe dos veces en el contenido de Instructor
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I01, o antes si cambia el plan
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I05 (reasignado desde E170-I01 por ADR-090), o antes si cambia el plan
 - **Evidencia (E90-I01, 01-11-2026):** en `src/content/instructor/page.json`, PF1822 está en `courses.featured` (190 horas, 9 módulos, 2026) y en `plans.groups[0].items[0]` («190 horas y nueve módulos»). Felipe pidió mantener ambos (ADR-072). `verify:seo` comprueba los datos de la tarjeta, no los del texto del plan.
 - **Impacto:** si se edita uno y no el otro, la página se contradice (como AT-081 en Experiencia).
 - **Recomendación:** que el plan tome horas y módulos de la tarjeta, o que `verify:seo` compare ambos.
@@ -843,6 +848,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E140-I01, 03-11-2026):** `DESIGN.md` 4.1 no tiene un tono de error y 9 prohíbe colores fuera de los tokens. El formulario de Contacto marca el error con ícono `alert` en `accent`, texto 600 en `text`, `aria-invalid` y contorno de 2 px en `focus`, el mismo color del foco.
 - **Impacto:** el error se distingue por el ícono y el texto, no por el color; cumple «ícono además del color» de 7.10, pero el campo con error y el campo con foco se ven parecidos.
 - **Recomendación:** decidir en E170-I01 si se agrega un token de error con contraste AA en ambos temas (ADR nuevo y `DESIGN.md` 4).
+- **Avance (E170-I01, 12-11-2026):** pa11y con axe (`pa11y@10.0.0`) sobre `/es/contacto/` y `/en/contact/` con el formulario enviado vacío (errores visibles, `aria-invalid`), en tema claro y oscuro: **0 violaciones**. Lo que la herramienta no puede juzgar es si el campo con error se distingue del campo con foco: queda pendiente de la respuesta de Felipe al punto 4 de Contacto del checklist manual (bitácora, sección 6). **Sigue abierto** hasta tenerla; no se propone token de error sin un problema real.
 
 ### AT-099 · Tras un envío correcto el formulario redirige a una página que aún no existe
 - **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086): `/es/agradecimiento/` y `/en/thank-you/` existen en `dist/` y coinciden con el `data-thank-you` del formulario de cada idioma; antes, aceptado hasta E150-I01 (decisión de Felipe en E140-I02, 06-11-2026, ADR-084) · **Resuelve:** E150-I01
@@ -909,3 +915,27 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E160-I01, prueba de Felipe del 11-11-2026 en `https://felipecuevas-dev.felipe-cuevas.workers.dev`, con `Invoke-WebRequest` y capturas; dicho por Felipe, no repetido por el agente):** `/es/404` responde 200 y `/es/404/` responde 307 hacia `/es/404`. Es la consecuencia de `scripts/place-404.mjs` (`es/404/index.html` pasa a `es/404.html`) con el `html_handling` por defecto de Cloudflare. Sin probar: `/en/404` y `/en/404/` (se espera lo mismo) y la animación del logotipo. En el sitio, el selector de idioma de la 404 (`/es/404/` ↔ `/en/404/`) y el canonical y los hreflang de las 404 usan la ruta con barra final.
 - **Impacto:** (a) una redirección 307 extra al cambiar de idioma desde una 404; (b) el canonical y los hreflang de las 404 apuntan a una URL que redirige. Es una página `noindex, follow` y fuera del sitemap, así que no afecta al SEO.
 - **Recomendación:** decidirlo en E180 (canónicas, sitemap y robots): alinear el selector, el canonical y los hreflang de las 404 a la URL sin barra (`/es/404`, `/en/404`) o ajustar el script. Si cambia una decisión vigente (ADR-088 y ADR-089), registrar un ADR nuevo. No edita AT-107 ni AT-108.
+
+### AT-110 · El enlace directo a Calendly de Contacto da 4,36:1 sobre `bg-alt`
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026) en el código y verificado con axe en el build local; falta confirmarlo en la preview tras el `git push` de Felipe · **Resuelve:** E170-I01
+- **Evidencia (E170-I01, 11-11-2026, PageSpeed Insights sobre la preview, `/es/contacto/` y `/en/contact/`, móvil y escritorio: 96 en las cuatro):** el enlace «Abrir el calendario en Calendly» (`a.external-link` dentro de `p.direct`, `CalendlyPanel.astro`) iba en `accent` (`#007ea7`) sobre `bg-alt` (`#f5f9fc`), 15 px y 600: **4,36:1** (mínimo 4,5). `DESIGN.md` 4.3 y 4.4 ya decían que `accent` sobre `bg-alt` (4,37) solo vale para texto grande.
+- **Impacto:** regla `color-contrast` de WCAG 1.4.3 en ambos idiomas; baja el puntaje de accesibilidad de Contacto a 96.
+- **Cierre:** el enlace pasa a `text`, subrayado y 600, como los enlaces del Foro (11.10). Aplica la regla 4.3; sin cambio de `DESIGN.md`. Con el build local, pa11y/axe no da violaciones en Contacto, en claro ni en oscuro, ni con los errores del formulario visibles.
+
+### AT-111 · `label-content-name-mismatch` del logotipo (regla experimental de Lighthouse)
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I01, 12-11-2026): no se cambia; el logotipo es vinculante · **Resuelve:** E170-I01 (decisión)
+- **Evidencia (E170-I01, 11-11-2026, PageSpeed Insights, 26 URL):** el enlace `a.logo` tiene nombre accesible fijo «Felipe Cuevas, inicio» / «Felipe Cuevas, home» (`DESIGN.md` 3.3, ADR-049) y la regla compara contra todo el texto visible, que incluye la frase animada del renglón 2 (decorativa, `aria-hidden`). Aparece en las 26 páginas.
+- **Impacto:** ninguno real: el nombre contiene «Felipe Cuevas», la etiqueta visible estable, y la frase que rota no puede formar parte del nombre accesible. La regla es experimental y no cuenta en el puntaje.
+- **Recomendación:** dejarlo así. Solo se revisaría si un ADR nuevo cambiara el logotipo (`DESIGN.md` 3.5).
+
+### AT-112 · El carril de testimonios no se podía desplazar con teclado (`scrollable-region-focusable`)
+- **Severidad:** Media · **Estado:** Resuelto en E170-I01 (12-11-2026) en el código y verificado con axe en el build local; falta confirmarlo en la preview tras el `git push` · **Resuelve:** E170-I01
+- **Evidencia (E170-I01, 12-11-2026, `pa11y@10.0.0` con axe 4.13 sobre el build local, 22 URL en claro y oscuro):** única violación real de toda la medición, impacto «serio», en `/es/` y `/en/` y en ambos temas: `ul.track[data-carousel-track]` desplaza en horizontal y ninguna tarjeta tiene un control enfocable. PageSpeed Insights no la había marcado.
+- **Impacto:** WCAG 2.1.1: con el teclado solo se llegaba a las flechas, no al carril. Las flechas dan la misma función, pero axe lo exige y las flechas del teclado dentro del carril son lo esperado.
+- **Cierre:** `src/scripts/testimonials.ts` pone `track.tabIndex = 0` al iniciar el carrusel (solo con JavaScript; sin él no hay carril sino grilla, y no se agrega una parada inútil). El anillo de foco es el global (`:focus-visible`, 2 px `focus`). Tras la corrección, la portada da 0 violaciones en claro y oscuro, es y en. Queda por mirar a ojo con `Tab` (checklist, Portada punto 9): el anillo rodea el carril completo, que tiene relleno vertical (8 px arriba, 48 px abajo).
+
+### AT-113 · axe no puede evaluar el contraste de unos 47 nodos por página
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I01, 12-11-2026): límite de la herramienta, no del sitio · **Resuelve:** E170-I04 o E190-I01 (repetir la comprobación en la preview final)
+- **Evidencia (E170-I01, 12-11-2026):** en la portada, `color-contrast` queda «incompleto» (`needsFurtherReview`) en 47 nodos, por tres motivos que axe informa: `bgGradient` 30 (texto sobre fondos con degradado o textura, y el propio cursor del logotipo, que es un degradado), `pseudoContent` 16 (texto bajo pseudoelementos, como el logotipo y la barra) y `shortTextContent` 1 (la cifra). Es el mismo patrón en las 22 páginas y en los dos temas; incluye la banda oscura de AT-054. Las corridas con el diálogo de Educación abierto y con los errores del formulario de Contacto no tienen violaciones.
+- **Impacto:** la herramienta no puede dar un veredicto automático sobre el contraste de ese texto. No hay un fallo conocido: los pares están calculados con la fórmula de WCAG 2.2 en `DESIGN.md` 4.4 (comprobado con la muestra de tokens en Chrome en E20-I04, AT-055: las 56 filas coinciden) y PageSpeed Insights midió el tema claro sin fallas de contraste salvo AT-110.
+- **Recomendación:** no marcar la ausencia de violaciones de axe como prueba de contraste en oscuro. Para el tema oscuro y las bandas, valerse de 4.4 y de la revisión visual de Felipe (checklist, sección 6 de la bitácora); si se quiere una prueba automática, habría que medir con capturas de pantalla, fuera del alcance de esta épica.

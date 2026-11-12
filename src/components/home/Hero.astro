@@ -333,6 +333,16 @@ const defaultId = ids[0];
   .accent :global(.typewriter-text) {
     white-space: normal;
   }
+  /* AT-065: bajo 640 px la frase puede partirse en varias líneas y el cursor, que es el fondo
+     de la caja del texto, quedaría al borde derecho y no al final de la última línea. Se
+     quita solo el dibujo del cursor: la caja y su relleno no cambian, así que no hay CLS.
+     El parpadeo anima únicamente el tamaño de ese fondo, de modo que sin fondo no se ve.
+     En escritorio no cambia nada. */
+  @media (max-width: 39.99rem) {
+    .accent :global(.typewriter-text) {
+      background-image: none;
+    }
+  }
 
   .panels {
     display: grid;

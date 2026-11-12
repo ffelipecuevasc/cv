@@ -85,6 +85,14 @@ const t = useTranslations(lang);
         [data-navbar-inner] {
           height: 75px !important;
         }
+        /* AT-060: sin JavaScript el botón de apariencia no responde. En la barra se oculta
+           reservando su espacio (sin CLS); en el menú móvil, que va desplegado, se quita. */
+        [data-theme-toggle] {
+          visibility: hidden !important;
+        }
+        [data-mobile-menu] [data-theme-toggle] {
+          display: none !important;
+        }
       </style>
     </noscript>
     <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />

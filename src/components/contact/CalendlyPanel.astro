@@ -87,4 +87,10 @@ const { calendly } = await getContactPage();
     font-weight: 600;
     text-align: center;
   }
+  /* E170-I01: el enlace va directo sobre `bg-alt`, donde `accent` da 4,37:1 y solo vale para
+     texto grande (DESIGN.md 4.3 y 4.4). Como en el Foro, los enlaces de texto pequeño sobre
+     `bg-alt` van en `text`, en 600 y subrayados. */
+  .direct :global(.external-link) {
+    color: var(--color-text);
+  }
 </style>

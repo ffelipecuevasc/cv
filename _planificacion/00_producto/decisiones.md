@@ -337,7 +337,7 @@ Reglas del registro:
   - Texturas de 4.5 como utilidades `texture-dots`, `texture-halo`, `texture-band` (en oscuro fija `kicker` dorado), `texture-frame` y `texture-portrait`. La máscara del campo de puntos se desvanece del 30 % al 75 % (4.5 no fija el alcance).
   - Muestra interna en `/es/muestra-diseno/` y `/en/design-sample/` con `noindex, nofollow`; E180-I02 la excluye del sitemap.
 - **Consecuencias:** E30-I01 solo agrega o quita la clase `dark`. Todo color nuevo exige un token en `DESIGN.md`.
-- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026). Sustituida en parte por ADR-091: la muestra interna se retira en E190-I03.
 
 ## ADR-043 · Fuentes con la API de fuentes de Astro (proveedor local) e íconos SVG propios
 - **Contexto:** E20-I03, ADR-041. Verificado el 29-10-2026 en https://docs.astro.build/en/guides/fonts/, https://docs.astro.build/en/reference/configuration-reference/ y https://docs.astro.build/en/reference/font-provider-reference/: la API de fuentes es estable desde astro@6.0.0 (opción `fonts` de primer nivel), tiene proveedor local `fontProviders.local()`, el componente `<Font />` de `astro:assets` con `preload` filtrable, genera respaldos métricos a partir del último respaldo genérico y copia los archivos a `_astro/fonts`. AT-016: el sitio actual carga Material Symbols completo para unos 57 íconos.
@@ -970,6 +970,31 @@ Reglas del registro:
 - **Decisión (del agente, dentro del alcance):** el script falla (código 1) si falta `dist/404.html` o alguna de las dos fuentes, y borra la carpeta solo si queda vacía. `verify:seo` comprueba que existan los tres `404.html`, que no queden las carpetas y que el script `build` lo ejecute. Rutas descartadas: `404.html.astro` (genera una carpeta `404.html/`), un endpoint `404.html.ts` con la API Container (genera el archivo, pero sin la hoja de estilos global enlazada, lo que repetiría AT-004), `build.format: 'file'` (global) y un hook en `astro.config.mjs`.
 - **Consecuencias:** complementa ADR-037, ADR-084 y ADR-085 sin editarlos: con el binding `ASSETS`, el Worker devuelve la 404 más cercana a toda ruta que no sea `/api/*`, y según la documentación las navegaciones del navegador ni siquiera invocan al Worker con `compatibility_date` ≥ 2025-04-01 (hoy `2026-10-23`). La ruta `/x` cae en la 404 de la raíz (español) y `/es/x/y/z` en la de `/es/`. Registra AT-107 y AT-108. **No verificado:** el comportamiento real en Cloudflare (la búsqueda del «más cercano» es deducción del diagrama de la documentación); lo prueba Felipe en workers.dev.
 - **Origen:** decisiones de Felipe del 09-11-2026 y del 11-11-2026 (E160-I01). **Estado:** Aceptada.
+
+## ADR-090 · E170: reparto de la épica, E170-I05 «Limpieza técnica», orden de ejecución y herramientas de medición
+- **Contexto:** E170-I01 (11-11-2026). El archivo de la iteración mezclaba la auditoría de accesibilidad con cuatro limpiezas técnicas (AT-079, AT-080, AT-081 y AT-089) que no son accesibilidad, y su alcance hablaba de «26 páginas (13 × 2)», cifra que no coincide con el sitio actual (Eventos salió por ADR-077). ADR-056 manda que los ajustes transversales vayan a E170 y que las iteraciones se agreguen al final de su épica sin renumerar.
+- **Decisión (de Felipe, 11-11-2026):**
+  1. **E170-I01 queda solo con accesibilidad:** AT-060, AT-065, AT-082, AT-086, AT-098 (valorar), AT-056, la legibilidad de Josefin Sans 300 (ADR-041) y la verificación de AT-054.
+  2. **Se crea E170-I05 «Limpieza técnica»** (P1, S) con AT-079, AT-080, AT-081 y AT-089. El plan pasa de 63 a 64 iteraciones.
+  3. **Orden de ejecución de la épica: I01, I05, I02, I03, I04.** Los IDs no se renumeran; I05 se ejecuta segunda.
+  4. **Superficie medida: 26 URL** (22 indexables, Agradecimiento ×2 y `/es/404` y `/en/404` sin barra final, AT-109), en móvil y escritorio.
+  5. **Medición automática con `scripts/psi.mjs`:** sin dependencias, con `fetch` nativo y la API de PageSpeed Insights (categoría accesibilidad). La clave se lee solo de `process.env.PSI_API_KEY`: no se pide, no se imprime y no se escribe en archivos; si falta, el script se detiene. PSI mide el tema claro (el de un visitante sin preferencia guardada).
+  6. **Herramienta de reglas (aprobada por Felipe el 12-11-2026):** `pa11y@10.0.0` con `--runner axe` (axe-core 4.13), ejecutada con `pnpm dlx` y versión fija, sin tocar `package.json` y sin ADR de dependencia, porque no es una dependencia del proyecto (ADR-026). Versión verificada en el registro de npm con `pnpm view` el 11-11-2026 (publicada el 09-10-2026; Node `^22.13 || >=24`). Se usa el Chrome local del equipo de Felipe (`PUPPETEER_SKIP_DOWNLOAD=1` y `PUPPETEER_EXECUTABLE_PATH`), de modo que no se descarga Chromium; si falla con Chrome o Puppeteer, se consulta antes de descargar uno. Se aplica a las 22 URL indexables en tema claro y oscuro y, además, a Educación con el diálogo abierto y a Contacto con los errores del formulario visibles. Los scripts de la corrida viven en el scratchpad de la sesión, no en el proyecto.
+  7. **Tema oscuro en la herramienta:** se fuerza con el propio botón de apariencia sobre un perfil temporal de Chrome (guarda `theme` en `localStorage`), porque el flag `--blink-settings=preferredColorScheme` no activó `.dark`. Así el tema carga oscuro antes de pintar y no hay transiciones de color que ensucien la medición.
+  8. **AT-065 (decisión de Felipe, 12-11-2026):** el cursor del titular del hero no se dibuja bajo 640 px; en escritorio no cambia nada y no hay CLS. El ajuste de `DESIGN.md` 7.4 va como bloque en la bitácora (ADR-033).
+  9. **AT-056 (decisión de Felipe, 12-11-2026):** la muestra de tokens se retira en E190-I03 y no se corrige su destello; ver ADR-091.
+- **Consecuencias:** complementa ADR-056 sin editarlo. Actualiza epica.md, el README de `_planificacion/` y `registro-log.md`. Los AT-079, AT-080, AT-081 y AT-089 pasan a «Resuelve: E170-I05» (también en `auditoria-tecnica.md`). La re-medición con PSI se hace después del `git push` de Felipe, porque la preview solo refleja lo publicado; pa11y se corrió sobre el build local (`pnpm preview`), que sí incluye las correcciones, y se repite sobre la preview. Los AT de esta iteración son AT-110 a AT-113.
+- **Origen:** prompt de E170-I01 reescrita (11-11-2026) y decisiones de Felipe del 12-11-2026. **Estado:** Aceptada.
+
+## ADR-091 · La muestra de tokens se retira en E190-I03 y queda fuera de las auditorías de E170
+- **Contexto:** E170-I01, AT-056. ADR-042 creó una muestra interna de tokens en `/es/muestra-diseno/` y `/en/design-sample/` (`noindex, nofollow`) y encargó a E180-I02 excluirla del sitemap. Su script quita `.dark` de `<html>` después del primer pintado y puede destellar en oscuro (AT-056). Arreglarlo en línea sumaría otro script al CSP de E170-I03.
+- **Decisión (de Felipe, 12-11-2026):**
+  1. La muestra **se retira del sitio en E190-I03** (antes del cutover): páginas `src/pages/es/muestra-diseno.astro` y `src/pages/en/design-sample.astro`, su componente y la ruta interna en `src/i18n/routes.ts`, con sus controles de `verify:seo` si los hubiera.
+  2. **No se corrige el destello** de AT-056.
+  3. Mientras exista, la muestra **queda excluida de las auditorías de E170** (accesibilidad, rendimiento, cabeceras y enlaces) y, como ya decía ADR-042, fuera del sitemap (E180-I02).
+- **Decisión (del agente, dentro del alcance):** anotar el retiro en `E190-I03` y la exclusión en `E180-I02`, y registrar la decisión en AT-056 (Aceptado, resuelve E190-I03). La muestra no se tocó en E170-I01 y E170-I01 no la midió.
+- **Consecuencias:** sustituye en parte a ADR-042 (la muestra deja de ser una herramienta permanente); ADR-042 no se edita más que su estado. Los tokens siguen verificados por la tabla de `DESIGN.md` 4.4 (AT-055). E190-I03 debe comprobar que ninguna ruta o enlace depende de la muestra al retirarla.
+- **Origen:** decisión de Felipe el 12-11-2026 (E170-I01). **Estado:** Aceptada.
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 

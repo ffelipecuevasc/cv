@@ -74,8 +74,8 @@
       "title": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
       "institutions": "Universidad Tecnológica de Chile INACAP | Duoc UC | IPLACEX",
       "paragraph": {
-        "es": "Me desempeño como desarrollador full stack en **Java y Python** a lo largo de todo el tiempo que trabajo como docente universitario creando aplicaciones orientadas al ámbito educativo para el desarrollo de asignaturas, evaluaciones y exámenes finales.",
-        "en": "I work as a full stack developer in **Java and Python** throughout my time as a university lecturer, building applications for the educational field to support courses, assessments and final exams."
+        "es": "Me desempeño como desarrollador full stack en **Java y Python** mientras trabajo como docente universitario, creando aplicaciones orientadas al ámbito educativo para el desarrollo de asignaturas, evaluaciones y exámenes finales.",
+        "en": "I work as a full stack developer in **Java and Python** alongside my work as a university lecturer, building applications for the educational field to support courses, assessments and final exams."
       },
       "tags": {
         "es": ["Java", "Framework Spring", "Python", "Framework Django"],

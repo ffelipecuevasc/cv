@@ -40,7 +40,7 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 - Inspección de `dist/sitemap*.xml`.
 
 ## Riesgos y notas
-- —
+- **Muestra de tokens (AT-056, ADR-091, 12-11-2026):** `/es/muestra-diseno/` y `/en/design-sample/` son rutas internas `noindex, nofollow` que se retiran en E190-I03. Mientras existan, el sitemap no las lista (ADR-042); si se usa una integración que lista las páginas generadas, hay que filtrarlas, igual que las 404 y agradecimiento (AT-106).
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md

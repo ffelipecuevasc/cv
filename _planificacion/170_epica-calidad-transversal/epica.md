@@ -1,11 +1,12 @@
 # E170 · Calidad transversal
-- **Prioridad de la épica:** P1 · **Estado:** [ ] Pendiente
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (E170-I01 en curso)
 
 ## Objetivo
-Verificar el sitio completo en accesibilidad, rendimiento, seguridad y enlaces antes de preparar el cutover.
+Verificar el sitio completo en accesibilidad, rendimiento, seguridad y enlaces antes de preparar el cutover, y dejar limpia la deuda técnica que dejaron las épicas de página.
 
 ## Alcance
 - Accesibilidad global.
+- Limpieza técnica (AT-079, AT-080, AT-081 y AT-089).
 - Core Web Vitals frente a los umbrales de ADR-015.
 - Cabeceras de seguridad.
 - Enlaces rotos y paridad automatizada es/en.
@@ -17,15 +18,19 @@ Todas.
 E40–E160 (todas las épicas de página)
 
 ## Iteraciones
+**Orden de ejecución (ADR-090): I01, I05, I02, I03, I04.** Los IDs son estables y no se renumeran: I05 se ejecuta segunda.
+
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
-| [E170-I01](E170-I01-accesibilidad.md) | Revisión de accesibilidad global | P1 | M | E40–E160 (todas las épicas de página) | [ ] Pendiente |
+| [E170-I01](E170-I01-accesibilidad.md) | Revisión de accesibilidad global | P1 | M | E40–E160 (todas las épicas de página) | [~] En curso |
+| [E170-I05](E170-I05-limpieza-tecnica.md) | Limpieza técnica | P1 | S | E170-I01 | [ ] Pendiente |
 | [E170-I02](E170-I02-rendimiento-cwv.md) | Rendimiento y Core Web Vitals | P1 | M | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 | [E170-I03](E170-I03-cabeceras-seguridad.md) | Cabeceras de seguridad | P1 | M | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 | [E170-I04](E170-I04-enlaces-paridad.md) | Enlaces rotos y paridad es/en automatizada | P1 | S | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
-- [ ] Sin errores críticos de accesibilidad en las 26 páginas (13 × 2 idiomas, sin Eventos por ADR-077, incluida la política de privacidad de E155).
+- [ ] Sin errores críticos de accesibilidad en las 26 URL medidas (22 indexables, Agradecimiento ×2 y las 404 de idioma), o con un AT que justifique cada excepción.
+- [ ] Limpieza técnica hecha: AT-079, AT-080, AT-081 y AT-089 resueltos (E170-I05).
 - [ ] Umbrales de ADR-015 cumplidos.
 - [ ] CSP activa sin romper Turnstile, Calendly ni Giscus.
 - [ ] Cero enlaces rotos internos.

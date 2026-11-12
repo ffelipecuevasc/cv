@@ -1,7 +1,7 @@
 # E190-I03 · README final y retiro de archivos del sitio antiguo
 - **Estado:** [ ] Pendiente
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E190-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-014
+- **Depende de:** E190-I02 · **Hallazgos que cierra:** AT-056 (retiro de la muestra de tokens) · **ADR relacionados:** ADR-014, ADR-042, ADR-091
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -17,6 +17,7 @@ Dejar la rama lista para el merge: README de la raíz final y eliminación de lo
 ## Alcance
 - Eliminar `*.html` antiguos, `static/` (salvo lo copiado a `public/`), `functions/` si fue reemplazada, `sitemap.xml`, `robots.txt`, `_redirects` y `linkinator.config.json` de la raíz, y `docs/` según decida Felipe.
 - README con despliegue y operación.
+- **Retirar la muestra de tokens (AT-056, ADR-091; decisión de Felipe, 12-11-2026):** borrar `src/pages/es/muestra-diseno.astro`, `src/pages/en/design-sample.astro`, su componente de muestra (`src/components/dev/`) y la ruta interna de `src/i18n/routes.ts`; quitar de `verify:seo` y de la documentación cualquier control o mención que dependa de ellas. No se corrige el destello.
 
 ## Fuera de alcance
 - Merge (lo hace Felipe).
@@ -24,14 +25,16 @@ Dejar la rama lista para el merge: README de la raíz final y eliminación de lo
 ## Tareas
 - [ ] Confirmar la lista con Felipe antes de borrar.
 - [ ] Actualizar el README.
+- [ ] Retirar la muestra de tokens y comprobar que `dist/` ya no tiene `es/muestra-diseno/` ni `en/design-sample/` (AT-056, ADR-091).
 
 ## Archivos previstos (crear / modificar)
-- Eliminar: archivos antiguos listados.
+- Eliminar: archivos antiguos listados y la muestra de tokens (páginas, componente y ruta interna).
 - Modificar: `README.md`.
 
 ## Criterios de aceptación (verificables)
 - [ ] `pnpm build` y todas las verificaciones pasan tras el retiro.
 - [ ] Ninguna ruta pública depende de un archivo eliminado.
+- [ ] La muestra de tokens no existe en el código ni en `dist/` y AT-056 queda resuelto.
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)

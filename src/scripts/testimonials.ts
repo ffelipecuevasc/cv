@@ -28,6 +28,10 @@ const initCarousel = (root: HTMLElement) => {
   if (!track || !dots || !count || !status || !prev || !next || cards.length === 0) return;
 
   root.setAttribute('data-js', '');
+  // AT-112 (axe `scrollable-region-focusable`): el carril se desplaza y ninguna tarjeta lleva un
+  // control enfocable, así que se vuelve una parada de tabulación y se puede mover con las
+  // flechas del teclado. Solo con JavaScript, porque sin él no hay carril sino grilla.
+  track.tabIndex = 0;
 
   let perView = 3;
   let pages = 1;
