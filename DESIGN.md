@@ -131,8 +131,8 @@ No se usan otros colores. Los degradados del prototipo (`#8CC8E8`, `#3E95BF`) y 
 | `footer` | `orient-50` | `orient-950` | Pie |
 | `text` | `orient-950` | `orient-50` | Texto principal |
 | `heading` | `orient-950` | `white` | Titulares (h1 a h3) |
-| `text-muted` | `orient-950` al 70 % | `orient-50` al 75 % | Párrafos |
-| `text-soft` | `orient-950` al 60 % | `orient-50` al 60 % | Descripciones, cargos, rótulos `dt`, barra inferior del pie. **Es la opacidad mínima para texto.** |
+| `text-muted` | `orient-950` al 70 % | `orient-50` al 75 % | Párrafos y descripciones (incluido el texto de 300 de 16 px o menos y la frase del pie) |
+| `text-soft` | `orient-950` al 60 % | `orient-50` al 60 % | Bajadas (300, 17 px), cargos, metadatos y notas de 12 a 15 px (peso 400 o más), rótulos `dt` y etiquetas, barra inferior del pie. **Es la opacidad mínima para texto.** Nunca con Josefin 300 de 16 px o menos (5.3). |
 | `accent` | `primary` | `vibrant` | Parte destacada del titular, enlaces destacados |
 | `kicker` | `orient-600` | `orient-400` (en `band`: `gold`) | Rótulos en mayúsculas |
 | `icon` | `orient-600` | `orient-400` | Íconos de línea |
@@ -231,7 +231,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 - h1, h2 y h3 con `text-wrap: balance`.
 - Cifras, años y contadores con números tabulares y de altura de línea (`tabular-nums lining-nums`).
 - Ningún texto en mayúsculas se escribe en mayúsculas en el contenido: se transforma por estilo, para que los lectores de pantalla y la traducción no se vean afectados.
-- **Nota de legibilidad:** Josefin 300 se mantiene (ADR-041). La combinación de peso 300, 16 px o menos y `text-soft` queda **prohibida** hacia adelante: el texto fino pequeño va siempre en `text-muted` o más oscuro (7,15:1 en claro y 9,60:1 en oscuro, 4.4). Medición del 12-11-2026 sobre `main` (español, claro, 1.280 px): 0 caracteres con esa combinación; 18.151 de 43.007 caracteres son 300 de 16 px o menos, todos en `text-muted` o `text`. La lectura a ojo en la portada, en claro y oscuro, resultó cómoda (E170-I01).
+- **Nota de legibilidad:** Josefin 300 se mantiene (ADR-041). La combinación de peso 300, 16 px o menos y `text-soft` queda **prohibida**: el texto fino pequeño va siempre en `text-muted` o más oscuro (7,15:1 en claro y 9,60:1 en oscuro, 4.4). Medición del 12-11-2026 sobre todo el `body` (barra, `main` y pie; 12 páginas en español, claro, 1.280 px; solo texto visible): 15.824 de 39.722 caracteres en Josefin son 300 de 16 px o menos (39,8 %), todos en `text-muted` (15.131) o `text` (693); ninguno en `text-soft`. La frase del pie pasó a `text-muted` (AT-115). La lectura a ojo en la portada, en claro y oscuro, resultó cómoda (E170-I01).
 
 ## 6. Espaciado y layout
 - **Escala de espaciado:** múltiplos de 4 px (escala por defecto de Tailwind). Valores frecuentes: 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80 y 96 px.
@@ -330,7 +330,7 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 - **Fondo:** `footer` (`orient-50` en claro, `orient-950` en oscuro), con una línea superior de 2 px con degradado transparente → `gold` (20 %) → `vibrant` (80 %) → transparente.
 - **Relleno:** 64 px arriba y 40 px abajo.
 - **Columnas (3 desde 768 px; una bajo esa medida):**
-  1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-soft`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho). Bajo la frase, el botón secundario "Descargar CV" de 46 px (7.3) con ícono de descarga, atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017 y ADR-057). Es el acceso al CV de todo el sitio.
+  1. **Marca:** ícono del logotipo y "Felipe Cuevas" en el estilo de la sección 3, sin animación, más una frase breve (`text-muted`, Josefin 300, 15,5 px, máximo 40 caracteres de ancho; 6,73:1 en claro y 9,60:1 en oscuro). Bajo la frase, el botón secundario "Descargar CV" de 46 px (7.3) con ícono de descarga, atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017 y ADR-057). Es el acceso al CV de todo el sitio.
   2. **Navegación** (centrada): rótulo kicker con regla dorada corta (32 × 2 px) y 6 enlaces: Inicio, Educación, Experiencia (a la página Resumen), Recursos, Contacto y Política de privacidad (`en-US`: Home, Education, Experience, Resources, Contact y Privacy policy). El enlace de privacidad es el sexto y está en el pie de todas las páginas (E155-I01, ADR-087). No lleva Eventos (ADR-077).
   3. **Redes** (alineada a la izquierda en todos los anchos): rótulo y lista de las 4 redes; en cada una, el ícono de marca de 18 px en `icon` va antes del texto `text-muted`; al pasar, `accent`.
 - **Barra inferior:** borde superior `primary` al 20 % (oscuro: `border`), 24 px de relleno; © con año y "Felipe Cuevas", en `text-soft` 14 px. El enlace de privacidad va en la columna de navegación (ADR-057).
@@ -362,7 +362,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
 | `rail` | `0 0 0 1px orient-950/8 %, 0 10px 22px -12px orient-800/45 %` | `0 0 0 1px orient-50/10 %, 0 12px 24px -12px black/70 %` |
 
 ### 7.14 Iconografía
-Íconos de contorno de **Material Symbols Light** (Google, licencia Apache 2.0; ADR-063), de la colección `material-symbols-light` de Iconify: peso 200, tamaño óptico 24, grado 0, variantes «-outline», con el mismo nombre que tenían en el sitio antiguo. Las rutas SVG se copian a `icons.ts` y se pintan rellenas en SVG en línea, con `viewBox="0 0 24 24"` y color `currentColor`. No hay paquetes ni fuentes de íconos (AT-016). Son decorativos (`aria-hidden`) salvo que sean el único contenido de un control (entonces el control lleva nombre accesible). Las redes y los SVG de tecnologías conservan sus SVG de marca propios, sin cambios. El trazo de 1 px se validó a simple vista en Educación; el contraste de los íconos que transmiten información se mide en E170-I01.
+Íconos de contorno de **Material Symbols Light** (Google, licencia Apache 2.0; ADR-063), de la colección `material-symbols-light` de Iconify: peso 200, tamaño óptico 24, grado 0, variantes «-outline», con el mismo nombre que tenían en el sitio antiguo. Las rutas SVG se copian a `icons.ts` y se pintan rellenas en SVG en línea, con `viewBox="0 0 24 24"` y color `currentColor`. No hay paquetes ni fuentes de íconos (AT-016). Son decorativos (`aria-hidden`) salvo que sean el único contenido de un control (entonces el control lleva nombre accesible). Las redes y los SVG de tecnologías conservan sus SVG de marca propios, sin cambios. El trazo de 1 px se validó a simple vista en Educación; el contraste de los íconos se midió en E170-I01 (12-11-2026): todos cumplen 3:1 sobre fondo plano; los controles que son solo ícono tienen 6,35:1 como mínimo en claro y 12,43:1 en oscuro; los íconos sobre degradados (hero y logotipo) no se midieron.
 
 ## 8. Movimiento y accesibilidad
 - **Obligatorio:**
@@ -470,7 +470,7 @@ La página abre con el `<h1>` «Experiencia Laboral» (`en-US`: «Work Experienc
 ### 11.7 Docente
 1. **Cabecera** alineada a la izquierda, fondo `bg`: rótulo «Perfil profesional», `<h1>` «Docente Universitario», instituciones «INACAP | Duoc UC | IPLACEX» (Cinzel) y «2013 - Actualidad · Modalidad semipresencial» en mayúsculas, leídos del perfil de Experiencia (ADR-070). Debajo, «Docente con +10 años de experiencia» (cifra en Cinzel, signo en `--metric-sign`, derivada de `stats.json`) y un índice `<nav>` «Instituciones» con 3 enlaces de 44 px (`surface`, contorno 1 px `border`, ícono `graduation-cap`, nombre en Cinzel y resumen en 13 px `text-soft`) hacia las franjas; 3 columnas desde 768 px.
 2. **Asignaturas impartidas:** fondo `bg-alt`, encabezado centrado y 4 tarjetas base (7.6) en 2 columnas desde 1.024 px (una bajo esa medida), con h3 en Cinzel, texto con énfasis y 2 etiquetas (7.7) alineadas abajo.
-3. **Experiencia por institución:** encabezado alineado a la izquierda sobre `bg` y 3 franjas (7.8) en zigzag, de la más reciente a la más antigua: IPLACEX (`bg`), Duoc UC (`band`, espejo) e INACAP (`bg`). Rótulo: periodo; titular h3: nombre de la institución; contenido: foto 3:2 con pie (solo INACAP), texto con énfasis y «Ver más información» a LinkedIn en `accent`, externo y avisado.
+3. **Experiencia por institución:** encabezado alineado a la izquierda sobre `bg` y 3 franjas (7.8) en zigzag, de la más reciente a la más antigua: IPLACEX (`bg`), Duoc UC (`band`, espejo) e INACAP (`bg`). Rótulo: periodo; titular h3: nombre de la institución; contenido: foto 3:2 con pie (solo INACAP), texto con énfasis y «Ver más información» a LinkedIn en `text`, 600 y subrayado (no `accent`: sobre `band` da 4,09:1 en claro, AT-114), externo y avisado.
 4. **Tutor de alumnos:** banda (7.8) con encabezado de banda; texto «Docente Tutor» (h3) y 3 cifras en `dl` (+10 años, +2.000 alumnos y 1 hackatón), separadas por barras de 2 px con degradado `gold` → `vibrant`; 5/7 desde 1.024 px.
 5. **Cargos especiales:** fondo `bg-alt`, encabezado centrado y 2 entradas de 52 rem como máximo (`surface`, contorno `border`, ícono de 32 px, h3 en Cinzel, detalle y «año · INACAP» en mayúsculas).
 
