@@ -10,6 +10,7 @@
  * Uso:
  *   node scripts/psi.mjs                         # mide la preview de workers.dev
  *   node scripts/psi.mjs --base https://otro.host
+ *   node scripts/psi.mjs --category performance  # rendimiento: puntaje, LCP, CLS, TBT y peso
  *   node scripts/psi.mjs --only /es/foro/,/en/forum/
  *   node scripts/psi.mjs --json resultados.json  # además guarda el detalle (sin la clave)
  */
@@ -45,6 +46,12 @@ const option = (name) => {
   return i === -1 ? undefined : args[i + 1];
 };
 
+// Categoría a medir: `accessibility` (por defecto) o `performance` (E170-I02).
+const category = option('--category') ?? 'accessibility';
+if (!['accessibility', 'performance'].includes(category)) {
+  console.error('--category debe ser accessibility o performance');
+  process.exit(1);
+}
 const base = (option('--base') ?? DEFAULT_BASE).replace(/\/$/, '');
 const jsonOut = option('--json');
 const only = option('--only')
@@ -68,7 +75,7 @@ const paths = only ?? [...(await indexablePaths()), ...extras];
 async function measure(path, strategy, attempt = 1) {
   const url = new URL(API);
   url.searchParams.set('url', base + path);
-  url.searchParams.set('category', 'accessibility');
+  url.searchParams.set('category', category);
   url.searchParams.set('strategy', strategy);
   url.searchParams.set('key', key);
   try {
@@ -84,7 +91,17 @@ async function measure(path, strategy, attempt = 1) {
     const data = await res.json();
     const lh = data.lighthouseResult;
     if (lh?.runtimeError) return { path, strategy, error: lh.runtimeError.code };
-    const score = Math.round((lh?.categories?.accessibility?.score ?? 0) * 100);
+    const score = Math.round((lh?.categories?.[category]?.score ?? 0) * 100);
+    const metric = (id) => lh?.audits?.[id]?.numericValue;
+    const metrics =
+      category === 'performance'
+        ? {
+            lcp: metric('largest-contentful-paint'),
+            cls: metric('cumulative-layout-shift'),
+            tbt: metric('total-blocking-time'),
+            bytes: metric('total-byte-weight'),
+          }
+        : undefined;
     const failed = Object.values(lh?.audits ?? {})
       .filter((a) => a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'informative')
       .map((a) => ({
@@ -96,7 +113,14 @@ async function measure(path, strategy, attempt = 1) {
           explanation: i.node?.explanation?.slice(0, 300),
         })),
       }));
-    return { path, strategy, score, failed, finalUrl: lh?.finalDisplayedUrl?.replace(base, '') };
+    return {
+      path,
+      strategy,
+      score,
+      metrics,
+      failed,
+      finalUrl: lh?.finalDisplayedUrl?.replace(base, ''),
+    };
   } catch (error) {
     if (attempt < 3) {
       await new Promise((r) => setTimeout(r, 4000 * attempt));
@@ -127,7 +151,9 @@ const cell = (r) => (r ? (r.error ? `ERR ${r.error}` : String(r.score)) : '—')
 const pad = (s, n) => String(s).padEnd(n);
 const width = Math.max(...paths.map((p) => p.length)) + 2;
 
-console.log(`\nAccesibilidad (PageSpeed Insights) · ${base}\n`);
+console.log(
+  `\n${category === 'performance' ? 'Rendimiento' : 'Accesibilidad'} (PageSpeed Insights) · ${base}\n`,
+);
 console.log(`${pad('Página', width)}${pad('Móvil', 10)}${pad('Escritorio', 12)}Fallas`);
 for (const [path, r] of byPath) {
   const ids = [

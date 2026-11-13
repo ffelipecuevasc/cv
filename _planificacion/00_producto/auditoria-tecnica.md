@@ -177,6 +177,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `index.html:405-407`, imágenes con `loading="lazy"` sobre el pliegue; PNG de 400×400 (`insignia_oracle.png` 163 KB) mostrados a 40 px.
 - **Impacto:** peso innecesario y retraso visual.
 - **Recomendación:** carga normal, formato moderno y tamaño acorde.
+- **Cierre (E170-I02, 13-11-2026):** confirmado al medir: las insignias del hero cargan con `loading="eager"`, en WebP de 40 y 80 px, y el LCP de la portada es de 0,93 s (local, móvil) y 0,92 s (preview). Sin cambios de código.
 
 ### AT-014 · Cifras inconsistentes de certificaciones
 - **Severidad:** Media · **Estado:** Resuelto en E40-I01 (30-10-2026) para el hero: cifra derivada de `src/data/certifications.ts` con la regla de ADR-053 (hoy 11 → `+10`). La banda de Inicio (E40-I02, 30-10-2026) también la deriva de esa fuente, y el JSON-LD Person (E40-I03, 30-10-2026) genera `hasCredential` de ella (11 credenciales; `pnpm verify:seo` la compara con la cifra impresa) · **Resuelve:** E40-I01 (validación de Felipe)
@@ -206,10 +207,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - Los umbrales y la revisión de informes de Cloudflare quedan en ADR-015 y BL-01.
 
 ### AT-015 · Rendimiento móvil bajo en la línea base
-- **Severidad:** Alta · **Estado:** Abierto · **Resuelve:** E170-I02
+- **Severidad:** Alta · **Estado:** Resuelto en E170-I02 (13-11-2026), en laboratorio; los datos de campo siguen en BL-01 · **Resuelve:** E170-I02
 - **Evidencia:** `docs/linea-base/2026-08-12/resumen-lighthouse.md`, móvil entre 53 y 57 en casi todas las páginas (máximo 58, en `recursos.html`).
 - **Impacto:** experiencia móvil y posicionamiento.
 - **Recomendación:** medir el sitio nuevo contra ADR-015 y los informes de Cloudflare (BL-01).
+- **Cierre (E170-I02, 13-11-2026):** las 26 URL en móvil y escritorio, sobre el build local (Lighthouse 13.6, rendimiento mínimo 99) y sobre la preview (PageSpeed Insights, mínimo 98 salvo una corrida aislada, AT-117), superan la línea base de agosto (móvil 53–58, escritorio 72–98) y los umbrales de ADR-015 (LCP ≤ 1,69 s local y ≤ 1,35 s en la preview; CLS ≤ 0,0004; TBT ≤ 10 ms). Tabla completa en `99_bitacora/2026-11-13_E170-I02.md`. Los valores de laboratorio no reemplazan los datos de campo de Cloudflare (BL-01).
 
 ### AT-035 · El plan cargado en el proyecto no es un plan de CWV con umbrales
 - **Severidad:** Baja · **Estado:** Resuelto por ADR-015 (punto de control, 28-09-2026)
@@ -241,17 +243,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** autoalojar los pesos necesarios.
 
 ### AT-032 · Imagen Open Graph única y pesada
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E30-I01, E170-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I02 (13-11-2026) · **Resuelve:** E30-I01, E170-I02
 - **Evidencia:** `static/img/felipe_cuevas_cv.png` (350 KB, 1920×1080) en todas las páginas, solo en español.
 - **Impacto:** vista previa lenta y no localizada.
 - **Recomendación:** imagen por idioma optimizada.
 - **Avance (E30-I01):** `Seo.astro` acepta `ogImage` por idioma (opcional; sin ella no se emite imagen y Twitter usa `summary`). Sigue abierto: imágenes por idioma optimizadas (E170-I02).
+- **Cierre (E170-I02, 13-11-2026):** la imagen OG es un solo JPG de 100,7 KB (1200 × 630), sin texto que dependa del idioma (nombre y credenciales), con texto alternativo por idioma desde `Seo.astro` y `ogImageAlt`. `verify:seo` exige ≤ 200 KB por idioma (+2 controles).
 
 ### AT-033 · Imagen sin referencia
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E170-I02 (13-11-2026) · **Resuelve:** E170-I02
 - **Evidencia:** `static/img/logos/python_institute.png` no se referencia en HTML, JS ni CSS.
 - **Impacto:** peso muerto.
 - **Recomendación:** no migrarla.
+- **Cierre (E170-I02, 13-11-2026):** `python_institute.png` no se migró: no está en `src/` ni en `dist/`. Solo queda en `static/img/logos/` del sitio antiguo, que se retira en E190-I03.
 
 ### AT-037 · Título y encabezado inconsistentes en recursos
 - **Severidad:** Baja · **Estado:** Resuelto en E130-I01 (03-11-2026): `<title>` y `<h1>` dicen «Bóveda de recursos» / «Resource vault» (decisión de Felipe, ADR-079) · **Resuelve:** E130-I01
@@ -965,3 +969,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** sin método, la línea base no era comparable entre sesiones ni entre sistemas, y la comparación «antes y después» de las iteraciones de limpieza dependía de una copia local del `dist/`.
 - **Método (PowerShell 7, desde la raíz, después de `pnpm build`):** lista de archivos de `dist/` con ruta relativa y `/`, orden ordinal; una línea `ruta<TAB>sha256 en minúsculas` por archivo; líneas unidas con `\n`; sha256 UTF-8 del texto; 16 primeros caracteres hexadecimales. El código completo está en `99_bitacora/2026-11-13_E170-I05.md`.
 - **Cierre (E170-I05, 13-11-2026):** método documentado en la bitácora de E170-I05. La huella histórica `bcae4302f5d8f3ae` se da por reemplazada por `628994afbec63292` (antes de I05) y esta por `6d6e25a0e8865015` (después de I05).
+
+### AT-117 · CLS de 0,158 en una corrida de PageSpeed Insights sobre `/en/` (escritorio)
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I02, 13-11-2026): no reproducible · **Resuelve:** E170-I04 o E190-I01 (repetir en la preview final)
+- **Evidencia (E170-I02, 13-11-2026):** en la barrida de 52 corridas sobre la preview, `/en/` en escritorio dio rendimiento 93 y CLS 0,158, con el elemento `section.hero > div.container-page`. Cuatro repeticiones seguidas de la misma página dieron 100 y CLS de 0 a 0,0004; el resto de las 51 corridas y las 52 locales dieron CLS ≤ 0,0004. Las fuentes ya llevan respaldo con métricas ajustadas (`size-adjust`) y dos de tres están precargadas.
+- **Impacto:** una corrida de laboratorio fuera de umbral sin causa reproducible; ADR-015 pide el percentil 75, no una corrida.
+- **Recomendación:** repetir la medición en E190-I01 sobre la preview final y, si reaparece, medir el cambio de fuente en el hero (la cursiva de Josefin Sans es el único archivo sin precarga).
+
+### AT-118 · Insights de PageSpeed recurrentes sin acción: CSS que bloquea el render y reflujo forzado
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I02, 13-11-2026) · **Resuelve:** —
+- **Evidencia (E170-I02, 13-11-2026):** en la preview, casi todas las páginas listan `render-blocking-insight` y `network-dependency-tree-insight`, y varias `forced-reflow-insight` e `image-delivery-insight`, con rendimiento de 98 a 100. En local no hay oportunidades pendientes salvo el 99 de `/es/educacion/` en móvil.
+- **Impacto:** puntaje ya entre 98 y 100 y LCP de 0,9 a 1,35 s; no hay mejora medible a cambio del riesgo de tocar lo visible. Se registra para el futuro.
+- **Recomendación:** no actuar ahora. Si el campo de Cloudflare (BL-01) muestra un LCP o INP malo, empezar por el CSS crítico en línea y por el reflujo forzado de los scripts de Educación y Foro.

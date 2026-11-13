@@ -2735,6 +2735,44 @@ if (es?.person && en?.person) {
   check(false, 'falta Person en alguno de los idiomas');
 }
 
+// --- Presupuesto de peso (E170-I02, AT-032): imagen OG, imágenes y fuentes ---
+console.log('\nPresupuesto de peso');
+const OG_MAX_KB = 200;
+const IMAGE_MAX_KB = 150;
+const FONTS_MAX_KB = 120;
+const kb = (path) => statSync(path).size / 1024;
+for (const [lang, route] of [
+  ['es', 'es'],
+  ['en', 'en'],
+]) {
+  const ogPath = /property="og:image"\s+content="https:\/\/felipecuevas\.dev([^"]+)"/.exec(
+    read(`${route}/index.html`),
+  )?.[1];
+  const ogKb = ogPath && existsSync(join(DIST, ogPath)) ? kb(join(DIST, ogPath)) : Infinity;
+  check(
+    ogKb <= OG_MAX_KB,
+    `imagen OG de /${lang}/ de hasta ${OG_MAX_KB} KB (${ogKb.toFixed(1)} KB)`,
+  );
+}
+const filesUnder = (dir, extensions) =>
+  existsSync(join(DIST, dir))
+    ? readdirSync(join(DIST, dir), { recursive: true })
+        .map((name) => join(DIST, dir, name))
+        .filter((file) => statSync(file).isFile() && extensions.test(file))
+    : [];
+const heaviest = filesUnder('_astro', /\.(png|jpe?g|webp|avif|gif|svg)$/i)
+  .map((file) => ({ file, size: kb(file) }))
+  .sort((a, b) => b.size - a.size)[0];
+check(
+  Boolean(heaviest) && heaviest.size <= IMAGE_MAX_KB,
+  `ninguna imagen de _astro/ pasa de ${IMAGE_MAX_KB} KB (la mayor: ${heaviest?.size.toFixed(1)} KB)`,
+);
+const fontsKb = filesUnder('_astro/fonts', /\.woff2?$/i).reduce((sum, file) => sum + kb(file), 0);
+check(
+  fontsKb > 0 && fontsKb <= FONTS_MAX_KB,
+  `fuentes de hasta ${FONTS_MAX_KB} KB en total (${fontsKb.toFixed(1)} KB)`,
+);
+
 console.log(`\n${checks - failures} de ${checks} comprobaciones correctas`);
 if (failures > 0) {
   console.error(`${failures} con error`);
