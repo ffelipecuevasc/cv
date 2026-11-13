@@ -40,10 +40,10 @@ export interface Certification {
    */
   position: number;
   /**
-   * Nombre del archivo de la insignia en src/assets/badges/, sin extensión. `null` si aún no
-   * existe: la página usa la insignia del emisor como marcador (AT-077).
+   * Nombre del archivo de la insignia en src/assets/badges/, sin extensión. Obligatorio: si
+   * falta el archivo, la compilación falla (AT-079).
    */
-  badge: string | null;
+  badge: string;
   /** Habilidades validadas, en una línea. */
   skills: CertificationText;
   description: CertificationText;

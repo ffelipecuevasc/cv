@@ -2,7 +2,8 @@
 /*
  * Línea de tiempo compacta de Experiencia (E60-I02, DESIGN.md 11.2 y 11.5, ADR-066): los 3 hitos
  * de la mini línea de tiempo del sitio antiguo, en su orden, como secuencia vertical. Cada hito
- * lleva un ícono de Material Symbols Light (ADR-063), título, instituciones y periodo. Sin
+ * lleva un ícono de Material Symbols Light (ADR-063), título, instituciones y periodo (tomado de
+ * la tarjeta de su perfil, AT-081). Sin
  * JavaScript y sin título visible: el <h1> de la página ya la presenta. Fondo `bg`, continuación
  * del encabezado. Dentro de <main>.
  */
@@ -14,13 +15,20 @@ import { langFromLocale } from '../../i18n/lang';
 const lang = langFromLocale(Astro.currentLocale);
 const page = (await getEntry('experiencePage', 'page'))?.data;
 if (!page) throw new Error('Falta src/content/experience/page.json');
-const { timeline } = page;
+const { timeline, profiles } = page;
+
+// El periodo de cada hito sale de la tarjeta de su perfil (AT-081); falla al compilar si no existe.
+const milestones = timeline.items.map((item) => {
+  const profile = profiles.find((candidate) => candidate.id === item.profile);
+  if (!profile) throw new Error(`El hito «${item.title.es}» apunta a un perfil inexistente`);
+  return { ...item, period: profile.period };
+});
 ---
 
 <section class="timeline" aria-label={timeline.label[lang]}>
   <Container>
     <ol class="list" data-timeline>
-      {timeline.items.map((item) => (
+      {milestones.map((item) => (
         <li class="milestone">
           <span class="marker">
             <Icon name={item.icon} size={22} />

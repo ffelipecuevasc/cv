@@ -1,5 +1,5 @@
 # E170-I05 · Limpieza técnica
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada
 - **Épica:** E170 · Calidad transversal · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E170-I01 · **Hallazgos que cierra:** AT-079, AT-080, AT-081, AT-089 · **ADR relacionados:** ADR-056, ADR-090
 
@@ -29,18 +29,18 @@ Quitar código muerto y duplicaciones de contenido que dejaron las épicas de p�
 - Cambios visibles de diseño o de contenido.
 
 ## Tareas
-- [ ] AT-079: eliminar el código muerto de `CertificationsSection` y ajustar el tipo de `badge` si procede.
-- [ ] AT-080: resolver la especificidad de `IconButton` y verificar `ThemeToggle`, `BackToTop`, las flechas de `Testimonials` y el botón del menú móvil.
-- [ ] AT-081: una sola fuente para el periodo de cada perfil y control en `verify:seo`.
-- [ ] AT-089: una sola fuente para las horas y los módulos de PF1822 y control en `verify:seo`.
+- [x] AT-079: eliminar el código muerto de `CertificationsSection` y ajustar el tipo de `badge` si procede.
+- [x] AT-080: resolver la especificidad de `IconButton` y verificar `ThemeToggle`, `BackToTop`, las flechas de `Testimonials` y el botón del menú móvil.
+- [x] AT-081: una sola fuente para el periodo de cada perfil y control en `verify:seo`.
+- [x] AT-089: una sola fuente para las horas y los módulos de PF1822 y control en `verify:seo`.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/education/CertificationsSection.astro`, `src/data/certifications.ts`, `src/components/ui/IconButton.astro`, `src/content/experience/page.json`, `src/content/instructor/page.json`, `scripts/verify-seo.mjs`.
 
 ## Criterios de aceptación (verificables)
-- [ ] El HTML publicado de las páginas afectadas no cambia (comparación del `dist/` antes y después, salvo ajustes justificados).
-- [ ] AT-079, AT-080, AT-081 y AT-089 marcados como resueltos con esta iteración.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] El HTML publicado de las páginas afectadas no cambia (comparación del `dist/` antes y después, salvo ajustes justificados).
+- [x] AT-079, AT-080, AT-081 y AT-089 marcados como resueltos con esta iteración.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -55,7 +55,17 @@ Quitar código muerto y duplicaciones de contenido que dejaron las épicas de p�
 - E170-I01 también toca `src/content/experience/page.json` (solo el texto de la tarjeta Desarrollador, AT-082); AT-081 trabaja sobre los periodos del mismo archivo.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
+
+## Resultado (13-11-2026)
+- **AT-079:** `CertificationsSection.astro` pierde `issuerBadges`, `issuerFile`, la rama del `null` y el import del tipo `CertificationIssuer`; `badgeFor(badge: string)`. `badge: string` es obligatorio en `src/data/certifications.ts`. El `dist/` no cambia por este AT.
+- **AT-080:** la regla base de `IconButton.astro` pasa a `:where(.icon-button)`; Astro la publica como `[data-astro-cid-…]:where(.icon-button)` (0,1,0). Los botones llevan los dos atributos `data-astro-cid-` (el de `IconButton` y el del componente que lo usa). No se tocaron `.icon`, `.arrow` ni los `:global(...)`.
+- **AT-081:** cada hito de `timeline.items` lleva `profile` (`z.enum(['lecturer','developer','instructor'])`) en lugar de `period`; `ExperienceTimeline.astro` lee el periodo de `profiles` y falla al compilar si el perfil no existe. Control nuevo en `verify:seo` (por idioma).
+- **AT-089:** control nuevo en `verify:seo` (por idioma): el texto del plan PF1822 contiene las horas y los módulos de la tarjeta (con el mapa 9 → nueve / nine). El contenido no se tocó.
+- **Verificación:** `pnpm check` 0/0/0, `pnpm lint`, `pnpm format:check` y `pnpm build` sin errores; `pnpm verify:seo` **962/962** (958 + 4).
+- **Comparación del `dist/`** con la línea base de `69b391b` (207 archivos, 30 `.html`, `628994afbec63292`): una hoja CSS renombrada (`_astro/SectionHeader.DFidEHxe.css` → `SectionHeader.qoGIH8PE.css`, con una sola regla distinta) y 29 `.html` que solo cambian la referencia a esa hoja (todos menos `dist/index.html`). Ninguna otra diferencia.
+- **Estilos calculados** de `.icon-button` antes y después (Chromium sin cabeza, 5 páginas × 4 anchos × 2 temas, en reposo y con puntero encima): 330 comparaciones, 0 diferencias.
+- **Nueva línea base del `dist/`:** 207 archivos, 30 `.html`, sha256 **`6d6e25a0e8865015`** (método en `99_bitacora/2026-11-13_E170-I05.md`). Sustituye a `628994afbec63292` como referencia para E170-I02, I03 e I04.

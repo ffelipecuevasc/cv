@@ -537,6 +537,18 @@ for (const [lang, info] of Object.entries(LANGS)) {
     ),
     'periodos de los hitos: 2023, 2013 y 2011, hasta la actualidad',
   );
+  // AT-081: el hito toma el periodo de la tarjeta de su perfil. Las tarjetas van en el orden
+  // docente, desarrollador, instructor; los hitos, en el orden instructor, docente, desarrollador.
+  const cardPeriods = cards.map(
+    (card) => /class="meta"[^>]*>([^<]*?) · /.exec(card)?.[1]?.trim() ?? '',
+  );
+  check(
+    same(
+      milestones.map((item) => /class="period[^"]*"[^>]*>([^<]*)</.exec(item)?.[1]),
+      [cardPeriods[2], cardPeriods[0], cardPeriods[1]],
+    ),
+    `periodos de los hitos = periodos de las tarjetas (${cardPeriods.join(' / ')}) (AT-081)`,
+  );
   check(
     cards.some((card) => card.includes(`2011 - ${present}`)) && !/2020/.test(mainHtml),
     'tarjeta Desarrollador vigente (2011 - hoy) y sin «2020» en la página',
@@ -1079,6 +1091,18 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'PF1822 es el plan destacado',
   );
   check(/PF1163/.test(planItems[1] ?? ''), 'PF1163 es el segundo plan');
+  // AT-089: el texto del plan escribe el número de módulos en palabras («nueve»); se compara
+  // con la tarjeta (facts[0] = horas, facts[1] = módulos) en cifras o en palabras.
+  const NUMBER_WORDS = { es: { 9: 'nueve' }, en: { 9: 'nine' } };
+  const planText = text(planItems[0] ?? '');
+  const [planHours, planModules] = facts;
+  const moduleWord = NUMBER_WORDS[lang][planModules] ?? planModules;
+  const planUnits = lang === 'es' ? ['horas', 'módulos'] : ['hours', 'modules'];
+  check(
+    new RegExp(`\\b${planHours} ${planUnits[0]}\\b`).test(planText) &&
+      new RegExp(`\\b(${planModules}|${moduleWord}) ${planUnits[1]}\\b`).test(planText),
+    `texto del plan PF1822 = tarjeta: ${planHours} ${planUnits[0]} / ${moduleWord} ${planUnits[1]} (AT-089)`,
+  );
   check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
 
   // Relatoría (E90-I02, ADR-073): 6 experiencias en orden descendente, con instituciones sin

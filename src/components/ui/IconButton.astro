@@ -43,7 +43,12 @@ const custom = Astro.slots.has('default');
 )}
 
 <style>
-  .icon-button {
+  /*
+   * `:where()` deja la regla base en especificidad 0,1,0 (solo el atributo de alcance de Astro).
+   * Así un componente que use IconButton y acote su propia regla (0,2,0) le gana sin `:global`
+   * (AT-080). Las reglas `.icon` y `.arrow` conservan su especificidad.
+   */
+  :where(.icon-button) {
     display: inline-flex;
     flex: none;
     align-items: center;

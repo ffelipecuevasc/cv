@@ -1,5 +1,5 @@
 # E170 · Calidad transversal
-- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (E170-I01 terminada el 12-11-2026; sigue E170-I05)
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (E170-I01 terminada el 12-11-2026 y E170-I05 el 13-11-2026; sigue E170-I02)
 
 ## Objetivo
 Verificar el sitio completo en accesibilidad, rendimiento, seguridad y enlaces antes de preparar el cutover, y dejar limpia la deuda técnica que dejaron las épicas de página.
@@ -23,14 +23,14 @@ E40–E160 (todas las épicas de página)
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E170-I01](E170-I01-accesibilidad.md) | Revisión de accesibilidad global | P1 | M | E40–E160 (todas las épicas de página) | [x] Terminada |
-| [E170-I05](E170-I05-limpieza-tecnica.md) | Limpieza técnica | P1 | S | E170-I01 | [ ] Pendiente |
+| [E170-I05](E170-I05-limpieza-tecnica.md) | Limpieza técnica | P1 | S | E170-I01 | [x] Terminada |
 | [E170-I02](E170-I02-rendimiento-cwv.md) | Rendimiento y Core Web Vitals | P1 | M | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 | [E170-I03](E170-I03-cabeceras-seguridad.md) | Cabeceras de seguridad | P1 | M | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 | [E170-I04](E170-I04-enlaces-paridad.md) | Enlaces rotos y paridad es/en automatizada | P1 | S | E40–E160 (todas las épicas de página) | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica
 - [x] Sin errores críticos de accesibilidad en las 26 URL medidas (22 indexables, Agradecimiento ×2 y las 404 de idioma), o con un AT que justifique cada excepción. (E170-I01, 12-11-2026: pa11y + axe sobre la preview, 0 violaciones; PSI mínimo 96 antes de las correcciones y 100 en Contacto después.)
-- [ ] Limpieza técnica hecha: AT-079, AT-080, AT-081 y AT-089 resueltos (E170-I05).
+- [x] Limpieza técnica hecha: AT-079, AT-080, AT-081 y AT-089 resueltos (E170-I05, 13-11-2026: `dist/` sin cambios salvo el nombre de una hoja CSS; `verify:seo` 962/962).
 - [ ] Umbrales de ADR-015 cumplidos.
 - [ ] CSP activa sin romper Turnstile, Calendly ni Giscus.
 - [ ] Cero enlaces rotos internos.

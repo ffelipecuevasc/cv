@@ -14,19 +14,19 @@
         "icon": "certificate",
         "title": { "es": "Instructor Certificado", "en": "Certified Instructor" },
         "institutions": "Talento Digital para Chile",
-        "period": { "es": "2023 - Actualidad", "en": "2023 - Present" }
+        "profile": "instructor"
       },
       {
         "icon": "graduation-cap",
         "title": { "es": "Docente Universitario", "en": "University Lecturer" },
         "institutions": "INACAP | Duoc UC | IPLACEX",
-        "period": { "es": "2013 - Actualidad", "en": "2013 - Present" }
+        "profile": "lecturer"
       },
       {
         "icon": "terminal",
         "title": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
         "institutions": "INACAP",
-        "period": { "es": "2011 - Actualidad", "en": "2011 - Present" }
+        "profile": "developer"
       }
     ]
   },

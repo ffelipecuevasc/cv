@@ -305,7 +305,8 @@ const experiencePage = defineCollection({
               title: localized(),
               /** Instituciones: nombres propios, no se traducen (ADR-025). */
               institutions: z.string().trim().min(1),
-              period: localized(),
+              /** Perfil cuya tarjeta aporta el periodo: una sola fuente (AT-081). */
+              profile: z.enum(['lecturer', 'developer', 'instructor']),
             }),
           )
           .length(3),

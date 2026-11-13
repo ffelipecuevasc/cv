@@ -5,7 +5,7 @@
  * Desarrollo y datos), en zigzag y con fondo `band` / `bg` alternado. Dentro de <main>.
  * - Datos: src/data/certifications.ts, fuente única (ADR-053). No hay segunda lista.
  * - Insignias de src/assets/badges/ con carga diferida, ancho y alto declarados (AT-013).
- *   Si una credencial aún no tiene insignia, se usa la del emisor como marcador (AT-077).
+ *   Toda credencial declara su insignia (`badge` es obligatorio, AT-079).
  * - Detalle: visible en la franja sin JavaScript; con JavaScript se abre en un <dialog>
  *   nativo (src/scripts/certifications.ts).
  * - Sin vencimientos: no se muestran ni se filtran (ADR-061).
@@ -18,11 +18,7 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import ThemeStripe from '../ui/ThemeStripe.astro';
 import IconButton from '../ui/IconButton.astro';
 import Icon from '../ui/Icon.astro';
-import {
-  certifications,
-  certificationCategories,
-  type CertificationIssuer,
-} from '../../data/certifications';
+import { certifications, certificationCategories } from '../../data/certifications';
 import { issuerOrganizations } from '../seo/structured-data';
 import { langCodes, langFromLocale } from '../../i18n/lang';
 
@@ -34,21 +30,9 @@ const text = page.certifications;
 const badges = import.meta.glob<{ default: ImageMetadata }>('../../assets/badges/*.png', {
   eager: true,
 });
-const issuerBadges = import.meta.glob<{ default: ImageMetadata }>('../../assets/insignias/*.png', {
-  eager: true,
-});
-// Insignia del emisor, como marcador mientras falte la de la credencial (AT-077).
-const issuerFile: Record<CertificationIssuer, string> = {
-  oracle: 'insignia_oracle',
-  aws: 'insignia_aws',
-  'python-institute': 'insignia_python',
-  anthropic: 'insignia_anthropic',
-};
-const badgeFor = (badge: string | null, issuer: CertificationIssuer): ImageMetadata => {
-  const source = badge
-    ? badges[`../../assets/badges/${badge}.png`]
-    : issuerBadges[`../../assets/insignias/${issuerFile[issuer]}.png`];
-  if (!source) throw new Error(`Falta la insignia ${badge ?? issuerFile[issuer]}`);
+const badgeFor = (badge: string): ImageMetadata => {
+  const source = badges[`../../assets/badges/${badge}.png`];
+  if (!source) throw new Error(`Falta la insignia ${badge}`);
   return source.default;
 };
 
@@ -73,7 +57,7 @@ const stripes = certificationCategories.map((category) => ({
       skills: item.skills[lang],
       description: item.description[lang],
       url: item.url,
-      image: badgeFor(item.badge, item.issuer),
+      image: badgeFor(item.badge),
     })),
 }));
 ---
