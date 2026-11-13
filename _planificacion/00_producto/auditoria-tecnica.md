@@ -462,6 +462,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** no existe `_headers`; configuración de zona no verificada.
 - **Impacto:** sin CSP ni políticas de referer y permisos definidas por el proyecto.
 - **Recomendación:** `_headers` con CSP compatible.
+- **Avance (E170-I03, 13-11-2026):** CSP y cabeceras redactadas (ADR-092) y probadas en local con Chromium: 0 violaciones en las 26 URL. Sigue abierto hasta que Felipe pegue `public/_headers`, despliegue la preview y verifique las cabeceras reales.
 
 ### AT-024 · Terceros y envío de nombres a un servicio externo
 - **Severidad:** Media · **Estado:** Abierto (parcial: el respaldo de ui-avatars se retiró en E40-I02, 30-10-2026; Calendly se carga al hacer clic y Turnstile al primer foco desde E140-I01, 03-11-2026, ADR-083; falta la CSP, E170-I03) · **Resuelve:** E140-I01, E40-I02, E170-I03
@@ -471,6 +472,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   - también se usan Turnstile, Giscus y Google Fonts.
 - **Impacto:** privacidad y peso.
 - **Recomendación:** Calendly bajo demanda y respaldo local sin terceros.
+- **Avance (E170-I03, 13-11-2026):** la CSP permite solo los orígenes de Turnstile, Calendly y Giscus (ADR-092) y no hay terceros de más: en las 26 URL no se contactó ningún otro origen. Sigue abierto hasta la prueba en la preview.
 
 ### AT-025 · Testimonios con datos personales
 - **Severidad:** Media · **Estado:** Abierto (parcial: los 12 testimonios migraron al modelo bilingüe y `en-US` indica "Translated from Spanish", E40-I02, 30-10-2026; falta el consentimiento de uso de nombres y fotos, BL-06, pendiente de Felipe sin bloquear) · **Resuelve:** E40-I02, BL-06
@@ -981,3 +983,21 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E170-I02, 13-11-2026):** en la preview, casi todas las páginas listan `render-blocking-insight` y `network-dependency-tree-insight`, y varias `forced-reflow-insight` e `image-delivery-insight`, con rendimiento de 98 a 100. En local no hay oportunidades pendientes salvo el 99 de `/es/educacion/` en móvil.
 - **Impacto:** puntaje ya entre 98 y 100 y LCP de 0,9 a 1,35 s; no hay mejora medible a cambio del riesgo de tocar lo visible. Se registra para el futuro.
 - **Recomendación:** no actuar ahora. Si el campo de Cloudflare (BL-01) muestra un LCP o INP malo, empezar por el CSS crítico en línea y por el reflujo forzado de los scripts de Educación y Foro.
+
+### AT-119 · Los hashes de la CSP dependen del contenido exacto de los scripts en línea
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I03, 13-11-2026), controlado por `verify:seo` · **Resuelve:** —
+- **Evidencia (E170-I03, 13-11-2026):** el build publica 12 scripts en línea distintos (10 módulos de Astro y 2 normales: el del tema, en `BaseLayout.astro`, y el del perfil del hero en `/es/` y `/en/`). `script-src` los permite por hash, así que cualquier cambio de un byte (también de un script del bundle de Astro o del formato) cambia el hash.
+- **Impacto:** si alguien cambia uno de esos scripts y no actualiza `public/_headers`, el navegador lo bloquea en producción. Al retirar la muestra de tokens (E190-I03, ADR-091) sobrará un hash.
+- **Cierre:** `verify:seo` falla si falta o sobra un hash y imprime la lista esperada para pegar. Es un costo de mantenimiento aceptado por Felipe al elegir hashes en lugar de `unsafe-inline` (ADR-092).
+
+### AT-120 · `style-src` conserva `'unsafe-inline'`
+- **Severidad:** Baja · **Estado:** Aceptado (E170-I03, 13-11-2026) · **Resuelve:** —
+- **Evidencia (E170-I03, 13-11-2026):** el HTML publicado tiene unos 400 atributos `style=""`, bloques `<style>` en línea (también dentro de los `<noscript>` de la barra y del foro) y las librerías de terceros inyectan estilos. Decisión de Felipe: `style-src 'unsafe-inline'`.
+- **Impacto:** un atacante que inyecte HTML podría alterar estilos o filtrar datos mediante CSS; la inyección de scripts sigue bloqueada. Riesgo bajo en un sitio estático sin entrada del usuario en el HTML.
+- **Recomendación:** no actuar ahora. Si se quisiera endurecer, habría que mover los atributos `style` a clases y poner un `nonce` o hash a los `<style>`, lo que exige cambiar los componentes.
+
+### AT-121 · La zona de Cloudflare puede inyectar scripts que la CSP bloquee
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I03 (prueba de Felipe en la preview) o E190-I01
+- **Evidencia (E170-I03, 13-11-2026):** la configuración de la zona no está verificada (AT-023). Cloudflare puede inyectar en el HTML, según el panel, el script de Web Analytics (`static.cloudflareinsights.com`), Rocket Loader o la ofuscación de correos. La prueba local no lo reproduce porque no pasa por Cloudflare.
+- **Impacto:** violaciones de CSP en la consola de la preview o de producción que no existen en local, o un script en línea reescrito que ya no coincide con su hash.
+- **Recomendación:** al probar la preview, mirar la consola de cada página; si aparece `static.cloudflareinsights.com`, decidir entre desactivar Web Analytics o agregarlo a `script-src` y `connect-src` (nuevo ADR). Desactivar Rocket Loader si está activo.

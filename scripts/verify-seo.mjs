@@ -10,6 +10,7 @@
  * institución, tutoría, cargos especiales y paridad).
  */
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { certifications, getCountDisplay } from '../src/data/certifications.ts';
@@ -2772,6 +2773,65 @@ check(
   fontsKb > 0 && fontsKb <= FONTS_MAX_KB,
   `fuentes de hasta ${FONTS_MAX_KB} KB en total (${fontsKb.toFixed(1)} KB)`,
 );
+
+// --- Cabeceras de seguridad (E170-I03, ADR-092): hashes de la CSP frente a los scripts en línea ---
+// `public/_headers` lo pega Felipe (ADR-033). Mientras no exista, el control informa «pendiente»
+// y no falla. `HEADERS_FILE` permite revisar otro archivo (por ejemplo, el bloque de la bitácora).
+console.log('\nCabeceras de seguridad (CSP)');
+const headersPath =
+  process.env.HEADERS_FILE ?? fileURLToPath(new URL('../public/_headers', import.meta.url));
+if (!existsSync(headersPath)) {
+  console.log('  · pendiente: no existe public/_headers (lo pega Felipe, ADR-033); sin controles');
+} else {
+  const headersText = readFileSync(headersPath, 'utf8');
+  const csp = /^\s*Content-Security-Policy:\s*(.+)$/m.exec(headersText)?.[1] ?? '';
+  const scriptSrc = /(?:^|;)\s*script-src\s+([^;]*)/.exec(csp)?.[1] ?? '';
+  const declared = new Set([...scriptSrc.matchAll(/'sha256-([A-Za-z0-9+/=]+)'/g)].map((m) => m[1]));
+  // Scripts en línea que el navegador ejecuta: sin `src` y que no sean datos (JSON-LD).
+  const inline = new Map();
+  const walk = (dir) =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? walk(join(dir, entry.name))
+        : entry.name.endsWith('.html')
+          ? [join(dir, entry.name)]
+          : [],
+    );
+  for (const file of walk(DIST)) {
+    for (const m of readFileSync(file, 'utf8').matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {
+      if (/\ssrc=/.test(m[1]) || /type="application\/ld\+json"/.test(m[1])) continue;
+      const hash = createHash('sha256').update(m[2], 'utf8').digest('base64');
+      inline.set(hash, (inline.get(hash) ?? 0) + 1);
+    }
+  }
+  const missing = [...inline.keys()].filter((hash) => !declared.has(hash));
+  const extra = [...declared].filter((hash) => !inline.has(hash));
+  check(
+    csp.length > 0 && scriptSrc.length > 0,
+    'public/_headers define Content-Security-Policy con script-src',
+  );
+  check(
+    !/'unsafe-inline'|'unsafe-eval'/.test(scriptSrc),
+    "script-src sin 'unsafe-inline' ni 'unsafe-eval'",
+  );
+  check(
+    missing.length === 0,
+    `todo script en línea del dist tiene su hash en la CSP (${inline.size} scripts; faltan ${missing.length})`,
+  );
+  check(
+    extra.length === 0,
+    `ningún hash de la CSP sobra (${declared.size} declarados; sobran ${extra.length})`,
+  );
+  if (missing.length > 0 || extra.length > 0) {
+    console.log('  hashes esperados para script-src:');
+    console.log(
+      `  ${[...inline.keys()]
+        .sort()
+        .map((hash) => `'sha256-${hash}'`)
+        .join(' ')}`,
+    );
+  }
+}
 
 console.log(`\n${checks - failures} de ${checks} comprobaciones correctas`);
 if (failures > 0) {

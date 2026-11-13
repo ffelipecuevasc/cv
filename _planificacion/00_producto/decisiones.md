@@ -998,6 +998,19 @@ Reglas del registro:
 - **Consecuencias:** sustituye en parte a ADR-042 (la muestra deja de ser una herramienta permanente); ADR-042 no se edita más que su estado. Los tokens siguen verificados por la tabla de `DESIGN.md` 4.4 (AT-055). E190-I03 debe comprobar que ninguna ruta o enlace depende de la muestra al retirarla.
 - **Origen:** decisión de Felipe el 12-11-2026 (E170-I01). **Estado:** Aceptada.
 
+## ADR-092 · Política de seguridad de contenido (CSP) estricta con hashes y cabeceras de seguridad
+- **Contexto:** E170-I03, AT-023 y AT-024. El sitio no publicaba cabeceras de seguridad. `_headers` funciona de forma nativa con assets estáticos en Workers (ADR-037) y lo pega Felipe (ADR-033). Los terceros reales, derivados del código y comprobados con Chromium, son Turnstile, Calendly y Giscus.
+- **Decisión (de Felipe, 13-11-2026):**
+  1. **CSP estricta, sin `Report-Only`.**
+  2. **Scripts en línea con hash exacto** en `script-src 'self'` y **sin `'unsafe-inline'` ni `'unsafe-eval'` en scripts**; `style-src` con `'unsafe-inline'`. No se mueve el script anti-parpadeo del tema.
+  3. El contenido de `public/_headers` se entrega completo en la bitácora de E170-I03 y lo pega Felipe; el agente no toca `_headers`.
+  4. HSTS y la configuración de la zona quedan fuera de esta iteración.
+- **Decisión (del agente, dentro del alcance):**
+  - Orígenes (derivados de `src/data/contact.ts`, `src/data/giscus.ts` y `src/scripts/*.ts`, y confirmados con una corrida en Chromium sobre las 26 URL): `script-src` suma `https://challenges.cloudflare.com` (Turnstile), `https://assets.calendly.com` (widget de Calendly) y `https://giscus.app` (cliente de Giscus); `frame-src` suma `https://challenges.cloudflare.com`, `https://calendly.com` y `https://giscus.app`; `connect-src` es `'self'` más `https://challenges.cloudflare.com`; `style-src` suma `https://assets.calendly.com` y `https://giscus.app` (Giscus inyecta `default.css`); `img-src` es `'self' data:` más `https://assets.calendly.com` (los íconos con `mask` usan `data:` en el CSS). El resto: `default-src 'self'`, `font-src 'self'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'` y `upgrade-insecure-requests`.
+  - Otras cabeceras: `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` con cámara, micrófono, geolocalización, pagos, USB y `browsing-topics` desactivados, `X-Content-Type-Options: nosniff`, y `Cache-Control: public, max-age=31536000, immutable` en `/_astro/*` (archivos con hash).
+  - `verify:seo` compara los hashes de la CSP con los scripts en línea del `dist/` (sin falta ni sobra, y sin `unsafe-inline` en scripts). Mientras no exista `public/_headers`, informa «pendiente» y no falla. `HEADERS_FILE` permite revisar otro archivo. Si cambia un script en línea (el del tema o el del perfil del hero, por ejemplo), el control falla y lista los hashes esperados.
+- **Consecuencias:** cada cambio a un script en línea exige actualizar el hash en `public/_headers` (AT-119). Al retirar la muestra de tokens en E190-I03 (ADR-091) sobrará un hash. El HTML de la 404 y de todas las páginas queda cubierto por `/*`. Las respuestas del Worker (`/api/*`) ya llevan `X-Content-Type-Options` y `Cache-Control: no-store` desde `src/worker/contact.ts`. No hay dependencias nuevas.
+- **Origen:** decisión de Felipe el 13-11-2026 (E170-I03). **Estado:** Aceptada. La verificación en la preview es de Felipe.
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
