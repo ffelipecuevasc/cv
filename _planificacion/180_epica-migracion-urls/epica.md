@@ -19,7 +19,7 @@ E160 y el resto de épicas de página.
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E180-I01](E180-I01-mapa-redirecciones.md) | Mapa de URLs y redirecciones 301 | P0 | S | E160-I01 | [x] Terminada |
-| [E180-I02](E180-I02-sitemap-robots.md) | Sitemap bilingüe, robots.txt y canónicas | P0 | S | E180-I01 | [ ] Pendiente |
+| [E180-I02](E180-I02-sitemap-robots.md) | Sitemap bilingüe, robots.txt y canónicas | P0 | S | E180-I01 | [x] Terminada |
 | [E180-I03](E180-I03-raiz-xdefault.md) | Comportamiento de / y x-default | P0 | S | E180-I01 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

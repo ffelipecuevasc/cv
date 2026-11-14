@@ -2774,6 +2774,131 @@ check(
   `fuentes de hasta ${FONTS_MAX_KB} KB en total (${fontsKb.toFixed(1)} KB)`,
 );
 
+// --- Sitemap, robots.txt y canónicas (E180-I02, ADR-094) ---
+// El sitemap debe listar exactamente las páginas indexables del `dist/` (las que no llevan `noindex`),
+// sin la raíz `/` (E180-I03), con alternativas es-CL / en-US recíprocas que coincidan con los
+// `hreflang` de cada página y con la canónica propia.
+console.log('\nSitemap, robots.txt y canónicas');
+{
+  const SM_DIST = DIST.replace(/\\/g, '/');
+  const smWalk = (dir) =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? smWalk(join(dir, entry.name))
+        : entry.name.endsWith('.html')
+          ? [join(dir, entry.name)]
+          : [],
+    );
+  const pages = new Map();
+  for (const file of smWalk(DIST)) {
+    const rel = file.replace(/\\/g, '/').slice(SM_DIST.length);
+    const path = `/${rel.replace(/index\.html$/, '')}`;
+    const head = readFileSync(file, 'utf8').split('</head>')[0];
+    const links = tags(head, 'link');
+    pages.set(path, {
+      rel,
+      noindex: /<meta name="robots" content="noindex/.test(head),
+      canonical: links.find((l) => l.rel === 'canonical')?.href,
+      alternates: links.filter((l) => l.rel === 'alternate' && l.hreflang !== 'x-default'),
+    });
+  }
+  // `/` (raíz con meta refresh) y los `404.html` físicos no son páginas indexables (E180-I03, ADR-088).
+  const indexable = [...pages.entries()].filter(
+    ([path, page]) => path !== '/' && !page.noindex && page.rel !== '404.html',
+  );
+
+  check(existsSync(join(DIST, 'sitemap.xml')), 'dist/sitemap.xml existe');
+  const sitemap = existsSync(join(DIST, 'sitemap.xml')) ? read('sitemap.xml') : '';
+  check(
+    sitemap.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') &&
+      sitemap.includes('xmlns:xhtml="http://www.w3.org/1999/xhtml"'),
+    'sitemap con los espacios de nombres sitemap y xhtml',
+  );
+  const entries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => ({
+    loc: /<loc>([^<]*)<\/loc>/.exec(m[1])?.[1],
+    alternates: [...m[1].matchAll(/<xhtml:link\b([^>]*)\/>/g)].map((a) => attrs(a[0])),
+  }));
+  const locs = entries.map((e) => e.loc);
+  check(
+    entries.length === 22,
+    `el sitemap lista 22 URL (11 páginas × 2 idiomas); hay ${entries.length}`,
+  );
+  check(new Set(locs).size === locs.length, 'sin URL repetidas en el sitemap');
+  check(
+    locs.every((loc) => loc?.startsWith(`${SITE}/`) && loc.endsWith('/') && !loc.includes('.html')),
+    'toda URL del sitemap es absoluta, con barra final y sin .html (ADR-047)',
+  );
+  check(!locs.includes(`${SITE}/`), 'el sitemap no lista la raíz / (E180-I03)');
+  check(
+    !/<lastmod>|<changefreq>|<priority>|x-default/.test(sitemap),
+    'sitemap sin lastmod, changefreq, priority ni x-default (E180-I03)',
+  );
+  check(
+    same([...locs].sort(), indexable.map(([path]) => `${SITE}${path}`).sort()),
+    `el sitemap lista exactamente las ${indexable.length} páginas del dist sin noindex (sin 404, agradecimiento ni muestra)`,
+  );
+  for (const [path, page] of pages) {
+    if (page.noindex || path === '/') {
+      check(!locs.includes(`${SITE}${path}`), `${path} (noindex o raíz) fuera del sitemap`);
+    }
+  }
+  for (const entry of entries) {
+    const path = entry.loc?.slice(SITE.length);
+    const page = pages.get(path);
+    check(Boolean(page), `${path}: la URL del sitemap existe en dist/`);
+    if (!page) continue;
+    check(page.canonical === entry.loc, `${path}: canonical = URL del sitemap`);
+    const pairs = (list) => list.map((a) => `${a.hreflang}=${a.href}`).sort();
+    const hreflangs = entry.alternates.map((a) => a.hreflang).sort();
+    check(
+      same(hreflangs, ['en-US', 'es-CL']),
+      `${path}: alternativas es-CL y en-US (${hreflangs.join(', ')})`,
+    );
+    check(
+      entry.alternates.some((a) => a.href === entry.loc),
+      `${path}: la alternativa incluye la propia URL`,
+    );
+    check(
+      same(pairs(entry.alternates), pairs(page.alternates)),
+      `${path}: alternativas del sitemap = hreflang de la página`,
+    );
+    // Reciprocidad: la entrada de cada alternativa lista el mismo conjunto.
+    for (const alt of entry.alternates) {
+      const other = entries.find((e) => e.loc === alt.href);
+      check(
+        Boolean(other) && same(pairs(other.alternates), pairs(entry.alternates)),
+        `${path}: ${alt.hreflang} (${alt.href.slice(SITE.length)}) es recíproca`,
+      );
+    }
+  }
+
+  check(existsSync(join(DIST, 'robots.txt')), 'dist/robots.txt existe');
+  const robots = existsSync(join(DIST, 'robots.txt')) ? read('robots.txt') : '';
+  const robotsLines = robots
+    .split(/\r?\n/)
+    .map((line) => line.replace(/#.*/, '').trim())
+    .filter(Boolean);
+  check(robotsLines.includes('User-agent: *'), 'robots.txt: User-agent: *');
+  check(robotsLines.includes('Allow: /'), 'robots.txt: Allow: /');
+  check(
+    robotsLines.includes(`Sitemap: ${SITE}/sitemap.xml`),
+    'robots.txt apunta al sitemap con URL absoluta',
+  );
+  // AT-103: bloquear con Disallow una página `noindex` impide que se lea su directiva.
+  const disallows = robotsLines.filter(
+    (line) => /^disallow:/i.test(line) && !/^disallow:\s*$/i.test(line),
+  );
+  check(
+    disallows.length === 0,
+    `robots.txt sin Disallow: las páginas noindex deben poder rastrearse (AT-103; hay ${disallows.length})`,
+  );
+  const nonIndexable = [...pages.entries()].filter(([, page]) => page.noindex).length;
+  check(
+    nonIndexable > 0,
+    `hay páginas noindex en el dist (${nonIndexable}) para las que aplica AT-103`,
+  );
+}
+
 // --- Cabeceras de seguridad (E170-I03, ADR-092): hashes de la CSP frente a los scripts en línea ---
 // `public/_headers` lo pega Felipe (ADR-033). Mientras no exista, el control informa «pendiente»
 // y no falla. `HEADERS_FILE` permite revisar otro archivo (por ejemplo, el bloque de la bitácora).

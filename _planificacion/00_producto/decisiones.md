@@ -1025,6 +1025,17 @@ Reglas del registro:
 - **Consecuencias:** al agregar una página con URL antigua hay que sumar sus dos reglas. No toca _headers ni wrangler.*. Sin dependencias nuevas. Complementa ADR-019, ADR-020 y ADR-077 sin editarlos.
 - **Origen:** decisión de Felipe el 14-11-2026 (E180-I01). **Estado:** Aceptada. La verificación en la preview dio 448 de 448 el 14-11-2026.
 
+## ADR-094 · Sitemap bilingüe generado por un endpoint propio y robots.txt sin Disallow
+- **Contexto:** E180-I02, AT-030, AT-103, AT-106 y AT-109. La iteración preveía `@astrojs/sitemap` (3.7.4, que exigía ADR), pero esta iteración se ejecuta sin dependencias nuevas, y una integración que lista las páginas generadas incluiría 404, agradecimiento y la muestra de tokens (AT-106). Sintaxis y regla verificadas en la documentación de Google el 14-11-2026 (`localized-versions`, `block-indexing`, `robots_txt`) y en sitemaps.org.
+- **Decisión (del agente, dentro del alcance; Felipe puede objetar):**
+  1. **Endpoint propio** `src/pages/sitemap.xml.ts`, estático, armado solo con `routes` (11 páginas × 2 idiomas = 22 URL). Lo que vive en `internalRoutes` queda fuera sin lista aparte. Sin dependencias.
+  2. **hreflang en el sitemap:** cada `<url>` lleva `xhtml:link rel="alternate"` con `es-CL` y `en-US`, incluida ella misma (Google exige listarse a sí misma) y recíprocas.
+  3. **Sin `lastmod`, `changefreq` ni `priority`:** son opcionales y no hay una fecha de modificación real por página (`lastmod` debe ser real; el de `main` estaba desactualizado, AT-030).
+  4. **Sin `x-default` y sin `/`:** son de E180-I03 (ADR-019). Las páginas ya emiten `x-default`; el sitemap no (AT-130).
+  5. **`public/robots.txt`:** `User-agent: *`, `Allow: /` y `Sitemap:` con URL absoluta; **sin `Disallow`**. Google no lee un `noindex` en una página bloqueada por `robots.txt`; es la opción (a) de AT-103. Agradecimiento y las 404 quedan con `noindex, follow`.
+  6. **`verify:seo`** compara el sitemap con las páginas del `dist/` sin `noindex` (22), la canónica y los `hreflang` de cada página, la reciprocidad y el `robots.txt` (176 controles nuevos).
+- **Consecuencias:** al agregar una página en `routes` entra sola al sitemap. Si Felipe prefiere `@astrojs/sitemap`, hay que registrar un ADR que sustituya a este. No toca `_headers`, `_redirects` ni `wrangler.*`. Complementa ADR-019, ADR-035 y ADR-087 sin editarlos.
+- **Origen:** E180-I02, 14-11-2026. **Estado:** Aceptada (por el agente dentro del alcance; pendiente de objeción de Felipe).
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

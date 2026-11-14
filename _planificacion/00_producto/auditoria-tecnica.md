@@ -421,7 +421,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (E180-I01, 14-11-2026, verificado en la preview):** las 10 páginas con `.html` y `/index.html` redirigen con un 301 a su destino con barra (ADR-093). Resuelto; la variante `/educacion/` queda en AT-127.
 
 ### AT-030 · Sitemap manual y desactualizado
-- **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086) en lo que toca a agradecimiento: las páginas nuevas llevan `noindex, follow` y su ruta es interna, así que queda fuera del sitemap que se genere. La generación del sitemap con `hreflang` y el `robots.txt` siguen en E180-I02 (AT-103) · **Resuelve:** E180-I02, E150-I01
+- **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086) en lo que toca a agradecimiento: las páginas nuevas llevan `noindex, follow` y su ruta es interna, así que queda fuera del sitemap que se genere (confirmado en E180-I02). La generación del sitemap con `hreflang` y el `robots.txt` siguen en E180-I02 (AT-103) · **Resuelve:** E180-I02, E150-I01
 - **Evidencia:** `sitemap.xml:5` (`lastmod` 2026-08-13), sin alternativas de idioma; `robots.txt:5` bloquea `/agradecimiento`.
 - **Impacto:** señales de SEO desactualizadas.
 - **Recomendación:** sitemap generado con `hreflang`.
@@ -891,10 +891,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** aplicada: fuera de `/api/*` el Worker devuelve `env.ASSETS.fetch(request)` (binding `ASSETS`); `verify:seo` lo comprueba.
 
 ### AT-103 · El Disallow de robots.txt impide que se lea el noindex de agradecimiento
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I02 (14-11-2026), opción (a) · **Resuelve:** E180-I02
 - **Evidencia (E150-I01, 07-11-2026):** `main:robots.txt` tiene `Disallow: /agradecimiento`, una ruta antigua sin `/es/` ni `/en/`. Las páginas nuevas (`/es/agradecimiento/` y `/en/thank-you/`) llevan `noindex, follow`.
 - **Impacto:** un rastreador que obedece el `Disallow` no descarga la página, así que no ve el `noindex` ni sigue sus enlaces (`follow`); si otro sitio enlaza la URL, el buscador puede listarla sin contenido. Además, la regla antigua no cubre las rutas nuevas.
 - **Recomendación:** decidir en E180-I02 entre (a) quitar el `Disallow` y dejar solo `noindex, follow` (recomendada: es la forma en que el buscador puede leer la directiva) o (b) escribir `Disallow` para las dos rutas nuevas y aceptar que el `noindex` no se lea. En ambos casos, el sitemap las excluye porque son rutas internas (ADR-086).
+- **Avance (E180-I02, 14-11-2026):** `public/robots.txt` sin `Disallow` y con la línea `Sitemap:` absoluta (ADR-094). Verificado en la documentación de Google (un `noindex` en una página bloqueada no se lee) y con `verify:seo`, que falla si aparece un `Disallow`.
 
 ### AT-104 · El widget de Calendly oculta su propio aviso de consentimiento
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar con BL-08)
@@ -909,10 +910,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** que el especialista agregue esas secciones antes de E190; al cambiar el texto, subir `PRIVACY_POLICY_VERSION` (ADR-083) y mantener el en-US en paridad. La estructura de la página admite secciones nuevas en `src/content/privacy/page.json` sin tocar componentes.
 
 ### AT-106 · El sitemap de E180-I02 debe excluir las 404 (y agradecimiento)
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I02 (14-11-2026) · **Resuelve:** E180-I02
 - **Evidencia (E160-I01, 11-11-2026):** `notFound` (`/es/404/` y `/en/404/`) y `thankYou` viven en `internalRoutes` de `src/i18n/routes.ts`, y la 404 de la raíz (`/404/`) se resuelve como `notFound`. Aún no hay sitemap en el proyecto. Si E180-I02 usa una integración que lista las páginas generadas (por ejemplo `@astrojs/sitemap`, que exige un ADR), esas páginas aparecerían aunque `routes` no las incluya.
 - **Impacto:** URL de error en el sitemap, con `noindex`, que Google trata como una contradicción.
 - **Recomendación:** armar el sitemap solo con `routes` (22 URL) o filtrar `/404/`, `/es/404/`, `/en/404/`, `/es/agradecimiento/` y `/en/thank-you/`; comprobar `dist/sitemap*.xml`. No listar las 404 en `robots.txt` (AT-103).
+- **Avance (E180-I02, 14-11-2026, verificado):** el sitemap se arma solo con `routes` (22 URL) y `verify:seo` comprueba que no aparezcan las 404, agradecimiento, la muestra ni `/` (4 mutaciones lo hacen fallar).
 
 ### AT-107 · /es/404/ y /en/404/ responden 200 si se piden directo
 - **Severidad:** Baja · **Estado:** Aceptado (decisión de Felipe, 09-11-2026, ADR-089); **no verificado en Cloudflare** · **Resuelve:** E190-I04 (verificar)
@@ -927,10 +929,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** no ejecutar `astro build` directo para publicar; si cambia `build.format`, revisar el script; `verify:seo` falla si faltan `dist/es/404.html` o `dist/en/404.html` o si quedan las carpetas. Confirmarlo en el ensayo de E190-I01.
 
 ### AT-109 · Las 404 de idioma se sirven sin barra final
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02 (canónicas) · **Relacionados:** AT-107 (la confirma y precisa), AT-108
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I02 (canónicas; sigue abierto en lo de las 404) · **Relacionados:** AT-107 (la confirma y precisa), AT-108
 - **Evidencia (E160-I01, prueba de Felipe del 11-11-2026 en `https://felipecuevas-dev.felipe-cuevas.workers.dev`, con `Invoke-WebRequest` y capturas; dicho por Felipe, no repetido por el agente):** `/es/404` responde 200 y `/es/404/` responde 307 hacia `/es/404`. Es la consecuencia de `scripts/place-404.mjs` (`es/404/index.html` pasa a `es/404.html`) con el `html_handling` por defecto de Cloudflare. Sin probar: `/en/404` y `/en/404/` (se espera lo mismo) y la animación del logotipo. En el sitio, el selector de idioma de la 404 (`/es/404/` ↔ `/en/404/`) y el canonical y los hreflang de las 404 usan la ruta con barra final.
 - **Impacto:** (a) una redirección 307 extra al cambiar de idioma desde una 404; (b) el canonical y los hreflang de las 404 apuntan a una URL que redirige. Es una página `noindex, follow` y fuera del sitemap, así que no afecta al SEO.
 - **Recomendación:** decidirlo en E180 (canónicas, sitemap y robots): alinear el selector, el canonical y los hreflang de las 404 a la URL sin barra (`/es/404`, `/en/404`) o ajustar el script. Si cambia una decisión vigente (ADR-088 y ADR-089), registrar un ADR nuevo. No edita AT-107 ni AT-108.
+- **Avance (E180-I02, 14-11-2026, verificado):** el sitemap y `robots.txt` no listan las 404 y las canónicas de las 22 páginas indexables coinciden con el sitemap. **Sigue abierto:** alinear el canonical, los hreflang y el selector de las 404 a la URL sin barra cambia ADR-088 y ADR-089, así que se deja para una decisión de Felipe (AGENTS.md, sección 6).
 
 ### AT-110 · El enlace directo a Calendly de Contacto da 4,36:1 sobre `bg-alt`
 - **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026) en el código y verificado con axe en el build local; confirmado en la preview (pa11y + axe y Chrome, versión `d0539e7d`, commit `3bd3e13`, 12-11-2026) · **Resuelve:** E170-I01
@@ -1053,3 +1056,14 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
 - **Evidencia (E180-I01, 14-11-2026, dicho por el desarrollador):** tras ejecutar `wrangler dev` aparece `.wrangler/` y `pnpm lint` falla con 12 errores. No reproducido en esta sesión.
 - **Recomendación:** ignorar `.wrangler/` en ESLint (no se hizo: fuera de alcance).
+
+### AT-130 · Las páginas emiten `x-default` y el sitemap no
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I03
+- **Evidencia (E180-I02, 14-11-2026, verificado):** `Seo.astro` emite `hreflang="x-default"` hacia `/es/` en cada página; las alternativas del sitemap son solo es-CL y en-US, y `verify:seo` falla si aparece `x-default` en él. Google lo declara opcional.
+- **Impacto:** ninguno funcional; la señal es la misma, pero las dos fuentes no son idénticas.
+- **Recomendación:** decidir en E180-I03, con `/` y ADR-019, si el sitemap suma `x-default` (y la raíz) o se mantiene así; en ese caso actualizar el control.
+
+### AT-131 · Sitemap sin enviar ni comprobar en producción
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar)
+- **Evidencia (E180-I02, 14-11-2026):** `/sitemap.xml` y `/robots.txt` están en el `dist/` pero no en la preview, porque no están commiteados. No verificado: la respuesta de Cloudflare (tipo de contenido, 200) ni el envío a Search Console.
+- **Recomendación:** tras el commit, abrir ambas URL en la preview; tras el cutover, enviar el sitemap en Search Console y repetirlo en E190.
