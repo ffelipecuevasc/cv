@@ -1015,3 +1015,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E170-I03, 13-11-2026, dicho por el desarrollador, sin captura en el repositorio):** las métricas del Worker muestran 6 respuestas 4xx hacia `api.cloudflare.com` y 20 excepciones no capturadas en la versión `2f39c966`. No se conoce el origen: pueden venir de pruebas del formulario (Turnstile o envío de correo), de la verificación de Turnstile (`src/worker/contact.ts`), de un secreto o destino mal configurado, o de otra causa.
 - **Impacto:** si las excepciones ocurren en `/api/contacto`, un visitante podría ver fallar el envío sin que el sitio lo muestre.
 - **Recomendación:** no asumir el origen. Revisar los registros del Worker (Observability, filtrando por excepciones y por la versión `2f39c966`), reproducir con el formulario en la preview y separar las excepciones de las pruebas de las de visitantes reales. Resolver antes de E190.
+
+### AT-124 · Los enlaces externos no se consultan por red
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** revisión manual antes de E190-I01
+- **Evidencia (E170-I04, 13-11-2026, verificado):** `pnpm verify` lista 52 enlaces externos únicos en 20 dominios (GitHub, LinkedIn, Credly, Oracle, YouTube, entre otros) y solo valida su formato (URL válida, https). No hace `fetch`: es decisión de Felipe (sin red, sin dependencias, resultado repetible).
+- **Impacto:** un enlace externo que muera después no lo detecta ningún script; solo se vería al visitarlo.
+- **Recomendación:** repasar a mano la lista que imprime `pnpm verify` en el ensayo de E190-I01. Si se quisiera automatizar, sería una iteración nueva con su propia decisión (por ejemplo, una opción `--external` que haga HEAD con tiempo máximo).
+
+### AT-125 · `check-i18n` lee el mapa de rutas como texto
+- **Severidad:** Baja · **Estado:** Aceptado y controlado · **Resuelve:** —
+- **Evidencia (E170-I04, 13-11-2026, verificado):** `src/i18n/routes.ts` importa `./lang` sin extensión y Node no lo resuelve, así que `scripts/check-i18n.mjs` extrae los pares `{ es, en }` del texto del archivo con una expresión regular.
+- **Impacto:** si cambia el formato del mapa, la extracción podría perder pares.
+- **Control:** el script falla si el mapa no tiene exactamente 13 pares de páginas más la 404 (`EXPECTED_PAIRS`) o si el par de privacidad no es `/es/privacidad/` ↔ `/en/privacy/`; además revisa en sentido inverso que `dist/` no tenga páginas fuera del mapa. Al agregar una página, se actualiza la constante.
