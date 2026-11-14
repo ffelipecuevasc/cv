@@ -42,6 +42,8 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 ## Riesgos y notas
 - **Muestra de tokens (AT-056, ADR-091, 12-11-2026):** `/es/muestra-diseno/` y `/en/design-sample/` son rutas internas `noindex, nofollow` que se retiran en E190-I03. Mientras existan, el sitemap no las lista (ADR-042); si se usa una integración que lista las páginas generadas, hay que filtrarlas, igual que las 404 y agradecimiento (AT-106).
 
+- **Corrección del tercer criterio (14-11-2026):** cuenta mal. Con la privacidad indexable (ADR-087, decisión vigente) el sitemap lleva **22 URL**; solo si Felipe decidiera `noindex` bajarían a **20** (10 × 2), no a 22. El primer criterio ya dice 22.
+
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
 - [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md

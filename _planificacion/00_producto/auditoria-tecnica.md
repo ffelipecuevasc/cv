@@ -413,11 +413,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** rutas absolutas y 404 por idioma.
 
 ### AT-005 · Enlaces internos con `.html` frente a canónicas limpias
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E30-I02, E180-I01
+- **Severidad:** Media · **Estado:** Resuelto en E180-I01 (14-11-2026) · **Resuelve:** E30-I02, E180-I01
 - **Evidencia:** la navegación enlaza `index.html`, `educacion.html`… (`404.html:98`), mientras canónicas y sitemap usan rutas sin `.html`.
 - **Impacto:** posible salto de redirección en cada navegación interna (no verificado en producción).
 - **Recomendación:** enlaces internos siempre a la ruta canónica.
-- **Avance (E30-I02):** el mapa de rutas (`src/i18n/routes.ts`) genera todas las rutas internas con barra final y sin `.html`, y el build falla si alguna lleva `.html`; en `dist/` no queda ningún `href` con `.html`. Sigue abierto: 301 de las URL antiguas con `.html` (E180-I01).
+- **Avance (E30-I02):** el mapa de rutas (`src/i18n/routes.ts`) genera todas las rutas internas con barra final y sin `.html`, y el build falla si alguna lleva `.html`; en `dist/` no queda ningún `href` con `.html`. 
+- **Avance (E180-I01, 14-11-2026, verificado en la preview):** las 10 páginas con `.html` y `/index.html` redirigen con un 301 a su destino con barra (ADR-093). Resuelto; la variante `/educacion/` queda en AT-127.
 
 ### AT-030 · Sitemap manual y desactualizado
 - **Severidad:** Baja · **Estado:** Resuelto en E150-I01 (07-11-2026, ADR-086) en lo que toca a agradecimiento: las páginas nuevas llevan `noindex, follow` y su ruta es interna, así que queda fuera del sitemap que se genere. La generación del sitemap con `hreflang` y el `robots.txt` siguen en E180-I02 (AT-103) · **Resuelve:** E180-I02, E150-I01
@@ -427,13 +428,14 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Nota (E155-I01, 07-11-2026):** cierre parcial en E150-I01: agradecimiento queda `noindex, follow` y fuera del sitemap por ser ruta interna. El sitemap con `hreflang` y el `robots.txt` se completan en E180-I02, que además debe respetar `internalRoutes` (las páginas `thankYou` no van en el sitemap) y resolver AT-103.
 
 ### AT-031 · Redirección existente que debe preservarse
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E180-I01
+- **Severidad:** Media · **Estado:** Resuelto en E180-I01 (14-11-2026) · **Resuelve:** E180-I01
 - **Evidencia:** `_redirects` contiene `/comunidad.html → /foro` y `/comunidad → /foro` (301).
 - **Impacto:** enlaces compartidos antiguos.
 - **Recomendación:** redirigir directo a `/es/foro`, sin cadena.
+- **Avance (E180-I01, 14-11-2026, verificado en la preview):** `/comunidad` y `/comunidad.html` dan un 301 directo a `/es/foro/` (ADR-093).
 
 ### AT-043 · Rutas públicas de descargables
-- **Severidad:** Alta · **Estado:** Resuelto en parte: el certificado REUF se sirve desde `public/static/` con la misma URL desde E90-I01 (01-11-2026), como el CV desde ADR-050, y los 15 archivos de `static/recursos/**` desde E130-I01 y E130-I02 (03-11-2026, idénticos en bytes y comprobados en `verify:seo`); falta la verificación tras el cutover (E180-I01) · **Resuelve:** E90-I01 (certificado), E130-I02, E180-I01
+- **Severidad:** Alta · **Estado:** Resuelto en parte: el certificado REUF se sirve desde `public/static/` con la misma URL desde E90-I01 (01-11-2026), como el CV desde ADR-050, y los 15 archivos de `static/recursos/**` desde E130-I01 y E130-I02 (03-11-2026, idénticos en bytes y comprobados en `verify:seo`); en la preview, 23 archivos de `/static/` responden 200 (E180-I01, 14-11-2026, verificado); falta repetirlo tras el cutover (E190-I01) · **Resuelve:** E90-I01 (certificado), E130-I02, E180-I01
 - **Evidencia:** `static/CV_Felipe_Cuevas_2026.pdf`, `static/Certificado_REUF_Aprobados_Felipe_Cuevas_2026.pdf` y `static/recursos/**`, enlazados desde el sitio y probablemente compartidos fuera de él (no verificado).
 - **Impacto:** enlaces externos rotos tras el cutover.
 - **Recomendación:** servirlos desde las mismas rutas en `public/static/`.
@@ -844,10 +846,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** aplicada. Se copiaron desde `main` con la misma URL (AT-043) y `verify:seo` compara su peso en bytes. E130-I02 copia los 5 archivos de los recursos 1 al 8 y suma el peso visible también a estos pasos.
 
 ### AT-096 · Las imágenes, CSS y JS de `main` no se sirven con su URL antigua
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I01 (valorar)
+- **Severidad:** Baja · **Estado:** Valorado en E180-I01 (14-11-2026); sigue abierto solo en AT-126 · **Resuelve:** E180-I01 (valorar)
 - **Evidencia (E130-I02, 03-11-2026):** al comparar los 157 archivos de `main:static/` con `dist/`, faltan 142: `static/img/**` (íconos, logos, portafolio, testimonios y fotos), `static/css/*` y `static/js/**`. Todos los de `static/recursos/**` están.
 - **Impacto:** CSS y JS no importan tras el cutover. Alguna imagen podría estar enlazada desde fuera (por ejemplo, `static/img/felipe_cuevas_cv.png` como vista previa compartida): no verificado.
 - **Recomendación:** en E180-I01, revisar con las analíticas o el registro de Cloudflare qué URL de `static/img/` reciben visitas externas y servirlas o redirigirlas.
+- **Valoración (E180-I01, 14-11-2026):** de los 157 archivos, 23 están y 134 faltan. Decisión de Felipe: no se redirigen ni se sirven (sin regla para `/static/`); solo `felipe_cuevas_cv.png` se copia en E190-I01 (AT-126). Sin analíticas de Cloudflare consultadas: no verificado.
 
 ### AT-097 · Los videos de Recursos están en español y en /en/ no lo avisan
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170 (valorar con BL-04; decisión de Felipe en E140-I01, ADR-083)
@@ -1027,3 +1030,26 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E170-I04, 13-11-2026, verificado):** `src/i18n/routes.ts` importa `./lang` sin extensión y Node no lo resuelve, así que `scripts/check-i18n.mjs` extrae los pares `{ es, en }` del texto del archivo con una expresión regular.
 - **Impacto:** si cambia el formato del mapa, la extracción podría perder pares.
 - **Control:** el script falla si el mapa no tiene exactamente 13 pares de páginas más la 404 (`EXPECTED_PAIRS`) o si el par de privacidad no es `/es/privacidad/` ↔ `/en/privacy/`; además revisa en sentido inverso que `dist/` no tenga páginas fuera del mapa. Al agregar una página, se actualiza la constante.
+
+### AT-126 · Las URL de `static/img/` que usaba `main` dan 404
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E190-I01
+- **Evidencia (E180-I01, 14-11-2026, verificado):** las 13 páginas de `main` usan `/static/img/felipe_cuevas_cv.png` como `og:image` y `desarrollador.html` usa 12 imágenes `static/img/portafolio/*.webp`. De los 157 archivos de `main:static/`, 23 están en `public/static/` idénticos y 134 faltan; en la preview `/static/img/felipe_cuevas_cv.png` da 404.
+- **Impacto:** las vistas previas ya compartidas con esa URL se rompen; las del portafolio solo si alguien enlazó esas imágenes (no verificado).
+- **Decisión (de Felipe, 14-11-2026):** copiar `felipe_cuevas_cv.png` a `public/static/img/` con la misma ruta, en E190-I01. Las demás no se sirven (AT-096).
+- **Recomendación:** agregarla a la lista de verificación de E190-I01 y comprobarla con `check:redirects` (hoy figura en su informe).
+
+### AT-127 · `/educacion/` con barra final da 404
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Evidencia (E180-I01, 14-11-2026, verificado):** en la preview `/educacion/` responde 404 (`/educacion` y `/educacion.html` sí redirigen). No verificado si el sitio antiguo atendía la variante con barra.
+- **Decisión (de Felipe, 14-11-2026):** no redirigir; queda abierto.
+- **Impacto:** un enlace antiguo con barra final llegaría a la 404.
+
+### AT-128 · El área L escribe destinos sin barra final
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I01 (14-11-2026) · **Resuelve:** E180-I01
+- **Evidencia:** el mapa del área L lista destinos como `/es/educacion` sin barra.
+- **Resolución:** prevalece ADR-047; `public/_redirects` usa destinos con barra final (ADR-093).
+
+### AT-129 · `wrangler dev` crea `.wrangler/` y `pnpm lint` falla con 12 errores
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Evidencia (E180-I01, 14-11-2026, dicho por el desarrollador):** tras ejecutar `wrangler dev` aparece `.wrangler/` y `pnpm lint` falla con 12 errores. No reproducido en esta sesión.
+- **Recomendación:** ignorar `.wrangler/` en ESLint (no se hizo: fuera de alcance).

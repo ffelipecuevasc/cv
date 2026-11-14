@@ -1012,6 +1012,19 @@ Reglas del registro:
   - `verify:seo` compara los hashes de la CSP con los scripts en línea del `dist/` (sin falta ni sobra, y sin `unsafe-inline` en scripts). Mientras no exista `public/_headers`, informa «pendiente» y no falla. `HEADERS_FILE` permite revisar otro archivo. Si cambia un script en línea (el del tema o el del perfil del hero, por ejemplo), el control falla y lista los hashes esperados.
 - **Consecuencias:** cada cambio a un script en línea exige actualizar el hash en `public/_headers` (AT-119). Al retirar la muestra de tokens en E190-I03 (ADR-091) sobrará un hash. El HTML de la 404 y de todas las páginas queda cubierto por `/*`. Las respuestas del Worker (`/api/*`) ya llevan `X-Content-Type-Options` y `Cache-Control: no-store` desde `src/worker/contact.ts`. No hay dependencias nuevas.
 - **Origen:** decisión de Felipe el 13-11-2026 (E170-I03). **Estado:** Aceptada. La verificación en la preview es de Felipe.
+## ADR-093 · Redirecciones 301 de las URL antiguas: reglas estáticas, destinos con barra final y un solo salto
+- **Contexto:** E180-I01, AT-005, AT-031 y AT-043. El sitio antiguo servía 13 .html en la raíz con rutas limpias y variantes .html, además de /comunidad. Cloudflare admite 2.000 reglas estáticas, 100 dinámicas y 1.000 caracteres por regla, con 302 por defecto.
+- **Decisión (de Felipe, dicha por el desarrollador, 14-11-2026):**
+  1. **Un solo salto:** cada URL antigua va directo a su destino final; /comunidad y /comunidad.html van directo a /es/foro/, sin pasar por /foro.
+  2. **Sin regla** para /eventos ni /eventos.html (404, ADR-077) ni para /static/... (misma ruta, AT-043).
+- **Decisión (del agente, dentro del alcance):**
+  - **Destinos con barra final** (/es/educacion/), porque es la URL canónica (ADR-047); sin ella Cloudflare sumaría otro salto.
+  - **/index.html lleva regla** hacia /es/; no es lo mismo que /, que corresponde a E180-I03.
+  - **Solo reglas estáticas con 301 explícito:** 23 (/index.html, 10 páginas × 2 variantes y /comunidad × 2), sin comodines.
+  - **pnpm check:redirects** (scripts/check-redirects.mjs, sin dependencias) valida el archivo y, con --base, las respuestas de la preview.
+- **Consecuencias:** al agregar una página con URL antigua hay que sumar sus dos reglas. No toca _headers ni wrangler.*. Sin dependencias nuevas. Complementa ADR-019, ADR-020 y ADR-077 sin editarlos.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I01). **Estado:** Aceptada. La verificación en la preview dio 448 de 448 el 14-11-2026.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
