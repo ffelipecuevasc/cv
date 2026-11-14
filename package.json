@@ -20,7 +20,8 @@
     "format:check": "prettier --check .",
     "verify": "node scripts/verify-links.mjs",
     "check:i18n": "node scripts/check-i18n.mjs",
-    "verify:seo": "node scripts/verify-seo.mjs"
+    "verify:seo": "node scripts/verify-seo.mjs",
+    "check:redirects": "node scripts/check-redirects.mjs"
   },
   "dependencies": {
     "astro": "7.4.2"
