@@ -12,3 +12,6 @@ strictDepBuilds: true
 allowBuilds:
   esbuild: false
   workerd: false
+
+minimumReleaseAgeExclude:
+  - '@astrojs/sitemap@3.7.5'

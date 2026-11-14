@@ -1067,3 +1067,20 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar)
 - **Evidencia (E180-I02, 14-11-2026):** `/sitemap.xml` y `/robots.txt` están en el `dist/` pero no en la preview, porque no están commiteados. No verificado: la respuesta de Cloudflare (tipo de contenido, 200) ni el envío a Search Console.
 - **Recomendación:** tras el commit, abrir ambas URL en la preview; tras el cutover, enviar el sitemap en Search Console y repetirlo en E190.
+
+### AT-132 · `/sitemap.xml` del sitio antiguo ya no existe
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (la regla la pega Felipe)
+- **Evidencia (E180-I02b, 14-11-2026, verificado en `dist/`):** `main` publicaba `/sitemap.xml` y su `robots.txt` lo declaraba. `@astrojs/sitemap` genera `/sitemap-index.xml` y `/sitemap-0.xml`; no existe `/sitemap.xml`. Buscadores y Search Console que lo tengan registrado recibirían 404.
+- **Impacto:** el sitemap viejo registrado deja de leerse hasta que se reenvíe el nuevo.
+- **Propuesta (no aplicada: `public/_redirects` lo edita Felipe):** agregar `/sitemap.xml /sitemap-index.xml 301` al bloque de `_redirects` (a la vez, actualizar la cuenta de reglas esperada de `check:redirects`, hoy 23, y su informe) y enviar `sitemap-index.xml` en Search Console tras el cutover (AT-131).
+
+### AT-133 · `minimumReleaseAgeExclude` en `pnpm-workspace.yaml` para una versión de un día
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Evidencia (E180-I02b, 14-11-2026, verificado):** al instalar `@astrojs/sitemap@3.7.5` (publicada el 13-11-2026) pnpm agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` en `pnpm-workspace.yaml`, que salta el filtro de antigüedad mínima de versiones.
+- **Impacto:** esa versión se instaló sin esperar el plazo de seguridad. Es una excepción acotada a una versión exacta.
+- **Recomendación:** que Felipe confirme que la acepta; la entrada puede borrarse cuando la versión cumpla el plazo, sin efecto en el lockfile.
+
+### AT-134 · Las alternativas del sitemap dependen de `serialize` y del mapa de rutas
+- **Severidad:** Baja · **Estado:** Aceptado y controlado · **Resuelve:** —
+- **Evidencia (E180-I02b, 14-11-2026, verificado):** la opción `i18n` de `@astrojs/sitemap` no empareja páginas con slugs traducidos; las alternativas salen de `serialize` en `astro.config.mjs`, que importa `src/i18n/routes.ts`.
+- **Control:** `verify:seo` exige 22 URL, alternativas es-CL y en-US recíprocas, iguales a los `hreflang` de cada página y a su canonical (7 mutaciones lo hacen fallar).

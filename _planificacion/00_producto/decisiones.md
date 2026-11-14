@@ -1035,7 +1035,19 @@ Reglas del registro:
   5. **`public/robots.txt`:** `User-agent: *`, `Allow: /` y `Sitemap:` con URL absoluta; **sin `Disallow`**. Google no lee un `noindex` en una página bloqueada por `robots.txt`; es la opción (a) de AT-103. Agradecimiento y las 404 quedan con `noindex, follow`.
   6. **`verify:seo`** compara el sitemap con las páginas del `dist/` sin `noindex` (22), la canónica y los `hreflang` de cada página, la reciprocidad y el `robots.txt` (176 controles nuevos).
 - **Consecuencias:** al agregar una página en `routes` entra sola al sitemap. Si Felipe prefiere `@astrojs/sitemap`, hay que registrar un ADR que sustituya a este. No toca `_headers`, `_redirects` ni `wrangler.*`. Complementa ADR-019, ADR-035 y ADR-087 sin editarlos.
-- **Origen:** E180-I02, 14-11-2026. **Estado:** Aceptada (por el agente dentro del alcance; pendiente de objeción de Felipe).
+- **Origen:** E180-I02, 14-11-2026. **Estado:** Sustituida por ADR-095 (14-11-2026).
+## ADR-095 · Sitemap con @astrojs/sitemap (sustituye a ADR-094)
+- **Contexto:** E180-I02b. Felipe decidió el 14-11-2026 usar la integración oficial en lugar del endpoint propio de ADR-094. AGENTS.md exige un ADR para toda dependencia nueva. Verificado el 14-11-2026: última versión **3.7.5** (`pnpm view @astrojs/sitemap dist-tags.latest`, publicada el 13-11-2026 según el informe de la lectura web), sin `peerDependencies`, con dependencias `zod ^4.6.7` y `sitemap ^10.0.0`; el changelog no menciona Astro 7, así que la compatibilidad se comprobó en la práctica (build y `pnpm check` correctos con Astro 7.4.2). Documentación: genera `sitemap-index.xml` y `sitemap-0.xml`, no emite `x-default` y admite `filter` y `serialize`.
+- **Decisión (de Felipe, 14-11-2026):** usar `@astrojs/sitemap`. **Es la única dependencia nueva de esta iteración.**
+- **Decisión (del agente, dentro del alcance):**
+  1. **Versión exacta `3.7.5`** en `dependencies` (como `astro`), instalada con `pnpm add -E`. Arrastra `sitemap@10.0.0` y `@types/sax` (y reordena en el lockfile las variantes que dependen de `@types/node@26.6.6`).
+  2. **Configuración en `astro.config.mjs`:** `i18n` (es → es-CL, en → en-US), `filter` que deja fuera `/`, `/404/` y todo `internalRoutes` (404, agradecimiento y muestra de tokens), y **`serialize`** que fija las alternativas desde `routes`. Sin `lastmod`, `changefreq`, `priority` ni `x-default`.
+  3. **Por qué `serialize`:** con solo `i18n` y `filter` la integración empareja idiomas cambiando el segmento de la ruta y solo logra las alternativas en las 3 páginas con el mismo slug (`/en/`, `instructor`, `talento-digital`); las 8 con slug traducido (`/en/contact/` ↔ `/es/contacto/`) salían sin alternativas. `serialize` es opción oficial de la misma integración y toma los pares del mapa de rutas (ADR-020), única fuente.
+  4. **Archivos:** `sitemap-index.xml` y `sitemap-0.xml` (22 URL y 44 alternativas). Se retira `src/pages/sitemap.xml.ts`. `public/robots.txt` apunta a `https://felipecuevas.dev/sitemap-index.xml`, sin `Disallow` (AT-103).
+  5. **`pnpm-workspace.yaml`:** `pnpm add` agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` porque la versión tenía un día de antigüedad (AT-133).
+  6. **`verify:seo`** lee el índice y cada sitemap que enumera, y mantiene todos los controles de ADR-094 (1149 de 1149).
+- **Consecuencias:** la URL `/sitemap.xml` del sitio antiguo deja de existir (AT-132). `x-default` y `/` siguen siendo de E180-I03 (AT-130). Si una versión futura de la integración cambia el formato, `verify:seo` falla. Mantiene ADR-019, ADR-035 y ADR-087 sin editarlos.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094.
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

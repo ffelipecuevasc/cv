@@ -46,6 +46,8 @@ Generar un sitemap con alternativas por idioma y un `robots.txt` coherente.
 
 - **Resultado (14-11-2026):** sitemap generado por un endpoint propio (ADR-094), `robots.txt` sin `Disallow` (AT-103) y controles en `verify:seo`. Sin `x-default` ni `/` (E180-I03, AT-130). Las canónicas de las 11 páginas indexables se comprueban contra el sitemap; las de las 404 siguen en AT-109.
 
+- **Complemento E180-I02b (14-11-2026, dicho por el desarrollador):** Felipe decidió usar `@astrojs/sitemap`. El endpoint propio de este archivo (`src/pages/sitemap.xml.ts`) se retiró; ahora el sitemap son `sitemap-index.xml` y `sitemap-0.xml` (ADR-095, que sustituye a ADR-094) y `robots.txt` apunta al índice. Los criterios de arriba se siguen cumpliendo y se verifican con `verify:seo` (1149 de 1149). Ver `99_bitacora/2026-11-14_E180-I02b.md`.
+
 ## Cierre obligatorio
 - [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
 - [x] Registrar hallazgos nuevos (AT-130 y AT-131) en auditoria-tecnica.md y decisiones nuevas en decisiones.md

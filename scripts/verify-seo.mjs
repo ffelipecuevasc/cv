@@ -2807,12 +2807,34 @@ console.log('\nSitemap, robots.txt y canónicas');
     ([path, page]) => path !== '/' && !page.noindex && page.rel !== '404.html',
   );
 
-  check(existsSync(join(DIST, 'sitemap.xml')), 'dist/sitemap.xml existe');
-  const sitemap = existsSync(join(DIST, 'sitemap.xml')) ? read('sitemap.xml') : '';
+  // @astrojs/sitemap (ADR-095) genera sitemap-index.xml, que enumera los sitemap-N.xml.
+  check(existsSync(join(DIST, 'sitemap-index.xml')), 'dist/sitemap-index.xml existe');
+  const sitemapIndex = existsSync(join(DIST, 'sitemap-index.xml')) ? read('sitemap-index.xml') : '';
+  const sitemapFiles = [...sitemapIndex.matchAll(/<sitemap>\s*<loc>([^<]*)<\/loc>/g)].map((m) =>
+    m[1].startsWith(`${SITE}/`) ? m[1].slice(SITE.length + 1) : m[1],
+  );
   check(
-    sitemap.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') &&
-      sitemap.includes('xmlns:xhtml="http://www.w3.org/1999/xhtml"'),
-    'sitemap con los espacios de nombres sitemap y xhtml',
+    sitemapFiles.length > 0 && sitemapFiles.every((f) => /^sitemap-\d+\.xml$/.test(f)),
+    `el índice enumera sus sitemaps con URL absoluta de ${SITE} (${sitemapFiles.join(', ')})`,
+  );
+  check(
+    sitemapFiles.every((f) => existsSync(join(DIST, f))),
+    'cada sitemap del índice existe en dist/',
+  );
+  check(
+    !existsSync(join(DIST, 'sitemap.xml')),
+    'ya no hay dist/sitemap.xml (endpoint propio retirado, ADR-095)',
+  );
+  const sitemaps = sitemapFiles.filter((f) => existsSync(join(DIST, f))).map((f) => read(f));
+  const sitemap = sitemaps.join('\n');
+  check(
+    sitemaps.length > 0 &&
+      sitemaps.every(
+        (xml) =>
+          xml.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"') &&
+          xml.includes('xmlns:xhtml="http://www.w3.org/1999/xhtml"'),
+      ),
+    'cada sitemap con los espacios de nombres sitemap y xhtml',
   );
   const entries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => ({
     loc: /<loc>([^<]*)<\/loc>/.exec(m[1])?.[1],
@@ -2881,7 +2903,7 @@ console.log('\nSitemap, robots.txt y canónicas');
   check(robotsLines.includes('User-agent: *'), 'robots.txt: User-agent: *');
   check(robotsLines.includes('Allow: /'), 'robots.txt: Allow: /');
   check(
-    robotsLines.includes(`Sitemap: ${SITE}/sitemap.xml`),
+    robotsLines.includes(`Sitemap: ${SITE}/sitemap-index.xml`),
     'robots.txt apunta al sitemap con URL absoluta',
   );
   // AT-103: bloquear con Disallow una página `noindex` impide que se lea su directiva.

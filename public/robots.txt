@@ -1,7 +1,7 @@
-# robots.txt de felipecuevas.dev (E180-I02, ADR-094).
+# robots.txt de felipecuevas.dev (E180-I02, ADR-094 y ADR-095).
 # Sin Disallow a propósito: las páginas internas (agradecimiento, 404) llevan `noindex, follow`,
 # y un buscador solo lee esa directiva si puede rastrear la página (AT-103).
 User-agent: *
 Allow: /
 
-Sitemap: https://felipecuevas.dev/sitemap.xml
+Sitemap: https://felipecuevas.dev/sitemap-index.xml

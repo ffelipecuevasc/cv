@@ -1,6 +1,14 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
+import { internalRoutes, routes } from './src/i18n/routes.ts';
+
+/**
+ * Valores de un par de rutas como string[] (el mapa de rutas usa tipos literales).
+ * @param {Record<string, string>} paths
+ */
+const pathsOf = (paths) => Object.values(paths);
 
 // Salida 100 % estática, sin adaptador de servidor (ADR-018).
 // Tailwind CSS v4 se integra como plugin de Vite, nunca con @astrojs/tailwind (ADR-004).
@@ -68,6 +76,31 @@ export default defineConfig({
         ],
       },
     },
+  ],
+  // Sitemap bilingüe con @astrojs/sitemap (ADR-095, sustituye a ADR-094). Genera sitemap-index.xml
+  // y sitemap-0.xml con alternativas es-CL / en-US. El filtro deja fuera las rutas internas del mapa
+  // de rutas (404, agradecimiento y muestra de tokens, AT-106) y la raíz / (E180-I03). Sin x-default.
+  // `i18n` empareja los idiomas cambiando el segmento de la ruta y no sirve con slugs traducidos
+  // (/es/contacto/ ↔ /en/contact/): `serialize` entrega las alternativas desde el mapa de rutas (ADR-020).
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'es', locales: { es: 'es-CL', en: 'en-US' } },
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        const internal = new Set(Object.values(internalRoutes).flatMap(pathsOf));
+        return pathname !== '/' && pathname !== '/404/' && !internal.has(pathname);
+      },
+      serialize: (item) => {
+        const { pathname } = new URL(item.url);
+        const paths = Object.values(routes).find((entry) => pathsOf(entry).includes(pathname));
+        if (!paths) return undefined;
+        item.links = [
+          { url: new URL(paths.es, item.url).href, lang: 'es-CL' },
+          { url: new URL(paths.en, item.url).href, lang: 'en-US' },
+        ];
+        return item;
+      },
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],
