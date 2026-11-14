@@ -458,14 +458,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ADR de versionado de `.idea/`.
 
 ### AT-023 · Sin cabeceras de seguridad propias
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E170-I03
+- **Severidad:** Media · **Estado:** Resuelto en E170-I03 (13-11-2026) · **Resuelve:** E170-I03
 - **Evidencia:** no existe `_headers`; configuración de zona no verificada.
 - **Impacto:** sin CSP ni políticas de referer y permisos definidas por el proyecto.
 - **Recomendación:** `_headers` con CSP compatible.
 - **Avance (E170-I03, 13-11-2026):** CSP y cabeceras redactadas (ADR-092) y probadas en local con Chromium: 0 violaciones en las 26 URL. Sigue abierto hasta que Felipe pegue `public/_headers`, despliegue la preview y verifique las cabeceras reales.
+- **Cierre (E170-I03, 13-11-2026):** `public/_headers` presente con CSP estricta, `Referrer-Policy`, `Permissions-Policy`, `X-Content-Type-Options` y caché de un año en `/_astro/*` (ADR-092). Verificado: `verify:seo` 970/970, MDN HTTP Observatory A+ 115/100 y SecurityHeaders A (14-11-2026 00:19 UTC); el único faltante es HSTS (AT-122).
 
 ### AT-024 · Terceros y envío de nombres a un servicio externo
-- **Severidad:** Media · **Estado:** Abierto (parcial: el respaldo de ui-avatars se retiró en E40-I02, 30-10-2026; Calendly se carga al hacer clic y Turnstile al primer foco desde E140-I01, 03-11-2026, ADR-083; falta la CSP, E170-I03) · **Resuelve:** E140-I01, E40-I02, E170-I03
+- **Severidad:** Media · **Estado:** Resuelto en E170-I03 (13-11-2026) · **Resuelve:** E140-I01, E40-I02, E170-I03
 - **Evidencia:**
   - Calendly (`contacto.html:365`) carga su widget al abrir la página;
   - `static/js/servicios/resiliencia.js:39` envía el `alt` (nombre de la persona) a `ui-avatars.com` cuando falla una foto;
@@ -473,6 +474,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** privacidad y peso.
 - **Recomendación:** Calendly bajo demanda y respaldo local sin terceros.
 - **Avance (E170-I03, 13-11-2026):** la CSP permite solo los orígenes de Turnstile, Calendly y Giscus (ADR-092) y no hay terceros de más: en las 26 URL no se contactó ningún otro origen. Sigue abierto hasta la prueba en la preview.
+- **Cierre (E170-I03, 13-11-2026):** con la CSP de ADR-092 solo se permiten los orígenes de Turnstile, Calendly y Giscus; los demás puntos ya estaban resueltos (ui-avatars retirado en E40-I02; Calendly por clic y Turnstile al primer foco en E140-I01). Verificado: 0 violaciones en 26 URL en local. Dicho por el desarrollador: recorrido de las páginas con la consola sin violaciones y envío real del formulario hasta Agradecimiento.
 
 ### AT-025 · Testimonios con datos personales
 - **Severidad:** Media · **Estado:** Abierto (parcial: los 12 testimonios migraron al modelo bilingüe y `en-US` indica "Translated from Spanish", E40-I02, 30-10-2026; falta el consentimiento de uso de nombres y fotos, BL-06, pendiente de Felipe sin bloquear) · **Resuelve:** E40-I02, BL-06
@@ -996,8 +998,20 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** un atacante que inyecte HTML podría alterar estilos o filtrar datos mediante CSS; la inyección de scripts sigue bloqueada. Riesgo bajo en un sitio estático sin entrada del usuario en el HTML.
 - **Recomendación:** no actuar ahora. Si se quisiera endurecer, habría que mover los atributos `style` a clases y poner un `nonce` o hash a los `<style>`, lo que exige cambiar los componentes.
 
-### AT-121 · La zona de Cloudflare puede inyectar scripts que la CSP bloquee
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E170-I03 (prueba de Felipe en la preview) o E190-I01
-- **Evidencia (E170-I03, 13-11-2026):** la configuración de la zona no está verificada (AT-023). Cloudflare puede inyectar en el HTML, según el panel, el script de Web Analytics (`static.cloudflareinsights.com`), Rocket Loader o la ofuscación de correos. La prueba local no lo reproduce porque no pasa por Cloudflare.
-- **Impacto:** violaciones de CSP en la consola de la preview o de producción que no existen en local, o un script en línea reescrito que ya no coincide con su hash.
-- **Recomendación:** al probar la preview, mirar la consola de cada página; si aparece `static.cloudflareinsights.com`, decidir entre desactivar Web Analytics o agregarlo a `script-src` y `connect-src` (nuevo ADR). Desactivar Rocket Loader si está activo.
+### AT-121 · Web Analytics de Cloudflare exigiría un ADR y la política de privacidad si se activa en el dominio propio
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I02 (precondición del cutover; no bloquea E170-I03)
+- **Evidencia (E170-I03, 13-11-2026, reformulado tras la preview):** en la preview no hay beacon de Web Analytics: está **desactivado hoy**. La CSP de ADR-092 no permite `static.cloudflareinsights.com`.
+- **Impacto:** si se activa Web Analytics en el dominio propio después del cutover, la CSP bloquearía el beacon (violación en la consola) y el sitio trataría datos de visitantes que la política de privacidad no menciona (ADR-035).
+- **Recomendación:** antes de activarlo, un ADR que agregue `https://static.cloudflareinsights.com` a `script-src` (y `connect-src` si la versión del beacon lo pide) y una actualización de la política de privacidad con cambio de `PRIVACY_POLICY_VERSION`. Revisar Rocket Loader y la ofuscación de correos en la zona al mismo tiempo. Es precondición de E190-I02.
+
+### AT-122 · HSTS ausente en la preview de workers.dev
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I02
+- **Evidencia (E170-I03, 13-11-2026):** SecurityHeaders califica la preview con **A** (14-11-2026 00:19 UTC) y el único faltante es `Strict-Transport-Security`. HSTS no se declara en `_headers` por decisión de Felipe (la zona queda fuera de E170-I03, ADR-092).
+- **Impacto:** sin HSTS el navegador puede intentar HTTP en la primera visita; no es una vulnerabilidad en `workers.dev`, que ya fuerza HTTPS.
+- **Recomendación:** activarlo en la zona de Cloudflare del dominio propio en E190-I02, con `max-age=31536000; includeSubDomains` (a evaluar: `includeSubDomains` afecta a todos los subdominios, como `api` o el sitio de la comunidad; empezar con un `max-age` corto y subirlo, y no usar `preload` sin decisión aparte).
+
+### AT-123 · Métricas del Worker con respuestas 4xx y excepciones no capturadas (no verificado)
+- **Severidad:** Media (por el dato, sin causa conocida) · **Estado:** Abierto (**no verificado**) · **Resuelve:** antes de E190
+- **Evidencia (E170-I03, 13-11-2026, dicho por el desarrollador, sin captura en el repositorio):** las métricas del Worker muestran 6 respuestas 4xx hacia `api.cloudflare.com` y 20 excepciones no capturadas en la versión `2f39c966`. No se conoce el origen: pueden venir de pruebas del formulario (Turnstile o envío de correo), de la verificación de Turnstile (`src/worker/contact.ts`), de un secreto o destino mal configurado, o de otra causa.
+- **Impacto:** si las excepciones ocurren en `/api/contacto`, un visitante podría ver fallar el envío sin que el sitio lo muestre.
+- **Recomendación:** no asumir el origen. Revisar los registros del Worker (Observability, filtrando por excepciones y por la versión `2f39c966`), reproducir con el formulario en la preview y separar las excepciones de las pruebas de las de visitantes reales. Resolver antes de E190.

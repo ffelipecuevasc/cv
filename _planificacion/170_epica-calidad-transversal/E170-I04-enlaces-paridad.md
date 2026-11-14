@@ -39,7 +39,7 @@ Automatizar la verificación de enlaces y de paridad entre idiomas como scripts 
 - `pnpm check:i18n`
 
 ## Riesgos y notas
-- —
+- **Lista para partir** (E170-I03 terminada el 13-11-2026); no se ha iniciado. **Primera acción:** presentar a Felipe la decisión de herramienta, en una sola ronda: (a) linkinator con un ADR que acepte la dependencia, como en el sitio antiguo, o (b) un script propio sin dependencias sobre `dist/` (lectura del HTML y comprobación de rutas y anclas). Recomendación a confirmar al arrancar. Línea base del `dist/`: 208 archivos, 30 `.html`, `3c6a9b657f0d281e`; `verify:seo` 970.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
