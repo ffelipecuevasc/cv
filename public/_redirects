@@ -1,8 +1,11 @@
 # Redirecciones 301 de felipecuevas.dev (E180-I01, ADR-019, ADR-020, ADR-077, AT-005, AT-031).
 # Cada URL del sitio antiguo (ruta limpia y variante .html) va a su version /es/ en un solo salto.
+# Raiz (ADR-019, ADR-098) y sitemap antiguo (AT-132): excepciones al destino /es/<ruta>/.
 # Los destinos llevan barra final: es la URL canonica, y sin ella Cloudflare sumaria otro salto.
 # Todas las reglas son estaticas (sin comodines) y llevan el codigo 301 explicito (el predeterminado es 302).
-# Sin regla a proposito: /eventos y /eventos.html (404, ADR-077), /static/... (misma ruta, AT-043) y / (E180-I03).
+
+/ /es/ 301
+/sitemap.xml /sitemap-index.xml 301
 
 /index.html /es/ 301
 
