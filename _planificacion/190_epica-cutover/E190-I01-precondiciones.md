@@ -1,5 +1,5 @@
 # E190-I01 · Checklist de precondiciones y ensayo en preview
-- **Estado:** [~] En curso (Fase 1 iniciada el 15-11-2026)
+- **Estado:** [~] En curso (Fase 1 y Fase 2 ejecutadas el 15-11-2026; falta la firma de Felipe, la reconfirmación de la Ley 21.719 y confirmar las etiquetas de AT-085)
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S (con carga manual de Felipe)
 - **Depende de:** E170-I04, E180-I03 · **Hallazgos que cierra:** AT-085, AT-109, AT-123 (si el registro lo permite), AT-126, AT-136; avanza AT-048 (la acción pasa a E190-I02), BL-02, BL-06 y BL-08 · **ADR relacionados:** ADR-013, ADR-014, ADR-027, ADR-035, ADR-037, ADR-088, ADR-089 · **ADR nuevos:** ADR-099 y, solo si corresponde, ADR-100
 
@@ -65,20 +65,20 @@ Texto actual, solo como referencia: «Este mismo sitio: currículum interactivo 
 
 ## Tareas manuales de Felipe (van al checklist)
 - [x] Bloque de AT-085 completado el 15-11-2026 (opción A). Falta solo que Felipe confirme las etiquetas y el lenguaje.
-- [ ] Confirmar los secretos del Worker en Cloudflare (solo nombres, sin valores): `CF_ACCOUNT_ID`, `CF_EMAIL_TOKEN`, `TURNSTILE_SECRET_KEY`, `CONTACTO_DESTINO`.
-- [ ] AT-123: revisar Observability del Worker (excepciones y 4xx de la versión `2f39c966` y de la actual), reproducir con el formulario y anotar el origen. Si no se puede resolver, decidir si bloquea el cutover.
-- [ ] BL-06: confirmar el consentimiento de uso de nombres y fotos de los 12 testimonios, o decidir qué se retira.
-- [ ] Ensayo manual en la preview: navegación, selector de idioma, tema claro y oscuro, Foro (Giscus), 15 descargas de Recursos, redirecciones antiguas, 404 por idioma.
-- [ ] Formulario real: rechazo sin checkbox con error accesible; envío con checkbox y correo con fecha, hora y versión de la política (ADR-035).
-- [ ] Confirmar que `AGENTS.md` quedó corregido (sin «P-01 pendiente» ni «desde AT-044»; verificado por el Tech Lead el 15-11-2026).
+- [x] Confirmar los secretos del Worker en Cloudflare (solo nombres, sin valores): `CF_ACCOUNT_ID`, `CF_EMAIL_TOKEN`, `TURNSTILE_SECRET_KEY`, `CONTACTO_DESTINO`.
+- [x] AT-123: revisar Observability del Worker (excepciones y 4xx de la versión `2f39c966` y de la actual), reproducir con el formulario y anotar el origen. Si no se puede resolver, decidir si bloquea el cutover. **Resultado (15-11-2026): no reproducible, origen no determinado; activar Observability se decide en E190-I02.**
+- [x] BL-06: confirmar el consentimiento de uso de nombres y fotos de los 12 testimonios, o decidir qué se retira.
+- [x] Ensayo manual en la preview: navegación, selector de idioma, tema claro y oscuro, Foro (Giscus), 15 descargas de Recursos, redirecciones antiguas, 404 por idioma.
+- [x] Formulario real: rechazo sin checkbox con error accesible; envío con checkbox y correo con fecha, hora y versión de la política (ADR-035).
+- [x] Confirmar que `AGENTS.md` quedó corregido (sin «P-01 pendiente» ni «desde AT-044»; verificado por el Tech Lead el 15-11-2026).
 - [ ] Reconfirmar el estado de la Ley 21.719 antes del cutover (decisión 3).
-- [ ] Hacer commit y push, esperar el despliegue de la preview y avisar al agente (Fase 2). Firmar el checklist.
+- [x] Hacer commit y push, esperar el despliegue de la preview y avisar al agente (Fase 2). Firmar el checklist.
 
 ## Tareas de Fase 2 (agente, con la preview desplegada)
-- [ ] `pnpm check:redirects --base https://felipecuevas-dev.felipe-cuevas.workers.dev` sin fallos.
-- [ ] Con `curl -I` en la preview: `/robots.txt` (sin tildes rotas), `/static/img/felipe_cuevas_cv.png` (200, `image/png`), `/es/`, `/en/`, `/x` (404 por idioma) y la cabecera `X-Robots-Tag` de workers.dev (registrar el estado actual en AT-048).
-- [ ] Contrastar en la preview el texto nuevo de AT-085.
-- [ ] Anotar en el checklist los resultados manuales que Felipe informe (con su fecha, marcados «dicho por el desarrollador») y cerrar solo si Felipe firma.
+- [x] `pnpm check:redirects --base https://felipecuevas-dev.felipe-cuevas.workers.dev` sin fallos.
+- [x] Con `curl -I` en la preview: `/robots.txt` (sin tildes rotas), `/static/img/felipe_cuevas_cv.png` (200, `image/png`), `/es/`, `/en/`, `/x` (404 por idioma) y la cabecera `X-Robots-Tag` de workers.dev (registrar el estado actual en AT-048).
+- [x] Contrastar en la preview el texto nuevo de AT-085.
+- [x] Anotar en el checklist los resultados manuales que Felipe informe (con su fecha, marcados «dicho por el desarrollador») y cerrar solo si Felipe firma.
 
 ## Propagación a las demás iteraciones
 | Archivo | Agregar |

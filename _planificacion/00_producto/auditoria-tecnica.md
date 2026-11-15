@@ -480,11 +480,11 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Cierre (E170-I03, 13-11-2026):** con la CSP de ADR-092 solo se permiten los orígenes de Turnstile, Calendly y Giscus; los demás puntos ya estaban resueltos (ui-avatars retirado en E40-I02; Calendly por clic y Turnstile al primer foco en E140-I01). Verificado: 0 violaciones en 26 URL en local. Dicho por el desarrollador: recorrido de las páginas con la consola sin violaciones y envío real del formulario hasta Agradecimiento.
 
 ### AT-025 · Testimonios con datos personales
-- **Severidad:** Media · **Estado:** Abierto (parcial: los 12 testimonios migraron al modelo bilingüe y `en-US` indica "Translated from Spanish", E40-I02, 30-10-2026; falta el consentimiento de uso de nombres y fotos, BL-06, pendiente de Felipe sin bloquear) · **Resuelve:** E40-I02, BL-06
+- **Severidad:** Media · **Estado:** Resuelto (E190-I01 Fase 2, 15-11-2026): riesgo aceptado por Felipe · **Resuelve:** E40-I02, BL-06
 - **Evidencia:** 12 fotos en `static/img/testimonios/` con nombres en `testimonios.datos.js`.
 - **Impacto:** consentimiento por validar; la traducción altera citas de terceros.
 - **Recomendación:** ADR-017 (indicación "traducido del español") y confirmación de consentimiento.
-
+- **Cierre (E190-I01, 15-11-2026, dicho por Felipe):** los 12 testimonios son recomendaciones públicas de su LinkedIn y ya estaban en `main`. Felipe acepta el riesgo de publicar nombres y fotos; cierra BL-06 y AT-025.
 ### AT-029 · Función de contacto ligada a Pages
 - **Severidad:** Media · **Estado:** Resuelto en E140-I02 (06-11-2026): la función se reescribió como Worker en `src/worker/`, solo para `/api/*` (ADR-084); falta que Felipe aplique el bloque de `wrangler.jsonc` y cargue los secretos · **Resuelve:** E10-I09, E140-I02
 - **Evidencia:** `functions/api/contacto.js` usa el formato de Pages Functions; la guía oficial indica compilarla o reescribirla para Workers.
@@ -555,6 +555,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Verificación (28-10-2026):** `curl -I https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 200 **sin** `X-Robots-Tag`. `wrangler.jsonc` tiene `workers_dev: true` (URL activa a propósito hasta el cutover) y `preview_urls: false` (sin URL por versión, lo que reduce la superficie).
 - **Recomendación:** en E190-I01, pasar `workers_dev` a `false` o asegurar `noindex` en esa URL, con consulta previa a Felipe.
 - **Decisión (E190-I01, 15-11-2026, de Felipe, dicha por el desarrollador):** la URL de workers.dev sigue activa durante el ensayo. Apagarla (`workers_dev: false`) o darle `noindex` es un paso del cutover y se planifica en E190-I02, con su reversa. `wrangler.jsonc` lo edita solo Felipe (ADR-033). El estado de `X-Robots-Tag` en la preview se registra en la Fase 2 de E190-I01.
+- **Verificación (E190-I01 Fase 2, 15-11-2026, `curl -I`):** `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 200 **sin `X-Robots-Tag`**; tampoco lo traen `/robots.txt`, `/en/` ni `/x`. La URL sigue activa y indexable hasta que E190-I02 decida `workers_dev: false` o `noindex`.
 ### AT-049 · `public/.gitkeep` se publica en el sitio
 - **Severidad:** Baja · **Estado:** Resuelto en E20-I03 (se eliminó `public/.gitkeep` y la carpeta vacía; las fuentes viven en `src/assets/fonts/`, y `dist/` ya no publica el archivo) · **Resuelve:** E20-I03 (primer archivo real en `public/`) o E170-I04
 - **Evidencia:** `public/.gitkeep` (de E10-I02) se copia a `dist/.gitkeep`; `https://felipecuevas-dev.felipe-cuevas.workers.dev/.gitkeep` responde 200.
@@ -778,11 +779,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** medir en E170-I02 frente a ADR-015; si hace falta, bajar a 2 anchos o pintar los íconos de etiqueta como fondo CSS.
 
 ### AT-085 · El proyecto 1 del portafolio describe el sitio antiguo
-- **Severidad:** Baja · **Estado:** Resuelto en el código (E190-I01 Fase 1, 15-11-2026); falta contrastar en la preview (Fase 2) y que Felipe confirme etiquetas y lenguaje · **Resuelve:** E190-I01 (decisión de Felipe antes del cutover)
+- **Severidad:** Baja · **Estado:** Resuelto en el código y contrastado en la preview (E190-I01 Fase 2, 15-11-2026); falta solo que Felipe confirme etiquetas y lenguaje · **Resuelve:** E190-I01 (decisión de Felipe antes del cutover)
 - **Evidencia (E70-I04, 01-11-2026):** en `src/content/portfolio/page.json`, el proyecto `cv` («Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios») dice «HTML5 semántico, Tailwind CSS y JavaScript Vanilla», «animaciones con AOS» y «despliegue en Cloudflare Pages» (en inglés: «vanilla JavaScript», «AOS animations», «Cloudflare Pages»), y sus etiquetas incluyen AOS y Cloudflare Pages. El sitio nuevo usa Astro, no usa AOS (ADR-045) y su destino en Cloudflare se define en el cutover (ADR-037). El texto se migró tal cual desde `main` (ADR-068) y también alimenta el JSON-LD ItemList.
 - **Impacto:** tras el cutover, el portafolio describiría con datos desactualizados al propio sitio, en la página y en los datos estructurados.
 - **Recomendación:** Felipe redacta el texto nuevo (es y en) y las etiquetas antes del cutover; no se cambia ahora.
 - **Avance (E190-I01, 15-11-2026):** aplicado el texto aprobado por Felipe (opción A) en `src/content/portfolio/page.json`, proyecto `cv`: descripción es/en con «Astro, Tailwind CSS y TypeScript» y despliegue en Cloudflare Workers; etiquetas Astro, TypeScript, HTML5, CSS3, Tailwind CSS, Cloudflare Workers, Cloudflare Turnstile y PNPM; `programmingLanguage` TypeScript. Sin AOS ni Cloudflare Pages en este proyecto. Astro y TypeScript no tienen ícono en `TAG_ICONS` (aceptado; íconos al backlog si Felipe los quiere).
+- **Verificación (E190-I01 Fase 2, 15-11-2026):** en la preview, `/es/desarrollador/` y `/en/developer/` muestran «Astro, Tailwind CSS y TypeScript» y «Astro, Tailwind CSS and TypeScript», el JSON-LD con `programmingLanguage` TypeScript y 0 «AOS»; el único «Cloudflare Pages» de las páginas es de otro proyecto.
 ### AT-086 · El logo de Express.js se ve tenue en ambos temas
 - **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026): medido, sin problema de contraste; no se cambia nada · **Resuelve:** E170-I01
 - **Cierre (E170-I01, 12-11-2026):** `expressjs.svg` tiene un solo relleno `#222` (no es gris claro, como decía la evidencia): 15,91:1 sobre la placa clara (`bg`, `#FFFFFF`) y 14,06:1 sobre la placa del tema oscuro (`orient-50`), con la fórmula de WCAG 2.2 (no se midió con herramienta: el logo es una imagen). La impresión de «tenue» viene del trazo fino del logotipo a 28 px. En la etiqueta de 10 px del portafolio el logo es decorativo (`alt=""`) y el nombre va en texto, así que 1.4.11 no aplica; en oscuro esa etiqueta no lleva placa y el logo se ve poco, solo estético (`DESIGN.md` 7.14).
@@ -1018,11 +1020,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** activarlo en la zona de Cloudflare del dominio propio en E190-I02, con `max-age=31536000; includeSubDomains` (a evaluar: `includeSubDomains` afecta a todos los subdominios, como `api` o el sitio de la comunidad; empezar con un `max-age` corto y subirlo, y no usar `preload` sin decisión aparte).
 
 ### AT-123 · Métricas del Worker con respuestas 4xx y excepciones no capturadas (no verificado)
-- **Severidad:** Media (por el dato, sin causa conocida) · **Estado:** Abierto (no verificado); ítem manual de Felipe en `E190-I01-checklist.md` · **Resuelve:** antes de E190
+- **Severidad:** Media (por el dato, sin causa conocida) · **Estado:** Cerrado como «no reproducible» (E190-I01 Fase 2, 15-11-2026); origen no determinado, no resuelto · **Resuelve:** antes de E190
 - **Evidencia (E170-I03, 13-11-2026, dicho por el desarrollador, sin captura en el repositorio):** las métricas del Worker muestran 6 respuestas 4xx hacia `api.cloudflare.com` y 20 excepciones no capturadas en la versión `2f39c966`. No se conoce el origen: pueden venir de pruebas del formulario (Turnstile o envío de correo), de la verificación de Turnstile (`src/worker/contact.ts`), de un secreto o destino mal configurado, o de otra causa.
 - **Impacto:** si las excepciones ocurren en `/api/contacto`, un visitante podría ver fallar el envío sin que el sitio lo muestre.
 - **Recomendación:** no asumir el origen. Revisar los registros del Worker (Observability, filtrando por excepciones y por la versión `2f39c966`), reproducir con el formulario en la preview y separar las excepciones de las pruebas de las de visitantes reales. Resolver antes de E190.
 - **E190-I01 (15-11-2026):** el agente no accede al panel de Cloudflare. Queda como ítem manual del checklist: revisar Observability (excepciones y 4xx de la versión `2f39c966` y de la actual), reproducir con el formulario y anotar el origen. Se resuelve solo con la evidencia que Felipe entregue; si no se puede resolver, Felipe decide si bloquea el cutover.
+- **Cierre (E190-I01 Fase 2, 15-11-2026, PDF de Metrics de 7 días del 15-11-2026 17:38, verificado por el Tech Lead):** las versiones `d1fc8452` y `980c6939` (activa) tienen 0 errores y 0 excepciones no capturadas. `2f39c966` no aparece en el periodo y Observability está desactivada, así que no hay registros para determinar el origen de las 4xx y las excepciones de E170-I03. Se cierra como no reproducible, **no como resuelta**. Además, en la Fase 2 un POST con `consentimiento: false` y datos ficticios dio 400 controlado. E190-I02 decide si se activa Observability.
 ### AT-124 · Los enlaces externos no se consultan por red
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** revisión manual antes de E190-I01
 - **Evidencia (E170-I04, 13-11-2026, verificado):** `pnpm verify` lista 52 enlaces externos únicos en 20 dominios (GitHub, LinkedIn, Credly, Oracle, YouTube, entre otros) y solo valida su formato (URL válida, https). No hace `fetch`: es decisión de Felipe (sin red, sin dependencias, resultado repetible).
@@ -1036,12 +1039,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Control:** el script falla si el mapa no tiene exactamente 13 pares de páginas más la 404 (`EXPECTED_PAIRS`) o si el par de privacidad no es `/es/privacidad/` ↔ `/en/privacy/`; además revisa en sentido inverso que `dist/` no tenga páginas fuera del mapa. Al agregar una página, se actualiza la constante.
 
 ### AT-126 · Las URL de `static/img/` que usaba `main` dan 404
-- **Severidad:** Media · **Estado:** Resuelto en el código (E190-I01 Fase 1, 15-11-2026); falta confirmar 200 `image/png` en la preview (Fase 2) · **Resuelve:** E190-I01
+- **Severidad:** Media · **Estado:** Resuelto (E190-I01 Fase 2, 15-11-2026) · **Resuelve:** E190-I01
 - **Evidencia (E180-I01, 14-11-2026, verificado):** las 13 páginas de `main` usan `/static/img/felipe_cuevas_cv.png` como `og:image` y `desarrollador.html` usa 12 imágenes `static/img/portafolio/*.webp`. De los 157 archivos de `main:static/`, 23 están en `public/static/` idénticos y 134 faltan; en la preview `/static/img/felipe_cuevas_cv.png` da 404.
 - **Impacto:** las vistas previas ya compartidas con esa URL se rompen; las del portafolio solo si alguien enlazó esas imágenes (no verificado).
 - **Decisión (de Felipe, 14-11-2026):** copiar `felipe_cuevas_cv.png` a `public/static/img/` con la misma ruta, en E190-I01. Las demás no se sirven (AT-096).
 - **Recomendación:** agregarla a la lista de verificación de E190-I01 y comprobarla con `check:redirects` (hoy figura en su informe).
 - **Resolución (E190-I01, 15-11-2026):** `public/static/img/felipe_cuevas_cv.png` copiado con hash SHA-256 idéntico al de `main` (`54016ca235965ce886baade6480d2a1708563ceeea720c7c9b4cf07054607c81`). `scripts/check-redirects.mjs` no tiene un conteo fijo de archivos de `public/static/` (los lee del disco), así que no cambia; su informe «sin regla» sigue listando esa URL, ahora redundante (AT-137).
+- **Verificación (E190-I01 Fase 2, 15-11-2026):** en la preview, `/static/img/felipe_cuevas_cv.png` responde 200 `image/png`; `check:redirects --base` 483/483.
 ### AT-127 · `/educacion/` con barra final da 404
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
 - **Evidencia (E180-I01, 14-11-2026, verificado):** en la preview `/educacion/` responde 404 (`/educacion` y `/educacion.html` sí redirigen). No verificado si el sitio antiguo atendía la variante con barra.
@@ -1103,12 +1107,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Resolución (E180-I03, 15-11-2026, verificado):** `minimumReleaseAge: 1440` declarado en `pnpm-workspace.yaml` (ADR-097). En una copia limpia con pnpm 12.15.0, el lockfile completo se instala con 1440 y falla con 4000. `pnpm config get minimumReleaseAge` devuelve 1440 y `minimumReleaseAgeExclude` sigue sin definir.
 
 ### AT-136 · `robots.txt` se sirve como `text/plain` sin charset y sus comentarios con tildes se ven rotos
-- **Severidad:** Baja · **Estado:** Resuelto en el código (E190-I01 Fase 1, 15-11-2026); falta comprobar en la preview (Fase 2) · **Resuelve:** E190-I01 (junto con AT-109 y AT-126)
+- **Severidad:** Baja · **Estado:** Resuelto (E190-I01 Fase 2, 15-11-2026) · **Resuelve:** E190-I01 (junto con AT-109 y AT-126)
 - **Evidencia (E180-I03, 15-11-2026):** la preview responde `/robots.txt` con `Content-Type: text/plain` sin `charset` (verificado en las cabeceras). Felipe vio en el navegador «propÃ³sito» (dicho por el desarrollador). `public/robots.txt` tiene 6 bytes fuera de ASCII, todos en dos líneas de comentario (verificado).
 - **Impacto:** cosmético: los rastreadores ignoran los comentarios y las reglas (`User-agent`, `Allow`, `Sitemap`) son ASCII.
 - **Propuesta:** dejar los comentarios de `public/robots.txt` en ASCII (sin tildes), en E190-I01. Alternativa: una regla de cabecera con `charset=utf-8` en `_headers`, que edita Felipe. No se aplicó nada en E180-I03.
 - **Resolución (E190-I01, 15-11-2026):** los comentarios de `public/robots.txt` quedan en ASCII (proposito, paginas, pagina); 0 bytes fuera de ASCII; las reglas `User-agent`, `Allow` y `Sitemap` no cambian.
-
+- **Verificación (E190-I01 Fase 2, 15-11-2026):** `/robots.txt` en la preview, 200 `text/plain`, 0 bytes fuera de ASCII; sigue sin `charset` en la cabecera, pero ya no importa porque el contenido es ASCII.
 ### AT-137 · El informe «sin regla» de `check:redirects` sigue listando `/static/img/felipe_cuevas_cv.png`
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin iteración (limpieza menor)
 - **Evidencia (E190-I01, 15-11-2026):** `INFO_ONLY` en `scripts/check-redirects.mjs` incluye `/static/img/felipe_cuevas_cv.png` como URL sin regla que solo se informa. Desde AT-126 el archivo está en `public/static/img/` y ya lo comprueba (200) el bucle de archivos de `/static/`, así que el informe lo repite.
