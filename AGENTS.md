@@ -24,18 +24,18 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 
 - **Producto:** sitio personal de Felipe Cuevas (CV online, portafolio y comunidad). Producción: https://felipecuevas.dev. Repositorio: https://github.com/ffelipecuevasc/cv.
 - **Objetivo:** proyecto nuevo en Astro 7.x, bilingüe (`/es/` en `es-CL` y `/en/` en `en-US`), con Tailwind CSS v4, PNPM, HTML5 semántico y salida estática.
-- **Rama:** todo el trabajo ocurre en la rama de migración (propuesta `migracion-astro`, ADR-014), creada desde `main`.
+- **Rama:** todo el trabajo ocurre en la rama de migración `migracion-astro` (confirmada en E10-I01, ADR-014), creada desde `main`.
 - **Sitio antiguo:** es **referencia de solo lectura**. Sus archivos siguen en la raíz de la rama hasta E190-I03 (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`, `docs/`).
     - Nunca los edites.
     - Para consultar el original, usa siempre `git show main:<ruta>`.
-- **Despliegue:** la plataforma de Cloudflare (Pages o Workers) está pendiente: propuesta P-01, que se resuelve en E10-I09.
+- **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. El Worker `felipecuevas-dev` sirve la rama de migración en workers.dev (preview) y atiende solo `/api/*` (ADR-084 y ADR-085). Producción sigue en el proyecto Pages `felipe-cuevas-cv`, desde `main`, hasta el cutover de la épica E190. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
 
 ## 3. Lo que el agente PUEDE hacer
 
 - Leer, crear y editar archivos **dentro del alcance de la iteración en curso**.
-- Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `test` y los de verificación que se agreguen.
+- Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check`, `test` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
 - Actualizar los documentos de `_planificacion/`.
-- Agregar entradas nuevas a `auditoria-tecnica.md` (desde AT-044) y a `decisiones.md` (ADR nuevos).
+- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-137 y ADR-099). Verifica siempre el último número antes de asignar uno.
 - Escribir la bitácora de la iteración en `_planificacion/99_bitacora/`.
 - Sugerir el mensaje de commit (máximo 200 caracteres).
 - Crear ramas nuevas **solo después de consultar a Felipe y recibir su autorización explícita**.
@@ -49,13 +49,14 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 - No reescribir el historial (`rebase`, `reset --hard`, `push --force` ni equivalentes) ni eliminar ramas. Excepción: una rama local temporal creada por el propio agente en la sesión, solo con autorización de Felipe. Nunca se eliminan ramas remotas.
 - No usar npm, yarn, bun ni `npx`; usar solo `pnpm` y `pnpm dlx` (ADR-003).
 - No agregar dependencias sin un ADR aceptado en `decisiones.md`.
-- No tocar la configuración de despliegue sin consultar: Cloudflare (panel y API), Wrangler y sus archivos (`wrangler.toml`, `wrangler.json`, `wrangler.jsonc`), `_headers`, `_redirects`, `.dev.vars`, variables de entorno y secretos.
+- No tocar la configuración de despliegue sin consultar: Cloudflare (panel y API), Wrangler y sus archivos (`wrangler.toml`, `wrangler.json`, `wrangler.jsonc`), `_headers`, `_redirects`, `.dev.vars`, variables de entorno y secretos. Cuando una iteración requiera un cambio en `public/_headers`, `public/_redirects` o `wrangler.jsonc`, entrega a Felipe el bloque exacto para que lo aplique (ADR-033).
 - No borrar entradas de la auditoría ni revertir ADR sin una entrada nueva que lo sustituya.
 
 ### Otras restricciones vinculantes
 - No crear `CLAUDE.md` ni `GEMINI.md` en ninguna ruta del proyecto (ADR-024).
+- No editar `AGENTS.md`, `DESIGN.md` ni `.claude/`: los edita Felipe. Si una iteración exige un cambio en ellos, entrégale el bloque exacto en la bitácora.
 - No editar los archivos del sitio antiguo (sección 2).
-- No escribir secretos ni valores de variables de entorno en archivos versionados.
+- No escribir secretos ni valores de variables de entorno en archivos versionados, y no pedirlos ni imprimirlos.
 - No trabajar fuera del alcance de la iteración: lo que encuentres fuera de él se registra como hallazgo o como backlog.
 
 ## 5. Protocolo de trabajo por iteración
@@ -68,10 +69,11 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
     - marca la iteración `[x] Terminada` (o `[!] Bloqueada` con el motivo);
     - actualiza `_planificacion/README.md` (épica actual, iteración actual, lista) y `registro-log.md`;
     - marca como resueltos los `AT-###` cerrados, indicando la iteración;
-    - registra los ADR nuevos.
+    - registra los ADR nuevos;
+    - ejecuta `git diff --stat` antes y después de editar documentos y confirma que ninguno quedó vacío.
 6. **Commit sugerido:** propone un mensaje de 200 caracteres o menos, en español de Chile.
 7. **Bitácora:** escribe `_planificacion/99_bitacora/AAAA-MM-DD_<ID>.md` con la plantilla `_plantilla-bitacora.md`.
-8. **Entrega:** resume a Felipe lo hecho y el mensaje de commit, y **espera**: no avances a la iteración siguiente sin que te lo pidan.
+8. **Entrega:** resume a Felipe lo hecho, lista **todos** los archivos cambiados (documentos incluidos, para que ninguno quede fuera del commit) y el mensaje de commit, y **espera**: no avances a la iteración siguiente sin que te lo pidan.
 
 ## 6. Detenerse y preguntar
 
