@@ -69,7 +69,7 @@
       "id": "cv",
       "category": "frontend",
       "image": "../../assets/portfolio/felipe-cuevas-dev.webp",
-      "programmingLanguage": "JavaScript",
+      "programmingLanguage": "TypeScript",
       "url": "https://felipecuevas.dev/",
       "title": {
         "es": "Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios",
@@ -80,18 +80,18 @@
         "en": "Cover of this website, Felipe Cuevas — Online CV and Portfolio"
       },
       "description": {
-        "es": "Este mismo sitio: currículum interactivo y portafolio profesional con **HTML5 semántico, Tailwind CSS y JavaScript Vanilla**. Modo claro y oscuro, animaciones con AOS, formulario de contacto protegido con Cloudflare Turnstile y despliegue en Cloudflare Pages.",
-        "en": "This very site: an interactive résumé and professional portfolio built with **semantic HTML5, Tailwind CSS and vanilla JavaScript**. Light and dark mode, AOS animations, a contact form protected by Cloudflare Turnstile and deployment on Cloudflare Pages."
+        "es": "Este mismo sitio: currículum interactivo y portafolio profesional bilingüe con **Astro, Tailwind CSS y TypeScript**. Modo claro y oscuro, movimiento propio sin librerías, formulario de contacto con validación en el servidor y Turnstile, y despliegue estático en Cloudflare Workers.",
+        "en": "This very site: a bilingual interactive résumé and professional portfolio built with **Astro, Tailwind CSS and TypeScript**. Light and dark mode, in-house motion without libraries, a contact form with server-side validation and Turnstile, and static deployment on Cloudflare Workers."
       },
       "tags": [
+        "Astro",
+        "TypeScript",
         "HTML5",
         "CSS3",
         "Tailwind CSS",
-        "JavaScript",
-        "AOS",
-        "Cloudflare Pages",
+        "Cloudflare Workers",
         "Cloudflare Turnstile",
-        "NPM"
+        "PNPM"
       ]
     },
     {

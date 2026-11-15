@@ -1,7 +1,7 @@
 # E190-I02 · Plan de cambio de despliegue y plan de reversa
 - **Estado:** [ ] Pendiente
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** M
-- **Depende de:** E190-I01 · **Hallazgos que cierra:** AT-042 · **ADR relacionados:** ADR resultante de D-14
+- **Depende de:** E190-I01 · **Hallazgos que cierra:** AT-042, AT-048, AT-121, AT-122 · **ADR relacionados:** ADR resultante de D-14
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -21,6 +21,10 @@ Escribir el procedimiento paso a paso para que Felipe haga el merge y cambie el 
 
 ## Tareas
 - [ ] Redactar el procedimiento.
+- [ ] Decidir qué se hace con workers.dev tras el cutover (`workers_dev: false` o `noindex`), con su reversa; `wrangler.jsonc` lo edita solo Felipe (ADR-033) (AT-048).
+- [ ] Decidir si se activa Web Analytics; si se activa, ADR y actualización de la política (AT-121).
+- [ ] HSTS en la zona con `max-age` corto al inicio y sin `preload` (AT-122).
+- [ ] Incluir los pasos de ADR-037 (rama de producción a `main`, borrar el CNAME del apex, Custom Domain, `www` con 301) y la reversa que devuelve el dominio a Pages.
 - [ ] Revisarlo con Felipe.
 
 ## Archivos previstos (crear / modificar)

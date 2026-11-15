@@ -1,7 +1,7 @@
 # E190-I04 · Verificación posterior al cutover
 - **Estado:** [ ] Pendiente
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E190-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015
+- **Depende de:** E190-I03 · **Hallazgos que cierra:** AT-131, AT-100 · **ADR relacionados:** ADR-015
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -21,7 +21,9 @@ Guiar la verificación en producción después de que Felipe ejecute el cutover.
 
 ## Tareas
 - [ ] Comprobar redirecciones, formulario, foro, descargas y sitemap en producción.
-- [ ] Registrar la línea base nueva de rendimiento.
+- [ ] Registrar la línea base nueva de rendimiento (ADR-015).
+- [ ] Enviar `sitemap-index.xml` a Search Console y repetir las comprobaciones del sitemap en producción (AT-131).
+- [ ] Quitar el hostname de workers.dev de Turnstile (AT-100).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: documentos de `_planificacion/`.
