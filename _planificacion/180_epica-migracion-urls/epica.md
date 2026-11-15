@@ -20,7 +20,7 @@ E160 y el resto de épicas de página.
 |---|---|---|---|---|---|
 | [E180-I01](E180-I01-mapa-redirecciones.md) | Mapa de URLs y redirecciones 301 | P0 | S | E160-I01 | [x] Terminada |
 | [E180-I02](E180-I02-sitemap-robots.md) | Sitemap bilingüe, robots.txt y canónicas | P0 | S | E180-I01 | [x] Terminada |
-| [E180-I03](E180-I03-raiz-xdefault.md) | Comportamiento de / y x-default | P0 | S | E180-I01 | [ ] Pendiente |
+| [E180-I03](E180-I03-raiz-xdefault.md) | Comportamiento de / y x-default | P0 | S | E180-I01 | [~] En curso |
 
 > **Complemento E180-I02c (15-11-2026):** se quita la excepción de antigüedad de pnpm; `@astrojs/sitemap` queda en `3.7.5` exacta, que ya cumple el filtro (ADR-096). E180-I03 debe incluir AT-132.
 

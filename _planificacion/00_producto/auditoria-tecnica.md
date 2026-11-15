@@ -1062,16 +1062,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E180-I02, 14-11-2026, verificado):** `Seo.astro` emite `hreflang="x-default"` hacia `/es/` en cada página; las alternativas del sitemap son solo es-CL y en-US, y `verify:seo` falla si aparece `x-default` en él. Google lo declara opcional.
 - **Impacto:** ninguno funcional; la señal es la misma, pero las dos fuentes no son idénticas.
 - **Recomendación:** decidir en E180-I03, con `/` y ADR-019, si el sitemap suma `x-default` (y la raíz) o se mantiene así; en ese caso actualizar el control.
+- **Estado (E180-I03, 15-11-2026):** **a la espera de la decisión de Felipe.** Opciones y recomendación presentadas en la bitácora `2026-11-15_E180-I03.md` (A: dejar el sitemap sin `x-default`; B: sumarlo hacia la versión `/es/` de cada página, igual que las etiquetas; C: apuntar a `/`, que contradice ADR-019). No implementado.
 
 ### AT-131 · Sitemap sin enviar ni comprobar en producción
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar)
 - **Evidencia (E180-I02, 14-11-2026):** `/sitemap.xml` y `/robots.txt` están en el `dist/` pero no en la preview, porque no están commiteados. No verificado: la respuesta de Cloudflare (tipo de contenido, 200) ni el envío a Search Console.
 - **Recomendación:** tras el commit, abrir ambas URL en la preview; tras el cutover, enviar el sitemap en Search Console y repetirlo en E190.
+- **Avance (E180-I03, 15-11-2026, verificado en la preview `https://felipecuevas-dev.felipe-cuevas.workers.dev`):** `/sitemap-index.xml` y `/sitemap-0.xml` responden 200 `application/xml` (22 URL y 44 alternativas) y `/robots.txt` 200 `text/plain`. Sigue abierto el envío a Search Console y repetirlo en producción.
 
 ### AT-132 · `/sitemap.xml` del sitio antiguo ya no existe
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (la regla la pega Felipe)
 - **Evidencia (E180-I02b, 14-11-2026, verificado en `dist/`):** `main` publicaba `/sitemap.xml` y su `robots.txt` lo declaraba. `@astrojs/sitemap` genera `/sitemap-index.xml` y `/sitemap-0.xml`; no existe `/sitemap.xml`. Buscadores y Search Console que lo tengan registrado recibirían 404.
 - **Impacto:** el sitemap viejo registrado deja de leerse hasta que se reenvíe el nuevo.
+- **Estado (E180-I03, 15-11-2026):** línea entregada a Felipe: `/sitemap.xml /sitemap-index.xml 301`. Cuando la confirme, `scripts/check-redirects.mjs` pasa a las reglas esperadas con 24 (o 25 con `/`) y se prueba con casos rotos. En la preview, hoy `/sitemap.xml` da 404 (verificado).
 - **Propuesta (no aplicada: `public/_redirects` lo edita Felipe):** agregar `/sitemap.xml /sitemap-index.xml 301` al bloque de `_redirects` (a la vez, actualizar la cuenta de reglas esperada de `check:redirects`, hoy 23, y su informe) y enviar `sitemap-index.xml` en Search Console tras el cutover (AT-131).
 
 ### AT-133 · `minimumReleaseAgeExclude` en `pnpm-workspace.yaml` para una versión de un día
@@ -1088,7 +1091,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (E180-I02c, 15-11-2026, verificado):** sin la excepción de antigüedad, con la misma 3.7.5, el build sigue dando 22 URL con 44 alternativas (22 es-CL y 22 en-US), sin `/`, 404, agradecimiento ni muestra, y `verify:seo` pasa 1149 de 1149: `serialize` funciona igual. Sigue aceptado y controlado.
 
 ### AT-135 · `minimumReleaseAge` por defecto es no estricto y no está declarado en el proyecto
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I03 (15-11-2026, ADR-097) · **Resuelve:** E180-I03
 - **Evidencia (E180-I02c, 15-11-2026):** el proyecto no define `minimumReleaseAge` en `pnpm-workspace.yaml` y usa el valor integrado de pnpm (1440 minutos). Según su documentación (lectura web de un subagente, sin etiqueta de versión en la página), el valor integrado es no estricto «por compatibilidad»: si ninguna versión del rango cumple, pnpm puede instalar una inmadura sin fallar. En una copia temporal, con el valor declarado explícitamente sí fue estricto y falló con 4000 minutos (verificado).
 - **Impacto:** la protección de ADR-003 podría no frenar una instalación futura demasiado reciente.
 - **Recomendación (no aplicada: fuera del alcance y es configuración de pnpm):** declarar `minimumReleaseAge: 1440` en `pnpm-workspace.yaml` para que sea estricto, con su ADR.
+- **Resolución (E180-I03, 15-11-2026, verificado):** `minimumReleaseAge: 1440` declarado en `pnpm-workspace.yaml` (ADR-097). En una copia limpia con pnpm 12.15.0, el lockfile completo se instala con 1440 y falla con 4000. `pnpm config get minimumReleaseAge` devuelve 1440 y `minimumReleaseAgeExclude` sigue sin definir.

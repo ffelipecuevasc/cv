@@ -1,7 +1,7 @@
 # E180-I03 · Comportamiento de / y x-default
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (15-11-2026; a la espera de Felipe, ver «Avance»)
 - **Épica:** E180 · Migración de URLs y SEO · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E180-I01 · **Hallazgos que cierra:** AT-006 · **ADR relacionados:** ADR-019
+- **Depende de:** E180-I01 · **Hallazgos que cierra:** AT-006 (parte de `/`), AT-130, AT-132 y AT-135 · **ADR relacionados:** ADR-019
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -18,6 +18,15 @@ Implementar la redirección 301 de `/` a `/es/` y verificar `x-default`.
 
 ## Fuera de alcance
 - —
+
+## Avance (15-11-2026)
+- **Puerta (verificada):** rama `migracion-astro`, árbol limpio, E180-I02c `[x]`, build, `verify:seo` 1149/1149 y `check:redirects --base` 448/448.
+- **AT-135 hecho (verificado):** `minimumReleaseAge: 1440` declarado (ADR-097); pnpm 12.15.0 instala el lockfile completo en una copia limpia.
+- **Raíz `/` (verificado en la preview):** hoy `/` responde 200 con la página de redirección de Astro (`meta refresh`, `noindex`, canonical a `/es/`), no un 301. Falta la regla; **línea para Felipe: `/ /es/ 301`**.
+- **AT-132:** **línea para Felipe: `/sitemap.xml /sitemap-index.xml 301`** (hoy da 404 en la preview).
+- **AT-130 (`x-default`):** decisión de Felipe pendiente (opciones A, B y C en la bitácora).
+- **Pendiente tras la confirmación de Felipe:** `scripts/check-redirects.mjs` al conjunto exacto de 25 reglas (23 + `/` + `/sitemap.xml`; 24 si solo una), prueba con casos rotos, verificación en la preview y cierre.
+- **Nota:** E180 no tiene una iteración E180-I04; tras E180-I03 sigue E190-I01.
 
 ## Tareas
 - [ ] Agregar la regla.

@@ -6,6 +6,10 @@ engineStrict: true
 # Falla si una dependencia intenta ejecutar scripts de compilación no revisados (ADR-003).
 strictDepBuilds: true
 
+# Antigüedad mínima, en minutos, de una versión publicada para poder instalarla: 1 día (ADR-003, ADR-097).
+# Declararla explícitamente la vuelve estricta: si ninguna versión del rango cumple, la instalación falla.
+minimumReleaseAge: 1440
+
 # Scripts de compilación revisados de forma explícita (ADR-038).
 # esbuild y workerd (de wrangler) quedan denegados: su postinstall solo valida o descarga
 # el binario, que ya llega como dependencia opcional de la plataforma.
