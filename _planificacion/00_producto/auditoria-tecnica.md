@@ -549,13 +549,14 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** en E180-I03, declarar la 301 de `/` en la plataforma que resuelva P-01 (por ejemplo `_redirects`), con consulta previa a Felipe, y decidir si se conserva el `dist/index.html` como respaldo.
 
 ### AT-048 · URL de workers.dev pública sin noindex verificado
-- **Severidad:** Media · **Estado:** Abierto; acción pasada a E190-I02 · **Resuelve:** E190-I01
+- **Severidad:** Media · **Estado:** Abierto; decidido en ADR-101: se apaga tras verificar el dominio propio (paso 9b del cutover) · **Resuelve:** E190-I01
 - **Evidencia:** la documentación de Worker Previews (24-09-2026) indica que las URL son públicas por defecto y que las de *preview* envían `X-Robots-Tag: noindex`; no se verificó que la URL de producción del Worker en workers.dev (`felipecuevas-dev.<subdominio>.workers.dev`) envíe esa cabecera.
 - **Impacto:** tras el cutover, el sitio quedaría duplicado en workers.dev y podría indexarse.
 - **Verificación (28-10-2026):** `curl -I https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 200 **sin** `X-Robots-Tag`. `wrangler.jsonc` tiene `workers_dev: true` (URL activa a propósito hasta el cutover) y `preview_urls: false` (sin URL por versión, lo que reduce la superficie).
 - **Recomendación:** en E190-I01, pasar `workers_dev` a `false` o asegurar `noindex` en esa URL, con consulta previa a Felipe.
 - **Decisión (E190-I01, 15-11-2026, de Felipe, dicha por el desarrollador):** la URL de workers.dev sigue activa durante el ensayo. Apagarla (`workers_dev: false`) o darle `noindex` es un paso del cutover y se planifica en E190-I02, con su reversa. `wrangler.jsonc` lo edita solo Felipe (ADR-033). El estado de `X-Robots-Tag` en la preview se registra en la Fase 2 de E190-I01.
 - **Verificación (E190-I01 Fase 2, 15-11-2026, `curl -I`):** `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 200 **sin `X-Robots-Tag`**; tampoco lo traen `/robots.txt`, `/en/` ni `/x`. La URL sigue activa y indexable hasta que E190-I02 decida `workers_dev: false` o `noindex`.
+- **Decisión (E190-I02, 15-11-2026, ADR-101, de Felipe):** `"workers_dev": false` en un commit posterior al cutover (~48 h), con reversa `true`. La documentación oficial (06-11-2026) no ofrece `noindex` para workers.dev. Bloque exacto en `E190-I02-procedimiento-cutover.md`, sección 7. Se verifica en E190-I04.
 ### AT-049 · `public/.gitkeep` se publica en el sitio
 - **Severidad:** Baja · **Estado:** Resuelto en E20-I03 (se eliminó `public/.gitkeep` y la carpeta vacía; las fuentes viven en `src/assets/fonts/`, y `dist/` ya no publica el archivo) · **Resuelve:** E20-I03 (primer archivo real en `public/`) o E170-I04
 - **Evidencia:** `public/.gitkeep` (de E10-I02) se copia a `dist/.gitkeep`; `https://felipecuevas-dev.felipe-cuevas.workers.dev/.gitkeep` responde 200.
@@ -779,12 +780,13 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** medir en E170-I02 frente a ADR-015; si hace falta, bajar a 2 anchos o pintar los íconos de etiqueta como fondo CSS.
 
 ### AT-085 · El proyecto 1 del portafolio describe el sitio antiguo
-- **Severidad:** Baja · **Estado:** Resuelto en el código y contrastado en la preview (E190-I01 Fase 2, 15-11-2026); falta solo que Felipe confirme etiquetas y lenguaje · **Resuelve:** E190-I01 (decisión de Felipe antes del cutover)
+- **Severidad:** Baja · **Estado:** Resuelto en E190-I01 (15-11-2026) · **Resuelve:** E190-I01 (decisión de Felipe antes del cutover)
 - **Evidencia (E70-I04, 01-11-2026):** en `src/content/portfolio/page.json`, el proyecto `cv` («Felipe Cuevas · Sitio Web Profesional, CV Online y Portafolios») dice «HTML5 semántico, Tailwind CSS y JavaScript Vanilla», «animaciones con AOS» y «despliegue en Cloudflare Pages» (en inglés: «vanilla JavaScript», «AOS animations», «Cloudflare Pages»), y sus etiquetas incluyen AOS y Cloudflare Pages. El sitio nuevo usa Astro, no usa AOS (ADR-045) y su destino en Cloudflare se define en el cutover (ADR-037). El texto se migró tal cual desde `main` (ADR-068) y también alimenta el JSON-LD ItemList.
 - **Impacto:** tras el cutover, el portafolio describiría con datos desactualizados al propio sitio, en la página y en los datos estructurados.
 - **Recomendación:** Felipe redacta el texto nuevo (es y en) y las etiquetas antes del cutover; no se cambia ahora.
 - **Avance (E190-I01, 15-11-2026):** aplicado el texto aprobado por Felipe (opción A) en `src/content/portfolio/page.json`, proyecto `cv`: descripción es/en con «Astro, Tailwind CSS y TypeScript» y despliegue en Cloudflare Workers; etiquetas Astro, TypeScript, HTML5, CSS3, Tailwind CSS, Cloudflare Workers, Cloudflare Turnstile y PNPM; `programmingLanguage` TypeScript. Sin AOS ni Cloudflare Pages en este proyecto. Astro y TypeScript no tienen ícono en `TAG_ICONS` (aceptado; íconos al backlog si Felipe los quiere).
 - **Verificación (E190-I01 Fase 2, 15-11-2026):** en la preview, `/es/desarrollador/` y `/en/developer/` muestran «Astro, Tailwind CSS y TypeScript» y «Astro, Tailwind CSS and TypeScript», el JSON-LD con `programmingLanguage` TypeScript y 0 «AOS»; el único «Cloudflare Pages» de las páginas es de otro proyecto.
+- **Cierre (E190-I01, 15-11-2026):** Felipe confirmó las etiquetas y el lenguaje (dicho por el desarrollador). Texto aplicado en el código y contrastado en la preview (Fase 2).
 ### AT-086 · El logo de Express.js se ve tenue en ambos temas
 - **Severidad:** Baja · **Estado:** Resuelto en E170-I01 (12-11-2026): medido, sin problema de contraste; no se cambia nada · **Resuelve:** E170-I01
 - **Cierre (E170-I01, 12-11-2026):** `expressjs.svg` tiene un solo relleno `#222` (no es gris claro, como decía la evidencia): 15,91:1 sobre la placa clara (`bg`, `#FFFFFF`) y 14,06:1 sobre la placa del tema oscuro (`orient-50`), con la fórmula de WCAG 2.2 (no se midió con herramienta: el logo es una imagen). La impresión de «tenue» viene del trazo fino del logotipo a 28 px. En la etiqueta de 10 px del portafolio el logo es decorativo (`alt=""`) y el nombre va en texto, así que 1.4.11 no aplica; en oscuro esa etiqueta no lleva placa y el logo se ve poco, solo estético (`DESIGN.md` 7.14).
@@ -1008,24 +1010,25 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** no actuar ahora. Si se quisiera endurecer, habría que mover los atributos `style` a clases y poner un `nonce` o hash a los `<style>`, lo que exige cambiar los componentes.
 
 ### AT-121 · Web Analytics de Cloudflare exigiría un ADR y la política de privacidad si se activa en el dominio propio
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I02 (precondición del cutover; no bloquea E170-I03)
+- **Severidad:** Baja · **Estado:** Resuelto por decisión (E190-I02, 15-11-2026, ADR-101): Web Analytics no se activa en el cutover · **Resuelve:** E190-I02 (precondición del cutover; no bloquea E170-I03)
 - **Evidencia (E170-I03, 13-11-2026, reformulado tras la preview):** en la preview no hay beacon de Web Analytics: está **desactivado hoy**. La CSP de ADR-092 no permite `static.cloudflareinsights.com`.
 - **Impacto:** si se activa Web Analytics en el dominio propio después del cutover, la CSP bloquearía el beacon (violación en la consola) y el sitio trataría datos de visitantes que la política de privacidad no menciona (ADR-035).
 - **Recomendación:** antes de activarlo, un ADR que agregue `https://static.cloudflareinsights.com` a `script-src` (y `connect-src` si la versión del beacon lo pide) y una actualización de la política de privacidad con cambio de `PRIVACY_POLICY_VERSION`. Revisar Rocket Loader y la ofuscación de correos en la zona al mismo tiempo. Es precondición de E190-I02.
-
+- **Decisión (E190-I02, 15-11-2026, ADR-101, de Felipe):** no se activa. Si se quisiera después, iteración propia con ADR, `https://static.cloudflareinsights.com` en la CSP (`_headers`) y nueva versión de la política. La documentación leída no explica cómo se activa ni si inyecta ese script (no verificado).
 ### AT-122 · HSTS ausente en la preview de workers.dev
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I02
+- **Severidad:** Baja · **Estado:** Abierto; decidido en ADR-101: HSTS de 1 mes sin subdominios ni preload (paso 9a del cutover) · **Resuelve:** E190-I02
 - **Evidencia (E170-I03, 13-11-2026):** SecurityHeaders califica la preview con **A** (14-11-2026 00:19 UTC) y el único faltante es `Strict-Transport-Security`. HSTS no se declara en `_headers` por decisión de Felipe (la zona queda fuera de E170-I03, ADR-092).
 - **Impacto:** sin HSTS el navegador puede intentar HTTP en la primera visita; no es una vulnerabilidad en `workers.dev`, que ya fuerza HTTPS.
 - **Recomendación:** activarlo en la zona de Cloudflare del dominio propio en E190-I02, con `max-age=31536000; includeSubDomains` (a evaluar: `includeSubDomains` afecta a todos los subdominios, como `api` o el sitio de la comunidad; empezar con un `max-age` corto y subirlo, y no usar `preload` sin decisión aparte).
-
+- **Decisión (E190-I02, 15-11-2026, ADR-101, de Felipe):** en la zona, max-age de 1 mes (el mínimo que ofrece la documentación del 15-10-2026), sin `includeSubDomains`, sin preload y sin no-sniff, ~48 h después del cutover; subir a 6 meses tras 2 semanas sin incidentes. Se verifica en E190-I04.
 ### AT-123 · Métricas del Worker con respuestas 4xx y excepciones no capturadas (no verificado)
-- **Severidad:** Media (por el dato, sin causa conocida) · **Estado:** Cerrado como «no reproducible» (E190-I01 Fase 2, 15-11-2026); origen no determinado, no resuelto · **Resuelve:** antes de E190
+- **Severidad:** Media (por el dato, sin causa conocida) · **Estado:** Cerrado como «no reproducible» (E190-I01); Observability no se activa (ADR-101) · **Resuelve:** antes de E190
 - **Evidencia (E170-I03, 13-11-2026, dicho por el desarrollador, sin captura en el repositorio):** las métricas del Worker muestran 6 respuestas 4xx hacia `api.cloudflare.com` y 20 excepciones no capturadas en la versión `2f39c966`. No se conoce el origen: pueden venir de pruebas del formulario (Turnstile o envío de correo), de la verificación de Turnstile (`src/worker/contact.ts`), de un secreto o destino mal configurado, o de otra causa.
 - **Impacto:** si las excepciones ocurren en `/api/contacto`, un visitante podría ver fallar el envío sin que el sitio lo muestre.
 - **Recomendación:** no asumir el origen. Revisar los registros del Worker (Observability, filtrando por excepciones y por la versión `2f39c966`), reproducir con el formulario en la preview y separar las excepciones de las pruebas de las de visitantes reales. Resolver antes de E190.
 - **E190-I01 (15-11-2026):** el agente no accede al panel de Cloudflare. Queda como ítem manual del checklist: revisar Observability (excepciones y 4xx de la versión `2f39c966` y de la actual), reproducir con el formulario y anotar el origen. Se resuelve solo con la evidencia que Felipe entregue; si no se puede resolver, Felipe decide si bloquea el cutover.
 - **Cierre (E190-I01 Fase 2, 15-11-2026, PDF de Metrics de 7 días del 15-11-2026 17:38, verificado por el Tech Lead):** las versiones `d1fc8452` y `980c6939` (activa) tienen 0 errores y 0 excepciones no capturadas. `2f39c966` no aparece en el periodo y Observability está desactivada, así que no hay registros para determinar el origen de las 4xx y las excepciones de E170-I03. Se cierra como no reproducible, **no como resuelta**. Además, en la Fase 2 un POST con `consentimiento: false` y datos ficticios dio 400 controlado. E190-I02 decide si se activa Observability.
+- **Decisión (E190-I02, 15-11-2026, ADR-101, de Felipe):** Observability no se activa. Sin registros no habrá forma de investigar nuevas excepciones; si reaparecen, se decide otra vez (activarla exige editar `wrangler.jsonc`, que edita Felipe).
 ### AT-124 · Los enlaces externos no se consultan por red
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** revisión manual antes de E190-I01
 - **Evidencia (E170-I04, 13-11-2026, verificado):** `pnpm verify` lista 52 enlaces externos únicos en 20 dominios (GitHub, LinkedIn, Credly, Oracle, YouTube, entre otros) y solo valida su formato (URL válida, https). No hace `fetch`: es decisión de Felipe (sin red, sin dependencias, resultado repetible).
@@ -1118,3 +1121,21 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E190-I01, 15-11-2026):** `INFO_ONLY` en `scripts/check-redirects.mjs` incluye `/static/img/felipe_cuevas_cv.png` como URL sin regla que solo se informa. Desde AT-126 el archivo está en `public/static/img/` y ya lo comprueba (200) el bucle de archivos de `/static/`, así que el informe lo repite.
 - **Impacto:** cosmético: una línea redundante en el informe, sin efecto en el resultado.
 - **Recomendación:** quitar esa entrada de `INFO_ONLY` cuando se toque el script; no se hizo porque la iteración solo autorizaba ajustar un conteo fijo.
+
+### AT-138 · No se verificó qué hace Pages con el código nuevo de `main` tras el merge
+- **Severidad:** Alta (si ocurriera, afecta a producción) · **Estado:** Abierto (mitigado en el procedimiento) · **Resuelve:** E190-I02 (paso 2) y E190-I04
+- **Evidencia (E190-I02, 15-11-2026):** la documentación oficial de Pages dice que despliega cada push a la rama de producción, pero no describe el merge ni qué haría con este repositorio. El proyecto `felipe-cuevas-cv` se alimenta de `main`.
+- **Impacto:** si Pages reconstruyera con el código nuevo antes de mover el dominio, podría publicar o fallar y degradar producción.
+- **Mitigación:** el paso 2 pausa los despliegues automáticos de producción de Pages antes del merge; el último deployment sigue sirviendo el sitio antiguo y es la reversa. En el paso 3 se comprueba que no aparece un deployment nuevo.
+
+### AT-139 · La documentación no cubre cómo quitar un Custom Domain de Workers ni si convive con Pages
+- **Severidad:** Media · **Estado:** Abierto (se confirma en el panel durante el cutover) · **Resuelve:** E190-I02 y E190-I04
+- **Evidencia (E190-I02, 15-11-2026):** la página de Custom Domains (12-11-2026) dice que no se puede crear sobre un hostname con un CNAME existente y que al quitarlo el certificado no se borra solo, pero no describe los pasos para quitarlo ni si un dominio puede estar a la vez en Pages y en un Worker. La reversa del procedimiento depende de ello.
+- **Impacto:** un paso de reversa podría no funcionar como está escrito.
+- **Mitigación:** el procedimiento quita el dominio de Pages antes de crear el Custom Domain y describe la reversa con el panel; Felipe lo valida en la lectura conjunta y deja anotada cualquier diferencia que vea en el panel.
+
+### AT-140 · El widget de Turnstile debe autorizar el dominio propio antes del cutover (no verificado)
+- **Severidad:** Alta (el formulario fallaría en producción) · **Estado:** Abierto · **Resuelve:** precondición P4 del procedimiento de E190-I02
+- **Evidencia (E190-I02, 15-11-2026):** el Worker verifica Turnstile (`src/worker/contact.ts`); el ensayo del 15-11-2026 se hizo en workers.dev (AT-100). No hay evidencia en el repositorio de que `felipecuevas.dev` esté en la lista de hostnames del widget.
+- **Impacto:** tras mover el dominio, el formulario podría rechazar todos los envíos.
+- **Recomendación:** Felipe confirma en el panel de Turnstile que `felipecuevas.dev` (y `www` si corresponde) figura en los hostnames, antes de la ventana. Quitar workers.dev se hace después (AT-100, E190-I04).

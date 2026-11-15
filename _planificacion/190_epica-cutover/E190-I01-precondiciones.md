@@ -1,5 +1,5 @@
 # E190-I01 · Checklist de precondiciones y ensayo en preview
-- **Estado:** [~] En curso (Fase 1 y Fase 2 ejecutadas el 15-11-2026; falta la firma de Felipe, la reconfirmación de la Ley 21.719 y confirmar las etiquetas de AT-085)
+- **Estado:** [x] Terminada (15-11-2026; checklist firmado por Felipe)
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S (con carga manual de Felipe)
 - **Depende de:** E170-I04, E180-I03 · **Hallazgos que cierra:** AT-085, AT-109, AT-123 (si el registro lo permite), AT-126, AT-136; avanza AT-048 (la acción pasa a E190-I02), BL-02, BL-06 y BL-08 · **ADR relacionados:** ADR-013, ADR-014, ADR-027, ADR-035, ADR-037, ADR-088, ADR-089 · **ADR nuevos:** ADR-099 y, solo si corresponde, ADR-100
 
@@ -71,7 +71,7 @@ Texto actual, solo como referencia: «Este mismo sitio: currículum interactivo 
 - [x] Ensayo manual en la preview: navegación, selector de idioma, tema claro y oscuro, Foro (Giscus), 15 descargas de Recursos, redirecciones antiguas, 404 por idioma.
 - [x] Formulario real: rechazo sin checkbox con error accesible; envío con checkbox y correo con fecha, hora y versión de la política (ADR-035).
 - [x] Confirmar que `AGENTS.md` quedó corregido (sin «P-01 pendiente» ni «desde AT-044»; verificado por el Tech Lead el 15-11-2026).
-- [ ] Reconfirmar el estado de la Ley 21.719 antes del cutover (decisión 3).
+- [x] Reconfirmar el estado de la Ley 21.719 antes del cutover (decisión 3). **Traspasado a E190-I02 por decisión de Felipe (15-11-2026): paso obligatorio previo al cutover; no bloquea I01.**
 - [x] Hacer commit y push, esperar el despliegue de la preview y avisar al agente (Fase 2). Firmar el checklist.
 
 ## Tareas de Fase 2 (agente, con la preview desplegada)
@@ -93,12 +93,12 @@ Texto actual, solo como referencia: «Este mismo sitio: currículum interactivo 
 - Modificar: `public/robots.txt` (solo comentarios), `src/content/portfolio/page.json` (proyecto `cv`), `scripts/check-redirects.mjs` (solo si tiene un conteo fijo), `auditoria-tecnica.md`, `decisiones.md`, `registro-log.md`, `_planificacion/README.md`, `epica.md`, E190-I02 a I04.
 
 ## Criterios de aceptación (verificables)
-- [ ] Checklist completo y firmado por Felipe en la bitácora.
-- [ ] ADR-099 registrado; ADR-100 registrado o Node 26 reportado a Felipe, según el resultado.
-- [ ] `/static/img/felipe_cuevas_cv.png` responde 200 en la preview; `/robots.txt` sin bytes fuera de ASCII; el proyecto `cv` ya no menciona AOS ni Cloudflare Pages.
-- [ ] Ningún commit de `main` queda sin clasificar (portado, hallazgo o descartado).
-- [ ] Precondiciones de privacidad: política publicada y consentimiento registrado por el formulario (ADR-035, ADR-084); validación del especialista pasa a BL-08 por ADR-099.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Checklist completo y firmado por Felipe (sección D del checklist y bitácora).
+- [x] ADR-099 registrado; ADR-100 registrado o Node 26 reportado a Felipe, según el resultado.
+- [x] `/static/img/felipe_cuevas_cv.png` responde 200 en la preview; `/robots.txt` sin bytes fuera de ASCII; el proyecto `cv` ya no menciona AOS ni Cloudflare Pages.
+- [x] Ningún commit de `main` queda sin clasificar (portado, hallazgo o descartado).
+- [x] Precondiciones de privacidad: política publicada y consentimiento registrado por el formulario (ADR-035, ADR-084); validación del especialista pasa a BL-08 por ADR-099.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check` y `pnpm lint` sin errores (DoD).
@@ -113,8 +113,8 @@ Texto actual, solo como referencia: «Este mismo sitio: currículum interactivo 
 - Borrar o retirar archivos no ocurre aquí (E190-I03).
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md, en 00_producto/registro-log.md y en epica.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md (siguiente: AT-137) y decisiones nuevas en decisiones.md (siguiente: ADR-099)
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Ejecutar git diff --stat antes y después de editar documentos; listar todos los archivos cambiados
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md, en 00_producto/registro-log.md y en epica.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md (AT-137 registrado) y decisiones nuevas en decisiones.md (siguiente: ADR-099)
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Ejecutar git diff --stat antes y después de editar documentos; listar todos los archivos cambiados
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
