@@ -1023,7 +1023,7 @@ Reglas del registro:
   - **Solo reglas estáticas con 301 explícito:** 23 (/index.html, 10 páginas × 2 variantes y /comunidad × 2), sin comodines.
   - **pnpm check:redirects** (scripts/check-redirects.mjs, sin dependencias) valida el archivo y, con --base, las respuestas de la preview.
 - **Consecuencias:** al agregar una página con URL antigua hay que sumar sus dos reglas. No toca _headers ni wrangler.*. Sin dependencias nuevas. Complementa ADR-019, ADR-020 y ADR-077 sin editarlos.
-- **Origen:** decisión de Felipe el 14-11-2026 (E180-I01). **Estado:** Aceptada. La verificación en la preview dio 448 de 448 el 14-11-2026.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I01). **Estado:** Aceptada. La verificación en la preview dio 448 de 448 el 14-11-2026. Sustituida por ADR-098 en lo de `/` (que sí lleva regla) y en lo de los destinos con barra final (`/sitemap.xml` va a un archivo) (15-11-2026).
 
 ## ADR-094 · Sitemap bilingüe generado por un endpoint propio y robots.txt sin Disallow
 - **Contexto:** E180-I02, AT-030, AT-103, AT-106 y AT-109. La iteración preveía `@astrojs/sitemap` (3.7.4, que exigía ADR), pero esta iteración se ejecuta sin dependencias nuevas, y una integración que lista las páginas generadas incluiría 404, agradecimiento y la muestra de tokens (AT-106). Sintaxis y regla verificadas en la documentación de Google el 14-11-2026 (`localized-versions`, `block-indexing`, `robots_txt`) y en sitemaps.org.
@@ -1047,7 +1047,7 @@ Reglas del registro:
   5. **`pnpm-workspace.yaml`:** `pnpm add` agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` porque la versión tenía un día de antigüedad (AT-133).
   6. **`verify:seo`** lee el índice y cada sitemap que enumera, y mantiene todos los controles de ADR-094 (1149 de 1149).
 - **Consecuencias:** la URL `/sitemap.xml` del sitio antiguo deja de existir (AT-132). `x-default` y `/` siguen siendo de E180-I03 (AT-130). Si una versión futura de la integración cambia el formato, `verify:seo` falla. Mantiene ADR-019, ADR-035 y ADR-087 sin editarlos.
-- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094. Sustituida por ADR-096 en lo de la versión y la excepción (14-11-2026).
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094. Sustituida por ADR-096 en lo de la versión y la excepción (14-11-2026) y por ADR-098 en lo de `x-default` (15-11-2026).
 ## ADR-096 · `@astrojs/sitemap` 3.7.5 sin excepción de antigüedad (sustituye a ADR-095 en lo de la versión y la excepción)
 - **Contexto:** E180-I02c. ADR-095 (punto 5) aceptó que pnpm agregara `minimumReleaseAgeExclude` para la 3.7.5, publicada el 13-11-2026 y con menos de un día al instalarla. Felipe decidió el 14-11-2026 (dicho por el desarrollador) cumplir el filtro de antigüedad sin excepción.
 - **Verificado el 15-11-2026:**
@@ -1068,6 +1068,19 @@ Reglas del registro:
 - **Decisión (del agente, dentro del alcance):** el valor es el mismo que el integrado (1 día); declararlo lo vuelve **estricto**: si ninguna versión del rango cumple, la instalación falla en vez de caer en una versión inmadura. Con el valor declarado y pnpm 12.15.0, en una copia limpia (fuera del repo) `pnpm install --frozen-lockfile --ignore-scripts` instala todo el lockfile; con `4000` la verificación del lockfile falla.
 - **Consecuencias:** una instalación o actualización puede fallar durante un día tras publicarse una versión; la solución es esperar, no agregar excepciones (ADR-096). No cambian `package.json`, el lockfile ni las dependencias. No hay ADR que sustituir: complementa ADR-003 y ADR-096.
 - **Origen:** E180-I03, 15-11-2026. **Estado:** Aceptada.
+## ADR-098 · Raíz `/` y `/sitemap.xml` con 301, y `x-default` en el sitemap (sustituye lo que corresponde de ADR-093 y ADR-095)
+- **Contexto:** E180-I03, AT-006, AT-130 y AT-132. ADR-019 manda que `/` responda 301 a `/es/` y que `x-default` apunte a la versión `/es/` de cada página. ADR-093 dejó `/` sin regla («es de E180-I03») y exigía destinos con barra final. ADR-095 dejó el sitemap sin `x-default`. Verificado el 15-11-2026: antes de la regla, `/` respondía 200 con la página de redirección de Astro (`meta refresh`) y `/sitemap.xml` daba 404. Lectura de Google (`localized-versions`, por un subagente): `x-default` es el valor de reserva para idiomas sin coincidencia, pensado para páginas selectoras; la página no describe qué pasa si el sitemap y el HTML difieren.
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):**
+  1. Reglas `/ /es/ 301` y `/sitemap.xml /sitemap-index.xml 301` en `public/_redirects`, pegadas por Felipe (ADR-033; commit `c0b2743`).
+  2. **`x-default` en el sitemap, opción B:** hacia la versión `/es/` de cada página, igual que las etiquetas del HTML.
+- **Decisión (del agente, dentro del alcance):**
+  1. **`/` lleva regla** y responde 301 a `/es/` en un solo salto; sustituye a ADR-093 en lo de que `/` no tiene regla. `/index.html` conserva la suya. El `meta refresh` de Astro queda como respaldo.
+  2. **`/sitemap.xml` va a `/sitemap-index.xml`** (destino sin barra: es un archivo); es la excepción a «destinos con barra final» de ADR-093. Un solo salto, sin cadenas.
+  3. **Conjunto exacto de 25 reglas** (23 + `/` + `/sitemap.xml`): `scripts/check-redirects.mjs` falla si falta una, sobra una o cambia un código o destino; se quita la tolerancia a `/ → /es/` de ADR-093.
+  4. **`serialize` de `@astrojs/sitemap`** agrega un tercer enlace `x-default` hacia la versión `/es/`: 22 URL × 3 = 66 enlaces. `verify:seo` exige es-CL, en-US y `x-default` por URL, que `x-default` sea la versión `/es/` y que el conjunto sea igual a los `hreflang` de la página (1194 controles).
+  5. **`/` sigue fuera del sitemap** (es un 301).
+- **Consecuencias:** `check:redirects` exige hoy 25 reglas; agregar o quitar una exige actualizarlo. El resto de ADR-093 y de ADR-095 sigue vigente. No hay dependencias nuevas.
+- **Origen:** decisión de Felipe el 15-11-2026 (E180-I03). **Estado:** Aceptada. Sustituye a ADR-093 en lo de `/` y a ADR-095 en lo de `x-default`.
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

@@ -228,6 +228,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** `hreflang` recíprocos con `x-default` (ADR-019).
 - **Avance:** E10-I07 deja `lang="es-CL"` y `lang="en-US"` por página. Sigue abierto: faltan `hreflang`, `x-default` y metadatos por idioma.
 - **Avance (E30-I01):** `hreflang` recíprocos es-CL / en-US con `x-default` a `/es/`, `og:locale` y `og:locale:alternate` por idioma. Sigue abierto: `inLanguage` del JSON-LD (E40-I03) y sitemap bilingüe (E180-I02).
+- **Avance (E180-I03, 15-11-2026, verificado en la preview):** `/` responde 301 a `/es/` en un solo salto (ADR-098) y el sitemap lleva `x-default` en el `dist/` local. Con esto se cierra lo de E180 que quedaba en este hallazgo.
 - **Avance (E40-I03):** JSON-LD Person y WebSite por idioma con `@id` compartidos e `inLanguage` `es-CL` / `en-US`; metadatos Open Graph por idioma con imagen de 1200 × 630 px y texto alternativo por idioma (ADR-055). `pnpm verify:seo` comprueba 90 puntos sobre `dist/` sin red. Resta lo propio de E180: sitemap bilingüe, `robots.txt` y la 301 de `/`.
 
 ### AT-016 · Fuente de íconos completa
@@ -1058,23 +1059,26 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** ignorar `.wrangler/` en ESLint (no se hizo: fuera de alcance).
 
 ### AT-130 · Las páginas emiten `x-default` y el sitemap no
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E180-I03
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I03 (15-11-2026, ADR-098) · **Resuelve:** E180-I03
 - **Evidencia (E180-I02, 14-11-2026, verificado):** `Seo.astro` emite `hreflang="x-default"` hacia `/es/` en cada página; las alternativas del sitemap son solo es-CL y en-US, y `verify:seo` falla si aparece `x-default` en él. Google lo declara opcional.
 - **Impacto:** ninguno funcional; la señal es la misma, pero las dos fuentes no son idénticas.
 - **Recomendación:** decidir en E180-I03, con `/` y ADR-019, si el sitemap suma `x-default` (y la raíz) o se mantiene así; en ese caso actualizar el control.
 - **Estado (E180-I03, 15-11-2026):** **a la espera de la decisión de Felipe.** Opciones y recomendación presentadas en la bitácora `2026-11-15_E180-I03.md` (A: dejar el sitemap sin `x-default`; B: sumarlo hacia la versión `/es/` de cada página, igual que las etiquetas; C: apuntar a `/`, que contradice ADR-019). No implementado.
+- **Resolución (E180-I03, 15-11-2026):** Felipe eligió la opción B (dicho por el desarrollador). `serialize` agrega `x-default` hacia la versión `/es/`: 22 URL con 66 enlaces; `verify:seo` lo exige y 6 mutaciones lo hacen fallar (verificado en el `dist/` local). La preview aún no lo refleja hasta desplegar este cambio.
 
 ### AT-131 · Sitemap sin enviar ni comprobar en producción
 - **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (valorar)
 - **Evidencia (E180-I02, 14-11-2026):** `/sitemap.xml` y `/robots.txt` están en el `dist/` pero no en la preview, porque no están commiteados. No verificado: la respuesta de Cloudflare (tipo de contenido, 200) ni el envío a Search Console.
 - **Recomendación:** tras el commit, abrir ambas URL en la preview; tras el cutover, enviar el sitemap en Search Console y repetirlo en E190.
+- **Estado (E180-I03, 15-11-2026):** abierto **solo por Search Console** (enviar `sitemap-index.xml` y repetir las comprobaciones en producción tras el cutover, E190). La respuesta de Cloudflare en la preview ya está verificada.
 - **Avance (E180-I03, 15-11-2026, verificado en la preview `https://felipecuevas-dev.felipe-cuevas.workers.dev`):** `/sitemap-index.xml` y `/sitemap-0.xml` responden 200 `application/xml` (22 URL y 44 alternativas) y `/robots.txt` 200 `text/plain`. Sigue abierto el envío a Search Console y repetirlo en producción.
 
 ### AT-132 · `/sitemap.xml` del sitio antiguo ya no existe
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (la regla la pega Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I03 (15-11-2026, ADR-098) · **Resuelve:** E180-I03 (la regla la pegó Felipe)
 - **Evidencia (E180-I02b, 14-11-2026, verificado en `dist/`):** `main` publicaba `/sitemap.xml` y su `robots.txt` lo declaraba. `@astrojs/sitemap` genera `/sitemap-index.xml` y `/sitemap-0.xml`; no existe `/sitemap.xml`. Buscadores y Search Console que lo tengan registrado recibirían 404.
 - **Impacto:** el sitemap viejo registrado deja de leerse hasta que se reenvíe el nuevo.
 - **Estado (E180-I03, 15-11-2026):** línea entregada a Felipe: `/sitemap.xml /sitemap-index.xml 301`. Cuando la confirme, `scripts/check-redirects.mjs` pasa a las reglas esperadas con 24 (o 25 con `/`) y se prueba con casos rotos. En la preview, hoy `/sitemap.xml` da 404 (verificado).
+- **Resolución (E180-I03, 15-11-2026, verificado en la preview):** Felipe pegó `/sitemap.xml /sitemap-index.xml 301` (commit `c0b2743`). `/sitemap.xml` responde 301 con `Location: /sitemap-index.xml` y ese destino 200 `application/xml`, en un solo salto. `check:redirects` exige ahora 25 reglas. Queda pendiente enviar el sitemap nuevo en Search Console (AT-131).
 - **Propuesta (no aplicada: `public/_redirects` lo edita Felipe):** agregar `/sitemap.xml /sitemap-index.xml 301` al bloque de `_redirects` (a la vez, actualizar la cuenta de reglas esperada de `check:redirects`, hoy 23, y su informe) y enviar `sitemap-index.xml` en Search Console tras el cutover (AT-131).
 
 ### AT-133 · `minimumReleaseAgeExclude` en `pnpm-workspace.yaml` para una versión de un día
@@ -1088,6 +1092,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Severidad:** Baja · **Estado:** Aceptado y controlado · **Resuelve:** —
 - **Evidencia (E180-I02b, 14-11-2026, verificado):** la opción `i18n` de `@astrojs/sitemap` no empareja páginas con slugs traducidos; las alternativas salen de `serialize` en `astro.config.mjs`, que importa `src/i18n/routes.ts`.
 - **Control:** `verify:seo` exige 22 URL, alternativas es-CL y en-US recíprocas, iguales a los `hreflang` de cada página y a su canonical (7 mutaciones lo hacen fallar).
+- **Avance (E180-I03, 15-11-2026, verificado en el `dist/` local):** `serialize` suma `x-default` hacia la versión `/es/` (ADR-098): 22 URL y 66 enlaces; `verify:seo` 1194 de 1194. Sigue aceptado y controlado.
 - **Avance (E180-I02c, 15-11-2026, verificado):** sin la excepción de antigüedad, con la misma 3.7.5, el build sigue dando 22 URL con 44 alternativas (22 es-CL y 22 en-US), sin `/`, 404, agradecimiento ni muestra, y `verify:seo` pasa 1149 de 1149: `serialize` funciona igual. Sigue aceptado y controlado.
 
 ### AT-135 · `minimumReleaseAge` por defecto es no estricto y no está declarado en el proyecto
@@ -1096,3 +1101,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** la protección de ADR-003 podría no frenar una instalación futura demasiado reciente.
 - **Recomendación (no aplicada: fuera del alcance y es configuración de pnpm):** declarar `minimumReleaseAge: 1440` en `pnpm-workspace.yaml` para que sea estricto, con su ADR.
 - **Resolución (E180-I03, 15-11-2026, verificado):** `minimumReleaseAge: 1440` declarado en `pnpm-workspace.yaml` (ADR-097). En una copia limpia con pnpm 12.15.0, el lockfile completo se instala con 1440 y falla con 4000. `pnpm config get minimumReleaseAge` devuelve 1440 y `minimumReleaseAgeExclude` sigue sin definir.
+
+### AT-136 · `robots.txt` se sirve como `text/plain` sin charset y sus comentarios con tildes se ven rotos
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E190-I01 (junto con AT-109 y AT-126)
+- **Evidencia (E180-I03, 15-11-2026):** la preview responde `/robots.txt` con `Content-Type: text/plain` sin `charset` (verificado en las cabeceras). Felipe vio en el navegador «propÃ³sito» (dicho por el desarrollador). `public/robots.txt` tiene 6 bytes fuera de ASCII, todos en dos líneas de comentario (verificado).
+- **Impacto:** cosmético: los rastreadores ignoran los comentarios y las reglas (`User-agent`, `Allow`, `Sitemap`) son ASCII.
+- **Propuesta:** dejar los comentarios de `public/robots.txt` en ASCII (sin tildes), en E190-I01. Alternativa: una regla de cabecera con `charset=utf-8` en `_headers`, que edita Felipe. No se aplicó nada en E180-I03.

@@ -1,5 +1,5 @@
 /*
- * Redirecciones 301 del sitio antiguo (E180-I01, ADR-019, ADR-020, ADR-077, AT-005, AT-031, AT-043).
+ * Redirecciones 301 del sitio antiguo (E180-I01 y E180-I03; ADR-019, ADR-020, ADR-077, ADR-093, ADR-098, AT-005, AT-031, AT-043, AT-132).
  * Sin dependencias: solo `fetch` nativo de Node. Hace dos cosas:
  *
  *   1. Revisa el archivo `_redirects` (por defecto `public/_redirects`, que crea Felipe, ADR-033):
@@ -52,8 +52,12 @@ const OLD_ALIASES = [
   ['comunidad', 'forum'],
   ['comunidad.html', 'forum'],
 ];
-/** `/index.html` es la variante .html de `/`; `/` en sí es de E180-I03 y aquí no se toca. */
+/** `/index.html` es la variante .html de `/` y va a la portada en español. */
 const INDEX_HTML = ['index.html', 'home'];
+/** La raíz `/` también responde 301 a `/es/` (ADR-019, ADR-098). */
+const ROOT_RULE = { from: '/', to: 'home' };
+/** Sitemap del sitio antiguo: `/sitemap.xml` va al índice de `@astrojs/sitemap` (AT-132, ADR-098). Destino sin barra: es un archivo. */
+const SITEMAP_RULE = { from: '/sitemap.xml', to: '/sitemap-index.xml' };
 /** Sin redirección: responden 404 (ADR-077). */
 const GONE = ['/eventos', '/eventos.html'];
 /** Orígenes que nunca pueden tener regla: taparían páginas reales o archivos públicos. */
@@ -84,7 +88,7 @@ const esRoute = Object.fromEntries(
   ),
 );
 
-/** Reglas esperadas: { from, to }. 23 en total: 10 páginas × 2, 2 de comunidad y `/index.html`. */
+/** Reglas esperadas: { from, to }. 25 en total: 10 páginas × 2, 2 de comunidad, `/index.html`, `/` y `/sitemap.xml`. */
 const buildExpected = () => {
   const rules = [];
   const add = (name, key) => {
@@ -98,6 +102,8 @@ const buildExpected = () => {
   }
   for (const [name, key] of OLD_ALIASES) add(name, key);
   add(...INDEX_HTML);
+  rules.push({ from: ROOT_RULE.from, to: esRoute[ROOT_RULE.to] });
+  rules.push({ ...SITEMAP_RULE });
   return rules;
 };
 const expected = buildExpected();
@@ -177,8 +183,10 @@ const lintFile = (file) => {
       destination?.startsWith('/') && !/^\/\//.test(destination),
       `${where}: el destino debe ser una ruta interna`,
     );
+    // Un destino de página termina en "/" (si no, suma otro salto 307); el del sitemap es un archivo.
+    const isFileDestination = destination === SITEMAP_RULE.to;
     check(
-      destination?.endsWith('/'),
+      isFileDestination || destination?.endsWith('/'),
       `${where}: el destino ${destination} debe terminar en "/" (si no, suma otro salto 307)`,
     );
     check(
@@ -196,7 +204,9 @@ const lintFile = (file) => {
       `${where}: el origen ${source} no puede tener regla (ADR-077, AT-043 o taparía una página real)`,
     );
     if (destination) {
-      const target = join(DIST, destination.slice(1), 'index.html');
+      const target = isFileDestination
+        ? join(DIST, destination.slice(1))
+        : join(DIST, destination.slice(1), 'index.html');
       check(
         existsSync(target),
         `${where}: el destino ${destination} no existe en dist/ (¿corriste pnpm build?)`,
@@ -204,7 +214,7 @@ const lintFile = (file) => {
     }
   }
 
-  // Conjunto exacto: las 23 reglas esperadas; solo se tolera `/ → /es/` (E180-I03).
+  // Conjunto exacto: las 25 reglas esperadas, ni una más ni una menos.
   const actual = new Map(
     rules.map((r) => [expectedKey({ from: r.tokens[0], to: r.tokens[1] }), r]),
   );
@@ -214,11 +224,7 @@ const lintFile = (file) => {
   const expectedKeys = new Set(expected.map(expectedKey));
   for (const rule of rules) {
     const key = `${rule.tokens[0]} ${rule.tokens[1]}`;
-    const isRoot = rule.tokens[0] === '/' && rule.tokens[1] === '/es/';
-    check(
-      expectedKeys.has(key) || isRoot,
-      `línea ${rule.line}: regla fuera del mapa esperado (${key})`,
-    );
+    check(expectedKeys.has(key), `línea ${rule.line}: regla fuera del mapa esperado (${key})`);
   }
   for (const gone of GONE) {
     check(!sources.has(gone), `${gone} no debe tener regla: responde 404 (ADR-077)`);
@@ -238,7 +244,7 @@ if (!flag('--sin-archivo')) lintFile(FILE);
 const probe = async (url) => {
   const res = await fetch(url, {
     redirect: 'manual',
-    headers: { 'user-agent': 'check-redirects/1.0 (E180-I01)', accept: '*/*' },
+    headers: { 'user-agent': 'check-redirects/1.1 (E180-I03)', accept: '*/*' },
     signal: AbortSignal.timeout(20_000),
   });
   const body = Buffer.from(await res.arrayBuffer());

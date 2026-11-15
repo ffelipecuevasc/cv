@@ -79,7 +79,7 @@ export default defineConfig({
   ],
   // Sitemap bilingüe con @astrojs/sitemap (ADR-095, sustituye a ADR-094). Genera sitemap-index.xml
   // y sitemap-0.xml con alternativas es-CL / en-US. El filtro deja fuera las rutas internas del mapa
-  // de rutas (404, agradecimiento y muestra de tokens, AT-106) y la raíz / (E180-I03). Sin x-default.
+  // de rutas (404, agradecimiento y muestra de tokens, AT-106) y la raíz / (E180-I03). x-default hacia la versión /es/ (ADR-019, ADR-098).
   // `i18n` empareja los idiomas cambiando el segmento de la ruta y no sirve con slugs traducidos
   // (/es/contacto/ ↔ /en/contact/): `serialize` entrega las alternativas desde el mapa de rutas (ADR-020).
   integrations: [
@@ -97,6 +97,7 @@ export default defineConfig({
         item.links = [
           { url: new URL(paths.es, item.url).href, lang: 'es-CL' },
           { url: new URL(paths.en, item.url).href, lang: 'en-US' },
+          { url: new URL(paths.es, item.url).href, lang: 'x-default' },
         ];
         return item;
       },

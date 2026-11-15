@@ -2799,7 +2799,7 @@ console.log('\nSitemap, robots.txt y canónicas');
       rel,
       noindex: /<meta name="robots" content="noindex/.test(head),
       canonical: links.find((l) => l.rel === 'canonical')?.href,
-      alternates: links.filter((l) => l.rel === 'alternate' && l.hreflang !== 'x-default'),
+      alternates: links.filter((l) => l.rel === 'alternate'),
     });
   }
   // `/` (raíz con meta refresh) y los `404.html` físicos no son páginas indexables (E180-I03, ADR-088).
@@ -2852,8 +2852,14 @@ console.log('\nSitemap, robots.txt y canónicas');
   );
   check(!locs.includes(`${SITE}/`), 'el sitemap no lista la raíz / (E180-I03)');
   check(
-    !/<lastmod>|<changefreq>|<priority>|x-default/.test(sitemap),
-    'sitemap sin lastmod, changefreq, priority ni x-default (E180-I03)',
+    !/<lastmod>|<changefreq>|<priority>/.test(sitemap),
+    'sitemap sin lastmod, changefreq ni priority (opcionales y sin fecha real, ADR-094)',
+  );
+  // E180-I03, ADR-098: cada URL lleva es-CL, en-US y x-default (22 × 3 = 66 enlaces).
+  const totalLinks = entries.reduce((sum, e) => sum + e.alternates.length, 0);
+  check(
+    totalLinks === entries.length * 3,
+    `el sitemap tiene 3 alternativas por URL (es-CL, en-US y x-default): ${totalLinks} enlaces en ${entries.length} URL`,
   );
   check(
     same([...locs].sort(), indexable.map(([path]) => `${SITE}${path}`).sort()),
@@ -2873,8 +2879,15 @@ console.log('\nSitemap, robots.txt y canónicas');
     const pairs = (list) => list.map((a) => `${a.hreflang}=${a.href}`).sort();
     const hreflangs = entry.alternates.map((a) => a.hreflang).sort();
     check(
-      same(hreflangs, ['en-US', 'es-CL']),
-      `${path}: alternativas es-CL y en-US (${hreflangs.join(', ')})`,
+      same(hreflangs, ['en-US', 'es-CL', 'x-default']),
+      `${path}: alternativas es-CL, en-US y x-default (${hreflangs.join(', ')})`,
+    );
+    // ADR-019, ADR-098: x-default apunta a la versión /es/ de la misma página (la misma URL que es-CL).
+    const esAlt = entry.alternates.find((a) => a.hreflang === 'es-CL')?.href;
+    const defaultAlt = entry.alternates.find((a) => a.hreflang === 'x-default')?.href;
+    check(
+      Boolean(defaultAlt) && defaultAlt === esAlt && defaultAlt.startsWith(`${SITE}/es/`),
+      `${path}: x-default apunta a la versión /es/ (${defaultAlt?.slice(SITE.length)})`,
     );
     check(
       entry.alternates.some((a) => a.href === entry.loc),
