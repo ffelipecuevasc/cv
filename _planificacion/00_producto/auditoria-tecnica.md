@@ -1075,12 +1075,20 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Propuesta (no aplicada: `public/_redirects` lo edita Felipe):** agregar `/sitemap.xml /sitemap-index.xml 301` al bloque de `_redirects` (a la vez, actualizar la cuenta de reglas esperada de `check:redirects`, hoy 23, y su informe) y enviar `sitemap-index.xml` en Search Console tras el cutover (AT-131).
 
 ### AT-133 · `minimumReleaseAgeExclude` en `pnpm-workspace.yaml` para una versión de un día
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Severidad:** Baja · **Estado:** Resuelto en E180-I02c (15-11-2026, ADR-096) · **Resuelve:** —
 - **Evidencia (E180-I02b, 14-11-2026, verificado):** al instalar `@astrojs/sitemap@3.7.5` (publicada el 13-11-2026) pnpm agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` en `pnpm-workspace.yaml`, que salta el filtro de antigüedad mínima de versiones.
 - **Impacto:** esa versión se instaló sin esperar el plazo de seguridad. Es una excepción acotada a una versión exacta.
 - **Recomendación:** que Felipe confirme que la acepta; la entrada puede borrarse cuando la versión cumpla el plazo, sin efecto en el lockfile.
+- **Resolución (E180-I02c, 15-11-2026, verificado):** Felipe decidió no aceptar la excepción. La 3.7.5 ya tenía más de un día, se quitó `minimumReleaseAgeExclude` y el lockfile cumple las políticas; no hizo falta cambiar de versión (ADR-096).
 
 ### AT-134 · Las alternativas del sitemap dependen de `serialize` y del mapa de rutas
 - **Severidad:** Baja · **Estado:** Aceptado y controlado · **Resuelve:** —
 - **Evidencia (E180-I02b, 14-11-2026, verificado):** la opción `i18n` de `@astrojs/sitemap` no empareja páginas con slugs traducidos; las alternativas salen de `serialize` en `astro.config.mjs`, que importa `src/i18n/routes.ts`.
 - **Control:** `verify:seo` exige 22 URL, alternativas es-CL y en-US recíprocas, iguales a los `hreflang` de cada página y a su canonical (7 mutaciones lo hacen fallar).
+- **Avance (E180-I02c, 15-11-2026, verificado):** sin la excepción de antigüedad, con la misma 3.7.5, el build sigue dando 22 URL con 44 alternativas (22 es-CL y 22 en-US), sin `/`, 404, agradecimiento ni muestra, y `verify:seo` pasa 1149 de 1149: `serialize` funciona igual. Sigue aceptado y controlado.
+
+### AT-135 · `minimumReleaseAge` por defecto es no estricto y no está declarado en el proyecto
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Evidencia (E180-I02c, 15-11-2026):** el proyecto no define `minimumReleaseAge` en `pnpm-workspace.yaml` y usa el valor integrado de pnpm (1440 minutos). Según su documentación (lectura web de un subagente, sin etiqueta de versión en la página), el valor integrado es no estricto «por compatibilidad»: si ninguna versión del rango cumple, pnpm puede instalar una inmadura sin fallar. En una copia temporal, con el valor declarado explícitamente sí fue estricto y falló con 4000 minutos (verificado).
+- **Impacto:** la protección de ADR-003 podría no frenar una instalación futura demasiado reciente.
+- **Recomendación (no aplicada: fuera del alcance y es configuración de pnpm):** declarar `minimumReleaseAge: 1440` en `pnpm-workspace.yaml` para que sea estricto, con su ADR.

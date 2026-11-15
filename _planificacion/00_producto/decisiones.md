@@ -1047,7 +1047,21 @@ Reglas del registro:
   5. **`pnpm-workspace.yaml`:** `pnpm add` agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` porque la versión tenía un día de antigüedad (AT-133).
   6. **`verify:seo`** lee el índice y cada sitemap que enumera, y mantiene todos los controles de ADR-094 (1149 de 1149).
 - **Consecuencias:** la URL `/sitemap.xml` del sitio antiguo deja de existir (AT-132). `x-default` y `/` siguen siendo de E180-I03 (AT-130). Si una versión futura de la integración cambia el formato, `verify:seo` falla. Mantiene ADR-019, ADR-035 y ADR-087 sin editarlos.
-- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094. Sustituida por ADR-096 en lo de la versión y la excepción (14-11-2026).
+## ADR-096 · `@astrojs/sitemap` 3.7.5 sin excepción de antigüedad (sustituye a ADR-095 en lo de la versión y la excepción)
+- **Contexto:** E180-I02c. ADR-095 (punto 5) aceptó que pnpm agregara `minimumReleaseAgeExclude` para la 3.7.5, publicada el 13-11-2026 y con menos de un día al instalarla. Felipe decidió el 14-11-2026 (dicho por el desarrollador) cumplir el filtro de antigüedad sin excepción.
+- **Verificado el 15-11-2026:**
+  - Fechas de publicación (`pnpm view @astrojs/sitemap time`): 3.7.5 el 13-11-2026 18:57 UTC, 3.7.4 el 31-08-2026, 3.7.3 el 26-05-2026, 3.7.2 el 26-03-2026.
+  - El filtro por defecto de pnpm es `minimumReleaseAge` de 1440 minutos (1 día), según su documentación; el proyecto no lo redefine. A la hora de la prueba, la 3.7.5 tenía unos 2.740 minutos.
+  - En una copia temporal fuera del repo, `pnpm install --lockfile-only` resolvió `@astrojs/sitemap@3.7.5` y todo su árbol con `minimumReleaseAge: 1440` explícito (modo estricto) y falló con `minimumReleaseAge: 4000` (`ERR_PNPM_NO_MATURE_MATCHING_VERSION`), así que la prueba discrimina.
+  - Quitada la excepción, `pnpm install --frozen-lockfile` en el proyecto dice que el lockfile cumple las políticas de cadena de suministro (532 entradas).
+- **Decisión (de Felipe, dicha por el desarrollador, 14-11-2026):** sin excepción de antigüedad.
+- **Decisión (del agente, dentro del alcance):**
+  1. **Versión: se mantiene `3.7.5` exacta.** Es la más reciente y ya cumple el filtro; no hace falta bajar a la 3.7.4. Sin `^` ni `~`.
+  2. **Se elimina `minimumReleaseAgeExclude`** de `pnpm-workspace.yaml` (AT-133 resuelto).
+  3. El resto de ADR-095 sigue vigente: `filter`, `serialize` con las alternativas desde `routes`, sin `x-default` ni `/`, `robots.txt` hacia `sitemap-index.xml` y los controles de `verify:seo`.
+- **Consecuencias:** `package.json`, el lockfile, `sitemap-index.xml`, `robots.txt` y el `dist/` no cambian. Como el valor por defecto de `minimumReleaseAge` es no estricto, pnpm podría aceptar en silencio una versión inmadura (AT-135). Complementa ADR-003 y ADR-095 sin editar su texto.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02c). **Estado:** Aceptada. Sustituye a ADR-095 en lo de la versión y la excepción.
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
