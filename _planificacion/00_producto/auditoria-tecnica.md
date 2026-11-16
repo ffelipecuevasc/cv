@@ -878,7 +878,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** publicar E140-I02 y E150-I01 juntos en la preview, o probar el envío de E140-I02 sabiendo que la redirección da 404 hasta E150.
 
 ### AT-100 · Turnstile debe autorizar el hostname de workers.dev para probar el envío en la preview
-- **Severidad:** Media · **Estado:** Resuelto en E140-I03 (06-11-2026): Felipe autorizó el hostname de workers.dev en el widget y el envío funciona en es y en. Retirar ese hostname tras E190-I04 sigue vigente · **Resuelve:** E140-I03
+- **Severidad:** Media · **Estado:** Resuelto en E140-I03 (06-11-2026): Felipe autorizó el hostname de workers.dev en el widget y el envío funciona en es y en. Retirar ese hostname tras E190-I04 sigue vigente (pendiente de Felipe, tras `workers_dev: false`) · **Resuelve:** E140-I03
 - **Evidencia (E140-I02, 06-11-2026):** el widget usa la clave de sitio de `main` (`src/data/contact.ts`). Turnstile solo funciona en los hostnames autorizados del widget; la preview responde en `felipecuevas-dev.felipe-cuevas.workers.dev` (ADR-037). Sin ese hostname el widget falla, el formulario muestra «La verificación de seguridad no está disponible» y no se puede probar el envío.
 - **Impacto:** la prueba de envío real en la preview queda bloqueada hasta configurarlo.
 - **Recomendación:** agregar el hostname de workers.dev al widget en el panel de Turnstile (y conservar `felipecuevas.dev` para el cutover), o probar con las claves de prueba de Turnstile sin publicarlas en `main`. Retirar el hostname de workers.dev tras E190-I04 si se desactiva esa URL.
@@ -1078,6 +1078,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E180-I02, 14-11-2026):** `/sitemap.xml` y `/robots.txt` están en el `dist/` pero no en la preview, porque no están commiteados. No verificado: la respuesta de Cloudflare (tipo de contenido, 200) ni el envío a Search Console.
 - **Recomendación:** tras el commit, abrir ambas URL en la preview; tras el cutover, enviar el sitemap en Search Console y repetirlo en E190.
 - **Estado (E180-I03, 15-11-2026):** abierto **solo por Search Console** (enviar `sitemap-index.xml` y repetir las comprobaciones en producción tras el cutover, E190). La respuesta de Cloudflare en la preview ya está verificada.
+- **Avance (16-11-2026):** sitemap y robots verificados en producción (`/sitemap.xml` 301 a `/sitemap-index.xml`, `/robots.txt` 200). Sigue abierto solo el envío a Search Console (pendiente de Felipe).
 - **Avance (E180-I03, 15-11-2026, verificado en la preview `https://felipecuevas-dev.felipe-cuevas.workers.dev`):** `/sitemap-index.xml` y `/sitemap-0.xml` responden 200 `application/xml` (22 URL y 44 alternativas) y `/robots.txt` 200 `text/plain`. Sigue abierto el envío a Search Console y repetirlo en producción.
 
 ### AT-132 · `/sitemap.xml` del sitio antiguo ya no existe
@@ -1123,19 +1124,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** quitar esa entrada de `INFO_ONLY` cuando se toque el script; no se hizo porque la iteración solo autorizaba ajustar un conteo fijo.
 
 ### AT-138 · No se verificó qué hace Pages con el código nuevo de `main` tras el merge
-- **Severidad:** Alta (si ocurriera, afecta a producción) · **Estado:** Abierto (mitigado en el procedimiento) · **Resuelve:** E190-I02 (paso 2) y E190-I04
+- **Severidad:** Alta (si ocurriera, afecta a producción) · **Estado:** Resuelto en el cutover (15-11-2026): Pages pausado, `main` `d58393c` sin deployment (dicho por Felipe) y la producción siguió en el deployment `5d4464c8` hasta el cambio de dominio · **Resuelve:** E190-I02 (paso 2) y E190-I04
 - **Evidencia (E190-I02, 15-11-2026):** la documentación oficial de Pages dice que despliega cada push a la rama de producción, pero no describe el merge ni qué haría con este repositorio. El proyecto `felipe-cuevas-cv` se alimenta de `main`.
 - **Impacto:** si Pages reconstruyera con el código nuevo antes de mover el dominio, podría publicar o fallar y degradar producción.
 - **Mitigación:** el paso 2 pausa los despliegues automáticos de producción de Pages antes del merge; el último deployment sigue sirviendo el sitio antiguo y es la reversa. En el paso 3 se comprueba que no aparece un deployment nuevo.
 
 ### AT-139 · La documentación no cubre cómo quitar un Custom Domain de Workers ni si convive con Pages
-- **Severidad:** Media · **Estado:** Abierto (se confirma en el panel durante el cutover) · **Resuelve:** E190-I02 y E190-I04
+- **Severidad:** Media · **Estado:** Resuelto en el cutover (15-11-2026, dicho por Felipe): el apex se quitó de Pages, se borró el CNAME y el Custom Domain se creó en el Worker, con un hueco de minutos (no medido). La convivencia con Pages no se probó y la reversa no se ejecutó · **Resuelve:** E190-I02 y E190-I04
 - **Evidencia (E190-I02, 15-11-2026):** la página de Custom Domains (12-11-2026) dice que no se puede crear sobre un hostname con un CNAME existente y que al quitarlo el certificado no se borra solo, pero no describe los pasos para quitarlo ni si un dominio puede estar a la vez en Pages y en un Worker. La reversa del procedimiento depende de ello.
 - **Impacto:** un paso de reversa podría no funcionar como está escrito.
 - **Mitigación:** el procedimiento quita el dominio de Pages antes de crear el Custom Domain y describe la reversa con el panel; Felipe lo valida en la lectura conjunta y deja anotada cualquier diferencia que vea en el panel.
 
 ### AT-140 · El widget de Turnstile debe autorizar el dominio propio antes del cutover (no verificado)
-- **Severidad:** Alta (el formulario fallaría en producción) · **Estado:** Abierto: la precondición P4 está hecha (15-11-2026) y falta la prueba real del paso 8 · **Resuelve:** precondición P4 del procedimiento de E190-I02
+- **Severidad:** Alta (el formulario fallaría en producción) · **Estado:** Resuelto en el cutover (16-11-2026): el envío real desde `felipecuevas.dev` funcionó (correo a las 00:33 CLT, política `2026-11-07`, dicho por Felipe) · **Resuelve:** precondición P4 del procedimiento de E190-I02
 - **Evidencia (E190-I02, 15-11-2026):** el Worker verifica Turnstile (`src/worker/contact.ts`); el ensayo del 15-11-2026 se hizo en workers.dev (AT-100). No hay evidencia en el repositorio de que `felipecuevas.dev` esté en la lista de hostnames del widget.
 - **Impacto:** tras mover el dominio, el formulario podría rechazar todos los envíos.
 - **Recomendación:** Felipe confirma en el panel de Turnstile que `felipecuevas.dev` (y `www` si corresponde) figura en los hostnames, antes de la ventana. Quitar workers.dev se hace después (AT-100, E190-I04).
@@ -1149,7 +1150,19 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Avance (15-11-2026, dicho por Felipe, con capturas):** el widget autoriza `felipecuevas.dev`, `pages.dev` y `workers.dev` (3 de 10 hostnames). No se cierra hasta enviar el formulario en el apex (paso 8 del procedimiento).
 
 ### AT-142 · La épica enlaza el archivo de la iteración I02 y no el procedimiento vigente
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin iteración asignada (valorar en E190-I04)
+- **Severidad:** Baja · **Estado:** Resuelto (16-11-2026): `epica.md` enlaza ahora el procedimiento vigente · **Resuelve:** E190-I04 (documental)
 - **Evidencia (15-11-2026, verificado):** `190_epica-cutover/epica.md` enlaza `E190-I02-plan-despliegue-reversa.md` (el archivo de la iteración, que solo lista tareas y referencias). El procedimiento vigente, que es lo que se usa en la ventana, es `E190-I02-procedimiento-cutover.md`, y `epica.md` no lo enlaza.
 - **Impacto:** quien abre la épica en la ventana llega al archivo de la iteración y debe buscar el procedimiento. Sin efecto en el sitio.
 - **Recomendación:** enlazar el procedimiento desde `epica.md` o desde el archivo de la iteración. No se renombró nada.
+
+### AT-143 · La regla «Redirect from WWW to root» ya existía en la zona y no estaba documentada
+- **Severidad:** Baja · **Estado:** Abierto (documental) · **Resuelve:** sin iteración asignada (valorar en E190-I04)
+- **Evidencia (cutover, 15-11-2026, dicho por Felipe):** en el paso 7 la zona ya tenía la regla «Redirect from WWW to root» (`https://www.*` → `https://${1}`, 301, con query), que se dejó. El procedimiento (ADR-101) suponía crearla. Verificado por el agente el 16-11-2026: `https://www.felipecuevas.dev/es/` responde 301 a `https://felipecuevas.dev/es/`.
+- **Impacto:** si la regla se borra o cambia en la zona, `www` deja de redirigir sin que ningún archivo del repositorio lo muestre. Sin efecto hoy.
+- **Recomendación:** dejar la regla anotada en el procedimiento (hecho: «Registro de ejecución») y, en la reversa, recordar que `www` debe volver a agregarse como dominio de Pages (hoy no figura; motivo no verificado).
+
+### AT-144 · Caché DNS negativa en el router de Felipe tras mover el dominio
+- **Severidad:** Baja · **Estado:** Aceptado (observación) · **Resuelve:** —
+- **Evidencia (cutover, 15-11-2026, dicho por Felipe):** tras el hueco del dominio, el router de Felipe siguió sin resolver `felipecuevas.dev` cerca de 1 h por caché DNS negativa. No se midió con otra red. El agente observó el 16-11-2026 un solo `curl` a `/es/` con código 000 que no se repitió (3 de 3 en 200); no se atribuye a esta causa.
+- **Impacto:** quien consultó el dominio durante el hueco pudo no resolverlo un tiempo. Sin efecto en el sitio.
+- **Recomendación:** para un cambio de dominio futuro, avisar que la caché negativa del resolutor puede alargar el hueco para algunos usuarios.
