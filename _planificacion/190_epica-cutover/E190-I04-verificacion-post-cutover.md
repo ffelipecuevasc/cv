@@ -39,7 +39,7 @@ Guiar la verificación en producción después de que Felipe ejecute el cutover.
 
 ## Riesgos y notas
 - Pendientes de Felipe (pasos 9 y 10 del procedimiento): desde ~18-11-2026 HSTS de 1 mes y `workers_dev: false` en una rama corta desde `main` (bloque de la sección 7); no borrar el proyecto Pages.
-- `docs/` se conserva (ADR-102); la decisión de moverlo o retirarlo queda pendiente de Felipe.
+- `docs/` se retiró el 16-11-2026 (ADR-105): las líneas base viven en `_planificacion/00_producto/linea-base/`; la de noviembre (`2026-11-16/`) es la vigente y sustituye a la de agosto como referencia de ADR-015.
 
 ## Línea base de producción (16-11-2026)
 Medida por el agente con `node scripts/psi.mjs --base https://felipecuevas.dev --category performance --only /es/,/en/` (PageSpeed Insights, laboratorio; una corrida por página y estrategia).
@@ -54,7 +54,7 @@ Medida por el agente con `node scripts/psi.mjs --base https://felipecuevas.dev -
 - **Comparación con I03 (preview, 15-11-2026):** `/es/` 100 y 100, `/en/` 98 y 100. En producción `/es/` baja 1 punto en móvil y `/en/` sube 1; escritorio sin cambio. Diferencia dentro del ruido de una corrida de PSI: sin regresión real.
 - **Frente a ADR-015:** LCP 1,68 s ≤ 2,5 s y CLS ≤ 0,0004 ≤ 0,1; puntaje sobre la línea base de agosto (portada 57 móvil y 97 escritorio). INP no se mide en laboratorio. Sin datos de campo (BL-01 sigue abierto).
 - **Salvedad:** `/es/` y `/en/` dieron exactamente las mismas métricas; es plausible por su estructura idéntica, pero no se repitió la corrida para descartar un resultado repetido. Solo se midieron las dos portadas, no las 26 URL.
-- **Qué es la línea base:** se anota como referencia de producción; no se registra un ADR que sustituya la de agosto porque BL-01 sigue abierto.
+- **Qué es la línea base:** vigente desde el 16-11-2026, copiada a `_planificacion/00_producto/linea-base/2026-11-16/resumen-psi-produccion.md`; sustituye a la de agosto como referencia de ADR-015 (ADR-105). BL-01 (datos de campo de Cloudflare) sigue abierto.
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md

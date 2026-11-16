@@ -1131,6 +1131,12 @@ Reglas del registro:
 - **Consecuencias:** el procedimiento queda con el registro de ejecución. Reversa: al volver `www` a Pages hay que agregarlo de nuevo como dominio del proyecto (hoy no figura, motivo no verificado). Workers Builds no disparó un build por sí solo al cambiar la rama; se usó «Retry build» (versión `5ae7e60e`), y el push a `main` como disparador queda por probar con la rama corta del paso 9b.
 - **Origen:** decisión de Felipe, 15-11-2026 (ejecución del cutover E190). **Estado:** Aceptada.
 
+## ADR-105 · Se retira `docs/`; las líneas base viven en `_planificacion/00_producto/linea-base/`
+- **Contexto:** ADR-102 conservó `docs/` hasta E190-I04, que registra la línea base nueva (ADR-015). Esa línea base se midió el 16-11-2026 en producción.
+- **Decisión (de Felipe, 16-11-2026, dicha por el desarrollador):** se retira `docs/`. Las líneas base viven en `_planificacion/00_producto/linea-base/` (Felipe movió `docs/linea-base` con `git mv`). La de noviembre de 2026 (`2026-11-16/`, sitio Astro en producción) **sustituye a la de agosto de 2026** como referencia de ADR-015; la de agosto queda como histórica.
+- **Consecuencias:** complementa ADR-015 y ADR-102 sin editarlos: donde ADR-015 cita `docs/linea-base/2026-08-12/resumen-lighthouse.md`, la ruta actual es `_planificacion/00_producto/linea-base/2026-08-12/resumen-lighthouse.md`. Las bitácoras y las iteraciones históricas conservan la ruta antigua.
+- **Origen:** decisión de Felipe el 16-11-2026 (E190-I04). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

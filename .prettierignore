@@ -10,3 +10,6 @@ _planificacion/
 # Archivos generados o de herramientas.
 pnpm-lock.yaml
 .claude/
+
+# Plantilla descargable: se entrega tal cual y no se reformatea.
+public/static/recursos/ia/desarrollo-web/esqueleto-workflow-publicar.yml

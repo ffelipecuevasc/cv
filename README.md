@@ -53,7 +53,6 @@ El servidor de desarrollo queda en <http://localhost:4321/>. La raíz `/` rediri
 ├── scripts/              ← verificaciones y utilidades de build
 ├── wrangler.jsonc        ← Worker con assets estáticos (ADR-037)
 ├── astro.config.mjs      ← Astro, i18n, sitemap y Tailwind (@tailwindcss/vite)
-├── docs/                 ← línea base de rendimiento de agosto de 2026 (ADR-015)
 ├── AGENTS.md             ← instrucciones para agentes de IA
 ├── DESIGN.md             ← única fuente de verdad del diseño
 └── _planificacion/       ← épicas, iteraciones, decisiones, auditoría y bitácoras
@@ -68,7 +67,7 @@ El servidor de desarrollo queda en <http://localhost:4321/>. La raíz `/` rediri
 ## Verificaciones y calidad
 - Las verificaciones de la sección «Comandos» fallan ante casos rotos y se prueban con mutaciones sobre copias de `dist/`.
 - Accesibilidad: contraste y estructura según `DESIGN.md` (tabla 4.4); `pa11y` con axe se usó en E170-I01 (0 violaciones).
-- Rendimiento: la línea base y los umbrales están en ADR-015; no se deben empeorar.
+- Rendimiento: los umbrales están en ADR-015 y la línea base vigente (noviembre de 2026) en [`_planificacion/00_producto/linea-base/`](_planificacion/00_producto/linea-base/README.md) (ADR-105); no se deben empeorar.
 - Seguridad: CSP estricta con hashes de scripts en línea y demás cabeceras en `public/_headers` (ADR-092).
 - Movimiento: se respeta `prefers-reduced-motion`; el contenido es legible sin JavaScript.
 
