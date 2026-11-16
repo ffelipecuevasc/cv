@@ -25,9 +25,7 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 - **Producto:** sitio personal de Felipe Cuevas (CV online, portafolio y comunidad). Producción: https://felipecuevas.dev. Repositorio: https://github.com/ffelipecuevasc/cv.
 - **Objetivo:** proyecto nuevo en Astro 7.x, bilingüe (`/es/` en `es-CL` y `/en/` en `en-US`), con Tailwind CSS v4, PNPM, HTML5 semántico y salida estática.
 - **Rama:** todo el trabajo ocurre en la rama de migración `migracion-astro` (confirmada en E10-I01, ADR-014), creada desde `main`.
-- **Sitio antiguo:** es **referencia de solo lectura**. Sus archivos siguen en la raíz de la rama hasta E190-I03 (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`, `docs/`).
-    - Nunca los edites.
-    - Para consultar el original, usa siempre `git show main:<ruta>`.
+- **Sitio antiguo:** se retiró de la rama en E190-I03 (ADR-102). Sus archivos (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) ya no están en el árbol de trabajo; se consultan solo en el historial con `git show sitio-antiguo-2026-11:<ruta>` (o `git show main:<ruta>` antes del merge) y nunca se editan. `docs/` se conserva hasta E190-I04.
 - **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. El Worker `felipecuevas-dev` sirve la rama de migración en workers.dev (preview) y atiende solo `/api/*` (ADR-084 y ADR-085). Producción sigue en el proyecto Pages `felipe-cuevas-cv`, desde `main`, hasta el cutover de la épica E190. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
 
 ## 3. Lo que el agente PUEDE hacer
@@ -35,7 +33,7 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 - Leer, crear y editar archivos **dentro del alcance de la iteración en curso**.
 - Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check`, `test` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
 - Actualizar los documentos de `_planificacion/`.
-- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-137 y ADR-099). Verifica siempre el último número antes de asignar uno.
+- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-142 y ADR-103). Verifica siempre el último número antes de asignar uno.
 - Escribir la bitácora de la iteración en `_planificacion/99_bitacora/`.
 - Sugerir el mensaje de commit (máximo 200 caracteres).
 - Crear ramas nuevas **solo después de consultar a Felipe y recibir su autorización explícita**.
@@ -55,7 +53,7 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 ### Otras restricciones vinculantes
 - No crear `CLAUDE.md` ni `GEMINI.md` en ninguna ruta del proyecto (ADR-024).
 - No editar `AGENTS.md`, `DESIGN.md` ni `.claude/`: los edita Felipe. Si una iteración exige un cambio en ellos, entrégale el bloque exacto en la bitácora.
-- No editar los archivos del sitio antiguo (sección 2).
+- No recrear ni editar archivos del sitio antiguo (sección 2).
 - No escribir secretos ni valores de variables de entorno en archivos versionados, y no pedirlos ni imprimirlos.
 - No trabajar fuera del alcance de la iteración: lo que encuentres fuera de él se registra como hallazgo o como backlog.
 
