@@ -1,0 +1,12 @@
+# Prettier también respeta .gitignore (dist/, .astro/, node_modules/, .idea/...).
+
+# Carpeta local de Wrangler (AT-129).
+.wrangler/
+
+# Documentación y planificación: se redactan a mano y no se reformatean.
+*.md
+_planificacion/
+
+# Archivos generados o de herramientas.
+pnpm-lock.yaml
+.claude/

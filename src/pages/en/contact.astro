@@ -1,0 +1,22 @@
+---
+// Página Contacto de /en/ (E140-I01, ADR-083, composición A). Título, descripción y texto
+// alternativo de la imagen OG vienen de src/content/pages/contact.json; el contenido, de
+// src/content/contact/page.json, y los textos del formulario, del diccionario.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactHeader from '../../components/contact/ContactHeader.astro';
+import ChannelsBand from '../../components/contact/ChannelsBand.astro';
+import ContactSection from '../../components/contact/ContactSection.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'contact');
+if (!page) throw new Error('Falta src/content/pages/contact.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.en ?? title.en };
+---
+
+<BaseLayout title={title.en} description={description.en} route="contact" ogImage={og}>
+  <ContactHeader />
+  <ChannelsBand />
+  <ContactSection />
+</BaseLayout>

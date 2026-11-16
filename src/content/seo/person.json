@@ -1,0 +1,46 @@
+{
+  "jobTitle": {
+    "es": ["Instructor Senior", "Docente Universitario", "Ingeniero Informático"],
+    "en": ["Senior Instructor", "University Lecturer", "Computer Engineer"]
+  },
+  "description": {
+    "es": "Instructor senior en bootcamps de Talento Digital SENCE y Alura Latam, docente universitario e ingeniero informático. Más de 10 años formando profesionales en Java, Python y JavaScript.",
+    "en": "Senior instructor in Talento Digital SENCE and Alura Latam bootcamps, university lecturer and computer engineer. Over 10 years training professionals in Java, Python and JavaScript."
+  },
+  "knowsAbout": {
+    "es": [
+      "Java",
+      "Spring Boot",
+      "Python",
+      "Django",
+      "Desarrollo Full Stack",
+      "Amazon Web Services",
+      "Oracle Cloud Infrastructure",
+      "Docker",
+      "Bases de Datos Oracle",
+      "Inteligencia Artificial",
+      "Ingeniería de Datos",
+      "Docencia Universitaria",
+      "Educación Andragógica"
+    ],
+    "en": [
+      "Java",
+      "Spring Boot",
+      "Python",
+      "Django",
+      "Full Stack Development",
+      "Amazon Web Services",
+      "Oracle Cloud Infrastructure",
+      "Docker",
+      "Oracle Databases",
+      "Artificial Intelligence",
+      "Data Engineering",
+      "University Teaching",
+      "Adult Education"
+    ]
+  },
+  "contactType": {
+    "es": "Contacto profesional",
+    "en": "Professional contact"
+  }
+}

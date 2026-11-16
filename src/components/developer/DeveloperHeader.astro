@@ -1,0 +1,62 @@
+---
+/*
+ * Cabecera de Desarrollador (E70-I01, ADR-067): el único <h1> de la página, con rótulo,
+ * institución y periodo · modalidad, iguales a la tarjeta y al hito de Experiencia. Alineada a
+ * la izquierda (DESIGN.md 7.5). Fondo `bg`. Dentro de <main>.
+ */
+import { getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('developerPage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/developer/page.json');
+const { header } = page;
+---
+
+<div class="developer-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      id="developer-title"
+    />
+    <p class="institutions">{header.institutions}</p>
+    <p class="meta" data-period>
+      {header.period[lang]} · {header.modality[lang]}
+    </p>
+  </Container>
+</div>
+
+<style>
+  .developer-header {
+    padding-block: 64px 24px;
+    background-color: var(--color-bg);
+  }
+  p {
+    margin: 0;
+  }
+  .institutions {
+    margin-top: 20px;
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .meta {
+    margin-top: 8px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .developer-header {
+      padding-block: 80px 32px;
+    }
+  }
+</style>

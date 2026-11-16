@@ -1,0 +1,385 @@
+/*
+ * Hoja global de Tailwind CSS v4 (ADR-004).
+ * source(none) desactiva la detección automática desde la raíz del proyecto, que
+ * escanearía los HTML del sitio antiguo; @source limita el escaneo a src/.
+ * Tokens de DESIGN.md (secciones 4, 6, 7.13, 8 y 9), declarados en E20-I02.
+ */
+@import 'tailwindcss' source(none);
+@source "../../src";
+
+/*
+ * Tema oscuro por clase en <html>, igual que el sitio actual: la clase `dark` se
+ * agrega según la clave `theme` de localStorage ('dark' | 'light'), con respaldo en
+ * prefers-color-scheme (ADR-023). El script que la aplica sin parpadeo llega en E30-I01.
+ * Los componentes no usan `dark:` para el color: los semánticos cambian de valor.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme static {
+  /* static: se emiten todas las variables aunque ninguna clase las use (las leen
+     estilos en línea y scripts). Se anulan los colores de Tailwind: solo existen los
+     tokens de DESIGN.md 4.1. */
+  --color-*: initial;
+
+  /* 4.1 Paleta base (escala original y tonos de apoyo de ADR-040). */
+  --color-orient-50: #e4f3ff;
+  --color-orient-100: #b9e2ff;
+  --color-orient-200: #5dc9ff;
+  --color-orient-300: #00b0e8;
+  --color-orient-400: #0096c7;
+  --color-orient-500: #007ea7;
+  --color-orient-600: #00678a;
+  --color-orient-700: #005471;
+  --color-orient-800: #003b51;
+  --color-orient-900: #00212f;
+  --color-orient-925: #001a26;
+  --color-orient-950: #00131d;
+  --color-stone: #f5f9fc;
+  --color-primary: #007ea7;
+  --color-vibrant: #00b0e8;
+  --color-gold: #f8cd46;
+  --color-gold-deep: #7a5c00;
+  --color-white: #ffffff;
+  --color-black: #000000; /* solo en sombras oscuras (7.13) */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* 4.2 Semánticos: valores del tema claro; el bloque .dark los redefine. */
+  --color-bg: var(--color-white);
+  --color-bg-alt: var(--color-stone);
+  --color-surface: var(--color-white);
+  --color-band: var(--color-orient-50);
+  --color-footer: var(--color-orient-50);
+  --color-text: var(--color-orient-950);
+  --color-heading: var(--color-orient-950);
+  --color-text-muted: color-mix(in srgb, var(--color-orient-950) 70%, transparent);
+  --color-text-soft: color-mix(in srgb, var(--color-orient-950) 60%, transparent);
+  --color-accent: var(--color-primary);
+  --color-kicker: var(--color-orient-600);
+  --color-icon: var(--color-orient-600);
+  --color-icon-rail: var(--color-orient-600);
+  --color-border: color-mix(in srgb, var(--color-orient-950) 10%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-orient-950) 25%, transparent);
+  --color-focus: var(--color-primary);
+
+  /* 5.1 Familias (ADR-041, ADR-043, ADR-049). --font-cinzel y --font-josefin-sans
+     las genera la API de fuentes de Astro, con sus respaldos métricos. */
+  --font-*: initial;
+  --font-display: var(--font-cinzel);
+  --font-sans: var(--font-josefin-sans);
+
+  /* 7.13 Sombras. */
+  --shadow-card:
+    0 1px 0 color-mix(in srgb, var(--color-orient-950) 6%, transparent),
+    0 24px 50px -36px color-mix(in srgb, var(--color-orient-800) 50%, transparent);
+  --shadow-card-hover:
+    0 1px 0 color-mix(in srgb, var(--color-orient-950) 6%, transparent),
+    0 30px 60px -34px color-mix(in srgb, var(--color-orient-800) 60%, transparent);
+  --shadow-float: 0 20px 40px -20px color-mix(in srgb, var(--color-orient-950) 35%, transparent);
+  --shadow-rail:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-950) 8%, transparent),
+    0 10px 22px -12px color-mix(in srgb, var(--color-orient-800) 45%, transparent);
+
+  /* 8 Duraciones y curvas. */
+  --duration-fast: 200ms;
+  --duration-base: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* 6 Contenedor (1.280 px) y punto de quiebre propio cards (1.100 px). */
+  --container-page: 80rem;
+  --breakpoint-cards: 68.75rem;
+}
+
+/* Variables de textura (4.5), por tema. No generan utilidades. */
+:root {
+  --dots-main: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --dots-gold: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  --halo: transparent;
+  --grid-line: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  --grid-edge: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  --grid-fill: linear-gradient(var(--color-orient-50), var(--color-orient-50));
+  --frame-dots: color-mix(in srgb, var(--color-vibrant) 35%, transparent);
+  --portrait-fill: linear-gradient(var(--color-orient-50), var(--color-orient-200));
+}
+
+/* 4.2 y 7.13 en tema oscuro. */
+.dark {
+  color-scheme: dark;
+  --color-bg: var(--color-orient-950);
+  --color-bg-alt: var(--color-orient-925);
+  --color-surface: var(--color-orient-900);
+  --color-band: var(--color-orient-800);
+  --color-footer: var(--color-orient-950);
+  --color-text: var(--color-orient-50);
+  --color-heading: var(--color-white);
+  --color-text-muted: color-mix(in srgb, var(--color-orient-50) 75%, transparent);
+  --color-text-soft: color-mix(in srgb, var(--color-orient-50) 60%, transparent);
+  --color-accent: var(--color-vibrant);
+  --color-kicker: var(--color-orient-400);
+  --color-icon: var(--color-orient-400);
+  --color-icon-rail: var(--color-vibrant);
+  --color-border: color-mix(in srgb, var(--color-orient-50) 10%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-orient-50) 25%, transparent);
+  --color-focus: var(--color-vibrant);
+
+  --shadow-card:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 6%, transparent),
+    0 28px 50px -34px color-mix(in srgb, var(--color-black) 85%, transparent);
+  --shadow-card-hover:
+    0 0 0 1px color-mix(in srgb, var(--color-vibrant) 25%, transparent),
+    0 34px 60px -32px color-mix(in srgb, var(--color-black) 90%, transparent);
+  --shadow-float:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 8%, transparent),
+    0 24px 44px -20px color-mix(in srgb, var(--color-black) 80%, transparent);
+  --shadow-rail:
+    0 0 0 1px color-mix(in srgb, var(--color-orient-50) 10%, transparent),
+    0 12px 24px -12px color-mix(in srgb, var(--color-black) 70%, transparent);
+
+  --dots-main: color-mix(in srgb, var(--color-vibrant) 26%, transparent);
+  --dots-gold: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  --halo: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  --grid-line: color-mix(in srgb, var(--color-vibrant) 5%, transparent);
+  --grid-edge: transparent;
+  --grid-fill: linear-gradient(
+    160deg,
+    var(--color-orient-800),
+    var(--color-orient-900) 60%,
+    var(--color-orient-925)
+  );
+  --frame-dots: color-mix(in srgb, var(--color-vibrant) 40%, transparent);
+  --portrait-fill: linear-gradient(
+    var(--color-orient-800),
+    var(--color-primary),
+    var(--color-orient-400)
+  );
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    /* La navbar pegajosa mide 76 px (7.2): las anclas y el foco no quedan bajo ella. */
+    scroll-padding-top: 76px;
+  }
+  /* 5.2 Cuerpo base: Josefin 400, 17 px, alto de línea 1,6. El rem raíz sigue en 16 px. */
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  /* 5.3: titulares con text-wrap balance y color heading (4.2). */
+  h1,
+  h2,
+  h3 {
+    color: var(--color-heading);
+    text-wrap: balance;
+  }
+}
+
+/*
+ * 8 Movimiento (ADR-045).
+ * Desplazamiento suave solo sin preferencia de movimiento reducido. Con `reduce` se
+ * anulan transiciones, animaciones y desplazamiento suave en todo el sitio.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Aparición al hacer scroll: [data-reveal] solo se oculta cuando el script puso
+ * `reveal-ready` en <html> (sin JavaScript, todo visible). Opacidad y 4 px con
+ * `translate`, que no afecta el layout (sin CLS).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready [data-reveal] {
+    transition:
+      opacity var(--duration-slow) var(--ease-out-soft),
+      translate var(--duration-slow) var(--ease-out-soft);
+  }
+  .reveal-ready [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+/*
+ * 4.5 Texturas. Son decorativas: se aplican a capas con aria-hidden.
+ * texture-dots y texture-halo van en una capa absoluta detrás del hero.
+ */
+@utility texture-dots {
+  background-image:
+    radial-gradient(circle, var(--dots-gold) 1.2px, transparent 1.2px),
+    radial-gradient(circle, var(--dots-main) 1.1px, transparent 1.1px);
+  background-size:
+    132px 132px,
+    22px 22px;
+  background-position:
+    11px 11px,
+    0 0;
+  mask-image: radial-gradient(ellipse at 60% 45%, black 30%, transparent 75%);
+}
+
+@utility texture-halo {
+  background-image: radial-gradient(44rem 30rem at 78% 40%, var(--halo), transparent 70%);
+}
+
+/* Banda (7.8): retícula de 48 px; en oscuro, kicker dorado (4.2). */
+@utility texture-band {
+  background-color: var(--color-band);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), var(--grid-fill);
+  background-size:
+    48px 48px,
+    48px 48px,
+    auto;
+  border-block: 1px solid var(--grid-edge);
+  &:where(.dark *) {
+    --color-kicker: var(--color-gold);
+  }
+}
+
+/* Marco desplazado del retrato: panel orient-800 con puntos cada 18 px. */
+@utility texture-frame {
+  background-color: var(--color-orient-800);
+  background-image: radial-gradient(circle, var(--frame-dots) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Fondo del retrato mientras carga la imagen. */
+@utility texture-portrait {
+  background-image: var(--portrait-fill);
+}
+
+/*
+ * Variables de componente por tema (DESIGN.md 7.3, 7.6 y 7.7, ADR-046). Derivan de la
+ * paleta y los semánticos; los componentes las leen sin usar `dark:`.
+ */
+:root {
+  --button-primary-bg: var(--color-orient-950);
+  --button-primary-fg: var(--color-white);
+  --button-icon-hover-bg: var(--color-stone);
+  --button-arrow-hover-bg: var(--color-orient-950);
+  --button-arrow-hover-fg: var(--color-gold);
+  --card-outline: transparent;
+  --card-outline-hover: transparent;
+  --chip-border: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  --chip-bg: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  --chip-fg: var(--color-orient-800);
+  /* 7.6 Estrellas del testimonio: `gold-deep` en claro (4.3) y `gold` en oscuro. */
+  --star-fill: var(--color-gold-deep);
+  /* 7.2 Navbar: fondo de la barra, ícono de apariencia e idioma actual. */
+  --navbar-bg: color-mix(in srgb, var(--color-bg) 95%, transparent);
+  --theme-toggle-fg: var(--color-icon);
+  --language-current-bg: var(--color-orient-950);
+  --language-current-fg: var(--color-white);
+  /* 7.9 Pie: borde de la barra inferior, `primary` al 20 % (en oscuro, `border`). */
+  --footer-bar-border: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  /* 7.4 Hero: conmutador de perfiles (con el estilo del selector de idioma, 7.2) y hover del
+     riel social. `--metric-sign` es el signo "+" de toda cifra de display, en el hero y en la
+     banda de cifras (4.3: `primary` en claro, `gold` en oscuro). */
+  --profile-current-bg: var(--color-orient-950);
+  --profile-current-fg: var(--color-white);
+  --rail-hover-bg: var(--color-orient-950);
+  --rail-hover-fg: var(--color-gold);
+  --metric-sign: var(--color-primary);
+  /* Placa del logo de tecnología (Desarrollador, ADR-069): en claro, `bg`, como antes; en
+     oscuro, `orient-50`, para que los logos de marca oscuros se distingan (AT-083). */
+  --tech-plate-bg: var(--color-bg);
+}
+
+.dark {
+  --button-primary-bg: var(--color-orient-50);
+  --button-primary-fg: var(--color-orient-950);
+  --button-icon-hover-bg: color-mix(in srgb, var(--color-orient-50) 5%, transparent);
+  --button-arrow-hover-bg: var(--color-gold);
+  --button-arrow-hover-fg: var(--color-orient-950);
+  --card-outline: color-mix(in srgb, var(--color-orient-50) 6%, transparent);
+  --card-outline-hover: color-mix(in srgb, var(--color-vibrant) 25%, transparent);
+  --chip-border: color-mix(in srgb, var(--color-vibrant) 30%, transparent);
+  --chip-bg: color-mix(in srgb, var(--color-white) 4%, transparent);
+  --chip-fg: color-mix(in srgb, var(--color-orient-50) 85%, transparent);
+  --star-fill: var(--color-gold);
+  --navbar-bg: color-mix(in srgb, var(--color-orient-950) 88%, transparent);
+  --theme-toggle-fg: var(--color-gold);
+  --language-current-bg: var(--color-orient-50);
+  --language-current-fg: var(--color-orient-950);
+  --footer-bar-border: var(--color-border);
+  --profile-current-bg: var(--color-orient-50);
+  --profile-current-fg: var(--color-orient-950);
+  --rail-hover-bg: var(--color-orient-400);
+  --rail-hover-fg: var(--color-white);
+  --metric-sign: var(--color-gold);
+  --tech-plate-bg: var(--color-orient-50);
+}
+
+/* 7.3 Foco de todos los controles: 2 px `focus`, separación de 2 px, solo con teclado. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* ADR-045: al imprimir, ningún bloque con aparición queda oculto. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+  }
+}
+
+/*
+ * 3.3 Máquina de escribir (E30-I03): logotipo y titular del hero. Las medidas (una por
+ * frase) reservan el ancho de la más ancha y el texto se teclea encima (CLS 0).
+ * El cursor (0,07 × 0,95 em, separación 0,06 em) se dibuja como fondo del texto y no
+ * como caja propia: así ninguna caja cambia de posición al teclear y Chrome no registra
+ * desplazamientos (con una caja ::after, cada letra sumaba ~1,7e-7 de CLS).
+ * Solo parpadea con el motor en marcha y queda fijo mientras teclea; sin JavaScript o
+ * con movimiento reducido el motor no arranca y el cursor no parpadea (3.4).
+ * El texto se ajusta a su contenido (`justify-self: start`) para que el cursor, que va
+ * en su borde derecho, acompañe al último carácter y no al ancho reservado por las
+ * medidas (3.3, ADR-057). Con el renglón vacío solo queda el relleno: cursor al inicio.
+ */
+.typewriter {
+  display: inline-grid;
+}
+.typewriter-measure,
+.typewriter-text {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  padding-inline-end: 0.13em;
+}
+.typewriter-measure {
+  visibility: hidden;
+}
+.typewriter-text {
+  justify-self: start;
+  background: linear-gradient(currentColor, currentColor) right 0 bottom 0.02em / 0.07em 0.95em
+    no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .typewriter--running:not(.typewriter--typing) .typewriter-text {
+    animation: typewriter-blink 1.05s steps(1, end) infinite;
+  }
+}
+@keyframes typewriter-blink {
+  50% {
+    background-size: 0 0;
+  }
+}

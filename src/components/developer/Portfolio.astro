@@ -1,0 +1,377 @@
+---
+/*
+ * Portafolio de Desarrollador (E70-I02, ADR-068): patrón «mosaico por peso» con el ritmo de
+ * main (7/5, 5/7, 6/6 en 12 columnas desde 1.024 px; una columna bajo esa medida). 12 proyectos
+ * de src/content/portfolio/page.json, en el orden de main. Filtros por categoría con mejora
+ * progresiva (src/scripts/portfolio.ts): sin JavaScript no hay botones y se ven los 12.
+ * Imágenes optimizadas por Astro (WebP con srcset, ancho y alto declarados, diferidas).
+ * Fondo `bg-alt`. Dentro de <main>.
+ */
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Card from '../ui/Card.astro';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { MOSAIC_SPANS } from '../../scripts/portfolio';
+import { langFromLocale } from '../../i18n/lang';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const page = (await getEntry('portfolioPage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/portfolio/page.json');
+const { header, filters, categories, actions, projects } = page;
+
+// Ícono de 10 px por etiqueta (main:static/js/config/portafolio.config.js). Sin entrada, solo
+// texto. Los SVG son los de src/assets/technologies/ (E70-I01), como archivos aparte.
+const TAG_ICONS: Record<string, string> = {
+  Java: 'java',
+  'Java 21': 'java',
+  'Spring Boot': 'spring',
+  'Spring Security': 'spring',
+  'Spring Data JPA': 'hibernate',
+  Hibernate: 'hibernate',
+  'RESTful APIs': 'restful-apis',
+  Maven: 'maven',
+  OAuth2: 'oauth2',
+  JWT: 'jwt',
+  MySQL: 'mysql',
+  Docker: 'docker',
+  Python: 'python',
+  Django: 'django',
+  'Django ORM': 'django',
+  HTML5: 'html5',
+  CSS3: 'css3',
+  'Tailwind CSS': 'tailwindcss',
+  JavaScript: 'javascript',
+  'JavaScript ES6+': 'javascript',
+  'Node.js': 'nodejs',
+  'Express.js': 'expressjs',
+  PostgreSQL: 'postgresql',
+  Sequelize: 'sequelize',
+  RabbitMQ: 'rabbitmq',
+  Redis: 'redis',
+  'Cloudflare Pages': 'cloudflare',
+  'Cloudflare Turnstile': 'cloudflare',
+  'Cloudflare D1': 'cloudflare',
+  'Cloudflare Workers': 'cloudflare-workers',
+  NPM: 'npm',
+  PNPM: 'pnpm',
+};
+const files = import.meta.glob<string>('../../assets/technologies/*.svg', {
+  eager: true,
+  query: '?no-inline',
+  import: 'default',
+});
+const tagIcon = (tag: string): string | undefined => {
+  const slug = TAG_ICONS[tag];
+  return slug ? files[`../../assets/technologies/${slug}.svg`] : undefined;
+};
+
+const filterOptions = [
+  { id: 'all', icon: 'apps' as const, label: filters.all[lang] },
+  ...(['frontend', 'fullstack', 'backend'] as const).map((id) => ({
+    id,
+    icon: categories[id].icon,
+    label: categories[id].label[lang],
+  })),
+];
+---
+
+<section
+  class="portfolio"
+  aria-labelledby="portfolio-title"
+  id="portfolio"
+  data-portfolio
+  data-status-template={filters.status[lang]}
+>
+  <Container>
+    <div class="head">
+      <SectionHeader kicker={header.kicker[lang]} title={header.title[lang]} id="portfolio-title" />
+      <p class="lead">
+        {parseEmphasis(header.lead[lang]).map((part) =>
+          part.strong ? <strong>{part.text}</strong> : part.text,
+        )}
+      </p>
+      <div
+        class="filters"
+        role="group"
+        aria-label={filters.label[lang]}
+        data-portfolio-filters
+        hidden
+      >
+        {filterOptions.map((option) => (
+          <button
+            type="button"
+            class="filter"
+            data-filter={option.id}
+            data-label={option.label}
+            aria-pressed={option.id === 'all' ? 'true' : 'false'}
+          >
+            <Icon name={option.icon} size={18} />
+            {option.label}
+          </button>
+        ))}
+      </div>
+      <p class="sr-only" aria-live="polite" data-portfolio-status></p>
+    </div>
+
+    <ul class="mosaic" data-portfolio-list>
+      {projects.map((project, index) => {
+        const category = categories[project.category];
+        const isRepository = /github\.com/.test(project.url);
+        const action = isRepository ? actions.repository[lang] : actions.site[lang];
+        return (
+          <li
+            class="cell"
+            data-category={project.category}
+            data-project={project.id}
+            style={`--span: ${MOSAIC_SPANS[index % MOSAIC_SPANS.length]}`}
+          >
+            <Card class="project-card">
+              <div class="media">
+                <Image
+                  src={project.image}
+                  alt={project.imageAlt[lang]}
+                  width={1600}
+                  height={900}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 1280px) 680px, (min-width: 1024px) 55vw, calc(100vw - 100px)"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="pill">
+                  <Icon name={category.icon} size={14} />
+                  {category.label[lang]}
+                </span>
+              </div>
+              <h3 class="title">{project.title[lang]}</h3>
+              <p class="description">
+                {parseEmphasis(project.description[lang]).map((part) =>
+                  part.strong ? <strong>{part.text}</strong> : part.text,
+                )}
+              </p>
+              <ul class="tags">
+                {project.tags.map((tag) => {
+                  const icon = tagIcon(tag);
+                  return (
+                    <li class="tag">
+                      {icon && (
+                        <img
+                          src={icon}
+                          alt=""
+                          width="10"
+                          height="10"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                      {tag}
+                    </li>
+                  );
+                })}
+              </ul>
+              <a class="action" href={project.url} target="_blank" rel="noopener noreferrer">
+                <Icon name={isRepository ? 'code' : 'external-link'} size={16} />
+                {action}
+                <span class="sr-only">
+                  : {project.title[lang]} {t.footer.newTab}
+                </span>
+              </a>
+            </Card>
+          </li>
+        );
+      })}
+    </ul>
+  </Container>
+</section>
+
+<script>
+  import { initPortfolios } from '../../scripts/portfolio';
+  initPortfolios();
+</script>
+
+<style>
+  .portfolio {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  .lead {
+    margin: 20px 0 0;
+    max-width: 52ch;
+    color: var(--color-text-soft);
+    font-weight: 300;
+  }
+  .lead strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  /* Filtros: botones de 44 px con contorno (DESIGN.md 7.3, secundario), sin radio. */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .filters[hidden] {
+    display: none;
+  }
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding-inline: 16px;
+    border: 1px solid var(--color-border-strong);
+    background-color: transparent;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition-property: color, background-color, border-color;
+    transition-duration: var(--duration-base);
+  }
+  .filter:hover {
+    border-color: var(--color-vibrant);
+  }
+  /* Activo: mismos valores que el idioma actual del selector (7.2). */
+  .filter[aria-pressed='true'] {
+    border-color: var(--profile-current-bg);
+    background-color: var(--profile-current-bg);
+    color: var(--profile-current-fg);
+  }
+  .filter :global(svg) {
+    color: currentColor;
+  }
+
+  .mosaic {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cell[hidden] {
+    display: none;
+  }
+  .cell > :global(.project-card) {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-bg-alt);
+    box-shadow: 0 0 0 1px var(--color-border);
+  }
+  .media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pill {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background-color: var(--profile-current-bg);
+    color: var(--profile-current-fg);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .title {
+    margin: 24px 0 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .description {
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+    font-size: 15.5px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .description strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* Etiqueta (7.7) en tamaño reducido, con el logo de 10 px de main delante. */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--chip-border);
+    background-color: var(--chip-bg);
+    color: var(--chip-fg);
+    padding: 4px 8px;
+    font-size: 11.5px;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tag img {
+    display: block;
+    width: 10px;
+    height: 10px;
+  }
+  .action {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 10px;
+    min-height: 44px;
+    margin-top: auto;
+    padding-top: 20px;
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-transform: uppercase;
+    transition: color var(--duration-base) ease;
+  }
+  .action:hover {
+    color: var(--color-heading);
+  }
+  @media (min-width: 48rem) {
+    .portfolio {
+      padding-block: 96px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .mosaic {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 32px;
+    }
+    .cell {
+      grid-column: span var(--span, 6);
+    }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+/*
+ * Cabecera de Talento Digital (E100-I01, ADR-074): el único <h1>, con rótulo «Instructor Senior»,
+ * bajada con énfasis (ADR-068) y 3 insignias como chips (7.7). Alineada a la izquierda, fondo
+ * `bg`, sin foto ni JavaScript. «Talento Digital para Chile» no se traduce (ADR-025). «2.000»
+ * sale de stats.json (`class-hours`); el diploma toma su nombre de Educación.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Tag from '../ui/Tag.astro';
+import { parseEmphasis, formatNumber } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { getEducationTitle, getStat, getTalentoDigitalPage } from './talento-digital-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { header } = await getTalentoDigitalPage();
+const hours = await getStat('class-hours');
+const lead = parseEmphasis(
+  header.lead[lang].replaceAll('{class-hours}', formatNumber(hours.value, lang)),
+);
+const badges = await Promise.all(
+  header.badges.map(async (badge) => ({
+    icon: badge.icon,
+    label: badge.label
+      ? badge.label[lang]
+      : (await getEducationTitle(badge.educationEntry ?? ''))[lang],
+  })),
+);
+---
+
+<div class="td-header">
+  <Container>
+    <SectionHeader level={1} kicker={header.kicker[lang]} title={header.title} id="td-title" />
+    <p class="lead" data-lead>
+      {lead.map((part) => (part.strong ? <strong>{part.text}</strong> : part.text))}
+    </p>
+    <ul class="badges" aria-label={header.badgesLabel[lang]} data-badges>
+      {badges.map((badge) => (
+        <li>
+          <Tag class="badge">
+            <Icon name={badge.icon} size={18} />
+            <span>{badge.label}</span>
+          </Tag>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</div>
+
+<style>
+  .td-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  .lead {
+    max-width: 60ch;
+    margin: 20px 0 0;
+    color: var(--color-text-soft);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .lead strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .badges li {
+    max-width: 100%;
+  }
+  /* El nombre largo del diploma puede ocupar dos renglones bajo 640 px sin desbordar. */
+  .badges :global(.badge) {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    max-width: 100%;
+  }
+  .badges :global(.badge svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  @media (min-width: 48rem) {
+    .td-header {
+      padding-block: 80px 64px;
+    }
+  }
+</style>

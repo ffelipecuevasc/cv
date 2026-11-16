@@ -1,0 +1,15 @@
+{
+  "route": "developer",
+  "title": {
+    "es": "Desarrollador Full Stack | Felipe Cuevas",
+    "en": "Full Stack Developer | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Desarrollo full stack en Java con Spring Boot y Python con Django: arquitecturas REST, despliegue en AWS y Oracle Cloud (OCI), y portafolio de proyectos web reales.",
+    "en": "Full stack development in Java with Spring Boot and Python with Django: REST architectures, deployment on AWS and Oracle Cloud (OCI) and a portfolio of real web projects."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

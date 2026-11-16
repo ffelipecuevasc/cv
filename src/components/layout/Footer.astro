@@ -1,0 +1,208 @@
+---
+/*
+ * Pie de página (E30-I06 y E30-I07, DESIGN.md 7.9, ADR-044, ADR-057).
+ * - Fondo `footer` con línea superior de 2 px (transparente → gold 20 % → vibrant 80 %).
+ * - Tres columnas desde 768 px (una bajo esa medida): marca con el botón "Descargar CV",
+ *   navegación centrada y redes alineadas a la izquierda.
+ * - Navegación: 6 enlaces de footer-links.ts; el último es la política de privacidad (E155-I01).
+ * - Redes: LinkedIn, GitHub, REUF y correo (ADR-044), de social-links.ts, con el ícono
+ *   antes del texto.
+ * - Barra inferior: © con año y nombre.
+ */
+import Icon from '../ui/Icon.astro';
+import GoldRule from '../ui/GoldRule.astro';
+import Button from '../ui/Button.astro';
+import Logo from './Logo.astro';
+import { cv, getFooterLinks } from './footer-links';
+import { socialLinks } from './social-links';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const links = getFooterLinks(t);
+// Año del build; el script lo actualiza al del visitante (sin él, el HTML ya lo trae).
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="inner">
+    <div class="columns">
+      <div class="brand">
+        <Logo animated={false} />
+        <p class="tagline">{t.footer.tagline}</p>
+        <Button
+          variant="secondary"
+          href={cv.href}
+          download={cv.file}
+          icon="download"
+          label={t.footer.downloadCvLabel}
+          title={t.footer.downloadCvLabel}
+          class="cv"
+        >
+          {t.footer.downloadCv}
+        </Button>
+      </div>
+
+      <nav class="nav" aria-labelledby="footer-nav-title">
+        <p class="kicker" id="footer-nav-title">
+          {t.footer.navTitle}
+        </p>
+        <GoldRule width={32} />
+        <ul class="list">
+          {links.map((link) => (
+            <li>
+              <a class="link" href={getRoute(link.key, lang)}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="social">
+        <p class="kicker" id="footer-social-title">
+          {t.footer.socialTitle}
+        </p>
+        <GoldRule width={32} />
+        <ul class="list" aria-labelledby="footer-social-title">
+          {socialLinks.map((social) => (
+            <li>
+              <a
+                class="link social-link"
+                href={social.href}
+                target={social.external ? '_blank' : undefined}
+                rel={social.external ? 'noopener noreferrer' : undefined}
+              >
+                <Icon name={social.icon} size={18} class="social-icon" />
+                {social.label}
+                {social.external && <span class="sr-only">{t.footer.newTab}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <p class="copy">
+        © <span data-year>{year}</span> Felipe Cuevas
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  for (const el of document.querySelectorAll('[data-year]')) {
+    el.textContent = String(new Date().getFullYear());
+  }
+</script>
+
+<style>
+  .footer {
+    position: relative;
+    background-color: var(--color-footer);
+  }
+  /* 7.9: línea superior de 2 px. */
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gold) 20%,
+      var(--color-vibrant) 80%,
+      transparent
+    );
+  }
+  .inner {
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding: 64px 24px 40px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 48rem) {
+    .columns {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+    .nav {
+      justify-self: center;
+    }
+  }
+
+  .tagline {
+    max-width: 40ch;
+    margin-top: 24px;
+    font-size: 15.5px;
+    font-weight: 300;
+    line-height: 1.75;
+    /* AT-115: 5.3 prohíbe Josefin 300 de 16 px o menos con `text-soft`. */
+    color: var(--color-text-muted);
+  }
+
+  /* Rótulo kicker (5.2) con regla dorada corta de 32 × 2 px. */
+  .kicker {
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .nav :global(.gold-rule),
+  .social :global(.gold-rule) {
+    display: block;
+    margin-top: 12px;
+  }
+  /* 7.9: botón secundario de 46 px bajo la frase de la marca. */
+  .brand :global(.cv) {
+    margin-top: 24px;
+  }
+
+  .list {
+    display: grid;
+    gap: 0;
+    margin-top: 16px;
+    font-size: 15.5px;
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-base) ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    color: var(--color-accent);
+  }
+  .social-link :global(.social-icon) {
+    flex: none;
+    color: var(--color-icon);
+  }
+
+  /* Barra inferior: borde `primary` al 20 % (en oscuro, `border`), 24 px de relleno. */
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--footer-bar-border);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-soft);
+  }
+</style>

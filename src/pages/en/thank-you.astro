@@ -1,0 +1,23 @@
+---
+// Página de agradecimiento de /en/ (E150-I01, ADR-086, composición B). noindex, follow y fuera del
+// sitemap (ruta interna). Los textos y metadatos salen del diccionario (`thankYou`).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ThankYou from '../../components/thank-you/ThankYou.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('en');
+const og = { ...(await getHomeOgImage()), alt: t.thankYou.ogImageAlt };
+---
+
+<BaseLayout
+  title={t.thankYou.metaTitle}
+  description={t.thankYou.metaDescription}
+  route="thankYou"
+  ogImage={og}
+  noindex
+  follow
+  mainClass="flex flex-col"
+>
+  <ThankYou />
+</BaseLayout>

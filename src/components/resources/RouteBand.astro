@@ -1,0 +1,160 @@
+---
+/*
+ * Ficha de la ruta «Desarrollo Web & IA» (E130-I01, ADR-079): banda (DESIGN.md 7.8) con encabezado
+ * de banda, resumen, `dl` de 3 datos (qué logras, previos y duración) y el bloque de progreso.
+ * El progreso solo existe con JavaScript (src/scripts/resources.ts): el bloque nace `hidden` y el
+ * script lo muestra. Dentro de la banda el texto pequeño va en `text` o `text-soft` (4.3).
+ */
+import Band from '../ui/Band.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { fill, getResourcesPage, getRouteStages } from './resources-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { route, total } = await getRouteStages();
+const { ui } = await getResourcesPage();
+---
+
+<Band id="route" kicker={route.kicker[lang]} title={route.title[lang]}>
+  <p class="summary">{route.summary[lang]}</p>
+  <dl class="facts">
+    {route.facts.map((fact) => (
+      <div class="fact">
+        <dt>
+          <Icon name={fact.icon} size={20} />
+          {fact.label[lang]}
+        </dt>
+        <dd>{fact.text[lang]}</dd>
+      </div>
+    ))}
+  </dl>
+  <div class="progress" data-route-progress hidden>
+    <div class="progress-row">
+      <p class="progress-text" data-progress-text aria-live="polite">
+        {fill(ui.progress[lang], { done: 0, total })}
+      </p>
+      <button type="button" class="reset" data-progress-reset>
+        <Icon name="restart" size={18} />
+        {ui.reset[lang]}
+      </button>
+    </div>
+    <div
+      class="bar"
+      role="progressbar"
+      aria-label={ui.progressLabel[lang]}
+      aria-valuemin="0"
+      aria-valuemax={total}
+      aria-valuenow="0"
+      data-progress-bar
+    >
+      <span class="bar-fill" data-progress-fill></span>
+    </div>
+    <p class="local-notice">{ui.localNotice[lang]}</p>
+  </div>
+</Band>
+
+<style>
+  .summary {
+    max-width: 62ch;
+    margin: 0 auto;
+    color: var(--color-text);
+    font-size: 1.08rem;
+    font-weight: 300;
+    line-height: 1.75;
+    text-align: center;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 40px 0 0;
+  }
+  .fact {
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border-strong);
+  }
+  dt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-soft);
+    font-size: 12.5px;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  dt :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  dd {
+    margin: 10px 0 0;
+    color: var(--color-text);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .progress {
+    margin-top: 40px;
+  }
+  .progress[hidden] {
+    display: none;
+  }
+  .progress-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+  .progress-text {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .reset {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding-inline: 20px;
+    border: 1px solid var(--color-border-strong);
+    background: transparent;
+    color: var(--color-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color var(--duration-base) ease;
+  }
+  .reset:hover {
+    border-color: var(--color-vibrant);
+  }
+  .bar {
+    height: 6px;
+    margin-top: 16px;
+    background-color: var(--color-border-strong);
+  }
+  .bar-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background-image: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+    transition: width var(--duration-medium) var(--ease-out-soft);
+  }
+  .local-notice {
+    margin: 12px 0 0;
+    color: var(--color-text-soft);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  @media (min-width: 64rem) {
+    .facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+  }
+</style>

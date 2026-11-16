@@ -1,0 +1,13 @@
+{
+  "order": 9,
+  "name": "Liliana Cedeño",
+  "role": {
+    "es": "Desarrollador Web | Java | Spring Boot",
+    "en": "Web Developer | Java | Spring Boot"
+  },
+  "quote": {
+    "es": "Profesional dedicado y enfocado. Su capacidad de instruir e impulsar el aprendizaje es una de sus cualidades más importantes. Su experticia técnica lo hace un Relator de excelencia y un líder de gran calidad.",
+    "en": "A dedicated and focused professional. His ability to instruct and drive learning is one of his most important qualities. His technical expertise makes him an outstanding instructor and a high-quality leader."
+  },
+  "photo": "../../assets/testimonials/liliana.webp"
+}

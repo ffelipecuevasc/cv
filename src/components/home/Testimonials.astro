@@ -1,0 +1,225 @@
+---
+/*
+ * Testimonios de Inicio (E40-I02, DESIGN.md 7.5, 7.6, 7.12 y 11.3, AT-012, AT-024, AT-025):
+ * fondo `bg-alt`, encabezado centrado y 12 tarjetas en un carril con ajuste (`scroll-snap`).
+ * Desde 1.100 px muestra 3 tarjetas por página; bajo esa medida, 2 desde 768 px o una (86 %).
+ * - Controles centrados: flecha anterior, indicador de líneas, contador "01 / 04" y flecha
+ *   siguiente. Sin avance automático. Región `aria-live="polite"` con la página; el foco no salta.
+ * - Mejora progresiva: sin JavaScript no hay carril ni controles y las 12 tarjetas se ven en
+ *   una grilla que se envuelve. `src/scripts/testimonials.ts` agrega `data-js` y el carril.
+ * - Fotos optimizadas por Astro (96 px, WebP) con dimensiones declaradas; si una no carga, el
+ *   script muestra las iniciales (4.3), sin enviar el nombre a ningún servicio externo.
+ * - Los textos en inglés son traducciones del español y la tarjeta lo indica (ADR-017).
+ * - Sin animación de aparición (DESIGN.md 8).
+ */
+import { getCollection, getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import TestimonialCard from '../ui/TestimonialCard.astro';
+import IconButton from '../ui/IconButton.astro';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const section = (await getEntry('testimonialsSection', 'testimonials-section'))?.data;
+if (!section) throw new Error('Falta src/content/home/testimonials-section.json');
+
+const testimonials = await Promise.all(
+  (await getCollection('testimonials'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async ({ id, data }) => {
+      // 96 px: la foto se muestra a 48 px y esto cubre pantallas de doble densidad.
+      const photo = await getImage({ src: data.photo, width: 96, height: 96, format: 'webp' });
+      return {
+        id,
+        name: data.name,
+        role: data.role[lang],
+        quote: data.quote[lang],
+        photo: { src: photo.src, width: 48, height: 48 },
+      };
+    }),
+);
+// Páginas de 3 en escritorio; el script recalcula según el ancho.
+const pages = Math.ceil(testimonials.length / 3);
+const pad = (n: number) => String(n).padStart(2, '0');
+const status = section.carousel.page[lang]
+  .replace('{current}', '1')
+  .replace('{total}', String(pages));
+---
+
+<section class="testimonials" aria-labelledby="home-testimonials-title">
+  <Container>
+    <SectionHeader
+      variant="center"
+      kicker={section.kicker[lang]}
+      title={section.title[lang]}
+      id="home-testimonials-title"
+    />
+
+    <div class="carousel" data-carousel data-page-template={section.carousel.page[lang]}>
+      <ul class="track" data-carousel-track aria-label={section.carousel.label[lang]}>
+        {testimonials.map((item) => (
+          <TestimonialCard
+            as="li"
+            lang={lang}
+            quote={item.quote}
+            name={item.name}
+            role={item.role}
+            photo={item.photo}
+          />
+        ))}
+      </ul>
+
+      <div class="controls" data-carousel-controls>
+        <IconButton
+          variant="arrow"
+          icon="arrow-left"
+          label={section.carousel.previous[lang]}
+          data-carousel-prev=""
+        />
+        <div class="dots" aria-hidden="true" data-carousel-dots></div>
+        <p class="counter" aria-live="polite" aria-atomic="true">
+          <span class="sr-only" data-carousel-status>
+            {status}
+          </span>
+          <span aria-hidden="true" data-carousel-count>
+            {pad(1)} / {pad(pages)}
+          </span>
+        </p>
+        <IconButton
+          variant="arrow"
+          icon="arrow-right"
+          label={section.carousel.next[lang]}
+          data-carousel-next=""
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { initTestimonials } from '../../scripts/testimonials';
+  initTestimonials();
+</script>
+
+<style>
+  /* 6: relleno vertical de sección, 80 px bajo 768 px y 96 px desde 768 px. */
+  .testimonials {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  @media (min-width: 48rem) {
+    .testimonials {
+      padding-block: 96px;
+    }
+  }
+  .carousel {
+    margin-top: 48px;
+  }
+
+  /* Sin JavaScript: grilla que se envuelve con las 12 tarjetas visibles. */
+  .track {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  @media (min-width: 48rem) {
+    .track {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68.75rem) {
+    .track {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+  .controls {
+    display: none;
+  }
+
+  /* Con JavaScript: carril con ajuste. El relleno vertical deja sitio a la elevación de 4 px
+     y a la sombra de la tarjeta, que el desplazamiento horizontal recortaría. */
+  .carousel[data-js] .track {
+    position: relative;
+    display: flex;
+    gap: 24px;
+    padding-block: 8px 48px;
+    margin-block: -8px -48px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .carousel[data-js] .track::-webkit-scrollbar {
+    display: none;
+  }
+  .carousel[data-js] .track > :global(li) {
+    flex: 0 0 86%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  @media (min-width: 48rem) {
+    .carousel[data-js] .track > :global(li) {
+      flex-basis: calc((100% - 24px) / 2);
+    }
+  }
+  @media (min-width: 68.75rem) {
+    .carousel[data-js] .track {
+      gap: 32px;
+    }
+    .carousel[data-js] .track > :global(li) {
+      flex-basis: calc((100% - 64px) / 3);
+    }
+  }
+  /* Todas las tarjetas de una fila miden lo mismo y el pie queda abajo. */
+  .track :global(.testimonial) {
+    display: flex;
+    flex-direction: column;
+  }
+  .track :global(.testimonial .quote) {
+    flex: 1;
+  }
+
+  .carousel[data-js] .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  /* Indicador de líneas: la activa de 32 × 2 px en `text`, el resto de 16 × 2 px al 20 %. */
+  .dots {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dots > :global(span) {
+    width: 16px;
+    height: 2px;
+    background-color: color-mix(in srgb, var(--color-text) 20%, transparent);
+    transition-property: width, background-color;
+    transition-duration: var(--duration-fast);
+  }
+  .dots > :global(span.is-active) {
+    width: 32px;
+    background-color: var(--color-text);
+  }
+  .counter {
+    min-width: 5ch;
+    color: var(--color-text-soft);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.12em;
+  }
+  /* Bajo 640 px hay una tarjeta por página (12 páginas): el indicador de líneas mediría unos
+     340 px y no cabría junto a las flechas. Queda el contador, que sí las cuenta. */
+  @media (max-width: 39.9375rem) {
+    .dots {
+      display: none;
+    }
+    .carousel[data-js] .controls {
+      gap: 16px;
+    }
+  }
+</style>

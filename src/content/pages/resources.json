@@ -1,0 +1,15 @@
+{
+  "route": "resources",
+  "title": {
+    "es": "Bóveda de recursos | Felipe Cuevas",
+    "en": "Resource vault | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Ruta de aprendizaje Desarrollo Web & IA con progreso guardado en tu navegador, y materiales para aprender a programar: guías, plantillas y videos.",
+    "en": "The Web Development & AI learning path, with progress saved in your browser, plus materials for learning to code: guides, templates and videos."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

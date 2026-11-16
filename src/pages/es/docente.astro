@@ -1,0 +1,26 @@
+---
+// Página Docente de /es/ (E80-I01, ADR-070). Título, descripción y texto alternativo de la
+// imagen OG vienen de src/content/pages/lecturer.json; el contenido, de
+// src/content/lecturer/page.json.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LecturerHeader from '../../components/lecturer/LecturerHeader.astro';
+import CoursesGrid from '../../components/lecturer/CoursesGrid.astro';
+import InstitutionsZigzag from '../../components/lecturer/InstitutionsZigzag.astro';
+import MentoringBand from '../../components/lecturer/MentoringBand.astro';
+import SpecialRoles from '../../components/lecturer/SpecialRoles.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'lecturer');
+if (!page) throw new Error('Falta src/content/pages/lecturer.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
+---
+
+<BaseLayout title={title.es} description={description.es} route="lecturer" ogImage={og}>
+  <LecturerHeader />
+  <CoursesGrid />
+  <InstitutionsZigzag />
+  <MentoringBand />
+  <SpecialRoles />
+</BaseLayout>

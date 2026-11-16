@@ -1,0 +1,13 @@
+{
+  "order": 4,
+  "name": "Montserrat Espinoza",
+  "role": {
+    "es": "Full Stack Developer",
+    "en": "Full Stack Developer"
+  },
+  "quote": {
+    "es": "Es un excelente instructor, tremendamente dedicado y comprometido. Se esmera por que las clases sean entretenidas y comprensibles. Es muy empático y siempre está preocupado por el avance de todos los alumnos.",
+    "en": "He is an excellent instructor, tremendously dedicated and committed. He makes an effort to keep classes entertaining and easy to follow. He is very empathetic and always concerned about the progress of every student."
+  },
+  "photo": "../../assets/testimonials/montserrat.webp"
+}

@@ -1,0 +1,140 @@
+---
+/*
+ * Canales de contacto (E140-I01, ADR-083): banda (DESIGN.md 7.8) con encabezado de banda y los 4
+ * canales de main sin Discord (ADR-044): correo, LinkedIn, GitHub y REUF, en una lista: 4 columnas desde
+ * 1.024 px, 2 desde 640 px y una bajo esa medida. Cada canal es un enlace `surface` con caja de
+ * ícono de 44 px, nombre y detalle. Dentro de la banda el texto pequeño no usa `accent` (4.3).
+ * Los externos abren pestaña nueva y lo avisan; el `mailto:` no. Sin JavaScript.
+ */
+import Band from '../ui/Band.astro';
+import Icon from '../ui/Icon.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { useTranslations } from '../../i18n/ui';
+import { getContactPage } from './contact-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const { channels } = await getContactPage();
+---
+
+<Band id="contact-channels" kicker={channels.kicker[lang]} title={channels.title[lang]}>
+  <ul class="channels" data-channels>
+    {channels.items.map((item) => {
+      const external = item.href.startsWith('https://');
+      return (
+        <li>
+          <a
+            class="channel"
+            href={item.href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+          >
+            <span class="channel-icon">
+              <Icon name={item.icon} size={22} />
+            </span>
+            <span class="channel-text">
+              <span class="channel-name">{item.name[lang]}</span>
+              <span class="channel-detail">{item.detail[lang]}</span>
+            </span>
+            {external && (
+              <>
+                <Icon name="external-link" size={16} class="channel-arrow" />
+                <span class="sr-only">{t.footer.newTab}</span>
+              </>
+            )}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</Band>
+
+<style>
+  .channels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .channel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    min-height: 76px;
+    padding: 16px 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    transition-property: border-color, translate;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .channel:hover {
+    border-color: var(--color-vibrant);
+    translate: 0 -2px;
+  }
+  .channel-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-icon);
+  }
+  .channel-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .channel-name {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .channel-detail {
+    overflow-wrap: anywhere;
+    color: var(--color-text-soft);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .channel :global(.channel-arrow) {
+    flex: none;
+    margin-left: auto;
+    color: var(--color-text-soft);
+  }
+  @media (min-width: 40rem) {
+    .channels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .channels {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .channel {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+    }
+    .channel :global(.channel-arrow) {
+      position: absolute;
+      margin: 0;
+    }
+    .channel {
+      position: relative;
+    }
+    .channel :global(.channel-arrow) {
+      top: 20px;
+      right: 20px;
+    }
+  }
+</style>

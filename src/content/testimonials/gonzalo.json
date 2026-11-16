@@ -1,0 +1,13 @@
+{
+  "order": 3,
+  "name": "Gonzalo Vera",
+  "role": {
+    "es": "Desarrollador Full Stack Jr.",
+    "en": "Junior Full Stack Developer"
+  },
+  "quote": {
+    "es": "Destaco especialmente su dedicación y compromiso. Siempre fue muy claro en sus explicaciones, logrando transmitir conceptos complejos de forma simple y práctica, apoyado en su vasta experiencia en proyectos reales.",
+    "en": "I especially highlight his dedication and commitment. He was always very clear in his explanations, managing to convey complex concepts in a simple and practical way, backed by his vast experience in real projects."
+  },
+  "photo": "../../assets/testimonials/gonzalo.webp"
+}

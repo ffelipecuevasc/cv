@@ -1,0 +1,114 @@
+---
+/*
+ * Riel social del hero (E40-I01, DESIGN.md 7.4, ADR-044): 4 botones de 46 × 46 (LinkedIn,
+ * GitHub, REUF y correo) separados por 8 px, sobre el borde derecho del retrato y centrados
+ * en vertical. Lista dentro de un <nav> con nombre accesible. El globo con el nombre es
+ * decorativo: el nombre accesible de cada enlace va en texto oculto.
+ * Las URL salen de social-links.ts, compartidas con el pie.
+ */
+import Icon from '../ui/Icon.astro';
+import { socialLinks } from '../layout/social-links';
+
+interface Props {
+  label: string;
+  /** Nombre corto del correo (el pie muestra la dirección; el globo, no). */
+  emailLabel: string;
+  /** Aviso para lectores de pantalla en los enlaces que abren pestaña nueva. */
+  newTab: string;
+}
+const { label, emailLabel, newTab } = Astro.props;
+---
+
+<nav class="rail" aria-label={label}>
+  <ul>
+    {socialLinks.map((link) => {
+      const name = link.icon === 'email' ? emailLabel : link.label;
+      return (
+        <li>
+          <a
+            class="rail-link"
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            <Icon name={link.icon} size={20} />
+            <span class="tip" aria-hidden="true">
+              {name}
+            </span>
+            <span class="sr-only">
+              {name}
+              {link.external && ` ${newTab}`}
+            </span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>
+
+<style>
+  .rail {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    z-index: 2;
+    translate: 0 -50%;
+  }
+  @media (min-width: 40rem) {
+    .rail {
+      right: -23px;
+    }
+  }
+  ul {
+    display: grid;
+    gap: 8px;
+  }
+  .rail-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-rail);
+    color: var(--color-icon-rail);
+    text-decoration: none;
+    transition-property: background-color, color, translate;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .rail-link:hover,
+  .rail-link:focus-visible {
+    background-color: var(--rail-hover-bg);
+    color: var(--rail-hover-fg);
+    translate: -2px 0;
+  }
+  /* Globo a la izquierda: `text` y `bg` dan orient-950 / blanco en claro y orient-50 /
+     orient-950 en oscuro (7.4). Solo aparece con puntero o foco de teclado. */
+  .tip {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 10px);
+    padding: 6px 10px;
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    translate: 4px -50%;
+    transition-property: opacity, translate;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .rail-link:hover .tip,
+  .rail-link:focus-visible .tip {
+    opacity: 1;
+    translate: 0 -50%;
+  }
+</style>

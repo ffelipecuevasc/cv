@@ -1,0 +1,37 @@
+---
+/*
+ * Cabecera del Foro (E120-I01, ADR-078): el único <h1>, con rótulo y bajada, alineada a la
+ * izquierda sobre `bg`, como Docente e Instructor. Sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getForumPage } from './forum-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { header } = await getForumPage();
+---
+
+<div class="forum-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      lead={header.lead[lang]}
+      id="forum-title"
+    />
+  </Container>
+</div>
+
+<style>
+  .forum-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  @media (min-width: 48rem) {
+    .forum-header {
+      padding-block: 80px 72px;
+    }
+  }
+</style>

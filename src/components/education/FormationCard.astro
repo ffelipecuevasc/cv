@@ -1,0 +1,287 @@
+---
+/*
+ * Tarjeta de formación de Educación (E50-I01, DESIGN.md 7.6, ADR-060). Tres pesos, sin JavaScript:
+ * - `major`: banda a todo el ancho, en dos zonas desde 1.024 px (datos a la izquierda, logros y
+ *   etiquetas a la derecha), para que ganar ancho no signifique ganar alto.
+ * - `standard`: tarjeta vertical con categoría, año, institución, periodo, descripción, logros,
+ *   etiquetas y estado.
+ * - `minor`: tarjeta chica de una distinción (ícono, título, institución y año).
+ * El año de cada tarjeta es el de término. Todo texto llega ya en el idioma de la página.
+ */
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import Tag from '../ui/Tag.astro';
+import type { IconName } from '../ui/icons';
+
+export interface FormationItem {
+  weight: 'major' | 'standard' | 'minor';
+  category: 'university' | 'diploma' | 'technical' | 'recognition';
+  categoryLabel: string;
+  title: string;
+  institution: string;
+  /** "2007 - 2011" o el año solo, si no hay inicio. */
+  period: string;
+  year: number;
+  duration?: string;
+  status: string;
+  description?: string;
+  achievements: string[];
+  tags: string[];
+}
+
+interface Props {
+  item: FormationItem;
+}
+
+const { item } = Astro.props;
+// Un ícono por categoría (ADR-060): comunica la naturaleza de la formación sin leer el rótulo.
+const icons: Record<FormationItem['category'], IconName> = {
+  university: 'graduation-cap',
+  diploma: 'certificate',
+  technical: 'terminal',
+  recognition: 'medal',
+};
+const icon = icons[item.category];
+const hasDetail = item.achievements.length > 0 || item.tags.length > 0;
+---
+
+{item.weight === 'minor' ? (
+  <Card as="div" size="compact" class="edu-minor">
+    <Icon name={icon} size={28} class="minor-icon" />
+    <div class="minor-text">
+      <h3 class="minor-title">{item.title}</h3>
+      <p class="institution">{item.institution}</p>
+      <p class="meta">{item.categoryLabel}</p>
+    </div>
+    <p class="year">
+      <time datetime={String(item.year)}>{item.year}</time>
+    </p>
+  </Card>
+) : (
+  <Card as="div" class={`edu-formation edu-${item.weight}`}>
+    <div class="top">
+      <p class="category">
+        <Icon name={icon} size={22} />
+        <span>{item.categoryLabel}</span>
+      </p>
+      <p class="year">
+        <time datetime={String(item.year)}>{item.year}</time>
+      </p>
+    </div>
+    <div class:list={['body', { split: hasDetail }]}>
+      <div class="summary">
+        <h3 class="title">{item.title}</h3>
+        <p class="institution">{item.institution}</p>
+        <p class="meta">
+          {item.period}
+          {item.duration && ` · ${item.duration}`}
+        </p>
+        {item.description && <p class="description">{item.description}</p>}
+      </div>
+      {hasDetail && (
+        <div class="detail">
+          {item.achievements.length > 0 && (
+            <ul class="achievements">
+              {item.achievements.map((achievement) => (
+                <li>
+                  <Icon name="check" size={16} />
+                  <span>{achievement}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {item.tags.length > 0 && (
+            <ul class="tags">
+              {item.tags.map((tag) => (
+                <li>
+                  <Tag>{tag}</Tag>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+    <p class="status">
+      <Icon name="check" size={16} />
+      <span>{item.status}</span>
+    </p>
+  </Card>
+)}
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  p {
+    margin: 0;
+  }
+
+  /* --- Elementos comunes --------------------------------------------------------------- */
+  .year {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .institution {
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .meta {
+    color: var(--color-text-soft);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* --- Standard y major ---------------------------------------------------------------- */
+  /* Las clases de la raíz de `Card` son globales: la raíz la pinta otro componente. */
+  :global(.edu-formation) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .category {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .category :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  .summary .institution {
+    margin-top: 8px;
+  }
+  .summary .meta {
+    margin-top: 4px;
+  }
+  .description {
+    margin-top: 16px;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .achievements li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .achievements :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--color-icon);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .achievements + .tags {
+    margin-top: 20px;
+  }
+  /* El estado va al pie de la tarjeta, alineado abajo aunque las tarjetas de una fila midan
+     distinto. */
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    color: var(--color-kicker);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .status :global(svg) {
+    flex: none;
+  }
+
+  /* Major: título y año más grandes, y dos zonas desde 1.024 px. */
+  :global(.edu-major) .title {
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  }
+  :global(.edu-major) .year {
+    font-size: 2.25rem;
+  }
+  @media (min-width: 64rem) {
+    :global(.edu-major) .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 48px;
+    }
+  }
+
+  /* --- Minor: distinción chica --------------------------------------------------------- */
+  :global(.edu-minor) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 16px;
+  }
+  :global(.edu-minor .minor-icon) {
+    color: var(--color-icon);
+  }
+  .minor-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  :global(.edu-minor) .institution {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+  :global(.edu-minor) .meta {
+    margin-top: 2px;
+    font-size: 12.5px;
+  }
+  :global(.edu-minor) .year {
+    font-size: 1.125rem;
+  }
+</style>

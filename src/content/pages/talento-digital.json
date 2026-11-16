@@ -1,0 +1,15 @@
+{
+  "route": "talentoDigital",
+  "title": {
+    "es": "Talento Digital para Chile | Felipe Cuevas",
+    "en": "Talento Digital para Chile Instructor | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Instructor titular en bootcamps de Talento Digital para Chile: Full Stack Java, Full Stack Python, Full Stack JavaScript e Ingeniería de Datos con IA.",
+    "en": "Lead instructor in Talento Digital para Chile bootcamps: Full Stack Java, Full Stack Python, Full Stack JavaScript and Data Engineering with AI."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

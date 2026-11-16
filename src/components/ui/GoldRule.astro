@@ -1,0 +1,29 @@
+---
+/* Regla dorada decorativa (DESIGN.md 7.5): degradado gold → vibrant; `mirror` la invierte. */
+interface Props {
+  /** Ancho en px: 48 en encabezados, 32 en el pie. */
+  width?: 32 | 48;
+  mirror?: boolean;
+  class?: string;
+}
+const { width = 48, mirror = false, class: className } = Astro.props;
+---
+
+<span
+  aria-hidden="true"
+  class:list={['gold-rule', { mirror }, className]}
+  style={`--rule-width: ${width}px`}
+></span>
+
+<style>
+  .gold-rule {
+    display: inline-block;
+    flex: none;
+    height: 2px;
+    width: var(--rule-width);
+    background-image: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+  }
+  .mirror {
+    background-image: linear-gradient(270deg, var(--color-gold), var(--color-vibrant));
+  }
+</style>

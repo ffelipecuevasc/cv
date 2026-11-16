@@ -1,0 +1,24 @@
+---
+/*
+ * Confirmación de envío (E150-I01, ADR-086, composición B «Confirmación centrada»): rótulo,
+ * ícono de sobre, único <h1>, texto y dos botones. La composición vive en `CenteredMessage`
+ * (compartida con la 404, ADR-088); aquí solo van los textos del diccionario (`thankYou`).
+ */
+import CenteredMessage from '../ui/CenteredMessage.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<CenteredMessage
+  id="thank-you-title"
+  kicker={t.thankYou.kicker}
+  title={t.thankYou.title}
+  lead={t.thankYou.lead}
+  icon="mail"
+  primary={{ href: getRoute('home', lang), label: t.thankYou.home }}
+  secondary={{ href: getRoute('contact', lang), label: t.thankYou.another }}
+/>

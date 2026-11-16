@@ -1,0 +1,15 @@
+{
+  "route": "contact",
+  "title": {
+    "es": "Contacto | Felipe Cuevas",
+    "en": "Contact | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Escríbeme por el formulario, agenda una reunión breve por videollamada o encuéntrame en LinkedIn, GitHub o REUF.",
+    "en": "Send me a message through the form, book a short video call or find me on LinkedIn, GitHub or REUF."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

@@ -1,0 +1,118 @@
+---
+/*
+ * Layout base de todas las páginas (E30-I01, ADR-005).
+ * - <html lang> es-CL / en-US según el idioma de la ruta (Astro.currentLocale).
+ * - Script de tema en línea antes del primer pintado (ADR-023, ADR-042).
+ * - Fuentes autoalojadas con <Font /> (ADR-043).
+ * - Enlace para saltar al contenido y un único <main>.
+ * Navbar (E30-I04 y E30-I05), pie y volver arriba (E30-I06). El pie queda al final de la
+ * ventana aunque el contenido sea corto.
+ */
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import Seo, { type OgImage } from '../components/seo/Seo.astro';
+import { langFromLocale } from '../i18n/lang';
+import { routePaths, type AnyRouteKey } from '../i18n/routes';
+import { useTranslations } from '../i18n/ui';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import BackToTop from '../components/layout/BackToTop.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Clave de la página en el mapa de rutas: de ahí salen canonical y hreflang. */
+  route: AnyRouteKey;
+  ogImage?: OgImage;
+  noindex?: boolean;
+  /** Con `noindex`, emite `noindex, follow` en lugar de `noindex, nofollow` (E150-I01). */
+  follow?: boolean;
+  /** Clases del <main>, para la composición propia de cada página. */
+  mainClass?: string;
+}
+
+const { title, description, route, ogImage, noindex, follow, mainClass } = Astro.props;
+const htmlLang = Astro.currentLocale ?? 'es-CL';
+const lang = langFromLocale(htmlLang);
+const paths = routePaths(route);
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Tema antes del primer pintado. Si cambia este script, cambia su hash en la CSP (E170-I03). */}
+    <script is:inline>
+      (function () {
+        let t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch {
+          // Almacenamiento bloqueado: se usa la preferencia del sistema.
+        }
+        document.documentElement.classList.toggle(
+          'dark',
+          t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches,
+        );
+      })();
+    </script>
+    <meta name="generator" content={Astro.generator} />
+    {/* Favicon del sitio antiguo, misma URL (E40-I04, AT-073). */}
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg" />
+    {/* Sin JavaScript el menú móvil no se puede abrir: se muestra desplegado y en el flujo. */}
+    <noscript>
+      <style>
+        [data-mobile-toggle] {
+          display: none !important;
+        }
+        [data-mobile-menu] {
+          position: static !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          transform: none !important;
+          max-height: none !important;
+        }
+        [data-navbar-root] {
+          position: static !important;
+          height: auto !important;
+        }
+        [data-back-to-top] {
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        [data-navbar-inner] {
+          height: 75px !important;
+        }
+        /* AT-060: sin JavaScript el botón de apariencia no responde. En la barra se oculta
+           reservando su espacio (sin CLS); en el menú móvil, que va desplegado, se quita. */
+        [data-theme-toggle] {
+          visibility: hidden !important;
+        }
+        [data-mobile-menu] [data-theme-toggle] {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <Font cssVariable="--font-josefin-sans" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-cinzel" preload />
+    <Seo {lang} {title} {description} {paths} {ogImage} {noindex} {follow}>
+      <slot name="json-ld" slot="json-ld" />
+    </Seo>
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main-content"
+      class="sr-only bg-surface text-heading focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-3"
+    >
+      {t.skipLink}
+    </a>
+    <Navbar />
+    <main id="main-content" tabindex="-1" class:list={['flex-1', mainClass]}>
+      <slot />
+    </main>
+    <Footer />
+    <BackToTop />
+  </body>
+</html>

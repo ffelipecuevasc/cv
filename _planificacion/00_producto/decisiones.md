@@ -1,0 +1,1157 @@
+# Decisiones de arquitectura (ADR)
+
+Reglas del registro:
+- Una decisión **no se revierte ni se edita**: se sustituye con un ADR nuevo, y la original pasa a estado "Sustituida por ADR-###".
+- Se lee al inicio de cada iteración.
+- Las decisiones D-01 a D-13 fueron cerradas por Felipe Cuevas en el prompt maestro. Las ADR-014 en adelante derivan de la auditoría y del punto de control del 28-09-2026.
+- Al final hay una sección aparte de **propuestas pendientes**, que no son vinculantes hasta ser aceptadas.
+
+---
+
+## ADR-001 · Idiomas y rutas (D-01)
+- **Contexto:** el sitio actual existe solo en español (`lang="es"`, `og:locale` `es_CL`) y no tiene `hreflang`.
+- **Decisión:** sitio completo en español de Chile (`es-CL`) bajo `/es/` y en inglés de EE. UU. (`en-US`) bajo `/en/`. Un botón visible en la barra superior cambia todo el sitio de idioma y lleva a la página equivalente. Toda página existe en ambos idiomas.
+- **Consecuencias:** ninguna iteración se cierra sin paridad; se requiere mapa de rutas equivalentes (ADR-020), `hreflang` y sitemap bilingüe.
+- **Origen:** D-01, prompt maestro. **Estado:** Aceptada.
+
+## ADR-002 · Framework y runtime (D-02)
+- **Contexto:** Astro no publica versiones LTS; su documentación indica que da mantenimiento extendido solo con correcciones de seguridad a la mayor anterior. Node.js sí tiene LTS.
+- **Decisión:** "Última LTS" de Astro se interpreta como **última versión mayor estable**: Astro 7.x (7.3.5 al 28-09-2026, verificado en docs.astro.build/en/upgrade-astro). Node.js: **Active LTS vigente, v24** (24.21.0 al 28-09-2026, verificado en nodejs.org). Astro 7.3.5 exige Node >= 22.12.
+- **Consecuencias:** actualizaciones menores y parches de Astro se aceptan dentro de 7.x; un cambio de mayor requiere ADR nuevo. Node 26 pasará a LTS durante el proyecto: se reevalúa en BL-02.
+- **Origen:** D-02. **Estado:** Aceptada. La versión de Node.js fue sustituida parcialmente por ADR-027.
+
+## ADR-003 · Gestor de paquetes PNPM estricto (D-03)
+- **Contexto:** el sitio actual usa npm con `package-lock.json` (AT-020). PNPM vigente al 28-09-2026: 12.6.0. Desde PNPM 11, los scripts de compilación de dependencias se controlan con `allowBuilds` en `pnpm-workspace.yaml`, las opciones antiguas (`onlyBuiltDependencies` y similares) fueron eliminadas y PNPM ya no lee el campo `pnpm` de `package.json`.
+- **Decisión:** PNPM obligatorio. Prohibidos npm, yarn y bun. Mecanismos: campo `packageManager` con versión exacta, `engines` para node y pnpm, bloqueo de otros gestores en la instalación, `pnpm-lock.yaml` versionado, `allowBuilds` explícito y revisado con `pnpm approve-builds`, `strictDepBuilds` activo.
+- **Consecuencias:** cualquier dependencia que ejecute scripts de instalación necesita aprobación explícita. El mecanismo exacto de bloqueo se registra en E10-I02.
+- **Origen:** D-03. **Estado:** Aceptada.
+
+## ADR-004 · Tailwind CSS v4 con @tailwindcss/vite (D-04)
+- **Contexto:** el sitio actual usa Tailwind 3.4.19 con `tailwind.config.js` (AT-019). Verificado el 28-09-2026: `tailwindcss` y `@tailwindcss/vite` 4.3.3; el plugin declara compatibilidad con Vite 5 a 8, y Astro 7.3.5 usa Vite `^8.0.13`.
+- **Decisión:** Tailwind CSS v4 compilado localmente con Node.js y PNPM mediante `@tailwindcss/vite`. La integración `@astrojs/tailwind` está obsoleta y no se usa. Tokens en `@theme`. Fuentes de escaneo restringidas a `src/`.
+- **Consecuencias:** la compatibilidad se prueba en E10-I03 antes de dar la decisión por cumplida; si falla, se registra un ADR nuevo.
+- **Origen:** D-04. **Estado:** Aceptada. Compatibilidad verificada en E10-I03 (ver ADR-029).
+
+## ADR-005 · HTML5 semántico (D-05)
+- **Decisión:** HTML5 semántico en todo el sitio: landmarks correctos, un único `<main>` con todo el contenido principal, jerarquía de encabezados sin saltos, controles nativos.
+- **Consecuencias:** corrige AT-012 (contenido fuera de `<main>` en la portada).
+- **Origen:** D-05. **Estado:** Aceptada.
+
+## ADR-006 · IDE WebStorm (D-06)
+- **Decisión:** WebStorm de JetBrains. Configuración inicial planificada en E10-I05: plugin oficial de Astro (Marketplace) y Astro Language Server, intérprete de Node, PNPM como gestor, soporte de Tailwind, Prettier y ESLint para Astro, configuraciones de ejecución y política de versionado de `.idea/`.
+- **Origen:** D-06. **Estado:** Aceptada.
+
+## ADR-007 · Una épica por página (D-07)
+- **Decisión:** cada archivo HTML del sitio actual es una épica independiente con al menos una iteración. Son 13: `index`, `educacion`, `experiencia`, `desarrollador`, `docente`, `instructor`, `talento-digital`, `eventos`, `foro`, `recursos`, `contacto`, `agradecimiento` y `404` (E40 a E160).
+- **Origen:** D-07. **Estado:** Aceptada.
+
+## ADR-008 · Barra de navegación y logotipo (D-08)
+- **Decisión:** rediseño total del diseño y estilo de la barra, manteniendo exactamente las mismas opciones de menú (ver auditoría, área D). El logotipo (ícono SVG + texto con efecto máquina de escribir) se conserva idéntico en apariencia y comportamiento. La barra incluye el botón de apariencia (claro/oscuro) y el botón de idioma.
+- **Consecuencias:** cualquier cambio del logotipo exige un ADR que sustituya a este. La especificación exacta está en `DESIGN.md`.
+- **Origen:** D-08. **Estado:** Aceptada. Sustituida en parte por ADR-049 (composición y tipografía del logotipo, logotipo como enlace).
+
+## ADR-009 · Hero de la portada (D-09)
+- **Decisión:** rediseño libre, incluso completo, del hero para que en escritorio se vea entero al cargar, sin scroll, incluidas las 3 certificaciones (Oracle, AWS, Python Institute) y las redes sociales.
+- **Consecuencias:** se mide con la matriz de ADR-016. No se elimina ningún elemento de la lista de conservación (E40-I01) sin ADR.
+- **Origen:** D-09. **Estado:** Aceptada.
+
+## ADR-010 · DESIGN.md como única fuente de verdad (D-10)
+- **Decisión:** `DESIGN.md`, en la raíz del proyecto, es la única fuente de verdad del diseño. Es un archivo nuevo, distinto del antiguo. Nace como esqueleto y se completa en E20-I01, antes de la navbar y del hero.
+- **Origen:** D-10. **Estado:** Aceptada.
+
+## ADR-011 · AGENTS.md como instrucciones para agentes (D-11)
+- **Decisión:** se usa `AGENTS.md` en la raíz del proyecto (no `CLAUDE.md`). Es un archivo nuevo, distinto del antiguo.
+- **Consecuencias:** ver ADR-024.
+- **Origen:** D-11. **Estado:** Aceptada.
+
+## ADR-012 · Git: el agente no hace commit, push ni merge (D-12)
+- **Decisión:** el agente de IA nunca hace commit, push ni merge; los hace siempre el desarrollador. Puede crear ramas nuevas solo tras consultar. Nunca trabaja sobre `main`.
+- **Consecuencias:** `.claude/settings.json` debe denegar esos comandos (E10-I06). El `.claude/settings.json` antiguo los dejaba en "preguntar" (AT-021).
+- **Origen:** D-12. **Estado:** Aceptada.
+
+## ADR-013 · Estrategia de ramas (D-13)
+- **Decisión:** el proyecto nuevo se construye completo en una sub-rama, sin trabajar en `main`, hasta que esté terminado. Después el desarrollador realiza la migración completa a la rama principal.
+- **Origen:** D-13. **Estado:** Aceptada.
+
+## ADR-014 · La rama de migración parte desde main
+- **Contexto:** pregunta abierta 1 del punto de control.
+- **Decisión:** la rama de migración se crea desde `main`. Nombre propuesto: `migracion-astro` (se confirma en E10-I01). Los archivos del sitio antiguo permanecen en la rama como referencia de solo lectura y se retiran en E190-I03. Los archivos antiguos que el proyecto nuevo reemplaza (`package.json`, `package-lock.json`, `tailwind.config.js`, `.gitignore`, `.claude/settings.json`, `README.md`, `AGENTS.md`, `DESIGN.md`) se sustituyen en la rama; sus versiones originales siguen disponibles con `git show main:<ruta>`.
+- **Consecuencias:** el cutover es un merge normal. `git log main --not HEAD` permite detectar contenido publicado en producción durante la migración (E190-I01). Tailwind debe restringir su escaneo a `src/` (ADR-004).
+- **Origen:** respuesta de Felipe en el punto de control, 28-09-2026. **Estado:** Aceptada.
+
+## ADR-015 · Umbrales de rendimiento y plan de CWV
+- **Contexto:** el archivo del proyecto es el plan de refactorización de septiembre (etapas 0 a 6, cerradas). El plan de Core Web Vitals de agosto ya se completó y el sitio en producción vive con su resultado; Cloudflare aún no emite informes suficientes.
+- **Decisión:** no hay trabajo de CWV pendiente que absorber. Umbrales para la Definition of Done: valores "buenos" de Google en percentil 75 (LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1) y, en laboratorio, ninguna página con puntaje de rendimiento inferior a su línea base (`docs/linea-base/2026-08-12/resumen-lighthouse.md` del sitio actual). Los informes de Cloudflare se revisan a fines de octubre de 2026 (BL-01) y, si mejoran la línea base, se registra un ADR que la actualice.
+- **Consecuencias:** resuelve AT-035.
+- **Origen:** respuesta de Felipe en el punto de control, 28-09-2026. **Estado:** Aceptada.
+
+## ADR-016 · Matriz de viewports de referencia del hero
+- **Decisión:** 1366×768, 1440×900, 1536×864 y 1920×1080, descontando 130 px por la barra de tareas y la interfaz del navegador. Áreas visibles a verificar: 1366×638, 1440×770, 1536×734 y 1920×950 px, en ambos temas y ambos idiomas.
+- **Origen:** respuesta de Felipe en el punto de control, 28-09-2026. **Estado:** Aceptada.
+
+## ADR-017 · Estrategia de contenido en inglés
+- **Decisión:** el agente redacta la versión `en-US` y Felipe la valida en cada iteración. Los testimonios se muestran traducidos con la indicación "traducido del español". Los PDFs (CV, certificado REUF y recursos) quedan en español con un aviso en `/en/` hasta que Felipe entregue versiones en inglés (BL-04).
+- **Origen:** respuesta de Felipe en el punto de control, 28-09-2026. **Estado:** Aceptada.
+
+## ADR-018 · Salida estática
+- **Decisión:** Astro con salida 100 % estática, sin adaptador de renderizado en servidor. La única lógica de servidor es la función de contacto, que vive fuera de Astro según la plataforma que resuelva D-14.
+- **Consecuencias:** estados dependientes de la fecha (eventos) se calculan en el cliente con estado base del build (AT-039).
+- **Origen:** supuesto declarado en el punto de control, sin objeción. **Estado:** Aceptada.
+
+## ADR-019 · Comportamiento de la raíz y x-default
+- **Decisión:** `/` responde 301 hacia `/es/`. `x-default` apunta a la versión `/es/` de cada página. No se detecta el idioma del navegador.
+- **Consecuencias:** comportamiento cacheable y predecible. Se implementa en E180-I03.
+- **Origen:** supuesto declarado en el punto de control, sin objeción. **Estado:** Aceptada.
+
+## ADR-020 · Slugs traducidos en inglés
+- **Decisión:** las rutas en `/en/` usan slugs en inglés según el mapa de la auditoría (área L); por ejemplo `/en/education`, `/en/experience`, `/en/developer`, `/en/lecturer`, `/en/contact`. "Talento Digital" e "Instructor" se mantienen. El mapa se cierra en E30-I02 con validación de Felipe.
+- **Consecuencias:** cambiar un slug después del cutover exige 301.
+- **Origen:** supuesto declarado en el punto de control, sin objeción. **Estado:** Aceptada.
+
+## ADR-021 · Ubicación de apariencia y CV en la barra
+- **Decisión:** el botón "Apariencia" pasa del pie a la barra (hoy en `index.html:898`). "Descargar CV" se conserva en la barra como parte de sus opciones.
+- **Origen:** supuesto declarado en el punto de control, sin objeción; deriva de ADR-008. **Estado:** Aceptada.
+
+## ADR-022 · Foro compartido entre idiomas
+- **Decisión:** Giscus usa el mismo término `foro-general` en `/es/foro` y `/en/forum`; solo cambia el idioma de su interfaz.
+- **Consecuencias:** una sola comunidad y ninguna conversación huérfana.
+- **Origen:** supuesto declarado en el punto de control, sin objeción. **Estado:** Aceptada.
+
+## ADR-023 · Claves de almacenamiento local independientes del idioma
+- **Decisión:** se conservan las claves actuales de `localStorage`: `theme`, `perfil-hero` y `rutas-progreso`, con el mismo formato de valor, y son compartidas por ambos idiomas.
+- **Consecuencias:** los visitantes actuales conservan su tema, su perfil del hero y su progreso en las rutas de aprendizaje.
+- **Origen:** hallazgo AT-028. **Estado:** Aceptada.
+
+## ADR-024 · Sin CLAUDE.md ni GEMINI.md
+- **Contexto:** Claude Code 2.1.277 lee `AGENTS.md` solo cuando no hay `CLAUDE.md` en el directorio de trabajo ni en los superiores. En Antigravity, `GEMINI.md` tiene precedencia sobre `AGENTS.md`.
+- **Decisión:** no se crea `CLAUDE.md` ni `GEMINI.md` en ninguna ruta del proyecto. La carga de `AGENTS.md` se verifica en E10-I06 con la línea de arranque o preguntando al agente por sus instrucciones, no con `/memory` (AT-036).
+- **Origen:** verificación web del 28-09-2026; deriva de ADR-011. **Estado:** Aceptada.
+
+## ADR-025 · Idioma del código y de los comentarios
+- **Contexto:** propuesta P-02. El sitio actual usa identificadores en español (por ejemplo `leerProgreso` y `rutasUI` en `static/js/rutas.js`), mientras que las API de Astro y del ecosistema están en inglés.
+- **Decisión:**
+  - Identificadores de código en **inglés**: variables, funciones, tipos, componentes, carpetas y archivos dentro de `src/` (salvo las excepciones).
+  - Comentarios, JSDoc, documentación, bitácoras y mensajes de commit en **español de Chile**.
+  - **Excepciones que no se traducen:**
+    1. los slugs de ruta en español bajo `src/pages/es/` (ADR-020), por ejemplo `recursos.astro`;
+    2. las claves de `localStorage` `theme`, `perfil-hero` y `rutas-progreso`, con su formato de valor (ADR-023);
+    3. los nombres propios de dominio, por ejemplo `talento-digital` o `reuf`.
+- **Consecuencias:**
+  - Los nombres previstos en español en los archivos de iteración se ajustan al inglés (`Logotipo.astro` pasa a `Logo.astro` y `components/inicio` pasa a `components/home`).
+  - Los textos visibles para el visitante no se ven afectados: siguen en `es-CL` y `en-US` según ADR-001.
+- **Origen:** propuesta P-02, aprobada por Felipe el 24-10-2026. **Estado:** Aceptada.
+
+## ADR-026 · Reglas de protección para los agentes de IA
+- **Contexto:** propuesta P-04. `AGENTS.md` tenía cinco reglas marcadas como "derivadas", pendientes de aprobación. Tres ya tenían respaldo (ADR-003, la regla de dependencias y las reglas del registro de decisiones y de la auditoría); dos eran nuevas.
+- **Decisión:** las cinco reglas pasan a ser vinculantes, con dos ajustes:
+  1. **Historial y ramas:** el agente no reescribe el historial (`rebase`, `reset --hard`, `push --force` ni equivalentes) ni elimina ramas. **Ajuste:** puede eliminar una rama local temporal que él mismo creó en la sesión, solo después de consultar a Felipe y recibir su autorización. Nunca elimina ramas remotas.
+  2. **Gestor de paquetes:** solo `pnpm` y `pnpm dlx`. Prohibidos npm, yarn, bun y `npx` (amplía ADR-003, que no mencionaba `npx`).
+  3. **Dependencias:** no se agrega ninguna dependencia sin un ADR aceptado en `decisiones.md`.
+  4. **Despliegue:** no se toca la configuración de despliegue sin consultar a Felipe. **Ajuste:** incluye Cloudflare (panel y API), Wrangler y sus archivos de configuración (`wrangler.toml`, `wrangler.json`, `wrangler.jsonc`), `_headers`, `_redirects`, `.dev.vars`, variables de entorno y secretos.
+  5. **Registros:** no se borran entradas de la auditoría ni se revierten ADR; todo cambio se hace con una entrada nueva que sustituye a la anterior.
+- **Consecuencias:**
+  - En `AGENTS.md`, la subsección "Reglas derivadas" se reemplaza por "Reglas de protección (ADR-026)", sin la marca "derivada".
+  - E10-I06 usa estas reglas como base para las denegaciones de `.claude/settings.json`, incluidas `npx` y la escritura en archivos de Wrangler y `.dev.vars`.
+- **Origen:** propuesta P-04, aprobada por Felipe el 24-10-2026 con los ajustes a las reglas 1 y 4. **Estado:** Aceptada.
+
+## ADR-027 · Node.js 24 durante la construcción; migración a Node 26 agendada
+- **Contexto:** ADR-002 fijó Node.js 24 por ser la Active LTS al 28-09-2026. Al 27-10-2026, según endoflife.date y fuentes secundarias (no verificado aún en nodejs.org), Node 24 pasó a Maintenance LTS el 20-10-2026 y Node 26 pasa a Active LTS el 28-10-2026. Node 24 mantiene soporte de seguridad hasta el 30-04-2028.
+- **Decisión:** la construcción del proyecto continúa con Node 24 (rama 24.x). La migración a Node 26 se agenda en BL-02, antes de E190-I01, previa verificación de compatibilidad con Astro 7, Tailwind CSS v4, PNPM y la plataforma de despliegue (P-01).
+- **Consecuencias:**
+  - `engines` y el archivo de versión de Node de E10-I02 usan 24.x.
+  - La migración a Node 26 requerirá un ADR nuevo que sustituya a este.
+  - ADR-002 queda parcialmente sustituida en lo referente a la versión de Node.js; la parte sobre Astro 7.x sigue vigente.
+- **Origen:** consulta de E10-I02 (BL-02), decisión de Felipe el 27-10-2026. **Estado:** Aceptada.
+
+## ADR-028 · Versiones fijadas y mecanismo de bloqueo de gestores
+- **Contexto:** ADR-003 dejó el mecanismo exacto de bloqueo para E10-I02. Las versiones de ADR-002 y ADR-003 eran del 28-09-2026; el 27-10-2026 se volvieron a verificar en registry.npmjs.org y nodejs.org/dist: Astro 7.4.2 (exige Node >= 22.23.4 y usa Vite `^8.3.4`), PNPM 12.15.0, Node 24.22.1 (LTS "Krypton") y `create-astro` 5.3.1.
+- **Decisión:**
+  - `astro` queda fijado en la versión exacta `7.4.2` y es la única dependencia del proyecto (cubierta por ADR-002). Se usó la plantilla `minimal` sin integraciones, sin `.vscode/`, sin los favicons de ejemplo y sin el `AGENTS.md` ni el `README.md` de la plantilla.
+  - `packageManager: "pnpm@12.15.0"`; `engines` con `node: "24.x"` y `pnpm: "12.x"` (ADR-027); `engineStrict: true` en `pnpm-workspace.yaml`.
+  - El archivo de versión de Node es `.nvmrc` con el valor `24`, para aceptar cualquier 24.x.
+  - **Bloqueo en dos capas, sin dependencias:**
+    1. Corepack rechaza yarn por el campo `packageManager`.
+    2. El script `preinstall` ejecuta `scripts/only-pnpm.mjs`, que revisa `npm_config_user_agent` y termina con código 1 y un mensaje en español si el gestor no es PNPM.
+  - Se descarta `only-allow`, porque se ejecuta con `npx` (prohibido por ADR-026) y agrega una dependencia.
+  - `strictDepBuilds: true` y `allowBuilds: {}`. La instalación no requiere ningún script de compilación: Vite 8 usa Rolldown en lugar de esbuild, y `sharp` 0.35.5 (dependencia opcional de Astro) no tiene script `install` y usa los binarios precompilados `@img/*`. `pnpm approve-builds` informa que no hay paquetes por aprobar.
+  - Sin `.npmrc`: desde PNPM 11 la configuración vive en `pnpm-workspace.yaml`, y no hay autenticación ni registro que declarar.
+- **Consecuencias:**
+  - Cualquier dependencia futura con scripts de compilación hará fallar la instalación hasta que se revise y se agregue a `allowBuilds`.
+  - Las subidas de versión de Astro dentro de 7.x se hacen cambiando la versión exacta.
+- **Origen:** E10-I02, 27-10-2026. **Estado:** Aceptada.
+
+## ADR-029 · Dependencias de Tailwind CSS v4 y verificación de compatibilidad
+- **Contexto:** ADR-004 dejó la prueba de compatibilidad para E10-I03. Verificado el 27-10-2026 en registry.npmjs.org: `tailwindcss` y `@tailwindcss/vite` siguen en 4.3.3, y el plugin declara peer `vite ^5.2.0 || ^6 || ^7 || ^8`. `pnpm why vite` muestra una sola versión, `vite@8.3.5`, traída por `astro@7.4.2`.
+- **Decisión:**
+  - Se agregan como `devDependencies`, con versión exacta, `tailwindcss` 4.3.3 y `@tailwindcss/vite` 4.3.3 (`pnpm add -D -E`). Son las únicas dependencias nuevas.
+  - El plugin se registra en `vite.plugins` de `astro.config.mjs`. No se usa `@astrojs/tailwind` ni `tailwind.config.js` (este se eliminó de la rama; el original sigue en `main`).
+  - La hoja global `src/styles/global.css` usa `@import "tailwindcss" source(none);` y `@source "../../src";`: se desactiva la detección automática desde la raíz y el escaneo queda limitado a `src/`.
+  - `allowBuilds` sigue vacío: `@tailwindcss/oxide` usa binarios precompilados y `pnpm approve-builds` no informa paquetes por aprobar.
+  - **No se instala `@tailwindcss/forms`.** Los formularios del sitio nuevo (E140-I01) se estilizarán con utilidades y tokens de `@theme`. Si E140-I01 lo necesita, se propone con un ADR nuevo. `@tailwindcss/container-queries` tampoco se instala: las container queries son nativas en v4.
+- **Verificación:** `pnpm build` sin advertencias de peer dependencies; la utilidad arbitraria `text-[13.37px]` de `src/pages/index.astro` aparece en el CSS de `dist/`, y `backdrop-blur-md` y `tracking-tight` (presentes solo en los HTML antiguos) no. Prueba de control: sin `source(none)`, esas clases antiguas sí aparecen.
+- **Consecuencias:** las subidas de versión de Tailwind se hacen cambiando ambas versiones exactas a la vez. Los tokens llegan en E20-I02.
+- **Origen:** E10-I03, 27-10-2026. **Estado:** Aceptada.
+
+## ADR-030 · Dependencias de calidad de código: astro check, ESLint y Prettier
+- **Contexto:** E10-I04 traía versiones del 28-09-2026. El 27-10-2026 se volvieron a verificar en registry.npmjs.org (`pnpm view`): `@astrojs/check` 0.9.12 (peer `typescript ^5 || ^6`), `eslint-plugin-astro` 3.2.1 (peer `eslint >=10`, Node `^22.22.3 || ^24.16.0`), `prettier-plugin-astro` 1.1.2 (peer `prettier ^3.5.3`, Node `>=22.12`), ESLint 10.13.0 (solo configuración plana), `typescript-eslint` 8.72.x (peer `typescript <6.1.0`). La última TypeScript es 7.0.2, que **no** es compatible con `@astrojs/check` ni con `typescript-eslint` (AT-044). PNPM 12 aplica `minimumReleaseAge` y rechazó `typescript-eslint` 8.72.1 (publicada el 26-10-2026) agregando excepciones automáticas a `pnpm-workspace.yaml`.
+- **Decisión:**
+  - Se agregan como `devDependencies` exactas (`pnpm add -D -E`), y son las únicas nuevas:
+    1. `@astrojs/check` 0.9.12: script `check` (`astro check`).
+    2. `typescript` 6.0.3: peer obligatorio de `@astrojs/check`; se fija en 6.x por AT-044.
+    3. `eslint` 10.13.0: script `lint` con `eslint.config.js` (configuración plana, `defineConfig` y `globalIgnores` de `eslint/config`).
+    4. `@eslint/js` 10.0.1: reglas recomendadas de JavaScript.
+    5. `typescript-eslint` 8.72.0: analiza TypeScript en `.ts` y en el frontmatter de `.astro`; se usa 8.72.0 y no 8.72.1 para respetar `minimumReleaseAge` sin excepciones.
+    6. `eslint-plugin-astro` 3.2.1: configuración `recommended`.
+    7. `globals` 17.13.0: globales de Node para `scripts/` y archivos `*.config.*` (PNPM estricto no permite importar la copia transitiva).
+    8. `prettier` 3.9.10 y `prettier-plugin-astro` 1.1.2: scripts `format` y `format:check`.
+  - **No se instalan:** `eslint-plugin-jsx-a11y` (peer opcional; la accesibilidad se revisa en E170-I01), `prettier-plugin-tailwindcss` (ordenar clases requiere un ADR propio), `@typescript-eslint/parser` por separado (lo trae `typescript-eslint`).
+  - Prettier: comillas simples, comas finales, ancho 100 y `endOfLine: "auto"` (Git en Windows con `autocrlf` deja CRLF en la copia de trabajo).
+  - El sitio antiguo (`/*.html`, `static/`, `functions/`, `docs/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) queda excluido de ESLint y Prettier. También se excluyen de Prettier los Markdown (`*.md`, `_planificacion/`), que se redactan a mano, `pnpm-lock.yaml` y `.claude/`.
+  - `pnpm-workspace.yaml` no cambia: `allowBuilds` sigue vacío y `pnpm approve-builds` no informa paquetes por aprobar; no hay excepciones a `minimumReleaseAge`.
+- **Consecuencias:** TypeScript no sube a 7.x hasta que `@astrojs/check` y `typescript-eslint` lo admitan (ADR nuevo). Las subidas de versión respetan `minimumReleaseAge`.
+- **Origen:** E10-I04, 27-10-2026. **Estado:** Aceptada.
+
+## ADR-031 · Configuración de WebStorm fuera de `.idea/`
+- **Contexto:** AT-022. `.gitignore` ignoraba `.idea/`, pero `.idea/.gitignore` estaba versionado. E10-I05 proponía versionar `.idea/runConfigurations/`.
+- **Decisión:** no se versiona nada de `.idea/` (decisión de Felipe, 27-10-2026). `.idea/.gitignore` sale del índice (`git rm --cached`; el archivo local se conserva). Las configuraciones de ejecución compartidas (`pnpm dev`, `pnpm build` y `pnpm check`) se versionan en `.run/` de la raíz, la carpeta estándar de JetBrains para configuraciones guardadas como archivo de proyecto. Los ajustes del IDE se documentan en `_planificacion/00_producto/guia-webstorm.md`.
+- **Consecuencias:** cada desarrollador configura WebStorm siguiendo la guía; `.run/` es la única configuración de IDE versionada.
+- **Origen:** E10-I05, 27-10-2026; verificada por Felipe en WebStorm 2026.2.3 con el plugin de Astro 262.10968.63. **Estado:** Aceptada.
+
+## ADR-032 · Fin de línea LF en el repositorio
+- **Contexto:** sugerencia de E10-I04. El repositorio ya guarda LF, pero con `core.autocrlf=true` la copia de trabajo en Windows queda con CRLF, por lo que Prettier usaba `endOfLine: "auto"`.
+- **Decisión:** `.gitattributes` con `* text=auto eol=lf` y binarios marcados (`png`, `jpg`, `webp`, `avif`, `gif`, `ico`, `pdf`, `woff`, `woff2`). Prettier pasa a `endOfLine: "lf"` (sustituye ese punto de ADR-030). Los archivos del sitio antiguo no se reescriben: su contenido en el repositorio ya es LF y su copia local se normaliza en el próximo checkout.
+- **Consecuencias:** los archivos nuevos y editados quedan en LF en cualquier sistema operativo; WebStorm debe usar LF como separador de línea (ver la guía).
+- **Origen:** E10-I05, aprobada por Felipe el 27-10-2026. **Estado:** Aceptada.
+
+## ADR-033 · Permisos de Claude Code en `.claude/settings.json`
+- **Contexto:** AT-021. El archivo antiguo permitía npm y dejaba `git commit` en `ask`, contra ADR-003 y ADR-012. AT-045 documenta los límites de las reglas.
+- **Decisión:** `.claude/settings.json` versionado con tres niveles:
+  - `allow`: scripts `pnpm dev|build|preview|check|lint|format|format:check|test` (también con `pnpm run`) y lecturas de git (`status`, `diff`, `log`, `show`, rama actual);
+  - `ask`: instalar o quitar dependencias, `pnpm dlx`, `git add|checkout|switch|restore|stash|rm|mv|clean|reset|tag|cherry-pick|revert`, `rm` y edición de `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` y `astro.config.mjs`;
+  - `deny` (en Bash y PowerShell): `git commit|push|merge|pull|rebase|reset --hard`, borrado de ramas, reescritura de historial, `npm`, `npx`, `yarn`, `bun`, `bunx` y `wrangler`; edición de `.claude/`, `AGENTS.md`, `DESIGN.md`, `CLAUDE.md`, `GEMINI.md`, archivos de Wrangler, `.dev.vars`, `_headers`, `_redirects` y archivos del sitio antiguo; lectura de `.env` y `.dev.vars`.
+  - `autoMemoryEnabled: false`. Los ajustes personales van en `.claude/settings.local.json`, ignorado por git.
+- **Consecuencias:** el agente no puede editar sus propios permisos ni `AGENTS.md`; Felipe los cambia a mano. Se recomienda el modo de permisos predeterminado, porque en modo automático las acciones en `ask` pueden ejecutarse sin confirmación (AT-045).
+- **Origen:** E10-I06, 27-10-2026; verificada por Felipe en Claude Code 2.1.311. **Estado:** Aceptada.
+
+## ADR-034 · Configuración i18n nativa y tratamiento provisorio de `/`
+- **Contexto:** E10-I07. API verificada el 28-10-2026 en los tipos de Astro 7.4.2 y en docs.astro.build/en/guides/internationalization. Con `prefixDefaultLocale: true`, la opción `redirectToDefaultLocale` exige una `src/pages/index.astro` (error `MissingIndexForInternationalization`).
+- **Decisión:**
+  - `i18n.locales` como objetos: `{ path: 'es', codes: ['es-CL', 'es'] }` y `{ path: 'en', codes: ['en-US', 'en'] }`; `defaultLocale: 'es'`; `routing.prefixDefaultLocale: true`.
+  - Sin `i18n.fallback`: una página que falte en un idioma responde 404, nunca el contenido del otro idioma (ADR-001).
+  - El atributo `lang` se toma de `Astro.currentLocale`, que entrega el primer código del idioma (`es-CL` o `en-US`).
+  - Las páginas viven en `src/pages/es/` y `src/pages/en/`; no hay páginas en la raíz de `src/pages/`.
+  - `/` se trata con `redirects: { '/': '/es/' }`: en salida estática genera `dist/index.html` con meta refresh, `noindex` y canónica a `/es/`. Es **provisorio**: la 301 de producción se implementa en E180-I03 (ADR-019).
+  - No se usa middleware ni adaptador: todo se resuelve en el build (ADR-018).
+- **Consecuencias:** E30-I01 y E30-I02 parten de `Astro.currentLocale` y de las funciones de `astro:i18n`. E180-I03 debe reemplazar o complementar la redirección de `/` con una 301 de la plataforma (AT-046).
+- **Origen:** E10-I07, 28-10-2026. **Estado:** Aceptada.
+
+## ADR-035 · Política de privacidad y consentimiento en el formulario (Ley 21.719)
+- **Contexto:** AT-047. La Ley 21.719 de protección de datos personales entra en vigor en Chile el 1 de diciembre de 2026. El sitio actual no tiene política de privacidad y su formulario de contacto no pide consentimiento.
+- **Decisión:**
+  - Se crea una página de política de privacidad en una épica nueva, **E155 · Política de privacidad**. **Amplía ADR-007** (una épica por página), que pasa a cubrir 14 páginas; ADR-007 no se edita.
+  - Slugs: `/es/privacidad` y `/en/privacy` (coherente con ADR-020).
+  - El enlace a la política va en el **pie de todas las páginas**. No va en la navbar, que se mantiene sin cambios.
+  - El formulario de contacto incorpora un **checkbox obligatorio** de aceptación de la política, con un enlace a ella.
+  - El botón de envío **permanece siempre activo**. Si se intenta enviar sin marcar el checkbox, se muestra un error accesible asociado al checkbox, porque un botón deshabilitado no recibe foco ni explica el motivo.
+  - La función de envío valida en el servidor que el consentimiento venga marcado y registra como evidencia la fecha y hora y la versión de la política aceptada (trazabilidad del consentimiento). No se usa base de datos ni dependencia nueva: la evidencia viaja en el correo que recibe Felipe.
+  - La política cubre, en forma breve, todos los tratamientos del sitio: formulario de contacto, Turnstile, Calendly, Giscus (GitHub), el progreso guardado en el navegador (E130, ADR-023) y la preferencia de tema.
+  - El texto de la política lo valida un especialista externo antes del cutover. Ninguna iteración lo presenta como asesoría legal.
+- **Consecuencias:** se agregan E155 y E155-I01 (14 páginas, 28 con ambos idiomas). Se ajustan E30-I02 (mapa de rutas), E140 (checkbox, función de envío y constante única de versión de la política en E140-I02), E155-I01 (página y enlace en el pie de todas las páginas), E170 (totales y CSP), E180-I02 (sitemap: la política es indexable salvo que se decida `noindex`) y E190-I01 (precondiciones). Se mantiene el orden numérico: E140 no depende de E155 y E155 depende de E140-I02. La validación del especialista queda como pendiente de Felipe antes de E190 (BL-08). Si se agrega un servicio de terceros nuevo, la política se actualiza y cambia de versión.
+- **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
+## ADR-036 · Sistema común con composición propia por página
+- **Contexto:** el sitio actual repite la misma estructura visual en todas las páginas; en Educación, las certificaciones se muestran en una línea de tiempo con igual protagonismo.
+- **Decisión:**
+  - E20 define un **sistema común**: paletas clara y oscura (se mantienen las actuales), tipografía, espaciados, movimiento y primitivas.
+  - Cada página tiene una **composición propia** que arma esas piezas con un patrón distinto (zigzag, mosaico, línea de tiempo, etc.). No todas las páginas se ven iguales.
+  - Todo patrón de composición se documenta en `DESIGN.md`, que sigue siendo la única fuente de verdad del diseño (ADR-010).
+  - E20-I01 define la regla general y los patrones de **Inicio** y **Educación**. Los patrones del resto de las páginas se definen al inicio de la primera iteración de cada épica de página, con validación de Felipe, y se agregan a `DESIGN.md`.
+  - **Educación:** las certificaciones se agrupan por categoría en **franjas de ancho completo**, llamativas, con el título de la categoría y las insignias en tamaño pequeño. Las franjas alternan la orientación (zigzag: título a la izquierda e insignias a la derecha, luego al revés). En móvil se apilan en una sola columna.
+  - Se agrega un campo de categoría a los datos de certificaciones. No se elimina contenido: solo se reorganiza.
+  - Clasificación **propuesta, por validar por Felipe**: Inteligencia artificial (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional); Cloud (AWS Cloud Practitioner, AWS Developer Associate, Oracle OCI Associate); Desarrollo y datos (Python Institute PCEP, Oracle Developer Professional, Oracle Data Science Professional).
+- **Consecuencias:** `DESIGN.md` incorpora la sección "Composición por página" en E20-I01 (el agente no edita `DESIGN.md` fuera de esa iteración, ADR-033). E20-I05 agrega la primitiva "franja temática". La primera iteración de cada épica de página incluye definir y validar su patrón; E40-I01 y E50-I01 aplican el definido en E20-I01. La clasificación de certificaciones queda por validar (BL-07) y bloquea esa parte de E50-I02 hasta que Felipe la confirme.
+- **Origen:** aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
+## ADR-037 · D-14: Cloudflare Workers con assets estáticos
+- **Contexto:** propuesta P-01. Verificado el 28-10-2026 en developers.cloudflare.com: Workers Builds permite elegir la rama de producción y activar o no las previews de otras ramas; `not_found_handling: "404-page"` sirve el `404.html` más cercano con estado 404; la carpeta `functions/` de Pages se compila o se reescribe; un Custom Domain exige borrar antes el CNAME existente y no cubre `www` por sí solo; el build image usa Node 24.22.1 por defecto y respeta `packageManager`. Detalle en `99_bitacora/2026-10-28_E10-I09.md`.
+- **Decisión:**
+  - Worker nuevo **`felipecuevas-dev`** con assets estáticos (`./dist`), conectado al repositorio por Workers Builds.
+  - **Rama de producción del Worker: `migracion-astro`** hasta el cutover. Sin rutas ni dominio: solo responde en workers.dev. **Preview Builds desactivado.**
+  - Build `pnpm build`; deploy `pnpm exec wrangler deploy` (sin `npx`, ADR-026).
+  - `wrangler.jsonc` en la raíz: `name`, `compatibility_date`, `assets.directory` y `assets.not_found_handling: "404-page"`; sin `main`.
+  - El proyecto Pages `felipe-cuevas-cv` sigue sirviendo producción desde `main` hasta E190-I02; sus previews pasan a "None".
+  - Plan posterior: la función de contacto se reescribe como Worker en E140-I02 (con secretos cargados de nuevo); en E190-I02 la rama de producción pasa a `main`, se borra el CNAME del apex, se agrega el Custom Domain y `www` se resuelve con registro de relleno con proxy y redirección 301. Email Routing no se toca. Reversa: quitar el Custom Domain y devolver el dominio al proyecto Pages.
+- **Consecuencias:** resuelve AT-042. AT-029 queda para E140-I02. Hasta E160-I01 no hay `404.html` en `dist/` y el Worker responde un 404 genérico. La URL de workers.dev es pública (AT-048).
+- **Complemento (28-10-2026, antes del primer commit del ADR):** Felipe agregó a mano en `wrangler.jsonc` `"workers_dev": true` (la URL de workers.dev queda activa de forma explícita) y `"preview_urls": false` (sin URL de preview por versión). URL desplegada: https://felipecuevas-dev.felipe-cuevas.workers.dev (Node 24.22.1, pnpm 12.15.0, build sin errores).
+- **Origen:** P-01, decisión de Felipe el 28-10-2026 (E10-I09). **Estado:** Aceptada.
+
+## ADR-038 · Wrangler como devDependency exacta
+- **Contexto:** Workers Builds usa el Wrangler de `package.json`; sin él, el deploy requeriría `npx` (ADR-026). Al 28-10-2026 la última versión es 4.154.0 (publicada el 27-10-2026, a menos de un día), que no cumple `minimumReleaseAge`.
+- **Decisión:**
+  - `wrangler` **4.153.0** exacta (`pnpm add -D -E`), publicada el 26-10-2026; cumple el mínimo de 4.135.0 y `minimumReleaseAge` sin excepciones.
+  - Scripts de instalación: `esbuild` 0.28.2 y `workerd` 1.20261023.1 traen un `postinstall` que solo valida el binario o lo descarga si falta la dependencia opcional de la plataforma. Ambos binarios llegan como dependencias opcionales y se comprobó que funcionan sin el script. Se declaran **denegados** en `allowBuilds` (`esbuild: false`, `workerd: false`); `strictDepBuilds` sigue activo y `pnpm approve-builds` no informa pendientes.
+  - El agente no ejecuta `wrangler` (deny en `.claude/settings.json`); solo lo usa Workers Builds.
+- **Consecuencias:** si un build en Cloudflare falla por un binario no validado, se reevalúa aprobar el script con un ADR nuevo. Las subidas de versión respetan `minimumReleaseAge`.
+- **Origen:** E10-I09, aprobada por Felipe el 28-10-2026. **Estado:** Aceptada.
+
+## ADR-039 · Dirección visual: prototipos aprobados como referencia de DESIGN.md v1
+- **Contexto:** E20-I01 preveía proponer dos o tres direcciones visuales. Felipe entregó el 29-10-2026 dos prototipos HTML del index (modo claro y modo oscuro) con su nueva identidad, que respetan la paleta original. Los prototipos incluyen secciones que el index no tiene (Trayectoria, Especialización y Contacto), un logotipo distinto del vigente, opciones de menú distintas de ADR-008, un hero que no cumple la lista de conservación de E40-I01 ni la matriz de ADR-016, contenido ficticio y dependencias externas (Google Fonts, Tailwind por CDN v3 y una foto de Unsplash).
+- **Decisión:**
+  - Los prototipos son la **referencia visual** de `DESIGN.md` v1. Se guardan en `_planificacion/20_epica-sistema-diseno/prototipos/` y no se publican ni se compilan.
+  - `DESIGN.md` v1 los plasma y **prevalece sobre ellos** si difieren (ADR-010).
+  - No son referencia de: el contenido (se toma de `main`), el logotipo (ADR-008 sigue vigente sin cambios), las opciones de la navbar (ADR-008), las secciones Trayectoria, Especialización y Contacto (patrones reservados que solo se reutilizan con aprobación de Felipe por página) ni sus dependencias externas.
+  - El hero conserva el lenguaje visual del prototipo y se recompone para incluir todos los elementos de E40-I01 y cumplir ADR-016, sin eliminar ninguno (ADR-009).
+  - `DESIGN.md` v1 lo redacta el asesor del proyecto y Felipe lo copia a la raíz. El agente no edita `DESIGN.md` (ADR-033 sin cambios); en E20-I01 lo verifica y cierra la documentación.
+  - Educación: las franjas temáticas de ADR-036 reutilizan el tratamiento de la banda de cifras del prototipo.
+- **Consecuencias:** se sustituye la tarea de E20-I01 "proponer dos o tres direcciones visuales". E20-I02 a E20-I05 se ajustan a `DESIGN.md` v1. AT-050 a AT-053 registran los problemas de los prototipos.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-040 · Tonos de apoyo de la paleta
+- **Contexto:** ADR-036 mantiene las paletas actuales. Los prototipos usan la escala `orient`, `primary`, `vibrant` y `accent-gold` originales, más `stone` `#F5F9FC` y `surface` `#001A26`, que no existen en `main:tailwind.config.js`, y dos tonos casi iguales a la escala original: `#00222F` (`orient-900` es `#00212F`) y `#00384F` (`orient-800` es `#003B51`).
+- **Decisión:**
+  - Se usan los valores originales `orient-900` y `orient-800` en lugar de `#00222F` y `#00384F`.
+  - Se agregan dos tonos de apoyo: `stone` `#F5F9FC` (fondo alterno en claro) y `orient-925` `#001A26` (fondo alterno en oscuro; `surface` en el prototipo).
+  - Se mantiene `gold-deep` `#7A5C00` (`accent-gold-deep` original) para el trazo de las estrellas en claro.
+  - Reglas de contraste: texto con opacidad mínima del 60 %; foco `primary` en claro y `vibrant` en oscuro; `vibrant` y `gold` nunca son texto sobre fondo claro; avatares de iniciales sin `orient-400` de fondo.
+- **Consecuencias:** amplía ADR-036 en lo referente a la paleta; ADR-036 no se edita. Los tokens y la tabla de contrastes están en `DESIGN.md` 4. Resuelve AT-051 al verificarse en E20-I01.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-041 · Familias tipográficas
+- **Contexto:** el sitio actual usa solo Lexend desde Google Fonts (AT-017). Los prototipos usan Cinzel para títulos y Josefin Sans para texto, también desde Google Fonts. `DESIGN.md` 3.2 exige Lexend 700 para el logotipo.
+- **Decisión:**
+  - **Cinzel** (OFL 1.1) en titulares y cifras, pesos 400, 500 y 600.
+  - **Josefin Sans** (OFL 1.1) en texto, pesos 300, 400 y 600, y cursiva 300 y 400. Los párrafos van en 300, como en el prototipo.
+  - **Lexend** 700 **solo** en el logotipo.
+  - Las tres se autoalojan; ninguna se carga desde Google Fonts. El mecanismo de carga se decide en E20-I03 con su propio ADR.
+- **Consecuencias:** el sitio carga tres familias; E20-I03 limita pesos y subconjuntos y mide el efecto en LCP frente a ADR-015. La legibilidad de Josefin Sans 300 en tamaños pequeños se revisa en E170-I01.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada. Sustituida en parte por ADR-049: Lexend se retira.
+
+## ADR-042 · Tema oscuro por clase y semánticos como variables
+- **Contexto:** E20-I02. `DESIGN.md` 9 pide la variante oscura por clase o atributo en `<html>` y semánticos que cambien de valor según el tema. El sitio actual usa la clase `dark` en `<html>` y guarda `theme` con los valores `dark` o `light` (`main:index.html:57-62`, `main:static/js/servicios/tema.js:56`).
+- **Decisión:**
+  - Variante `dark` por **clase** `.dark` en `<html>` (`@custom-variant dark (&:where(.dark, .dark *))`), con la misma clave y los mismos valores de `theme` (ADR-023). El script anti-parpadeo queda en E30-I01.
+  - Los semánticos se declaran en `@theme` con su valor claro y el bloque `.dark` los redefine; los componentes no usan `dark:` para el color.
+  - `--color-*: initial` anula la paleta de Tailwind: solo existen los tokens de `DESIGN.md` 4.1, más `black` (solo en sombras oscuras), `transparent` y `current`.
+  - Las transparencias usan `color-mix(in srgb, …)`. `border-strong` usa 25 %, el extremo alto del rango 20–25 % de 4.2.
+  - Contenedor `--container-page` (1.280 px, `max-w-page`); quiebre `--breakpoint-cards` (1.100 px).
+  - Texturas de 4.5 como utilidades `texture-dots`, `texture-halo`, `texture-band` (en oscuro fija `kicker` dorado), `texture-frame` y `texture-portrait`. La máscara del campo de puntos se desvanece del 30 % al 75 % (4.5 no fija el alcance).
+  - Muestra interna en `/es/muestra-diseno/` y `/en/design-sample/` con `noindex, nofollow`; E180-I02 la excluye del sitemap.
+- **Consecuencias:** E30-I01 solo agrega o quita la clase `dark`. Todo color nuevo exige un token en `DESIGN.md`.
+- **Origen:** E20-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026). Sustituida en parte por ADR-091: la muestra interna se retiró en E190-I03 (15-11-2026, ADR-102).
+
+## ADR-043 · Fuentes con la API de fuentes de Astro (proveedor local) e íconos SVG propios
+- **Contexto:** E20-I03, ADR-041. Verificado el 29-10-2026 en https://docs.astro.build/en/guides/fonts/, https://docs.astro.build/en/reference/configuration-reference/ y https://docs.astro.build/en/reference/font-provider-reference/: la API de fuentes es estable desde astro@6.0.0 (opción `fonts` de primer nivel), tiene proveedor local `fontProviders.local()`, el componente `<Font />` de `astro:assets` con `preload` filtrable, genera respaldos métricos a partir del último respaldo genérico y copia los archivos a `_astro/fonts`. AT-016: el sitio actual carga Material Symbols completo para unos 57 íconos.
+- **Decisión:**
+  - **Fuentes:** API de fuentes de Astro con `fontProviders.local()`, sin dependencias nuevas. Archivos WOFF2 **variables**, subconjunto latino (U+0000–00FF y signos comunes; cubre á é í ó ú ü ñ ¿ ¡), descargados una sola vez del repositorio de Google Fonts y versionados en `src/assets/fonts/` con su `OFL-*.txt`. Ni el build ni el sitio hacen solicitudes externas.
+    - Cinzel: un archivo variable acotado a `400 600` (cubre 400, 500 y 600), 25,3 KB.
+    - Josefin Sans: normal `300 600` (27,9 KB) y cursiva `300 400` (30,4 KB).
+    - Lexend: 700 (14,5 KB), solo para el logotipo.
+    - Total: 98 KB.
+  - **Respaldos:** Georgia → `serif` (Cinzel), `system-ui` → `sans-serif` (Josefin) y `sans-serif` (Lexend), con `optimizedFallbacks` activo (Astro genera `size-adjust` y los ajustes de ascendente y descendente contra CLS). `font-display: swap`.
+  - **Precarga:** solo Josefin normal (texto) y Cinzel (h1). Lexend y la cursiva no se precargan; E30-I03 reevalúa Lexend si el logotipo produce CLS o un FOUT visible.
+  - Tokens `--font-display`, `--font-sans` y `--font-logo` apuntan a las variables que genera Astro. `<Font />` va en el `<head>`; E30-I01 lo traslada al `BaseLayout`.
+  - **Íconos:** componente `src/components/ui/Icon.astro`, decorativo por defecto (`aria-hidden`, `focusable="false"`) y con `label` opcional (`role="img"`). Datos en `src/components/ui/icons.ts`: íconos de línea **propios** en retícula de 24 px y trazo de 1,6 px (DESIGN.md 7.14), y los 5 SVG de marca del sitio actual (LinkedIn, GitHub, REUF, correo y Discord, tomados de `main:index.html`), con `currentColor`.
+  - **Inventario:** el conjunto base cubre los íconos de sistema de `DESIGN.md` 7 (menu, close, chevron-down, flechas, download, external-link, sun, moon, check, info, alert, star y mail). Los íconos propios de cada página del inventario de Material Symbols (`school`, `verified`, `workspace_premium`, `history_edu`, `groups`, `event_*`, `forum`, `terminal`, etc.) se dibujan en la épica de esa página y se agregan a `icons.ts`. Ninguna página carga Material Symbols.
+- **Consecuencias:** resuelve AT-016 y AT-017. Cada épica de página suma sus íconos al mismo módulo. Una actualización de las fuentes exige descargar de nuevo y actualizar este ADR.
+  - Nota (ADR-044): el SVG de marca de Discord se retiró de `icons.ts`; las redes de marca son 4 (LinkedIn, GitHub, REUF y correo). 
+- **Origen:** E20-I03 y E20-I04, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-044 · Discord sale de las redes del sitio
+- **Contexto:** `DESIGN.md` v1 (ADR-039) y el sitio actual listan 5 redes: LinkedIn, GitHub, REUF, correo y Discord. Felipe Cuevas decide dejar de publicar el vínculo a Discord.
+- **Decisión:**
+  - Las redes del sitio son 4: LinkedIn, GitHub, REUF y correo.
+  - Se retiran el enlace, el ícono y toda mención en texto de un servidor o canal de Discord, en el sitio nuevo y en la planificación.
+  - Se retira el SVG de Discord de `Icon.astro` y de la página de muestra.
+- **Consecuencias:** modifica `DESIGN.md` 7 (tabla), 7.4 (riel) y 7.9 (pie), que Felipe edita a mano (ADR-033). Ajusta E30-I06, E40-I01 y la visión de producto. La comunidad conserva eventos, foro (GitHub Discussions) y recursos. No se edita ADR-039.
+- **Origen:** decisión de Felipe el 29-10-2026. **Estado:** Aceptada.
+
+## ADR-045 · Movimiento sin AOS: aparición con IntersectionObserver y CSS
+- **Contexto:** E20-I04. AT-018 (AOS sin mantenimiento) y AT-040 (guardián en línea de 1.500 ms que revela todo si AOS no arranca). `DESIGN.md` 8: sin animaciones de entrada en Inicio, contenido visible sin JavaScript, sin CLS, respeto de `prefers-reduced-motion` y tokens de duración y curva.
+- **Decisión:**
+  - **Utilidad de aparición:** módulo `src/scripts/reveal.ts` (`initReveal()`) con `IntersectionObserver` y atributo `data-reveal`. Sin dependencias.
+  - **Visible por defecto:** el CSS solo oculta `[data-reveal]` cuando `<html>` tiene la clase `reveal-ready`, que pone el propio script. Sin JavaScript, sin `IntersectionObserver` o si el script falla, nada queda oculto, así que no hace falta guardián.
+  - **Sin parpadeo:** lo que ya está en pantalla al iniciar se marca visible antes de activar el modo.
+  - **Movimiento:** opacidad y 4 px con `translate` (dentro del rango de 2 a 4 px de `DESIGN.md` 8), duración `--duration-slow` y curva `--ease-out-soft`. `translate` no desplaza el layout, así que no suma CLS.
+  - **Movimiento reducido:** el script no se activa, y una regla global anula transiciones, animaciones y desplazamiento suave. El desplazamiento suave entre anclas solo se aplica con `no-preference`.
+  - **Inicio:** no importa el módulo ni usa `data-reveal` (`DESIGN.md` 8). Las páginas que lo necesiten lo importan en su épica.
+  - **Tokens:** `@theme static`, para que se emitan todas las variables aunque ninguna clase las use (la muestra y los estilos en línea las leen; ver AT-055).
+- **Consecuencias:** resuelve AT-018 y la parte de movimiento de AT-040. El script de tema único del `<head>` sigue en E30-I01. No se vuelve a usar AOS.
+  - Punto de prueba: confirmar en la primera página que use `data-reveal` que, al imprimir, ningún bloque queda oculto.
+- **Origen:** E20-I03 y E20-I04, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-046 · Primitivas de componentes y variables de componente por tema
+- **Contexto:** E20-I05. `DESIGN.md` 7.3, 7.6 y 7.7 fijan valores distintos por tema que no equivalen a un semántico de 4.2: fondo de hover del botón de ícono, colores de la flecha, contorno de la tarjeta en oscuro, colores de la etiqueta y trazo de la estrella. La sección 9 prohíbe `dark:` para el color.
+- **Decisión:**
+  - **Primitivas** en `src/components/ui/`, sin JavaScript de cliente:
+    - `Container`, `GoldRule`, `Tag`, `SectionHeader` (`left`, `center` y `band`, con `level` para no saltar niveles), `Button` (`primary`, `secondary` y `gold`; enlace o `<button>`; `size="bar"` de 44 px), `IconButton` (`icon` 44 × 44 y `arrow` 54 × 54, con `label` obligatorio), `Card`, `TestimonialCard`, `Band`, `ThemeStripe` y `ExternalLink`;
+    - estilos con `<style>` acotado al componente y solo variables de tokens.
+  - **Variables de componente:**
+    - Se declaran en `global.css` (`:root` y `.dark`) con valores tomados de la paleta y de `DESIGN.md` 7: `--button-primary-*`, `--button-icon-hover-bg`, `--button-arrow-hover-*`, `--card-outline*`, `--chip-*` y `--star-stroke`. No son tokens nuevos de diseño: traducen a CSS los valores por tema que `DESIGN.md` ya fija.
+    - **Convención de nombre:** `--<componente>-<propiedad>[-<estado>]`, en inglés (ADR-025).
+    - **Regla de origen:** solo se declara una variable de componente cuando `DESIGN.md` 7 fija un valor por tema que no equivale a un semántico de 4.2, y el comentario de la variable cita la sección de `DESIGN.md` de la que sale. Si el valor sí equivale a un semántico, se usa el semántico.
+    - **Alcance:** una variable de componente no se reutiliza en otro componente. Un color nuevo, con o sin variable, exige primero su entrada en `DESIGN.md`.
+  - **Equivalencias con semánticos:**
+    - el primario usa `text` y `bg` invertidos (claro `orient-950`/blanco, oscuro `orient-50`/`orient-950`) y `accent` al pasar;
+    - el texto del secundario al pasar usa `heading`.
+  - **Foco global:** `:focus-visible` con 2 px `focus` y 2 px de separación (7.3).
+  - **Franja temática:** `reverse` reordena las zonas con la grilla desde 1.024 px; el HTML siempre va título → contenido. Proporción 5/12 y 7/12, y fondo `band` (retícula) o `bg`.
+  - **Testimonio:** en `en-US` agrega "Translated from Spanish" (ADR-017); la nota de 5 estrellas va en texto para lectores de pantalla.
+  - **Enlace externo:** se usa sobre `bg` o `surface`. Sobre `band` lleva `text` y no `accent`, porque es texto pequeño (4.3).
+  - **Impresión:** `[data-reveal]` siempre visible en `@media print` (punto de prueba de ADR-045).
+- **Consecuencias:** resuelve AT-052. Amplía ADR-042 sin modificarlo: los semánticos siguen siendo la vía principal y las variables de componente son la excepción acotada. Riel social, selector de idioma, botón de apariencia, navbar, pie, formularios, aviso y carrusel se construyen en E30, E40 y E140 sobre estas primitivas, con la misma regla de origen. `DESIGN.md` 9 lo reconoce en una oración.
+- **Origen:** E20-I05, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-047 · Dominio del sitio y barra final en todas las rutas
+- **Contexto:** E30-I01. `canonical`, `hreflang` y `og:url` necesitan URL absolutas, y cada página debe tener una sola forma de URL. Astro genera `dist/<ruta>/index.html` (formato `directory`).
+- **Decisión:**
+  - `site: 'https://felipecuevas.dev'` en `astro.config.mjs`: base de toda URL absoluta (`Astro.site`).
+  - `trailingSlash: 'always'`: toda ruta termina en barra (`/es/`, `/en/design-sample/`), coherente con el formato `directory` y con lo que sirven los assets estáticos de Cloudflare.
+  - `canonical`, `hreflang` (es-CL, en-US, x-default → versión `/es/`, ADR-019) y `og:url` se escriben siempre con barra final.
+- **Consecuencias:** los enlaces internos se escriben con barra final; en desarrollo, una ruta sin barra da 404. El mapa de rutas de E30-I02 y las 301 de E180-I01 usan la misma forma.
+- **Origen:** E30-I01, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-048 · Diccionario de interfaz, mapa de rutas y colecciones bilingües
+- **Contexto:** E30-I02. ADR-001 exige paridad es-CL / en-US; ADR-020 deja el cierre del mapa de slugs para esta iteración; AT-026 pide un modelo de contenido con validación de paridad.
+- **Decisión:**
+  - **Idiomas** en `src/i18n/lang.ts`: claves `es` y `en`, códigos `es-CL` / `en-US` y `es_CL` / `en_US`.
+  - **Diccionario** en `src/i18n/ui.ts`: textos del armazón (skip link, navegación de `DESIGN.md` 2.1, apariencia, idioma, pie y volver arriba). El tipo de `en` se deriva de `es`: si falta o sobra una clave, `pnpm check` falla. Se lee con `useTranslations(lang)`.
+  - **Mapa de rutas** en `src/i18n/routes.ts`, validado por Felipe: las 12 páginas navegables del área L de la auditoría más `/es/privacidad/` ↔ `/en/privacy/` (ADR-035), todas con barra final (ADR-047) y sin `.html` (AT-005). `getRoute`, `routePaths`, `routeKeyFromPath` y `getEquivalentPath`. Al construir se valida prefijo de idioma, barra final, ausencia de `.html` y unicidad; un error rompe `pnpm build`. Las páginas internas (muestra de tokens) van en `internalRoutes`, fuera de la navegación.
+  - **404:** no entra al mapa porque no es una URL navegable; `getEquivalentPath` de una ruta desconocida devuelve la portada del otro idioma. La 404 por idioma se resuelve en E160-I01.
+  - **Colecciones** en `src/content.config.ts` (API de colecciones de Astro, sin dependencias nuevas): todo texto visible se declara con `localized()`, un objeto `{ es, en }` estricto con ambos idiomas obligatorios y no vacíos. Una entrada incompleta hace fallar `pnpm build`. Primera colección: `pages` (título y descripción de SEO por clave de ruta), con la portada.
+  - `BaseLayout` recibe `route` (clave del mapa) en lugar de rutas escritas a mano.
+- **Consecuencias:** cada épica de página agrega su colección con `localized()` y su entrada en `pages`. Los textos `en-US` del diccionario los redacta el agente y Felipe los valida (ADR-017). Cambiar un slug del mapa después del cutover exige 301 (ADR-020).
+- **Origen:** E30-I02, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026), incluidos la exclusión de la 404 del mapa y los textos `en-US` del diccionario.
+
+## ADR-049 · Logotipo en dos renglones y enlace a la portada
+- **Contexto:** E30-I03. Felipe rediseñó la composición del logotipo en `DESIGN.md` 3: el nombre pasa a ser fijo y las frases rotan debajo. ADR-008 exigía un logotipo idéntico al actual, y la propuesta P-03 (logotipo como enlace) estaba pendiente.
+- **Decisión:**
+  - **Sustituye en parte a ADR-008** en lo que toca al logotipo. Se conservan el ícono (`main:static/img/favicon.svg` como máscara de 32 × 32), sus colores (`orient-600` / `orient-400`, 300 ms), la separación de 12 px y el ritmo del efecto (1.400 / 84 + 0–34 / 42 / 3.600 / 500 ms).
+  - Cambian la composición y la tipografía:
+    - renglón 1, "Felipe Cuevas" fijo en Cinzel;
+    - renglón 2, frases con máquina de escribir en Josefin Sans, oculto bajo 640 px.
+    - Las frases son "Instructor Dev", "Dev Full Stack" e "Instructor IA" en `es-CL`; en `en-US` las propone el agente y las valida Felipe.
+  - **Acepta P-03:** el logotipo es un enlace a la portada del idioma activo (`getRoute('home', lang)`), con nombre accesible "Felipe Cuevas, inicio" / "Felipe Cuevas, home".
+  - El nombre usa el semántico `heading`, que da los valores que fija `DESIGN.md` 3.2 (`#00131D` / `#FFFFFF`; ver AT-057).
+  - **Lexend se retira:** sin uso tras el cambio, sale de `astro.config.mjs`, de `src/assets/fonts/` (archivo y licencia), del `<Font />` de `BaseLayout` y de `--font-logo`. Sustituye en parte a ADR-041 (Lexend solo en el logotipo) y a ADR-043 (tres familias). El sitio carga dos familias. `DESIGN.md` 5.1 y 9 aún la nombran (AT-058).
+  - **Motor reutilizable** `src/scripts/typewriter.ts`, sin dependencias, para el logotipo y el hero (E40-I01):
+    - cada frase se copia invisible en la misma celda, para reservar el ancho de la más ancha;
+    - el cursor se dibuja como fondo del texto, lo que deja CLS 0;
+    - pausa con la pestaña oculta o fuera de pantalla;
+    - con movimiento reducido o sin JavaScript queda la primera frase fija.
+- **Consecuencias:**
+  - Resuelve AT-009. AT-003 avanza: un único componente en el layout; la 404 lo recibe en E160-I01.
+  - Cualquier cambio del ícono, sus colores o el ritmo exige un ADR que sustituya a este (`DESIGN.md` 3.5).
+  - ADR-008 sigue vigente para la barra de navegación.
+- **Origen:** E30-I03, 29-10-2026; composición decidida por Felipe en `DESIGN.md` 3. **Estado:** Aceptada (validada el 29-10-2026), incluidas las frases `en-US`.
+
+## ADR-050 · El CV vive en `public/static/` con la misma URL
+- **Contexto:** AT-059. "Descargar CV" enlaza a `/static/CV_Felipe_Cuevas_2026.pdf` (URL de producción), pero Astro no copiaba el archivo al build y las previews daban 404.
+- **Decisión:** el PDF se copia sin cambios a `public/static/CV_Felipe_Cuevas_2026.pdf`. Astro publica `public/` tal cual en la raíz de `dist/`, así que la URL no cambia y no hace falta 301. El original en `static/` no se toca (sitio antiguo, referencia de solo lectura hasta E190-I03). El CV sigue solo en español (ADR-017).
+- **Consecuencias:** `public/static/` solo contiene lo que el sitio nuevo sirve con su URL de siempre; cada épica de página agrega allí lo que necesite (por ejemplo, los PDFs de recursos en E130-I02). Hasta E190-I03 el archivo existe duplicado en `static/` y en `public/static/`.
+- **Origen:** E30-I05, 29-10-2026. **Estado:** Aceptada (decidida por Felipe el 29-10-2026).
+
+## ADR-051 · Menú móvil: tema e idioma pasan al panel bajo 420 px
+- **Contexto:** E30-I05. `DESIGN.md` 7.2 oculta bajo 1.280 px solo el menú y "Descargar CV", y deja en la barra el botón de apariencia y el selector de idioma. El logotipo (vinculante, `DESIGN.md` 3) ocupa unos 156 px, el selector de idioma 91 px y cada botón 44 px: con el botón de menú, la barra necesita unos 400 px y a 360 y 390 px desborda.
+- **Decisión:**
+  - Desde 420 px, tema e idioma van en la barra, junto al botón de menú (como en `DESIGN.md` 7.2).
+  - Bajo 420 px van al final del panel del menú, después de "Descargar CV", separados por una línea `border`.
+  - Es el mismo componente en dos lugares, y solo uno se muestra a la vez (el otro queda con `display: none`, fuera del árbol de accesibilidad). Los botones de tema se sincronizan entre sí.
+  - El logotipo no cambia ni se achica. El selector de idioma mantiene sus 44 px.
+  - Alternativa descartada: llevar tema e idioma al panel en todos los anchos. Eso vaciaría la barra en tableta (768 px) sin necesidad.
+- **Consecuencias:** `DESIGN.md` 7.2 no menciona esta excepción; queda como AT-061 para que Felipe la incorpore. El umbral de 420 px se midió con el logotipo en español y en inglés (ocupan lo mismo); si el logotipo cambia, se revisa.
+- **Origen:** E30-I05, 29-10-2026. **Estado:** Aceptada (validada el 29-10-2026).
+
+## ADR-052 · Pie: navegación, redes y volver arriba
+- **Contexto:** E30-I06. `DESIGN.md` 7.9 deja a esta iteración cerrar la lista exacta de enlaces de navegación, y 7.11 define el botón de volver arriba.
+- **Decisión:**
+  - **Navegación:** los 11 enlaces del menú, en su orden y con las etiquetas de `nav-items.ts` (Inicio, Educación, Resumen, Desarrollador, Docente Universitario, Instructor REUF, Talento Digital, Eventos, Foro, Recursos, Contacto), en una sola lista. Incluye Recursos (AT-008).
+  - **Redes (ADR-044):** LinkedIn, GitHub, REUF y correo. Las URL son las del sitio antiguo: LinkedIn, GitHub y correo, de su pie; REUF, de su riel social (`main:index.html:618`), porque el pie antiguo no la traía. Las tres externas abren en pestaña nueva con `rel="noopener noreferrer"` y aviso para lectores de pantalla. El correo muestra la dirección.
+  - **Frase de la marca (decidida por Felipe):** es "Instructor de Desarrollo Fullstack e IA." (40 caracteres); en "Teaching AI and Fullstack Development." (38).
+  - **Marca del pie:** el `Logo` con `animated={false}`: ícono y nombre, sin frases ni efecto.
+  - **Barra inferior:** "© año Felipe Cuevas". El año se imprime en el build y un script lo actualiza al del visitante. Reserva un contenedor de la altura de una línea para el enlace a la política de privacidad, que llega con E155-I01 (ADR-035); por ahora no se enlaza.
+  - **Volver arriba:** enlace `#top` con estilo de la flecha del carrusel y 44 × 44 px, fijo a 24 px del borde inferior derecho (más la zona segura). Aparece tras desplazarse una pantalla. Con movimiento reducido el desplazamiento es instantáneo; al terminar, el foco pasa al logotipo para no perderse cuando el botón se oculta. Sin JavaScript queda siempre visible.
+  - **Pie al fondo:** `BaseLayout` hace que el `<main>` ocupe el alto sobrante, así que con contenido corto el pie queda al borde inferior de la ventana.
+- **Consecuencias:** resuelve AT-008. El pie de escritorio mide unos 740 px por la lista de 11 enlaces (AT-062). E155-I01 agrega el enlace de privacidad en el contenedor reservado, sin tocar el resto.
+- **Origen:** E30-I06, 29-10-2026. **Estado:** Aceptada (validada por Felipe el 29-10-2026).
+
+## ADR-053 · Cifra de certificaciones derivada de los datos
+- **Contexto:** AT-014. El sitio antiguo mostraba cifras que no coincidían: "Nueve certificaciones" (`main:index.html:527`), la métrica "+10" (`:566`), la franja "8+" (`:680`) y 9 credenciales en el JSON-LD. El 30-10-2026 Felipe sumó 2 certificaciones, y los datos quedaron en 11.
+- **Decisión:**
+  - **Fuente única:** `src/data/certifications.ts`. Todo número de certificaciones del sitio se deriva de `certifications.length`; ninguna página lo escribe a mano. Para agregar una, basta sumar un objeto al arreglo.
+  - **Regla de la cifra:**
+    - menos de 10 → el número exacto;
+    - desde 10 → "+" y el múltiplo de 10 hacia abajo (9 → `9`, 10 → `+10`, 11 → `+10`, 19 → `+10`, 20 → `+20`).
+    - Hoy hay 11 y se muestra `+10`.
+  - **En el texto corrido** (párrafo del perfil Desarrollador) el contenido lleva el marcador `{certifications}`, que se reemplaza por el número exacto bajo 10 y por "más de 10" / "more than 10" desde 10. El "+" se reserva para las cifras de display.
+  - **Formato de cada entrada:** `id`, `name`, `issuer`, `issuedAt`, `url` y, si corresponde, `code` y `expiresAt`. Los nombres son propios y no se traducen (ADR-025). E50-I02 agrega categoría y descripción sobre el mismo arreglo.
+- **Consecuencias:**
+  - Resuelve AT-014 en el hero. Quedan por derivar de la misma fuente la cifra de la banda de Inicio (la "8+" del sitio antiguo, E40-I02) y el JSON-LD Person (E40-I03).
+  - La regla no filtra por vencimiento: cuenta todas las entradas (AT-067).
+- **Origen:** decisión de Felipe el 30-10-2026 (E40-I01). **Estado:** Aceptada.
+
+## ADR-054 · Cuarta insignia del hero: Anthropic
+- **Contexto:** ADR-009 y la lista de conservación de E40-I01 fijaban 3 certificaciones en el hero (Oracle, AWS y Python Institute). El 30-10-2026 Felipe agregó la certificación "Claude Certified Developer – Foundations" de Anthropic y entregó su insignia en `src/assets/insignias/insignia_anthropic.png` (601 × 601 px).
+- **Decisión:**
+  - **Amplía ADR-009** (que no se edita): el hero muestra 4 emisores (Oracle, AWS, Python Institute y Anthropic). La lista de conservación de E40-I01 y los criterios de E40-I01 y de la épica E40 pasan de 3 a 4. Sigue sin eliminarse ningún elemento.
+  - Las insignias viven en `src/assets/insignias/`. Las tres antiguas (400 × 400 px, hasta 163 KB) se guardan optimizadas a 160 × 160 px en PNG con paleta (7 a 16 KB). Astro las sirve en WebP a 40 px y 80 px (1 a 3 KB).
+  - **Tarjeta en 2 × 2:** `DESIGN.md` 7.4 admite 2 × 2 si una fila no cabe. En una fila de 4 la tarjeta se extendería hasta el riel social y lo taparía, así que va en 2 × 2. Bajo 640 px va estática y en una fila.
+  - Las insignias llevan carga normal, no diferida (AT-013).
+- **Consecuencias:** resuelve AT-013 en el hero. `DESIGN.md` 2.2 y 7.4 ya recogen las 4 insignias (edición de Felipe del 30-10-2026). El hero muestra la insignia del emisor, no la de cada certificación; las insignias por certificación llegan en E50-I02.
+- **Origen:** decisión de Felipe el 30-10-2026 (E40-I01). **Estado:** Aceptada.
+
+## ADR-055 · Datos estructurados y metadatos de la portada
+- **Contexto:** E40-I03 y AT-006. El sitio antiguo tenía JSON-LD Person (9 credenciales escritas a mano, `knowsLanguage` solo en español) y WebSite con `inLanguage` `es-CL`, sin `hreflang` ni metadatos por idioma. ADR-053 dejó pendiente derivar el JSON-LD de los datos de certificaciones.
+- **Decisión (de Felipe, 30-10-2026):**
+  - `knowsLanguage` declara `es-CL` y `en-US`. Sin `alternateName`: el nombre es «Felipe Cuevas».
+  - `hasCredential` se genera siempre desde `src/data/certifications.ts` (hoy 11) y coincide con la cifra del hero (ADR-053). `sameAs` y el correo salen de `social-links.ts` (LinkedIn, GitHub y REUF).
+- **Decisión (de implementación):**
+  - **Dos bloques** JSON-LD por página, Person y WebSite, como en el sitio antiguo. Los `@id` se conservan (`https://felipecuevas.dev/#felipe-cuevas` y `/#sitio`) y son iguales en `/es/` y `/en/`: es la misma entidad. `url` es la portada del idioma; `inLanguage` del WebSite es `es-CL` o `en-US`.
+  - Los idiomas se declaran con su código BCP 47 como texto (`"es-CL"`), no con objetos `Language`; así tampoco hace falta `alternateName` ahí. `availableLanguage` del `contactPoint` lleva los mismos dos.
+  - Los textos que cambian con el idioma (cargos, descripción, temas de `knowsAbout`, tipo de contacto) viven en `src/content/seo/person.json` con paridad obligatoria (`localized()`); organizaciones y credenciales son nombres propios y no se traducen (ADR-025). El emisor de cada credencial sale de un mapa con tipo exhaustivo: un emisor nuevo en los datos hace fallar `pnpm check` hasta que se agregue.
+  - **Imagen Open Graph:** una sola para los dos idiomas, con `og:image:alt` por idioma. Se optimiza a 1200 × 630 px en el build desde `src/assets/og-portada.jpg`, la imagen que aportó Felipe (30-10-2026, cierra AT-069); lleva su nombre y las insignias oficiales, sin frases traducibles.
+  - **Verificación sin red:** `pnpm verify:seo` (`scripts/verify-seo.mjs`, sin dependencias) lee `dist/` y comprueba sintaxis, estructura, `canonical`, `hreflang`, `x-default`, Open Graph, paridad entre idiomas y que `hasCredential` coincida con los datos y con la cifra impresa.
+- **Consecuencias:** resuelve AT-006 para la portada y cierra la derivación pendiente de AT-014. Cada página con datos estructurados (E50-I02, E70-I02, E130-I02) reutiliza `JsonLd.astro` y las funciones de `structured-data.ts`, y `verify:seo` se amplía por página. La Prueba de resultados enriquecidos y el validador de schema.org los corre Felipe con las URL de preview.
+- **Origen:** decisiones de Felipe el 30-10-2026 (E40-I03). **Estado:** Aceptada.
+
+## ADR-056 · Iteraciones de ajuste tras la revisión en la preview
+- **Contexto:** el 30-10-2026, con la portada publicada en la preview del Worker, Felipe revisó la navbar, el pie y la portada, y encontró defectos de implementación y cambios de diseño. Se evaluaron tres caminos: editar las iteraciones cerradas, crear iteraciones nuevas al final de cada épica o juntar todo en una épica de arreglos al final (E165).
+- **Decisión:**
+  - Los ajustes se agregan como iteraciones nuevas al final de su épica: **E30-I07** (navbar y pie) y **E40-I04** (portada). Se ejecutan en ese orden, antes de cerrar E40 y antes de E50.
+  - Las iteraciones cerradas y sus bitácoras no se editan.
+  - Los detalles que aparezcan en páginas futuras se corrigen en la épica de esa página mientras esté abierta; los transversales van a E170.
+  - No se crea una épica de arreglos.
+- **Consecuencias:** el plan pasa de 53 a 55 iteraciones y E30 vuelve a [~] hasta cerrar E30-I07. Se descarta E165 porque duplicaría a E170 y obligaría a revisar todas las páginas si la navbar o el pie cambiaran al final.
+- **Origen:** decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
+## ADR-057 · Navbar y pie tras la revisión en la preview
+- **Contexto:** E30-I07. En la preview, el ícono del logotipo se ve grueso frente al estilo fino del sitio, el cursor del logotipo no sigue al texto, "Descargar CV" aprieta la barra, el pie mide unos 740 px por sus 11 enlaces (AT-062) y la columna de redes alineada a la derecha no le gusta a Felipe.
+- **Decisión:**
+  - **Ícono del logotipo:** «terminal» de Material Symbols Light (Google, licencia Apache 2.0), `viewBox="0 0 24 24"`, con el mismo render por máscara de 32 × 32 y los mismos colores (`DESIGN.md` 3.1). Se conserva el aviso de licencia (comentario en el SVG y crédito en el `README.md` de la raíz). El favicon no cambia, porque un trazo fino se pierde a 16 px.
+  - **Cursor del logotipo:** acompaña al último carácter escrito, como el del hero. Es una corrección de implementación de `DESIGN.md` 3.3; el ritmo no cambia.
+  - **CV:** "Descargar CV" sale de la barra de escritorio y del panel móvil. Vive solo en el pie, como botón secundario bajo la frase de la marca, con atributo de descarga y nombre accesible "Descargar CV (PDF)" / "Download CV (PDF, Spanish)" (ADR-017). La URL no cambia (ADR-050).
+  - **Pie, navegación:** 6 enlaces en vez de 11: Inicio, Educación, Experiencia (a Resumen), Recursos, Contacto y Política de privacidad. El último lo agrega E155-I01 cuando exista la página; hasta entonces son 5. El enlace de privacidad deja la barra inferior y pasa a esta columna.
+  - **Pie, redes:** columna alineada a la izquierda en todos los anchos; el ícono va antes del texto.
+- **Sustituye en parte:** ADR-021 (CV en la barra), ADR-049 (ícono del logotipo; el nombre, las frases y el ritmo siguen igual) y ADR-052 (lista de 11 enlaces, redes a la derecha y contenedor de privacidad en la barra inferior).
+- **Consecuencias:** resuelve AT-062. El CV queda menos visible, solo al final de cada página: es una decisión de Felipe, tomada tras la advertencia del asesor. El quiebre de 1.280 px de la barra se mantiene y E30-I07 informa la nueva holgura. E155-I01 agrega el enlace de privacidad en la columna de navegación del pie. Felipe edita `DESIGN.md` 2.1, 3, 7.2 y 7.9 (ADR-033).
+- **Origen:** E30-I07, decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
+## ADR-058 · Hero simplificado y separadores de la banda de cifras
+- **Contexto:** E40-I04. En la preview, Felipe ve el hero recargado y la tarjeta de certificaciones tapa cerca del 50 % del retrato. En la banda, los divisores finos se confunden con la retícula del fondo.
+- **Decisión:**
+  - **Hero:** se quitan los dos llamados a la acción de cada perfil y las 3 métricas por perfil. Se conservan el rótulo, el conmutador de 3 perfiles (`perfil-hero` y `?perfil=`), el `<h1>` con máquina de escribir, el párrafo, el retrato y el riel social.
+  - **Certificaciones:** en el lugar de los botones y las métricas va el rótulo "Profesional certificado" ("Certified professional") con las 4 insignias de 40 px y su nombre (Oracle, AWS, Python y Anthropic), sin contenedor. "Python" abrevia "Python Institute"; el nombre completo sigue en el JSON-LD y en Educación. La tarjeta sobre el retrato desaparece.
+  - **Alto:** desde 1.024 px, el hero ocupa el alto visible menos la barra (76 px) y el contenido va centrado en vertical. Sigue cumpliendo la matriz de ADR-016.
+  - **Banda de cifras:** el borde superior y los divisores finos del `dl` se reemplazan por barras verticales con el degradado `gold` → `vibrant` de la regla dorada (`DESIGN.md` 7.5). El titular pasa de "Impacto medido" a "Resumen" ("Overview").
+- **Sustituye en parte:** ADR-009 y la lista de conservación de E40-I01 (llamados a la acción y métricas por perfil) y ADR-054 (las insignias dejan la tarjeta sobre el retrato).
+- **Consecuencias:** el hero ya no enlaza a Instructor, Docente ni Desarrollador, ni al CV; esas páginas se alcanzan desde el menú y el CV desde el pie (ADR-057). La cifra de certificaciones (ADR-053) sigue en la banda y en el JSON-LD. Hay que volver a medir los 48 casos de la matriz. Los textos en inglés retirados salen de la revisión de E40. Felipe edita `DESIGN.md` 5.2, 7.4, 7.8, 9 y 11.2 (ADR-033).
+- **Origen:** E40-I04, decisión de Felipe, 30-10-2026. **Estado:** Aceptada.
+
+## ADR-059 · Favicon del sitio nuevo
+- **Contexto:** AT-073. ADR-057 dejó el favicon sin cambios (`static/img/favicon.svg`, de trazo grueso), pero el sitio de la rama de migración no lo publicaba: `public/` solo traía el CV y el `<head>` no declaraba ningún ícono. Ninguna iteración planificada lo portaba, y el cutover (E190) lo habría dejado sin favicon.
+- **Decisión (de Felipe, 30-10-2026):**
+  - El favicon se resuelve en E40-I04, no en E170 ni en E190.
+  - Se copia `main:static/img/favicon.svg` a `public/static/img/favicon.svg`, con la misma URL del sitio antiguo (`/static/img/favicon.svg`), y se declara `<link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">` en el `<head>` desde `BaseLayout.astro`, así que llega a todas las páginas.
+  - No cambia el diseño del ícono: sigue siendo el de trazo grueso, distinto del logotipo (ADR-057).
+- **Consecuencias:** resuelve AT-073. `pnpm verify:seo` comprueba el `<link>` y que el archivo exista en `dist/`. Un respaldo para navegadores sin soporte de SVG queda como AT-074.
+- **Origen:** decisión de Felipe, 30-10-2026 (E40-I04). **Estado:** Aceptada.
+
+## ADR-060 · Educación: composición de la formación académica
+- **Contexto:** E50-I01. `DESIGN.md` 11.4 dejaba el patrón de la formación «por validar al iniciar E50-I01». El sitio antiguo mostraba la formación en un mosaico («bento») con filtros por categoría, un conmutador de orden (jerarquía o cronología) y tres pesos de tarjeta, todo dibujado con JavaScript.
+- **Decisión (de Felipe, 31-10-2026):**
+  - Mosaico **sin conmutador ni filtros**, con **orden fijo por peso** (`major`, `standard`, `minor`; dentro de cada peso, el más reciente primero) y **sin JavaScript**: se genera en el build y el contenido es legible sin scripts.
+  - Las distinciones (3) son **tarjetas chicas**, al final del mismo mosaico.
+  - El diploma de la Universidad de Chile se titula «Diplomado en Estrategias Metodológicas y Evaluativas para la Formación Laboral» (el sitio antiguo mostraba «Diplomado en Andragogía» en el mosaico y «Diploma en Estrategias…» en `<noscript>`).
+- **Decisión (de implementación):**
+  - Datos en `src/content/education/entries/*.json` (9), con el esquema `educationEntries` (`localized()`, paridad obligatoria, AT-026); instituciones y años son nombres propios y cifras. Los textos de la página, en `page.json`; el SEO, en `src/content/pages/education.json`.
+  - Una sola lista (`<ul>`) con 9 tarjetas bajo un `<h2>`; cada tarjeta lleva su `<h3>`. Una columna bajo 768 px y 12 columnas desde 768 px: `major` a todo el ancho; `standard` de 2 por fila (3 desde 1.024 px) y `minor` igual. Las tarjetas que sobran de una fila completa van primero y se reparten el ancho (5 estándar en 3 por fila: 6, 6, 4, 4, 4), para que ninguna fila quede coja.
+  - Reutiliza `Card` (con el tamaño nuevo `compact` para las distinciones) y `Tag`. `SectionHeader` acepta `level={1}` para el `<h1>` de la página.
+  - **Íconos por categoría**, no por entrada (universitaria, diplomado, técnica, reconocimiento): se dibujaron 4 íconos de línea propios (ADR-043) y se dejó de usar un ícono distinto por formación del sitio antiguo.
+  - Sin animación de entrada ni `data-reveal` (`DESIGN.md` 8).
+  - Fondo del encabezado `bg` y de la formación `bg-alt`, para que las tarjetas (`surface`) se distingan.
+  - La imagen Open Graph es la misma de la portada (nombre e insignias, sin frases traducibles; AT-069).
+  - `pnpm verify:seo` comprueba ahora las dos páginas de Educación: metadatos, `hreflang` recíprocos, un solo `<h1>` y `<main>`, encabezados sin saltos, 9 tarjetas, ausencia de controles y de scripts, y mismo mosaico en ambos idiomas.
+- **Consecuencias:** `DESIGN.md` 11.4 debe reflejar el patrón (bloque en la bitácora de E50-I01; Felipe lo edita, ADR-033). E50-I02 agrega las franjas de certificaciones debajo de la formación. Los textos `en-US` los valida Felipe (ADR-017). El bloque «Instructor REUF» y el cierre con CV del sitio antiguo quedan en AT-076.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I01). **Estado:** Aceptada.
+
+## ADR-061 · Educación: certificaciones por categoría, detalle en diálogo y bloque REUF
+- **Contexto:** E50-I02. ADR-036 dejó la clasificación por validar (BL-07); AT-067 pedía decidir sobre vencimientos y AT-076, sobre el bloque «Instructor REUF» y el cierre del sitio antiguo.
+- **Decisión (de Felipe, 31-10-2026):**
+  - **3 categorías**, en este orden: **Inteligencia artificial** (AWS AI Practitioner, Oracle AI Associate, Oracle AI Professional, Claude Certified Developer – Foundations y Agentic AI Certified Foundations Associate); **Cloud** (AWS Cloud Practitioner, AWS Developer Associate y Oracle OCI Associate); **Desarrollo y datos** (Python Institute PCEP, Oracle Developer Professional y Oracle Data Science Professional). Cierra BL-07.
+  - **Franjas en zigzag** (`ThemeStripe`, fondo `band` / `bg` alternado), bajo un encabezado de sección.
+  - **Detalle en `<dialog>` nativo** con `showModal()` (resto de la página inerte, foco atrapado), Escape y retorno del foco al botón. Sin JavaScript, el detalle se ve en la franja y el botón no aparece.
+  - **Sin vencimientos:** no se muestran ni se filtran; la cifra cuenta todas las entradas (cierra AT-067; ADR-053 sin cambios).
+  - **Se migran** el bloque «Instructor REUF» y el cierre «Descargar CV» / «Envíame un mensaje» (cierra AT-076). **Amplía ADR-057** solo en Educación: el CV también aparece en ese cierre; el pie no cambia.
+  - El `<h1>` se mantiene y la bajada nombra los 4 emisores.
+- **Decisión (de implementación):**
+  - `src/data/certifications.ts` sigue siendo la única lista: suma `category`, `badge`, `skills` y `description` (es/en). No se importa ninguna imagen desde ese archivo, para que `scripts/verify-seo.mjs` lo siga leyendo con Node.
+  - Insignias en `src/assets/badges/` (copia de `main:static/img/logos/`), optimizadas por Astro a 72 px (1x y 2x, WebP de 2 a 3 KB), `loading="lazy"` con `width` y `height`. Las dos sin insignia usan la del emisor (AT-077).
+  - JSON-LD: un Person con el `@id` de la portada y `hasCredential` derivado de los datos, igual en `/es/` y `/en/` e igual al de la portada.
+  - Cifra de módulos REUF tomada de `src/content/home/stats.json`.
+  - URL de Oracle sin cambios (AT-075 abierto).
+- **Consecuencias:** E50 terminada. `DESIGN.md` 11.4 debe recoger franjas, diálogo, REUF y cierre (bloque en la bitácora; Felipe lo edita, ADR-033). Textos `en-US` y descripciones de las 2 credenciales nuevas por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I02). **Estado:** Aceptada.
+
+## ADR-062 · Educación: ajustes de las franjas de certificaciones tras la preview
+- **Contexto:** E50-I03. Al revisar E50-I02 en la preview, Felipe pidió cuatro ajustes (31-10-2026). Siguiendo ADR-056, se agregan como una iteración nueva al final de la épica, que se reabrió y se cerró el mismo día; E50-I02 y su bitácora no se editan.
+- **Decisión (de Felipe, 31-10-2026), sobre ADR-061:**
+  1. **Orden en IA:** AWS AI Practitioner y Claude Certified Developer – Foundations intercambian de lugar: Claude primero y AWS AI cuarto (Claude, Oracle AI Associate, Oracle AI Professional, AWS AI Practitioner y Agentic AI Certified Foundations Associate).
+  2. **Titular de Cloud:** «Tecnología Cloud» (es) y «Cloud Technology» (en).
+  3. **Alineación de Cloud:** en esa franja, titular, rótulo y barra van a la derecha (espejo de IA, con la barra a la derecha del rótulo) desde 1.024 px; bajo esa medida, a la izquierda.
+  4. **Reclasificación:** AWS Developer Associate pasa de Cloud a Desarrollo y datos. Cloud queda con 2 (AWS Cloud Practitioner y Oracle OCI Associate) y Desarrollo y datos con 4 (AWS Developer Associate, Python Institute PCEP, Oracle Data Science Professional y Oracle Developer Professional). Siguen 11 credenciales, ninguna duplicada.
+- **Decisión (de implementación):**
+  - `src/data/certifications.ts` suma `position` (lugar dentro de la franja). El orden del arreglo no cambia: de él salen `hasCredential` y la cifra (ADR-053, ADR-055), que no deben cambiar. `category` ya no está en el JSON-LD, así que la reclasificación no lo afecta.
+  - La alineación se resuelve con dos propiedades opcionales: `align="end-lg"` en `SectionHeader` y `mirror` en `ThemeStripe`, que `CertificationsSection` activa en las franjas inversas (hoy, solo Cloud). Sin ellas, ambos componentes se ven igual que antes.
+- **Consecuencias:** modifica `DESIGN.md` 7.8 (la franja inversa alinea su encabezado a la derecha) y 11.4 (clasificación y orden); bloque en la bitácora, que Felipe edita (ADR-033). Sustituye en parte a ADR-061 en la composición de las categorías; ADR-061 no se edita. La cifra y el JSON-LD no cambian.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E50-I03). **Estado:** Aceptada.
+
+## ADR-063 · Íconos de contorno de Material Symbols Light
+- **Contexto:** E20-I06. Los íconos del sistema eran de línea propios, con trazo de 1,6 px (ADR-043). Felipe pidió reemplazarlos por Material Symbols Light (31-10-2026), como el ícono del logotipo (ADR-057). Siguiendo ADR-056, se agrega como una iteración nueva al final de E20, que se reabrió y se cerró el mismo día; E20-I03 no se edita.
+- **Decisión (de Felipe, 31-10-2026):** colección `material-symbols-light` de Iconify (Google): peso 200, tamaño óptico 24 y grado 0. Variante de contorno (`-outline`); sin sufijo el ícono es relleno y no se usa. Mismo nombre que en `main` cuando existe. Quedan fuera los SVG de tecnologías, LinkedIn, GitHub, Gmail y REUF.
+- **Decisión (de implementación):**
+  - Solo se copian los trazados a `src/components/ui/icons.ts` (`symbolIcons`, un trazado por ícono, con el ícono de origen en un comentario); el aviso de Apache 2.0 va en el encabezado del archivo y en los créditos del `README.md`. Sin dependencias ni solicitudes externas en ejecución.
+  - `Icon.astro` dibuja todos los íconos rellenos con `currentColor`; `name`, `size` y `label` no cambian. `lineIcons` pasa a `symbolIcons` y `LineIconName` a `SymbolIconName`.
+  - Nombres: se conservan los del sitio. `check` pasa a `check-circle-outline` (el `check_circle` de `main`), `chevron-down` a `expand-more` (no existe variante `-outline`) y `alert` a `error-outline`. `sun` y `moon` usan `light-mode-outline` y `dark-mode-outline`: `main` usaba `contrast` para ambos y la navbar nueva muestra uno u otro.
+  - Las estrellas de testimonios usan `star-outline` en dorado; las apagadas, con opacidad 0,35. Se retira el token `--star-stroke`.
+- **Consecuencias:** modifica `DESIGN.md` 7.14 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-043 (íconos de línea propios); ADR-043 no se edita. Con 1 px de trazo en una retícula de 24 px, un ícono de 16 px dibuja 0,67 px: los de 14 a 16 px se ven tenues, sobre todo en oscuro (detalle en la bitácora). El `terminal` del sistema viene de la versión actual de Iconify y difiere en las esquinas del `terminal-icon.svg` del logotipo, que no se toca.
+- **Origen:** decisión de Felipe el 31-10-2026 (E20-I06). **Estado:** Aceptada.
+
+## ADR-064 · Estrellas encendidas rellenas en los testimonios
+- **Contexto:** E20-I07. Con ADR-063, las estrellas de los testimonios pasaron a la variante de contorno, que a 15 px dibuja 0,63 px de trazo y se veía tenue (bitácora de E20-I06). Siguiendo ADR-056, se agrega una iteración nueva al final de E20, que se reabrió y se cerró el mismo día; E20-I06 y su bitácora no se editan.
+- **Decisión (de Felipe, 31-10-2026):** las estrellas **encendidas** de `TestimonialCard` usan la variante rellena (`material-symbols-light:star`); las **apagadas** siguen de contorno, con opacidad 0,35. Los demás íconos tenues se aceptan tal cual.
+- **Decisión (de implementación):**
+  - El trazado se copia a `icons.ts` como `star-filled` (el comentario indica el ícono de origen; el aviso de Apache 2.0 del archivo lo cubre). `star` sigue siendo el de contorno, ahora solo para las apagadas.
+  - El color sale de un token de componente nuevo, `--star-fill` (`gold-deep` en claro y `gold` en oscuro, como pide `DESIGN.md` 4.3), que reemplaza a `--color-gold` fijo en ambos temas. Las apagadas usan el mismo color con opacidad 0,35.
+  - Se mantienen 15 px, 5 estrellas y la nota «Calificación: N de 5» / «Rating: N out of 5» para lectores de pantalla.
+- **Consecuencias:** modifica `DESIGN.md` 4.3, 4.4 y 7.6 (bloque en la bitácora; lo edita Felipe, ADR-033). Aclara ADR-063 en las estrellas: ya no son todas de contorno. Contraste medido de la estrella encendida: 6,25:1 en claro (sobre `surface` blanco) y 10,97:1 en oscuro (sobre `surface` `orient-900`), iguales a los de 4.4. ADR-063 no se edita.
+- **Origen:** decisión de Felipe el 31-10-2026 (E20-I07). **Estado:** Aceptada.
+
+## ADR-065 · Experiencia: grilla de perfiles y enlaces a páginas futuras
+- **Contexto:** E60-I01. `DESIGN.md` 11.2 dejaba la «grilla simétrica de tarjetas» sin asignar, y ADR-036 pide definir y validar el patrón de cada página al inicio de su épica. Las páginas a las que enlaza el resumen (Desarrollador, Docente, Instructor y Talento Digital) las crean E70, E80, E90 y E100, después de E60. El criterio original de la iteración pedía «páginas de prueba» para que los enlaces resolvieran.
+- **Decisión (de Felipe, 31-10-2026):**
+  - **Patrón «grilla simétrica de tarjetas»:** tres tarjetas iguales con foto, rótulo, título, instituciones, texto, etiquetas y enlace; tres columnas desde 1.024 px y una bajo esa medida. Encabezado centrado.
+  - **Perfiles:** Docente Universitario, Instructor de Bootcamps y Desarrollador Full Stack. Instructor lleva dos enlaces (Instructor REUF y Talento Digital); los otros, uno. Son tres perfiles y cuatro destinos.
+  - **Enlaces a rutas futuras:** salen de `src/i18n/routes.ts` y apuntan a las páginas reales aunque den 404 hasta E70 a E100. No se crean páginas de prueba, que se habrían tenido que borrar y habrían entrado al sitemap por error.
+  - **Docente dice «más de 10 años»** en lugar de «unos 8».
+  - **Sin «Descargar CV»** en la página (ADR-057; ADR-061 lo permite solo en Educación).
+- **Decisión (de implementación):**
+  - **Excepción de `verify:seo`:** el script no tenía control de enlaces. Se agrega uno acotado al `<main>` de las dos páginas de Experiencia: cada enlace debe existir en `dist/` o estar en `PENDING_PROFILE_ROUTES`, una **lista cerrada de 8 rutas** (4 destinos × 2 idiomas) que vale solo para esa comprobación. Si una ruta de la lista ya existe en `dist/`, el control **falla** hasta que se retire: E70 retira `/desarrollador/` y `/developer/`, E80 `/docente/` y `/lecturer/`, E90 `/instructor/` (es y en) y E100 `/talento-digital/` (es y en). Cualquier otro enlace roto sigue fallando; el control global es E170-I04.
+  - **Contenido del sitio antiguo:** se conserva el periodo y la modalidad de cada perfil (2013 - Actualidad, 2011 - 2020 y 2023 - Actualidad; semipresencial, presencial y a distancia) en una línea de metadatos bajo las instituciones. Se descartan la mini línea de tiempo de tres tarjetas, que repetía los títulos y daba años distintos a los de las tarjetas detalladas (Docente 2023 frente a 2013 y Desarrollador «Actualidad» frente a 2011 - 2020), y el subtítulo «Resumen de Experiencia Laboral por Perfil», que repetía el `<h1>` y la bajada. Felipe confirma o corrige.
+  - **Nombre accesible:** los tres «Más Detalles» del sitio antiguo eran idénticos; ahora llevan «Más detalles: <perfil>». Los dos enlaces de Instructor se distinguen por su texto visible.
+  - **Datos:** `src/content/experience/page.json` con la colección `experiencePage` (paridad obligatoria, rutas por clave del mapa) y metadatos en `src/content/pages/experience.json`. Las fotos del sitio antiguo se copian a `src/assets/experience/` (Astro las sirve en WebP de 320 y 640 px, de 6 a 41 KB frente a 69 a 358 KB) y llevan `alt` en ambos idiomas; los textos `alt` en español son los del sitio antiguo. La primera foto carga con prioridad y las otras se difieren.
+- **Consecuencias:** `DESIGN.md` 11.2 y una sección 11.5 deben recoger el patrón (bloque en la bitácora; Felipe lo edita, ADR-033). Mientras E70 a E100 no existan, los cuatro enlaces dan 404 en la preview. Los textos `en-US` los valida Felipe (ADR-017).
+- **Origen:** decisiones de Felipe el 31-10-2026 (E60-I01). **Estado:** Aceptada.
+
+## ADR-066 · Experiencia: línea de tiempo restaurada y tarjeta Desarrollador vigente
+- **Contexto:** E60-I02. Al revisar Experiencia en la preview (31-10-2026), Felipe pidió recuperar la mini línea de tiempo que ADR-065 había descartado. Siguiendo ADR-056, se agrega como una iteración nueva al final de E60, que se reabrió y se cerró el mismo día; E60-I01 y su bitácora no se editan. Felipe validó el inglés de la página de Experiencia el 31-10-2026 (ADR-017).
+- **Decisión (de Felipe, 31-10-2026), que sustituye en parte a ADR-065:**
+  - **Línea de tiempo restaurada**, en el orden de `main`: Instructor Certificado · Talento Digital para Chile · 2023 - Actualidad; Docente Universitario · INACAP | Duoc UC | IPLACEX · 2013 - Actualidad; Desarrollador Full Stack · INACAP · 2011 - Actualidad.
+  - **Subtítulo h2** «Resumen de Experiencia Laboral por Perfil»: sigue descartado, porque repite el `<h1>` y la bajada.
+  - **Periodo y modalidad** de las tarjetas: se conservan.
+  - **Tarjeta Desarrollador vigente hasta hoy:** el hito 3 dice «Actualidad», así que su periodo pasa de «2011 - 2020» a «2011 - Actualidad» (en: «2011 - Present») y los verbos de su texto pasan al presente («Me desempeño…», «trabajo»; en: «I work…»), sin agregar contenido. «UTECH Inacap» del sitio antiguo se escribe «INACAP».
+- **Decisión (de implementación):**
+  - Componente `ExperienceTimeline.astro`, entre el encabezado y la grilla, sin título visible (el `<h1>` la presenta) y con nombre accesible «Hitos de mi trayectoria» / «Career milestones». Es el patrón «línea de tiempo» de `DESIGN.md` 11.2 en versión compacta: lista ordenada vertical de 36 rem de ancho, con un riel de 1 px (`border-strong`) entre los marcadores. Cada hito lleva un marcador circular de 44 px (`surface`, contorno `border-strong`, ícono `icon`), título (Cinzel), instituciones y periodo en mayúsculas. Sin JavaScript, sin animación y sin enlaces (no entra en el tabulador).
+  - **Íconos de ADR-063, sin trazados nuevos:** `certificate` (workspace-premium-outline), `graduation-cap` (school-outline) y `terminal` (terminal-outline), que Educación ya usa. Los del sitio antiguo eran SVG en línea rellenos; estos son sus equivalentes de contorno.
+  - Datos en `src/content/experience/page.json` (`timeline`), con paridad es/en y el ícono validado contra `icons.ts` en el esquema. Instituciones, como nombres propios, sin traducir (ADR-025).
+  - `pnpm verify:seo` comprueba la lista (3 hitos, íconos decorativos, periodos 2023, 2013 y 2011 hasta hoy), que la tarjeta Desarrollador sea vigente y que no quede «2020» en la página.
+- **Consecuencias:** modifica `DESIGN.md` 11.2 (la línea de tiempo pasa a estar asignada) y 11.5 (bloque en la bitácora; lo edita Felipe, ADR-033). Sustituye en parte a ADR-065 (descarte de la línea de tiempo y periodo «2011 - 2020»); ADR-065 no se edita. Los periodos viven en dos lugares de `page.json` (hitos y tarjetas): AT-081. No había otro «2020» ligado a esa tarjeta en datos, JSON-LD ni descripciones.
+- **Origen:** decisiones de Felipe el 31-10-2026 (E60-I02). **Estado:** Aceptada.
+
+## ADR-067 · Desarrollador: composición, cabecera y muro de tecnologías
+- **Contexto:** E70-I01. ADR-036 pide definir y validar el patrón de cada página al inicio de su épica. La cabecera de `main:desarrollador.html` decía «UTECH INACAP | Duoc UC», «Ene 2011 — Actualidad» y «Semipresencial», lo que contradecía el hito y la tarjeta Desarrollador de Experiencia (ADR-066: «INACAP», «2011 - Actualidad», «Modalidad presencial»).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición:** aspectos técnicos con el patrón reservado «lista de servicios a dos columnas con regla superior» (aprobado para esta página); las 36 tecnologías en una sola **banda de ancho completo**, con las 5 categorías apiladas, cada una con rótulo kicker (h3) y retícula de fichas.
+  - **Cabecera:** «Desarrollador Full Stack», institución «INACAP» (igual a Experiencia), «2011 - Actualidad» y «Modalidad presencial» (igual a la tarjeta de Experiencia). Se quita «UTECH INACAP | Duoc UC» y se deja de mostrar «Semipresencial» y el mes «Ene».
+- **Decisión (de implementación):**
+  - Colección `developerPage` (`src/content/developer/page.json`) con `localized()`; el esquema exige 4 aspectos, 5 categorías con 4/12/9/6/5 tecnologías y 36 íconos únicos. Metadatos en `src/content/pages/developer.json` (los de `main`).
+  - Los 36 SVG se copian sin cambios de `main:static/img/iconos/` a `src/assets/technologies/` y se emiten como archivos (`?no-inline`): sin `?no-inline`, Vite incrustaba 29 como data URI y el HTML subía de 51 a 108 KB. Van en `<img alt="">` (el nombre está en el texto) de 28 × 28 con carga diferida.
+  - Íconos de los aspectos de `icons.ts` (ADR-063), con los nombres de `main`: `api`, `account-tree`, `sync` y `cloud-upload`.
+  - Los roles se traducen; nombres de tecnologías e instituciones, no (ADR-025). La bajada del muro cambia el «:» final por punto.
+  - `verify:seo` retira `/es/desarrollador/` y `/en/developer/` de `PENDING_PROFILE_ROUTES` y suma controles de la página (cabecera, 4 aspectos, 36 tecnologías por categoría, logos en `dist/` y paridad).
+- **Consecuencias:** `DESIGN.md` 11.2 (la lista a dos columnas deja de estar reservada para Desarrollador) y una sección nueva de Desarrollador: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I01). **Estado:** Aceptada.
+
+## ADR-068 · Desarrollador: portafolio en mosaico, filtros y JSON-LD
+- **Contexto:** E70-I02. `main` generaba el portafolio con JavaScript (`portafolio.js`, `portafolio.datos.js`, `portafolio.config.js`): sin JavaScript la grilla quedaba vacía. ADR-036 pide validar el patrón con Felipe.
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Patrón:** «mosaico por peso» con el ritmo de `main`: 7/5, 5/7 y 6/6 en 12 columnas desde 1.024 px, repetido cada seis tarjetas; una columna bajo esa medida.
+  - **Etiquetas con el ícono de 10 px** de `main` (mismo mapa de `portafolio.config.js`; sin entrada, solo texto).
+  - **JSON-LD:** barra final solo en las URL del sitio (`@id` `…/es/desarrollador/#portfolio` y `url` de la página); las URL externas quedan como en `main`.
+- **Decisión (de implementación):**
+  - Colección `portfolioPage` (`src/content/portfolio/page.json`): 12 proyectos en el orden de `main`, con `localized()`; las tarjetas, los filtros y el ItemList salen de ahí.
+  - Las tarjetas se generan al construir: sin JavaScript se ven las 12 y el grupo de filtros queda oculto (`hidden`). `src/scripts/portfolio.ts` (850 B en línea) lo muestra; los filtros son `<button>` nativos con `aria-pressed`, ocultan con `hidden`, recalculan el ritmo sobre las visibles y anuncian «Mostrando N de 12 proyectos: …» en una región `aria-live="polite"`. Sin animaciones.
+  - El enlace del proyecto está siempre visible (en `main` solo aparecía al pasar el cursor), con «Ver repositorio» o «Ver proyecto» según el destino y el título y «se abre en una pestaña nueva» para lectores de pantalla.
+  - Imágenes: los 12 WebP de `main:static/img/portafolio/` se copian a `src/assets/portfolio/`; Astro emite 480, 800 y 1.200 px, con ancho y alto declarados y carga diferida. El ItemList usa la de 1.200 px.
+  - Íconos nuevos en `icons.ts` (ADR-063): `apps`, `web`, `layers` y `code`.
+  - Se descartan la animación AOS, el zoom de la imagen al pasar el cursor, los colores propios por categoría (la pastilla usa los valores del idioma actual, 7.2) y las cursivas `<em>` de «crimson» y «cover flow» (el contenido usa solo `**`); los textos se conservan.
+  - El ItemList suma `inLanguage` y `url`; `codeRepository` solo en los 5 repositorios de GitHub, como en `main`.
+- **Consecuencias:** `DESIGN.md` 11.2 y 11.6 (bloque en la bitácora; lo edita Felipe, ADR-033). El HTML de la página sube de 51 a 102 KB (17 KB gzip): AT-084. Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I02). **Estado:** Aceptada.
+
+## ADR-069 · Desarrollador: placa clara de los logos en oscuro y logo de OCI
+- **Contexto:** E70-I03. En tema oscuro, los logos de marca negros o muy oscuros del muro de tecnologías casi no se veían (AT-083). Los SVG no se pueden tocar (DESIGN.md 7.14). Además, en `main` OCI usa el mismo SVG que Oracle Database. Siguiendo ADR-056, se agrega como una iteración nueva al final de E70; E70-I01, E70-I02 y sus bitácoras no se editan. Felipe validó el inglés de los 12 proyectos y de los filtros el 01-11-2026 (ADR-017).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Placa en oscuro:** solo en tema oscuro, cada logo del muro va sobre una placa clara pequeña. El tema claro no cambia y los 36 SVG se mantienen idénticos a `main`.
+  - **OCI:** conserva el mismo SVG que Oracle Database, como en `main`; el nombre de la ficha los distingue.
+- **Decisión (de implementación):** variable de componente `--tech-plate-bg` en `global.css` (ADR-046): `bg` en claro (el valor anterior) y `orient-50` en oscuro. La usa la caja de 44 px del logo en `TechnologyWall.astro`. Contraste de la placa: 14,75:1 contra la ficha (`surface`, `orient-900`) y 10,64:1 contra la banda (`orient-800`). `verify:seo` comprueba el valor en cada tema y que la caja la use. Las etiquetas de 10 px del portafolio no cambian.
+- **Consecuencias:** `DESIGN.md` 9 (lista de variables de componente) y 11.6 (ficha de tecnología); bloque en la bitácora (lo edita Felipe, ADR-033). Resuelve AT-083.
+- **Origen:** decisiones de Felipe el 01-11-2026 (E70-I03). **Estado:** Aceptada.
+
+---
+
+## ADR-070 · Docente: grilla 2 × 2, zigzag por institución y cifras derivadas
+- **Contexto:** E80-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:docente.html` decía «UTECH INACAP | Duoc UC | IPLACEX», «Ene 2013 — Ene 2024» y «Presencial», en contradicción con la tarjeta y el hito Docente de Experiencia («2013 - Actualidad», «Modalidad semipresencial»). El Examen Final de Competencias figuraba en 2014 (texto de INACAP) y en 2015 (Cargos Especiales), y la tutoría decía «8 Años» frente a «+10 años» del resto del sitio.
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición (opción B):** asignaturas en **grilla simétrica de tarjetas** en variante 2 × 2 sin foto; experiencia por institución en **zigzag**, una franja por institución (IPLACEX, Duoc UC, INACAP), con la foto de INACAP en su franja; tutoría en **banda** con 3 cifras; cargos especiales en lista.
+  - **Cabecera:** «2013 - Actualidad», «Semipresencial» (como Experiencia) e «INACAP | Duoc UC | IPLACEX», sin UTECH.
+  - **EFC:** un solo hito, 2015; el texto de INACAP deja de citar el año.
+  - **Tutor de alumnos:** «más de 10 años» y «+2.000 alumnos» se derivan de `src/content/home/stats.json` (ADR-053), igual que la cifra «Docente con +10 años de experiencia».
+  - **Hero de la portada:** el perfil Docente pierde «donde ejerzo actualmente» (en: «where I currently teach») y queda con redacción neutra.
+  - **«Ver más información»:** enlace externo a LinkedIn en pestaña nueva, avisado a lectores de pantalla.
+- **Decisión (de implementación):**
+  - Colección `lecturerPage` (`src/content/lecturer/page.json`) con `localized()`; metadatos en `src/content/pages/lecturer.json` (los de `main`). El esquema exige 4 asignaturas, 3 instituciones, 3 cifras y 2 cargos.
+  - Las cifras de `stats.json` reciben un `id` obligatorio (`reuf-years`, `reuf-modules`, `teaching-years`, `students`); Docente las lee por id, no por posición.
+  - El periodo y la modalidad de la cabecera se leen del perfil `lecturer` de Experiencia: no se escriben otra vez (AT-081).
+  - El `<button>` sin acción «Docente con +10 años de Experiencia» pasa a texto destacado. La tarjeta «Instituciones» de `main` pasa a un índice `<nav>` en la cabecera con enlaces a `#iplacex`, `#duoc` e `#inacap`.
+  - Los tres «Ver más información» llevan el nombre de la institución en texto oculto, para no repetir el mismo nombre accesible.
+  - Franjas con `ThemeStripe` (h3 bajo el h2 de la sección), fondos `bg` / `band` / `bg` y la del medio en espejo. Foto de INACAP en `src/assets/lecturer/` (WebP de 480, 800 y 1.200 px, de 20 a 75 KB frente a 358 KB), con carga diferida.
+  - «UTECH INACAP» se escribe «INACAP» (como ADR-066 y ADR-067). Sin íconos nuevos: `graduation-cap`, `medal` y `certificate` de ADR-063. Sin JavaScript ni animaciones (se descarta AOS, ADR-045).
+  - `verify:seo` retira `/es/docente/` y `/en/lecturer/` de `PENDING_PROFILE_ROUTES` y suma controles de la página (metadatos, cabecera, índice, 4 asignaturas, 3 franjas con enlace externo avisado, foto, cifras 10 y 2.000, cargos 2015 y 2018, sin controles ni scripts y paridad).
+- **Consecuencias:** `DESIGN.md` 11.2 (grilla y zigzag pasan a estar disponibles para Docente; variante 2 × 2) y una sección 11.7 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E80-I01). **Estado:** Aceptada.
+
+## ADR-071 · Docente: un solo enlace a LinkedIn y textos de E80-I01 aceptados
+- **Contexto:** AT-087 (E80-I01): los tres «Ver más información» de Docente llevan a la misma página general de experiencia de LinkedIn. ADR-070 dejó por validar algunos textos de la página.
+- **Decisión (de Felipe, 01-11-2026):**
+  - Se descartan los tres enlaces por institución: Docente deja **un solo enlace general a LinkedIn**.
+  - El cambio no se hace en E90-I01: va en una iteración de ajuste al final de E80 (ADR-056), que se crea cuando Felipe la agende.
+  - Se aceptan el texto destacado «Docente con +10 años» y el índice de instituciones de la cabecera.
+- **Consecuencias:** AT-087 queda resuelto por esta decisión; la implementación queda pendiente de la iteración de ajuste de E80. ADR-070 sigue vigente salvo en el punto «Ver más información», que esta entrada sustituye.
+- **Origen:** decisión de Felipe el 01-11-2026, comunicada al inicio de E90-I01. **Estado:** Aceptada.
+
+## ADR-072 · Instructor: mosaico de cursos, línea de tiempo de planes y cifras derivadas
+- **Contexto:** E90-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. Se propusieron tres composiciones (A: mosaico + línea de tiempo; B: lista a dos columnas + zigzag; C: grilla simétrica). En `main:instructor.html`, PF1822 aparece como tarjeta destacada y como primer plan aprobado, y Educación escribía a mano «10+ Años» y «5+ Bootcamps».
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición A:** cabecera alineada a la izquierda (fondo `bg`); **banda** «Instructor Titular» con 2 cifras y la descarga del certificado; «Principales Cursos» en **mosaico por peso** (PF1822 a todo el ancho y 7 bootcamps con el ritmo 7/5, 5/7, 6/6 y el último a todo el ancho, fondo `bg`); «Últimos Planes Formativos SENCE Aprobados» en **línea de tiempo compacta** agrupada por fecha (fondo `bg-alt`).
+  - PF1822 se mantiene en ambos lugares, como en `main`.
+  - Los bootcamps de Educación se guardan en una lista aparte de `stats.json` (`facts`), que la banda de Inicio no pinta.
+- **Decisión (de implementación):**
+  - Colección `instructorPage` (`src/content/instructor/page.json`) con `localized()`; metadatos en `src/content/pages/instructor.json` (los de `main`). El esquema exige 2 cifras, 4 datos y 7 bootcamps.
+  - «+3» y «+150» se leen por id (`reuf-years`, `reuf-modules`). Nuevo `FACT_IDS = ['bootcamps']` (valor 5). El lector `getStat` pasa a `src/data/stats.ts` y lo comparten Docente, Instructor y Educación. En Educación, `{teaching-years}` y `{bootcamps}` se reemplazan por la cifra con «+» al final, como en `main`.
+  - El certificado se copia sin cambios a `public/static/` (misma URL, AT-043), con atributo de descarga, botón dorado y nombre accesible con formato; en `en-US` dice «(PDF, Spanish)» y un aviso visible «The certificate is in Spanish.» (ADR-017).
+  - Íconos nuevos copiados de `main` con su nombre (ADR-063): `code-blocks`, `storage`, `query-stats`, `cloud`, `new-releases` y `task-alt`. Python e IA usaban en `main` símbolos inexistentes (AT-088): se usan `terminal` y `api`. Las etiquetas de PF1822 van como chip de 7.7, sin el microícono de `main`.
+  - Planes: fecha como h3 y plan como h4; PF1822 con ícono `new-releases` y borde dorado. Sin JavaScript ni animaciones (se descarta AOS, ADR-045).
+  - `verify:seo` retira `/es/instructor/` y `/en/instructor/` de `PENDING_PROFILE_ROUTES` y suma controles de la página y de los destacados de Educación.
+- **Consecuencias:** `DESIGN.md` 11.2 (mosaico, banda y línea de tiempo disponibles para Instructor) y una sección 11.8 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E90-I01). **Estado:** Aceptada.
+
+## ADR-073 · Instructor: relatoría en grilla simétrica de 2 columnas
+- **Contexto:** E90-I02. En `main`, las 6 experiencias de relatoría (Skillnest, Alura Latam, OTEC Transversal, OTEC Planacap, OTEC Los Andes y OTEC DEGASA) se pintaban en el navegador con `relatoria.js`, desde `relatoria.datos.js`, con `<strong>` con clases y AOS. Se propusieron tres composiciones coherentes con ADR-072: A, grilla de 2 columnas; B, lista a dos columnas con regla superior; C, banda con línea de tiempo.
+- **Decisión (de Felipe, 01-11-2026):** **composición A.** La sección «Otros Cursos, Capacitaciones y Bootcamps impartidos» va entre «Principales Cursos» y los planes SENCE, en **grilla simétrica** de 6 tarjetas compactas (7.6), 2 columnas desde 1.024 px y una bajo esa medida, fondo `bg-alt`. Los planes SENCE pasan de `bg-alt` a `bg` para que los fondos sigan alternando (sustituye ese punto de ADR-072).
+- **Decisión (de implementación):**
+  - Datos en `src/content/instructor/page.json` (`teaching`), con claves en inglés (ADR-025), `localized()` en cargo, periodo, modalidad y texto, e institución sin traducir. El campo `start` (AAAA-MM), que no se muestra, permite que el esquema exija el orden descendente y 6 entradas con `id` únicos. El énfasis va con `**` (ADR-068).
+  - Se renderiza al construir (`TeachingGrid.astro`): sin JavaScript, sin AOS y sin estado vacío (el esquema exige 6). Cada tarjeta conserva su ancla de `main` (`#skillnest`, `#alura-latam`…).
+  - Tarjeta: caja de ícono de 44 px, institución en h3, cargo en chip (7.7), periodo · modalidad con el ícono `event` y texto.
+  - Íconos de Material Symbols Light con el mismo nombre que en `main` (ADR-063): `smart-toy`, `table-chart`, `cast-for-education` y `event` son nuevos; `code-blocks` y `apps` ya estaban. No hizo falta ningún equivalente. El ícono `hub` del h2 de `main` no se usa: los encabezados de sección del sistema no llevan ícono (7.5).
+  - Descripción de la página revisada para que coincida con lo que muestra (cierra AT-090); el título no cambia.
+  - Los nombres de cursos en español (Moodle Intermedio, Excel Básico y los de Alura Latam) se conservan en `en-US` con una glosa entre paréntesis.
+- **Consecuencias:** `DESIGN.md` 11.2 (grilla simétrica disponible para Instructor) y un punto nuevo en 11.8: bloque en la bitácora (lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisión de Felipe el 01-11-2026 (E90-I02). **Estado:** Aceptada.
+
+## ADR-074 · Talento Digital: zigzag por bootcamp, horas de fuente única y «2.000 horas» derivada
+- **Contexto:** E100-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:talento-digital.html` tiene 3 secciones: hero con foto, 6 tarjetas de bootcamps y «Logros». «2.000 horas» se escribía a mano dos veces y no estaba en `stats.json`. PF1163 (472 h) aparece también en los planes SENCE de Instructor (ADR-072). Se propusieron tres composiciones: A (grilla con portada + banda), B (zigzag por bootcamp) y C (línea de tiempo).
+- **Decisión (de Felipe, 01-11-2026):**
+  - **Composición B:** cabecera alineada a la izquierda y sin foto (rótulo «Instructor Senior», `<h1>` «Talento Digital para Chile», bajada con énfasis y 3 insignias como chips 7.7). Debajo, una **franja en zigzag** (7.8) por bootcamp, 6 en total, con espejo alterno como en Docente (ADR-070). Cada una lleva portada SVG en `<img>` con alt bilingüe, pastilla, h3, texto, etiquetas, «Logros» y «horas | años». Sin AOS ni JavaScript.
+  - **Corte:** E100-I01 = estructura, metadatos, cabecera y las 6 franjas con sus 5 SVG; E100-I02 = Logros, comparación completa con `main` y JSON-LD si corresponde.
+  - **«2.000 horas»:** nuevo fact `class-hours` (2000, `plus`) en `stats.json`, leído por id (ADR-053).
+  - **PF1163:** una sola fuente de horas, que leen Talento Digital y los planes de Instructor; `verify:seo` compara ambas páginas.
+  - **Insignia del diploma:** nombre largo, como en Educación (`DESIGN.md` 11.4).
+  - **`bootcamp-javascript-v1.svg`:** se copia sin cambios, como los demás (AT-091).
+- **Decisión (de implementación):**
+  - Colección `talentoDigitalPage` (`src/content/talento-digital/page.json`) con `localized()`; metadatos en `src/content/pages/talento-digital.json` (el loader `glob` pasa los id a minúsculas, por eso el archivo no se llama `talentoDigital.json`; `route` sigue siendo `talentoDigital`). El esquema exige el título literal «Talento Digital para Chile», el marcador `{class-hours}` en ambos idiomas, 3 insignias y 6 bootcamps con id únicos.
+  - Horas en `src/data/training-plans.ts` (`TRAINING_PLAN_HOURS`, las de los 5 planes de la página). El plan PF1163 de Instructor gana el campo `plan` y su texto usa `{hours}`; el esquema exige que `plan` y `{hours}` vayan juntos.
+  - La insignia del diploma lee su nombre de la entrada `02-diplomado-formacion-laboral` de Educación (`educationEntry`): no se escribe dos veces. A 375 px ocupa 2 renglones sin desbordar (AT-092).
+  - `FACT_IDS` pasa a `['bootcamps', 'class-hours']`. La bajada usa la cifra con separador de miles del idioma («2.000» / «2,000»), sin «+», porque el texto ya dice «más de».
+  - Las franjas usan `ThemeStripe` con una opción nueva, `labelWithLead`, que suma la bajada («Plan formativo PF1164 · Primera ejecución»…) al nombre accesible, porque hay dos titulares repetidos (Python y JavaScript). `SectionHeader` acepta `leadId`.
+  - Portadas en `public/static/img/` con la URL de `main` (AT-043), 1000 × 400 declarados y carga diferida. Íconos nuevos de Material Symbols Light (ADR-063): `verified` y `timer`; el del diploma es `graduation-cap` (`school` en `main`).
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** `DESIGN.md` 11.2 (zigzag disponible para Talento Digital) y una sección 11.9 nueva: bloque en la bitácora (lo edita Felipe, ADR-033). Contenido y código de Instructor cambian (campo `plan` y `{hours}`) sin editar documentos de E90 (ADR-056).
+- **Origen:** decisiones de Felipe el 01-11-2026 (E100-I01). **Estado:** Aceptada.
+
+## ADR-075 · `verify:seo`: se retira la lista cerrada de rutas pendientes de ADR-065
+- **Contexto:** ADR-065 creó `PENDING_PROFILE_ROUTES`, una lista de rutas de perfil aún inexistentes que el control de enlaces de Experiencia aceptaba, y un control que fallaba si una ruta de la lista ya existía. Con E100-I01 existen las 4 páginas de perfil.
+- **Decisión (de Felipe, 01-11-2026):** se eliminan `PENDING_PROFILE_ROUTES` y su verificación de rutas existentes. El control de enlaces de Experiencia queda estricto: todo enlace del `<main>` debe existir en `dist/`.
+- **Consecuencias:** sustituye en parte a ADR-065 (la excepción de `verify:seo`); ADR-065 no se edita. El control global de enlaces sigue siendo E170-I04.
+- **Origen:** decisión de Felipe el 01-11-2026 (E100-I01). **Estado:** Aceptada.
+
+## ADR-076 · Talento Digital: Logros, insignia del diploma aceptada y sin JSON-LD
+- **Contexto:** E100-I02, segunda mitad de la página (corte de ADR-074). La sección «Logros» de `main` tiene el rótulo «Alianzas Estratégicas», un párrafo, 3 logros con ícono y 3 cifras escritas a mano («2.000+ Horas de Clase», «5+ Bootcamps» y «Registro REUF · Más de 150 módulos aprobados»). AT-092 dejó abierta la insignia del diploma, que ocupa 2 renglones a 375 px. `main` no tenía JSON-LD en esta página.
+- **Decisión (de Felipe, 02-11-2026):**
+  - **AT-092:** la insignia del diploma queda con el nombre largo, en 2 renglones a 375 px.
+  - **JSON-LD:** no se agrega, porque `main` no lo tenía; se registra AT-093 para valorarlo después.
+  - **Logros**, con la composición B ya elegida (ADR-074): las 3 alianzas en **lista a dos columnas con regla superior** (`DESIGN.md` 11.2, como Desarrollador) y las 3 cifras en una **banda** (7.8) al cierre.
+- **Decisión (de implementación):**
+  - Datos en `achievements` de `src/content/talento-digital/page.json`. Las cifras se leen por id de `stats.json` (`class-hours`, `bootcamps` y `reuf-modules`, ADR-053) y el esquema exige 3 alianzas y 3 cifras.
+  - Encabezado alineado a la izquierda sobre `bg` (h2 «Logros» / «Achievements») con bajada con énfasis. Las alianzas no llevan h3: el texto de `main` es una frase corta y se muestra en Cinzel, sin inventar títulos. Íconos: `terminal` (ya estaba), y `cloud-done` y `record-voice-over`, nuevos, copiados de Material Symbols Light (ADR-063).
+  - La banda de cifras es un `dl` sin encabezado visible, con nombre accesible «Logros en cifras» / «Achievements in numbers». El signo va delante y en `--metric-sign` («+2.000», «+5», «+150»), como en el resto del sitio (4.3), no detrás como en `main` («2.000+»). «Registro REUF · Más de 150 módulos aprobados» pasa a la etiqueta «Registro REUF · Módulos aprobados» con la cifra «+150». Se descarta el ícono decorativo `award_star` de esa cifra.
+  - Ritmo de fondos: la última franja (`band`) → Logros en `bg` → banda de cifras (`band`) → pie. Sin JavaScript ni AOS (ADR-045).
+  - `verify:seo` suma controles de Logros (rótulo, h2, énfasis, 3 alianzas con ícono decorativo y en orden, cifras de `stats.json` dentro de una banda, sin JSON-LD) y los agrega a la paridad es/en.
+- **Consecuencias:** cierra E100. `DESIGN.md`: el punto 3 de 11.9 y la fila «Lista a dos columnas» de 11.2 pasan a incluir Talento Digital (bloque en la bitácora; lo edita Felipe, ADR-033). Textos `en-US` por validar (ADR-017).
+- **Origen:** decisiones de Felipe el 02-11-2026 (E100-I02). **Estado:** Aceptada.
+
+## ADR-077 · Eventos sale del sitio personal
+- **Contexto:** el 02-11-2026, al iniciar E110-I01 («Página de eventos con estado por fecha»), Felipe decide que los eventos ya no se publican en felipecuevas.dev: viven ahora en el sitio de su comunidad, Pulso Devs.
+- **Decisión (de Felipe, 02-11-2026):**
+  - La página Eventos no se migra. E110-I01 se reconvierte en «Retiro de Eventos» (ADR-056: la iteración no estaba cerrada, así que se reescribe en lugar de agregar una nueva).
+  - `/eventos`, `/eventos.html`, `/es/eventos/` y `/en/events/` responden **404**, sin redirección.
+  - Por ahora no se enlaza a Pulso Devs desde el sitio.
+  - No se agrega JSON-LD `Event`: BL-03 queda descartado y AT-038 sin objeto.
+- **Decisión (de implementación):**
+  - Se retiran la opción «Eventos» / «Events» de `nav-items.ts` (navbar de escritorio y menú móvil), la clave `events` de `src/i18n/routes.ts` y `nav.events` de `src/i18n/ui.ts`. El pie no la tenía. `verify:seo` no tenía controles de eventos. El ícono `event` se conserva: lo usa la relatoría de Instructor.
+  - El menú Comunidad queda con Foro y Recursos.
+- **Sustituye en parte a:**
+  - **ADR-008 / D-08** (y `DESIGN.md` 2.1): las opciones de menú ya no son «exactamente las mismas» del sitio actual; Comunidad pierde Eventos.
+  - **ADR-044:** la comunidad conserva foro y recursos, ya no eventos.
+  - **ADR-048:** el mapa de rutas deja de tener el par `/es/eventos/` ↔ `/en/events/`; pasa a 11 páginas navegables más privacidad.
+  - También ADR-007 (13 épicas de página) y ADR-018 (estado de eventos en el cliente) en lo que tocan a eventos. Ninguno de esos ADR se edita.
+- **Consecuencias:** el sitio pasa de 14 a 13 páginas por idioma (26 en total). E180-I01 no escribe 301 para `/eventos`: documenta el 404. AT-039 se resuelve por esta decisión. `DESIGN.md` 2.1, 7.2 (menú móvil: «Comunidad» con 2 opciones) y 7.9 se ajustan con el bloque de la bitácora `2026-11-02_E110-I01.md` (lo edita Felipe, ADR-033). Cierra E110.
+- **Origen:** decisión de Felipe el 02-11-2026 (E110-I01). **Estado:** Aceptada.
+
+## ADR-078 · Foro: composición A, Giscus diferido por idioma y aviso de transparencia
+- **Contexto:** E120-I01. ADR-036 pide definir y validar el patrón de la página al inicio de su épica. `main:foro.html` tiene cabecera, 3 pasos, 4 categorías y la conversación de Giscus (repo `ffelipecuevasc/comunidad`, categoría «Dudas por ruta», término `foro-general`) con idioma fijo `es` (AT-027), spinner giratorio, AOS y un aviso que prometía «sin rastreo de terceros».
+- **Decisión (de Felipe, 02-11-2026):**
+  - El foro se queda en este sitio, con el mismo repo de Giscus y el hilo `foro-general` en `/es/foro/` y `/en/forum/` (ADR-022). Se conservan los identificadores públicos de `main`.
+  - **Composición A**, sin patrones nuevos: cabecera alineada a la izquierda (`bg`) → banda (7.8) con 3 pasos, 3 columnas desde 1.024 px → categorías en grilla 2 × 2 sin foto (`bg-alt`) → «Conversación» con aviso, panel de Giscus y enlace a GitHub (`bg`).
+  - Paso 2: «Ocho reglas breves» (AT-094).
+  - Aviso: «La conversación se aloja en GitHub Discussions y se muestra con Giscus (código abierto, sin publicidad). Al cargarla, tu navegador se conecta a giscus.app y a GitHub.», con hueco para enlazar a la política de privacidad (ADR-035). La meta description no dice «sin rastreo de terceros».
+  - No se migran Eventos ni Discord (ADR-044, ADR-077), AOS (ADR-045) ni el spinner giratorio (`DESIGN.md` 8): el marcador de carga es estático.
+- **Decisión (de implementación):**
+  - Colección `forumPage` (`src/content/forum/page.json`) con `localized()`; metadatos en `src/content/pages/forum.json`. El esquema exige 3 pasos y 4 categorías, y que un paso con enlace use `{link}` en ambos idiomas. Identificadores de Giscus en `src/data/giscus.ts` (públicos, no secretos).
+  - `src/scripts/giscus.ts`: inyecta `client.js` con IntersectionObserver y margen de 400 px (sin él, de inmediato); retira el marcador al aparecer el iframe; `data-lang` por página; tema en vivo observando la clase `.dark` de `<html>` y enviando `setConfig` por `postMessage` (también al cargar el iframe). Temas de `main`: `light` y `transparent_dark`.
+  - Panel `surface` con alto mínimo de 520 px para no desplazar el contenido. Sin JavaScript, un `<style>` dentro de `<noscript>` oculta el panel y se muestra un bloque con enlace a las discusiones.
+  - El hueco de la política es la prop opcional `privacy` de `Conversation.astro`; E155-I01 la pasa desde las dos páginas.
+  - Íconos nuevos de Material Symbols Light (ADR-063), copiados del tarball npm de `@iconify-json/material-symbols-light` 1.2.98 sin instalarlo: `account-circle` (outline), `rule` (sin variante outline) y `forum` (outline).
+  - Sin JSON-LD, como en `main`. `verify:seo` suma controles de estructura, metadatos, Giscus, `<noscript>`, ausencia de claves privadas y paridad es/en (602 comprobaciones).
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** cierra E120 y AT-027. `DESIGN.md` 11.2 (banda y grilla simétrica disponibles para el Foro) y sección 11.9 nueva: bloque en la bitácora `2026-11-02_E120-I01.md` (lo edita Felipe, ADR-033). E170-I03: la CSP debe permitir `giscus.app` en `script-src` y `frame-src`. Con Giscus cargado, el panel crece con los comentarios: CLS medido de 0,051 a 375 px y 0,013 a 1.280 px (bajo 0,1, ADR-015).
+- **Origen:** decisiones de Felipe el 02-11-2026 (E120-I01). **Estado:** Aceptada.
+
+## ADR-079 · Recursos: bóveda mixta con una sola ruta con progreso
+- **Contexto:** al iniciar E130-I01, el 03-11-2026. En `main` la página era «solo rutas» (decisión D-07 del sitio antiguo, en `static/js/rutas.js`: las rutas reemplazaban al catálogo filtrable). Había 4 rutas (`desarrollo-web-ia`, `python`, `empleabilidad` y `java`), 33 recursos y un hilo de Giscus por ruta. El `<title>` decía «Rutas de Aprendizaje» y el `<h1>`, «Bóveda de Recursos» (AT-037).
+- **Decisión (de Felipe, 03-11-2026):**
+  - La página pasa de «solo rutas» a **bóveda mixta**: una ruta con progreso, solo `desarrollo-web-ia` (pasos 9 al 33, como en `main`: el «34» del pedido no existe), y los demás recursos agrupados por temática, sin progreso: Empleabilidad (1, 3), Python (2, 4, 5, 6, 7) y Java (8). **Sustituye a D-07** del sitio antiguo en esta página.
+  - Las rutas `python`, `empleabilidad` y `java` dejan de existir como rutas; sus recursos siguen en la bóveda. Sus hilos de Giscus (`ruta-python`, `ruta-empleabilidad` y `ruta-java`) dejan de mostrarse en el sitio y siguen en GitHub.
+  - La ruta reutiliza el Giscus de E120 con el hilo `ruta-desarrollo-web-ia`, igual en es y en (ADR-022).
+  - **Corte:** E130-I01 = página, modelo y ruta («Bóveda mixta: página, modelo y ruta Web & IA»); E130-I02 = recursos 1 al 8, archivos en `public/static/recursos`, aviso de idioma, peso visible y JSON-LD («Bóveda mixta: temáticas, descargables y JSON-LD»). La épica y las dos iteraciones se reescriben (ADR-056).
+  - Los 10 archivos locales de la ruta se copian en E130-I01 (AT-095).
+  - AT-037: título y `<h1>` «Bóveda de recursos» (`en-US`: «Resource vault»).
+  - **Artículos:** el modelo y el diseño prevén el tipo «artículo», sin páginas ni contenido. Backlog BL-09, posterior al cutover.
+- **Decisión (de implementación):**
+  - `rutas-progreso` conserva el formato `{"ruta": [ids]}`; la página lee y escribe solo `desarrollo-web-ia`, relee la clave antes de escribir y nunca borra otras claves. Un id que ya no es paso se ignora al contar y no se borra. «Reiniciar progreso» quita solo los pasos de la ruta. `?ruta=desarrollo-web-ia` lleva a la ficha de la ruta; otro valor se ignora.
+  - Colecciones `resources` (`items.json`, loader `file`, id = id de `main`) y `resourcesPage`. Formatos `pdf`, `video`, `link`, `repo`, `template` y `article`; dificultades `basic`, `intermediate` y `advanced`. Cada recurso lleva `stage` (ruta) o `theme` (bóveda), nunca ambos.
+  - Se conserva el buscador de `main` dentro de la ruta. Casillas, contadores, barra y buscador nacen `hidden` y los muestra el script: sin JavaScript la ruta se lee completa con sus enlaces.
+  - Colores de formato y dificultad solo de tokens: ícono de formato en `icon` y dificultad con 3 marcas en `accent` / `border-strong` más su nombre en texto (los colores rojo, verde y amarillo de `main` no existen en la paleta, `DESIGN.md` 4.1).
+  - La sección de Giscus del Foro pasa a ser un componente común (`GiscusSection`) con el término como prop.
+  - Íconos nuevos de Material Symbols Light (ADR-063): `pdf`, `play-circle`, `link`, `description`, `flag`, `checklist`, `schedule`, `restart`, `search` y `more-horiz`.
+  - El texto `en-US` lo redacta el agente y queda por validar por Felipe (ADR-017).
+- **Consecuencias:** cierra AT-028 y AT-037; registra AT-095 y BL-09. ADR-007 no cambia (la página sigue siendo una épica). `verify:seo` suma 95 controles (697 en total).
+- **Origen:** decisiones de Felipe el 03-11-2026 (E130-I01). **Estado:** Aceptada.
+
+## ADR-080 · Recursos: composición A (ficha en banda y línea de tiempo por etapas)
+- **Contexto:** ADR-036 pide validar la composición al inicio de la épica. Se propusieron 3, todas con patrones de `DESIGN.md` 11.2: **A**, ficha de la ruta en banda y pasos en línea de tiempo por etapas, con temáticas en grilla simétrica; **B**, zigzag con una franja por etapa y temáticas en mosaico; **C**, dos columnas con ficha pegajosa y temáticas en zigzag.
+- **Decisión (de Felipe, 03-11-2026):** **composición A.** Cabecera alineada a la izquierda (`bg`) → banda (7.8) con la ficha de la ruta (resumen, `dl` «Qué logras / Conocimientos previos / Duración estimada», progreso y «Reiniciar progreso») → «Pasos de la ruta» en **línea de tiempo compacta** (`bg`): un hito por etapa (marcador de 44 px con el número de la etapa, h3 «Etapa N» + título y contador), y sus pasos en lista ordenada con numeración de corrido, en bloques `surface` con borde izquierdo de 2 px (`border-strong`; `gold` al completar) → hilo de Giscus de la ruta (`bg`) → temáticas en **grilla simétrica de tarjetas** sobre `bg-alt` (E130-I02).
+- **Consecuencias:** `DESIGN.md` 11.2 (banda, línea de tiempo y grilla simétrica disponibles para Recursos) y una sección nueva de Recursos en 11: bloque en la bitácora `2026-11-03_E130-I01.md` (lo edita Felipe, ADR-033).
+- **Origen:** elección de Felipe el 03-11-2026 (E130-I01). **Estado:** Aceptada.
+
+## ADR-081 · Recursos: temáticas en grilla por grupo y peso como dato
+- **Contexto:** E130-I02 (ADR-036) pidió 3 composiciones para las temáticas, coherentes con la composición A (ADR-080): **1**, grilla por grupo (un h3 por temática y sus tarjetas); **2**, una sola grilla con filtro por temática (solo con JavaScript); **3**, una columna por temática con lista compacta. También había que decidir el grupo del recurso 8, que en `main` estaba en las rutas Python y Java.
+- **Decisión (de Felipe, 03-11-2026):**
+  - **Composición 1.** Sección «Más recursos» (`bg-alt`) después del hilo de la ruta, con encabezado 7.5 a la izquierda. Debajo, un h3 por temática (Cinzel 1,3 rem con el número de recursos al lado, oculto a lectores de pantalla) y sus tarjetas `surface` con contorno `border`, en grilla de 1, 2 y 3 columnas (desde 768 y 1.024 px). Cada tarjeta lleva los chips de la ruta, un h4, la descripción y el enlace. Sin progreso ni JavaScript.
+  - Grupos: Empleabilidad (1, 3), Python (2, 4, 5, 6, 7) y Java (8). **El recurso 8 va solo en Java.**
+  - El id 34 no se migra: existe solo en la copia antigua de la rama.
+- **Decisión (de implementación):**
+  - Los chips y el enlace pasan a componentes comunes (`ResourceChips` y `ResourceAction`) que usan la ruta y las temáticas.
+  - Junto a cada descarga local: tipo y peso en `text-soft` de 14 px («PDF · 6,0 MB» en es-CL, «PDF · 6.0 MB» en en-US, base 1.024) y, en /en/, «In Spanish» (AT-034). Lo mismo vale para los 10 pasos locales de la ruta.
+  - El peso se guarda como dato (`bytes` en `items.json`, obligatorio para `/static/` y prohibido para lo externo), porque el proyecto no tiene tipos de Node para leer el archivo al compilar y no se agregan dependencias. `verify:seo` compara cada `data-bytes` con el archivo en `dist/`.
+  - Los 5 archivos de los recursos 1 al 8 se copian desde `main` con la misma URL, idénticos en bytes (AT-043).
+  - Temáticas en `page.json` (`themes.groups`, en orden); el build falla si un recurso apunta a una temática inexistente o si una queda vacía.
+- **Consecuencias:** cierra AT-034 (para Recursos) y la parte de recursos de AT-043; registra AT-096 y AT-097. `DESIGN.md` 11.2 y la sección de Recursos, con el bloque de la bitácora `2026-11-03_E130-I02.md` (lo aplica Felipe, ADR-033).
+- **Origen:** elección de Felipe el 03-11-2026 (E130-I02). **Estado:** Aceptada.
+
+## ADR-082 · Recursos: JSON-LD `Course` solo para la ruta
+- **Contexto:** `main:recursos.html` tenía un `ItemList` de 3 `Course`, uno por ruta (python, empleabilidad y java, con `CourseInstance` en línea de 8 horas). No incluía `desarrollo-web-ia`. ADR-079 retiró esas 3 rutas. La iteración pedía evaluar `Course` solo para la ruta, `ItemList` u omitirlo (ver AT-093).
+- **Decisión (del agente, dentro del alcance de E130-I02):**
+  - Un solo bloque `Course` para la ruta `desarrollo-web-ia`, con `@id` `<canonical>#ruta-desarrollo-web-ia`, `url` con `?ruta=desarrollo-web-ia`, `name` y `description` en el idioma de la página, `teaches` y `coursePrerequisites` desde la ficha, `inLanguage: "es"` en ambas versiones (los materiales están en español), `isAccessibleForFree`, `provider` e `instructor` como el `Person` de la portada por `@id`, y `CourseInstance` en línea con `courseWorkload` `PT8H`.
+  - Sin `ItemList`: con una sola ruta no aporta, y las temáticas son materiales sueltos, no un curso.
+  - Se usa `coursePrerequisites` (la propiedad de schema.org); `main` escribía `coursePrerequisite`, que no existe.
+- **Consecuencias:** `verify:seo` valida la estructura del bloque (743 controles en total). El validador de schema.org y la prueba de resultados enriquecidos de Google los pasa Felipe.
+- **Origen:** E130-I02, 03-11-2026. **Estado:** Aceptada.
+
+## ADR-083 · Contacto: composición A, constante de la política y carga diferida de terceros
+- **Contexto:** E140-I01. ADR-036 pide validar la composición al inicio de la épica; ADR-035 dejaba la constante de versión de la política en E140-I02, pero el formulario de I01 ya debe enviarla. Se propusieron 3 composiciones con patrones de `DESIGN.md` 11.2: **A**, banda con los canales y formulario + Calendly en dos columnas; **B**, ficha pegajosa con los canales y Calendly en banda aparte; **C**, línea de tiempo de tres pasos.
+- **Decisión (de Felipe, 03-11-2026):**
+  1. **Composición A.** Cabecera alineada a la izquierda (`bg`) → banda (7.8) «Canales directos» / «Canales de contacto» con los canales de `main` → sección `bg-alt` con el formulario en 7 columnas (panel `surface` con la ficha de ubicación y tiempo de respuesta) y Calendly en 5 desde 1.024 px; una columna bajo esa medida.
+  2. **Constante única de versión de la política** en `src/data/privacy-policy.ts` (`PRIVACY_POLICY_VERSION`, formato AAAA-MM-DD, hoy `2026-11-03`). La define E140-I01; E140-I02 y E155-I01 la importan. Sustituye en ese punto a ADR-035 (que la asignaba a E140-I02); ADR-035 no se edita.
+  3. El formulario envía por POST JSON a `/api/contacto` (E140-I02) los campos de `main` más `consentimiento`, `versionPolitica` e `idioma`. Si falla, el error se anuncia en una región `role="status"` asociada al botón con `aria-describedby`, y el botón sigue activo.
+  4. ADR-035 se aplica tal cual: checkbox obligatorio, botón siempre activo (nunca `disabled`), error bajo cada campo con ícono y `aria-describedby`, y foco en el primer error.
+  5. El checkbox enlaza a `/es/privacidad/` y `/en/privacy/`, que publica E155-I01. `verify:seo` los acepta como **excepción temporal** (`PENDING_ROUTES`) que E155-I01 debe retirar.
+  6. **Calendly se carga al hacer clic** en «Cargar el calendario», con aviso de servicio externo y enlace directo siempre visible (cierra la parte de Calendly de AT-024).
+  7. **Turnstile se carga al primer foco** en el formulario (o al enviar). Sin JavaScript el formulario se ve, el navegador valida y un aviso ofrece el correo y LinkedIn; no se deshabilitan campos como en `main`.
+  8. AT-097 se valora en E170. La migración a Node 26 (BL-02) se hace en **E190-I01**.
+- **Decisión (del agente, dentro del alcance):** Discord no está entre los canales (ADR-044): son 4 (correo, LinkedIn, GitHub y REUF). Las preguntas de la ronda de composición mostraban 5 por error; se corrigió antes del cierre. Los textos del formulario viven en el diccionario (`contactForm` en `src/i18n/ui.ts`); el resto, en `src/content/contact/page.json`. Sin dependencias nuevas.
+- **Consecuencias:** `DESIGN.md` 11.2 (banda disponible para Contacto) y una sección nueva 11.12 Contacto: bloque en la bitácora `2026-11-03_E140-I01.md` (lo edita Felipe, ADR-033). E140-I02 importa la constante en vez de definirla. `verify:seo` suma los controles de Contacto (829 en total). Inglés por validar por Felipe (ADR-017).
+- **Origen:** elección de Felipe el 03-11-2026 (E140-I01). **Estado:** Aceptada.
+
+## ADR-084 · Función de contacto: Worker propio solo para /api/*
+- **Contexto:** E140-I02 y AT-029. La función de `main` (`functions/api/contacto.js`) usa el formato de Pages Functions; ADR-037 dejó el Worker `felipecuevas-dev` solo con assets y sin `main`. El formulario de E140-I01 envía JSON a `/api/contacto` con el contrato de ADR-083.
+- **Decisión (de Felipe, 06-11-2026):**
+  1. **Worker propio solo para `/api/*`:** un archivo de entrada, `src/worker/index.ts`, que atiende `/api/contacto` y responde 404 JSON al resto de `/api/*`. `assets.run_worker_first` se limita a `["/api/*"]`: todo lo demás lo sirven los assets estáticos sin pasar por el Worker. No se usa la carpeta `functions/`. Felipe aplica a mano el bloque de `wrangler.jsonc` (`main` y `assets`) que está en la bitácora `2026-11-06_E140-I02.md` (ADR-033).
+  2. No se instala `wrangler`: ya es devDependency desde E10-I09 (4.153.0), así que no hizo falta un ADR de dependencia.
+  3. Tras un envío correcto el cliente redirige a la ruta `thankYou` del mapa (`/es/agradecimiento/`, `/en/thank-you/`). Hasta E150-I01 esa ruta da 404 y se acepta (AT-099). No se crea ni se adelanta la página.
+- **Decisión (del agente, dentro del alcance):**
+  - `src/worker/contact.ts` valida en el servidor: solo POST (405 con `Allow`), mismo origen si llega `Origin` (403), `Content-Type: application/json` (415), cuerpo de hasta 16 KB (413), campos de texto obligatorios con los topes del formulario (nombre 120, correo 254, asunto 150, mensaje 5.000), correo con el mismo patrón del cliente, `consentimiento === true` y `versionPolitica === PRIVACY_POLICY_VERSION` (importada de `src/data/privacy-policy.ts`, sin redefinirla). Errores en el idioma de `idioma` (o del `Referer`), con `{ ok: false, error }`.
+  - Turnstile se verifica con `siteverify` antes de entregar (403 si falla). El correo sale por la misma API de correo de Cloudflare y el mismo remitente de `main` (el proveedor no cambia) e incluye la evidencia del consentimiento: versión de la política y fecha y hora en `America/Santiago` y en UTC. Asunto y nombre sin saltos de línea (evita inyección de cabeceras).
+  - Registros solo con códigos (`rejected_consent`, `turnstile_rejected`, `email_rejected status=…`, `config_missing <nombres>`), sin datos personales. Respuestas con `Cache-Control: no-store` y `X-Content-Type-Options: nosniff`.
+  - Secretos que Felipe configura en el panel, sin valores en el repositorio: `CF_ACCOUNT_ID`, `CF_EMAIL_TOKEN`, `TURNSTILE_SECRET_KEY` y `CONTACTO_DESTINO`. Si falta alguno, responde 500 con el error de entrega.
+  - El Worker vive en `src/worker/` para que `astro check` y ESLint lo revisen; Astro no lo compila (no está en `src/pages/`) y Wrangler lo empaqueta en el despliegue. `.wrangler/` se agrega a `.gitignore`.
+- **Consecuencias:** resuelve AT-029. Completa ADR-037 (que dejaba el Worker sin `main`); ADR-037 no se edita. `verify:seo` suma 12 controles (841 en total). La prueba de envío real en la preview la hace Felipe tras aplicar el bloque de `wrangler.jsonc`, cargar los secretos y autorizar el hostname de workers.dev en Turnstile (AT-100). La CSP de E170-I03 debe permitir `challenges.cloudflare.com` y `calendly.com`.
+- **Origen:** decisión de Felipe el 06-11-2026 (E140-I02). **Estado:** Aceptada.
+
+## ADR-085 · El Worker devuelve a los assets todo lo que no es /api/*
+- **Contexto:** E140-I03 y AT-102. ADR-084 supuso que, con `run_worker_first: ["/api/*"]`, el Worker solo recibiría `/api/*`. En la preview, Cloudflare también le entrega toda URL que no existe en `dist/`, y el Worker respondía 404 JSON en lugar de la página 404 del sitio.
+- **Decisión:** se agrega `"binding": "ASSETS"` en `assets` de `wrangler.jsonc` (lo aplica Felipe, ADR-033). `src/worker/index.ts` atiende `/api/contacto`, responde 404 JSON solo en `/api` y `/api/*`, y para todo lo demás devuelve `env.ASSETS.fetch(request)`, con lo que vuelve a aplicar `not_found_handling: "404-page"`. Tipos propios (`AssetsBinding`, `WorkerEnv`), sin `@cloudflare/workers-types`.
+- **Consecuencias:** complementa ADR-084 (no lo edita): sigue sin usarse `functions/` y los assets existentes se sirven sin pasar por el Worker. `verify:seo` ejecuta el Worker con `ASSETS` simulado (5 controles, 846 en total). Sin el binding, las rutas inexistentes darían 500: código y bloque se aplican juntos. Resuelve AT-102.
+- **Origen:** prueba de Felipe en la preview y prompt de E140-I03, 06-11-2026. **Estado:** Aceptada.
+
+## ADR-086 · Agradecimiento: composición B «Confirmación centrada» y ruta interna
+- **Contexto:** E150-I01 y AT-099. ADR-036 pide validar la composición de cada página al inicio de su épica. La página confirma el envío del formulario de Contacto (ADR-083) y debe ser `noindex, follow` y quedar fuera del sitemap.
+- **Decisión (de Felipe, 06-11-2026):** composición **B «Confirmación centrada»**: encabezado centrado de `DESIGN.md` 7.5 con el rótulo «Contacto» (`en-US`: «Contact»), ícono de sobre de contorno (`mail`, 7.14, color `icon`, decorativo), `<h1>`, texto, botón primario «Volver al inicio» y botón secundario «Enviar otro mensaje» (a Contacto), todo centrado sobre `bg`, sin tarjeta, sin animación de entrada y sin colores nuevos. Se conserva el texto actual (respuesta en 24-48 horas); no se replican el verde ni `icon-animate` del sitio antiguo. El `en-US` lo redacta el agente y Felipe lo valida (ADR-017).
+- **Decisión (del agente, dentro del alcance):**
+  1. **`noindex, follow`:** `Seo` y `BaseLayout` suman la opción `follow`; con `noindex` sola sigue saliendo `noindex, nofollow` (la muestra de diseño no cambia).
+  2. **Fuera del sitemap:** `thankYou` pasa de `routes` a `internalRoutes` de `src/i18n/routes.ts`, que es el mecanismo existente para páginas «noindex, fuera del sitemap y de la navegación». Aún no hay sitemap en el proyecto (lo genera E180-I02) y no se agrega ninguna dependencia. `getRoute`, `routePaths` y `getEquivalentPath` siguen resolviéndola, así que la redirección del formulario y el selector de idioma no cambian. E180-I02 arma el sitemap solo con `routes`: 11 rutas × 2 = 22 URL.
+  3. **Rutas con barra final** (`/es/agradecimiento/`, `/en/thank-you/`), idénticas a `data-thank-you` del formulario, que no se tocó.
+  4. **`SectionHeader`** suma el slot opcional `after-kicker` para poner el ícono entre el rótulo y el `<h1>`, sin cambiar sus usos actuales.
+  5. **Textos y metadatos en el diccionario** (`thankYou` en `src/i18n/ui.ts`), no en la colección `pages`, cuyo esquema exige una clave de `routes`. Sin JSON-LD, sin AOS y sin JavaScript. Imagen Open Graph de la portada, con su texto alternativo por idioma.
+  6. Título en minúsculas de oración («¡Mensaje enviado!»), como el resto del sitio; ícono de 56 px, el tamaño del sitio antiguo.
+- **Consecuencias:** `DESIGN.md` suma el patrón «Confirmación centrada» (11.2), la nota del slot en 7.5 y la sección 11.13: el bloque está en la bitácora `2026-11-07_E150-I01.md` y lo aplica Felipe (ADR-033). Cierra AT-099 y AT-030 en su parte de agradecimiento; registra AT-103 (`noindex` frente al `Disallow` de `robots.txt`, para E180-I02). Inglés por validar por Felipe.
+- **Origen:** elección de Felipe el 06-11-2026 y prompt de E150-I01. **Estado:** Aceptada.
+
+## ADR-087 · Privacidad: composición A «Documento con índice», indexable y texto solo con hechos
+- **Contexto:** E155-I01, ADR-035 y AT-047. ADR-036 pide validar la composición al inicio de la épica y `DESIGN.md` no fijaba ninguna para esta página. Se propusieron tres con piezas existentes: **A**, documento con índice lateral; **B**, resumen en banda y tarjetas por tratamiento; **C**, texto continuo de una columna. Ni la iteración ni el sitio actual traen texto de política.
+- **Decisión (de Felipe, 07-11-2026):**
+  1. **Composición A «Documento con índice»:** cabecera alineada a la izquierda (7.5) con la ficha de versión y vigencia; debajo, índice de anclas y secciones con h2. Desde 1.024 px el índice va a la izquierda, pegajoso bajo la barra; bajo esa medida va arriba.
+  2. **Indexable y en el sitemap:** sin `noindex`, `privacy` queda en `routes` (11 rutas × 2 = 22 URL para E180-I02).
+  3. **Texto solo con hechos del sitio:** describe únicamente lo que el código hace; sin plazos de conservación, base legal, domicilio ni lista de derechos, que agrega el especialista (BL-08, AT-105). La página declara que es informativa y no asesoría legal.
+  4. **Versión:** `PRIVACY_POLICY_VERSION` sube a la fecha del texto, `2026-11-07`; la página muestra «Versión» y «Vigente desde» con ese valor. El formulario y el Worker la importan de la misma constante, así que no hay valores desfasados.
+- **Decisión (del agente, dentro del alcance):**
+  - Reparto de la retícula: índice en 4 columnas y texto en 8 (en la propuesta se mostró 5 y 7; 4 y 8 deja el texto en 62 caracteres sin desperdiciar ancho).
+  - 8 secciones, en este orden: responsable, datos que recibe el sitio (incluye el alojamiento en Cloudflare), formulario, Turnstile, Calendly, Giscus y GitHub, almacenamiento local y versión y cambios. Cada tercero enlaza a su propia política; los enlaces externos abren en pestaña nueva con aviso.
+  - El texto vive en `src/content/privacy/page.json` (colección `privacyPage` con paridad y `id` únicos); los metadatos, en `src/content/pages/privacy.json`. La versión no se escribe en ningún archivo de contenido: `verify:seo` lo comprueba.
+  - **Enlace a la política:** sexto enlace de `footer-links.ts` (todas las páginas, y la 404 de E160 lo hereda) y enlace por defecto en el aviso de `GiscusSection`, que sirve al Foro y a la ruta de Recursos (el hueco de ADR-078 se llena en el componente común y no por página). La navbar no cambia.
+  - `PENDING_ROUTES` de `verify:seo` queda vacía (cumple ADR-083) y se suman controles de la política, del pie y de los avisos.
+- **Consecuencias:** complementa ADR-035 y ADR-083 sin editarlos. `DESIGN.md` suma 11.2, 7.9 (sin cambios: ya decía 6 enlaces) y la sección 11.14: el bloque está en la bitácora `2026-11-07_E155-I01.md` y lo aplica Felipe (ADR-033). Cierra AT-047 en lo técnico; registra AT-104 y AT-105. E180-I02 debe incluir las dos rutas en el sitemap. Inglés por validar por Felipe (ADR-017).
+- **Origen:** elección de Felipe el 07-11-2026 (E155-I01). **Estado:** Aceptada.
+
+## ADR-088 · 404: composición A «Confirmación centrada», ruta interna y componente compartido
+- **Contexto:** E160-I01, AT-003 y AT-004. ADR-036 pide validar la composición al inicio de la épica. Se propusieron tres sobre la base de ADR-086: **A**, confirmación centrada con ícono; **B**, cifra «404» tipográfica; **C**, centrada más destinos frecuentes.
+- **Decisión (de Felipe, 11-11-2026):** composición **A «Confirmación centrada»** (la misma pieza de Agradecimiento): rótulo «Error 404» (`en-US`: «Error 404») entre reglas doradas, ícono `search` de 56 px en `icon`, `<h1>` «Página no encontrada» («Page not found»), texto de `main:404.html` y dos botones: primario «Volver al inicio» («Back to home») y secundario «Contactar» («Contact»). Sin animación de entrada, sin colores nuevos y sin JavaScript propio.
+- **Decisión (de Felipe, 09-11-2026):** el botón de idioma lleva a la 404 del otro idioma (`/es/404/` ↔ `/en/404/`); la 404 es `noindex, follow` y va fuera del sitemap (ruta interna); title, description, canonical, hreflang y OG propios en ambos idiomas.
+- **Decisión (del agente, dentro del alcance):**
+  1. `notFound: { es: '/es/404/', en: '/en/404/' }` va en `internalRoutes` (mismo mecanismo que ADR-086). `routeKeyFromPath('/404/')` devuelve `notFound`, de modo que el selector de idioma de la 404 de la raíz lleva a `/en/404/` y no a la portada.
+  2. La 404 de la raíz (`src/pages/404.astro`) es la misma página en español; su `canonical` apunta a `/es/404/`.
+  3. La composición pasa a un componente común, `CenteredMessage` (`src/components/ui/`), que usan Agradecimiento (`ThankYou`) y la 404 (`NotFound`). Se comprobó que las medidas de Agradecimiento no cambian.
+  4. Textos y metadatos en el diccionario (`notFound`); los de `es-CL` salen de `main:404.html`. Todos los enlaces son rutas absolutas del mapa (AT-004); el logotipo es el componente `Logo` del layout (AT-003).
+- **Consecuencias:** `DESIGN.md` suma 11.15 y la fila «Confirmación centrada» de 11.2 (bloque en la bitácora `2026-11-11_E160-I01.md`, lo aplica Felipe, ADR-033). Cierra AT-003 y AT-004; registra AT-106. Inglés por validar por Felipe (ADR-017).
+- **Origen:** elecciones de Felipe del 09-11-2026 y del 11-11-2026 (E160-I01). **Estado:** Aceptada.
+
+## ADR-089 · 404 de idioma: archivo `404.html` mediante un script posterior al build
+- **Contexto:** E160-I01. La iteración dice «según la plataforma de ADR D-14»: D-14 es la decisión de plataforma y quedó resuelta por **ADR-037** (Cloudflare Workers con assets estáticos; P-01 sustituida), con `not_found_handling: "404-page"` ya en `wrangler.jsonc`. No hay contradicción: solo era una mención desactualizada y no se necesita cambio de plataforma. Según la documentación de Cloudflare (página de generación de sitios estáticos, 25-08-2026), `404-page` sirve «the nearest `404.html`» con estado 404 y solo se documenta ese nombre. La prueba del build en una copia aparte mostró que Astro 7.4.2 genera `dist/404.html` para `src/pages/404.astro`, pero `dist/es/404/index.html` y `dist/en/404/index.html` para las de idioma.
+- **Decisión (de Felipe, 11-11-2026):** un **script posterior al build**, `scripts/place-404.mjs`, mueve `dist/es/404/index.html` a `dist/es/404.html` y lo mismo en `en`, y se ejecuta desde el script `build` de `package.json` (`astro build && node scripts/place-404.mjs`). No se cambia `build.format` ni la configuración de Astro, no se agregan dependencias y no se toca `wrangler.jsonc`.
+- **Decisión (de Felipe, 09-11-2026):** `/es/404/` y `/en/404/` pueden responder 200 si se piden directo; se acepta y se documenta (AT-107).
+- **Decisión (del agente, dentro del alcance):** el script falla (código 1) si falta `dist/404.html` o alguna de las dos fuentes, y borra la carpeta solo si queda vacía. `verify:seo` comprueba que existan los tres `404.html`, que no queden las carpetas y que el script `build` lo ejecute. Rutas descartadas: `404.html.astro` (genera una carpeta `404.html/`), un endpoint `404.html.ts` con la API Container (genera el archivo, pero sin la hoja de estilos global enlazada, lo que repetiría AT-004), `build.format: 'file'` (global) y un hook en `astro.config.mjs`.
+- **Consecuencias:** complementa ADR-037, ADR-084 y ADR-085 sin editarlos: con el binding `ASSETS`, el Worker devuelve la 404 más cercana a toda ruta que no sea `/api/*`, y según la documentación las navegaciones del navegador ni siquiera invocan al Worker con `compatibility_date` ≥ 2025-04-01 (hoy `2026-10-23`). La ruta `/x` cae en la 404 de la raíz (español) y `/es/x/y/z` en la de `/es/`. Registra AT-107 y AT-108. **No verificado:** el comportamiento real en Cloudflare (la búsqueda del «más cercano» es deducción del diagrama de la documentación); lo prueba Felipe en workers.dev.
+- **Origen:** decisiones de Felipe del 09-11-2026 y del 11-11-2026 (E160-I01). **Estado:** Aceptada.
+
+## ADR-090 · E170: reparto de la épica, E170-I05 «Limpieza técnica», orden de ejecución y herramientas de medición
+- **Contexto:** E170-I01 (11-11-2026). El archivo de la iteración mezclaba la auditoría de accesibilidad con cuatro limpiezas técnicas (AT-079, AT-080, AT-081 y AT-089) que no son accesibilidad, y su alcance hablaba de «26 páginas (13 × 2)», cifra que no coincide con el sitio actual (Eventos salió por ADR-077). ADR-056 manda que los ajustes transversales vayan a E170 y que las iteraciones se agreguen al final de su épica sin renumerar.
+- **Decisión (de Felipe, 11-11-2026):**
+  1. **E170-I01 queda solo con accesibilidad:** AT-060, AT-065, AT-082, AT-086, AT-098 (valorar), AT-056, la legibilidad de Josefin Sans 300 (ADR-041) y la verificación de AT-054.
+  2. **Se crea E170-I05 «Limpieza técnica»** (P1, S) con AT-079, AT-080, AT-081 y AT-089. El plan pasa de 63 a 64 iteraciones.
+  3. **Orden de ejecución de la épica: I01, I05, I02, I03, I04.** Los IDs no se renumeran; I05 se ejecuta segunda.
+  4. **Superficie medida: 26 URL** (22 indexables, Agradecimiento ×2 y `/es/404` y `/en/404` sin barra final, AT-109), en móvil y escritorio.
+  5. **Medición automática con `scripts/psi.mjs`:** sin dependencias, con `fetch` nativo y la API de PageSpeed Insights (categoría accesibilidad). La clave se lee solo de `process.env.PSI_API_KEY`: no se pide, no se imprime y no se escribe en archivos; si falta, el script se detiene. PSI mide el tema claro (el de un visitante sin preferencia guardada).
+  6. **Herramienta de reglas (aprobada por Felipe el 12-11-2026):** `pa11y@10.0.0` con `--runner axe` (axe-core 4.13), ejecutada con `pnpm dlx` y versión fija, sin tocar `package.json` y sin ADR de dependencia, porque no es una dependencia del proyecto (ADR-026). Versión verificada en el registro de npm con `pnpm view` el 11-11-2026 (publicada el 09-10-2026; Node `^22.13 || >=24`). Se usa el Chrome local del equipo de Felipe (`PUPPETEER_SKIP_DOWNLOAD=1` y `PUPPETEER_EXECUTABLE_PATH`), de modo que no se descarga Chromium; si falla con Chrome o Puppeteer, se consulta antes de descargar uno. Se aplica a las 22 URL indexables en tema claro y oscuro y, además, a Educación con el diálogo abierto y a Contacto con los errores del formulario visibles. Los scripts de la corrida viven en el scratchpad de la sesión, no en el proyecto.
+  7. **Tema oscuro en la herramienta:** se fuerza con el propio botón de apariencia sobre un perfil temporal de Chrome (guarda `theme` en `localStorage`), porque el flag `--blink-settings=preferredColorScheme` no activó `.dark`. Así el tema carga oscuro antes de pintar y no hay transiciones de color que ensucien la medición.
+  8. **AT-065 (decisión de Felipe, 12-11-2026):** el cursor del titular del hero no se dibuja bajo 640 px; en escritorio no cambia nada y no hay CLS. El ajuste de `DESIGN.md` 7.4 va como bloque en la bitácora (ADR-033).
+  9. **AT-056 (decisión de Felipe, 12-11-2026):** la muestra de tokens se retira en E190-I03 y no se corrige su destello; ver ADR-091.
+  10. **AT-098 (decisión de Felipe, 12-11-2026):** cerrado sin token de error. En el recorrido con NVDA distingue con claridad el campo con error del campo con foco, y la prueba automática da 0 violaciones.
+  11. **Josefin Sans 300 (decisión de Felipe, 12-11-2026): opción A.** Se mantiene el peso (ADR-041 sin cambio) y la combinación 300, 16 px o menos y `text-soft` queda prohibida hacia adelante (`DESIGN.md` 5.3, ya aplicado). La verificación posterior halló un solo caso vivo, la frase del pie (AT-115), que Felipe decidió corregir pasándola a `text-muted`; confirmado en la preview el 12-11-2026.
+- **Consecuencias:** complementa ADR-056 sin editarlo. Actualiza epica.md, el README de `_planificacion/` y `registro-log.md`. Los AT-079, AT-080, AT-081 y AT-089 pasan a «Resuelve: E170-I05» (también en `auditoria-tecnica.md`). La re-medición con PSI y la repetición de pa11y se hacen sobre la preview publicada con el push de Felipe (`89b637f`), porque la preview solo refleja lo publicado; la primera pasada de pa11y se corrió sobre el build local (`pnpm preview`). Los AT de esta iteración son AT-110 a AT-115. **E170-I01 se cerró el 12-11-2026 con pa11y + axe sobre la preview (versión `d0539e7d`, commit `3bd3e13`): 56 corridas, 0 violaciones.** ADR-090 y ADR-091 quedan completos y Aceptados, sin pendientes.
+  12. **Verificación de enlaces y paridad (decisión de Felipe, 13-11-2026, E170-I04):** scripts propios sin dependencias y sin linkinator: `scripts/verify-links.mjs` (`pnpm verify`) y `scripts/check-i18n.mjs` (`pnpm check:i18n`), sobre `dist/`. No agrega dependencia, así que no necesita ADR nuevo (ADR-026). Los enlaces externos no se consultan por red (AT-124).
+- **Origen:** prompt de E170-I01 reescrita (11-11-2026) y decisiones de Felipe del 12-11-2026 y del 13-11-2026. **Estado:** Aceptada.
+
+## ADR-091 · La muestra de tokens se retira en E190-I03 y queda fuera de las auditorías de E170
+- **Contexto:** E170-I01, AT-056. ADR-042 creó una muestra interna de tokens en `/es/muestra-diseno/` y `/en/design-sample/` (`noindex, nofollow`) y encargó a E180-I02 excluirla del sitemap. Su script quita `.dark` de `<html>` después del primer pintado y puede destellar en oscuro (AT-056). Arreglarlo en línea sumaría otro script al CSP de E170-I03.
+- **Decisión (de Felipe, 12-11-2026):**
+  1. La muestra **se retira del sitio en E190-I03** (antes del cutover): páginas `src/pages/es/muestra-diseno.astro` y `src/pages/en/design-sample.astro`, su componente y la ruta interna en `src/i18n/routes.ts`, con sus controles de `verify:seo` si los hubiera.
+  2. **No se corrige el destello** de AT-056.
+  3. Mientras exista, la muestra **queda excluida de las auditorías de E170** (accesibilidad, rendimiento, cabeceras y enlaces) y, como ya decía ADR-042, fuera del sitemap (E180-I02).
+- **Decisión (del agente, dentro del alcance):** anotar el retiro en `E190-I03` y la exclusión en `E180-I02`, y registrar la decisión en AT-056 (Aceptado, resuelve E190-I03). La muestra no se tocó en E170-I01 y E170-I01 no la midió.
+- **Consecuencias:** sustituye en parte a ADR-042 (la muestra deja de ser una herramienta permanente); ADR-042 no se edita más que su estado. Los tokens siguen verificados por la tabla de `DESIGN.md` 4.4 (AT-055). E190-I03 debe comprobar que ninguna ruta o enlace depende de la muestra al retirarla.
+- **Origen:** decisión de Felipe el 12-11-2026 (E170-I01). **Estado:** Aceptada.
+
+## ADR-092 · Política de seguridad de contenido (CSP) estricta con hashes y cabeceras de seguridad
+- **Contexto:** E170-I03, AT-023 y AT-024. El sitio no publicaba cabeceras de seguridad. `_headers` funciona de forma nativa con assets estáticos en Workers (ADR-037) y lo pega Felipe (ADR-033). Los terceros reales, derivados del código y comprobados con Chromium, son Turnstile, Calendly y Giscus.
+- **Decisión (de Felipe, 13-11-2026):**
+  1. **CSP estricta, sin `Report-Only`.**
+  2. **Scripts en línea con hash exacto** en `script-src 'self'` y **sin `'unsafe-inline'` ni `'unsafe-eval'` en scripts**; `style-src` con `'unsafe-inline'`. No se mueve el script anti-parpadeo del tema.
+  3. El contenido de `public/_headers` se entrega completo en la bitácora de E170-I03 y lo pega Felipe; el agente no toca `_headers`.
+  4. HSTS y la configuración de la zona quedan fuera de esta iteración.
+- **Decisión (del agente, dentro del alcance):**
+  - Orígenes (derivados de `src/data/contact.ts`, `src/data/giscus.ts` y `src/scripts/*.ts`, y confirmados con una corrida en Chromium sobre las 26 URL): `script-src` suma `https://challenges.cloudflare.com` (Turnstile), `https://assets.calendly.com` (widget de Calendly) y `https://giscus.app` (cliente de Giscus); `frame-src` suma `https://challenges.cloudflare.com`, `https://calendly.com` y `https://giscus.app`; `connect-src` es `'self'` más `https://challenges.cloudflare.com`; `style-src` suma `https://assets.calendly.com` y `https://giscus.app` (Giscus inyecta `default.css`); `img-src` es `'self' data:` más `https://assets.calendly.com` (los íconos con `mask` usan `data:` en el CSS). El resto: `default-src 'self'`, `font-src 'self'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'` y `upgrade-insecure-requests`.
+  - Otras cabeceras: `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` con cámara, micrófono, geolocalización, pagos, USB y `browsing-topics` desactivados, `X-Content-Type-Options: nosniff`, y `Cache-Control: public, max-age=31536000, immutable` en `/_astro/*` (archivos con hash).
+  - `verify:seo` compara los hashes de la CSP con los scripts en línea del `dist/` (sin falta ni sobra, y sin `unsafe-inline` en scripts). Mientras no exista `public/_headers`, informa «pendiente» y no falla. `HEADERS_FILE` permite revisar otro archivo. Si cambia un script en línea (el del tema o el del perfil del hero, por ejemplo), el control falla y lista los hashes esperados.
+- **Consecuencias:** cada cambio a un script en línea exige actualizar el hash en `public/_headers` (AT-119). Al retirar la muestra de tokens en E190-I03 (ADR-091) sobrará un hash. El HTML de la 404 y de todas las páginas queda cubierto por `/*`. Las respuestas del Worker (`/api/*`) ya llevan `X-Content-Type-Options` y `Cache-Control: no-store` desde `src/worker/contact.ts`. No hay dependencias nuevas.
+- **Origen:** decisión de Felipe el 13-11-2026 (E170-I03). **Estado:** Aceptada. La verificación en la preview es de Felipe.
+## ADR-093 · Redirecciones 301 de las URL antiguas: reglas estáticas, destinos con barra final y un solo salto
+- **Contexto:** E180-I01, AT-005, AT-031 y AT-043. El sitio antiguo servía 13 .html en la raíz con rutas limpias y variantes .html, además de /comunidad. Cloudflare admite 2.000 reglas estáticas, 100 dinámicas y 1.000 caracteres por regla, con 302 por defecto.
+- **Decisión (de Felipe, dicha por el desarrollador, 14-11-2026):**
+  1. **Un solo salto:** cada URL antigua va directo a su destino final; /comunidad y /comunidad.html van directo a /es/foro/, sin pasar por /foro.
+  2. **Sin regla** para /eventos ni /eventos.html (404, ADR-077) ni para /static/... (misma ruta, AT-043).
+- **Decisión (del agente, dentro del alcance):**
+  - **Destinos con barra final** (/es/educacion/), porque es la URL canónica (ADR-047); sin ella Cloudflare sumaría otro salto.
+  - **/index.html lleva regla** hacia /es/; no es lo mismo que /, que corresponde a E180-I03.
+  - **Solo reglas estáticas con 301 explícito:** 23 (/index.html, 10 páginas × 2 variantes y /comunidad × 2), sin comodines.
+  - **pnpm check:redirects** (scripts/check-redirects.mjs, sin dependencias) valida el archivo y, con --base, las respuestas de la preview.
+- **Consecuencias:** al agregar una página con URL antigua hay que sumar sus dos reglas. No toca _headers ni wrangler.*. Sin dependencias nuevas. Complementa ADR-019, ADR-020 y ADR-077 sin editarlos.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I01). **Estado:** Aceptada. La verificación en la preview dio 448 de 448 el 14-11-2026. Sustituida por ADR-098 en lo de `/` (que sí lleva regla) y en lo de los destinos con barra final (`/sitemap.xml` va a un archivo) (15-11-2026).
+
+## ADR-094 · Sitemap bilingüe generado por un endpoint propio y robots.txt sin Disallow
+- **Contexto:** E180-I02, AT-030, AT-103, AT-106 y AT-109. La iteración preveía `@astrojs/sitemap` (3.7.4, que exigía ADR), pero esta iteración se ejecuta sin dependencias nuevas, y una integración que lista las páginas generadas incluiría 404, agradecimiento y la muestra de tokens (AT-106). Sintaxis y regla verificadas en la documentación de Google el 14-11-2026 (`localized-versions`, `block-indexing`, `robots_txt`) y en sitemaps.org.
+- **Decisión (del agente, dentro del alcance; Felipe puede objetar):**
+  1. **Endpoint propio** `src/pages/sitemap.xml.ts`, estático, armado solo con `routes` (11 páginas × 2 idiomas = 22 URL). Lo que vive en `internalRoutes` queda fuera sin lista aparte. Sin dependencias.
+  2. **hreflang en el sitemap:** cada `<url>` lleva `xhtml:link rel="alternate"` con `es-CL` y `en-US`, incluida ella misma (Google exige listarse a sí misma) y recíprocas.
+  3. **Sin `lastmod`, `changefreq` ni `priority`:** son opcionales y no hay una fecha de modificación real por página (`lastmod` debe ser real; el de `main` estaba desactualizado, AT-030).
+  4. **Sin `x-default` y sin `/`:** son de E180-I03 (ADR-019). Las páginas ya emiten `x-default`; el sitemap no (AT-130).
+  5. **`public/robots.txt`:** `User-agent: *`, `Allow: /` y `Sitemap:` con URL absoluta; **sin `Disallow`**. Google no lee un `noindex` en una página bloqueada por `robots.txt`; es la opción (a) de AT-103. Agradecimiento y las 404 quedan con `noindex, follow`.
+  6. **`verify:seo`** compara el sitemap con las páginas del `dist/` sin `noindex` (22), la canónica y los `hreflang` de cada página, la reciprocidad y el `robots.txt` (176 controles nuevos).
+- **Consecuencias:** al agregar una página en `routes` entra sola al sitemap. Si Felipe prefiere `@astrojs/sitemap`, hay que registrar un ADR que sustituya a este. No toca `_headers`, `_redirects` ni `wrangler.*`. Complementa ADR-019, ADR-035 y ADR-087 sin editarlos.
+- **Origen:** E180-I02, 14-11-2026. **Estado:** Sustituida por ADR-095 (14-11-2026).
+## ADR-095 · Sitemap con @astrojs/sitemap (sustituye a ADR-094)
+- **Contexto:** E180-I02b. Felipe decidió el 14-11-2026 usar la integración oficial en lugar del endpoint propio de ADR-094. AGENTS.md exige un ADR para toda dependencia nueva. Verificado el 14-11-2026: última versión **3.7.5** (`pnpm view @astrojs/sitemap dist-tags.latest`, publicada el 13-11-2026 según el informe de la lectura web), sin `peerDependencies`, con dependencias `zod ^4.6.7` y `sitemap ^10.0.0`; el changelog no menciona Astro 7, así que la compatibilidad se comprobó en la práctica (build y `pnpm check` correctos con Astro 7.4.2). Documentación: genera `sitemap-index.xml` y `sitemap-0.xml`, no emite `x-default` y admite `filter` y `serialize`.
+- **Decisión (de Felipe, 14-11-2026):** usar `@astrojs/sitemap`. **Es la única dependencia nueva de esta iteración.**
+- **Decisión (del agente, dentro del alcance):**
+  1. **Versión exacta `3.7.5`** en `dependencies` (como `astro`), instalada con `pnpm add -E`. Arrastra `sitemap@10.0.0` y `@types/sax` (y reordena en el lockfile las variantes que dependen de `@types/node@26.6.6`).
+  2. **Configuración en `astro.config.mjs`:** `i18n` (es → es-CL, en → en-US), `filter` que deja fuera `/`, `/404/` y todo `internalRoutes` (404, agradecimiento y muestra de tokens), y **`serialize`** que fija las alternativas desde `routes`. Sin `lastmod`, `changefreq`, `priority` ni `x-default`.
+  3. **Por qué `serialize`:** con solo `i18n` y `filter` la integración empareja idiomas cambiando el segmento de la ruta y solo logra las alternativas en las 3 páginas con el mismo slug (`/en/`, `instructor`, `talento-digital`); las 8 con slug traducido (`/en/contact/` ↔ `/es/contacto/`) salían sin alternativas. `serialize` es opción oficial de la misma integración y toma los pares del mapa de rutas (ADR-020), única fuente.
+  4. **Archivos:** `sitemap-index.xml` y `sitemap-0.xml` (22 URL y 44 alternativas). Se retira `src/pages/sitemap.xml.ts`. `public/robots.txt` apunta a `https://felipecuevas.dev/sitemap-index.xml`, sin `Disallow` (AT-103).
+  5. **`pnpm-workspace.yaml`:** `pnpm add` agregó `minimumReleaseAgeExclude: ['@astrojs/sitemap@3.7.5']` porque la versión tenía un día de antigüedad (AT-133).
+  6. **`verify:seo`** lee el índice y cada sitemap que enumera, y mantiene todos los controles de ADR-094 (1149 de 1149).
+- **Consecuencias:** la URL `/sitemap.xml` del sitio antiguo deja de existir (AT-132). `x-default` y `/` siguen siendo de E180-I03 (AT-130). Si una versión futura de la integración cambia el formato, `verify:seo` falla. Mantiene ADR-019, ADR-035 y ADR-087 sin editarlos.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02b). **Estado:** Aceptada. Sustituye a ADR-094. Sustituida por ADR-096 en lo de la versión y la excepción (14-11-2026) y por ADR-098 en lo de `x-default` (15-11-2026).
+## ADR-096 · `@astrojs/sitemap` 3.7.5 sin excepción de antigüedad (sustituye a ADR-095 en lo de la versión y la excepción)
+- **Contexto:** E180-I02c. ADR-095 (punto 5) aceptó que pnpm agregara `minimumReleaseAgeExclude` para la 3.7.5, publicada el 13-11-2026 y con menos de un día al instalarla. Felipe decidió el 14-11-2026 (dicho por el desarrollador) cumplir el filtro de antigüedad sin excepción.
+- **Verificado el 15-11-2026:**
+  - Fechas de publicación (`pnpm view @astrojs/sitemap time`): 3.7.5 el 13-11-2026 18:57 UTC, 3.7.4 el 31-08-2026, 3.7.3 el 26-05-2026, 3.7.2 el 26-03-2026.
+  - El filtro por defecto de pnpm es `minimumReleaseAge` de 1440 minutos (1 día), según su documentación; el proyecto no lo redefine. A la hora de la prueba, la 3.7.5 tenía unos 2.740 minutos.
+  - En una copia temporal fuera del repo, `pnpm install --lockfile-only` resolvió `@astrojs/sitemap@3.7.5` y todo su árbol con `minimumReleaseAge: 1440` explícito (modo estricto) y falló con `minimumReleaseAge: 4000` (`ERR_PNPM_NO_MATURE_MATCHING_VERSION`), así que la prueba discrimina.
+  - Quitada la excepción, `pnpm install --frozen-lockfile` en el proyecto dice que el lockfile cumple las políticas de cadena de suministro (532 entradas).
+- **Decisión (de Felipe, dicha por el desarrollador, 14-11-2026):** sin excepción de antigüedad.
+- **Decisión (del agente, dentro del alcance):**
+  1. **Versión: se mantiene `3.7.5` exacta.** Es la más reciente y ya cumple el filtro; no hace falta bajar a la 3.7.4. Sin `^` ni `~`.
+  2. **Se elimina `minimumReleaseAgeExclude`** de `pnpm-workspace.yaml` (AT-133 resuelto).
+  3. El resto de ADR-095 sigue vigente: `filter`, `serialize` con las alternativas desde `routes`, sin `x-default` ni `/`, `robots.txt` hacia `sitemap-index.xml` y los controles de `verify:seo`.
+- **Consecuencias:** `package.json`, el lockfile, `sitemap-index.xml`, `robots.txt` y el `dist/` no cambian. Como el valor por defecto de `minimumReleaseAge` es no estricto, pnpm podría aceptar en silencio una versión inmadura (AT-135). Complementa ADR-003 y ADR-095 sin editar su texto.
+- **Origen:** decisión de Felipe el 14-11-2026 (E180-I02c). **Estado:** Aceptada. Sustituye a ADR-095 en lo de la versión y la excepción.
+## ADR-097 · `minimumReleaseAge: 1440` declarado en `pnpm-workspace.yaml` (estricto)
+- **Contexto:** E180-I03, AT-135, ADR-003 y ADR-096. El proyecto usaba el valor integrado de pnpm, que no es estricto. Lectura de la documentación de pnpm el 15-11-2026 (`https://pnpm.io/settings/dependency-resolution`, leída por un subagente): `minimumReleaseAge` por defecto **1440** minutos; `minimumReleaseAgeStrict` es `true` si `minimumReleaseAge` se configura explícitamente y `false` si no, y el valor integrado es no estricto «por compatibilidad». **Límite de la fuente:** la página no indica desde qué versión de pnpm rige ni muestra una etiqueta de versión, y no pude leer el changelog de 12.15.0 (el `CHANGELOG.md` de GitHub dio 404 y la página de releases llegó truncada). Evidencia propia con pnpm 12.15.0 (verificada): el 14-11-2026 bloqueó `@astrojs/sitemap@3.7.5` con unos 1.000 minutos de antigüedad y el 15-11-2026 la aceptó con unos 2.740, lo que es coherente con 1440.
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):** declarar `minimumReleaseAge: 1440` en `pnpm-workspace.yaml`, sin tocar `minimumReleaseAgeExclude` ni las dependencias.
+- **Decisión (del agente, dentro del alcance):** el valor es el mismo que el integrado (1 día); declararlo lo vuelve **estricto**: si ninguna versión del rango cumple, la instalación falla en vez de caer en una versión inmadura. Con el valor declarado y pnpm 12.15.0, en una copia limpia (fuera del repo) `pnpm install --frozen-lockfile --ignore-scripts` instala todo el lockfile; con `4000` la verificación del lockfile falla.
+- **Consecuencias:** una instalación o actualización puede fallar durante un día tras publicarse una versión; la solución es esperar, no agregar excepciones (ADR-096). No cambian `package.json`, el lockfile ni las dependencias. No hay ADR que sustituir: complementa ADR-003 y ADR-096.
+- **Origen:** E180-I03, 15-11-2026. **Estado:** Aceptada.
+## ADR-098 · Raíz `/` y `/sitemap.xml` con 301, y `x-default` en el sitemap (sustituye lo que corresponde de ADR-093 y ADR-095)
+- **Contexto:** E180-I03, AT-006, AT-130 y AT-132. ADR-019 manda que `/` responda 301 a `/es/` y que `x-default` apunte a la versión `/es/` de cada página. ADR-093 dejó `/` sin regla («es de E180-I03») y exigía destinos con barra final. ADR-095 dejó el sitemap sin `x-default`. Verificado el 15-11-2026: antes de la regla, `/` respondía 200 con la página de redirección de Astro (`meta refresh`) y `/sitemap.xml` daba 404. Lectura de Google (`localized-versions`, por un subagente): `x-default` es el valor de reserva para idiomas sin coincidencia, pensado para páginas selectoras; la página no describe qué pasa si el sitemap y el HTML difieren.
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):**
+  1. Reglas `/ /es/ 301` y `/sitemap.xml /sitemap-index.xml 301` en `public/_redirects`, pegadas por Felipe (ADR-033; commit `c0b2743`).
+  2. **`x-default` en el sitemap, opción B:** hacia la versión `/es/` de cada página, igual que las etiquetas del HTML.
+- **Decisión (del agente, dentro del alcance):**
+  1. **`/` lleva regla** y responde 301 a `/es/` en un solo salto; sustituye a ADR-093 en lo de que `/` no tiene regla. `/index.html` conserva la suya. El `meta refresh` de Astro queda como respaldo.
+  2. **`/sitemap.xml` va a `/sitemap-index.xml`** (destino sin barra: es un archivo); es la excepción a «destinos con barra final» de ADR-093. Un solo salto, sin cadenas.
+  3. **Conjunto exacto de 25 reglas** (23 + `/` + `/sitemap.xml`): `scripts/check-redirects.mjs` falla si falta una, sobra una o cambia un código o destino; se quita la tolerancia a `/ → /es/` de ADR-093.
+  4. **`serialize` de `@astrojs/sitemap`** agrega un tercer enlace `x-default` hacia la versión `/es/`: 22 URL × 3 = 66 enlaces. `verify:seo` exige es-CL, en-US y `x-default` por URL, que `x-default` sea la versión `/es/` y que el conjunto sea igual a los `hreflang` de la página (1194 controles).
+  5. **`/` sigue fuera del sitemap** (es un 301).
+- **Consecuencias:** `check:redirects` exige hoy 25 reglas; agregar o quitar una exige actualizarlo. El resto de ADR-093 y de ADR-095 sigue vigente. No hay dependencias nuevas.
+- **Origen:** decisión de Felipe el 15-11-2026 (E180-I03). **Estado:** Aceptada. Sustituye a ADR-093 en lo de `/` y a ADR-095 en lo de `x-default`.
+## ADR-099 · Cutover con la política de privacidad vigente; la validación del especialista pasa a BL-08 (sustituye una precondición de ADR-035)
+- **Contexto:** E190-I01, AT-105 y BL-08. ADR-035 exige que el texto de la política lo valide un especialista externo antes del cutover. La política vigente es el borrador de E155-I01 (ADR-087): describe solo hechos del sitio y no trae conservación, base legal, domicilio ni derechos de los titulares. El formulario ya exige el checkbox y envía fecha, hora y versión de la política (ADR-035, ADR-084). Estado de la Ley 21.719 según Felipe el 15-11-2026 (dicho por el desarrollador, **no verificado en fuente oficial**; ver bitácora de E190-I01): el Senado aprobó el 28-10-2026 postergar la vigencia al 15-10-2027 y la Comisión de Constitución de la Cámara lo aprobó en general el 05-11-2026 y lo remitió a Hacienda; mientras no se publique como ley rige el 01-12-2026.
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):**
+  1. El cutover se hace con la política vigente (E155-I01, `PRIVACY_POLICY_VERSION`).
+  2. La precondición de ADR-035 «el texto lo valida un especialista antes del cutover» **queda sustituida**, solo para E190-I01, por «política publicada y consentimiento registrado por el formulario». ADR-035 no se edita; el resto de ADR-035 sigue vigente.
+  3. BL-08 pasa a «antes de la entrada en vigencia real de la Ley 21.719».
+  4. Antes del cutover, Felipe reconfirma el estado de la ley.
+- **Consecuencias:** se ajustan la tarea y el criterio de privacidad de E190-I01 y de la épica E190. Si la ley rige el 01-12-2026 y no se publica la postergación, el riesgo de publicar un texto sin validar lo asume Felipe. Al cambiar el texto, se sube `PRIVACY_POLICY_VERSION` y se mantiene el en-US en paridad (AT-105).
+- **Complemento (E190-I01 Fase 2, 15-11-2026, dicho por Felipe; el agente no lo verificó en fuente oficial):** el Senado aprobó la postergación el 28-10-2026; la Comisión de Constitución de la Cámara la aprobó en general el 05-11-2026 y pasó a Hacienda; el Diario Constitucional (opinión, 09-11-2026) dice «no es aún ley», y la ley rige el 01-12-2026 mientras no se publique la postergación. Felipe la reconfirma antes del cutover. La decisión no cambia.
+- **Origen:** decisión de Felipe el 15-11-2026 (E190-I01). **Estado:** Aceptada. Sustituye a ADR-035 solo en la precondición de validación previa al cutover.
+## ADR-100 · Se mantiene Node 24 hasta después del cutover (BL-02)
+- **Contexto:** E190-I01, BL-02 y ADR-027, que agendó la migración a Node 26 antes de E190-I01. Consulta del agente el 15-11-2026, solo en documentación oficial de Cloudflare: la página de la build image de Workers Builds (`https://developers.cloudflare.com/workers/ci-cd/builds/build-image/`, «Last updated Oct 29, 2026») dice que preinstala Node.js **22.23.4 y 24.22.1**, con 24.22.1 por defecto; la versión se elige con `NODE_VERSION`, `.nvmrc` o `.node-version`. **Node 26 no se menciona.** La página de Workers Builds (actualizada el 28-10-2026) no habla de Node y en las entradas del changelog del 11 al 13-11-2026 (la parte leída) no hay ninguna sobre Workers Builds ni Node; el changelog más antiguo no se revisó. (El Tech Lead citó 22.23.2 y 24.18.0 del changelog del 30-07-2026; la página vigente muestra versiones más recientes y confirma que Node 26 no está.) Política de la página: las actualizaciones mayores pasan a la siguiente LTS estable con aviso de 3 meses.
+- **Decisión (de Felipe, 15-11-2026, aplicada por el agente según el resultado):** Node 26 no está disponible; el proyecto **mantiene Node 24** (`engines` `24.x`) hasta después del cutover. No se migra en esta iteración y no se toca el despliegue. ADR-027 no se edita.
+- **Consecuencias:** BL-02 sigue abierto, ahora como «después del cutover» y condicionado a que Workers Builds ofrezca Node 26; la migración exigirá un ADR que sustituya a ADR-027. Node 24 mantiene soporte de seguridad hasta el 30-04-2028 (ADR-027). Antes de migrar se vuelve a consultar la página de la build image.
+- **Origen:** E190-I01 (decisión 1 de Felipe, 15-11-2026). **Estado:** Aceptada. Aplaza lo agendado en ADR-027 sin sustituirla.
+## ADR-101 · Procedimiento de cutover: orden, workers.dev, HSTS, Web Analytics y Observability (complementa ADR-037)
+- **Contexto:** E190-I02. ADR-037 dejó el plan base (rama de producción a `main`, borrar el CNAME del apex, Custom Domain, `www` con registro de relleno y 301, reversa devolviendo el dominio a Pages). En la documentación oficial de Cloudflare leída el 15-11-2026 (detalle y fechas en `190_epica-cutover/E190-I02-procedimiento-cutover.md`): un Custom Domain no se puede crear sobre un hostname con un CNAME existente; workers.dev solo se apaga con `workers_dev: false` (no hay `noindex` documentado); HSTS admite 1 a 12 meses y `includeSubDomains` deja inaccesibles los subdominios sin HTTPS; Pages despliega cada push a su rama de producción (no verificado qué haría con el código nuevo de `main`).
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):**
+  1. **Orden:** ley reconfirmada, pausar Pages (desactivar los despliegues automáticos de producción), merge a `main`, rama de producción de Workers Builds a `main`, liberar el dominio (borrar el CNAME del apex y quitarlo de Pages) y agregar el Custom Domain al Worker, `www` con registro de relleno y 301, y después de ~48 h HSTS y apagado de workers.dev.
+  2. **workers.dev (AT-048):** se apaga tras verificar el dominio propio, con `"workers_dev": false` en un commit posterior (~48 h). Reversa: `true`.
+  3. **Web Analytics (AT-121):** no se activa en el cutover; si se quiere después, iteración propia con ADR, CSP en `_headers` y nueva versión de la política (ADR-092, ADR-035).
+  4. **Observability (AT-123):** no se activa. AT-123 sigue cerrado como «no reproducible»; si reaparecen excepciones, se vuelve a decidir.
+  5. **HSTS (AT-122):** en la zona, max-age de 1 mes, sin `includeSubDomains`, sin preload y sin no-sniff; subir a 6 meses tras 2 semanas sin incidentes.
+- **Decisión (del agente, dentro del alcance):** la ventana recomendada es un fin de semana temprano en la mañana (hora de Chile), con 2 horas libres y no el día del cambio de vigencia de la ley; los pasos, los tiempos (estimados) y la reversa sin el agente quedan en el procedimiento; `public/_headers` y `public/_redirects` no cambian (la redirección de `www` y HSTS viven en la zona); el único bloque para Felipe es la línea `workers_dev` de `wrangler.jsonc`.
+- **Consecuencias:** complementa ADR-037 (agrega pausar Pages y quitar el dominio de Pages antes del Custom Domain). Riesgos abiertos, no verificados: AT-138 (Pages ante el merge), AT-139 (quitar un Custom Domain de Workers y coexistencia con Pages) y AT-140 (hostname de Turnstile). Si el procedimiento cambia tras la lectura conjunta, se registra una entrada nueva que lo sustituya.
+- **Complemento (E190-I02, 15-11-2026, lectura conjunta; decisiones de Felipe, dichas por el desarrollador):** (a) el cambio `"workers_dev": false` (paso 9b) se hace en una rama corta posterior al cutover, creada desde `main`, que Felipe mergea y Workers Builds despliega; nunca se commitea directo en `main`. (b) Tras el paso 6 se agrega «Purge Everything» de la caché de la zona (paso 6b), una inferencia del agente no verificada en la documentación. (c) Ventana: sábado 21 o domingo 22-11-2026, temprano; **sin ensayo con subdominio**, directo al apex; AT-139 y AT-140 siguen abiertos y se comprueban en la ventana; la ley (P2) y Turnstile (P4) se cumplen antes.
+- **Origen:** decisiones de Felipe el 15-11-2026 (E190-I02). **Estado:** Aceptada.
+## ADR-102 · Retiro del sitio antiguo y de la muestra de tokens; `docs/` se conserva; tag de retorno; listas de ignorar
+- **Contexto:** E190-I03. ADR-014 dejó el sitio antiguo en la raíz como referencia hasta E190-I03; ADR-091 decidió retirar la muestra de tokens. Evidencia del 15-11-2026 (grep en `src/`, `scripts/`, `astro.config.mjs`, `package.json`, `wrangler.jsonc`, `eslint.config.js`, `tsconfig.json`): ninguna ruta ni script lee los `*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects` ni `linkinator.config.json` de la raíz; los scripts leen `public/` y `dist/`; `src/worker/` reemplaza a `functions/` (ADR-084). De los 157 archivos de `static/`, 24 están idénticos en `public/static/` (AT-126) y 133 no se sirven por decisión de Felipe del 14-11-2026 (AT-096). La muestra solo se referenciaba entre sí (páginas, `src/components/dev/DesignSample.astro` y la ruta `designSample`).
+- **Decisión (de Felipe, dicha por el desarrollador, 15-11-2026):**
+  1. **Se retira todo el sitio antiguo y la muestra** con `git rm`: 13 `*.html` de la raíz, `sitemap.xml`, `robots.txt`, `_redirects` y `linkinator.config.json` de la raíz, `functions/`, `static/` (157 archivos) y la muestra (2 páginas, componente y ruta interna). Queda todo en el historial.
+  2. **`docs/` se conserva** hasta E190-I04, que registra la línea base nueva (ADR-015); ahí se decide si se mueve o se retira.
+  3. **Punto de retorno del código antiguo:** Felipe crea un tag anotado en `main` antes del merge (por ejemplo `sitio-antiguo-2026-11`); el README lo cita.
+  4. **AT-129 entra en I03:** se quitan de `eslint.config.js` y `.prettierignore` las entradas del sitio antiguo y se agrega `.wrangler/`.
+- **Decisión (del agente, dentro del alcance):** `EXPECTED_PAIRS` de `scripts/check-i18n.mjs` pasa de 13 a 12 (el mapa pierde la muestra); no se tocan `public/_headers`, `AGENTS.md` ni `.claude/` (bloques para Felipe en la bitácora). Lo que cambia en el sitio: 12 páginas por idioma más la 404.
+- **Consecuencias:** `main` ya no contiene el sitio antiguo tras el merge; reconstruirlo exige el tag o el historial, y con el despliegue automático de Pages desactivado (ADR-101) no se vuelve a construir solo. La CSP de `public/_headers` conservaba un hash de script en línea que ya no se usaba (AT-141); Felipe lo quitó el 15-11-2026 (commit d853c8e) y `verify:seo` volvió a 1192/1192. Sustituye en parte a ADR-014 (referencia de solo lectura hasta E190-I03).
+- **Origen:** decisiones de Felipe el 15-11-2026 (E190-I03). **Estado:** Aceptada.
+## ADR-103 · La Ley 21.719 deja de ser precondición del cutover
+- **Contexto:** ADR-099 ya decidió salir con la política vigente y llevar la validación del especialista a BL-08. El procedimiento de E190-I02 mantenía P2 (reconfirmar el estado de la Ley 21.719 en fuente oficial, antes de la ventana). El agente no pudo reconfirmarlo en E190-I01 (senado.cl y camara.cl dieron 403, bcn.cl no cargó).
+- **Decisión (de Felipe, 15-11-2026, dicha por el desarrollador):** P2 deja de ser precondición. El plazo legal no debe bloquear el sitio; se sale con la política vigente (ADR-099). Felipe abrirá una iteración nueva cuando la ley se publique; BL-08 sigue «antes de la entrada en vigencia real».
+- **Consecuencias:** en el procedimiento, P2 queda «cerrada por decisión de Felipe, ADR-103». ADR-099 no se modifica ni se revierte: ADR-103 lo complementa. Riesgo aceptado por Felipe: el sitio sale sin una reconfirmación fechada del estado de la ley.
+- **Origen:** decisión de Felipe el 15-11-2026 (preparación de la ventana de E190). **Estado:** Aceptada.
+
+## Propuestas pendientes (no vinculantes hasta ser aceptadas)
+
+### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
+- **Estado:** Sustituida por ADR-037 (28-10-2026).
+- **Evidencia al 28-09-2026:** la guía oficial de migración (actualizada el 22-09-2026) indica que:
+  - Workers ofrece más funciones que Pages y que la inversión nueva de Cloudflare se concentra en Workers;
+  - `_headers` y `_redirects` funcionan de forma nativa en ambos;
+  - una carpeta `functions/` de Pages debe compilarse en un único script de Worker o reescribirse;
+  - los alias de rama personalizados en Workers figuran como "próximamente".
+- **Propuesta:** Worker nuevo con assets estáticos, conectado solo a la rama de migración.
+  - Producción sigue en el proyecto Pages actual hasta el cutover.
+  - El cutover mueve el dominio al Worker.
+  - La reversa lo devuelve a Pages.
+
+### P-02 · Convención de idioma para código y comentarios
+- **Estado:** Aceptada el 24-10-2026. Ver ADR-025.
+- **Propuesta:** comentarios y documentación en español de Chile. Identificadores de código en inglés, por coherencia con Astro y el ecosistema, salvo nombres de dominio propios (por ejemplo `talento-digital`). Alternativa: mantener identificadores en español como en el sitio actual.
+
+### P-03 · Logotipo como enlace al inicio
+- **Estado:** Aceptada el 29-10-2026. Ver ADR-049.
+- **Propuesta:** el logotipo pasa a ser un enlace a la portada del idioma activo, sin cambiar su apariencia ni su animación. Requiere aprobación porque ADR-008 exige comportamiento idéntico.
+
+### P-04 · Reglas derivadas de AGENTS.md
+- **Estado:** Aceptada el 24-10-2026 con ajustes. Ver ADR-026.
+- **Contenido:** las reglas marcadas como "derivada" en `AGENTS.md`: no reescribir historial ni eliminar ramas; no usar npm, yarn ni bun; no agregar dependencias sin ADR; no tocar la configuración de despliegue sin consultar; no borrar entradas de la auditoría ni revertir ADR sin una entrada nueva que lo sustituya.
+- **Vigencia:** reemplazada por ADR-026.
+
+### P-05 · Marca "fecudev"
+- **Estado:** Pendiente (BL-05).
+- **Contexto:** el término no aparece en el sitio actual.
+- **Propuesta:** tratarlo como nombre de la comunidad (foro, eventos, recursos y Discord; Discord salió por ADR-044 y eventos por ADR-077) en textos de contenido, sin cambiar la etiqueta "Comunidad" del menú (ADR-008).

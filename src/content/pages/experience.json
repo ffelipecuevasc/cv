@@ -1,0 +1,15 @@
+{
+  "route": "experience",
+  "title": {
+    "es": "Experiencia Laboral | Felipe Cuevas",
+    "en": "Work Experience | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Trayectoria profesional de Felipe Cuevas en sus tres perfiles: instructor certificado REUF, docente universitario y desarrollador full stack en Java y Python.",
+    "en": "Professional track record of Felipe Cuevas across his three profiles: REUF-certified instructor, university lecturer and full stack developer in Java and Python."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}

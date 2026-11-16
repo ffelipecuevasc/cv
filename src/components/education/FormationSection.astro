@@ -1,0 +1,126 @@
+---
+/*
+ * Formación académica y diplomados de Educación (E50-I01, DESIGN.md 11.4, ADR-060):
+ * un mosaico de tarjetas con orden fijo por peso (`major`, `standard`, `minor`; dentro de cada
+ * peso, el más reciente primero), sin conmutador, filtros ni JavaScript. Dentro de <main>.
+ * - Los datos salen de src/content/education/entries/ con paridad es / en (AT-026).
+ * - Una columna bajo 768 px; 12 columnas desde 768 px. Las tarjetas que sobran de una fila
+ *   completa se reparten al comienzo de cada peso, para que ninguna fila quede coja.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import FormationCard, { type FormationItem } from './FormationCard.astro';
+import { langFromLocale } from '../../i18n/lang';
+
+const lang = langFromLocale(Astro.currentLocale);
+const page = (await getEntry('educationPage', 'page'))?.data;
+if (!page) throw new Error('Falta src/content/education/page.json');
+
+const entries = (await getCollection('educationEntries')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const items: FormationItem[] = entries.map(({ data }) => ({
+  weight: data.weight,
+  category: data.category,
+  categoryLabel: page.categories[data.category][lang],
+  title: data.title[lang],
+  institution: data.institution,
+  period:
+    data.startYear && data.startYear !== data.endYear
+      ? `${data.startYear} - ${data.endYear}`
+      : String(data.endYear),
+  year: data.endYear,
+  duration: data.duration?.[lang],
+  status: data.status[lang],
+  description: data.description?.[lang],
+  achievements: data.achievements?.[lang] ?? [],
+  tags: data.tags?.[lang] ?? [],
+}));
+
+/**
+ * Columnas (de 12) de cada tarjeta de un grupo con `perRow` por fila: las que sobran de una
+ * fila completa van primero y se reparten el ancho de la fila (5 de 3 por fila → 6, 6, 4, 4, 4).
+ */
+const spreadSpans = (count: number, perRow: number): number[] => {
+  const remainder = count % perRow;
+  return Array.from({ length: count }, (_, index) =>
+    index < remainder ? 12 / remainder : 12 / perRow,
+  );
+};
+
+const perRow = { major: [1, 1], standard: [2, 3], minor: [2, 3] } as const;
+const cells = (['major', 'standard', 'minor'] as const).flatMap((weight) => {
+  const group = items.filter((item) => item.weight === weight);
+  const [md, lg] = perRow[weight];
+  const mdSpans = spreadSpans(group.length, md);
+  const lgSpans = spreadSpans(group.length, lg);
+  return group.map((item, index) => ({ item, md: mdSpans[index], lg: lgSpans[index] }));
+});
+---
+
+<section class="formation" aria-labelledby="education-formation-title">
+  <Container>
+    <SectionHeader
+      kicker={page.formation.kicker[lang]}
+      title={page.formation.title[lang]}
+      id="education-formation-title"
+    />
+    <ul class="grid" aria-label={page.formation.listLabel[lang]}>
+      {cells.map(({ item, md, lg }) => (
+        <li class={`cell md-${md} lg-${lg}`}>
+          <FormationCard item={item} />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  /* 6: relleno vertical de sección, 80 px bajo 768 px y 96 px desde 768 px; fondo `bg-alt`
+     para que las tarjetas (`surface`) se distingan del fondo en ambos temas. */
+  .formation {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cell > :global(.card) {
+    height: 100%;
+  }
+  @media (min-width: 48rem) {
+    .formation {
+      padding-block: 96px;
+    }
+    .grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .md-6 {
+      grid-column: span 6;
+    }
+    .md-12 {
+      grid-column: span 12;
+    }
+  }
+  @media (min-width: 64rem) {
+    .grid {
+      gap: 32px;
+    }
+    .lg-4 {
+      grid-column: span 4;
+    }
+    .lg-6 {
+      grid-column: span 6;
+    }
+    .lg-12 {
+      grid-column: span 12;
+    }
+  }
+</style>

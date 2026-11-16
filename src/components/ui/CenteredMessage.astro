@@ -1,0 +1,86 @@
+---
+/*
+ * Mensaje centrado (ADR-086, composición «Confirmación centrada»; la usan Agradecimiento y la
+ * 404, ADR-088): encabezado centrado de DESIGN.md 7.5 con un ícono decorativo entre el rótulo y
+ * el único <h1>, el texto y dos botones, todo sobre `bg`, sin tarjeta, sin animación de entrada y
+ * sin JavaScript. Se centra en vertical entre la barra y el pie (el <main> debe ser una columna
+ * flexible: `mainClass="flex flex-col"`).
+ */
+import Button from './Button.astro';
+import Container from './Container.astro';
+import Icon from './Icon.astro';
+import SectionHeader from './SectionHeader.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  /** id del <h1>; nombra la sección. */
+  id: string;
+  kicker: string;
+  title: string;
+  lead: string;
+  icon: IconName;
+  primary: { href: string; label: string };
+  secondary: { href: string; label: string };
+}
+const { id, kicker, title, lead, icon, primary, secondary } = Astro.props;
+---
+
+<section class="centered-message" aria-labelledby={id}>
+  <Container>
+    <div class="content">
+      <SectionHeader variant="center" level={1} {id} {kicker} {title} {lead}>
+        <span slot="after-kicker" class="icon">
+          <Icon name={icon} size={56} />
+        </span>
+      </SectionHeader>
+      <div class="actions">
+        <Button href={primary.href}>{primary.label}</Button>
+        <Button variant="secondary" href={secondary.href}>
+          {secondary.label}
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .centered-message {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding-block: 80px;
+    background-color: var(--color-bg);
+  }
+  .centered-message :global(.container-page) {
+    width: 100%;
+  }
+  .content {
+    margin-inline: auto;
+    max-width: 40rem;
+  }
+  .icon {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    color: var(--color-icon);
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  @media (min-width: 40rem) {
+    .actions {
+      flex-direction: row;
+      justify-content: center;
+      gap: 16px;
+    }
+  }
+  @media (min-width: 48rem) {
+    .centered-message {
+      padding-block: 96px;
+    }
+  }
+</style>

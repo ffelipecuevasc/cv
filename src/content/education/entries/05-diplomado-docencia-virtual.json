@@ -1,0 +1,21 @@
+{
+  "order": 5,
+  "weight": "standard",
+  "category": "diploma",
+  "title": {
+    "es": "Diplomado en Docencia Virtual",
+    "en": "Diploma in Virtual Teaching"
+  },
+  "institution": "Instituto Profesional IPLACEX",
+  "endYear": 2025,
+  "duration": { "es": "90 horas", "en": "90 hours" },
+  "status": { "es": "Titulado", "en": "Completed" },
+  "description": {
+    "es": "Enseñanza en entornos virtuales: mediación pedagógica a distancia, uso de plataformas de gestión del aprendizaje y estrategias de acompañamiento en línea.",
+    "en": "Teaching in virtual environments: remote pedagogical mediation, use of learning management platforms and online coaching strategies."
+  },
+  "tags": {
+    "es": ["Docencia Virtual", "Entornos Digitales"],
+    "en": ["Virtual Teaching", "Digital Environments"]
+  }
+}

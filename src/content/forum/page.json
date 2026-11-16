@@ -1,0 +1,103 @@
+{
+  "header": {
+    "kicker": { "es": "Comunidad", "en": "Community" },
+    "title": { "es": "Foro de Aprendizaje", "en": "Learning Forum" },
+    "lead": {
+      "es": "Un espacio para preguntar sin vergüenza, mostrar lo que construyes y ayudar a quien va un paso más atrás. Las respuestas quedan para el que venga después.",
+      "en": "A place to ask without embarrassment, show what you are building and help whoever is one step behind. The answers stay for whoever comes next."
+    }
+  },
+  "steps": {
+    "kicker": { "es": "Cómo funciona", "en": "How it works" },
+    "title": { "es": "Participar en tres pasos", "en": "Join in three steps" },
+    "items": [
+      {
+        "icon": "account-circle",
+        "title": { "es": "1 · Ten tu cuenta de GitHub", "en": "1 · Get your GitHub account" },
+        "text": {
+          "es": "Si aún no la tienes, {link}. No es un trámite: manejar esta plataforma es parte de tu perfil profesional y es exactamente lo que se evalúa en el módulo de empleabilidad.",
+          "en": "If you don't have one yet, {link}. It is not a formality: knowing your way around this platform is part of your professional profile, and it is exactly what the employability module assesses."
+        },
+        "link": {
+          "label": { "es": "créala gratis", "en": "create it for free" },
+          "href": "https://github.com/signup"
+        }
+      },
+      {
+        "icon": "rule",
+        "title": { "es": "2 · Lee las normas", "en": "2 · Read the rules" },
+        "text": {
+          "es": "Ocho reglas breves que mantienen la conversación útil y respetuosa. Están publicadas en el {link}, junto con una guía para preguntar bien.",
+          "en": "Eight short rules that keep the conversation useful and respectful. They are published in the {link}, along with a guide to asking good questions."
+        },
+        "link": {
+          "label": { "es": "repositorio de la comunidad", "en": "community repository" },
+          "href": "https://github.com/ffelipecuevasc/comunidad/blob/main/README.md"
+        }
+      },
+      {
+        "icon": "forum",
+        "title": { "es": "3 · Escribe tu primer mensaje", "en": "3 · Write your first message" },
+        "text": {
+          "es": "Puedes hacerlo desde esta misma página, sin salir del sitio. Respondo las preguntas técnicas en un plazo de hasta dos días hábiles.",
+          "en": "You can do it from this very page, without leaving the site. I answer technical questions within two business days."
+        }
+      }
+    ]
+  },
+  "categories": {
+    "kicker": { "es": "Categorías", "en": "Categories" },
+    "title": { "es": "Dónde publicar cada cosa", "en": "Where to post each thing" },
+    "items": [
+      {
+        "title": { "es": "Preguntas y Respuestas", "en": "Q&A" },
+        "text": {
+          "es": "Dudas técnicas, de clases y de materiales. Permite marcar la respuesta que resolvió el problema.",
+          "en": "Technical questions and questions about classes and materials. You can mark the answer that solved the problem."
+        }
+      },
+      {
+        "title": { "es": "Dudas por ruta", "en": "Questions by path" },
+        "text": {
+          "es": "Preguntas sobre un paso concreto de una ruta de aprendizaje. Es la categoría que ves incrustada en este sitio.",
+          "en": "Questions about a specific step of a learning path. It is the category embedded on this site."
+        }
+      },
+      {
+        "title": { "es": "Muestra tu Proyecto", "en": "Show Your Project" },
+        "text": {
+          "es": "Publica lo que estás construyendo, con su repositorio y su enlace en vivo.",
+          "en": "Post what you are building, with its repository and its live link."
+        }
+      },
+      {
+        "title": { "es": "Anuncios", "en": "Announcements" },
+        "text": {
+          "es": "Novedades del sitio y de los cursos. Solo yo abro hilos; tú puedes responder.",
+          "en": "News about the site and the courses. Only I start threads; you can reply."
+        }
+      }
+    ]
+  },
+  "conversation": {
+    "kicker": { "es": "Hilo general", "en": "General thread" },
+    "title": { "es": "Conversación", "en": "Conversation" },
+    "notice": {
+      "es": "La conversación se aloja en GitHub Discussions y se muestra con Giscus (código abierto, sin publicidad). Al cargarla, tu navegador se conecta a giscus.app y a GitHub.",
+      "en": "The conversation is hosted on GitHub Discussions and shown with Giscus (open source, no ads). When it loads, your browser connects to giscus.app and GitHub."
+    },
+    "loading": { "es": "Cargando la conversación…", "en": "Loading the conversation…" },
+    "noscript": {
+      "es": "La conversación incrustada necesita JavaScript. Puedes entrar directamente al foro:",
+      "en": "The embedded conversation needs JavaScript. You can go straight to the forum:"
+    },
+    "noscriptCta": {
+      "es": "Abrir la conversación en GitHub",
+      "en": "Open the conversation on GitHub"
+    },
+    "githubLink": {
+      "es": "Abrir la conversación completa en GitHub",
+      "en": "Open the full conversation on GitHub"
+    }
+  }
+}

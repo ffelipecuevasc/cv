@@ -1,0 +1,35 @@
+# E140 · Página Contacto (contacto.html)
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada otra vez (06-11-2026 con E140-I03, reabierta ese día por la 404 del Worker, ADR-056 y ADR-085; envío probado por Felipe en es y en)
+
+## Objetivo
+Reconstruir la página de contacto con formulario protegido por Turnstile, envío por función de Cloudflare y agenda de Calendly, en ambos idiomas.
+
+## Alcance
+- Página y formulario.
+- Función de envío adaptada a i18n y a la plataforma de ADR D-14.
+- Checkbox obligatorio de aceptación de la política de privacidad y registro del consentimiento en el envío (ADR-035).
+- Composición propia de la página: el patrón se define y valida con Felipe al inicio de E140-I01 y se documenta en `DESIGN.md` (ADR-036).
+
+## Páginas cubiertas
+`contacto.html` → `/es/contacto` y `/en/contact`.
+
+## Dependencias
+E30 completa y E10-I09. No depende de E155: el formulario enlaza a `/es/privacidad` y `/en/privacy`, que E155-I01 publica después (ADR-035).
+
+## Iteraciones
+| ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
+|---|---|---|---|---|---|
+| [E140-I01](E140-I01-formulario.md) | Página, formulario, Turnstile y Calendly | P1 | M | E30-I06 | [x] Terminada |
+| [E140-I02](E140-I02-funcion-envio.md) | Función de envío del formulario | P1 | M | E140-I01, E10-I09 | [x] Terminada |
+| [E140-I03](E140-I03-worker-404.md) | Corrección: el Worker no atiende los 404 del sitio | P1 | S | E140-I02 | [x] Terminada |
+
+## Criterios de aceptación de la épica
+- [ ] La página existe en `es-CL` y `en-US` con paridad de contenido y el botón de idioma lleva a la equivalente.
+- [ ] No se eliminó contenido del sitio actual salvo por un ADR que lo autorice.
+- [ ] HTML semántico con un único `<h1>` y `<main>` que contiene todo el contenido principal.
+- [ ] Metadatos propios (title, description, canonical, hreflang, OG) en ambos idiomas.
+- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global.
+
+## Riesgos
+- Secretos de producción: no se exponen ni se copian a archivos versionados.
+- Consentimiento sin trazabilidad si el formulario y la función de envío no comparten el mismo identificador de versión de la política (ADR-035).

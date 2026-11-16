@@ -1,0 +1,12 @@
+{
+  "order": 8,
+  "weight": "minor",
+  "category": "recognition",
+  "title": {
+    "es": "Mejor Técnico Analista Programador",
+    "en": "Best Programmer Analyst Technician"
+  },
+  "institution": "Universidad Tecnológica de Chile INACAP",
+  "endYear": 2011,
+  "status": { "es": "Distinción", "en": "Distinction" }
+}

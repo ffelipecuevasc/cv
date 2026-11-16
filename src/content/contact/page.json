@@ -1,0 +1,120 @@
+{
+  "header": {
+    "kicker": {
+      "es": "Contacto",
+      "en": "Contact"
+    },
+    "title": {
+      "es": "Contáctame",
+      "en": "Get in touch"
+    },
+    "lead": {
+      "es": "Siempre estoy abierto a analizar nuevas propuestas de trabajo, así que puedes escribirme para gestionar una reunión por videoconferencia.",
+      "en": "I am always open to new job proposals, so feel free to write to me and we can set up a video call."
+    }
+  },
+  "channels": {
+    "kicker": {
+      "es": "Canales directos",
+      "en": "Direct channels"
+    },
+    "title": {
+      "es": "Canales de contacto",
+      "en": "Contact channels"
+    },
+    "items": [
+      {
+        "icon": "email",
+        "name": {
+          "es": "Correo electrónico",
+          "en": "Email"
+        },
+        "detail": {
+          "es": "contacto@felipecuevas.dev",
+          "en": "contacto@felipecuevas.dev"
+        },
+        "href": "mailto:contacto@felipecuevas.dev"
+      },
+      {
+        "icon": "linkedin",
+        "name": {
+          "es": "LinkedIn",
+          "en": "LinkedIn"
+        },
+        "detail": {
+          "es": "ffelipecuevasc",
+          "en": "ffelipecuevasc"
+        },
+        "href": "https://www.linkedin.com/in/ffelipecuevasc/"
+      },
+      {
+        "icon": "github",
+        "name": {
+          "es": "GitHub",
+          "en": "GitHub"
+        },
+        "detail": {
+          "es": "ffelipecuevasc",
+          "en": "ffelipecuevasc"
+        },
+        "href": "https://github.com/ffelipecuevasc"
+      },
+      {
+        "icon": "reuf",
+        "name": {
+          "es": "REUF SENCE Chile",
+          "en": "REUF SENCE Chile"
+        },
+        "detail": {
+          "es": "ffelipecuevasc",
+          "en": "ffelipecuevasc"
+        },
+        "href": "https://chilefacilitadores.cl/users/detail/ffelipecuevasc"
+      }
+    ]
+  },
+  "form": {
+    "kicker": {
+      "es": "Formulario",
+      "en": "Form"
+    },
+    "title": {
+      "es": "Envíame un mensaje",
+      "en": "Send me a message"
+    },
+    "location": {
+      "es": "Santiago, Región Metropolitana, Chile",
+      "en": "Santiago, Metropolitan Region, Chile"
+    },
+    "response": {
+      "es": "Tiempo de respuesta: 24 a 48 horas",
+      "en": "Response time: 24 to 48 hours"
+    }
+  },
+  "calendly": {
+    "kicker": {
+      "es": "Videollamada",
+      "en": "Video call"
+    },
+    "title": {
+      "es": "Agenda una reunión (15 min)",
+      "en": "Book a meeting (15 min)"
+    },
+    "notice": {
+      "es": "El calendario es de Calendly, un servicio externo. No se carga hasta que lo pidas.",
+      "en": "The calendar is provided by Calendly, an external service. It does not load until you ask for it."
+    },
+    "load": {
+      "es": "Cargar el calendario",
+      "en": "Load the calendar"
+    },
+    "loading": {
+      "es": "Cargando el calendario…",
+      "en": "Loading the calendar…"
+    },
+    "direct": {
+      "es": "Abrir el calendario en Calendly",
+      "en": "Open the calendar on Calendly"
+    }
+  }
+}

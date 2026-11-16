@@ -1,0 +1,167 @@
+---
+/*
+ * Bootcamps realizados (E100-I01, ADR-074): patrón «zigzag» (DESIGN.md 11.2), una franja (7.8)
+ * por bootcamp, en el orden de main. Fondos `bg` / `band` alternos y espejo en las pares, como
+ * Docente (ADR-070). Rótulo: pastilla de tecnologías; titular (h3): bootcamp; bajada: plan y
+ * ejecución u OTEC, que se suma al nombre accesible porque hay titulares repetidos. Contenido:
+ * portada SVG de main en <img> (misma URL, AT-043), texto con énfasis, etiquetas (7.7), «Logros»
+ * (h4) y «horas | años». Las horas salen de src/data/training-plans.ts. Sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Tag from '../ui/Tag.astro';
+import ThemeStripe from '../ui/ThemeStripe.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { TRAINING_PLAN_HOURS, getTalentoDigitalPage } from './talento-digital-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { bootcamps } = await getTalentoDigitalPage();
+const emphasis = (source: string) => parseEmphasis(source);
+---
+
+<section class="bootcamps" aria-labelledby="bootcamps-title" data-bootcamps>
+  <div class="intro">
+    <Container>
+      <SectionHeader
+        kicker={bootcamps.kicker[lang]}
+        title={bootcamps.title[lang]}
+        id="bootcamps-title"
+      />
+      <p class="intro-lead">
+        {emphasis(bootcamps.lead[lang]).map((part) =>
+          part.strong ? <strong>{part.text}</strong> : part.text,
+        )}
+      </p>
+    </Container>
+  </div>
+  {bootcamps.items.map((item, i) => (
+    <ThemeStripe
+      id={item.id}
+      kicker={item.pill[lang]}
+      title={item.title[lang]}
+      lead={item.context[lang]}
+      labelWithLead
+      level={3}
+      tone={i % 2 === 1 ? 'band' : 'bg'}
+      reverse={i % 2 === 1}
+      mirror={i % 2 === 1}
+    >
+      <div class="bootcamp" data-bootcamp={item.plan}>
+        <img
+          class="cover"
+          src={`/static/img/${item.cover}`}
+          alt={item.coverAlt[lang]}
+          width="1000"
+          height="400"
+          loading="lazy"
+          decoding="async"
+        />
+        <p class="text">
+          {emphasis(item.text[lang]).map((part) =>
+            part.strong ? <strong>{part.text}</strong> : part.text,
+          )}
+        </p>
+        <ul class="tags">
+          {item.tags.map((tag) => (
+            <li>
+              <Tag>{tag}</Tag>
+            </li>
+          ))}
+        </ul>
+        <h4 class="achievements-title">{bootcamps.achievementsTitle[lang]}</h4>
+        <p class="text">
+          {emphasis(item.achievement[lang]).map((part) =>
+            part.strong ? <strong>{part.text}</strong> : part.text,
+          )}
+        </p>
+        <p class="duration" data-duration>
+          <Icon name="timer" size={18} />
+          <span>
+            {bootcamps.hoursLabel[lang]
+              .replace('{hours}', String(TRAINING_PLAN_HOURS[item.plan]))
+              .replace('{years}', item.years)}
+          </span>
+        </p>
+      </div>
+    </ThemeStripe>
+  ))}
+</section>
+
+<style>
+  .intro {
+    padding-top: 72px;
+    background-color: var(--color-bg);
+  }
+  .intro-lead {
+    max-width: 60ch;
+    margin: 20px 0 0;
+    color: var(--color-text-soft);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .intro-lead strong,
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .bootcamps :global(section[id]) {
+    scroll-margin-top: 96px;
+  }
+  .cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 2;
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+  }
+  .text {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .achievements-title {
+    margin: 28px 0 8px;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+  .duration {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 24px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .duration :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  @media (min-width: 48rem) {
+    .intro {
+      padding-top: 96px;
+    }
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+/*
+ * Formulario + Calendly (E140-I01, ADR-083, composición A): fondo `bg-alt`, retícula de 12
+ * columnas desde 1.024 px con el formulario en 7 y Calendly en 5 (48 px de separación); una
+ * columna bajo esa medida, formulario primero. El formulario va en un panel `surface` y abre con
+ * la ficha de ubicación y tiempo de respuesta de main.
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import ContactForm from './ContactForm.astro';
+import CalendlyPanel from './CalendlyPanel.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getContactPage } from './contact-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { form, calendly } = await getContactPage();
+---
+
+<div class="contact-section">
+  <Container>
+    <div class="columns">
+      <section class="column-form" aria-labelledby="contact-form-title" data-contact-form-section>
+        <SectionHeader
+          kicker={form.kicker[lang]}
+          title={form.title[lang]}
+          id="contact-form-title"
+        />
+        <ul class="facts">
+          <li>
+            <Icon name="location-on" size={20} />
+            {form.location[lang]}
+          </li>
+          <li>
+            <Icon name="schedule" size={20} />
+            {form.response[lang]}
+          </li>
+        </ul>
+        <div class="panel">
+          <ContactForm />
+        </div>
+      </section>
+      <section
+        class="column-calendly"
+        aria-labelledby="contact-calendly-title"
+        data-calendly-section
+      >
+        <SectionHeader
+          kicker={calendly.kicker[lang]}
+          title={calendly.title[lang]}
+          id="contact-calendly-title"
+        />
+        <div class="calendly-wrap">
+          <CalendlyPanel />
+        </div>
+      </section>
+    </div>
+  </Container>
+</div>
+
+<style>
+  .contact-section {
+    padding-block: 80px;
+    background-color: var(--color-bg-alt);
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-text-muted);
+    font-size: 15px;
+  }
+  .facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .facts :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  .panel {
+    margin-top: 32px;
+    padding: 32px 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .calendly-wrap {
+    margin-top: 32px;
+  }
+  @media (min-width: 48rem) {
+    .contact-section {
+      padding-block: 96px;
+    }
+    .panel {
+      padding: 40px 34px 32px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .columns {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 48px;
+    }
+    .column-form {
+      grid-column: span 7;
+    }
+    .column-calendly {
+      grid-column: span 5;
+    }
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+/*
+ * Banda de ancho completo (DESIGN.md 7.8): fondo band con retícula (4.5), contenido en el
+ * contenedor y encabezado de banda (7.5). Dentro de la banda, accent solo en texto grande (4.3).
+ */
+import Container from './Container.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  kicker?: string;
+  title?: string;
+  lead?: string;
+  id?: string;
+  class?: string;
+}
+const { kicker, title, lead, id, class: className } = Astro.props;
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section
+  id={id}
+  aria-labelledby={title ? headingId : undefined}
+  class:list={['texture-band band', className]}
+>
+  <Container>
+    {kicker && title && (
+      <SectionHeader variant="band" kicker={kicker} title={title} lead={lead} id={headingId} />
+    )}
+    <div class="band-content">
+      <slot />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .band {
+    padding-block: 56px;
+  }
+  .band-content:not(:first-child) {
+    margin-top: 48px;
+  }
+  @media (min-width: 48rem) {
+    .band {
+      padding-block: 64px;
+    }
+  }
+</style>

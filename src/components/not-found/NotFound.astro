@@ -1,0 +1,26 @@
+---
+/*
+ * Página no encontrada (E160-I01, ADR-088, composición A «Confirmación centrada»): rótulo
+ * «Error 404», ícono de búsqueda, único <h1>, texto y dos botones («Volver al inicio» y
+ * «Contactar», como en main). La composición vive en `CenteredMessage`. Todos los enlaces son
+ * rutas absolutas del mapa de rutas (AT-004), válidas desde cualquier profundidad de ruta.
+ * Los textos salen del diccionario (`notFound`). Sin JavaScript.
+ */
+import CenteredMessage from '../ui/CenteredMessage.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = langFromLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<CenteredMessage
+  id="not-found-title"
+  kicker={t.notFound.kicker}
+  title={t.notFound.title}
+  lead={t.notFound.lead}
+  icon="search"
+  primary={{ href: getRoute('home', lang), label: t.notFound.home }}
+  secondary={{ href: getRoute('contact', lang), label: t.notFound.contact }}
+/>

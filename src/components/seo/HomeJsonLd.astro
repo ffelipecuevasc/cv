@@ -1,0 +1,35 @@
+---
+/*
+ * Datos estructurados de la portada (E40-I03): Person y WebSite en el idioma de la página.
+ * Los @id son compartidos entre /es/ y /en/; `inLanguage` sigue al idioma (AT-006).
+ */
+import { getEntry } from 'astro:content';
+import JsonLd from './JsonLd.astro';
+import { buildPerson, buildWebSite } from './structured-data';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+import portrait from '../../assets/felipe_cuevas.webp';
+
+const lang = langFromLocale(Astro.currentLocale);
+const content = (await getEntry('personSeo', 'person'))?.data;
+if (!content) throw new Error('Falta src/content/seo/person.json');
+
+const context = {
+  lang,
+  site: Astro.site as URL,
+  homePath: getRoute('home', lang),
+  contactPath: getRoute('contact', lang),
+  image: new URL(portrait.src, Astro.site).href,
+};
+
+const person = buildPerson(context, {
+  jobTitle: content.jobTitle[lang],
+  description: content.description[lang],
+  knowsAbout: content.knowsAbout[lang],
+  contactType: content.contactType[lang],
+});
+const website = buildWebSite(context);
+---
+
+<JsonLd data={person} />
+<JsonLd data={website} />

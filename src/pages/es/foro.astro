@@ -1,0 +1,23 @@
+---
+// Página Foro de /es/ (E120-I01, ADR-078). Título, descripción y texto alternativo de la imagen
+// OG vienen de src/content/pages/forum.json; el contenido, de src/content/forum/page.json.
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ForumHeader from '../../components/forum/ForumHeader.astro';
+import StepsBand from '../../components/forum/StepsBand.astro';
+import CategoriesGrid from '../../components/forum/CategoriesGrid.astro';
+import Conversation from '../../components/forum/Conversation.astro';
+import { getHomeOgImage } from '../../components/seo/home-og-image';
+
+const page = await getEntry('pages', 'forum');
+if (!page) throw new Error('Falta src/content/pages/forum.json');
+const { title, description, ogImageAlt } = page.data;
+const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
+---
+
+<BaseLayout title={title.es} description={description.es} route="forum" ogImage={og}>
+  <ForumHeader />
+  <StepsBand />
+  <CategoriesGrid />
+  <Conversation />
+</BaseLayout>

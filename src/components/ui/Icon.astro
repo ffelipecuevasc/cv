@@ -1,0 +1,47 @@
+---
+/*
+ * Ícono SVG en línea (DESIGN.md 7.14). Decorativo por defecto (aria-hidden).
+ * Si el ícono es el único contenido de un control, el nombre accesible va en el
+ * control; usa `label` solo cuando el ícono transmite información por sí mismo.
+ * Todos los íconos son rellenos con `currentColor`: los de contorno de Material Symbols Light
+ * (un trazado) y los de marca (uno o más, algunos con regla par-impar).
+ */
+import { brandIcons, symbolIcons, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  /** Tamaño en px (ancho y alto). */
+  size?: number;
+  /** Texto alternativo: si se entrega, el ícono deja de ser decorativo. */
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 24, label, class: className } = Astro.props;
+const a11y = label
+  ? { role: 'img' as const, 'aria-label': label }
+  : { 'aria-hidden': 'true' as const };
+const brand = name in brandIcons ? brandIcons[name as keyof typeof brandIcons] : undefined;
+const symbol = name in symbolIcons ? symbolIcons[name as keyof typeof symbolIcons] : undefined;
+const viewBox = brand?.viewBox ?? '0 0 24 24';
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  width={size}
+  height={size}
+  fill="currentColor"
+  focusable="false"
+  class={className}
+  {...a11y}
+>
+  {symbol && <path d={symbol} />}
+  {brand?.paths.map((p) => (
+    <path
+      d={p.d}
+      fill-rule={p.evenodd ? 'evenodd' : undefined}
+      clip-rule={p.evenodd ? 'evenodd' : undefined}
+    />
+  ))}
+</svg>

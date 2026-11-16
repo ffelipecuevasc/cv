@@ -1,0 +1,13 @@
+{
+  "order": 7,
+  "name": "Emilio Delgado",
+  "role": {
+    "es": "Desarrollador Full Stack",
+    "en": "Full Stack Developer"
+  },
+  "quote": {
+    "es": "Demuestra un gran dominio técnico y una metodología clara y práctica. Se adapta al perfil de cada alumno, enseña con paciencia y transmite su amplia experiencia. Altamente recomendable como instructor y mentor.",
+    "en": "He shows great technical mastery and a clear, practical methodology. He adapts to each student’s profile, teaches with patience and shares his broad experience. Highly recommended as an instructor and mentor."
+  },
+  "photo": "../../assets/testimonials/emilio.webp"
+}

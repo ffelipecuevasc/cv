@@ -1,0 +1,15 @@
+---
+/*
+ * Datos estructurados de Educación (E50-I02, ADR-061): Person con el mismo @id de la portada y
+ * `hasCredential` derivado de src/data/certifications.ts (ADR-053), igual en /es/ y /en/.
+ */
+import JsonLd from './JsonLd.astro';
+import { buildEducationPerson } from './structured-data';
+import { langFromLocale } from '../../i18n/lang';
+import { getRoute } from '../../i18n/routes';
+
+const lang = langFromLocale(Astro.currentLocale);
+const person = buildEducationPerson(Astro.site as URL, getRoute('home', lang));
+---
+
+<JsonLd data={person} />

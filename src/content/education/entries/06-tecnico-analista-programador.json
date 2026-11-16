@@ -1,0 +1,25 @@
+{
+  "order": 6,
+  "weight": "standard",
+  "category": "technical",
+  "title": {
+    "es": "Técnico Analista Programador",
+    "en": "Programmer Analyst Technician"
+  },
+  "institution": "Universidad Tecnológica de Chile INACAP",
+  "startYear": 2007,
+  "endYear": 2011,
+  "status": { "es": "Titulado", "en": "Graduated" },
+  "description": {
+    "es": "Formación técnica de nivel superior en análisis y programación, base de toda mi trayectoria posterior en desarrollo e instrucción.",
+    "en": "Higher-level technical training in analysis and programming, the foundation of my entire later career in development and instruction."
+  },
+  "achievements": {
+    "es": ["Titulado con Honores — Mejor Técnico", "Mejor calificación en el Examen Final"],
+    "en": ["Graduated with Honors — Best Technician", "Highest score in the Final Exam"]
+  },
+  "tags": {
+    "es": ["Programación", "Análisis de Sistemas"],
+    "en": ["Programming", "Systems Analysis"]
+  }
+}

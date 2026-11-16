@@ -1,0 +1,81 @@
+/*
+ * Mapa de rutas equivalentes es-CL ↔ en-US (ADR-020, ADR-035, ADR-047, ADR-048).
+ * - Las 10 páginas navegables del área L de la auditoría (sin Eventos, ADR-077) más la
+ *   política de privacidad: las 11 páginas indexables. Agradecimiento va aparte, en
+ *   `internalRoutes` (ADR-086).
+ * - Toda ruta empieza con /es/ o /en/, termina en barra y nunca lleva .html (AT-005).
+ * - La 404 vive en `internalRoutes` (`notFound`, ADR-088): su selector de idioma lleva a la 404
+ *   del otro idioma. La 404 de la raíz (`/404/`) se resuelve como la de /es/.
+ * Cambiar un slug después del cutover exige una 301 (E180-I01).
+ */
+import { langs, otherLang, type Lang } from './lang';
+
+export const routes = {
+  home: { es: '/es/', en: '/en/' },
+  education: { es: '/es/educacion/', en: '/en/education/' },
+  experience: { es: '/es/experiencia/', en: '/en/experience/' },
+  developer: { es: '/es/desarrollador/', en: '/en/developer/' },
+  lecturer: { es: '/es/docente/', en: '/en/lecturer/' },
+  instructor: { es: '/es/instructor/', en: '/en/instructor/' },
+  talentoDigital: { es: '/es/talento-digital/', en: '/en/talento-digital/' },
+  forum: { es: '/es/foro/', en: '/en/forum/' },
+  resources: { es: '/es/recursos/', en: '/en/resources/' },
+  contact: { es: '/es/contacto/', en: '/en/contact/' },
+  privacy: { es: '/es/privacidad/', en: '/en/privacy/' },
+} as const satisfies Record<string, Record<Lang, string>>;
+
+/**
+ * Páginas internas (noindex, fuera del sitemap y de la navegación). El sitemap de E180-I02 se
+ * arma solo con `routes`, así que lo que vive aquí queda excluido sin lista aparte.
+ * Agradecimiento es `noindex, follow` y la usa la redirección del formulario (E150-I01).
+ */
+export const internalRoutes = {
+  thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' },
+  /** 404 por idioma (E160-I01, ADR-088): noindex, follow y fuera del sitemap. */
+  notFound: { es: '/es/404/', en: '/en/404/' },
+} as const satisfies Record<string, Record<Lang, string>>;
+
+export type RouteKey = keyof typeof routes;
+export type InternalRouteKey = keyof typeof internalRoutes;
+export type AnyRouteKey = RouteKey | InternalRouteKey;
+
+const allRoutes: Record<AnyRouteKey, Record<Lang, string>> = { ...routes, ...internalRoutes };
+
+// Validación al construir: si el mapa queda mal escrito, `pnpm build` falla.
+const seen = new Set<string>();
+for (const [key, paths] of Object.entries(allRoutes)) {
+  for (const lang of langs) {
+    const path = paths[lang];
+    if (!path.startsWith(`/${lang}/`) || !path.endsWith('/') || path.includes('.html')) {
+      throw new Error(`Ruta inválida en ${key}.${lang}: ${path} (ADR-047, AT-005)`);
+    }
+    if (seen.has(path)) throw new Error(`Ruta duplicada en el mapa: ${path}`);
+    seen.add(path);
+  }
+}
+
+/** Rutas de una página en ambos idiomas. */
+export const routePaths = (key: AnyRouteKey): Record<Lang, string> => allRoutes[key];
+
+/** Ruta de una página en un idioma. */
+export const getRoute = (key: AnyRouteKey, lang: Lang): string => allRoutes[key][lang];
+
+/** Clave de la página a partir de su ruta (con o sin barra final). */
+export const routeKeyFromPath = (path: string): AnyRouteKey | undefined => {
+  const normalized = path.endsWith('/') ? path : `${path}/`;
+  // La 404 de la raíz (`src/pages/404.astro`, en español) equivale a la de /es/.
+  if (normalized === '/404/') return 'notFound';
+  return (Object.keys(allRoutes) as AnyRouteKey[]).find((key) =>
+    Object.values(allRoutes[key]).includes(normalized),
+  );
+};
+
+/**
+ * Ruta equivalente en el otro idioma (o en `target`). Si la ruta no está en el mapa
+ * (por ejemplo, la 404), devuelve la portada del idioma de destino.
+ */
+export const getEquivalentPath = (path: string, target?: Lang): string => {
+  const key = routeKeyFromPath(path);
+  const lang: Lang = target ?? otherLang(path.startsWith('/en/') ? 'en' : 'es');
+  return key ? getRoute(key, lang) : routes.home[lang];
+};

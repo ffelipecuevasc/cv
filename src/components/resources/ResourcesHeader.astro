@@ -1,0 +1,37 @@
+---
+/*
+ * Cabecera de Recursos (E130-I01, ADR-079): el único <h1>, «Bóveda de recursos» (AT-037), con
+ * rótulo y bajada, alineada a la izquierda sobre `bg`. Sin JavaScript.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { getResourcesPage } from './resources-data';
+
+const lang = langFromLocale(Astro.currentLocale);
+const { header } = await getResourcesPage();
+---
+
+<div class="resources-header">
+  <Container>
+    <SectionHeader
+      level={1}
+      kicker={header.kicker[lang]}
+      title={header.title[lang]}
+      lead={header.lead[lang]}
+      id="resources-title"
+    />
+  </Container>
+</div>
+
+<style>
+  .resources-header {
+    padding-block: 64px 56px;
+    background-color: var(--color-bg);
+  }
+  @media (min-width: 48rem) {
+    .resources-header {
+      padding-block: 80px 72px;
+    }
+  }
+</style>

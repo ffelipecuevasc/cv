@@ -1,0 +1,15 @@
+{
+  "route": "forum",
+  "title": {
+    "es": "Foro | Felipe Cuevas",
+    "en": "Forum | Felipe Cuevas"
+  },
+  "description": {
+    "es": "Espacio de preguntas y proyectos para quienes aprenden a programar: foro abierto sobre GitHub Discussions, sin publicidad.",
+    "en": "A place for questions and projects for people learning to code: an open forum on GitHub Discussions, with no ads."
+  },
+  "ogImageAlt": {
+    "es": "Felipe Cuevas, ingeniero informático, con las insignias de sus certificaciones de Oracle, AWS, Python Institute y Anthropic",
+    "en": "Felipe Cuevas, computer engineer, with the badges of the Oracle, AWS, Python Institute and Anthropic certifications"
+  }
+}
