@@ -1,7 +1,7 @@
 # E190-I03 · README final y retiro de archivos del sitio antiguo
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (iniciada el 15-11-2026)
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E190-I02 · **Hallazgos que cierra:** AT-056 (retiro de la muestra de tokens) · **ADR relacionados:** ADR-014, ADR-042, ADR-091
+- **Depende de:** E190-I02 · **Hallazgos que cierra:** AT-056 (retiro de la muestra de tokens), AT-127 (aceptado), AT-129 · **ADR relacionados:** ADR-014, ADR-042, ADR-091, ADR-102 · **Hallazgo nuevo:** AT-141
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -23,13 +23,21 @@ Dejar la rama lista para el merge: README de la raíz final y eliminación de lo
 - Merge (lo hace Felipe).
 
 ## Tareas
-- [ ] Confirmar la lista con Felipe antes de borrar.
-- [ ] Actualizar el README.
-- [ ] Retirar la muestra de tokens y comprobar que `dist/` ya no tiene `es/muestra-diseno/` ni `en/design-sample/` (AT-056, ADR-091).
+- [x] Puerta: rama `migracion-astro`, E190-I02 `[x]`; I03 marcada `[~]` (15-11-2026).
+- [x] Inventario con evidencia de que ninguna ruta ni script depende de los archivos antiguos (ADR-102).
+- [x] Confirmar la lista con Felipe antes de borrar (15-11-2026): todo el sitio antiguo y la muestra; `docs/` se conserva; tag de retorno; AT-129 entra.
+- [x] Retirar con `git rm`: 13 `*.html`, `sitemap.xml`, `robots.txt`, `_redirects` y `linkinator.config.json` de la raíz, `functions/`, `static/` y la muestra de tokens (páginas, componente y ruta interna).
+- [x] Ajustar `check:i18n` (`EXPECTED_PAIRS` 13 → 12), `eslint.config.js`, `.prettierignore` y los comentarios de `astro.config.mjs`; `ADR-042` anota el retiro.
+- [x] Actualizar el README (final).
+- [x] AT-127 registrado como aceptado; AT-129 resuelto como precaución.
+- [x] Medir `dist/` antes y después (ver la bitácora).
+- [ ] **Pendiente de Felipe:** quitar de `public/_headers` el hash sobrante (AT-141, bloque en la bitácora) y volver a pasar `pnpm verify:seo` (1192/1192).
+- [ ] **Pendiente de Felipe:** aplicar los bloques de `AGENTS.md` y, si quiere, de `.claude/settings.json` (bitácora), y crear el tag de retorno en `main` antes del merge.
+- [ ] OK de Felipe para marcar `[x]`.
 
 ## Archivos previstos (crear / modificar)
-- Eliminar: archivos antiguos listados y la muestra de tokens (páginas, componente y ruta interna).
-- Modificar: `README.md`.
+- Eliminar: los archivos antiguos y la muestra de tokens (ver ADR-102).
+- Modificar: `README.md`, `scripts/check-i18n.mjs`, `eslint.config.js`, `.prettierignore`, `astro.config.mjs` (comentarios) y `src/i18n/routes.ts`.
 
 ## Criterios de aceptación (verificables)
 - [ ] `pnpm build` y todas las verificaciones pasan tras el retiro.

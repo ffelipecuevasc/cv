@@ -20,8 +20,8 @@ E170 y E180.
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E190-I01](E190-I01-precondiciones.md) | Checklist de precondiciones y ensayo en preview | P0 | S | E170-I04, E180-I03 | [x] Terminada |
-| [E190-I02](E190-I02-plan-despliegue-reversa.md) | Plan de cambio de despliegue y plan de reversa | P0 | M | E190-I01 | [~] En curso |
-| [E190-I03](E190-I03-readme-final-retiro.md) | README final y retiro de archivos del sitio antiguo | P0 | S | E190-I02 | [ ] Pendiente |
+| [E190-I02](E190-I02-plan-despliegue-reversa.md) | Plan de cambio de despliegue y plan de reversa | P0 | M | E190-I01 | [x] Terminada |
+| [E190-I03](E190-I03-readme-final-retiro.md) | README final y retiro de archivos del sitio antiguo | P0 | S | E190-I02 | [~] En curso |
 | [E190-I04](E190-I04-verificacion-post-cutover.md) | Verificación posterior al cutover | P0 | S | E190-I03 | [ ] Pendiente |
 
 ## Criterios de aceptación de la épica

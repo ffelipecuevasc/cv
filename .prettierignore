@@ -1,14 +1,7 @@
 # Prettier también respeta .gitignore (dist/, .astro/, node_modules/, .idea/...).
 
-# Sitio antiguo: referencia de solo lectura hasta E190-I03 (AGENTS.md, sección 2).
-/*.html
-static/
-functions/
-docs/
-sitemap.xml
-robots.txt
-_redirects
-linkinator.config.json
+# Carpeta local de Wrangler (AT-129).
+.wrangler/
 
 # Documentación y planificación: se redactan a mano y no se reformatean.
 *.md

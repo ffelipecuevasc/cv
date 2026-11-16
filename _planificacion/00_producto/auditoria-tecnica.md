@@ -577,12 +577,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** mantener `@theme static`. Tras la corrección, las 56 filas de la muestra cumplen en Chrome y coinciden con `DESIGN.md` 4.4 (diferencia máxima de 0,01).
 
 ### AT-056 · La muestra de tokens puede destellar en oscuro al cargar
-- **Severidad:** Baja · **Estado:** Aceptado, sin corregir: la muestra se retira en E190-I03 (decisión de Felipe, 12-11-2026, ADR-091) · **Resuelve:** E190-I03 (retiro) y E180-I02 (fuera del sitemap mientras exista)
+- **Severidad:** Baja · **Estado:** Resuelto por retiro en E190-I03 (15-11-2026): la muestra ya no existe (ADR-091, ADR-102) · **Resuelve:** E190-I03 (retiro) y E180-I02 (fuera del sitemap mientras exista)
 - **Evidencia (E30-I01, 29-10-2026):** `src/components/dev/DesignSample.astro` quita `.dark` de `<html>` en un script de módulo, que corre después del primer pintado. Con tema oscuro guardado o del sistema, el script de tema de `BaseLayout` pone `.dark` antes de pintar y la mitad "clara" de la muestra puede verse oscura un instante.
 - **Impacto:** solo en la muestra interna (`noindex`); no afecta páginas del sitio.
 - **Recomendación:** que la mitad clara declare sus tokens claros con una clase propia, o que la muestra indique al layout que no aplique el tema.
 - **Decisión (de Felipe, 12-11-2026, E170-I01; ADR-091):** no se corrige el destello. La muestra (`src/pages/es/muestra-diseno.astro`, `src/pages/en/design-sample.astro` y su componente) se retira en E190-I03, antes del cutover. Mientras exista, queda **excluida de las auditorías de E170** (accesibilidad, rendimiento, cabeceras y enlaces) y fuera del sitemap (E180-I02). Un arreglo en línea, además, habría sumado otro script al CSP de E170-I03.
-
+- **Cierre (E190-I03, 15-11-2026):** se retiraron `src/pages/es/muestra-diseno.astro`, `src/pages/en/design-sample.astro`, `src/components/dev/DesignSample.astro` y la ruta `designSample` de `routes.ts`. `dist/` pierde `es/muestra-diseno/index.html` y `en/design-sample/index.html`; `check:i18n` pasa de 13 a 12 pares. Ver también AT-141 (hash de CSP sobrante).
 ### AT-057 · DESIGN.md 3.2 nombra el token `text` con los valores de `heading`
 - **Severidad:** Baja · **Estado:** Resuelto antes de E30-I04 (Felipe corrigió `DESIGN.md` 3.2 a `heading`) · **Resuelve:** edición de `DESIGN.md` por Felipe
 - **Evidencia (E30-I03, 29-10-2026):** `DESIGN.md` 3.2 dice "Color `text` (`#00131D` en claro, `#FFFFFF` en oscuro)". En 4.2, `text` vale `orient-50` en oscuro; el semántico que da `#00131D` / `#FFFFFF` es `heading`.
@@ -1050,21 +1050,21 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Resolución (E190-I01, 15-11-2026):** `public/static/img/felipe_cuevas_cv.png` copiado con hash SHA-256 idéntico al de `main` (`54016ca235965ce886baade6480d2a1708563ceeea720c7c9b4cf07054607c81`). `scripts/check-redirects.mjs` no tiene un conteo fijo de archivos de `public/static/` (los lee del disco), así que no cambia; su informe «sin regla» sigue listando esa URL, ahora redundante (AT-137).
 - **Verificación (E190-I01 Fase 2, 15-11-2026):** en la preview, `/static/img/felipe_cuevas_cv.png` responde 200 `image/png`; `check:redirects --base` 483/483.
 ### AT-127 · `/educacion/` con barra final da 404
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Severidad:** Baja · **Estado:** Aceptado (E190-I03, 15-11-2026): no se redirige · **Resuelve:** —
 - **Evidencia (E180-I01, 14-11-2026, verificado):** en la preview `/educacion/` responde 404 (`/educacion` y `/educacion.html` sí redirigen). No verificado si el sitio antiguo atendía la variante con barra.
 - **Decisión (de Felipe, 14-11-2026):** no redirigir; queda abierto.
 - **Impacto:** un enlace antiguo con barra final llegaría a la 404.
-
+- **Decisión (E190-I03, 15-11-2026, de Felipe, dicha por el desarrollador):** se acepta y no se redirige; un enlace antiguo con barra final (`/educacion/`) llega a la 404. `check:redirects` lo sigue listando solo como informe.
 ### AT-128 · El área L escribe destinos sin barra final
 - **Severidad:** Baja · **Estado:** Resuelto en E180-I01 (14-11-2026) · **Resuelve:** E180-I01
 - **Evidencia:** el mapa del área L lista destinos como `/es/educacion` sin barra.
 - **Resolución:** prevalece ADR-047; `public/_redirects` usa destinos con barra final (ADR-093).
 
 ### AT-129 · `wrangler dev` crea `.wrangler/` y `pnpm lint` falla con 12 errores
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** —
+- **Severidad:** Baja · **Estado:** Resuelto como precaución en E190-I03 (15-11-2026); no se reprodujo · **Resuelve:** —
 - **Evidencia (E180-I01, 14-11-2026, dicho por el desarrollador):** tras ejecutar `wrangler dev` aparece `.wrangler/` y `pnpm lint` falla con 12 errores. No reproducido en esta sesión.
 - **Recomendación:** ignorar `.wrangler/` en ESLint (no se hizo: fuera de alcance).
-
+- **Cierre (E190-I03, 15-11-2026, ADR-102):** `.wrangler/` queda ignorada en `eslint.config.js` (y en `.prettierignore`, que ya la heredaba de `.gitignore`). El 15-11-2026 `.wrangler/` existía en el equipo de Felipe y `pnpm lint` pasaba, así que los 12 errores nunca se reprodujeron.
 ### AT-130 · Las páginas emiten `x-default` y el sitemap no
 - **Severidad:** Baja · **Estado:** Resuelto en E180-I03 (15-11-2026, ADR-098) · **Resuelve:** E180-I03
 - **Evidencia (E180-I02, 14-11-2026, verificado):** `Seo.astro` emite `hreflang="x-default"` hacia `/es/` en cada página; las alternativas del sitemap son solo es-CL y en-US, y `verify:seo` falla si aparece `x-default` en él. Google lo declara opcional.
@@ -1139,3 +1139,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (E190-I02, 15-11-2026):** el Worker verifica Turnstile (`src/worker/contact.ts`); el ensayo del 15-11-2026 se hizo en workers.dev (AT-100). No hay evidencia en el repositorio de que `felipecuevas.dev` esté en la lista de hostnames del widget.
 - **Impacto:** tras mover el dominio, el formulario podría rechazar todos los envíos.
 - **Recomendación:** Felipe confirma en el panel de Turnstile que `felipecuevas.dev` (y `www` si corresponde) figura en los hostnames, antes de la ventana. Quitar workers.dev se hace después (AT-100, E190-I04).
+
+### AT-141 · `public/_headers` conserva un hash de CSP que ya no corresponde a ningún script
+- **Severidad:** Baja · **Estado:** Abierto (bloque para Felipe) · **Resuelve:** E190-I03 (Felipe edita `public/_headers`, ADR-033)
+- **Evidencia (E190-I03, 15-11-2026, verificado):** tras retirar la muestra, `pnpm verify:seo` falla 1 de 1192 controles: «ningún hash de la CSP sobra (12 declarados; sobran 1)». El hash sobrante es `'sha256-vEIGBz263muMSlIibMLKBx8+AOeP+/H+Q/A1Snqcj0Y='`: es el único de `script-src` que el build ya no genera (se deduce por exclusión que era el script en línea de la muestra; no se recalculó sobre el `dist/` antiguo).
+- **Impacto:** `verify:seo` queda en rojo y la CSP permite el hash de un script que no existe. Sin efecto visible.
+- **Propuesta (no aplicada: `public/_headers` lo edita Felipe):** quitar `'sha256-vEIGBz263muMSlIibMLKBx8+AOeP+/H+Q/A1Snqcj0Y='` de la directiva `script-src` de la línea de `Content-Security-Policy` (línea 5), dejando los otros 11 hashes. Después, `pnpm build && pnpm verify:seo` debe dar 1192/1192.

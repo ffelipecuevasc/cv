@@ -30,7 +30,6 @@ export const routes = {
  * Agradecimiento es `noindex, follow` y la usa la redirección del formulario (E150-I01).
  */
 export const internalRoutes = {
-  designSample: { es: '/es/muestra-diseno/', en: '/en/design-sample/' },
   thankYou: { es: '/es/agradecimiento/', en: '/en/thank-you/' },
   /** 404 por idioma (E160-I01, ADR-088): noindex, follow y fuera del sitemap. */
   notFound: { es: '/es/404/', en: '/en/404/' },

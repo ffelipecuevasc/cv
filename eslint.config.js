@@ -7,9 +7,8 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
-  // Salida, dependencias y sitio antiguo: este último es referencia de solo
-  // lectura hasta E190-I03 (AGENTS.md, sección 2).
-  globalIgnores(['dist/', '.astro/', 'node_modules/', '*.html', 'static/', 'functions/', 'docs/']),
+  // Salida, dependencias y carpeta local de Wrangler (AT-129).
+  globalIgnores(['dist/', '.astro/', 'node_modules/', '.wrangler/']),
   js.configs.recommended,
   tseslint.configs.recommended,
   eslintPluginAstro.configs.recommended,

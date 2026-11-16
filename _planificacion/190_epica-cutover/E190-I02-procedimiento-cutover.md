@@ -1,6 +1,6 @@
 # E190-I02 · Procedimiento de cutover y de reversa
 
-- **Versión:** borrador del 15-11-2026 (agente), pendiente de la lectura conjunta con Felipe. **Ejecuta todo Felipe**; el agente no toca Cloudflare ni hace el merge (ADR-012, ADR-033).
+- **Versión:** del 15-11-2026; **lectura conjunta confirmada por Felipe el 15-11-2026** con tres ajustes (rama corta para `workers_dev`, purga de caché tras el paso 6 y ventana). **Ejecuta todo Felipe**; el agente no toca Cloudflare ni hace el merge (ADR-012, ADR-033).
 - **Decisiones que lo fijan:** ADR-037 (plan base), ADR-099 (política vigente), ADR-101 (decisiones de Felipe del 15-11-2026: orden, workers.dev, HSTS, Analytics y Observability).
 - Los tiempos son **estimaciones, no medidas**. Las marcas «(no verificado)» indican lo que la documentación oficial leída no confirma; se comprueban en el panel durante el procedimiento.
 
@@ -35,7 +35,7 @@
 | P7 | Preview con las comprobaciones de I01 ya hechas (hecho, 15-11-2026) | Agente | `E190-I01-checklist.md` |
 
 ## 4. Ventana recomendada
-- Un **sábado o domingo temprano en la mañana (hora de Chile)**, con unas 2 horas libres y sin otros cambios en curso. Para separar variables, **no el mismo día del cambio de vigencia de la ley** (01-12-2026).
+- **Sábado 21 o domingo 22-11-2026, temprano en la mañana (hora de Chile)**, con unas 2 horas libres y sin otros cambios en curso (decisión de Felipe, 15-11-2026). **Sin ensayo con un subdominio** (decisión de Felipe): el cambio va directo al apex. Por eso AT-139 y AT-140 se comprueban en la propia ventana, y **P2 (ley) y P4 (Turnstile) deben estar cumplidas antes**.
 - El hueco sin servicio, entre los pasos 5 y 6, se estima en **minutos (no medido)**. Con la reversa lista, el procedimiento completo se estima en **30 a 60 minutos**.
 - No iniciar con un incidente abierto en Cloudflare ni con builds en curso.
 
@@ -48,9 +48,10 @@
 | 4 | **Workers Builds:** Worker `felipecuevas-dev` > Settings > Build > Branch control > rama de producción `main` (previews siguen desactivados); si no se dispara un build solo, «Retry build» o un commit mínimo | Felipe | 10 min | Build verde; versión activa nueva; `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` 200; **Agente:** `pnpm check:redirects --base <workers.dev>` sin fallos | Devolver la rama a `migracion-astro` y revertir el Worker a la versión anotada en el paso 1 (Deployments > Rollback) |
 | 5 | **Liberar el dominio** (inicio del hueco): DNS > borrar el CNAME del apex; Pages > Custom domains > quitar `felipecuevas.dev` («Remove domain») | Felipe | 3 min | El apex deja de resolver al sitio antiguo | Pages > Custom domains > «Set up a domain» > `felipecuevas.dev` (Pages recrea el CNAME). No crear el CNAME a mano antes de asociarlo (error 522) |
 | 6 | **Custom Domain al Worker:** `felipecuevas-dev` > Settings > Domains & Routes > Add > Custom Domain > `felipecuevas.dev` (fin del hueco). Cloudflare crea el registro DNS y el certificado | Felipe | 5 a 15 min | `curl -I https://felipecuevas.dev/` → 301 a `/es/`; `/es/` 200; certificado válido; **Agente:** `pnpm check:redirects --base https://felipecuevas.dev` | Quitar el Custom Domain del Worker y aplicar la reversa del paso 5. Luego, borrar el Advanced Certificate que quedó (SSL/TLS > Edge Certificates; no se borra solo) |
+| 6b | **Purgar la caché de la zona:** Caching > Configuration > «Purge Everything». *Inferencia del agente, no verificada en la documentación leída:* tras mover el dominio podría quedar en el borde contenido del sitio antiguo | Felipe | 2 min | `curl -I https://felipecuevas.dev/es/` y `/static/img/felipe_cuevas_cv.png` sirven el sitio nuevo; sin contenido del sitio antiguo | No se deshace (el borde se repuebla solo); no hace falta reversa |
 | 7 | **`www`:** si existe un CNAME de `www`, reemplazarlo por un registro **A proxied** `www` → `192.0.2.0` (o AAAA `100::`); regla de redirección: `https://www.*` → `https://${1}`, 301, conservando la query | Felipe | 10 min | `curl -I https://www.felipecuevas.dev/es/` → 301 a `https://felipecuevas.dev/es/` | Borrar la regla y el registro y restaurar el `www` exportado en el paso 1 |
 | 8 | **Verificación inmediata:** `/es/`, `/en/`, `/x` (404), `/sitemap.xml` → 301, `/robots.txt`, `/static/img/felipe_cuevas_cv.png`, 5 redirecciones antiguas; formulario real (rechazo sin checkbox y envío con checkbox; correo con fecha, hora y versión de la política) | Felipe y agente | 15 min | Todo en verde | Ver sección 6 |
-| 9 | **A las ~48 h con el sitio estable:** (a) HSTS en la zona con max-age de 1 mes, sin `includeSubDomains`, sin preload y sin no-sniff (SSL/TLS > Edge Certificates > HTTP Strict Transport Security); (b) apagar workers.dev con el bloque de la sección 7 (commit de Felipe) | Felipe | 15 min | Cabecera `Strict-Transport-Security` en `https://felipecuevas.dev/`; workers.dev deja de responder | (a) Max-age 0 (los navegadores que ya la vieron la respetan hasta que venza, **mientras HTTPS siga activo**); (b) `"workers_dev": true` y redeploy |
+| 9 | **A las ~48 h con el sitio estable:** (a) HSTS en la zona con max-age de 1 mes, sin `includeSubDomains`, sin preload y sin no-sniff (SSL/TLS > Edge Certificates > HTTP Strict Transport Security); (b) apagar workers.dev con el bloque de la sección 7: Felipe crea una **rama corta posterior al cutover, desde `main`**, aplica el cambio y la mergea; Workers Builds despliega. **Nunca se commitea directo en `main`** | Felipe | 15 min | Cabecera `Strict-Transport-Security` en `https://felipecuevas.dev/`; workers.dev deja de responder | (a) Max-age 0 (los navegadores que ya la vieron la respetan hasta que venza, **mientras HTTPS siga activo**); (b) `"workers_dev": true` por la misma vía (rama corta, merge y despliegue de Workers Builds) |
 | 10 | **No hacer todavía:** borrar el proyecto Pages ni sus deployments; subir HSTS a 6 meses (tras 2 semanas sin incidentes); quitar el hostname de workers.dev de Turnstile (AT-100) y enviar el sitemap a Search Console (AT-131), que son de E190-I04 | Felipe | — | — | — |
 
 ## 6. Reversa (sirve sin el agente)
@@ -67,7 +68,7 @@
 8. Si el problema fue solo del Worker (dominio sano): Worker > Deployments > «Rollback» a la versión anotada en el paso 1 (el rollback crea un nuevo deployment al 100 %).
 
 ## 7. Bloques para Felipe (el agente no edita estos archivos)
-- **`wrangler.jsonc` (paso 9b, ADR-101):** cambiar solo la línea `"workers_dev": true,` por:
+- **`wrangler.jsonc` (paso 9b, ADR-101):** en una rama corta creada desde `main` (nunca directo en `main`), cambiar solo la línea `"workers_dev": true,` por:
 ```jsonc
   "workers_dev": false,
 ```
@@ -78,5 +79,5 @@
 workers.dev: se apaga tras verificar (paso 9b) · Web Analytics: no se activa (AT-121) · Observability: no se activa (AT-123 queda cerrada como no reproducible) · HSTS: 1 mes, sin subdominios ni preload (AT-122) · orden: Pages pausado, merge, Workers, dominio.
 
 ## 9. Lectura conjunta
-- [ ] Felipe y el agente revisan este documento juntos. Hasta que Felipe confirme, E190-I02 queda `[~]`.
-- Observaciones de la lectura:
+- [x] Felipe y el agente revisaron este documento juntos y Felipe lo confirmó el 15-11-2026 (dicho por el desarrollador).
+- Observaciones de la lectura (ajustes aplicados): (a) el paso 9b va en una rama corta posterior al cutover, creada desde `main`, mergeada por Felipe y desplegada por Workers Builds, nunca con commit directo en `main`; (b) tras el paso 6 se agrega «Purge Everything» de la caché de la zona (paso 6b), marcado como inferencia no verificada; (c) ventana el sábado 21 o domingo 22-11-2026 temprano, sin ensayo con subdominio, con AT-139 y AT-140 abiertos y comprobados en la ventana, y P2 y P4 cumplidas antes (complemento fechado de ADR-101).

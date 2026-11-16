@@ -17,7 +17,7 @@ export default defineConfig({
   output: 'static',
   // Dominio de producción: base de canonical, hreflang y og:url absolutos (ADR-047).
   site: 'https://felipecuevas.dev',
-  // Todas las rutas terminan en barra (/es/, /en/design-sample/): una sola forma por URL (ADR-047).
+  // Todas las rutas terminan en barra (/es/, /en/contact/): una sola forma por URL (ADR-047).
   trailingSlash: 'always',
   // i18n nativo (ADR-001): es-CL en /es/ y en-US en /en/, ambos con prefijo.
   // Sin `fallback`: una página que falte en un idioma da 404, no se sirve la del otro.
@@ -79,7 +79,7 @@ export default defineConfig({
   ],
   // Sitemap bilingüe con @astrojs/sitemap (ADR-095, sustituye a ADR-094). Genera sitemap-index.xml
   // y sitemap-0.xml con alternativas es-CL / en-US. El filtro deja fuera las rutas internas del mapa
-  // de rutas (404, agradecimiento y muestra de tokens, AT-106) y la raíz / (E180-I03). x-default hacia la versión /es/ (ADR-019, ADR-098).
+  // de rutas (404 y agradecimiento, AT-106) y la raíz / (E180-I03). x-default hacia la versión /es/ (ADR-019, ADR-098).
   // `i18n` empareja los idiomas cambiando el segmento de la ruta y no sirve con slugs traducidos
   // (/es/contacto/ ↔ /en/contact/): `serialize` entrega las alternativas desde el mapa de rutas (ADR-020).
   integrations: [

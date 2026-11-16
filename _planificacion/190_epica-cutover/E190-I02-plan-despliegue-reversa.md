@@ -1,5 +1,5 @@
 # E190-I02 · Plan de cambio de despliegue y plan de reversa
-- **Estado:** [~] En curso (iniciada el 15-11-2026)
+- **Estado:** [x] Terminada (15-11-2026; lectura conjunta confirmada por Felipe)
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E190-I01 · **Hallazgos que cierra:** AT-042, AT-048, AT-121, AT-122 (decide además sobre Observability, AT-123) · **ADR relacionados:** ADR-037, ADR-099, ADR-101 · **Hallazgos nuevos:** AT-138, AT-139, AT-140
 
@@ -30,14 +30,14 @@ Escribir el procedimiento paso a paso para que Felipe haga el merge y cambie el 
 - [x] HSTS en la zona: 1 mes, sin `includeSubDomains` ni preload (AT-122, ADR-101).
 - [x] Incluir los pasos de ADR-037 y la reversa que devuelve el dominio a Pages (con la pausa de Pages previa al merge).
 - [x] **Ley 21.719 (traspasada de E190-I01):** incluida como precondición P2 del procedimiento; **sigue pendiente de Felipe** (reconfirmar en fuente oficial y anotar con fecha, ADR-099).
-- [ ] Lectura conjunta del procedimiento con Felipe y su confirmación.
+- [x] Lectura conjunta del procedimiento con Felipe y su confirmación (15-11-2026, con tres ajustes: ver sección 9 del procedimiento y el complemento de ADR-101).
 
 ## Archivos previstos (crear / modificar)
 - Crear: `190_epica-cutover/E190-I02-procedimiento-cutover.md`. Modificar: `decisiones.md` (ADR-101), `auditoria-tecnica.md` (AT-048, AT-121, AT-122, AT-123 y AT-138 a AT-140), documentos de estado y bitácora.
 
 ## Criterios de aceptación (verificables)
-- [ ] La reversa devuelve producción al sitio anterior sin depender del agente.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La reversa devuelve producción al sitio anterior sin depender del agente.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -48,7 +48,7 @@ Escribir el procedimiento paso a paso para que Felipe haga el merge y cambie el 
 - —
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
+- [x] Escribir la bitácora en 99_bitacora/
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

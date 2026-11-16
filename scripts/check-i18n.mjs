@@ -17,8 +17,8 @@ import { fileURLToPath } from 'node:url';
 import { SITE, listHtml, readMarkup, tagsOf } from './lib/dist-html.mjs';
 
 const ROUTES_FILE = fileURLToPath(new URL('../src/i18n/routes.ts', import.meta.url));
-/** Pares esperados: 11 páginas indexables + Muestra de diseño + Agradecimiento (sin Eventos, ADR-077); la 404 va aparte. */
-const EXPECTED_PAIRS = 13;
+/** Pares esperados: 11 páginas indexables + Agradecimiento (sin Eventos, ADR-077; la muestra de tokens se retiró en E190-I03, ADR-091); la 404 va aparte. */
+const EXPECTED_PAIRS = 12;
 const LANGS = {
   es: { code: 'es-CL', og: 'es_CL', other: 'en' },
   en: { code: 'en-US', og: 'en_US', other: 'es' },
