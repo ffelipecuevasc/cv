@@ -1135,7 +1135,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Mitigación:** el procedimiento quita el dominio de Pages antes de crear el Custom Domain y describe la reversa con el panel; Felipe lo valida en la lectura conjunta y deja anotada cualquier diferencia que vea en el panel.
 
 ### AT-140 · El widget de Turnstile debe autorizar el dominio propio antes del cutover (no verificado)
-- **Severidad:** Alta (el formulario fallaría en producción) · **Estado:** Abierto · **Resuelve:** precondición P4 del procedimiento de E190-I02
+- **Severidad:** Alta (el formulario fallaría en producción) · **Estado:** Abierto: la precondición P4 está hecha (15-11-2026) y falta la prueba real del paso 8 · **Resuelve:** precondición P4 del procedimiento de E190-I02
 - **Evidencia (E190-I02, 15-11-2026):** el Worker verifica Turnstile (`src/worker/contact.ts`); el ensayo del 15-11-2026 se hizo en workers.dev (AT-100). No hay evidencia en el repositorio de que `felipecuevas.dev` esté en la lista de hostnames del widget.
 - **Impacto:** tras mover el dominio, el formulario podría rechazar todos los envíos.
 - **Recomendación:** Felipe confirma en el panel de Turnstile que `felipecuevas.dev` (y `www` si corresponde) figura en los hostnames, antes de la ventana. Quitar workers.dev se hace después (AT-100, E190-I04).
@@ -1146,3 +1146,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** `verify:seo` queda en rojo y la CSP permite el hash de un script que no existe. Sin efecto visible.
 - **Propuesta (no aplicada: `public/_headers` lo edita Felipe):** quitar `'sha256-vEIGBz263muMSlIibMLKBx8+AOeP+/H+Q/A1Snqcj0Y='` de la directiva `script-src` de la línea de `Content-Security-Policy` (línea 5), dejando los otros 11 hashes. Después, `pnpm build && pnpm verify:seo` debe dar 1192/1192.
 - **Cierre (E190-I03, 15-11-2026):** Felipe quitó el hash de `script-src` en el commit d853c8e. Verificado: `pnpm build && pnpm verify:seo` da 1192 de 1192.
+- **Avance (15-11-2026, dicho por Felipe, con capturas):** el widget autoriza `felipecuevas.dev`, `pages.dev` y `workers.dev` (3 de 10 hostnames). No se cierra hasta enviar el formulario en el apex (paso 8 del procedimiento).
+
+### AT-142 · La épica enlaza el archivo de la iteración I02 y no el procedimiento vigente
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** sin iteración asignada (valorar en E190-I04)
+- **Evidencia (15-11-2026, verificado):** `190_epica-cutover/epica.md` enlaza `E190-I02-plan-despliegue-reversa.md` (el archivo de la iteración, que solo lista tareas y referencias). El procedimiento vigente, que es lo que se usa en la ventana, es `E190-I02-procedimiento-cutover.md`, y `epica.md` no lo enlaza.
+- **Impacto:** quien abre la épica en la ventana llega al archivo de la iteración y debe buscar el procedimiento. Sin efecto en el sitio.
+- **Recomendación:** enlazar el procedimiento desde `epica.md` o desde el archivo de la iteración. No se renombró nada.

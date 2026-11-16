@@ -33,3 +33,5 @@ E170 y E180.
 ## Riesgos
 - Contenido publicado en `main` durante la migración que no se portó.
 - Secretos no configurados en la plataforma nueva.
+
+> Nota (15-11-2026, preparación de la ventana): P2 (Ley 21.719) cerrada por decisión de Felipe (ADR-103); P4 hecha y paso 2 hecho por adelantado; P6 verificada. Detalle en `99_bitacora/2026-11-15_E190-preventana.md`. El procedimiento vigente es `E190-I02-procedimiento-cutover.md` (AT-142).

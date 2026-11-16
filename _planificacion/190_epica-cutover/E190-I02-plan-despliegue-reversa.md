@@ -29,7 +29,8 @@ Escribir el procedimiento paso a paso para que Felipe haga el merge y cambie el 
 - [x] Decidir Observability: no se activa (AT-123, ADR-101).
 - [x] HSTS en la zona: 1 mes, sin `includeSubDomains` ni preload (AT-122, ADR-101).
 - [x] Incluir los pasos de ADR-037 y la reversa que devuelve el dominio a Pages (con la pausa de Pages previa al merge).
-- [x] **Ley 21.719 (traspasada de E190-I01):** incluida como precondición P2 del procedimiento; **sigue pendiente de Felipe** (reconfirmar en fuente oficial y anotar con fecha, ADR-099).
+- [x] **Ley 21.719 (traspasada de E190-I01):** P2 del procedimiento; **cerrada por decisión de Felipe el 15-11-2026 (ADR-103)**: ya no es precondición del cutover.
+- [x] **Estado de Cloudflare (15-11-2026, dicho por Felipe, con capturas):** P4 hecha (Turnstile con `felipecuevas.dev`, `pages.dev` y `workers.dev`); paso 2 hecho por adelantado (se vuelve a verificar en la ventana); AT-140 abierto hasta la prueba del paso 8.
 - [x] Lectura conjunta del procedimiento con Felipe y su confirmación (15-11-2026, con tres ajustes: ver sección 9 del procedimiento y el complemento de ADR-101).
 
 ## Archivos previstos (crear / modificar)

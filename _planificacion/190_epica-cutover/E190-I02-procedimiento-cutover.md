@@ -27,15 +27,15 @@
 | # | Precondición | Responsable | Comprobación |
 |---|---|---|---|
 | P1 | E190-I01 firmada (hecho, 15-11-2026) | Felipe | Checklist, sección D |
-| P2 | **Ley 21.719 reconfirmada en fuente oficial** (Diario Oficial, BCN, camara.cl, senado.cl), con fuente y fecha anotadas en el checklist de I02 (traspasada de I01, ADR-099) | Felipe | Anotación con URL y fecha |
+| P2 | ~~Ley 21.719 reconfirmada en fuente oficial~~ **Cerrada por decisión de Felipe (15-11-2026, ADR-103):** ya no es precondición; el cutover sale con la política vigente (ADR-099) y la ley se trata en una iteración nueva cuando se publique (BL-08) | Felipe | Decisión registrada en ADR-103 |
 | P3 | Secretos del Worker presentes en Production (hecho, 15-11-2026) | Felipe | Captura del panel |
-| P4 | Turnstile autoriza `felipecuevas.dev` (y `www` si hace falta) en la lista de hostnames del widget (AT-140) | Felipe | Captura del panel |
+| P4 | **Hecha (15-11-2026, dicho por Felipe, con capturas):** el widget de Turnstile autoriza `felipecuevas.dev`, `pages.dev` y `workers.dev` (3 de 10 hostnames). AT-140 sigue abierto hasta la prueba real del paso 8 | Felipe | Capturas del panel |
 | P5 | E190-I03 terminada (README final y retiro de archivos antiguos en la rama, listo para el merge) y E190-I02 confirmada | Felipe y agente | `registro-log.md` |
 | P6 | Rama `migracion-astro` en verde: `pnpm build`, `check`, `lint`, `verify`, `check:i18n`, `verify:seo` y `check:redirects` | Agente | Salida de los comandos |
 | P7 | Preview con las comprobaciones de I01 ya hechas (hecho, 15-11-2026) | Agente | `E190-I01-checklist.md` |
 
 ## 4. Ventana recomendada
-- **Sábado 21 o domingo 22-11-2026, temprano en la mañana (hora de Chile)**, con unas 2 horas libres y sin otros cambios en curso (decisión de Felipe, 15-11-2026). **Sin ensayo con un subdominio** (decisión de Felipe): el cambio va directo al apex. Por eso AT-139 y AT-140 se comprueban en la propia ventana, y **P2 (ley) y P4 (Turnstile) deben estar cumplidas antes**.
+- **Sábado 21 o domingo 22-11-2026, temprano en la mañana (hora de Chile)**, con unas 2 horas libres y sin otros cambios en curso (decisión de Felipe, 15-11-2026). **Sin ensayo con un subdominio** (decisión de Felipe): el cambio va directo al apex. Por eso AT-139 y AT-140 se comprueban en la propia ventana. **P2 ya no es precondición (ADR-103) y P4 está hecha (15-11-2026).**
 - El hueco sin servicio, entre los pasos 5 y 6, se estima en **minutos (no medido)**. Con la reversa lista, el procedimiento completo se estima en **30 a 60 minutos**.
 - No iniciar con un incidente abierto en Cloudflare ni con builds en curso.
 
@@ -43,7 +43,7 @@
 | Paso | Qué se hace | Resp. | Tiempo | Comprobación | Reversa |
 |---|---|---|---|---|---|
 | 1 | **Congelar y anotar el punto de reversa:** sin commits en `main` ni `migracion-astro`; anotar el ID y la fecha del último deployment de producción de Pages, el ID de la versión activa del Worker y exportar los registros DNS de la zona (apex, `www`, MX, TXT); verificar que el tag `sitio-antiguo-2026-11` existe en origin y apunta al último commit de `main` (`git ls-remote --tags origin sitio-antiguo-2026-11`; el 15-11-2026 apuntaba a `b49a5bb`, igual que `origin/main`; si `main` cambió, comparar de nuevo) | Felipe | 10 min | Los tres datos anotados en el checklist y el tag verificado en origin | — |
-| 2 | **Pausar Pages:** proyecto `felipe-cuevas-cv` > Build > Branch control > desactivar «Enable automatic production branch deployments» (las previews ya están en «None») y guardar | Felipe | 3 min | Opción guardada; `felipecuevas.dev` sigue respondiendo el sitio antiguo | Reactivar la opción |
+| 2 | **(Hecho por adelantado el 15-11-2026, dicho por Felipe con capturas; se vuelve a verificar el día de la ventana)** **Pausar Pages:** proyecto `felipe-cuevas-cv` > Build > Branch control > desactivar «Enable automatic production branch deployments» (las previews ya están en «None») y guardar | Felipe | 3 min | Opción guardada; `felipecuevas.dev` sigue respondiendo el sitio antiguo | Reactivar la opción |
 | 3 | **Merge** de `migracion-astro` a `main` (lo hace Felipe, ADR-012) | Felipe | 5 min | La lista de Deployments de Pages **no** crea un deployment nuevo; el sitio antiguo sigue en producción | El sitio en producción no cambia (Pages pausado); si hubiera que deshacer el merge, `git revert -m 1` del commit de merge, hecho por Felipe |
 | 4 | **Workers Builds:** Worker `felipecuevas-dev` > Settings > Build > Branch control > rama de producción `main` (previews siguen desactivados); si no se dispara un build solo, «Retry build» o un commit mínimo | Felipe | 10 min | Build verde; versión activa nueva; `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` 200; **Agente:** `pnpm check:redirects --base <workers.dev>` sin fallos | Devolver la rama a `migracion-astro` y revertir el Worker a la versión anotada en el paso 1 (Deployments > Rollback) |
 | 5 | **Liberar el dominio** (inicio del hueco): DNS > borrar el CNAME del apex; Pages > Custom domains > quitar `felipecuevas.dev` («Remove domain») | Felipe | 3 min | El apex deja de resolver al sitio antiguo | Pages > Custom domains > «Set up a domain» > `felipecuevas.dev` (Pages recrea el CNAME). No crear el CNAME a mano antes de asociarlo (error 522) |
@@ -81,3 +81,7 @@ workers.dev: se apaga tras verificar (paso 9b) · Web Analytics: no se activa (A
 ## 9. Lectura conjunta
 - [x] Felipe y el agente revisaron este documento juntos y Felipe lo confirmó el 15-11-2026 (dicho por el desarrollador).
 - Observaciones de la lectura (ajustes aplicados): (a) el paso 9b va en una rama corta posterior al cutover, creada desde `main`, mergeada por Felipe y desplegada por Workers Builds, nunca con commit directo en `main`; (b) tras el paso 6 se agrega «Purge Everything» de la caché de la zona (paso 6b), marcado como inferencia no verificada; (c) ventana el sábado 21 o domingo 22-11-2026 temprano, sin ensayo con subdominio, con AT-139 y AT-140 abiertos y comprobados en la ventana, y P2 y P4 cumplidas antes (complemento fechado de ADR-101).
+
+## Estado previo a la ventana (15-11-2026)
+- **P6 verificada por el agente** (rama `migracion-astro`, HEAD `2b02781`): `build`, `check`, `lint`, `verify`, `check:i18n` (329), `verify:seo` (1192/1192) y `check:redirects` (331/331) en verde. Se repite el día de la ventana si hay commits nuevos.
+- **P2** cerrada por decisión de Felipe (ADR-103). **P4** hecha. **Paso 2** (Pages sin despliegue automático de producción, previews en «None») hecho por adelantado; se vuelve a verificar en la ventana. P5 está cumplida (E190-I02 confirmada y E190-I03 terminada). Pendiente de la ventana: paso 1 y pasos 3 en adelante, y AT-138, AT-139 y AT-140.

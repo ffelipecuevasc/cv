@@ -1118,6 +1118,12 @@ Reglas del registro:
 - **Decisión (del agente, dentro del alcance):** `EXPECTED_PAIRS` de `scripts/check-i18n.mjs` pasa de 13 a 12 (el mapa pierde la muestra); no se tocan `public/_headers`, `AGENTS.md` ni `.claude/` (bloques para Felipe en la bitácora). Lo que cambia en el sitio: 12 páginas por idioma más la 404.
 - **Consecuencias:** `main` ya no contiene el sitio antiguo tras el merge; reconstruirlo exige el tag o el historial, y con el despliegue automático de Pages desactivado (ADR-101) no se vuelve a construir solo. La CSP de `public/_headers` conservaba un hash de script en línea que ya no se usaba (AT-141); Felipe lo quitó el 15-11-2026 (commit d853c8e) y `verify:seo` volvió a 1192/1192. Sustituye en parte a ADR-014 (referencia de solo lectura hasta E190-I03).
 - **Origen:** decisiones de Felipe el 15-11-2026 (E190-I03). **Estado:** Aceptada.
+## ADR-103 · La Ley 21.719 deja de ser precondición del cutover
+- **Contexto:** ADR-099 ya decidió salir con la política vigente y llevar la validación del especialista a BL-08. El procedimiento de E190-I02 mantenía P2 (reconfirmar el estado de la Ley 21.719 en fuente oficial, antes de la ventana). El agente no pudo reconfirmarlo en E190-I01 (senado.cl y camara.cl dieron 403, bcn.cl no cargó).
+- **Decisión (de Felipe, 15-11-2026, dicha por el desarrollador):** P2 deja de ser precondición. El plazo legal no debe bloquear el sitio; se sale con la política vigente (ADR-099). Felipe abrirá una iteración nueva cuando la ley se publique; BL-08 sigue «antes de la entrada en vigencia real».
+- **Consecuencias:** en el procedimiento, P2 queda «cerrada por decisión de Felipe, ADR-103». ADR-099 no se modifica ni se revierte: ADR-103 lo complementa. Riesgo aceptado por Felipe: el sitio sale sin una reconfirmación fechada del estado de la ley.
+- **Origen:** decisión de Felipe el 15-11-2026 (preparación de la ventana de E190). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
