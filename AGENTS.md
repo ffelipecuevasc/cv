@@ -24,16 +24,16 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 
 - **Producto:** sitio personal de Felipe Cuevas (CV online, portafolio y comunidad). Producción: https://felipecuevas.dev. Repositorio: https://github.com/ffelipecuevasc/cv.
 - **Objetivo:** proyecto nuevo en Astro 7.x, bilingüe (`/es/` en `es-CL` y `/en/` en `en-US`), con Tailwind CSS v4, PNPM, HTML5 semántico y salida estática.
-- **Rama:** todo el trabajo ocurre en la rama de migración `migracion-astro` (confirmada en E10-I01, ADR-014), creada desde `main`.
-- **Sitio antiguo:** se retiró de la rama en E190-I03 (ADR-102). Sus archivos (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) ya no están en el árbol de trabajo; se consultan solo en el historial con `git show sitio-antiguo-2026-11:<ruta>` (o `git show main:<ruta>` antes del merge) y nunca se editan. `docs/` se conserva hasta E190-I04.
-- **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. El Worker `felipecuevas-dev` sirve la rama de migración en workers.dev (preview) y atiende solo `/api/*` (ADR-084 y ADR-085). Producción sigue en el proyecto Pages `felipe-cuevas-cv`, desde `main`, hasta el cutover de la épica E190. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
+- **Rama:** el trabajo posterior al cutover se hace en ramas cortas creadas desde `main` y nunca directo en `main`. La rama de migración `migracion-astro` (E10-I01, ADR-014) ya se mergeó a `main` en E190 (15-11-2026, ADR-104).
+- **Sitio antiguo:** se retiró de la rama en E190-I03 (ADR-102). Sus archivos (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) ya no están en el árbol de trabajo; se consultan solo en el historial con `git show sitio-antiguo-2026-11:<ruta>` (o `git show main:<ruta>` antes del merge) y nunca se editan. `docs/` se retiró en E190-I04 (ADR-105): la línea base de rendimiento vive en `_planificacion/00_producto/linea-base/`.
+- **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. Producción: Worker `felipecuevas-dev` con Custom Domain `felipecuevas.dev`, desde `main` (cutover del 15-11-2026, ADR-104); atiende solo `/api/*` (ADR-084 y ADR-085) y sirve el resto como assets. `workers.dev` sigue activo hasta apagarlo en el paso 9 del procedimiento de cutover. El proyecto Pages `felipe-cuevas-cv` queda pausado como reversa y no se borra. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
 
 ## 3. Lo que el agente PUEDE hacer
 
 - Leer, crear y editar archivos **dentro del alcance de la iteración en curso**.
 - Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check`, `test` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
 - Actualizar los documentos de `_planificacion/`.
-- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-142 y ADR-103). Verifica siempre el último número antes de asignar uno.
+- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-144 y ADR-104). Verifica siempre el último número antes de asignar uno.
 - Escribir la bitácora de la iteración en `_planificacion/99_bitacora/`.
 - Sugerir el mensaje de commit (máximo 200 caracteres).
 - Crear ramas nuevas **solo después de consultar a Felipe y recibir su autorización explícita**.

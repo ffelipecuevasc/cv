@@ -102,7 +102,6 @@
       "Edit(**/.dev.vars.*)",
       "Edit(**/_headers)",
       "Edit(**/_redirects)",
-      "Edit(/docs/**)",
       "Read(**/.env)",
       "Read(**/.env.*)",
       "Read(**/.dev.vars)",
