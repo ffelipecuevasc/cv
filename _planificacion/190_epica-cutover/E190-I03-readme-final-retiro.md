@@ -1,7 +1,7 @@
 # E190-I03 · README final y retiro de archivos del sitio antiguo
-- **Estado:** [~] En curso (iniciada el 15-11-2026)
+- **Estado:** [x] Terminada (15-11-2026)
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
-- **Depende de:** E190-I02 · **Hallazgos que cierra:** AT-056 (retiro de la muestra de tokens), AT-127 (aceptado), AT-129 · **ADR relacionados:** ADR-014, ADR-042, ADR-091, ADR-102 · **Hallazgo nuevo:** AT-141
+- **Depende de:** E190-I02 · **Hallazgos que cierra:** AT-056 (retiro de la muestra de tokens), AT-127 (aceptado), AT-129 · **ADR relacionados:** ADR-014, ADR-042, ADR-091, ADR-102 · **Hallazgo nuevo:** AT-141 (resuelto)
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -31,9 +31,10 @@ Dejar la rama lista para el merge: README de la raíz final y eliminación de lo
 - [x] Actualizar el README (final).
 - [x] AT-127 registrado como aceptado; AT-129 resuelto como precaución.
 - [x] Medir `dist/` antes y después (ver la bitácora).
-- [ ] **Pendiente de Felipe:** quitar de `public/_headers` el hash sobrante (AT-141, bloque en la bitácora) y volver a pasar `pnpm verify:seo` (1192/1192).
-- [ ] **Pendiente de Felipe:** aplicar los bloques de `AGENTS.md` y, si quiere, de `.claude/settings.json` (bitácora), y crear el tag de retorno en `main` antes del merge.
-- [ ] OK de Felipe para marcar `[x]`.
+- [x] Felipe quitó de `public/_headers` el hash sobrante (AT-141, commit d853c8e): `pnpm verify:seo` 1192/1192.
+- [x] Felipe aplicó los bloques de `AGENTS.md` y `.claude/settings.json` y creó el tag `sitio-antiguo-2026-11` (en origin, apunta a `b49a5bb` = `main`).
+- [x] Rendimiento (ADR-015) tras el cambio de hoja CSS de los testimonios: PSI sobre la preview, `/es/` 100 y 100, `/en/` 98 y 100; ninguna página bajo su línea base (ver la bitácora).
+- [x] OK de Felipe para marcar `[x]` (15-11-2026, en el pedido de cierre).
 
 ## Archivos previstos (crear / modificar)
 - Eliminar: los archivos antiguos y la muestra de tokens (ver ADR-102).

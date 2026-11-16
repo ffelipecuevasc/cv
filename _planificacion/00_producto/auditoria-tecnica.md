@@ -1141,7 +1141,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** Felipe confirma en el panel de Turnstile que `felipecuevas.dev` (y `www` si corresponde) figura en los hostnames, antes de la ventana. Quitar workers.dev se hace después (AT-100, E190-I04).
 
 ### AT-141 · `public/_headers` conserva un hash de CSP que ya no corresponde a ningún script
-- **Severidad:** Baja · **Estado:** Abierto (bloque para Felipe) · **Resuelve:** E190-I03 (Felipe edita `public/_headers`, ADR-033)
+- **Severidad:** Baja · **Estado:** Resuelto en E190-I03 (15-11-2026) · **Resuelve:** E190-I03 (Felipe edita `public/_headers`, ADR-033)
 - **Evidencia (E190-I03, 15-11-2026, verificado):** tras retirar la muestra, `pnpm verify:seo` falla 1 de 1192 controles: «ningún hash de la CSP sobra (12 declarados; sobran 1)». El hash sobrante es `'sha256-vEIGBz263muMSlIibMLKBx8+AOeP+/H+Q/A1Snqcj0Y='`: es el único de `script-src` que el build ya no genera (se deduce por exclusión que era el script en línea de la muestra; no se recalculó sobre el `dist/` antiguo).
 - **Impacto:** `verify:seo` queda en rojo y la CSP permite el hash de un script que no existe. Sin efecto visible.
 - **Propuesta (no aplicada: `public/_headers` lo edita Felipe):** quitar `'sha256-vEIGBz263muMSlIibMLKBx8+AOeP+/H+Q/A1Snqcj0Y='` de la directiva `script-src` de la línea de `Content-Security-Policy` (línea 5), dejando los otros 11 hashes. Después, `pnpm build && pnpm verify:seo` debe dar 1192/1192.
+- **Cierre (E190-I03, 15-11-2026):** Felipe quitó el hash de `script-src` en el commit d853c8e. Verificado: `pnpm build && pnpm verify:seo` da 1192 de 1192.

@@ -1116,7 +1116,7 @@ Reglas del registro:
   3. **Punto de retorno del código antiguo:** Felipe crea un tag anotado en `main` antes del merge (por ejemplo `sitio-antiguo-2026-11`); el README lo cita.
   4. **AT-129 entra en I03:** se quitan de `eslint.config.js` y `.prettierignore` las entradas del sitio antiguo y se agrega `.wrangler/`.
 - **Decisión (del agente, dentro del alcance):** `EXPECTED_PAIRS` de `scripts/check-i18n.mjs` pasa de 13 a 12 (el mapa pierde la muestra); no se tocan `public/_headers`, `AGENTS.md` ni `.claude/` (bloques para Felipe en la bitácora). Lo que cambia en el sitio: 12 páginas por idioma más la 404.
-- **Consecuencias:** `main` ya no contiene el sitio antiguo tras el merge; reconstruirlo exige el tag o el historial, y con el despliegue automático de Pages desactivado (ADR-101) no se vuelve a construir solo. La CSP de `public/_headers` conserva un hash de script en línea que ya no se usa (AT-141) hasta que Felipe lo quite. Sustituye en parte a ADR-014 (referencia de solo lectura hasta E190-I03).
+- **Consecuencias:** `main` ya no contiene el sitio antiguo tras el merge; reconstruirlo exige el tag o el historial, y con el despliegue automático de Pages desactivado (ADR-101) no se vuelve a construir solo. La CSP de `public/_headers` conservaba un hash de script en línea que ya no se usaba (AT-141); Felipe lo quitó el 15-11-2026 (commit d853c8e) y `verify:seo` volvió a 1192/1192. Sustituye en parte a ADR-014 (referencia de solo lectura hasta E190-I03).
 - **Origen:** decisiones de Felipe el 15-11-2026 (E190-I03). **Estado:** Aceptada.
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
