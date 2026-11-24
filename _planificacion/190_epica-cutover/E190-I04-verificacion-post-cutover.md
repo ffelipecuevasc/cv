@@ -1,5 +1,5 @@
 # E190-I04 · Verificación posterior al cutover
-- **Estado:** [~] En curso (23-11-2026). Hecho: comprobaciones del cutover, línea base de rendimiento y, el 23-11-2026, el bloque de `wrangler.jsonc` y las guías de verificación y de panel (ADR-106). Pendiente de Felipe: paso 9a y 9b (HSTS y rama `config-workers-dev-off`), Search Console (AT-131) y foro a ojo. **AT-100 pospuesto** hasta la decisión de Turnstile en E200-I01 (AT-147). Lo cierra Felipe al confirmar 9a y 9b.
+- **Estado:** [x] Terminada (24-11-2026, solo documentos). Hecho: comprobaciones del cutover, línea base de rendimiento, paso 9a (HSTS de 1 mes) y paso 9b (workers.dev apagado, ADR-106). **Quedan abiertos fuera de la iteración:** AT-131 (Search Console, seguimiento de Felipe el 25 y 26-11-2026), AT-100 (pospuesto hasta la decisión de Turnstile en E200-I01, AT-147), BL-10 (HSTS a 6 meses desde el 08-12-2026) y el foro a ojo (sin comprobar). Detalle en «Cierre (24-11-2026)».
 - **Épica:** E190 · Despliegue y cutover · **Prioridad:** P0 · **Tamaño:** S
 - **Depende de:** E190-I03 · **Hallazgos que cierra:** AT-131 y AT-048 (con el paso 9b); AT-100 pospuesto a E200-I01 (ADR-106) · **ADR relacionados:** ADR-015, ADR-101, ADR-106
 
@@ -20,19 +20,19 @@ Guiar la verificación en producción después de que Felipe ejecute el cutover.
 - —
 
 ## Tareas
-- [~] Comprobar redirecciones, formulario, foro, descargas y sitemap en producción. Hecho: redirecciones 483/483, formulario real, sitemap y robots, `www` (agente y Felipe). **Sin comprobar:** foro (Giscus) y descargas en producción: el foro lo revisa Felipe a ojo; de las descargas, `check:redirects` solo cubre `/static/img/felipe_cuevas_cv.png` (200).
+- [x] Comprobar redirecciones, formulario, foro, descargas y sitemap en producción. Hecho: redirecciones 483/483, formulario real (widget y correo, 24-11-2026, dicho por Felipe), sitemap y robots, `www` (agente y Felipe). **Sin comprobar (se cierra la tarea con esta salvedad):** foro (Giscus) a ojo, que Felipe no reportó el 24-11-2026, y descargas en producción: `check:redirects` solo cubre `/static/img/felipe_cuevas_cv.png` (200).
 - [x] Registrar la línea base nueva de rendimiento (ADR-015). Ver «Línea base de producción (16-11-2026)» más abajo.
-- [ ] (Felipe) Enviar `sitemap-index.xml` a Search Console y repetir las comprobaciones del sitemap en producción (AT-131).
-- [ ] (Felipe) Paso 9b: aplicar el bloque de `wrangler.jsonc` de más abajo en la rama corta `config-workers-dev-off`, mergear y verificar (sección «Paso 9 · 23-11-2026»).
-- [ ] (Felipe) Paso 9a: HSTS de 1 mes en el panel (sección «Paso 9 · 23-11-2026»).
+- [~] (Felipe) Enviar `sitemap-index.xml` a Search Console y repetir las comprobaciones del sitemap en producción (AT-131). Enviado el 24-11-2026; Search Console dice «No se ha podido obtener» (dicho por Felipe) y el servidor responde 200 `application/xml` (verificado por el agente). **AT-131 sigue ABIERTO**, sin reenviar; Felipe revisa el 25 y 26-11-2026. Pasa a seguimiento fuera de la iteración.
+- [x] (Felipe) Paso 9b: bloque de `wrangler.jsonc` aplicado en la rama corta `config-workers-dev-off` y mergeado (`17135e9`, «E190-I04: apagar workers.dev (9b).»). Verificado por el agente: `wrangler.jsonc:17` con `"workers_dev": false` y sin `preview_urls`; workers.dev `/es/` → 404 `text/plain` de 17 bytes. AT-048 resuelto.
+- [x] (Felipe) Paso 9a: HSTS de 1 mes en el panel. Verificado por el agente: `Strict-Transport-Security: max-age=2592000`, sin `includeSubDomains` ni `preload`. AT-122 resuelto. La subida a 6 meses es BL-10 (desde el 08-12-2026, decisión de Felipe).
 - [ ] **POSPUESTO** (Felipe, 23-11-2026, ADR-106): quitar el hostname de workers.dev de Turnstile (AT-100). Se decide en E200-I01 junto con las preview URL por rama (AT-147); hasta entonces el widget conserva `workers.dev`.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: documentos de `_planificacion/`.
 
 ## Criterios de aceptación (verificables)
-- [ ] Todas las comprobaciones pasan o hay un AT nuevo con plan.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Todas las comprobaciones pasan o hay un AT nuevo con plan. Con salvedad: AT-131 sigue abierto con plan (revisión de Felipe el 25 y 26-11-2026), AT-100 pospuesto con plan (AT-147) y el foro y las descargas siguen sin comprobar.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`, en lo que aplica a una iteración solo de documentos: no hubo cambios de código desde el 23-11-2026 y `pnpm build`, `check` y `lint` no se volvieron a ejecutar (no verificado).
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build` sin errores (DoD)
@@ -109,8 +109,32 @@ Cambios respecto del archivo actual: la línea 4 (el comentario de cabecera dec�
 ### e) AT-100
 Pospuesto (ADR-106): no quitar `workers.dev` de Turnstile hasta la decisión de E200-I01 (AT-147).
 
+## Cierre (24-11-2026)
+Datos de Felipe del 24-11-2026 (dicho por el desarrollador, **no verificado** salvo lo marcado «verificado por el agente»).
+
+| Comprobación | Resultado |
+|---|---|
+| Versión activa en el panel | `53b3bdd2` (commit «E190-I04: apagar workers.dev (9b).», `main`). El ID completo `53b3bdd2-5580-44c1-b6a7-a7269a3d0970` coincide en el prefijo; no se verificó que sea el mismo. El commit `17135e9` existe en `main` (verificado por el agente) |
+| Versión anterior (referencia de reversa) | `820f4862`, que Felipe describe como «merge de E200 docs, `main`». Por git, el commit de E200 (`fe69d42`) es del 16-11-2026 y el push del 23-11-2026 trajo dos commits (`0b126b1`, documentos, y `17135e9`, `wrangler.jsonc`): no se verificó a qué commit corresponde `820f4862` |
+| Disparador push→build | El push a `main` disparó 2 builds (`820f4862` y `53b3bdd2`), sin «Retry build». Es la primera vez que se prueba (ADR-104). Efecto verificado por el agente: workers.dev dejó de servir el sitio. Los 2 builds, no verificados en el panel; si cada uno correspondió a uno de los 2 commits del push es una inferencia |
+| Custom Domain | Intacto (dicho por Felipe). Verificado por el agente: `felipecuevas.dev` responde |
+| Producción (verificado por el agente, `curl`, 24-11-2026) | `/es/` 200 `text/html`; `/en/` 200 `text/html`; `/` 301 a `/es/`; `/x` 404; `/sitemap.xml` 301 a `/sitemap-index.xml`; `/robots.txt` 200 `text/plain` |
+| workers.dev (verificado por el agente) | `/es/` → 404 `text/plain; charset=UTF-8`, 17 bytes |
+| `check:redirects --base https://felipecuevas.dev` | 483/483 (dicho por Felipe; el agente no lo repitió el 24-11-2026) |
+| Formulario | El widget carga y el correo llegó (dicho por Felipe) |
+| HSTS | `Strict-Transport-Security: max-age=2592000` (verificado por el agente y por Felipe); sin `includeSubDomains` ni `preload`. «no-sniff» del panel desactivado: dicho por Felipe (la respuesta trae `X-Content-Type-Options: nosniff` desde `public/_headers:8`, por lo que la cabecera no permite distinguirlo) |
+| Sitemap | `sitemap-index.xml`: 200 `application/xml`, `sitemapindex` válido hacia `sitemap-0.xml` (200 `application/xml`, 22 `<loc>`); `robots.txt` declara `Sitemap: https://felipecuevas.dev/sitemap-index.xml` (verificado por el agente) |
+| Search Console | `sitemap.xml`: «Correcto», 22 páginas, lectura del 17-11-2026. `sitemap-index.xml` (enviado el 24-11-2026): tipo «Desconocido», «No se ha podido obtener», 0 páginas, sin lectura aún (dicho por Felipe) |
+
+**Qué queda abierto al cerrar la iteración:**
+- **AT-131 (abierto):** no se reenvía. Felipe revisa Search Console en 24 a 48 h (25 y 26-11-2026). Como el servidor responde 200 `application/xml`, no hay hallazgo nuevo; si sigue en error, se abre uno. **No impide cerrar E190-I04**: el criterio de aceptación admite un hallazgo abierto con plan.
+- **AT-100 (pospuesto):** hasta la decisión de Turnstile en E200-I01 (ADR-106, AT-147). El hostname de workers.dev sigue en el widget.
+- **BL-10:** subir HSTS a 6 meses, no antes del 08-12-2026 (2 semanas sin incidentes desde el 24-11-2026); decisión de Felipe.
+- **Foro (Giscus) a ojo y descargas:** sin comprobar.
+- **Épica E190:** sus 4 iteraciones están terminadas, pero **no se marcó cerrada** (ver `epica.md`).
+
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
-- [ ] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md
-- [ ] Escribir la bitácora en 99_bitacora/
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
+- [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md (sin hallazgos nuevos; resultado en AT-048, AT-122, AT-131 y ADR-106; BL-10 en el registro)
+- [x] Escribir la bitácora en 99_bitacora/ (`2026-11-24_E190-I04-cierre.md`)
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

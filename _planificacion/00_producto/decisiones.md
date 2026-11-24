@@ -1145,6 +1145,7 @@ Reglas del registro:
     - E200-I01 solo deberá agregar `"preview_urls": true`;
     - AT-100 queda **pospuesto**: el hostname de workers.dev sigue autorizado en Turnstile hasta la decisión de E200-I01 (AT-147).
 - **Consecuencias:** complementa ADR-101 sin editarlo. El primer ADR libre para E200 es ADR-107: sus 16 ADR (104 a 119 en sus archivos) se renumeran al registrarse (AT-145). El push a `main` de esta rama es la primera prueba del disparador de Workers Builds, que ADR-104 dejó pendiente. Reversa: `"workers_dev": true` por la misma vía (rama corta, merge y despliegue).
+- **Resultado (24-11-2026, E190-I04):** `wrangler.jsonc` en `main` (`17135e9`, «E190-I04: apagar workers.dev (9b).») tiene `"workers_dev": false` y no declara `preview_urls` (`wrangler.jsonc:17`); `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 404 `text/plain` de 17 bytes (verificado por el agente). Felipe dice que el push a `main` disparó el build de Workers Builds sin «Retry build» (2 builds; versión activa `53b3bdd2`, anterior `820f4862`), con lo que el disparador por push queda probado en esa medida (dicho por Felipe, no verificado en el panel). ADR-104 dejaba esa prueba pendiente.
 - **Origen:** decisión de Felipe, 23-11-2026 (E190-I04). **Estado:** Aceptada.
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
