@@ -133,6 +133,8 @@ Datos de Felipe del 24-11-2026 (dicho por el desarrollador, **no verificado** sa
 - **Foro (Giscus) a ojo y descargas:** sin comprobar.
 - **Épica E190:** sus 4 iteraciones están terminadas, pero **no se marcó cerrada** (ver `epica.md`).
 
+**Actualización (24-11-2026, cierre de E190):** Felipe revisó el foro (Giscus) y las descargas a ojo en el sitio nuevo y todo funciona (dicho por Felipe, no comprobado por el agente); el punto «sin comprobar» de arriba queda así. La épica E190 se cerró el 24-11-2026 por decisión de Felipe (`epica.md`). AT-131, AT-100, BL-08 y BL-10 siguen abiertos y no bloquean el cierre.
+
 ## Cierre obligatorio
 - [x] Actualizar estado en este archivo, en _planificacion/README.md y en 00_producto/registro-log.md
 - [x] Registrar hallazgos nuevos en auditoria-tecnica.md y decisiones nuevas en decisiones.md (sin hallazgos nuevos; resultado en AT-048, AT-122, AT-131 y ADR-106; BL-10 en el registro)

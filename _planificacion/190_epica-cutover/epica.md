@@ -1,5 +1,5 @@
 # E190 · Despliegue y cutover
-- **Prioridad de la épica:** P0 · **Estado:** [~] En curso, **pendiente de decisión de Felipe** (cutover ejecutado el 15-11-2026, ADR-104; `docs/` retirado y línea base nueva en `00_producto/linea-base/`, ADR-105; E190-I04 terminada el 24-11-2026 con 9a y 9b hechos, ADR-106). Las 4 iteraciones están terminadas, pero la épica **no se marca cerrada**: dos criterios de aceptación siguen sin marcar (ver más abajo) y quedan abiertos AT-131, AT-100 (pospuesto a E200-I01) y BL-10.
+- **Prioridad de la épica:** P0 · **Estado:** [x] Terminada (24-11-2026, por decisión de Felipe; solo documentos). Cutover ejecutado el 15-11-2026 (ADR-104); `docs/` retirado y línea base nueva en `00_producto/linea-base/` (ADR-105); E190-I04 terminada el 24-11-2026 con 9a y 9b hechos (ADR-106). **Quedan abiertos fuera del cierre:** AT-131 (Felipe, 25 y 26-11-2026), AT-100 (pospuesto hasta la decisión de Turnstile en E200-I01), BL-08 (validación del especialista) y BL-10 (HSTS a 6 meses desde el 08-12-2026). Ver «Cierre de la épica (24-11-2026)».
 
 ## Objetivo
 Planificar y verificar el paso del sitio nuevo a producción. El merge a `main` y los cambios en Cloudflare los ejecuta Felipe.
@@ -27,8 +27,21 @@ E170 y E180.
 ## Criterios de aceptación de la épica
 - [x] Felipe dispone de un procedimiento escrito, ensayado en preview, con reversa en minutos. (Ejecutado en producción sin ensayo con subdominio, por decisión de Felipe; la reversa no se usó.)
 - [x] Tras el cutover, las URLs antiguas redirigen y el formulario funciona. (483/483 en `https://felipecuevas.dev`; envío real OK, 16-11-2026.)
-- [ ] Privacidad: política publicada y consentimiento registrado por el formulario; la validación del especialista pasa a BL-08 (ADR-099). *(24-11-2026: política publicada y correo con consentimiento recibido, dicho por Felipe; BL-08 sigue abierto. Si basta con eso o falta la validación del especialista lo decide Felipe; el agente no lo asume.)*
-- [ ] Todas sus iteraciones están terminadas y cumplen la Definition of Done global. *(24-11-2026: 4 de 4 terminadas; E190-I04 con AT-131 abierto y el foro sin comprobar. Lo marca Felipe al cerrar la épica.)*
+- [x] Privacidad: política publicada y consentimiento registrado por el formulario; la validación del especialista pasa a BL-08 (ADR-099). *(24-11-2026, decisión de Felipe: basta la política publicada (ADR-099, ADR-103); el correo con la versión de la política llegó en los envíos reales del 16 y del 24-11-2026, dicho por Felipe, no verificado por el agente. La validación del especialista queda en BL-08, fuera del cierre.)*
+- [x] Todas sus iteraciones están terminadas y cumplen la Definition of Done global. *(24-11-2026: 4 de 4 terminadas. **Salvedades:** AT-131 sigue abierto con plan (Felipe revisa Search Console el 25 y 26-11-2026); E190-I04 y este cierre son solo de documentos y `pnpm build`, `pnpm check` y `pnpm lint` no se repitieron (no verificado); el foro y las descargas los revisó Felipe a ojo en el sitio nuevo y todo funciona (dicho por Felipe, no comprobado por el agente).)*
+
+## Cierre de la épica (24-11-2026)
+Decisión de Felipe del 24-11-2026. Pendientes abiertos que **no bloquean** el cierre:
+
+| Pendiente | Responsable | Fecha | Condición |
+|---|---|---|---|
+| AT-131 · `sitemap-index.xml` en Search Console | Felipe | Revisión el 25 y 26-11-2026 | Se cierra cuando Search Console lo lea «Correcto»; sin reenviar. Si sigue en error con el servidor en 200, hallazgo nuevo |
+| AT-100 · quitar `workers.dev` de Turnstile | Felipe | Sin fecha | Pospuesto hasta la decisión de Turnstile en E200-I01 (ADR-106, AT-147) |
+| BL-08 · validación de la política de privacidad por un especialista | Felipe | Antes de la entrada en vigencia real de la Ley 21.719 (sin fecha) | ADR-099 y ADR-103 |
+| BL-10 · HSTS de 1 mes a 6 meses | Felipe | Desde el 08-12-2026 | 2 semanas sin incidentes desde el 24-11-2026; decisión de Felipe ese día |
+
+- No borrar el proyecto Pages `felipe-cuevas-cv` (queda pausado como reversa; paso 10 del procedimiento). Sin fecha de borrado.
+- Siguiente trabajo: E200 (carpeta `200-epica-ajustes-visuales/`), **aún sin registrar** (AT-146); su registro y la renumeración de sus ADR (desde ADR-107, reservado) los hace E200-I00.
 
 ## Riesgos
 - Contenido publicado en `main` durante la migración que no se portó.
