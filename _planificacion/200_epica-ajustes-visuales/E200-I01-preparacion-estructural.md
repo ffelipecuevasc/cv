@@ -141,6 +141,18 @@ Orden obligatorio: comprobación en vivo, luego 5c(i), luego 5b, y 5c(ii) solo c
 - Bloque de `wrangler.jsonc` con `"preview_urls": false` y `"previews": {}`, validado contra `config-schema.json` y con Prettier, y pasos para Felipe: bitácora `2026-11-24_E200-I01.md`, sección «Fase 2, parte A».
 - **Parte B (tras la confirmación de Felipe):** las URL de versión `53b3bdd2`, `820f4862` y `b4a0ae27` dan 404; la preview responde en `/es/` y `/en/`, lleva `noindex` y no hereda secretos (sin enviar el formulario); recorrido de Playwright en la URL de rama; cierre `[x]` si lo obligatorio está hecho.
 
+## Fase 2, parte B (24-11-2026): resultado parcial, detenida
+| Host (`/es/` y `/en/`) | Resultado (24-11-2026, `Invoke-WebRequest`) |
+|---|---|
+| `felipecuevas.dev` | 200 `text/html` (78.778 y 79.295 bytes) |
+| `felipecuevas-dev.felipe-cuevas.workers.dev` | 404 `text/plain`, 17 bytes |
+| `53b3bdd2-…`, `820f4862-…`, `b4a0ae27-…` (versiones de producción) | **404 `text/plain`, 17 bytes** (antes 200) |
+| `deadbeef-…` (control) | 404 `text/plain`, 17 bytes (antes, 404 HTML genérico de 19.986 bytes) |
+| `ajustes-visuales-…` y `config-previews-…` (previews esperadas) | **404 `text/plain`, 17 bytes** |
+
+- Hecho: las URL de versión dejaron de responder (AT-155 resuelto); producción y workers.dev sin cambios.
+- **No hecho:** la preview no responde, así que no se pudo comprobar su `noindex`, la no herencia de secretos ni repetir Playwright en la URL de rama. El mensaje de Felipe llegó con la plantilla sin completar (hash, versión, estado de los builds y URL de la preview). I01 sigue `[~]`.
+
 ## Archivos previstos (crear / modificar)
 - Crear: `.mcp.json` (hecho). Modificar: `.gitignore` (`.playwright-mcp/`, hecho).
 - Modificar: `README.md` (raíz, fase 2), `_planificacion/README.md` y `_planificacion/00_producto/registro-log.md` (solo estado de la iteración), `_planificacion/00_producto/decisiones.md` (ADR-107 a ADR-109, fase 1), `_planificacion/00_producto/auditoria-tecnica.md` (avances y hallazgos) y los archivos de E200.
