@@ -1,5 +1,5 @@
 # E200-I02 · Transición de tema con barrido diagonal
-- **Estado:** [~] En curso (fase 1 terminada el 24-11-2026; falta la fase 2 en la preview de rama, con la CSP al día)
+- **Estado:** [x] Terminada (24-11-2026). Fase 1 (código, ADR-110, bloques) y fase 2 (CSP aplicada por Felipe en `38410c7` y revisión en la preview de rama) hechas.
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-021, ADR-023, ADR-033, ADR-092, ADR-107, ADR-109
 
@@ -101,22 +101,34 @@ document.startViewTransition(switchTheme);
 - [x] **Script:** adaptar `ThemeToggle.astro` con la referencia de arriba: un solo camino que alterna, guarda y sincroniza; `return` en el respaldo; sin transición con movimiento reducido.
 - [x] **Estilos:** tokens `--duration-theme` (700 ms) y `--ease-expo-out` en `global.css`; pseudoelementos `::view-transition-*` y `@keyframes` `reveal-dark` y `reveal-light`; bloque de movimiento reducido.
 - [x] **Transiciones dobles:** comprobar si las transiciones de color propias de los componentes (por ejemplo, los 300 ms del ícono del logotipo) se suman al barrido. Si se ve un segundo fundido dentro del tema nuevo, desactivarlas solo mientras dura la transición.
-- [~] **CSP:** (cambió un hash; línea entregada a Felipe en la bitácora) `pnpm build && pnpm verify:seo`. Si cambia un hash, entregar a Felipe la línea exacta de `public/_headers` y volver a verificar después de que la pegue.
-- [~] **Revisión visual:** (local hecha el 24-11-2026; falta la preview de rama) con el navegador de ADR-109, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
+- [x] **CSP:** (cambió un hash; Felipe pegó la línea en `38410c7`; `verify:seo` 1192/1192 según Felipe y en verde en local; los 11 hashes de la CSP servida en la preview coinciden con `public/_headers`) `pnpm build && pnpm verify:seo`. Si cambia un hash, entregar a Felipe la línea exacta de `public/_headers` y volver a verificar después de que la pegue.
+- [x] **Revisión visual:** (local y preview de rama hechas el 24-11-2026; resultados en «Fase 2») con el navegador de ADR-109, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
 - [x] **Registro y bloques:** ADR-110 y bloque de `DESIGN.md` 1.5, 2.3, 8 y 9 (tokens `--duration-theme` y `--ease-expo-out`) en la bitácora.
+
+## Fase 2 (24-11-2026): revisión en la preview de rama
+Preview `https://ajustes-visuales-felipecuevas-dev.felipe-cuevas.workers.dev`, build de `38410c7` (Felipe: «Ready»). Playwright MCP (Chrome headless), un script por recorrido con la consola y `securitypolicyviolation` escuchados desde antes de cargar.
+
+- **CSP:** la cabecera servida trae los mismos 11 hashes que `public/_headers` y el HTML contiene el script nuevo (`startViewTransition`). **0 violaciones de CSP** en las 12 cargas.
+- **Matriz** (Inicio, Foro y 404, en `/es/` y `/en/`, a 1.920×1080 y 360×800; a 360 px con el menú móvil abierto y el botón de tema del menú): en las 12, el clic a oscuro anima `reveal-dark` y el clic a claro `reveal-light` (con `-ua-view-transition-group-anim-root`); estado final correcto en ambas direcciones; **CLS 0**; la 404 responde 404.
+- **Clics seguidos** (5 a 60 ms): tema final oscuro, `localStorage.theme = "dark"` y los dos botones con el nombre «Activar tema claro» / «Switch to light theme»: sincronizados.
+- **Movimiento reducido** (`reduce` emulado): cambio instantáneo, sin animaciones activas.
+- **Giscus** (`/es/foro/` y `/en/forum/`, iframe cargado): `light.css` → `transparent_dark.css` → `light.css`, sigue el tema en vivo.
+- **Consola:** 0 errores de página. Solo hubo (a) 4 `Failed to load resource: 404`, que son las propias páginas 404 cargadas a propósito, y (b) 4 advertencias de `postMessage` a `https://giscus.app` cuando el iframe de Giscus aún no cargaba (carga diferida): las emite `giscus.ts` al cambiar de clase, sin efecto visible; se suma como evidencia a AT-157.
+- **Turnstile:** no se vio, porque solo se renderiza al enviar y el formulario no se envía (mismo resultado que en local; su lógica no cambió).
+- Capturas en `.playwright-mcp/` (no versionadas).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/layout/ThemeToggle.astro` y `src/styles/global.css`.
 - Felipe: `public/_headers` (solo si cambia un hash).
 
 ## Criterios de aceptación (verificables)
-- [ ] Al pasar a oscuro, el tema nuevo entra en diagonal desde arriba a la izquierda; al pasar a claro, desde abajo a la derecha; en 0,7 s, en todas las páginas y en ambos idiomas.
-- [ ] Con `prefers-reduced-motion: reduce`, y en navegadores sin la API, el tema cambia al instante y sin errores en la consola.
-- [ ] Sin parpadeo al cargar, CLS 0 al alternar y la clave `theme` se sigue guardando.
-- [ ] Giscus y Turnstile cambian de tema igual que antes.
-- [ ] Los clics seguidos no dejan el tema ni el nombre accesible del botón desincronizados.
-- [ ] `verify:seo` en verde, con la CSP al día.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Al pasar a oscuro, el tema nuevo entra en diagonal desde arriba a la izquierda; al pasar a claro, desde abajo a la derecha; en 0,7 s, en todas las páginas y en ambos idiomas.
+- [x] Con `prefers-reduced-motion: reduce`, y en navegadores sin la API, el tema cambia al instante y sin errores en la consola.
+- [x] Sin parpadeo al cargar, CLS 0 al alternar y la clave `theme` se sigue guardando.
+- [x] Giscus y Turnstile cambian de tema igual que antes. (Giscus verificado en la preview; Turnstile se renderiza solo al enviar y su lógica no cambió: no se vio el widget porque no se envía el formulario)
+- [x] Los clics seguidos no dejan el tema ni el nombre accesible del botón desincronizados.
+- [x] `verify:seo` en verde, con la CSP al día.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -135,7 +147,7 @@ document.startViewTransition(switchTheme);
 - `clip-path` con porcentajes fuera de 0–100 % es intencional: el polígono parte fuera de la ventana para que el barrido cubra las esquinas.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

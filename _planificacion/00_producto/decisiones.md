@@ -1201,6 +1201,7 @@ Reglas del registro:
 - **Sustituye:** solo para el cambio de tema, la restricción «animar el fondo de la página al cambiar de tema» de `DESIGN.md` §8. El resto de §8 sigue vigente.
 - **Consecuencias:** el script del botón de tema cambia y con él su hash: Felipe actualiza `public/_headers` (ADR-092, ADR-033). `DESIGN.md` 1.5, 2.3, 8 y 9 describen la transición (bloques en la bitácora de E200-I02). No hay dependencias nuevas. Soporte según MDN (BCD 8.1.10, 24-11-2026): Chrome y Edge 111, Safari 18, Firefox 144; Baseline 2025.
 - **Origen:** E200-I02, decisión de Felipe, 16-11-2026 y 24-11-2026. **Estado:** Aceptada.
+- **Resultado (E200-I02 fase 2, 24-11-2026):** verificado en la preview de rama (`38410c7`): barrido en ambas direcciones en Inicio, Foro y 404, en es y en, a 360 y 1.920 px; movimiento reducido sin animación; CLS 0; CSP al día y sin violaciones.
 
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 

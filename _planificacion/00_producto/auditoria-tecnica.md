@@ -1266,4 +1266,5 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia:** `initGiscus` observa el atributo `class` de `<html>` y llama a `sendTheme` en cada mutación. Desde ADR-110, cada cambio de tema agrega y quita `theme-switching`, con dos `postMessage` extra con el mismo tema. En local, Giscus cambió bien de claro a oscuro (captura de Playwright).
 - **Impacto:** ninguno visible; mensajes redundantes al iframe.
 - **Recomendación:** si se vuelve a tocar `giscus.ts`, enviar el tema solo cuando cambie `.dark` (guardar el último valor enviado). Fuera del alcance de E200-I02.
+- **Avance (E200-I02 fase 2, 24-11-2026, preview de rama):** con el iframe de Giscus aún sin cargar (carga diferida), cada cambio de tema deja en la consola la advertencia «Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://giscus.app') does not match the recipient window's origin» (4 veces en el recorrido). Sin efecto visible: con el iframe cargado, el tema cambia bien (`light.css` ↔ `transparent_dark.css`). La misma recomendación lo resuelve: no enviar si el iframe no ha cargado.
 
