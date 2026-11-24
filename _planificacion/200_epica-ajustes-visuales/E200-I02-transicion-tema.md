@@ -1,5 +1,5 @@
 # E200-I02 · Transición de tema con barrido diagonal
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (fase 1 terminada el 24-11-2026; falta la fase 2 en la preview de rama, con la CSP al día)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-021, ADR-023, ADR-033, ADR-092, ADR-107, ADR-109
 
@@ -97,13 +97,13 @@ document.startViewTransition(switchTheme);
 - Los colores de cualquiera de los dos temas.
 
 ## Tareas
-- [ ] **Soporte:** consultar en MDN la compatibilidad vigente de `document.startViewTransition` (Chrome, Edge, Safari y Firefox) y anotarla con su fecha en la bitácora.
-- [ ] **Script:** adaptar `ThemeToggle.astro` con la referencia de arriba: un solo camino que alterna, guarda y sincroniza; `return` en el respaldo; sin transición con movimiento reducido.
-- [ ] **Estilos:** tokens `--duration-theme` (700 ms) y `--ease-expo-out` en `global.css`; pseudoelementos `::view-transition-*` y `@keyframes` `reveal-dark` y `reveal-light`; bloque de movimiento reducido.
-- [ ] **Transiciones dobles:** comprobar si las transiciones de color propias de los componentes (por ejemplo, los 300 ms del ícono del logotipo) se suman al barrido. Si se ve un segundo fundido dentro del tema nuevo, desactivarlas solo mientras dura la transición.
-- [ ] **CSP:** `pnpm build && pnpm verify:seo`. Si cambia un hash, entregar a Felipe la línea exacta de `public/_headers` y volver a verificar después de que la pegue.
-- [ ] **Revisión visual:** con el navegador de ADR-109, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
-- [ ] **Registro y bloques:** ADR-110 y bloque de `DESIGN.md` 1.5, 2.3, 8 y 9 (tokens `--duration-theme` y `--ease-expo-out`) en la bitácora.
+- [x] **Soporte:** consultar en MDN la compatibilidad vigente de `document.startViewTransition` (Chrome, Edge, Safari y Firefox) y anotarla con su fecha en la bitácora.
+- [x] **Script:** adaptar `ThemeToggle.astro` con la referencia de arriba: un solo camino que alterna, guarda y sincroniza; `return` en el respaldo; sin transición con movimiento reducido.
+- [x] **Estilos:** tokens `--duration-theme` (700 ms) y `--ease-expo-out` en `global.css`; pseudoelementos `::view-transition-*` y `@keyframes` `reveal-dark` y `reveal-light`; bloque de movimiento reducido.
+- [x] **Transiciones dobles:** comprobar si las transiciones de color propias de los componentes (por ejemplo, los 300 ms del ícono del logotipo) se suman al barrido. Si se ve un segundo fundido dentro del tema nuevo, desactivarlas solo mientras dura la transición.
+- [~] **CSP:** (cambió un hash; línea entregada a Felipe en la bitácora) `pnpm build && pnpm verify:seo`. Si cambia un hash, entregar a Felipe la línea exacta de `public/_headers` y volver a verificar después de que la pegue.
+- [~] **Revisión visual:** (local hecha el 24-11-2026; falta la preview de rama) con el navegador de ADR-109, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
+- [x] **Registro y bloques:** ADR-110 y bloque de `DESIGN.md` 1.5, 2.3, 8 y 9 (tokens `--duration-theme` y `--ease-expo-out`) en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/layout/ThemeToggle.astro` y `src/styles/global.css`.

@@ -10,7 +10,7 @@
 2. **Paleta original.** Escala `orient`, `primary`, `vibrant` y dorado del sitio actual, con dos tonos de apoyo (ADR-040). El dorado es un acento escaso: reglas, comillas, estrellas, cifras y un botón; nunca texto pequeño sobre fondo claro.
 3. **Geometría recta.** Sin esquinas redondeadas, salvo puntos, avatares e indicadores circulares. Contornos de 1 px y sombras largas y difusas.
 4. **Jerarquía por rótulo.** Toda sección abre con regla dorada + rótulo en mayúsculas + titular.
-5. **Movimiento discreto.** Solo respuestas a la interacción (color, subrayado, elevación leve). Sin animaciones de entrada en Inicio.
+5. **Movimiento discreto.** Solo respuestas a la interacción (color, subrayado, elevación leve), incluido el barrido diagonal al cambiar de tema (ADR-110). Sin animaciones de entrada en Inicio.
 6. **Dos temas al mismo nivel.** Cada componente se especifica en claro y oscuro.
 7. **Holgura para el inglés.** Ningún componente depende del largo del texto en español.
 
@@ -42,6 +42,7 @@
 - Ambos temas son obligatorios y tienen el mismo nivel de terminación.
 - Preferencia guardada en `localStorage` con la clave `theme`, con respaldo en `prefers-color-scheme` (ADR-023).
 - Sin parpadeo al cargar y sin CLS al alternar.
+- Al alternar, el tema nuevo entra con un barrido diagonal (View Transitions, ADR-110): hacia oscuro desde la esquina superior izquierda y hacia claro desde la inferior derecha, en `--duration-theme` con `--ease-expo-out`; la vista anterior queda quieta debajo. Con movimiento reducido o sin soporte de la API, el cambio es instantáneo.
 
 ### 2.4 Internacionalización
 - Todo componente funciona con textos en `es-CL` y `en-US`. Los textos en inglés suelen ser más largos: diseñar con holgura.
@@ -371,11 +372,11 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
   - sin CLS por animaciones;
   - foco siempre visible;
   - contraste AA.
-- **Duraciones (tokens):** `fast` 200 ms (globos, chevron), `base` 250 ms (color y borde), `medium` 350 ms (subrayado de la navbar), `slow` 400 ms (elevación de tarjetas).
-- **Curvas:** `ease` estándar para color; `cubic-bezier(.2, .7, .2, 1)` para desplazamientos y elevación.
-- **Permitido:** cambios de color, borde y opacidad; desplazamientos de 2 a 4 px; escalado del subrayado; giro del chevron; desplazamiento suave entre anclas; las máquinas de escribir del logotipo y del hero.
-- **No permitido:** animaciones de entrada al hacer scroll en Inicio; parallax; animaciones en bucle salvo el cursor de la máquina de escribir; animar el fondo de la página al cambiar de tema.
-- **Con `prefers-reduced-motion: reduce`:** se anulan transiciones y desplazamiento suave, y las máquinas de escribir no arrancan.
+- **Duraciones (tokens):** `fast` 200 ms (globos, chevron), `base` 250 ms (color y borde), `medium` 350 ms (subrayado de la navbar), `slow` 400 ms (elevación de tarjetas), `theme` 700 ms (barrido del cambio de tema, ADR-110).
+- **Curvas:** `ease` estándar para color; `cubic-bezier(.2, .7, .2, 1)` para desplazamientos y elevación; `cubic-bezier(.16, 1, .3, 1)` (*expo out*) para el barrido del cambio de tema.
+- **Permitido:** cambios de color, borde y opacidad; desplazamientos de 2 a 4 px; escalado del subrayado; giro del chevron; desplazamiento suave entre anclas; las máquinas de escribir del logotipo y del hero; el barrido diagonal al cambiar de tema (ADR-110), durante el cual se apagan las transiciones propias de los componentes.
+- **No permitido:** animaciones de entrada al hacer scroll en Inicio; parallax; animaciones en bucle salvo el cursor de la máquina de escribir; animar el fondo de la página al cambiar de tema, salvo el barrido diagonal de ADR-110.
+- **Con `prefers-reduced-motion: reduce`:** se anulan transiciones, desplazamiento suave y el barrido del cambio de tema (el tema cambia al instante), y las máquinas de escribir no arrancan.
 - Zona táctil mínima de 44 × 44 px en todo control.
 - No se usa AOS (E20-I04). Si otra página necesita aparición al hacer scroll, usa la utilidad de E20-I04, que nunca deja contenido invisible.
 
@@ -390,7 +391,7 @@ Etiqueta visible sobre el campo (Josefin 600, 12,5 px, mayúsculas, `text-soft`)
   - variables de componente declaradas en la hoja global con los valores de la sección 7 (ADR-046): `--profile-current-bg` y `--profile-current-fg` (perfil activo del conmutador, mismos valores que el selector de idioma, 7.2), `--rail-hover-bg` y `--rail-hover-fg` (riel social al pasar, 7.4), `--metric-sign` (signo de toda cifra de display, 4.3) y `--tech-plate-bg` (placa del logo de tecnología en Desarrollador: `bg` en claro y `orient-50` en oscuro, ADR-069). Los separadores de la banda usan los tokens `gold` y `vibrant`, sin variable propia (ADR-058).
   - familias: `--font-display`, `--font-sans`;
   - sombras: `--shadow-card`, `--shadow-card-hover`, `--shadow-float`, `--shadow-rail`;
-  - duraciones y curvas: `--duration-fast|base|medium|slow`, `--ease-out-soft`;
+  - duraciones y curvas: `--duration-fast|base|medium|slow|theme`, `--ease-out-soft`, `--ease-expo-out`;
   - punto de quiebre propio: `--breakpoint-cards` (1.100 px); contenedor: 1.280 px.
 - Las esquinas redondeadas solo se usan como `rounded-full` (puntos, avatares).
 - Los componentes de Astro van en inglés (`SectionHeader`, `Button`, `IconButton`, `Card`, `TestimonialCard`, `Band`, `ThemeStripe`, `SocialRail`, `LanguageSwitch`, `ThemeToggle`).

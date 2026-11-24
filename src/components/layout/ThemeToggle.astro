@@ -5,6 +5,7 @@
  * ícono correcto se pinta desde el primer cuadro (sin CLS). El nombre accesible dice la
  * acción; el script lo ajusta al tema real al cargar y en cada cambio.
  * Guarda `theme` = 'dark' | 'light' en localStorage, como el sitio actual.
+ * El cambio usa un barrido diagonal con View Transitions (ADR-110, E200-I02).
  */
 import Icon from '../ui/Icon.astro';
 import IconButton from '../ui/IconButton.astro';
@@ -42,13 +43,30 @@ const t = useTranslations(langFromLocale(Astro.currentLocale));
   syncAll();
   for (const button of buttons) {
     button.addEventListener('click', () => {
-      const dark = root.classList.toggle('dark');
-      try {
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-      } catch {
-        // Almacenamiento bloqueado: el cambio vale solo para esta página.
+      // Un solo camino que alterna, guarda y sincroniza (con o sin transición).
+      const switchTheme = () => {
+        const dark = root.classList.toggle('dark');
+        try {
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+        } catch {
+          // Almacenamiento bloqueado: el cambio vale solo para esta página.
+        }
+        syncAll();
+      };
+      // Respaldo sin animación: movimiento reducido o navegador sin la API (ADR-110).
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) {
+        switchTheme();
+        return;
       }
-      syncAll();
+      // Barrido diagonal (global.css). Mientras dura, se apagan las transiciones de
+      // color de los componentes para que no haya un segundo fundido en el tema nuevo.
+      root.classList.add('theme-switching');
+      const transition = document.startViewTransition(switchTheme);
+      // Con clics seguidos, el barrido en curso se omite y `ready` se rechaza
+      // (AbortError): es esperado y no debe aparecer como error en la consola.
+      transition.ready.catch(() => {});
+      transition.finished.finally(() => root.classList.remove('theme-switching'));
     });
   }
 </script>

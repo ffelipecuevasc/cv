@@ -1260,3 +1260,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** aplicar el bloque de ADR-123 y repetir el push de `ajustes-visuales`.
 - **Avance (24-11-2026):** el bloque está en `main` (`00400eb`) y `ajustes-visuales` (`009eeb0`) lo contiene y está en `origin`. El estado del nuevo build de preview no se conoce (el mensaje de Felipe llegó sin los datos del panel); la URL esperada da 404. Sigue abierto hasta ver el build.
 - **Cierre (24-11-2026, dicho por Felipe):** con `"previews": {}` los builds de preview pasan («Ready»); la falta de URL se debe a `"preview_urls": false`, no a este hallazgo (ADR-124).
+
+### AT-157 · Giscus reenvía el tema al iframe con cada cambio de clase de `<html>`, también con `theme-switching`
+- **Severidad:** Baja · **Estado:** Abierto (backlog) · **Detectado en:** E200-I02 fase 1 (24-11-2026, lectura de `src/scripts/giscus.ts`)
+- **Evidencia:** `initGiscus` observa el atributo `class` de `<html>` y llama a `sendTheme` en cada mutación. Desde ADR-110, cada cambio de tema agrega y quita `theme-switching`, con dos `postMessage` extra con el mismo tema. En local, Giscus cambió bien de claro a oscuro (captura de Playwright).
+- **Impacto:** ninguno visible; mensajes redundantes al iframe.
+- **Recomendación:** si se vuelve a tocar `giscus.ts`, enviar el tema solo cuando cambie `.dark` (guardar el último valor enviado). Fuera del alcance de E200-I02.
+

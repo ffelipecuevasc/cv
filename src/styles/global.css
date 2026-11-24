@@ -86,6 +86,9 @@
   --duration-medium: 350ms;
   --duration-slow: 400ms;
   --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Cambio de tema con barrido diagonal (ADR-110). */
+  --duration-theme: 700ms;
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* 6 Contenedor (1.280 px) y punto de quiebre propio cards (1.100 px). */
   --container-page: 80rem;
@@ -197,6 +200,58 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Cambio de tema con barrido diagonal (ADR-110, E200-I02). La vista nueva entra con un
+ * clip-path diagonal: hacia oscuro desde arriba a la izquierda (reveal-dark) y hacia
+ * claro desde abajo a la derecha (reveal-light); la anterior queda quieta debajo. Los
+ * porcentajes fuera de 0-100 % son intencionales: el polígono parte fuera de la ventana.
+ */
+::view-transition-group(root) {
+  animation-duration: var(--duration-theme);
+  animation-timing-function: var(--ease-expo-out);
+}
+::view-transition-new(root) {
+  animation-name: reveal-light;
+  animation-fill-mode: both;
+}
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+.dark::view-transition-new(root) {
+  animation-name: reveal-dark;
+}
+@keyframes reveal-dark {
+  from {
+    clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%);
+  }
+  to {
+    clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%);
+  }
+}
+@keyframes reveal-light {
+  from {
+    clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%);
+  }
+  to {
+    clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
+  }
+}
+/* Durante el barrido no corren las transiciones propias de los componentes. */
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }
 
