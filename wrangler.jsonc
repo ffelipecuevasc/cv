@@ -2,7 +2,8 @@
 // "main" solo atiende /api/* (run_worker_first); el resto lo sirven los assets de dist/.
 // El binding ASSETS permite al Worker devolver los assets fuera de /api/* (ADR-085).
 // Sin rutas en este archivo: felipecuevas.dev es un Custom Domain del panel de Cloudflare (cutover
-// del 15-11-2026, ADR-104). workers.dev apagado (ADR-101); URL de preview por rama activas (preview_urls).
+// del 15-11-2026, ADR-104). workers.dev apagado (ADR-101); Version URLs apagadas (preview_urls: false)
+// y Worker Previews por rama con el bloque previews vacío, sin secretos de producción (ADR-123).
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "felipecuevas-dev",
@@ -15,5 +16,6 @@
     "run_worker_first": ["/api/*"],
   },
   "workers_dev": false,
-  "preview_urls": true,
+  "preview_urls": false,
+  "previews": {},
 }
