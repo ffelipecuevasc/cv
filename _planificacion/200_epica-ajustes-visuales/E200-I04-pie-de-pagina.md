@@ -1,7 +1,7 @@
 # E200-I04 · Ajustes del pie de página
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-025, ADR-044, ADR-050, ADR-057, ADR-063, ADR-104, ADR-108
+- **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-025, ADR-044, ADR-050, ADR-057, ADR-063, ADR-107, ADR-111
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -40,13 +40,13 @@ Aplicar los ajustes del pie que pidió Felipe el 16-11-2026: una frase de marca 
 - El enlace de correo del riel social del hero.
 
 ## Tareas
-- [ ] **Frase:** reemplazar `footer.tagline` en `ui.ts` por la opción A en es y en; ancho máximo de 44 caracteres; Work Sans 400 en `text-muted` (ADR-108).
+- [ ] **Frase:** reemplazar `footer.tagline` en `ui.ts` por la opción A en es y en; ancho máximo de 44 caracteres; Work Sans 400 en `text-muted` (ADR-111).
 - [ ] **Botón:** pasar «Descargar CV» a la variante `gold` sin cambiar `href`, `download`, ícono ni nombre accesible; comprobar foco visible sobre `orient-50` y `orient-950`.
 - [ ] **Flecha:** agregar al enlace de las columnas 2 y 3 una flecha decorativa (`aria-hidden`) que aparece con `:hover` y `:focus-visible`, con opacidad y desplazamiento de 6 px en `--duration-base`; sin desplazamiento con `prefers-reduced-motion`. Agregar la flecha diagonal de Material Symbols Light a `icons.ts` con su comentario de origen.
 - [ ] **Correo:** sacar la etiqueta de `social-links.ts` hacia el diccionario (`footer.email`: «Correo electrónico» / «Email»), sin traducir los nombres propios de las otras redes (ADR-025).
 - [ ] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs`; ajustar solo lo que dependa del texto del correo o de la clase del botón, y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Revisión visual:** protocolo de la épica en el pie de 3 páginas por idioma (Inicio, Contacto y 404), con hover y foco en cada enlace y en el botón, en claro y oscuro.
-- [ ] **Registro y bloques:** ADR-109 y bloque de `DESIGN.md` 7.3 (variante Dorado en dos usos) y 7.9 (frase, botón, flecha y etiqueta del correo) en la bitácora.
+- [ ] **Registro y bloques:** ADR-112 y bloque de `DESIGN.md` 7.3 (variante Dorado en dos usos) y 7.9 (frase, botón, flecha y etiqueta del correo) en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/layout/Footer.astro`, `src/components/layout/social-links.ts`, `src/i18n/ui.ts`, `src/components/ui/icons.ts` y, si hace falta, `scripts/verify-seo.mjs`.
@@ -62,11 +62,11 @@ Aplicar los ajustes del pie que pidió Felipe el 16-11-2026: una frase de marca 
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106: hover y Tab sobre cada enlace, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109: hover y Tab sobre cada enlace, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-109 · Pie: frase de marca, botón dorado, flecha en los enlaces y etiqueta del correo (sustituye en parte a ADR-057)
+### ADR-112 · Pie: frase de marca, botón dorado, flecha en los enlaces y etiqueta del correo (sustituye en parte a ADR-057)
 - **Contexto:** E200-I04. Revisión de Felipe en producción el 16-11-2026: frase de una línea, botón de CV inadvertido (contorno sobre el mismo fondo), hover pobre en las columnas de enlaces y la dirección de correo completa como texto.
 - **Decisión (de Felipe, 16-11-2026, sobre la vista previa del chat):**
     - frase de la marca de dos oraciones (opción A), con ancho máximo de 44 caracteres;

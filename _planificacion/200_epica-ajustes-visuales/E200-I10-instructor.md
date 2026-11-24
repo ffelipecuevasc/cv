@@ -1,7 +1,7 @@
 # E200-I10 · Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I09 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-072, ADR-073, ADR-104, ADR-106, ADR-110, ADR-111, ADR-114
+- **Depende de:** E200-I09 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-072, ADR-073, ADR-107, ADR-109, ADR-113, ADR-114, ADR-117
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -62,7 +62,7 @@ Aplicar en Instructor (`/es/instructor/` y `/en/instructor/`) los fondos que ya 
 - [ ] **Planes a todo el ancho:** quitar `max-width: 52rem` de la lista; desde 1.024 px, la lista de planes de cada fecha en una grilla de dos columnas iguales (`repeat(2, minmax(0, 1fr))`), con tarjetas de igual altura por fila; bajo 1.024 px, una columna. El marcador, el riel y la fecha no cambian. Si una fecha tiene un número impar de planes, el último ocupa una columna y no se estira.
 - [ ] **Controles:** revisar `scripts/verify-seo.mjs` por dependencias de la estructura de los planes (orden, cantidad, plan destacado, horas de PF1163); ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/instructor/` y `/en/instructor/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Recorrer la página completa para comprobar que la sucesión de puntos, curvas, puntos, `bg-alt` y puntos no se ve cargada, y medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
-- [ ] **Registro y bloques:** ADR-115, bloque de `DESIGN.md` 4.5, 11.2 y 11.8 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-118, bloque de `DESIGN.md` 4.5, 11.2 y 11.8 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/instructor/InstructorHeader.astro`, `TitularBand.astro`, `CoursesMosaic.astro`, `PlansTimeline.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css` y `scripts/verify-seo.mjs`.
@@ -79,11 +79,11 @@ Aplicar en Instructor (`/es/instructor/` y `/en/instructor/`) los fondos que ya 
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-115 · Instructor: puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho
+### ADR-118 · Instructor: puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho
 - **Contexto:** E200-I10. En Instructor, las secciones de fondo `bg` no llevan textura, «Instructor Titular» usa la cuadrícula y la lista de planes SENCE queda limitada a 52 rem dentro de un contenedor de 1.280 px (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026):**
     - campo de puntos en la cabecera, en «Principales cursos» y en los planes SENCE;

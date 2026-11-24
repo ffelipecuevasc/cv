@@ -41,7 +41,7 @@ Decisión de Felipe del 24-11-2026. Pendientes abiertos que **no bloquean** el c
 | BL-10 · HSTS de 1 mes a 6 meses | Felipe | Desde el 08-12-2026 | 2 semanas sin incidentes desde el 24-11-2026; decisión de Felipe ese día |
 
 - No borrar el proyecto Pages `felipe-cuevas-cv` (queda pausado como reversa; paso 10 del procedimiento). Sin fecha de borrado.
-- Siguiente trabajo: E200 (carpeta `200-epica-ajustes-visuales/`), **aún sin registrar** (AT-146); su registro y la renumeración de sus ADR (desde ADR-107, reservado) los hace E200-I00.
+- Siguiente trabajo: E200 (carpeta `200_epica-ajustes-visuales/`), **aún sin registrar** (AT-146); su registro y la renumeración de sus ADR (desde ADR-107, reservado) los hace E200-I00.
 
 ## Riesgos
 - Contenido publicado en `main` durante la migración que no se portó.

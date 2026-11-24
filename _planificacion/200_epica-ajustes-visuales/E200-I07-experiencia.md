@@ -1,9 +1,11 @@
 # E200-I07 · Experiencia: hitos con el año como protagonista, línea de tiempo horizontal y campo de puntos
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I06 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-063, ADR-065, ADR-066, ADR-104, ADR-106, ADR-108, ADR-111
+- **Depende de:** E200-I06 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-063, ADR-065, ADR-066, ADR-107, ADR-109, ADR-111, ADR-114
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
+
+> **Aviso (DESIGN.md §8, agregado en E200-I00):** el pulso suave e infinito del punto vivo es una animación en bucle, y `DESIGN.md:377` solo permite en bucle el cursor de la máquina de escribir (y `DESIGN.md:13`, §1.5, limita el movimiento a respuestas a la interacción). Esta iteración lo resuelve con su ADR-115 (excepción acotada a ese punto), con `prefers-reduced-motion: reduce` (queda un halo quieto, tarea de movimiento) y con un bloque de §8 (y §1.5) para Felipe en la bitácora; `DESIGN.md` lo edita Felipe (ADR-033).
 
 ## Objetivo
 Rediseñar la presentación de los 3 perfiles en la sección principal de Experiencia (`/es/experiencia/` y `/en/experience/`), que hoy es una línea de tiempo vertical angosta que desperdicia casi todo el ancho. Pasa a ser una línea de tiempo horizontal con tres tarjetas de hito, sobre el campo de puntos del hero, en `es-CL` y `en-US` y en claro y oscuro.
@@ -55,7 +57,7 @@ Rediseñar la presentación de los 3 perfiles en la sección principal de Experi
 - [ ] **Fondo:** montar `texture-dots` y `texture-halo` detrás del encabezado y de la línea de tiempo como una sola capa (por ejemplo, envolviendo ambos componentes en una sección con la capa absoluta). Reutilizar la variable de E200-I06 para centrar la máscara y el halo; no copiar las utilidades. Las tarjetas de hito llevan fondo `bg`, para que los puntos no pasen por detrás del texto.
 - [ ] **Controles:** actualizar `scripts/verify-seo.mjs` para que exija el orden 2011, 2013 y 2023, que el año de cada hito coincida con el periodo de su tarjeta (AT-081) y que se mantengan los 3 íconos decorativos y la «página sin controles ni scripts». Comprobar que el control falla ante un orden o un año roto.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/experiencia/` y `/en/experience/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con movimiento reducido. Medir el contraste del año translúcido frente al texto que tiene encima (debe quedar como decoración, sin tapar el título ni la modalidad).
-- [ ] **Registro y bloques:** ADR-112, bloque de `DESIGN.md` 4.5 (campo de puntos también en Experiencia), 11.2 (variante horizontal de la línea de tiempo) y 11.5 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-115, bloque de `DESIGN.md` 1.5 y 8 (excepción del pulso en bucle), 4.5 (campo de puntos también en Experiencia), 11.2 (variante horizontal de la línea de tiempo) y 11.5 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/experience/ExperienceTimeline.astro`, `src/pages/es/experiencia.astro` y `src/pages/en/experience.astro` (si la capa de puntos envuelve ambos componentes), `src/content/experience/page.json`, `src/content.config.ts` (si cambia el esquema de `timeline`) y `scripts/verify-seo.mjs`.
@@ -74,11 +76,11 @@ Rediseñar la presentación de los 3 perfiles en la sección principal de Experi
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-112 · Experiencia: línea de tiempo horizontal con hitos y campo de puntos (sustituye en parte a ADR-066)
+### ADR-115 · Experiencia: línea de tiempo horizontal con hitos y campo de puntos (sustituye en parte a ADR-066)
 - **Contexto:** E200-I07. En Experiencia, la línea de tiempo vertical compacta de E60-I02 (ADR-066) ocupa unos 380 px de un contenedor de 1.280 px y deja la sección casi vacía (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026, entre 4 alternativas y una segunda vista previa en el chat):**
     - los 3 hitos pasan a una línea de tiempo horizontal con tarjetas en orden cronológico (2011, 2013 y 2023), cada una con el año de inicio como fondo tipográfico;

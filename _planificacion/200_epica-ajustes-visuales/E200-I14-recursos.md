@@ -1,7 +1,7 @@
 # E200-I14 · Recursos: catálogo de rutas con página propia por ruta, «Más recursos» con logos y fondos de la épica
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M (la más grande de la épica; si no cabe en una sesión, se parte en complementos `E200-I14b`, como E180-I02b)
-- **Depende de:** E200-I13 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-020, ADR-023, ADR-025, ADR-078, ADR-079, ADR-080, ADR-081, ADR-082, ADR-087, ADR-104, ADR-106, ADR-110, ADR-111
+- **Depende de:** E200-I13 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-020, ADR-023, ADR-025, ADR-078, ADR-079, ADR-080, ADR-081, ADR-082, ADR-087, ADR-107, ADR-109, ADR-113, ADR-114
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -83,7 +83,7 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
     - campo de puntos en `ResourcesHeader`;
     - ajustar `verify:seo`, `verify` y `check:i18n` a la estructura nueva y comprobar que fallan ante casos rotos;
     - protocolo de revisión visual de la épica en Recursos y en las páginas de ruta, es y en, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con progreso vacío, parcial y completo.
-- [ ] **Registro y bloques:** ADR-119, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
+- [ ] **Registro y bloques:** ADR-122, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Los decide el agente en la tarea 1. Como mínimo cambian:
@@ -111,11 +111,11 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n`, `pnpm verify:seo` y `pnpm check:redirects` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama, incluido un recorrido con progreso guardado previamente en `rutas-progreso`.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama, incluido un recorrido con progreso guardado previamente en `rutas-progreso`.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-119 · Recursos: catálogo de rutas, página propia por ruta y «Más recursos» con logos (sustituye en parte a ADR-079, ADR-080 y ADR-081)
+### ADR-122 · Recursos: catálogo de rutas, página propia por ruta y «Más recursos» con logos (sustituye en parte a ADR-079, ADR-080 y ADR-081)
 - **Contexto:** E200-I14. La sección de la ruta despliega sus 25 pasos completos, empuja «Más recursos» muy abajo y está atada a una sola ruta. La conversación de la ruta no se mantendrá por ruta, y «Más recursos» muestra la cantidad de materiales en una insignia poco atractiva (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026, sobre un lienzo de diseño con 3 alternativas y 3 vistas previas en el chat):**
     - Recursos muestra un catálogo de rutas en tarjetas (alternativa A);

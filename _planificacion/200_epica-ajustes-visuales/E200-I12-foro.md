@@ -1,7 +1,7 @@
 # E200-I12 · Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos»
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I11 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-078, ADR-104, ADR-106, ADR-110, ADR-111, ADR-116
+- **Depende de:** E200-I11 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-078, ADR-107, ADR-109, ADR-113, ADR-114, ADR-119
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -56,7 +56,7 @@ Aplicar en Foro (`/es/foro/` y `/en/forum/`) los mismos fondos que ya usan las o
 - [ ] **Marco de Giscus:** con el foro cargado, en claro y oscuro, comprobar si el marco deja ver el fondo. Si los puntos se ven detrás de los comentarios, darle al contenedor del marco fondo `bg` sólido, sin tocar la configuración de Giscus.
 - [ ] **Curvas:** variante de curvas de `Band` en `StepsBand.astro`, sin la cuadrícula, con la composición nueva pasada como parámetros al componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos).
 - [ ] **Revisión visual:** protocolo de la épica en `/es/foro/` y `/en/forum/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con Giscus cargado y sin cargar. Revisar también la página de Recursos, para confirmar que su hilo no cambió.
-- [ ] **Registro y bloques:** ADR-117, bloque de `DESIGN.md` 4.5 y 11.10 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-120, bloque de `DESIGN.md` 4.5 y 11.10 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/forum/ForumHeader.astro`, `StepsBand.astro`, `GiscusSection.astro`, `Conversation.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
@@ -73,11 +73,11 @@ Aplicar en Foro (`/es/foro/` y `/en/forum/`) los mismos fondos que ya usan las o
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-117 · Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos»
+### ADR-120 · Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos»
 - **Contexto:** E200-I12. En Foro, la cabecera y «Conversación» van sobre fondo liso y «Participar en tres pasos» usa la cuadrícula, a diferencia de las páginas ya ajustadas en E200 (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026):**
     - campo de puntos en la cabecera y en la parte superior de «Conversación», con los comentarios de Giscus siempre sobre fondo liso;

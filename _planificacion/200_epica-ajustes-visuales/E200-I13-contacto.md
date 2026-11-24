@@ -1,9 +1,12 @@
 # E200-I13 · Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I12 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-083, ADR-084, ADR-086, ADR-092, ADR-104, ADR-106, ADR-110, ADR-111
+- **Depende de:** E200-I12 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-083, ADR-084, ADR-086, ADR-092, ADR-107, ADR-109, ADR-113, ADR-114
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
+
+> **Aviso (DESIGN.md §8, agregado en E200-I00):** el trazo que recorre el botón en bucle de 1,3 s mientras se envía es una animación en bucle, y `DESIGN.md:377` solo permite en bucle el cursor de la máquina de escribir (y `DESIGN.md:13`, §1.5, limita el movimiento a respuestas a la interacción). Esta iteración lo resuelve con su ADR-121 (excepción acotada al estado «enviando», que dura lo que tarda la respuesta), con `prefers-reduced-motion: reduce` (trazo fijo, sin recorrer) y con un bloque de §8 (y §1.5) para Felipe en la bitácora; `DESIGN.md` lo edita Felipe (ADR-033). Además, el relleno dorado al terminar bien convive con «el sistema no tiene color de éxito» (`DESIGN.md:340`, `:532`): el bloque de Felipe debe aclararlo.
+> **Dependencia de E200-I01:** la prueba con el formulario real en la URL de rama (tarea de pruebas) solo se hace después de resolver Turnstile (AT-147) y de saber si la preview manda correos reales (E200-I01, tareas 5b y 5c).
 
 ## Objetivo
 Aplicar en Contacto (`/es/contacto/` y `/en/contact/`) los mismos fondos que ya usan las otras páginas y reemplazar el texto «Enviando tu mensaje…» por un efecto en el propio botón «Enviar mensaje». Todo en `es-CL` y `en-US` y en claro y oscuro.
@@ -70,7 +73,7 @@ Aplicar en Contacto (`/es/contacto/` y `/en/contact/`) los mismos fondos que ya 
 - [ ] **Controles y CSP:** mantener la región `role="status"` con `data-form-status` que exige `verify:seo`. Si cambia un hash de script en línea, entregar a Felipe la línea exacta de `public/_headers` y verificar de nuevo cuando la pegue.
 - [ ] **Pruebas del envío en la URL de rama** (con el formulario real y Turnstile): envío correcto hasta Agradecimiento, error de validación, error del servidor y doble clic, en es y en, claro y oscuro, con teclado y con movimiento reducido. Revisar con NVDA o el lector disponible que se anuncie «Enviando tu mensaje…» y, si falla, el error.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/contacto/` y `/en/contact/`, a 360, 768, 1.024, 1.366 y 1.920 px, incluida la carga de Calendly.
-- [ ] **Registro y bloques:** ADR-118, bloque de `DESIGN.md` 4.5, 7.3, 7.10 y 11.12 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-121, bloque de `DESIGN.md` 1.5 y 8 (excepción del trazo en bucle), 4.5, 7.3, 7.10 y 11.12 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/contact/ContactHeader.astro`, `ChannelsBand.astro`, `ContactForm.astro`, `src/scripts/contact.ts`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
@@ -89,11 +92,11 @@ Aplicar en Contacto (`/es/contacto/` y `/en/contact/`) los mismos fondos que ya 
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Pruebas de la tarea 6 y protocolo de revisión visual de la épica con el navegador de ADR-106, con la consola abierta (sin errores ni violaciones de CSP).
+- Pruebas de la tarea 6 y protocolo de revisión visual de la épica con el navegador de ADR-109, con la consola abierta (sin errores ni violaciones de CSP).
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-118 · Contacto: fondos de la épica y envío con contorno trazado
+### ADR-121 · Contacto: fondos de la épica y envío con contorno trazado
 - **Contexto:** E200-I13. En Contacto, la cabecera va sobre fondo liso y «Canales de contacto» usa la cuadrícula. Al enviar el formulario aparece sobre el botón el texto «Enviando tu mensaje…», que Felipe considera burdo (revisión en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026, entre 3 vistas previas en el chat):**
     - campo de puntos en la cabecera y curvas de nivel con composición propia en «Canales de contacto» (dos lóbulos en el borde superior);

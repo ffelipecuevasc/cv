@@ -1,7 +1,7 @@
 # E200-I11 · Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I10 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-074, ADR-076, ADR-104, ADR-106, ADR-110, ADR-111, ADR-114, ADR-115
+- **Depende de:** E200-I10 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-074, ADR-076, ADR-107, ADR-109, ADR-113, ADR-114, ADR-117, ADR-118
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -88,7 +88,7 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 - [ ] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de la línea de contexto, de la banda de cifras o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Ritmo visual:** recorrer la página completa y comprobar que la alternancia de puntos y curvas en las 6 franjas se lee ordenada y no cargada. Medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/talento-digital/` y `/en/talento-digital/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
-- [ ] **Registro y bloques:** ADR-116, bloque de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-119, bloque de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/content/talento-digital/page.json`, `src/components/talento-digital/TalentoDigitalHeader.astro`, `BootcampsZigzag.astro`, `Achievements.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css` y `scripts/verify-seo.mjs`.
@@ -105,11 +105,11 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-116 · Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp
+### ADR-119 · Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp
 - **Contexto:** E200-I11. En Talento Digital, las franjas de fondo liso no llevan textura, las de banda y la banda final usan la cuadrícula, las 3 cifras finales están alineadas a la izquierda y solo dos bootcamps nombran su OTEC en la línea de contexto (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026):**
     - campo de puntos en la cabecera, en «Bootcamps Realizados» con la franja de Java, en las franjas `pf1164-1` y `pf1479`, y en la parte lisa de «Logros»;

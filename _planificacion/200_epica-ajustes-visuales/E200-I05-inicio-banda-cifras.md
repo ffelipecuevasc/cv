@@ -1,7 +1,7 @@
 # E200-I05 · Inicio: curvas de nivel y cifras centradas en la banda de Resumen
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-036, ADR-053, ADR-058, ADR-104, ADR-106, ADR-108
+- **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-036, ADR-053, ADR-058, ADR-107, ADR-109, ADR-111
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -43,7 +43,7 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - [ ] **Centrado:** `text-align: center` en el rótulo (`dt`), la cifra y la línea de contexto de cada celda. Mantener 5 columnas desde 1.024 px y 2 columnas bajo esa medida, con la quinta en la fila completa; las barras siguen en el mismo lugar.
 - [ ] **Alineación entre celdas:** el rótulo, la cifra y el contexto de las 5 celdas quedan en tres filas comunes (por ejemplo, `grid-template-rows: subgrid`), para que ninguna cifra baje cuando un rótulo o un contexto ocupa más líneas. Se comprueba sobre todo en inglés y a 1.024 px.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Medir el contraste del texto en el peor punto donde una curva pasa detrás de una línea de contexto.
-- [ ] **Registro y bloques:** ADR-110, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
+- [ ] **Registro y bloques:** ADR-113, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Crear: un componente de curvas de nivel en `src/components/ui/` (por ejemplo `ContourLines.astro`) con las piezas SVG y la composición de Inicio.
@@ -61,12 +61,12 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama, incluida una banda de otra página (por ejemplo Educación) para confirmar que la cuadrícula sigue igual.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama, incluida una banda de otra página (por ejemplo Educación) para confirmar que la cuadrícula sigue igual.
 - PageSpeed Insights de `/es/` y `/en/` en la URL de rama (móvil y escritorio).
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-110 · Banda de cifras de Inicio: curvas de nivel y cifras centradas (complementa ADR-058)
+### ADR-113 · Banda de cifras de Inicio: curvas de nivel y cifras centradas (complementa ADR-058)
 - **Contexto:** E200-I05. En la banda de cifras de Inicio, la cuadrícula del fondo se suma a las barras verticales y a la regla del encabezado, y la sección queda sobrecargada de figuras cuadradas (revisión de Felipe en producción, 16-11-2026). Las cifras están alineadas a la izquierda.
 - **Decisión (de Felipe, 16-11-2026, entre 6 texturas comparadas en el chat):**
     - la banda de cifras de Inicio cambia la cuadrícula por **curvas de nivel**: dos grupos de curvas suavizadas en las esquinas inferior izquierda y superior derecha, cada quinta curva en dorado, desvanecidas hacia el centro;

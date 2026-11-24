@@ -1,7 +1,7 @@
 # E200-I06 · Educación: puntos en la cabecera y en la franja Cloud, curvas de nivel en las franjas con banda y bloque REUF con panel de cifras
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I05 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-036, ADR-053, ADR-058, ADR-061, ADR-072, ADR-104, ADR-106, ADR-108, ADR-110
+- **Depende de:** E200-I05 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-036, ADR-053, ADR-058, ADR-061, ADR-072, ADR-107, ADR-109, ADR-111, ADR-113
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -54,7 +54,7 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
 - [ ] **REUF, maquetación:** desde 1.024 px, dos columnas con el panel a la derecha (barra degradada, cifras en `font-display` con el «+» en `primary` en claro y `gold` en oscuro, rótulos en `font-mono`); entre 768 y 1.023 px, el panel pasa bajo el texto como una fila de 3 cifras; bajo 768 px, las 3 cifras apiladas. Las cifras van en una lista de definiciones (`dl`), como en la banda de Inicio.
 - [ ] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de los destacados o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/educacion/` y `/en/education/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con el diálogo de una certificación abierto. Medir el contraste donde una curva pasa detrás del nombre de una insignia.
-- [ ] **Registro y bloques:** ADR-111, bloque de `DESIGN.md` 4.5, 7.8 y 11.4 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-114, bloque de `DESIGN.md` 4.5, 7.8 y 11.4 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/education/EducationHeader.astro`, `CertificationsSection.astro`, `ReufClosing.astro`, `src/components/ui/ThemeStripe.astro`, el componente de curvas de E200-I05, `src/content/education/page.json`, `src/content.config.ts` (si cambia el esquema de `reuf`) y `src/styles/global.css` (si hace falta una variable para la cabecera).
@@ -73,11 +73,11 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-111 · Educación: puntos en la cabecera, curvas de nivel por franja y panel de cifras en el bloque REUF
+### ADR-114 · Educación: puntos en la cabecera, curvas de nivel por franja y panel de cifras en el bloque REUF
 - **Contexto:** E200-I06. Revisión de Felipe en producción el 16-11-2026: la cabecera de Educación no comparte el fondo del hero, las franjas de certificaciones usan la cuadrícula y el bloque REUF deja vacío cerca del 35 % derecho de la tarjeta en escritorio.
 - **Decisión (de Felipe, 16-11-2026):**
     - la cabecera de Educación usa el campo de puntos y el halo del hero (4.5);

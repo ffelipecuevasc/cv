@@ -1,7 +1,7 @@
 # E200-I08 · Desarrollador: campo de puntos en la sección principal y curvas de nivel en «Conjunto de Tecnologías»
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I07 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-067, ADR-104, ADR-106, ADR-110, ADR-111, ADR-112
+- **Depende de:** E200-I07 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-067, ADR-107, ADR-109, ADR-113, ADR-114, ADR-115
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -46,7 +46,7 @@ Aplicar en Desarrollador (`/es/desarrollador/` y `/en/developer/`) los dos fondo
 - [ ] **Curvas:** dibujar la composición nueva en el componente de E200-I05 (trazos suavizados, piezas ancladas al borde superior, 10 KB o menos) y aplicarla en `TechnologyWall.astro` con la variante de `Band.astro`, sin la cuadrícula.
 - [ ] **Grilla de tecnologías:** comprobar que las curvas no se confunden con los logos de las tarjetas, en claro y oscuro, a 360, 768, 1.024 y 1.920 px.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/desarrollador/` y `/en/developer/`, incluidos los filtros del portafolio, para confirmar que no cambió nada fuera de las dos secciones.
-- [ ] **Registro y bloques:** ADR-113, bloque de `DESIGN.md` 4.5 (campo de puntos y curvas de nivel también en Desarrollador) y 11.6 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-116, bloque de `DESIGN.md` 4.5 (campo de puntos y curvas de nivel también en Desarrollador) y 11.6 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/pages/es/desarrollador.astro`, `src/pages/en/developer.astro` (si la capa envuelve ambos componentes), `src/components/developer/TechnologyWall.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
@@ -62,11 +62,11 @@ Aplicar en Desarrollador (`/es/desarrollador/` y `/en/developer/`) los dos fondo
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-113 · Desarrollador: campo de puntos en la sección principal y curvas de nivel en la banda de tecnologías
+### ADR-116 · Desarrollador: campo de puntos en la sección principal y curvas de nivel en la banda de tecnologías
 - **Contexto:** E200-I08. La sección principal de Desarrollador va sobre fondo liso y la banda «Conjunto de Tecnologías» usa la cuadrícula, a diferencia de las páginas ya ajustadas en E200 (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026):**
     - la cabecera y «Aspectos técnicos» llevan el campo de puntos y el halo del hero, como una sola sección;

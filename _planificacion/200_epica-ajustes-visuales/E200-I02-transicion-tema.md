@@ -1,9 +1,11 @@
 # E200-I02 · Transición de tema con barrido diagonal
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-021, ADR-023, ADR-033, ADR-092, ADR-104, ADR-106
+- **Depende de:** E200-I01 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-021, ADR-023, ADR-033, ADR-092, ADR-107, ADR-109
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
+
+> **Aviso (DESIGN.md §8, agregado en E200-I00):** `DESIGN.md:377` no permite «animar el fondo de la página al cambiar de tema» y `DESIGN.md:13` (§1.5) limita el movimiento a respuestas a la interacción. Esta iteración resuelve la contradicción con su ADR-110 (que sustituye esa restricción solo para el cambio de tema), con `prefers-reduced-motion` (sin transición, tarea de estilos) y con un bloque de §8 (más §1.5 y §9 por los tokens de duración y curva) que se entrega a Felipe en la bitácora; `DESIGN.md` lo edita Felipe (ADR-033). Si Felipe no acepta la excepción, la iteración se detiene (AGENTS.md §6).
 
 ## Objetivo
 Cambiar el paso entre tema claro y oscuro, que hoy es instantáneo, por un barrido diagonal con la API View Transitions, en todo el sitio y en ambos idiomas. Sin parpadeo, sin CLS y respetando el movimiento reducido.
@@ -100,8 +102,8 @@ document.startViewTransition(switchTheme);
 - [ ] **Estilos:** tokens `--duration-theme` (700 ms) y `--ease-expo-out` en `global.css`; pseudoelementos `::view-transition-*` y `@keyframes` `reveal-dark` y `reveal-light`; bloque de movimiento reducido.
 - [ ] **Transiciones dobles:** comprobar si las transiciones de color propias de los componentes (por ejemplo, los 300 ms del ícono del logotipo) se suman al barrido. Si se ve un segundo fundido dentro del tema nuevo, desactivarlas solo mientras dura la transición.
 - [ ] **CSP:** `pnpm build && pnpm verify:seo`. Si cambia un hash, entregar a Felipe la línea exacta de `public/_headers` y volver a verificar después de que la pegue.
-- [ ] **Revisión visual:** con el navegador de ADR-106, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
-- [ ] **Registro y bloques:** ADR-107 y bloque de `DESIGN.md` 2.3 y 8 en la bitácora.
+- [ ] **Revisión visual:** con el navegador de ADR-109, alternar el tema en Inicio, Foro (Giscus), Contacto (Turnstile) y la 404, en `/es/` y `/en/`, a 360 y 1.920 px, en ambas direcciones; repetir con movimiento reducido, con varios clics seguidos y con el menú móvil abierto.
+- [ ] **Registro y bloques:** ADR-110 y bloque de `DESIGN.md` 1.5, 2.3, 8 y 9 (tokens `--duration-theme` y `--ease-expo-out`) en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/layout/ThemeToggle.astro` y `src/styles/global.css`.
@@ -122,7 +124,7 @@ document.startViewTransition(switchTheme);
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-107 · Transición de tema con barrido diagonal (View Transitions)
+### ADR-110 · Transición de tema con barrido diagonal (View Transitions)
 - **Contexto:** E200-I02. El cambio entre tema claro y oscuro es instantáneo. Felipe entregó el 16-11-2026 un efecto de barrido diagonal con la API View Transitions para todo el sitio.
 - **Decisión (de Felipe, 16-11-2026):** al alternar el tema, `document.startViewTransition` anima la vista nueva con un `clip-path` diagonal: hacia oscuro desde la esquina superior izquierda y hacia claro desde la inferior derecha, en 700 ms con curva *expo out* (tokens `--duration-theme` y `--ease-expo-out`). Sin animación con movimiento reducido o sin soporte de la API.
 - **Consecuencias:** el script del botón de tema cambia; si su hash cambia, Felipe actualiza `public/_headers` (ADR-092). `DESIGN.md` 2.3 y 8 describen la transición (ADR-033). No hay dependencias nuevas.

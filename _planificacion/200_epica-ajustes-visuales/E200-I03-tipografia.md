@@ -1,7 +1,7 @@
 # E200-I03 · Tipografía: Sora, Work Sans e IBM Plex Mono
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-016, ADR-041, ADR-043, ADR-049, ADR-104, ADR-106
+- **Depende de:** E200-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-016, ADR-041, ADR-043, ADR-049, ADR-107, ADR-109
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -50,7 +50,7 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - [ ] **Logotipo:** nombre en Sora y renglón 2 en IBM Plex Mono; recalcular la reserva de ancho de la máquina de escribir y comprobar el umbral de 420 px de ADR-051 y que el cursor siga pegado al texto.
 - [ ] **Hero:** recalcular el `clamp()` del h1 para que «Docente Universitario en» y su versión en inglés quepan según 5.2, y repetir la matriz sin scroll de ADR-016 en los dos temas e idiomas.
 - [ ] **Revisión visual:** protocolo de la épica en las 12 páginas por idioma y la 404, con foco en desbordes del inglés, botones, chips, pestañas, cifras y formularios.
-- [ ] **Registro y bloques:** ADR-108 y bloque de `DESIGN.md` (2.2, 3.2, 5.1 a 5.3 y 7.3) en la bitácora; PageSpeed Insights de `/es/` y `/en/` en la preview frente a la línea base de E190-I04.
+- [ ] **Registro y bloques:** ADR-111 y bloque de `DESIGN.md` (2.2, 3.2, 5.1 a 5.3 y 7.3) en la bitácora; PageSpeed Insights de `/es/` y `/en/` en la preview frente a la línea base de E190-I04.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/assets/fonts/` con los WOFF2 y las licencias OFL de Sora, Work Sans e IBM Plex Mono.
@@ -70,12 +70,12 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica, con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica, con el navegador de ADR-109, en local y en la URL de rama.
 - PageSpeed Insights de `/es/` y `/en/` en la URL de rama (móvil y escritorio).
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-108 · Tipografía Sora, Work Sans e IBM Plex Mono (sustituye a ADR-041 y en parte a ADR-049)
+### ADR-111 · Tipografía Sora, Work Sans e IBM Plex Mono (sustituye a ADR-041 y en parte a ADR-049)
 - **Contexto:** E200-I03. Felipe compara en el chat tres sistemas aplicados al hero (16-11-2026): Sora + Work Sans + IBM Plex Mono, Newsreader + Hanken Grotesk + JetBrains Mono, y Geist + Geist Mono. Cinzel en mayúsculas romanas cuesta en titulares largos y en inglés, y Josefin 300 obligó a reglas de contraste propias (AT-115).
 - **Decisión (de Felipe, 16-11-2026):** Sora para titulares, cifras y nombre del logotipo; Work Sans para el texto; IBM Plex Mono para rótulos, chips, pestañas y el renglón 2 del logotipo. Las tres con licencia OFL y autoalojadas (ADR-043). Sin cursivas cargadas. Reparto de roles y escala según la tabla validada en la tarea 1.
 - **Sustituye:** ADR-041 (Cinzel y Josefin Sans) y ADR-049 en la tipografía del nombre del logotipo (ícono, frases, ritmo y comportamiento no cambian).

@@ -1,7 +1,7 @@
 # E200-I09 · Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I08 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-070, ADR-104, ADR-106, ADR-110, ADR-111, ADR-113
+- **Depende de:** E200-I08 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-070, ADR-107, ADR-109, ADR-113, ADR-114, ADR-116
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -65,7 +65,7 @@ Aplicar en Docente (`/es/docente/` y `/en/lecturer/`) los fondos que ya usan las
 - [ ] **Cargos especiales:** desde 1.024 px, una fila de dos columnas iguales con la misma altura (`grid-template-columns: repeat(2, minmax(0, 1fr))` o equivalente) y el ancho máximo ampliado al que haga falta para que el texto no quede apretado; bajo 1.024 px, una columna como hoy. La lista, los íconos y el contenido no cambian.
 - [ ] **Ritmo visual:** recorrer la página completa y comprobar que la alternancia de fondos se lee ordenada: puntos en la cabecera, asignaturas lisa, puntos en IPLACEX, curvas en Duoc UC, puntos en INACAP, curvas en la tutoría y cargos sobre `bg-alt`. Comprobar también que ninguna textura pasa detrás de un texto pequeño sin cumplir el contraste de 4.4 (medir el peor punto).
 - [ ] **Revisión visual:** protocolo de la épica en `/es/docente/` y `/en/lecturer/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
-- [ ] **Registro y bloques:** ADR-114, bloque de `DESIGN.md` 4.5 y 11.7 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [ ] **Registro y bloques:** ADR-117, bloque de `DESIGN.md` 4.5 y 11.7 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/lecturer/LecturerHeader.astro`, `InstitutionsZigzag.astro`, `MentoringBand.astro`, `SpecialRoles.astro` y el componente de curvas de nivel de E200-I05; si hace falta, `src/styles/global.css`.
@@ -81,11 +81,11 @@ Aplicar en Docente (`/es/docente/` y `/en/lecturer/`) los fondos que ya usan las
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
-- Protocolo de revisión visual de la épica con el navegador de ADR-106, en local y en la URL de rama.
+- Protocolo de revisión visual de la épica con el navegador de ADR-109, en local y en la URL de rama.
 
 ## ADR a registrar (texto para `decisiones.md`)
 
-### ADR-114 · Docente: puntos en las secciones lisas, curvas de nivel en las bandas y cargos especiales en dos columnas
+### ADR-117 · Docente: puntos en las secciones lisas, curvas de nivel en las bandas y cargos especiales en dos columnas
 - **Contexto:** E200-I09. En Docente, las secciones de fondo liso no llevan textura, las de banda usan la cuadrícula y los dos cargos especiales están apilados en una columna angosta (revisión de Felipe en producción, 16-11-2026).
 - **Decisión (de Felipe, 16-11-2026):**
     - campo de puntos en la cabecera, en el encabezado de «Experiencia por institución» con la franja de IPLACEX, y en la franja de INACAP;
