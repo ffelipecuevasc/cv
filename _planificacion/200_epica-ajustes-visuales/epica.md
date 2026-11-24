@@ -30,7 +30,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E200-I00](E200-I00-renumeracion.md) | Registro de E200 y renumeración de sus ADR (solo documentos) | P0 | S | E190-I04 | [x] Terminada |
-| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [~] En curso (fase 1 terminada el 24-11-2026) |
+| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [~] En curso (fase 1 terminada el 24-11-2026; fase 2 parcial, a la espera de la decisión de Felipe sobre P-06) |
 | [E200-I02](E200-I02-transicion-tema.md) | Transición de tema con barrido diagonal | P1 | S | E200-I01 | [ ] Pendiente |
 | [E200-I03](E200-I03-tipografia.md) | Tipografía: Sora, Work Sans e IBM Plex Mono | P1 | M | E200-I02 | [ ] Pendiente |
 | [E200-I04](E200-I04-pie-de-pagina.md) | Ajustes del pie de página | P1 | S | E200-I03 | [ ] Pendiente |

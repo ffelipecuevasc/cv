@@ -44,3 +44,6 @@ $RECYCLE.BIN/
 
 # Claude Code: configuración local de cada máquina
 .claude/settings.local.json
+
+# Playwright MCP (ADR-109): capturas e instantáneas de la revisión visual; no se versionan.
+.playwright-mcp/
