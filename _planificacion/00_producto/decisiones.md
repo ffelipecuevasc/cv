@@ -1148,6 +1148,30 @@ Reglas del registro:
 - **Resultado (24-11-2026, E190-I04):** `wrangler.jsonc` en `main` (`17135e9`, «E190-I04: apagar workers.dev (9b).») tiene `"workers_dev": false` y no declara `preview_urls` (`wrangler.jsonc:17`); `https://felipecuevas-dev.felipe-cuevas.workers.dev/es/` responde 404 `text/plain` de 17 bytes (verificado por el agente). Felipe dice que el push a `main` disparó el build de Workers Builds sin «Retry build» (2 builds; versión activa `53b3bdd2`, anterior `820f4862`), con lo que el disparador por push queda probado en esa medida (dicho por Felipe, no verificado en el panel). ADR-104 dejaba esa prueba pendiente.
 - **Origen:** decisión de Felipe, 23-11-2026 (E190-I04). **Estado:** Aceptada.
 
+## ADR-107 · Épica abierta de ajustes visuales posterior al cutover (sustituye en parte a ADR-056)
+- **Contexto:** ADR-056 descartó una épica de arreglos (E165) porque duplicaba a E170 y las épicas de página seguían abiertas. Con el cutover hecho (merge `d58393c`, 15-11-2026), todas las épicas de página están cerradas, el sitio está en producción y Felipe encuentra ajustes visuales transversales y por página.
+- **Decisión (de Felipe, 16-11-2026; reconfirmada el 24-11-2026 en E200-I01):**
+    - Se crea **E200 · Ajustes visuales** (`200_epica-ajustes-visuales/`). E200-I00 registra la épica y renumera sus ADR; E200-I01 es estructural; desde E200-I02, una iteración por tema transversal o por página.
+    - Las iteraciones cerradas y sus bitácoras no se editan (se mantiene de ADR-056).
+    - La épica queda **abierta** hasta que Felipe la cierre de forma expresa, registrado en `registro-log.md`.
+    - Todo ajuste se aplica en `es-CL` y `en-US`.
+    - Rama de trabajo `ajustes-visuales`, **rama larga** creada desde `main` con autorización expresa de Felipe en la fase 2 de E200-I01 (nunca se trabaja en `main`); merge a `main` por lotes que Felipe aprueba en la preview; tras cada merge, Felipe actualiza la rama desde `main`.
+- **Sustituye en parte:** ADR-056 en «No se crea una épica de arreglos», solo para el trabajo posterior al cutover.
+- **Consecuencias:** el plan pasa a 21 épicas y 79 iteraciones (E200-I00 a E200-I14); el contador crece con cada iteración que se agregue a E200. La rama larga es una excepción a «ramas cortas» de `AGENTS.md` (sección 2): Felipe actualiza `AGENTS.md` con el bloque de la bitácora de E200-I01 (ADR-033). Los ADR de E200 se numeran de ADR-107 a ADR-122 (AT-145; tabla en `epica.md`).
+- **Origen:** decisión de Felipe, 16-11-2026 (E200-I01; numeración fijada por E200-I00). **Estado:** Aceptada.
+
+## ADR-108 · URL de preview por rama y workers.dev apagado (complementa ADR-101 y ADR-106)
+- **Contexto:** sin preview, cada merge a `main` sale directo a producción. `wrangler.jsonc` tiene `"workers_dev": false` (paso 9b de E190, hecho en E190-I04) y no declara `preview_urls`, que por eso queda en `false` (`node_modules/wrangler/config-schema.json:73-77`, según ADR-106). La documentación oficial de Cloudflare (leída el 16-11-2026) indica que `preview_urls` toma el valor de `workers_dev` si no se declara y que las preview URL solo existen en workers.dev; se vuelve a leer en la fase 2 de E200-I01.
+- **Decisión (de Felipe, 16-11-2026):** `"workers_dev": false` y `"preview_urls": true` explícito. Los builds de ramas que no son producción se activan en Workers Builds (control de ramas del panel, que ejecuta Felipe). El cambio de `wrangler.jsonc` llega a `main` por una rama corta (ADR-101, ADR-033), no al final de E200.
+- **Consecuencias:** cada rama tiene su URL `<rama>-felipecuevas-dev.felipe-cuevas.workers.dev`, pública para quien tenga el enlace (nombre exacto según el panel). Si la preview no trae `noindex`, o si manda correos reales, o si Turnstile no la cubre, Felipe decide entre aceptar el riesgo, un destino de prueba, un widget aparte, validar el `hostname` en el Worker o protegerla con Cloudflare Access (ADR nuevo en cada caso): tareas 5b y 5c de E200-I01, que además deciden AT-100 y AT-147. El paso 9b de E190 ya estaba cerrado.
+- **Origen:** E200-I01, decisión de Felipe, 16-11-2026. **Estado:** Aceptada. **Pendiente de aplicar:** el bloque de `wrangler.jsonc` (lo pega Felipe; verificación en la fase 2).
+
+## ADR-109 · Navegador para los agentes: Playwright MCP
+- **Contexto:** la revisión visual de E200 exige estados que una captura estática no muestra (hover, foco, cambio de tema e idioma) en varios anchos. Felipe pidió que el agente revise solo con un navegador.
+- **Decisión (de Felipe, 16-11-2026):** Playwright MCP declarado en `.mcp.json` de la raíz (servidor `playwright`), en versión exacta que cumpla `minimumReleaseAge` (ADR-097), ejecutado con `pnpm dlx` (ADR-003). No se agrega a `package.json` ni al lockfile. Los permisos los agrega Felipe en `.claude/settings.json` (ADR-033): el servidor entra en `enabledMcpjsonServers`, sus herramientas en `allow` con `mcp__playwright__*` y las que ejecutan código o tocan archivos en `ask`, que prevalece sobre `allow`.
+- **Consecuencias:** el agente revisa en local y en la URL de rama con la matriz de la épica; las capturas no se versionan. Antigravity usa su navegador propio con la misma matriz. Una herramienta distinta exige un ADR nuevo. La versión exacta del servidor, los nombres reales de sus herramientas y si en Windows hace falta `cmd /c` se registran al probarlo en la fase 2 de E200-I01; si no funciona, se registra un AT y decide Felipe.
+- **Origen:** E200-I01, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos

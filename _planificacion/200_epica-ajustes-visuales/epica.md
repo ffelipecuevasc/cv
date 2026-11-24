@@ -30,7 +30,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E200-I00](E200-I00-renumeracion.md) | Registro de E200 y renumeración de sus ADR (solo documentos) | P0 | S | E190-I04 | [x] Terminada |
-| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [ ] Pendiente |
+| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [~] En curso (fase 1 terminada el 24-11-2026) |
 | [E200-I02](E200-I02-transicion-tema.md) | Transición de tema con barrido diagonal | P1 | S | E200-I01 | [ ] Pendiente |
 | [E200-I03](E200-I03-tipografia.md) | Tipografía: Sora, Work Sans e IBM Plex Mono | P1 | M | E200-I02 | [ ] Pendiente |
 | [E200-I04](E200-I04-pie-de-pagina.md) | Ajustes del pie de página | P1 | S | E200-I03 | [ ] Pendiente |
@@ -67,7 +67,7 @@ Orden de ejecución: el de la tabla (I00 a I14). La épica tiene 15 iteraciones 
 | ADR-121 | Contacto | E200-I13 |
 | ADR-122 | Recursos | E200-I14 |
 
-Los números se vuelven a verificar contra `decisiones.md` al ejecutar cada iteración. Ningún ADR de esta tabla está registrado todavía en `decisiones.md` (el último real es ADR-106): E200-I00 solo fijó la numeración y cada iteración registra el suyo.
+Los números se vuelven a verificar contra `decisiones.md` al ejecutar cada iteración. ADR-107, ADR-108 y ADR-109 se registraron en `decisiones.md` en la fase 1 de E200-I01 (24-11-2026); ADR-110 a ADR-122 siguen sin registrar: E200-I00 solo fijó la numeración y cada iteración registra el suyo.
 
 ### Renumeración de E200-I00 (antiguo → nuevo)
 Los ADR de E200 se redactaron con los números 104 a 119, que ya estaban ocupados en `decisiones.md` por ADR-104 (ventana del cutover), ADR-105 (retiro de `docs/`) y ADR-106 (paso 9b). Se desplazan +3 desde ADR-107 (AT-145). Los ADR-104, ADR-105 y ADR-106 reales no cambian.
