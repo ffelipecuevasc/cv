@@ -1,7 +1,8 @@
 // Worker de felipecuevas.dev con assets estáticos (ADR-037) y función de contacto (ADR-084).
 // "main" solo atiende /api/* (run_worker_first); el resto lo sirven los assets de dist/.
 // El binding ASSETS permite al Worker devolver los assets fuera de /api/* (ADR-085).
-// Sin rutas ni dominio: hasta el cutover (E190-I02) solo responde en workers.dev.
+// Sin rutas en este archivo: felipecuevas.dev es un Custom Domain del panel de Cloudflare (cutover
+// del 15-11-2026, ADR-104). workers.dev apagado (ADR-101); preview_urls sin declarar (hereda false).
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "felipecuevas-dev",
@@ -13,6 +14,5 @@
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"],
   },
-  "workers_dev": true,
-  "preview_urls": false,
+  "workers_dev": false,
 }
