@@ -1,5 +1,5 @@
 # E190 · Despliegue y cutover
-- **Prioridad de la épica:** P0 · **Estado:** [~] En curso (cutover ejecutado el 15-11-2026, ADR-104; falta E190-I04; `docs/` retirado y línea base nueva en `00_producto/linea-base/`, ADR-105)
+- **Prioridad de la épica:** P0 · **Estado:** [~] En curso (cutover ejecutado el 15-11-2026, ADR-104; falta E190-I04; `docs/` retirado y línea base nueva en `00_producto/linea-base/`, ADR-105; 23-11-2026: bloque de `wrangler.jsonc` para el paso 9b y guías de verificación y de panel entregados, ADR-106; AT-100 pospuesto a E200-I01)
 
 ## Objetivo
 Planificar y verificar el paso del sitio nuevo a producción. El merge a `main` y los cambios en Cloudflare los ejecuta Felipe.

@@ -73,6 +73,7 @@
   "workers_dev": false,
 ```
   Efecto: apaga `felipecuevas-dev.felipe-cuevas.workers.dev` en el siguiente deploy (si se apaga solo en el panel, el siguiente `wrangler deploy` lo reactiva). Reversa: volver a `true`. **No se agrega `observability`** (decisión de Felipe).
+  > **Actualización (23-11-2026, ADR-106):** el bloque vigente está en `E190-I04-verificacion-post-cutover.md` («Paso 9 · 23-11-2026»). Además de `"workers_dev": false`, elimina la línea `"preview_urls": false` (queda sin declarar y hereda `false`) y corrige el comentario de cabecera. El texto de arriba se conserva como registro histórico.
 - **`public/_redirects` y `public/_headers`: sin cambios.** La redirección de `www` va en una regla de la zona (no en `_redirects`) y HSTS va en la zona (no en `_headers`); la CSP no cambia porque no se activa Web Analytics.
 
 ## 8. Decisiones de Felipe que este procedimiento aplica (ADR-101)

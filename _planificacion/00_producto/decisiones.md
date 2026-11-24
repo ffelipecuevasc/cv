@@ -1137,6 +1137,16 @@ Reglas del registro:
 - **Consecuencias:** complementa ADR-015 y ADR-102 sin editarlos: donde ADR-015 cita `docs/linea-base/2026-08-12/resumen-lighthouse.md`, la ruta actual es `_planificacion/00_producto/linea-base/2026-08-12/resumen-lighthouse.md`. Las bitácoras y las iteraciones históricas conservan la ruta antigua.
 - **Origen:** decisión de Felipe el 16-11-2026 (E190-I04). **Estado:** Aceptada.
 
+## ADR-106 · Paso 9b: `workers_dev: false` sin declarar `preview_urls`; AT-100 pospuesto (complementa ADR-101)
+- **Contexto:** ADR-101 fijó apagar workers.dev tras verificar el dominio propio (paso 9b) cambiando solo la línea `"workers_dev": true`, lo que dejaba `"preview_urls": false` declarado. Para E200 (aún sin registrar, AT-146) se prevé `"preview_urls": true` con URL de preview por rama, y AT-100 pide retirar workers.dev de Turnstile; ambas cosas chocan (AT-147).
+- **Decisión (de Felipe, 23-11-2026, dicha por el desarrollador):**
+    - el paso 9b se hace en la rama corta `config-workers-dev-off`, desde `main`, con `"workers_dev": false`, **sin declarar `preview_urls`** (se elimina la línea) y con el comentario de cabecera de `wrangler.jsonc` corregido; el bloque exacto está en `190_epica-cutover/E190-I04-verificacion-post-cutover.md`;
+    - con `workers_dev: false`, `preview_urls` queda en `false`: el esquema de Wrangler 4.153.0 lo da por defecto (`node_modules/wrangler/config-schema.json:73-77`) y E200-I01 cita la documentación oficial según la cual toma el valor de `workers_dev` (no contrastada hoy en vivo; ambas lecturas dan `false`);
+    - E200-I01 solo deberá agregar `"preview_urls": true`;
+    - AT-100 queda **pospuesto**: el hostname de workers.dev sigue autorizado en Turnstile hasta la decisión de E200-I01 (AT-147).
+- **Consecuencias:** complementa ADR-101 sin editarlo. El primer ADR libre para E200 es ADR-107: sus 16 ADR (104 a 119 en sus archivos) se renumeran al registrarse (AT-145). El push a `main` de esta rama es la primera prueba del disparador de Workers Builds, que ADR-104 dejó pendiente. Reversa: `"workers_dev": true` por la misma vía (rama corta, merge y despliegue).
+- **Origen:** decisión de Felipe, 23-11-2026 (E190-I04). **Estado:** Aceptada.
+
 ## Propuestas pendientes (no vinculantes hasta ser aceptadas)
 
 ### P-01 · D-14: Cloudflare Pages o Workers con assets estáticos
