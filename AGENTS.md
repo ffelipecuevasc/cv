@@ -32,7 +32,7 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 
 - Leer, crear y editar archivos **dentro del alcance de la iteración en curso**.
 - Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
-- Usar el navegador declarado en `.mcp.json` (Playwright MCP, servidor `playwright`, ADR-109) para la revisión visual de E200: solo contra `http://localhost`, `https://felipecuevas.dev` y la URL de preview de la rama de trabajo. Se ejecuta con `pnpm dlx` sin agregarlo a `package.json`; las capturas no se versionan; `browser_evaluate`, `browser_run_code`, `browser_file_upload` y `browser_install` piden confirmación.
+- Usar el navegador declarado en `.mcp.json` (Playwright MCP 0.0.85, servidor `playwright`, ADR-109) para la revisión visual de E200: solo contra `http://localhost`, `https://felipecuevas.dev` y la URL de preview de la rama de trabajo. Se ejecuta con `pnpm dlx` sin agregarlo a `package.json`; las capturas se guardan en `.playwright-mcp/` (ignorada por git; sin pasar `filename` con otra ruta) y no se versionan; `browser_evaluate`, `browser_run_code_unsafe`, `browser_file_upload` y `browser_drop` piden confirmación.
 - Actualizar los documentos de `_planificacion/`.
 - Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-153 y ADR-109). Verifica siempre el último número antes de asignar uno.
 - Escribir la bitácora de la iteración en `_planificacion/99_bitacora/`.

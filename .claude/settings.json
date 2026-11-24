@@ -67,9 +67,9 @@
       "Edit(**/wrangler.json)",
       "Edit(**/wrangler.jsonc)",
       "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_run_code_unsafe",
       "mcp__playwright__browser_file_upload",
-      "mcp__playwright__browser_install"
+      "mcp__playwright__browser_drop"
     ],
     "deny": [
       "Bash(git commit *)",
