@@ -161,7 +161,7 @@ Orden de ejecución (ADR-090): I01, I05, I02, I03, I04. Los IDs no se renumeran.
 | Prioridad | ID | Iteración | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | P0 | E200-I00 | Registro de E200 y renumeración de sus ADR | S | E190-I04 | [x] Terminada |
-| P0 | E200-I01 | Preparación estructural: preview por rama, workers.dev, navegador y documentos | M | E200-I00 | [~] En curso (fase 2 parte A entregada; experimento de ADR-123) |
+| P0 | E200-I01 | Preparación estructural: preview por rama, workers.dev, navegador y documentos | M | E200-I00 | [~] En curso (fase 2 parte A2 entregada: `preview_urls: true` solo durante E200, ADR-124; espera la URL de la preview) |
 | P1 | E200-I02 | Transición de tema con barrido diagonal | S | E200-I01 | [ ] Pendiente |
 | P1 | E200-I03 | Tipografía: Sora, Work Sans e IBM Plex Mono | M | E200-I02 | [ ] Pendiente |
 | P1 | E200-I04 | Ajustes del pie de página | S | E200-I03 | [ ] Pendiente |

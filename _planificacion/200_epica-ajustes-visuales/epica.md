@@ -25,12 +25,13 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 - **Revisión:** cada push a `ajustes-visuales` genera una URL de preview de rama en workers.dev (E200-I01, ADR-108). Felipe revisa ahí, también desde el celular.
 - **Merge a `main`:** por lotes que Felipe aprueba en la preview, no por iteración ni al final. Tras cada merge, Felipe actualiza `ajustes-visuales` desde `main`.
 - **Excepción:** el bloque de `wrangler.jsonc` de E200-I01 llega a `main` por una rama corta propia (ADR-101 y ADR-108), porque la configuración de preview se aplica en cada despliegue de producción.
+- **`preview_urls` solo durante E200 (ADR-124):** `"preview_urls": true` publica en workers.dev las URL de versión de producción y las de las previews (públicas, con `noindex`). **Tarea de cierre de la épica:** antes de que Felipe cierre E200, una rama corta desde `main` deja `"preview_urls": false` (conservando `"previews": {}`), se mergea, se despliega y se comprueba que las URL de versión respondan 404 (AT-155).
 
 ## Iteraciones
 | ID | Iteración | Prioridad | Tamaño | Depende de | Estado |
 |---|---|---|---|---|---|
 | [E200-I00](E200-I00-renumeracion.md) | Registro de E200 y renumeración de sus ADR (solo documentos) | P0 | S | E190-I04 | [x] Terminada |
-| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [~] En curso (fase 1 terminada el 24-11-2026; fase 2 parte B parcial: la preview aún no responde) |
+| [E200-I01](E200-I01-preparacion-estructural.md) | Preparación estructural: preview por rama, workers.dev, navegador y documentos | P0 | M | E200-I00 | [~] En curso (fase 1 terminada el 24-11-2026; fase 2 parte A2: `preview_urls: true` solo durante E200, ADR-124; espera la URL de la preview) |
 | [E200-I02](E200-I02-transicion-tema.md) | Transición de tema con barrido diagonal | P1 | S | E200-I01 | [ ] Pendiente |
 | [E200-I03](E200-I03-tipografia.md) | Tipografía: Sora, Work Sans e IBM Plex Mono | P1 | M | E200-I02 | [ ] Pendiente |
 | [E200-I04](E200-I04-pie-de-pagina.md) | Ajustes del pie de página | P1 | S | E200-I03 | [ ] Pendiente |
@@ -53,6 +54,8 @@ Orden de ejecución: el de la tabla (I00 a I14). La épica tiene 15 iteraciones 
 | ADR-107 | Épica abierta de ajustes visuales (sustituye en parte a ADR-056) | E200-I01 |
 | ADR-108 | URL de preview por rama y workers.dev apagado | E200-I01 |
 | ADR-109 | Navegador para los agentes: Playwright MCP | E200-I01 |
+| ADR-123 | Worker Previews con `previews` vacío; experimento con `preview_urls: false` | E200-I01 |
+| ADR-124 | `preview_urls: true` solo durante E200 (sustituye a ADR-123 en esa clave) | E200-I01 |
 | ADR-110 | Transición de tema con barrido diagonal | E200-I02 |
 | ADR-111 | Tipografía Sora, Work Sans e IBM Plex Mono | E200-I03 |
 | ADR-112 | Pie de página | E200-I04 |
@@ -103,6 +106,7 @@ Los ADR de E200 se redactaron con los números 104 a 119, que ya estaban ocupado
 - [ ] Cada iteración cumple sus criterios, el protocolo de revisión visual y la Definition of Done global.
 - [ ] Ningún ajuste queda en un solo idioma.
 - [ ] Core Web Vitals sin regresión frente a la línea base de E190-I04 (ADR-015), que es `_planificacion/00_producto/linea-base/2026-11-16/` (sustituye a la de agosto de 2026 como referencia; ADR-105 real).
+- [ ] `"preview_urls"` apagado en `main` y URL de versión de producción en 404 (ADR-124, AT-155).
 - [ ] La épica se cierra solo por decisión expresa de Felipe, registrada en `registro-log.md` (ADR-107).
 
 ## Riesgos

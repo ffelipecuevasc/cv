@@ -1,5 +1,5 @@
 # E200-I01 · Preparación estructural: preview por rama, workers.dev, navegador y documentos
-- **Estado:** [~] En curso (fase 1 terminada el 24-11-2026; fase 2: rama `ajustes-visuales` y Playwright MCP hechos, P-06 decidida: experimento de ADR-123; parte A entregada y detenida a la espera de que Felipe aplique el bloque de `wrangler.jsonc` y haga el push)
+- **Estado:** [~] En curso (fase 1 terminada el 24-11-2026; fase 2: rama `ajustes-visuales` y Playwright MCP hechos, P-06 decidida: experimento de ADR-123; parte A2 entregada el 24-11-2026: `preview_urls: true` solo durante E200, ADR-124; detenida a la espera de que Felipe aplique el bloque de `wrangler.jsonc` y mande la URL de la preview)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P0 · **Tamaño:** M
 - **Depende de:** E200-I00 · **Hallazgos que cierra:** AT-100 y AT-147 (si la decisión sobre Turnstile se toma aquí). AT-048 y el paso 9b ya están resueltos (E190-I04) · **ADR relacionados:** ADR-012, ADR-026, ADR-033, ADR-037, ADR-056, ADR-097, ADR-101, ADR-102
 
@@ -153,6 +153,12 @@ Orden obligatorio: comprobación en vivo, luego 5c(i), luego 5b, y 5c(ii) solo c
 - Hecho: las URL de versión dejaron de responder (AT-155 resuelto); producción y workers.dev sin cambios.
 - **No hecho:** la preview no responde, así que no se pudo comprobar su `noindex`, la no herencia de secretos ni repetir Playwright en la URL de rama. El mensaje de Felipe llegó con la plantilla sin completar (hash, versión, estado de los builds y URL de la preview). I01 sigue `[~]`.
 
+## Fase 2, parte A2 (24-11-2026): `preview_urls: true` solo durante E200 (ADR-124)
+- **Hechos (dichos por Felipe):** con `"preview_urls": false` el panel muestra «No URLs enabled» y los builds de preview de `ajustes-visuales` pasan («Ready») sin URL; las URL de versión de producción dan 404 (verificado por el agente en la parte B). Con `true` existen las dos en workers.dev, públicas y con `noindex`.
+- **Decisión de Felipe (P-06):** `"preview_urls": true` con `"previews": {}`, solo durante E200 (ADR-124, sustituye a ADR-123 en esa clave). Riesgo aceptado; `/api/*` en las URL de versión sin verificar. Apagar `preview_urls` es tarea de cierre de la épica (`epica.md`). AT-155 aceptado hasta el cierre de E200; AT-156 resuelto.
+- **Bloque de `wrangler.jsonc` y pasos para Felipe:** bitácora `2026-11-24_E200-I01.md`, sección «Fase 2, parte A2». Validado contra `config-schema.json` (ajv; la mutación `"preview_urls": "si"` falla) y con Prettier; termina con salto de línea.
+- **Parte B (tras la confirmación de Felipe y la URL):** la preview responde en `/es/` y `/en/`, lleva `noindex` y no hereda secretos (sin enviar el formulario); GET y OPTIONS a `/api/contacto` en la preview y en una URL de versión de producción; recorrido de Playwright en la preview; cierre `[x]` si lo obligatorio está hecho.
+
 ## Archivos previstos (crear / modificar)
 - Crear: `.mcp.json` (hecho). Modificar: `.gitignore` (`.playwright-mcp/`, hecho).
 - Modificar: `README.md` (raíz, fase 2), `_planificacion/README.md` y `_planificacion/00_producto/registro-log.md` (solo estado de la iteración), `_planificacion/00_producto/decisiones.md` (ADR-107 a ADR-109, fase 1), `_planificacion/00_producto/auditoria-tecnica.md` (avances y hallazgos) y los archivos de E200.
@@ -176,6 +182,8 @@ Orden obligatorio: comprobación en vivo, luego 5c(i), luego 5b, y 5c(ii) solo c
 - Comprobaciones en vivo de las tareas 5, 5b y 5c, y prueba del navegador de la tarea 6.
 
 ## ADR registrados
+ADR-123 (Worker Previews con `previews` vacío; experimento con `preview_urls: false`) y ADR-124 (`preview_urls: true` solo durante E200) se registraron en la fase 2.
+
 ADR-107 (épica abierta, sustituye en parte a ADR-056), ADR-108 (URL de preview por rama y workers.dev apagado) y ADR-109 (navegador para los agentes: Playwright MCP) quedaron registrados en `_planificacion/00_producto/decisiones.md:1151-1175` el 24-11-2026 (fase 1). El texto vigente vive allí; no se duplica aquí.
 
 ## Riesgos y notas
