@@ -24,16 +24,17 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 
 - **Producto:** sitio personal de Felipe Cuevas (CV online, portafolio y comunidad). Producción: https://felipecuevas.dev. Repositorio: https://github.com/ffelipecuevasc/cv.
 - **Objetivo:** proyecto nuevo en Astro 7.x, bilingüe (`/es/` en `es-CL` y `/en/` en `en-US`), con Tailwind CSS v4, PNPM, HTML5 semántico y salida estática.
-- **Rama:** el trabajo posterior al cutover se hace en ramas cortas creadas desde `main` y nunca directo en `main`. La rama de migración `migracion-astro` (E10-I01, ADR-014) ya se mergeó a `main` en E190 (15-11-2026, ADR-104).
+- **Rama:** nunca se trabaja directo en `main`. Por defecto, el trabajo posterior al cutover se hace en ramas cortas creadas desde `main`. **Excepción de E200 (ADR-107):** la épica E200 trabaja en la rama larga `ajustes-visuales`, creada desde `main` con autorización explícita de Felipe; cada push genera una URL de preview de rama en workers.dev (ADR-108), Felipe aprueba en ella y mergea a `main` por lotes, y después actualiza la rama desde `main`. La rama de migración `migracion-astro` (E10-I01, ADR-014) ya se mergeó a `main` en E190 (15-11-2026, ADR-104).
 - **Sitio antiguo:** se retiró de la rama en E190-I03 (ADR-102). Sus archivos (`*.html`, `static/`, `functions/`, `sitemap.xml`, `robots.txt`, `_redirects`, `linkinator.config.json`) ya no están en el árbol de trabajo; se consultan solo en el historial con `git show sitio-antiguo-2026-11:<ruta>` (o `git show main:<ruta>` antes del merge) y nunca se editan. `docs/` se retiró en E190-I04 (ADR-105): la línea base de rendimiento vive en `_planificacion/00_producto/linea-base/`.
-- **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. Producción: Worker `felipecuevas-dev` con Custom Domain `felipecuevas.dev`, desde `main` (cutover del 15-11-2026, ADR-104); atiende solo `/api/*` (ADR-084 y ADR-085) y sirve el resto como assets. `workers.dev` sigue activo hasta apagarlo en el paso 9 del procedimiento de cutover. El proyecto Pages `felipe-cuevas-cv` queda pausado como reversa y no se borra. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
+- **Despliegue:** la plataforma está resuelta (D-14, ADR-037): Cloudflare Workers con assets estáticos. Producción: Worker `felipecuevas-dev` con Custom Domain `felipecuevas.dev`, desde `main` (cutover del 15-11-2026, ADR-104); atiende solo `/api/*` (ADR-084 y ADR-085) y sirve el resto como assets. `workers.dev` está apagado (paso 9b, E190-I04, ADR-106) y las URL de preview por rama están activas (`preview_urls`, ADR-108). El proyecto Pages `felipe-cuevas-cv` queda pausado como reversa y no se borra. El merge y todos los cambios en Cloudflare los ejecuta Felipe.
 
 ## 3. Lo que el agente PUEDE hacer
 
 - Leer, crear y editar archivos **dentro del alcance de la iteración en curso**.
-- Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check`, `test` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
+- Ejecutar scripts de `pnpm`: `dev`, `build`, `preview`, `check`, `lint`, `format`, `format:check` y los de verificación del proyecto (`verify`, `verify:seo`, `check:i18n`, `check:redirects`).
+- Usar el navegador declarado en `.mcp.json` (Playwright MCP, servidor `playwright`, ADR-109) para la revisión visual de E200: solo contra `http://localhost`, `https://felipecuevas.dev` y la URL de preview de la rama de trabajo. Se ejecuta con `pnpm dlx` sin agregarlo a `package.json`; las capturas no se versionan; `browser_evaluate`, `browser_run_code`, `browser_file_upload` y `browser_install` piden confirmación.
 - Actualizar los documentos de `_planificacion/`.
-- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-144 y ADR-104). Verifica siempre el último número antes de asignar uno.
+- Agregar entradas nuevas a `auditoria-tecnica.md` y a `decisiones.md` (ADR nuevos) con la numeración correlativa que sigue a la última existente en cada archivo (a la fecha de esta versión: AT-153 y ADR-109). Verifica siempre el último número antes de asignar uno.
 - Escribir la bitácora de la iteración en `_planificacion/99_bitacora/`.
 - Sugerir el mensaje de commit (máximo 200 caracteres).
 - Crear ramas nuevas **solo después de consultar a Felipe y recibir su autorización explícita**.
@@ -41,7 +42,7 @@ No uses como insumo el `README.md`, `DESIGN.md` ni `AGENTS.md` antiguos del siti
 ## 4. Lo que el agente NO PUEDE hacer
 
 - **No hacer commits, push ni merges.** Los hace siempre el desarrollador (ADR-012).
-- **No trabajar sobre `main`.** Toda la implementación vive en la rama de migración. Si la rama activa es `main`, detente y avisa.
+- **No trabajar sobre `main`.** La implementación vive en una rama corta desde `main` o, en E200, en la rama larga `ajustes-visuales` (sección 2). Si la rama activa es `main`, detente y avisa.
 
 ### Reglas de protección (ADR-026)
 - No reescribir el historial (`rebase`, `reset --hard`, `push --force` ni equivalentes) ni eliminar ramas. Excepción: una rama local temporal creada por el propio agente en la sesión, solo con autorización de Felipe. Nunca se eliminan ramas remotas.

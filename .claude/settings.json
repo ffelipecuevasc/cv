@@ -1,6 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "autoMemoryEnabled": false,
+  "enabledMcpjsonServers": [
+    "playwright"
+  ],
   "permissions": {
     "allow": [
       "Bash(pnpm dev *)",
@@ -10,7 +13,10 @@
       "Bash(pnpm lint *)",
       "Bash(pnpm format *)",
       "Bash(pnpm format:check *)",
-      "Bash(pnpm test *)",
+      "Bash(pnpm verify *)",
+      "Bash(pnpm verify:seo *)",
+      "Bash(pnpm check:i18n *)",
+      "Bash(pnpm check:redirects *)",
       "Bash(pnpm run dev *)",
       "Bash(pnpm run build *)",
       "Bash(pnpm run preview *)",
@@ -18,13 +24,17 @@
       "Bash(pnpm run lint *)",
       "Bash(pnpm run format *)",
       "Bash(pnpm run format:check *)",
-      "Bash(pnpm run test *)",
+      "Bash(pnpm run verify *)",
+      "Bash(pnpm run verify:seo *)",
+      "Bash(pnpm run check:i18n *)",
+      "Bash(pnpm run check:redirects *)",
       "Bash(git status *)",
       "Bash(git diff *)",
       "Bash(git log *)",
       "Bash(git show *)",
       "Bash(git branch --show-current)",
-      "Bash(git branch --list *)"
+      "Bash(git branch --list *)",
+      "mcp__playwright__*"
     ],
     "ask": [
       "Bash(pnpm add *)",
@@ -55,7 +65,11 @@
       "Edit(/astro.config.mjs)",
       "Edit(**/wrangler.toml)",
       "Edit(**/wrangler.json)",
-      "Edit(**/wrangler.jsonc)"
+      "Edit(**/wrangler.jsonc)",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_install"
     ],
     "deny": [
       "Bash(git commit *)",
