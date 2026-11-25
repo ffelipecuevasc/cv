@@ -230,6 +230,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 | h2 de banda | Sora 600 | 1,75 rem; 2,125 rem desde 768 px | 1,2 | −0,01 em | — |
 | h3 de tarjeta | Sora 600 | 1–1,2 rem | 1,3 | −0,01 em | — |
 | Cifra | Sora 400 | `clamp(2rem, 2.8vw, 2.75rem)` | 1 | −0,01 em | Números tabulares. Tope de 2,75 rem para que "+2.000" quepa en una de las 5 columnas de la banda |
+| Cifra de banda de página | Sora 400 | `clamp(1.625rem, 3vw, 2.6rem)` (Docente y Talento Digital); `clamp(1.9rem, 3vw, 2.6rem)` (Instructor) | 1 | −0,01 em | Números tabulares. A 360 px «+2.000» deja 16 px con la cifra vecina; a 320 px cabe en su columna con ~3 px (AT-158) |
 | Cita de testimonio | Work Sans 400 | 1,0625 rem | 1,7 | 0 | — |
 | Nota «traducido» | Work Sans 400 | 13 px | 1,4 | 0 | `text-muted`, sin cursiva |
 | Comilla decorativa | Sora 600 | 3,4 rem | 0,6 | — | `gold`, `aria-hidden` |
@@ -238,6 +239,7 @@ Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se
 - h1, h2 y h3 con `text-wrap: balance`.
 - Cifras, años y contadores con números tabulares y de altura de línea (`tabular-nums lining-nums`).
 - Ningún texto en mayúsculas se escribe en mayúsculas en el contenido: se transforma por estilo, para que los lectores de pantalla y la traducción no se vean afectados.
+- En los mosaicos de tecnologías de Desarrollador, el nombre y el rol pueden partirse dentro de la palabra (`overflow-wrap: anywhere`) para no desbordar en 320 px (AT-159).
 - **Peso mínimo:** el texto de cuerpo va en peso 400 o más. Sora 300 se usa solo en 28 px o más (frase destacada del hero). No se cargan cursivas: lo que antes iba en cursiva se distingue por color o tamaño (ADR-111, que retira la regla de Josefin 300 de ADR-041 y AT-115).
 
 ## 6. Espaciado y layout
