@@ -35,7 +35,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | [E200-I02](E200-I02-transicion-tema.md) | Transición de tema con barrido diagonal | P1 | S | E200-I01 | [x] Terminada (24-11-2026) |
 | [E200-I03](E200-I03-tipografia.md) | Tipografía: Sora, Work Sans e IBM Plex Mono | P1 | M | E200-I02 | [x] Terminada (25-11-2026) |
 | [E200-I04](E200-I04-pie-de-pagina.md) | Ajustes del pie de página | P1 | S | E200-I03 | [x] Terminada (25-11-2026) |
-| [E200-I05](E200-I05-inicio-banda-cifras.md) | Inicio: curvas de nivel y cifras centradas en la banda de Resumen | P1 | S | E200-I03 | [ ] Pendiente |
+| [E200-I05](E200-I05-inicio-banda-cifras.md) | Inicio: curvas de nivel y cifras centradas en la banda de Resumen | P1 | S | E200-I03 | [~] En curso (fase 1 terminada el 25-11-2026; falta la fase 2 en la preview) |
 | [E200-I06](E200-I06-educacion.md) | Educación: puntos en la cabecera y en la franja Cloud, curvas de nivel en las franjas con banda y bloque REUF con panel de cifras | P1 | M | E200-I05 | [ ] Pendiente |
 | [E200-I07](E200-I07-experiencia.md) | Experiencia: hitos con el año como protagonista, línea de tiempo horizontal y campo de puntos | P1 | M | E200-I06 | [ ] Pendiente |
 | [E200-I08](E200-I08-desarrollador.md) | Desarrollador: campo de puntos en la sección principal y curvas de nivel en «Conjunto de Tecnologías» | P1 | S | E200-I07 | [ ] Pendiente |

@@ -1293,3 +1293,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** el criterio de E200-I04 «3 líneas o menos desde 768 px» no se cumple; el pie se ve correcto, pero la columna de marca queda más alta que las otras entre 768 y 1.279 px.
 - **Recomendación:** ver las opciones en `99_bitacora/2026-11-25_E200-I04.md`; lo decide Felipe.
 - **Resolución (25-11-2026):** Felipe elige la opción 1: el criterio pasa a «3 líneas o menos desde 1.280 px; entre 768 y 1.279 px puede ocupar hasta 6». Entre 768 y 1.279 px la frase ocupa de 4 a 6 líneas, sin desbordes; desde 1.280 px, 3. Sin cambios de código.
+
+### AT-161 · Con la máscara de la vista previa, las curvas bajan `text-soft` a 3,67:1 en oscuro (E200-I05)
+- **Severidad:** Media · **Estado:** Resuelto (E200-I05, fase 1, 25-11-2026) · **Resuelve:** E200-I05
+- **Evidencia (25-11-2026, local, Playwright):** con una máscara que despejaba solo el 25 % central, el peor píxel dentro de las cajas de `dt` y contexto (texto oculto, fondo capturado y compuesto con el color del texto) daba 3,67:1 en oscuro a 360 px, 3,95 a 1.366 y 3,96 a 1.024, sobre una curva dorada (`gold` al 40 % sobre `orient-800`). En teoría, una curva dorada sin máscara bajo `text-soft` da 2,65:1. En claro, el texto pequeño cumplía.
+- **Impacto:** el criterio «contrastes de 4.4 donde lo cruza una curva» no se cumplía en oscuro.
+- **Resolución:** máscara transparente hasta el 45 % y opaca al 95 % (bajo 640 px, 55 % → 100 %), más un desvanecido de cada pieza desde su esquina. Peor caso medido en 20 combinaciones (es/en, claro/oscuro, 360 a 1.920 px): texto pequeño 4,51:1 (contexto, claro, 768 px); en oscuro 4,57:1 (1.366 px); signo «+» 3,87:1 (texto grande, umbral 3). Las curvas siguen visibles en las esquinas.

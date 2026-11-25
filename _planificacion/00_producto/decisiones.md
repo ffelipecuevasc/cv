@@ -1274,3 +1274,18 @@ Reglas del registro:
 - **Consecuencias:** la variante Dorado pasa a tener dos usos (Instructor y pie). En claro, el dorado frente a `orient-50` mide 1,34:1; el botón se identifica por su texto (12,43:1) y en la revisión del 25-11-2026 destaca en ambos temas. `verify:seo` suma 3 controles (correo del pie y botón dorado en todas las páginas). Felipe edita `DESIGN.md` 7.3 y 7.9 (ADR-033).
 - **Complemento (25-11-2026, decisión de Felipe, AT-160):** la frase ocupa 3 líneas o menos desde 1.280 px; entre 768 y 1.279 px puede ocupar hasta 6 (medido de 4 a 6, sin desbordes). Sin cambios de código.
 - **Origen:** E200-I04, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.
+
+## ADR-113 · Banda de cifras de Inicio: curvas de nivel y cifras centradas (complementa ADR-058)
+- **Contexto:** E200-I05. En la banda de cifras de Inicio, la cuadrícula del fondo se suma a las barras verticales y a la regla del encabezado, y la sección queda sobrecargada de figuras cuadradas (revisión de Felipe en producción, 16-11-2026). Las cifras están alineadas a la izquierda.
+- **Decisión (de Felipe, 16-11-2026, entre 6 texturas comparadas en el chat):**
+  - la banda de cifras de Inicio cambia la cuadrícula por **curvas de nivel**: dos grupos de curvas suavizadas en las esquinas inferior izquierda y superior derecha, cada quinta curva en dorado, desvanecidas hacia el centro;
+  - el contenido de las 5 celdas (rótulo, cifra y contexto) va **centrado**, con la misma estructura de 5 columnas y las mismas barras;
+  - las demás bandas del sitio conservan la cuadrícula.
+- **Implementación (E200-I05, 25-11-2026):**
+  - componente reutilizable `src/components/ui/ContourLines.astro`: recibe `pieces` (esquina y forma de cada grupo) y `mask`; cada pieza es un SVG en línea de 360 × 320 px anclado a su esquina, con 12 curvas cerradas Bézier (Catmull-Rom → cúbica) separadas 23 px y deformadas, la 5.ª y la 10.ª en dorado; las otras esquinas reflejan la forma con `transform`. 6,3 KB de SVG en la portada, sin JavaScript ni dependencias; `aria-hidden`, `focusable="false"` y `pointer-events: none`;
+  - tokens `--contour-line` (claro: `primary` al 20 %; oscuro: `vibrant` al 14 %) y `--contour-accent` (`gold` al 55 % / 40 %) en `global.css`; trazo de 0,85 px;
+  - utilidad nueva `texture-band-contour` (mismo fondo `band`, degradado oscuro, bordes y kicker dorado de `texture-band`, sin líneas) y opción `texture="contour"` de `Band.astro` con el slot `decor`; `texture-band` no cambia;
+  - máscara radial elíptica que despeja el centro (transparente hasta el 45 % y opaca al 95 %; bajo 640 px, 55 % → 100 %) y desvanecido de cada pieza desde su esquina. Es más fuerte que la de la vista previa para que `text-soft` no baje de 4,5:1 donde lo cruza una curva (AT-161);
+  - celdas con `grid-template-rows: subgrid` (rótulo, cifra y contexto en filas comunes) y `text-align: center`.
+- **Consecuencias:** `DESIGN.md` 4.5 suma la textura «curvas de nivel» con su uso exclusivo en Inicio, y 7.8 cambia «Texto alineado a la izquierda» por «centrado». Las barras de ADR-058 no cambian. Felipe edita `DESIGN.md` (ADR-033). Llevar la textura a otras bandas exige una iteración propia (la primera es E200-I06, en Educación), que puede necesitar otra máscara según dónde quede su texto.
+- **Origen:** E200-I05, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.

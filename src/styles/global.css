@@ -106,6 +106,9 @@
   --grid-fill: linear-gradient(var(--color-orient-50), var(--color-orient-50));
   --frame-dots: color-mix(in srgb, var(--color-vibrant) 35%, transparent);
   --portrait-fill: linear-gradient(var(--color-orient-50), var(--color-orient-200));
+  /* Curvas de nivel (4.5, ADR-113): línea y cada quinta curva en dorado. */
+  --contour-line: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  --contour-accent: color-mix(in srgb, var(--color-gold) 55%, transparent);
 }
 
 /* 4.2 y 7.13 en tema oscuro. */
@@ -153,6 +156,8 @@
     var(--color-orient-925)
   );
   --frame-dots: color-mix(in srgb, var(--color-vibrant) 40%, transparent);
+  --contour-line: color-mix(in srgb, var(--color-vibrant) 14%, transparent);
+  --contour-accent: color-mix(in srgb, var(--color-gold) 40%, transparent);
   --portrait-fill: linear-gradient(
     var(--color-orient-800),
     var(--color-primary),
@@ -304,6 +309,22 @@
     48px 48px,
     48px 48px,
     auto;
+  border-block: 1px solid var(--grid-edge);
+  &:where(.dark *) {
+    --color-kicker: var(--color-gold);
+  }
+}
+
+/*
+ * Banda con curvas de nivel (E200-I05, ADR-113): el mismo fondo band, el degradado del tema
+ * oscuro y los bordes de texture-band, sin las líneas de la retícula. Las curvas son una capa
+ * decorativa (ContourLines) detrás del contenido. Solo la usa la banda de cifras de Inicio.
+ */
+@utility texture-band-contour {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-band);
+  background-image: var(--grid-fill);
   border-block: 1px solid var(--grid-edge);
   &:where(.dark *) {
     --color-kicker: var(--color-gold);

@@ -1,14 +1,17 @@
 ---
 /*
- * Franja de cifras de Inicio (E40-I02, DESIGN.md 7.8 y 11.3, AT-012): banda con retícula,
+ * Franja de cifras de Inicio (E40-I02, DESIGN.md 7.8 y 11.3, AT-012): banda con curvas de nivel
+ * en las esquinas inferior izquierda y superior derecha (E200-I05, ADR-113) en vez de la retícula,
  * encabezado de banda y un `dl` de 5 cifras (5 columnas desde 1.024 px; 2 columnas bajo esa
  * medida, con la quinta en la fila completa) separadas por barras con degradado (ADR-058).
  * Dentro de <main>.
  * La cifra de certificaciones sale de src/data/certifications.ts (ADR-053), no de un número
  * escrito a mano. Signo "+" a tamaño de display (4.3). Sin animación de entrada (DESIGN.md 8).
+ * Contenido centrado; rótulo, cifra y contexto en tres filas comunes (subgrid) entre celdas.
  */
 import { getEntry } from 'astro:content';
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import { formatNumber } from './hero-text';
 import { certificationCount } from '../../data/certifications';
 import { langFromLocale } from '../../i18n/lang';
@@ -28,7 +31,14 @@ const items = stats.items.map((item) => {
 });
 ---
 
-<Band id="home-stats" kicker={stats.kicker[lang]} title={stats.title[lang]}>
+<Band id="home-stats" kicker={stats.kicker[lang]} title={stats.title[lang]} texture="contour">
+  <ContourLines
+    slot="decor"
+    pieces={[
+      { corner: 'bottom-left', shape: 'a' },
+      { corner: 'top-right', shape: 'b' },
+    ]}
+  />
   <dl class="stats">
     {items.map((item) => (
       <div class="stat">
@@ -54,10 +64,31 @@ const items = stats.items.map((item) => {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 40px;
   }
+  /* ADR-113: contenido centrado. Cada celda ocupa 3 filas de la grilla (rótulo, cifra y
+     contexto) y las hereda con subgrid, para que las cifras queden en la misma línea aunque un
+     rótulo o un contexto ocupe más líneas (sobre todo en inglés). */
   .stat {
     position: relative;
     min-width: 0;
     padding-inline: 24px 0;
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    text-align: center;
+  }
+  dd {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    margin: 0;
+  }
+  dt {
+    align-self: end;
+  }
+  .context {
+    align-self: start;
   }
   .stat:nth-child(odd),
   .stat:last-child {

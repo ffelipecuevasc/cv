@@ -1,0 +1,116 @@
+---
+/*
+ * Curvas de nivel decorativas (E200-I05, ADR-113; DESIGN.md 4.5). Capa reutilizable que recibe la
+ * composición: cada pieza es un grupo de curvas cerradas y concéntricas (Bézier suaves, 12 por
+ * grupo, separadas unos 23 px, cada quinta en dorado) anclado a una esquina con ancho fijo, para
+ * que no se deforme cuando la banda cambia de alto. Una máscara radial despeja el centro.
+ * Sin JavaScript: SVG en línea, aria-hidden, focusable="false" y sin eventos de puntero.
+ * Los trazos se generaron una vez (Catmull-Rom → Bézier cúbica) y se versiona solo el resultado.
+ * Las formas se dibujan para la esquina inferior izquierda; las demás esquinas las reflejan.
+ */
+
+type Corner = 'bottom-left' | 'top-right' | 'top-left' | 'bottom-right';
+type Shape = 'a' | 'b';
+
+export interface ContourPiece {
+  corner: Corner;
+  shape?: Shape;
+}
+
+interface Props {
+  pieces: ContourPiece[];
+  /** Máscara radial: 'center' despeja el centro (Inicio). */
+  mask?: 'center' | 'none';
+  class?: string;
+}
+
+const { pieces, mask = 'center', class: className } = Astro.props;
+
+const SHAPES: Record<Shape, { line: string; accent: string }> = {
+  a: {
+    line: 'M61 294C62 289 58 283 54 279C51 276 45 274 41 273C36 272 31 272 27 274C23 275 20 278 17 282C14 285 12 289 11 294C10 299 9 306 12 310C14 314 22 317 26 317C31 317 35 313 39 311C43 309 47 309 51 306C54 303 60 299 61 294ZM88 294C89 285 82 271 75 264C68 257 57 254 48 252C39 250 29 250 21 253C13 256 6 263 0 270C-5 276 -10 284 -12 294C-14 304 -16 319 -11 327C-6 334 10 340 19 340C28 340 37 331 45 327C53 324 60 324 68 318C75 313 87 303 88 294ZM115 294C117 280 105 260 95 250C85 239 68 234 54 231C41 229 26 228 14 233C2 237 -8 247 -16 257C-25 268 -32 280 -35 294C-38 308 -41 332 -34 343C-26 355 -2 363 12 363C26 363 38 350 50 344C62 339 73 339 84 331C95 322 113 308 115 294ZM142 294C145 276 129 249 116 235C102 221 79 214 61 210C43 207 23 207 8 212C-8 218 -22 231 -33 245C-44 259 -54 275 -58 294C-62 313 -67 344 -56 359C-46 375 -15 386 4 386C23 386 40 368 56 361C72 354 87 354 101 343C115 331 140 312 142 294ZM197 294C201 267 176 226 156 205C136 184 102 174 75 168C48 163 18 163 -6 172C-29 181 -51 200 -67 220C-84 241 -98 265 -104 294C-110 323 -117 369 -101 392C-86 415 -39 431 -11 432C17 432 43 406 67 395C91 384 112 384 134 367C156 350 193 321 197 294ZM224 294C229 263 200 215 176 191C152 166 113 153 82 147C50 141 16 142 -12 152C-40 162 -65 184 -84 208C-103 232 -120 261 -127 294C-133 327 -142 382 -124 409C-106 436 -51 454 -18 455C15 455 44 425 72 412C100 399 125 398 151 379C176 359 220 325 224 294ZM252 294C257 258 224 204 196 176C169 148 125 133 89 126C53 118 13 120 -19 132C-50 143 -80 169 -101 196C-123 223 -142 256 -149 294C-157 332 -168 395 -147 426C-126 456 -63 477 -26 477C12 478 46 444 78 429C110 415 138 413 167 391C196 368 247 330 252 294ZM279 294C285 254 247 193 216 161C186 130 136 113 96 104C55 96 10 99 -25 112C-61 125 -94 153 -119 183C-143 214 -163 251 -172 294C-181 337 -193 408 -170 442C-147 476 -75 499 -33 500C9 501 47 462 83 446C120 430 151 428 184 403C216 377 274 334 279 294ZM335 294C341 245 294 171 257 132C219 94 159 72 109 62C60 52 6 56 -38 72C-82 88 -123 121 -153 158C-183 195 -207 241 -217 294C-228 347 -244 434 -216 475C-187 517 -99 544 -48 545C4 546 51 500 95 481C139 461 176 458 216 427C256 395 328 343 335 294ZM362 294C369 241 317 160 276 118C236 76 170 51 116 40C63 29 3 35 -45 52C-92 70 -138 105 -170 146C-203 186 -228 236 -240 294C-251 352 -269 446 -239 492C-208 538 -111 567 -55 568C2 569 52 519 100 498C148 476 189 472 233 438C276 404 355 347 362 294Z',
+    accent:
+      'M170 294C173 272 153 237 136 220C119 203 91 194 68 189C46 185 21 185 1 192C-19 199 -37 216 -50 233C-64 250 -76 270 -81 294C-86 318 -92 357 -79 376C-66 395 -27 409 -3 409C20 409 41 387 61 378C81 369 100 369 118 355C136 341 167 316 170 294ZM307 294C313 249 271 182 237 147C202 112 147 92 103 83C58 74 8 77 -32 92C-71 106 -109 137 -136 171C-163 204 -185 246 -195 294C-204 342 -218 421 -193 459C-167 497 -87 522 -40 523C7 523 49 481 89 463C129 445 164 443 200 415C236 386 301 339 307 294Z',
+  },
+  b: {
+    line: 'M49 282C49 277 45 271 41 268C37 265 32 266 27 265C23 264 20 262 15 262C11 262 2 262 -1 266C-4 269 -4 277 -3 282C-2 287 2 291 6 294C9 297 12 301 15 302C19 304 25 304 29 303C33 302 38 300 41 296C45 293 49 287 49 282ZM76 282C76 273 67 260 60 255C53 249 41 251 33 248C24 246 18 241 9 241C-1 242 -17 242 -24 249C-30 256 -30 272 -28 282C-26 292 -17 299 -11 306C-5 313 1 319 9 322C17 325 27 327 36 325C44 323 54 317 61 310C67 303 76 291 76 282ZM103 282C103 268 89 249 78 241C68 233 51 235 38 231C26 228 16 221 2 221C-12 222 -37 222 -47 232C-56 242 -56 268 -53 282C-50 296 -37 308 -28 318C-18 328 -9 337 3 342C14 346 30 349 43 346C56 343 70 335 80 324C90 313 103 296 103 282ZM130 282C130 264 111 239 97 228C83 216 61 218 44 214C27 210 15 201 -4 202C-23 202 -57 202 -70 215C-82 229 -82 263 -78 282C-73 301 -57 317 -45 330C-32 344 -19 355 -4 361C12 367 33 372 50 368C67 364 85 352 98 338C112 323 131 300 130 282ZM186 282C185 255 155 218 133 201C112 184 80 186 55 179C30 173 12 162 -17 163C-45 163 -98 162 -116 181C-135 201 -132 253 -126 282C-120 311 -97 336 -79 355C-60 375 -40 390 -16 400C8 409 39 418 64 412C90 406 116 386 136 365C156 343 186 309 186 282ZM213 282C213 250 177 208 151 188C126 168 90 169 61 161C32 154 10 143 -23 143C-57 144 -119 141 -140 164C-161 187 -158 248 -150 282C-143 316 -117 345 -96 368C-75 391 -50 408 -22 419C6 430 42 441 72 434C101 428 131 403 154 378C178 353 214 314 213 282ZM242 282C241 246 198 198 169 175C140 152 100 152 67 143C34 135 9 124 -29 124C-68 125 -140 121 -164 147C-188 173 -182 243 -174 282C-166 321 -138 355 -114 381C-89 406 -61 425 -29 437C4 450 45 465 79 457C112 449 145 421 173 391C200 362 242 318 242 282ZM270 282C269 242 220 188 187 162C154 136 110 135 73 125C36 116 8 105 -35 105C-79 106 -161 100 -188 130C-215 159 -207 238 -198 282C-188 326 -158 364 -131 393C-104 422 -71 442 -35 456C2 470 49 488 86 480C124 471 160 437 191 405C221 372 270 322 270 282ZM327 282C326 233 262 169 222 137C182 104 130 100 85 89C40 77 6 67 -48 68C-101 69 -203 59 -236 95C-269 130 -256 228 -244 282C-233 336 -200 384 -167 419C-134 454 -91 475 -46 493C-2 510 56 536 101 526C147 515 189 471 226 431C264 390 328 331 327 282ZM356 282C355 229 283 159 239 124C195 89 140 82 91 70C42 57 5 48 -53 50C-112 51 -225 38 -260 77C-296 116 -280 223 -268 282C-255 341 -221 394 -185 432C-149 471 -101 491 -52 511C-3 530 59 560 109 549C158 538 203 488 244 443C285 399 357 335 356 282Z',
+    accent:
+      'M158 282C157 259 133 228 115 214C97 200 71 202 50 197C29 191 13 182 -10 182C-34 182 -78 182 -93 198C-108 215 -107 258 -102 282C-97 306 -77 326 -62 343C-46 359 -30 373 -10 381C10 388 36 395 57 390C78 385 100 369 117 351C134 333 158 305 158 282ZM298 282C298 237 241 178 205 149C168 120 120 117 79 107C38 97 7 86 -41 87C-90 87 -182 80 -212 112C-242 145 -232 233 -221 282C-211 331 -179 374 -149 406C-119 438 -81 458 -41 475C0 491 52 512 94 502C135 493 175 454 209 418C243 381 299 327 298 282Z',
+  },
+};
+---
+
+<div class:list={['contour-lines', `mask-${mask}`, className]} aria-hidden="true">
+  {pieces.map(({ corner, shape = 'a' }) => (
+    <svg
+      class:list={['piece', corner]}
+      viewBox="0 0 360 320"
+      width="360"
+      height="320"
+      focusable="false"
+      aria-hidden="true"
+    >
+      <path class="line" d={SHAPES[shape].line} />
+      <path class="accent" d={SHAPES[shape].accent} />
+    </svg>
+  ))}
+</div>
+
+<style>
+  .contour-lines {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .mask-center {
+    mask-image: radial-gradient(ellipse at 50% 50%, transparent 45%, black 95%);
+  }
+  /* Bajo 640 px la banda es alta y el texto llega casi a las esquinas: se despeja más el centro
+     para que text-soft no baje de 4,5:1 donde lo cruza una curva (medido en E200-I05). */
+  @media (max-width: 39.999rem) {
+    .mask-center {
+      mask-image: radial-gradient(ellipse at 50% 50%, transparent 55%, black 100%);
+    }
+  }
+  .piece {
+    position: absolute;
+    width: 360px;
+    height: 320px;
+    overflow: hidden;
+    /* Cada pieza se desvanece desde su esquina, para que las curvas no se corten en seco en el
+       borde del lienzo. La máscara se refleja junto con la pieza. */
+    mask-image: radial-gradient(circle 340px at 0 100%, black 45%, transparent 100%);
+  }
+  path {
+    fill: none;
+    stroke-width: 0.85;
+    vector-effect: non-scaling-stroke;
+  }
+  .line {
+    stroke: var(--contour-line);
+  }
+  .accent {
+    stroke: var(--contour-accent);
+  }
+  .bottom-left {
+    inset-block-end: 0;
+    inset-inline-start: 0;
+  }
+  .top-right {
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    transform: scale(-1, -1);
+  }
+  .top-left {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    transform: scaleY(-1);
+  }
+  .bottom-right {
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    transform: scaleX(-1);
+  }
+</style>

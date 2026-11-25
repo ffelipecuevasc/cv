@@ -1,7 +1,7 @@
 # E200-I05 · Inicio: curvas de nivel y cifras centradas en la banda de Resumen
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (fase 1 terminada el 25-11-2026; falta la fase 2 en la preview de rama)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
-- **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-036, ADR-053, ADR-058, ADR-107, ADR-109, ADR-111
+- **Depende de:** E200-I03 · **Hallazgos que cierra:** AT-161 (nuevo) · **ADR relacionados:** ADR-015, ADR-036, ADR-053, ADR-058, ADR-107, ADR-109, ADR-111
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -37,13 +37,13 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - Animar las curvas.
 
 ## Tareas
-- [ ] **Curvas:** dibujar los dos grupos de curvas como SVG con trazos suavizados (curvas Bézier, no polígonos), en dos piezas ancladas a sus esquinas (inferior izquierda y superior derecha) con ancho fijo, para que no se deformen cuando la banda cambia de alto entre escritorio y móvil. Se versiona solo el SVG resultante (sin dependencias ni pasos de build); peso de las dos piezas juntas de 10 KB o menos. Las curvas quedan en un componente reutilizable que recibe la composición (qué grupos, en qué esquina o borde y con qué orientación), porque E200-I06 las usa en Educación con composiciones propias.
-- [ ] **Color:** tokens nuevos en `global.css` (por ejemplo `--contour-line` y `--contour-accent`) con `color-mix` sobre la paleta, sin colores sueltos. Punto de partida de la vista previa: claro, `primary` al 20 % y `gold` al 55 %; oscuro, `vibrant` al 14 % y `gold` al 40 %. Trazo de 0,8 a 0,9 px.
-- [ ] **Variante de la banda:** opción en `Band.astro` (o utilidad nueva en `global.css`) que conserve el fondo `band`, el degradado del tema oscuro y los bordes de 4.5, quite las líneas de la cuadrícula y monte las curvas como capa decorativa (`aria-hidden`, `focusable="false"`, sin eventos de puntero), detrás del contenido y con la máscara radial que despeja el centro. Solo `StatsBand.astro` la usa.
-- [ ] **Centrado:** `text-align: center` en el rótulo (`dt`), la cifra y la línea de contexto de cada celda. Mantener 5 columnas desde 1.024 px y 2 columnas bajo esa medida, con la quinta en la fila completa; las barras siguen en el mismo lugar.
-- [ ] **Alineación entre celdas:** el rótulo, la cifra y el contexto de las 5 celdas quedan en tres filas comunes (por ejemplo, `grid-template-rows: subgrid`), para que ninguna cifra baje cuando un rótulo o un contexto ocupa más líneas. Se comprueba sobre todo en inglés y a 1.024 px.
-- [ ] **Revisión visual:** protocolo de la épica en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Medir el contraste del texto en el peor punto donde una curva pasa detrás de una línea de contexto.
-- [ ] **Registro y bloques:** ADR-113, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
+- [x] **Curvas:** dibujar los dos grupos de curvas como SVG con trazos suavizados (curvas Bézier, no polígonos), en dos piezas ancladas a sus esquinas (inferior izquierda y superior derecha) con ancho fijo, para que no se deformen cuando la banda cambia de alto entre escritorio y móvil. Se versiona solo el SVG resultante (sin dependencias ni pasos de build); peso de las dos piezas juntas de 10 KB o menos. Las curvas quedan en un componente reutilizable que recibe la composición (qué grupos, en qué esquina o borde y con qué orientación), porque E200-I06 las usa en Educación con composiciones propias.
+- [x] **Color:** tokens nuevos en `global.css` (por ejemplo `--contour-line` y `--contour-accent`) con `color-mix` sobre la paleta, sin colores sueltos. Punto de partida de la vista previa: claro, `primary` al 20 % y `gold` al 55 %; oscuro, `vibrant` al 14 % y `gold` al 40 %. Trazo de 0,8 a 0,9 px.
+- [x] **Variante de la banda:** opción en `Band.astro` (o utilidad nueva en `global.css`) que conserve el fondo `band`, el degradado del tema oscuro y los bordes de 4.5, quite las líneas de la cuadrícula y monte las curvas como capa decorativa (`aria-hidden`, `focusable="false"`, sin eventos de puntero), detrás del contenido y con la máscara radial que despeja el centro. Solo `StatsBand.astro` la usa.
+- [x] **Centrado:** `text-align: center` en el rótulo (`dt`), la cifra y la línea de contexto de cada celda. Mantener 5 columnas desde 1.024 px y 2 columnas bajo esa medida, con la quinta en la fila completa; las barras siguen en el mismo lugar.
+- [x] **Alineación entre celdas:** el rótulo, la cifra y el contexto de las 5 celdas quedan en tres filas comunes (por ejemplo, `grid-template-rows: subgrid`), para que ninguna cifra baje cuando un rótulo o un contexto ocupa más líneas. Se comprueba sobre todo en inglés y a 1.024 px.
+- [~] **Revisión visual:** (local hecha; falta la preview de rama) protocolo de la épica en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Medir el contraste del texto en el peor punto donde una curva pasa detrás de una línea de contexto.
+- [~] **Registro y bloques:** (ADR-113 y bloques hechos; falta PageSpeed en la preview) ADR-113, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Crear: un componente de curvas de nivel en `src/components/ui/` (por ejemplo `ContourLines.astro`) con las piezas SVG y la composición de Inicio.
@@ -85,3 +85,13 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
 - [ ] Escribir la bitácora en `99_bitacora/`
 - [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+
+## Avance
+### Fase 1 (25-11-2026, local)
+- `ContourLines.astro` nuevo (composición por props: `pieces` con esquina y forma, `mask`); 2 piezas SVG de 360 × 320 px, 12 curvas Bézier por grupo, 5.ª y 10.ª en dorado; 6,3 KB en la portada; sin JavaScript.
+- `global.css`: tokens `--contour-line` y `--contour-accent` y utilidad `texture-band-contour`; `texture-band` sin cambios.
+- `Band.astro`: opción `texture` (por defecto `grid`) y slot `decor`. `StatsBand.astro`: única que usa `contour`; celdas centradas con subgrid.
+- Revisión local en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px: cifras en una misma línea por fila (también en inglés a 1.024), 5 columnas desde 1.024 y 2 con la quinta a todo el ancho bajo esa medida, sin scroll horizontal, CLS 0. Las 10 bandas con cuadrícula de 5 páginas, con estilos calculados idénticos a producción en ambos temas.
+- Contraste: AT-161 (máscara reforzada); peor caso 4,51:1 en texto pequeño y 3,87:1 en el signo «+».
+- `build`, `check`, `lint`, `format:check`, `verify`, `check:i18n` y `verify:seo` (1195/1195) en verde.
+- Pendiente (fase 2): revisión en la preview de rama y PageSpeed Insights de `/es/` y `/en/` frente a la línea base.
