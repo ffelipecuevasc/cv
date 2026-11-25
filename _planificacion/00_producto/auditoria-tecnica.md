@@ -1314,7 +1314,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   |---|---|---|---|---|
   | Inicio (hero, referencia en producción) | 4,19:1 | 1,35:1 | párrafos del hero | cumple |
   | Educación (E200-I06) | 4,32:1 | 2,25:1 (cabecera); 1,23:1 (rótulo de la franja `cloud`, punto dorado) | bajada y rótulo kicker | cumple |
-  | Experiencia (E200-I07) | no medido con este método | no medido | — | cumple (revisión visual) |
+  | Experiencia (E200-I07; medido en E200-I10) | 4,29:1 (bajada de 17 px) | 2,63:1 (bajada a 1.366 px); 2,78–2,83:1 (rótulo kicker de 12 px a 360 px) | bajada y rótulo del encabezado | 4,98:1 / 5,57:1 |
   | Desarrollador (E200-I08) | 4,29:1 | 3,23:1; 2,63:1 (bajada en inglés a 360 px) | bajada y texto de «Aspectos técnicos» | 4,98:1 / 5,57:1 |
   | Docente (E200-I09) | 3,06:1 (signo «+» de 22,4 px en `accent`) | 2,11:1 (rótulo kicker de 12 px, punto dorado) | cifra de la cabecera y rótulos | 4,62:1 / 5,57:1 |
   | Instructor (E200-I10) | 4,20:1 (kicker de 12 px a 360 px) | 1,47:1 (kicker de 12 px, punto dorado, a 360 px); 2,92:1 (bajada a 1.366 px) | rótulos y bajada | 4,98:1 / 5,57:1 |

@@ -1,5 +1,5 @@
 # E200-I10 · Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho
-- **Estado:** [~] En curso (parte A terminada el 25-11-2026 (puntos en cabecera, cursos y planes; curvas `valley` en «Instructor Titular»; planes SENCE a todo el ancho en dos columnas; ADR-118); falta la parte B (preview, validación de las dos columnas y PageSpeed))
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I09 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-072, ADR-073, ADR-107, ADR-109, ADR-113, ADR-114, ADR-117
 
@@ -61,8 +61,8 @@ Aplicar en Instructor (`/es/instructor/` y `/en/instructor/`) los fondos que ya 
 - [x] **Curvas:** variante de curvas de `Band` en `TitularBand`, sin la cuadrícula, con la composición nueva dibujada en el componente de E200-I05 (trazos suavizados, piezas ancladas a los bordes izquierdo y derecho, 10 KB o menos). Comprobar que no chocan con la barra degradada propia de la banda.
 - [x] **Planes a todo el ancho:** quitar `max-width: 52rem` de la lista; desde 1.024 px, la lista de planes de cada fecha en una grilla de dos columnas iguales (`repeat(2, minmax(0, 1fr))`), con tarjetas de igual altura por fila; bajo 1.024 px, una columna. El marcador, el riel y la fecha no cambian. Si una fecha tiene un número impar de planes, el último ocupa una columna y no se estira.
 - [x] **Controles:** revisar `scripts/verify-seo.mjs` por dependencias de la estructura de los planes (orden, cantidad, plan destacado, horas de PF1163); ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
-- [~] **Revisión visual:** protocolo de la épica en `/es/instructor/` y `/en/instructor/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Recorrer la página completa para comprobar que la sucesión de puntos, curvas, puntos, `bg-alt` y puntos no se ve cargada, y medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
-- [~] **Registro y bloques:** ADR-118, bloque de `DESIGN.md` 4.5, 11.2 y 11.8 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Revisión visual:** protocolo de la épica en `/es/instructor/` y `/en/instructor/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Recorrer la página completa para comprobar que la sucesión de puntos, curvas, puntos, `bg-alt` y puntos no se ve cargada, y medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
+- [x] **Registro y bloques:** ADR-118, bloque de `DESIGN.md` 4.5, 11.2 y 11.8 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/instructor/InstructorHeader.astro`, `TitularBand.astro`, `CoursesMosaic.astro`, `PlansTimeline.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css` y `scripts/verify-seo.mjs`.
@@ -95,7 +95,7 @@ Aplicar en Instructor (`/es/instructor/` y `/en/instructor/`) los fondos que ya 
 
 ## Avance
 - **Parte A (25-11-2026):** implementación y verificación local terminadas; ADR-118 registrado; los 7 comandos en verde. Interpretación (incluida la justificación de `valley`), mediciones y bloques de `DESIGN.md` en `99_bitacora/2026-11-25_E200-I10.md`.
-- **Parte B (pendiente):** preview de rama (Felipe valida `valley` y las dos columnas de los planes) y PageSpeed.
+- **Parte B (25-11-2026):** Felipe aprobó la preview y las dos columnas de los planes; Playwright en 20 combinaciones: puntos en las tres secciones, `valley` sin cruces, planes en dos columnas de igual alto desde 1.024 px con líneas de 74 caracteres o menos, PF1822 y PF1163 intactos, sin scroll horizontal y CLS 0; relatoría y demás páginas idénticas a producción; mismas peticiones; PageSpeed sin regresión. Iteración terminada.
 
 ## Riesgos y notas
 - Con dos columnas por fecha, el orden de lectura de los planes pasa a ser por filas (izquierda a derecha, luego abajo). En el HTML se mantiene el orden actual.
