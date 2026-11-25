@@ -1309,6 +1309,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** el criterio «el texto mantiene los contrastes de 4.4» se cumple en promedio, pero no en el peor píxel, que es como se midieron las curvas (AT-161). Afecta a toda página que reciba el campo de puntos en E200-I07 a I14.
 - **Recomendación:** que Felipe decida el criterio: (a) aceptar el campo de puntos como en el hero, con la nota en `DESIGN.md` 4.4 de que se mide sobre el fondo medio, o (b) una variable de máscara por uso (`--dots-mask`) que despeje la zona del texto, lo que obliga a correr la matriz del hero (AT-151).
 - **Decisión (Felipe, 25-11-2026):** opción (a). Se acepta el campo de puntos como en el hero, sin cambios de código ni nueva matriz del hero. `DESIGN.md` 4.4 suma la nota de que los puntos se miden sobre el fondo promedio (bloque en la bitácora `2026-11-25_E200-I06.md`, lo pega Felipe).
+- **Seguimiento (E200-I09, 25-11-2026; para revisar juntos al cerrar la épica):** peores contrastes aislados del campo de puntos medidos hasta ahora (un punto bajo una letra, máscara real de la capa); en todas las páginas el fondo promedio cumple 4.4.
+  | Página | Claro (peor punto) | Oscuro (peor punto) | Texto afectado | Fondo promedio (mín.) |
+  |---|---|---|---|---|
+  | Inicio (hero, referencia en producción) | 4,19:1 | 1,35:1 | párrafos del hero | cumple |
+  | Educación (E200-I06) | 4,32:1 | 2,25:1 (cabecera); 1,23:1 (rótulo de la franja `cloud`, punto dorado) | bajada y rótulo kicker | cumple |
+  | Experiencia (E200-I07) | no medido con este método | no medido | — | cumple (revisión visual) |
+  | Desarrollador (E200-I08) | 4,29:1 | 3,23:1; 2,63:1 (bajada en inglés a 360 px) | bajada y texto de «Aspectos técnicos» | 4,98:1 / 5,57:1 |
+  | Docente (E200-I09) | 3,06:1 (signo «+» de 22,4 px en `accent`) | 2,11:1 (rótulo kicker de 12 px, punto dorado) | cifra de la cabecera y rótulos | 4,62:1 / 5,57:1 |
+  El peor caso de la épica es el punto dorado al 50 % bajo un rótulo kicker en oscuro (1,23:1 en Educación). Si al cierre se quiere mejorar, la opción (b) de este hallazgo (`--dots-mask` por uso) es la vía; obliga a correr la matriz del hero.
 
 ### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)
 - **Severidad:** Media · **Estado:** Resuelto en E200-I09 (25-11-2026) · **Resuelve:** E200-I09

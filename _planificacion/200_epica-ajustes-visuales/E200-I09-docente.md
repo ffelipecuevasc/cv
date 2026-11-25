@@ -1,5 +1,5 @@
 # E200-I09 · Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas
-- **Estado:** [~] En curso (parte A terminada el 25-11-2026 (AT-163 resuelto; puntos en la cabecera, en el encabezado con IPLACEX y en INACAP; curvas ladera en Duoc UC y loma en «Tutor de Alumnos»; cargos especiales en dos columnas; ADR-117); falta la parte B (preview y PageSpeed))
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I08 · **Hallazgos que cierra:** AT-163 · **ADR relacionados:** ADR-036, ADR-070, ADR-107, ADR-109, ADR-113, ADR-114, ADR-116
 
@@ -65,8 +65,8 @@ Aplicar en Docente (`/es/docente/` y `/en/lecturer/`) los fondos que ya usan las
 - [x] **Curvas:** variante de curvas de `ThemeStripe` en la franja de Duoc UC y de `Band` en «Tutor de Alumnos», sin la cuadrícula, con las dos composiciones nuevas dibujadas en el componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos por composición).
 - [x] **Cargos especiales:** desde 1.024 px, una fila de dos columnas iguales con la misma altura (`grid-template-columns: repeat(2, minmax(0, 1fr))` o equivalente) y el ancho máximo ampliado al que haga falta para que el texto no quede apretado; bajo 1.024 px, una columna como hoy. La lista, los íconos y el contenido no cambian.
 - [x] **Ritmo visual:** recorrer la página completa y comprobar que la alternancia de fondos se lee ordenada: puntos en la cabecera, asignaturas lisa, puntos en IPLACEX, curvas en Duoc UC, puntos en INACAP, curvas en la tutoría y cargos sobre `bg-alt`. Comprobar también que ninguna textura pasa detrás de un texto pequeño sin cumplir el contraste de 4.4 (medir el peor punto).
-- [~] **Revisión visual:** protocolo de la épica en `/es/docente/` y `/en/lecturer/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
-- [~] **Registro y bloques:** ADR-117, bloque de `DESIGN.md` 4.5 y 11.7 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Revisión visual:** protocolo de la épica en `/es/docente/` y `/en/lecturer/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
+- [x] **Registro y bloques:** ADR-117, bloque de `DESIGN.md` 4.5 y 11.7 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/lecturer/LecturerHeader.astro`, `InstitutionsZigzag.astro`, `MentoringBand.astro`, `SpecialRoles.astro` y el componente de curvas de nivel de E200-I05; si hace falta, `src/styles/global.css`.
@@ -97,7 +97,7 @@ Aplicar en Docente (`/es/docente/` y `/en/lecturer/`) los fondos que ya usan las
 
 ## Avance
 - **Parte A (25-11-2026):** implementación y verificación local terminadas; AT-163 resuelto; ADR-117 registrado; los 7 comandos en verde. Interpretación, mediciones y bloques de `DESIGN.md` en `99_bitacora/2026-11-25_E200-I09.md`.
-- **Parte B (pendiente):** preview de rama (Felipe valida la ladera y la loma) y PageSpeed.
+- **Parte B (25-11-2026):** Felipe aprobó la preview (ladera y loma incluidas); Playwright en 20 combinaciones sin scroll horizontal y CLS 0, cargos en fila de igual alto desde 1.024 px y AT-163 correcto con JavaScript; «Asignaturas» y las páginas de los lotes A y B idénticas a producción; mismas peticiones; PageSpeed sin regresión. Iteración terminada.
 
 ## Riesgos y notas
 - Es la página con más texturas de la épica (3 zonas con puntos y 2 con curvas): si el recorrido completo se ve cargado en la URL de rama, se consulta a Felipe antes de cerrar (por ejemplo, para bajar la opacidad de los puntos en las franjas).
