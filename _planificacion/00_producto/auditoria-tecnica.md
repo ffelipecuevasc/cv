@@ -1311,13 +1311,20 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Decisión (Felipe, 25-11-2026):** opción (a). Se acepta el campo de puntos como en el hero, sin cambios de código ni nueva matriz del hero. `DESIGN.md` 4.4 suma la nota de que los puntos se miden sobre el fondo promedio (bloque en la bitácora `2026-11-25_E200-I06.md`, lo pega Felipe).
 
 ### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** — (fuera del alcance de E200-I07; se propone para E200-I09, Docente)
+- **Severidad:** Media · **Estado:** Abierto, asignado a E200-I09 (decisión de Felipe, 25-11-2026) · **Resuelve:** E200-I09
 - **Evidencia (25-11-2026):** `Footer.astro:107` recorre `document.querySelectorAll('[data-year]')` y cambia su texto por el año actual. `SpecialRoles.astro:34` marca `<p class="meta" data-year>{item.year} · {item.institution}</p>`, así que con JavaScript ese renglón muestra «2026» y pierde el año real y la institución. En E200-I07, la primera versión de la línea de tiempo usó `data-year` en cada hito y la página mostró «2026» en lugar de las tarjetas; se cambió a `data-start-year`.
 - **Impacto:** dato incorrecto visible en Docente con JavaScript (sin JavaScript se ve bien) y una trampa para cualquier componente que use `data-year`.
 - **Recomendación:** que el script del pie use un atributo propio (por ejemplo `[data-current-year]`) o se limite al pie (`footer [data-year]`), quitar `data-year` de `SpecialRoles.astro` y agregar a `verify:seo` que `data-year` solo aparezca en el pie.
+- **Decisión (Felipe, 25-11-2026):** se corrige en E200-I09 renombrando el atributo de `SpecialRoles.astro` (por ejemplo, `data-role-year`), **sin tocar el script del pie ni la CSP** (el hash del script en línea no cambia). Tarea agregada en `E200-I09-docente.md`; no se corrige en E200-I07.
 
 ### AT-164 · El pulso en bucle del punto vivo de Experiencia no tiene control para detenerlo (WCAG 2.2.2) (E200-I07)
 - **Severidad:** Baja · **Estado:** Aceptado como riesgo (decisión de Felipe, 25-11-2026, ADR-115) · **Resuelve:** —
 - **Evidencia:** el punto vivo de la línea de tiempo de Experiencia pulsa de forma infinita (ciclo de 2,4 s) sin control de pausa. Con `prefers-reduced-motion: reduce` no se anima (medido el 25-11-2026: sin `::after` y con un halo quieto de 4 px).
 - **Impacto:** WCAG 2.2.2 (nivel A) pide poder detener el movimiento automático de más de 5 s que se muestra junto a otro contenido. Es un adorno de 10 px, decorativo y no esencial, pero una auditoría estricta podría marcarlo.
 - **Recomendación:** si se exige el cumplimiento estricto, limitar el pulso a pocas iteraciones (`animation-iteration-count: 3`) o dejarlo quieto; es un cambio de una línea en `ExperienceTimeline.astro`.
+
+### AT-165 · Experiencia pide una hoja CSS más que producción: el CSS propio de la página supera el límite de 4 KB para insertarse en el HTML (E200-I07)
+- **Severidad:** Baja · **Estado:** Abierto, pendiente de decisión de Felipe · **Resuelve:** —
+- **Evidencia (25-11-2026, preview `1d32bec` frente a producción):** `/es/experiencia/` y `/en/experience/` cargan `/_astro/ProfilesGrid._T_JroyB.css` (8.835 B: estilos de `ExperienceHeader`, `ExperienceIntro`, `ExperienceTimeline` y de la grilla de perfiles), que en producción no existe como archivo aparte. Con `inlineStylesheets: 'auto'` (valor por defecto), Astro solo inserta en el HTML las hojas de menos de 4 KB; la línea de tiempo nueva lleva el CSS de la página sobre ese límite. Es una petición nueva que bloquea el renderizado. Los scripts son los mismos (6 en preview y en producción) y no hay JavaScript nuevo.
+- **Impacto:** PageSpeed sin regresión en dos corridas a la misma hora (preview: móvil 99–100 y 99–99, escritorio 100; producción: móvil 99–100, escritorio 100), pero no se cumple el criterio literal «mismas peticiones que producción».
+- **Recomendación:** que Felipe elija: (a) aceptar la petición extra; (b) reducir el CSS de `ExperienceTimeline.astro` bajo el límite (difícil: hoy duplica medidas entre móvil y escritorio); o (c) ajustar `inlineStylesheets` en `astro.config.mjs`, un cambio global que afecta a todas las páginas y pide un ADR.

@@ -1,7 +1,7 @@
 # E200-I09 · Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas
 - **Estado:** [ ] Pendiente
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
-- **Depende de:** E200-I08 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-070, ADR-107, ADR-109, ADR-113, ADR-114, ADR-116
+- **Depende de:** E200-I08 · **Hallazgos que cierra:** AT-163 · **ADR relacionados:** ADR-036, ADR-070, ADR-107, ADR-109, ADR-113, ADR-114, ADR-116
 
 > Estados posibles: [ ] Pendiente · [~] En curso · [x] Terminada · [!] Bloqueada
 
@@ -59,6 +59,7 @@ Aplicar en Docente (`/es/docente/` y `/en/lecturer/`) los fondos que ya usan las
 - Las bandas de otras páginas.
 
 ## Tareas
+- [ ] **AT-163 (decisión de Felipe, 25-11-2026):** en `src/components/lecturer/SpecialRoles.astro`, renombrar el atributo `data-year` de `<p class="meta">` (por ejemplo, a `data-role-year`) para que el script del pie no reemplace «año · INACAP» por el año actual. No tocar el script de `Footer.astro` ni la CSP. Comprobar con JavaScript que «Cargos especiales» muestra el año real y la institución en `/es/docente/` y `/en/lecturer/`, y que `verify:seo` y la CSP siguen en verde; marcar AT-163 como resuelto.
 - [ ] **Sección principal:** montar `texture-dots` y `texture-halo` (`aria-hidden`) detrás de `LecturerHeader`, con la variable de E200-I06 ajustada a la alineación de su encabezado.
 - [ ] **Experiencia por institución:** una sola capa de puntos detrás del encabezado de la sección y de la franja de IPLACEX, sin corte visible entre ambos. Variante de puntos de `ThemeStripe` (E200-I06) en la franja de INACAP. La foto de cada franja queda por encima de la capa.
 - [ ] **Curvas:** variante de curvas de `ThemeStripe` en la franja de Duoc UC y de `Band` en «Tutor de Alumnos», sin la cuadrícula, con las dos composiciones nuevas dibujadas en el componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos por composición).
