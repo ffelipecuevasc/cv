@@ -189,12 +189,13 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | `focus` | `bg` / `surface` | 7,54 / 6,65 | 3 | Cumple |
 | Relleno de estrella `gold` | `surface` | 10,97 | 3 | Cumple |
 
-Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se identifican por su texto o su nombre accesible. El campo de puntos, la retícula, la regla dorada y el halo son decorativos (`aria-hidden`).
+Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se identifican por su texto o su nombre accesible. El campo de puntos, la retícula, las curvas de nivel, la regla dorada y el halo son decorativos (`aria-hidden`).
 
 ### 4.5 Fondos con textura
 - **Campo de puntos (hero):** dos capas. Puntos de 1,1 px cada 22 px en `primary` al 30 % (oscuro: `vibrant` al 26 %) y puntos dorados de 1,2 px cada 132 px al 55 % (oscuro: 50 %), desplazados 11 px. Máscara radial elíptica centrada en 60 % / 45 %, que se desvanece hacia los bordes.
 - **Halo (solo oscuro, hero):** degradado radial de 44 × 30 rem en 78 % / 40 %, `primary` al 22 %.
 - **Retícula (band):** líneas de 1 px cada 48 px. Claro: `primary` al 7 % sobre `orient-50`, con bordes superior e inferior `primary` al 14 %. Oscuro: `vibrant` al 5 % sobre un degradado de 160° `orient-800` → `orient-900` (60 %) → `orient-925`.
+- **Curvas de nivel (solo la banda de cifras de Inicio, ADR-113):** sustituyen a la retícula en esa banda; el fondo `band`, el degradado del tema oscuro y los bordes no cambian. Dos grupos de 12 curvas cerradas y suavizadas (Bézier), separadas unos 23 px y deformadas como relieve, que nacen en las esquinas inferior izquierda y superior derecha; la 5.ª y la 10.ª, en dorado. Cada grupo es una pieza SVG de 360 × 320 px de ancho fijo, anclada a su esquina y desvanecida desde ella. Trazo de 0,85 px: claro, `primary` al 20 % y `gold` al 55 %; oscuro, `vibrant` al 14 % y `gold` al 40 % (`--contour-line` y `--contour-accent`). Máscara radial elíptica que despeja el centro (transparente hasta el 45 % y opaca al 95 %; bajo 640 px, de 55 % a 100 %), para que `text-soft` mantenga 4,5:1 donde lo cruza una curva (peor caso medido: 4,51:1). Componente `ContourLines` (decorativo: `aria-hidden`, sin foco ni eventos de puntero); las demás bandas conservan la retícula.
 - **Marco del retrato:** panel `orient-800` con puntos de 1 px cada 18 px en `vibrant` al 35 % (oscuro: 40 %).
 - **Fondo del retrato (mientras carga la imagen):** claro, degradado `orient-50` → `orient-200`; oscuro, `orient-800` → `primary` → `orient-400`.
 
@@ -328,10 +329,10 @@ Contorno de 1 px `primary` al 25 % (oscuro: `vibrant` al 30 %), fondo `bg` al 80
 
 ### 7.8 Banda y franja temática
 - **Banda:** sección de ancho completo con fondo `band` (4.5), contenido en el contenedor y encabezado de banda (7.5).
-- **Banda de cifras (Inicio):** `dl` de 5 cifras, **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa). Sin borde superior ni divisores finos: las cifras se separan con barras verticales con el degradado `gold` → `vibrant` de la regla dorada (7.5), de 2 px de ancho y decorativas (`aria-hidden`); su alto lo fija E40-I04 (ADR-058).
+- **Banda de cifras (Inicio):** fondo `band` con curvas de nivel en lugar de la retícula (4.5, ADR-113); `dl` de 5 cifras, **5 columnas desde 1.024 px** y 2 columnas bajo esa medida (la quinta ocupa la fila completa). Sin borde superior ni divisores finos: las cifras se separan con barras verticales con el degradado `gold` → `vibrant` de la regla dorada (7.5), de 2 px de ancho y decorativas (`aria-hidden`); su alto lo fija E40-I04 (ADR-058).
   - Encabezado de banda: rótulo "Trayectoria profesional" y titular "Resumen" (`en-US`: "Professional track record" y "Overview").
   - Las 5 cifras: certificaciones (derivada de `src/data/certifications.ts`, ADR-053), años como relator REUF, módulos REUF, años como docente y alumnos.
-  - Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), cifra a 12 px bajo él y línea de contexto de 14 px en `text-soft` a 10 px de la cifra. Texto alineado a la izquierda. El signo "+" va antepuesto, en `primary` en claro y `gold` en oscuro (4.3).
+  - Cada cifra: `dt` arriba (12,5 px, mayúsculas, `text-soft`), cifra a 12 px bajo él y línea de contexto de 14 px en `text-soft` a 10 px de la cifra. Texto centrado en cada celda (ADR-113). El rótulo, la cifra y el contexto de las 5 celdas ocupan tres filas comunes (`subgrid`): las cifras quedan en una misma línea aunque un rótulo o un contexto ocupe más líneas, como «Years as REUF instructor» en inglés. El signo "+" va antepuesto, en `primary` en claro y `gold` en oscuro (4.3).
   - Bajo 480 px el `dt` usa 12 px y 0,1 em de interletraje.
 - **Franja temática (Educación, ADR-036 y E20-I05):** variante de la banda con dos zonas: título de la categoría (encabezado alineado a la izquierda) y contenido (insignias pequeñas). Alterna la orientación en zigzag sin cambiar el orden del HTML. La franja espejo (`mirror` en `ThemeStripe`, `align="end-lg"` en `SectionHeader`) pone la zona del título a la derecha y alinea a la derecha el rótulo, el titular y la barra, con la barra después del rótulo. Las franjas alternan fondo `band` y fondo `bg` para que el zigzag se lea. Bajo 1.024 px se apila en una columna, título primero, y todo se alinea a la izquierda con la barra antes del rótulo.
 
@@ -425,7 +426,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 | Patrón | Descripción | Disponible para |
 |---|---|---|
 | Hero asimétrico 7 + 5 | Texto y retrato con marco desplazado y riel social sobre fondo de puntos; certificaciones bajo el texto, sin contenedor | Inicio |
-| Banda de ancho completo | Franja con retícula, encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular), Talento Digital (cifras de Logros), Foro (pasos), Recursos (ficha de la ruta), Contacto (canales) |
+| Banda de ancho completo | Franja con retícula (en Inicio, con curvas de nivel, ADR-113), encabezado de banda y contenido en fila | Inicio (cifras), Educación (franjas), Desarrollador (tecnologías), Docente (tutoría), Instructor (titular), Talento Digital (cifras de Logros), Foro (pasos), Recursos (ficha de la ruta), Contacto (canales) |
 | Zigzag | Franjas que alternan la orientación título / contenido, con variante espejo | Educación (certificaciones), Docente (una franja por institución), Talento Digital (una franja por bootcamp, con portada) |
 | Grilla simétrica de tarjetas | Encabezado centrado y tarjetas iguales en 3 columnas desde 1.024 px (una bajo esa medida), sin JavaScript. Cada tarjeta lleva foto, rótulo, título, instituciones, periodo y modalidad, texto, etiquetas y enlaces al pie | Experiencia (resumen), Docente (asignaturas, variante 2 × 2 sin foto: 2 columnas desde 1.024 px), Instructor (relatoría, variante sin foto: tarjetas compactas en 2 columnas desde 1.024 px), Foro (categorías, variante 2 × 2 sin foto, como Docente), Recursos (temáticas, una grilla por grupo) |
 | Carril con ajuste | Fila desplazable con `scroll-snap`, 1, 2 o 3 tarjetas por página según el ancho | Inicio (testimonios, todos los anchos) |
@@ -438,7 +439,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 
 ### 11.3 Inicio
 1. **Hero asimétrico** (7.4), fondo `bg`.
-2. **Banda de cifras** (7.8), fondo `band`, dentro de `<main>` (AT-012).
+2. **Banda de cifras** (7.8), fondo `band` con curvas de nivel (4.5, ADR-113), dentro de `<main>` (AT-012).
 3. **Testimonios** en carrusel con encabezado centrado (7.5, 7.6 y 7.12), fondo `bg-alt`, dentro de `<main>`.
 4. **Pie** (7.9).
 
