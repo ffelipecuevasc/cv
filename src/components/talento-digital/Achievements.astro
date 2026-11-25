@@ -6,6 +6,11 @@
  * una banda (7.8) con 3 cifras en `dl` leídas de stats.json por id (ADR-053), separadas por la
  * barra degradada de la banda de cifras. Fondos: `bg` y `band`, alternos con la última franja
  * (`band`). Sin JavaScript.
+ * E200-I11 (ADR-119): la parte lisa lleva el campo de puntos y el halo del hero (texture-dots y
+ * texture-halo, 4.5) en capas decorativas detrás del contenido. Las 3 cifras van centradas, con
+ * el rótulo arriba y la cifra debajo, en filas comunes (subgrid) como la banda de Inicio
+ * (ADR-113): las cifras quedan en una misma línea aunque un rótulo ocupe más renglones. Estas
+ * cifras no tienen línea de contexto, así que las filas comunes son dos.
  */
 import Band from '../ui/Band.astro';
 import Container from '../ui/Container.astro';
@@ -27,6 +32,8 @@ const stats = await Promise.all(
 
 <section class="achievements" aria-labelledby="achievements-title" data-achievements>
   <div class="intro">
+    <div class="texture-dots layer" aria-hidden="true"></div>
+    <div class="texture-halo layer" aria-hidden="true"></div>
     <Container>
       <SectionHeader
         kicker={achievements.kicker[lang]}
@@ -67,8 +74,16 @@ const stats = await Promise.all(
 
 <style>
   .intro {
+    position: relative;
+    isolation: isolate;
     padding-block: 80px;
     background-color: var(--color-bg);
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   .lead {
     max-width: 60ch;
@@ -127,17 +142,17 @@ const stats = await Promise.all(
     max-width: 64rem;
     margin: 0 auto;
   }
+  /* Rótulo y cifra en dos filas comunes (subgrid), centrados en cada celda. Bajo 480 px el
+     relleno baja a 8 px, y a 0 bajo 360 px, para que «+2.000» quepa en su columna (AT-158). */
   .stat {
     position: relative;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
-    gap: 10px;
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     min-width: 0;
-    padding-inline: 16px;
-  }
-  .stat:first-child {
-    padding-inline-start: 0;
+    padding-inline: 8px;
+    text-align: center;
   }
   .stat + .stat::before {
     content: '';
@@ -148,6 +163,7 @@ const stats = await Promise.all(
     background: linear-gradient(180deg, var(--color-gold), var(--color-vibrant));
   }
   dt {
+    align-self: end;
     font-weight: 400;
     font-family: var(--font-mono);
     color: var(--color-text-soft);
@@ -158,7 +174,7 @@ const stats = await Promise.all(
     overflow-wrap: anywhere;
   }
   dd {
-    margin: 0;
+    margin: 12px 0 0;
     color: var(--color-heading);
     font-family: var(--font-display);
     letter-spacing: -0.01em;
@@ -168,6 +184,17 @@ const stats = await Promise.all(
   }
   .sign {
     color: var(--metric-sign);
+  }
+  /* Bajo 360 px, sin relleno lateral: centrada, «+2.000» necesita todo el ancho de su columna. */
+  @media (max-width: 22.49rem) {
+    .stat {
+      padding-inline: 0;
+    }
+  }
+  @media (min-width: 30rem) {
+    .stat {
+      padding-inline: 16px;
+    }
   }
   @media (min-width: 48rem) {
     .intro {

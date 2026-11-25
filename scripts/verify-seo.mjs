@@ -1213,6 +1213,17 @@ const BOOTCAMPS = [
   ['PF1479', 475, '2026', 'bootcamp-javascript.svg'],
   ['PF1163', 472, '2026', 'bootcamp-javascript-v1.svg'],
 ];
+// Línea de contexto de cada franja (E200-I11, ADR-119): «Plan formativo {plan} · {OTEC}», en el
+// orden de BOOTCAMPS. Las OTEC son nombres propios y no se traducen (ADR-025).
+const BOOTCAMP_OTEC = [
+  'Edutecno',
+  'OTEC ECAS',
+  'Skillnest',
+  'OTEC ECAS',
+  'ISEG Chile',
+  'Posiciona Capacitación',
+];
+const BOOTCAMP_CONTEXT_PREFIX = { es: 'Plan formativo', en: 'Training plan' };
 // Logros (E100-I02): textos esperados por idioma; las cifras, las de stats.json.
 const TALENTO_ACHIEVEMENTS = {
   es: {
@@ -1358,6 +1369,18 @@ for (const [lang, info] of Object.entries(LANGS)) {
     stripeLabels.length === 6 &&
       stripeLabels.every((s) => s.split(' ').every((id) => mainHtml.includes(`id="${id}"`))),
     'cada franja se nombra por titular y bajada (titulares repetidos)',
+  );
+  const contexts = stripeLabels.map((s) => {
+    const leadId = s.split(' ')[1] ?? '';
+    const lead = mainHtml.slice(mainHtml.indexOf(`id="${leadId}"`));
+    return text(/^[^>]*>([\s\S]*?)<\/p>/.exec(lead)?.[1] ?? '');
+  });
+  const expectedContexts = BOOTCAMPS.map(
+    ([plan], i) => `${BOOTCAMP_CONTEXT_PREFIX[lang]} ${plan} · ${BOOTCAMP_OTEC[i]}`,
+  );
+  check(
+    same(contexts, expectedContexts),
+    `línea de contexto «${BOOTCAMP_CONTEXT_PREFIX[lang]} {plan} · {OTEC}» en las 6 franjas (${contexts.join(' / ')})`,
   );
   check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
   check(!/data-aos/.test(html), 'sin AOS');

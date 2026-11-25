@@ -4,6 +4,8 @@
  * bajada con énfasis (ADR-068) y 3 insignias como chips (7.7). Alineada a la izquierda, fondo
  * `bg`, sin foto ni JavaScript. «Talento Digital para Chile» no se traduce (ADR-025). «2.000»
  * sale de stats.json (`class-hours`); el diploma toma su nombre de Educación.
+ * E200-I11 (ADR-119): campo de puntos y halo del hero (texture-dots y texture-halo, DESIGN.md 4.5)
+ * en capas decorativas detrás del contenido.
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -30,6 +32,8 @@ const badges = await Promise.all(
 ---
 
 <div class="td-header">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader level={1} kicker={header.kicker[lang]} title={header.title} id="td-title" />
     <p class="lead" data-lead>
@@ -50,8 +54,16 @@ const badges = await Promise.all(
 
 <style>
   .td-header {
+    position: relative;
+    isolation: isolate;
     padding-block: 64px 56px;
     background-color: var(--color-bg);
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   .lead {
     max-width: 60ch;

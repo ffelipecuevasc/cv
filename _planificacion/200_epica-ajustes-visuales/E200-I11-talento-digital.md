@@ -1,5 +1,5 @@
 # E200-I11 · Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (parte A terminada el 25-11-2026; faltan la parte B, curvas de nivel y bloques de `DESIGN.md`, y la parte C, preview, PageSpeed, cierre y lote C)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I10 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-074, ADR-076, ADR-107, ADR-109, ADR-113, ADR-114, ADR-117, ADR-118
 
@@ -81,11 +81,11 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 - El orden de las franjas y su alternancia de lados.
 
 ## Tareas
-- [ ] **Contenido:** actualizar `context` de `pf1162`, `pf1487`, `pf1164-1` y `pf1164-2` en `page.json` con la tabla de decisiones, en es y en.
-- [ ] **Puntos:** campo de puntos detrás de `TalentoDigitalHeader`; una sola capa detrás del encabezado de «Bootcamps Realizados» y la franja de Java; variante de puntos de `ThemeStripe` en `pf1164-1` y `pf1479`; capa detrás de la parte lisa de «Logros». Las portadas de los bootcamps quedan por encima de la capa.
+- [x] **Contenido** (parte A): actualizar `context` de `pf1162`, `pf1487`, `pf1164-1` y `pf1164-2` en `page.json` con la tabla de decisiones, en es y en.
+- [x] **Puntos** (parte A): campo de puntos detrás de `TalentoDigitalHeader`; una sola capa detrás del encabezado de «Bootcamps Realizados» y la franja de Java; variante de puntos de `ThemeStripe` en `pf1164-1` y `pf1479`; capa detrás de la parte lisa de «Logros». Las portadas de los bootcamps quedan por encima de la capa.
 - [ ] **Curvas en franjas:** variante de curvas de `ThemeStripe` en `pf1487`, `pf1164-2` y `pf1163`, sin la cuadrícula, con las tres composiciones nuevas pasadas como parámetros al componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos por composición).
 - [ ] **Banda de cifras:** variante de curvas de `Band` con su composición, y las 3 cifras centradas (rótulo, cifra y contexto), con filas comunes para que ninguna cifra baje cuando un texto ocupa más líneas, como en E200-I05. Bajo la medida en que hoy se apilan, siguen centradas.
-- [ ] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de la línea de contexto, de la banda de cifras o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
+- [x] **Controles** (parte A): revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de la línea de contexto, de la banda de cifras o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Ritmo visual:** recorrer la página completa y comprobar que la alternancia de puntos y curvas en las 6 franjas se lee ordenada y no cargada. Medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/talento-digital/` y `/en/talento-digital/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
 - [ ] **Registro y bloques:** ADR-119, bloque de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
@@ -118,6 +118,11 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
     - cada bootcamp nombra su OTEC: Edutecno (`pf1162`), OTEC ECAS (`pf1487` y `pf1164-2`), Skillnest (`pf1164-1`), ISEG Chile (`pf1479`) y Posiciona Capacitación (`pf1163`).
 - **Consecuencias:** Talento Digital sigue la regla de Educación y Docente: fondo liso con puntos y banda con curvas de nivel. Las líneas «Primera ejecución» y «Segunda ejecución» desaparecen de la línea de contexto (el párrafo de `pf1164-2` conserva la mención). Felipe edita `DESIGN.md` 4.5, 7.8 y 11.9 (ADR-033).
 - **Origen:** E200-I11, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.
+
+## Avance
+- **Parte A (25-11-2026):** contexto de 4 bootcamps en es y en; campo de puntos en la cabecera, en el encabezado con la franja de Java (una sola capa), en `pf1164-1` y `pf1479` (`texture="dots"`) y en la parte lisa de «Logros»; las 3 cifras centradas en filas comunes (rótulo y cifra), con la banda aún en retícula; control nuevo de la línea de contexto en `verify-seo.mjs`. La franja se extrajo a `BootcampStripe.astro` (como `InstitutionStripe` en I09). Detalle en ADR-119 y en la bitácora `2026-11-25_E200-I11.md`.
+- **Parte B:** curvas de nivel en `pf1487`, `pf1164-2`, `pf1163` y en la banda de cifras; bloques de `DESIGN.md` 4.5, 7.8 y 11.9.
+- **Parte C:** preview, PageSpeed, cierre y lote C (I09 a I11) a `main`.
 
 ## Riesgos y notas
 - Es la página más larga de la épica, con 6 franjas alternadas: si el recorrido completo se ve cargado en la URL de rama, se consulta a Felipe antes de cerrar (por ejemplo, para bajar la opacidad de las texturas en las franjas).

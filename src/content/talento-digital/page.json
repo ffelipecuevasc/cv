@@ -68,8 +68,8 @@
           "en": "Full Stack Java Development"
         },
         "context": {
-          "es": "Plan formativo PF1162",
-          "en": "Training plan PF1162"
+          "es": "Plan formativo PF1162 · Edutecno",
+          "en": "Training plan PF1162 · Edutecno"
         },
         "years": "2023-2024",
         "cover": "bootcamp-java.svg",
@@ -99,8 +99,8 @@
           "en": "Data Engineering Fundamentals"
         },
         "context": {
-          "es": "Plan formativo PF1487",
-          "en": "Training plan PF1487"
+          "es": "Plan formativo PF1487 · OTEC ECAS",
+          "en": "Training plan PF1487 · OTEC ECAS"
         },
         "years": "2024-2025",
         "cover": "bootcamp-datos.svg",
@@ -130,8 +130,8 @@
           "en": "Full Stack Python Development"
         },
         "context": {
-          "es": "Plan formativo PF1164 · Primera ejecución",
-          "en": "Training plan PF1164 · First run"
+          "es": "Plan formativo PF1164 · Skillnest",
+          "en": "Training plan PF1164 · Skillnest"
         },
         "years": "2025",
         "cover": "bootcamp-python.svg",
@@ -161,8 +161,8 @@
           "en": "Full Stack Python Development"
         },
         "context": {
-          "es": "Plan formativo PF1164 · Segunda ejecución",
-          "en": "Training plan PF1164 · Second run"
+          "es": "Plan formativo PF1164 · OTEC ECAS",
+          "en": "Training plan PF1164 · OTEC ECAS"
         },
         "years": "2025-2026",
         "cover": "bootcamp-python.svg",

@@ -1,0 +1,137 @@
+---
+/*
+ * Franja de un bootcamp en «Bootcamps realizados» (E100-I01, ADR-074; extraída de
+ * BootcampsZigzag en E200-I11, ADR-119, sin cambios de contenido). Rótulo: pastilla de
+ * tecnologías; titular (h3): bootcamp; bajada: «Plan formativo {plan} · {OTEC}», que se suma al
+ * nombre accesible porque hay titulares repetidos. Contenido: portada SVG de main en <img> (misma
+ * URL, AT-043), texto con énfasis, etiquetas (7.7), «Logros» (h4) y «horas | años». Las horas
+ * salen de src/data/training-plans.ts. Las impares van en tono band y en espejo. `texture` elige
+ * el fondo de ThemeStripe (ADR-114).
+ */
+import Icon from '../ui/Icon.astro';
+import Tag from '../ui/Tag.astro';
+import ThemeStripe from '../ui/ThemeStripe.astro';
+import { parseEmphasis } from '../home/hero-text';
+import { langFromLocale } from '../../i18n/lang';
+import { TRAINING_PLAN_HOURS, getTalentoDigitalPage } from './talento-digital-data';
+
+type Bootcamp = Awaited<ReturnType<typeof getTalentoDigitalPage>>['bootcamps']['items'][number];
+
+interface Props {
+  item: Bootcamp;
+  index: number;
+  texture: 'grid' | 'contour' | 'dots';
+}
+
+const { item, index, texture } = Astro.props;
+const lang = langFromLocale(Astro.currentLocale);
+const { bootcamps } = await getTalentoDigitalPage();
+const odd = index % 2 === 1;
+---
+
+<ThemeStripe
+  id={item.id}
+  kicker={item.pill[lang]}
+  title={item.title[lang]}
+  lead={item.context[lang]}
+  labelWithLead
+  level={3}
+  tone={odd ? 'band' : 'bg'}
+  reverse={odd}
+  mirror={odd}
+  texture={texture}
+>
+  <div class="bootcamp" data-bootcamp={item.plan}>
+    <img
+      class="cover"
+      src={`/static/img/${item.cover}`}
+      alt={item.coverAlt[lang]}
+      width="1000"
+      height="400"
+      loading="lazy"
+      decoding="async"
+    />
+    <p class="text">
+      {parseEmphasis(item.text[lang]).map((part) =>
+        part.strong ? <strong>{part.text}</strong> : part.text,
+      )}
+    </p>
+    <ul class="tags">
+      {item.tags.map((tag) => (
+        <li>
+          <Tag>{tag}</Tag>
+        </li>
+      ))}
+    </ul>
+    <h4 class="achievements-title">{bootcamps.achievementsTitle[lang]}</h4>
+    <p class="text">
+      {parseEmphasis(item.achievement[lang]).map((part) =>
+        part.strong ? <strong>{part.text}</strong> : part.text,
+      )}
+    </p>
+    <p class="duration" data-duration>
+      <Icon name="timer" size={18} />
+      <span>
+        {bootcamps.hoursLabel[lang]
+          .replace('{hours}', String(TRAINING_PLAN_HOURS[item.plan]))
+          .replace('{years}', item.years)}
+      </span>
+    </p>
+  </div>
+</ThemeStripe>
+
+<style>
+  .text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 2;
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+  }
+  .text {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .achievements-title {
+    margin: 28px 0 8px;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .duration {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 24px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .duration :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+</style>
