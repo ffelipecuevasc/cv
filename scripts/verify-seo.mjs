@@ -1408,16 +1408,42 @@ check(
   'paridad Talento Digital: mismos encabezados, insignias, franjas, portadas, etiquetas y años',
 );
 
-// --- Destacados REUF de Educación (E90-I01, ADR-072): «10+» y «5+» salen de stats.json ---
-console.log('\nDestacados REUF de Educación');
-for (const [lang, expected] of Object.entries({
-  es: ['10+ Años de Experiencia', '5+ Bootcamps de Talento Digital'],
-  en: ['10+ years of experience', '5+ Talento Digital bootcamps'],
-})) {
-  const html = read(`${EDUCATION[lang]}/index.html`);
-  const list = /<ul class="highlights"[^>]*>([\s\S]*?)<\/ul>/.exec(html)?.[1] ?? '';
-  const items = [...list.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => decode(m[1]).trim());
-  check(same(items, expected), `${lang}: ${expected.join(' · ')} (${items.join(' · ')})`);
+// --- Panel de cifras REUF de Educación (E200-I06, ADR-114; antes destacados, ADR-072) ---
+// Las 3 cifras son una <dl> con rótulo y valor «+N», y el valor sale de stats.json por id
+// (ADR-053): así coincide con la banda de Inicio. Ya no hay fila de destacados.
+console.log('\nPanel de cifras REUF de Educación');
+{
+  const statsData = JSON.parse(
+    readFileSync(new URL('../src/content/home/stats.json', import.meta.url), 'utf8'),
+  );
+  const text = (fragment) =>
+    decode(fragment.replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim();
+  const statFor = (id) => [...statsData.items, ...statsData.facts].find((s) => s.id === id);
+  const reufFigures = ['reuf-modules', 'teaching-years', 'bootcamps'];
+  const REUF_LABELS = {
+    es: ['Módulos aprobados', 'Años de experiencia', 'Bootcamps de Talento Digital'],
+    en: ['Approved modules', 'Years of experience', 'Talento Digital bootcamps'],
+  };
+  for (const [lang, labels] of Object.entries(REUF_LABELS)) {
+    const html = read(`${EDUCATION[lang]}/index.html`);
+    const dl = /<dl[^>]*data-reuf-figures[^>]*>([\s\S]*?)<\/dl>/.exec(html)?.[1] ?? '';
+    const dts = [...dl.matchAll(/<dt[^>]*>([\s\S]*?)<\/dt>/g)].map((m) => text(m[1]));
+    const dds = [...dl.matchAll(/<dd[^>]*>([\s\S]*?)<\/dd>/g)].map((m) =>
+      text(m[1]).replace(/\s+/g, ''),
+    );
+    const expected = reufFigures.map((id) => {
+      const stat = statFor(id);
+      return `${stat?.plus ? '+' : ''}${new Intl.NumberFormat(lang === 'es' ? 'es-CL' : 'en-US').format(stat?.value)}`;
+    });
+    check(same(dts, labels), `${lang}: rótulos ${labels.join(' · ')} (${dts.join(' · ')})`);
+    check(
+      same(dds, expected),
+      `${lang}: cifras ${expected.join(' / ')} de stats.json (${dds.join(' / ')})`,
+    );
+    check(!/class="highlights"/.test(html), `${lang}: sin la fila de destacados`);
+  }
 }
 
 // --- Placa de los logos en oscuro (E70-I03, ADR-069): variable de componente por tema ---

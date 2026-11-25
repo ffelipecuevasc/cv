@@ -2,9 +2,11 @@
 /*
  * Bloque «Instructor REUF» y cierre de Educación (E50-I02, AT-076, ADR-061), migrados de
  * `main:educacion.html`. La cifra de módulos se toma de src/content/home/stats.json (la misma
- * que muestra la portada), para que no se desfase (ADR-053), y también las de los destacados:
- * «{teaching-years}» y «{bootcamps}» se reemplazan por la cifra con su «+» al final, como en main
- * (E90-I01, ADR-072). El cierre repite el CV del pie
+ * que muestra la portada), para que no se desfase (ADR-053). Panel de 3 cifras (E200-I06, ADR-114):
+ * módulos aprobados, años de experiencia y bootcamps, con el valor y el «+» de stats.json por id y
+ * el «+» antepuesto como en la banda de Inicio. Desde 1.024 px va a la derecha del texto, tras una
+ * barra gold → vibrant (ADR-058); entre 768 y 1.023 px, en una fila de 3 bajo el texto; bajo
+ * 768 px, apiladas. El cierre repite el CV del pie
  * (ADR-050, ADR-057) y enlaza a Contacto. Sin JavaScript. Dentro de <main>.
  */
 import { getEntry } from 'astro:content';
@@ -23,14 +25,10 @@ const page = (await getEntry('educationPage', 'page'))?.data;
 if (!page) throw new Error('Faltan los textos de Educación');
 
 const modules = await getStat('reuf-modules');
-const figures = {
-  'teaching-years': await getStat('teaching-years'),
-  bootcamps: await getStat('bootcamps'),
-};
-const highlights = page.reuf.highlights[lang].map((item) =>
-  item.replace(/{(teaching-years|bootcamps)}/g, (_, id: keyof typeof figures) => {
-    const { value, plus } = figures[id];
-    return `${formatNumber(value, lang)}${plus ? '+' : ''}`;
+const figures = await Promise.all(
+  page.reuf.figures.map(async ({ source, label }) => {
+    const { value, plus } = await getStat(source);
+    return { label: label[lang], value: formatNumber(value, lang), plus };
   }),
 );
 const paragraph = parseEmphasis(
@@ -51,15 +49,18 @@ const { closing } = page;
           <p class="reuf-text">
             {paragraph.map((part) => (part.strong ? <strong>{part.text}</strong> : part.text))}
           </p>
-          <ul class="highlights">
-            {highlights.map((item) => (
-              <li>
-                <Icon name="check" size={16} />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
         </div>
+        <dl class="reuf-figures" data-reuf-figures>
+          {figures.map((item) => (
+            <div class="reuf-figure">
+              <dt>{item.label}</dt>
+              <dd>
+                {item.plus && <span class="sign">+</span>}
+                {item.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </Card>
 
@@ -124,23 +125,130 @@ const { closing } = page;
     color: var(--color-text);
     font-weight: 600;
   }
-  .highlights {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 28px;
-    margin: 20px 0 0;
-    padding: 0;
-    list-style: none;
+  /* Panel de cifras (ADR-114). Barra de 2 px con el degradado de la regla dorada (ADR-058) y
+     divisores finos `border` entre cifras. Bajo 1.024 px la barra va arriba, en horizontal. */
+  .reuf-figures {
+    position: relative;
+    display: grid;
+    margin: 0;
+    padding-top: 26px;
   }
-  .highlights li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--color-kicker);
-    font-size: 12.5px;
-    font-weight: 600;
+  .reuf-figures::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-vibrant));
+  }
+  .reuf-figure {
+    min-width: 0;
+    padding-block: 18px;
+  }
+  .reuf-figure:first-child {
+    padding-top: 0;
+  }
+  .reuf-figure:last-child {
+    padding-bottom: 0;
+  }
+  .reuf-figure + .reuf-figure {
+    border-top: 1px solid var(--color-border);
+  }
+  dt {
+    color: var(--color-text-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
     letter-spacing: 0.1em;
+    line-height: 1.4;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  dd {
+    margin: 8px 0 0;
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums lining-nums;
+    line-height: 1;
+  }
+  .sign {
+    color: var(--metric-sign);
+  }
+  /* 768 a 1.023 px: fila de 3 bajo el texto, con divisores verticales. */
+  @media (min-width: 48rem) and (max-width: 63.999rem) {
+    /* Rótulo y cifra en filas comunes (subgrid, como en Inicio): las cifras quedan en una misma
+       línea aunque un rótulo ocupe 2 líneas en inglés. */
+    .reuf-figures {
+      grid-template-rows: auto auto;
+    }
+    .reuf-figure {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+    }
+    .reuf-figure dt {
+      align-self: end;
+    }
+  }
+  @media (min-width: 48rem) {
+    .reuf-figures {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .reuf-figure,
+    .reuf-figure:first-child,
+    .reuf-figure:last-child {
+      padding-block: 0;
+      padding-inline: 24px;
+    }
+    .reuf-figure:first-child {
+      padding-inline-start: 0;
+    }
+    .reuf-figure:last-child {
+      padding-inline-end: 0;
+    }
+    .reuf-figure + .reuf-figure {
+      border-top: 0;
+      border-inline-start: 1px solid var(--color-border);
+    }
+  }
+  /* Desde 1.024 px: panel a la derecha, cifras apiladas y barra vertical a su izquierda. */
+  @media (min-width: 64rem) {
+    .reuf-grid {
+      grid-template-columns: auto minmax(0, 1fr) minmax(15rem, 18rem);
+    }
+    .reuf-figures {
+      align-self: center;
+      grid-column: auto;
+      grid-template-columns: none;
+      padding-top: 0;
+      padding-inline-start: 32px;
+    }
+    .reuf-figures::before {
+      inset-block: 0;
+      inset-inline: 0 auto;
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, var(--color-gold), var(--color-vibrant));
+    }
+    .reuf-figure,
+    .reuf-figure:first-child,
+    .reuf-figure:last-child {
+      padding-inline: 0;
+      padding-block: 18px;
+    }
+    .reuf-figure:first-child {
+      padding-top: 0;
+    }
+    .reuf-figure:last-child {
+      padding-bottom: 0;
+    }
+    .reuf-figure + .reuf-figure {
+      border-inline-start: 0;
+      border-top: 1px solid var(--color-border);
+    }
   }
   .closing {
     display: flex;

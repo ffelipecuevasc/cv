@@ -239,10 +239,13 @@ const educationPage = defineCollection({
     }),
     // Bloque «Instructor REUF» y cierre del sitio antiguo (AT-076). `{modules}` se reemplaza por
     // la cifra de módulos REUF de src/content/home/stats.json, para que no se desfase.
+    // `figures`: panel de 3 cifras (E200-I06, ADR-114); el valor sale de stats.json por id (ADR-053).
     reuf: z.object({
       title: localized(),
       paragraph: localized(),
-      highlights: localizedList(),
+      figures: z
+        .array(z.object({ source: z.enum([...STAT_IDS, ...FACT_IDS]), label: localized() }))
+        .length(3),
     }),
     closing: z.object({
       kicker: localized(),

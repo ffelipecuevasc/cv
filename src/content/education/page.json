@@ -110,10 +110,20 @@
       "es": "Actualmente, soy instructor oficial registrado en el **REUF de SENCE Chile** con más de {modules} módulos aprobados para cursos relacionados a Inteligencia Artificial, Desarrollo de Aplicaciones Java, Desarrollo de Aplicaciones Python, Ingeniería de Datos IA, Administración de Bases de Datos, Arquitectura de Tecnología en la Nube y mucho más.",
       "en": "I am currently an official instructor registered in the **REUF of SENCE Chile**, with more than {modules} approved modules for courses in Artificial Intelligence, Java Application Development, Python Application Development, AI Data Engineering, Database Administration, Cloud Technology Architecture and much more."
     },
-    "highlights": {
-      "es": ["{teaching-years} Años de Experiencia", "{bootcamps} Bootcamps de Talento Digital"],
-      "en": ["{teaching-years} years of experience", "{bootcamps} Talento Digital bootcamps"]
-    }
+    "figures": [
+      {
+        "source": "reuf-modules",
+        "label": { "es": "Módulos aprobados", "en": "Approved modules" }
+      },
+      {
+        "source": "teaching-years",
+        "label": { "es": "Años de experiencia", "en": "Years of experience" }
+      },
+      {
+        "source": "bootcamps",
+        "label": { "es": "Bootcamps de Talento Digital", "en": "Talento Digital bootcamps" }
+      }
+    ]
   },
   "closing": {
     "kicker": {
