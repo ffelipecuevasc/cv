@@ -92,7 +92,7 @@ Agrupa las preguntas en una sola ronda y propón una recomendación para cada un
 - **Estilos:** Tailwind CSS v4 con tokens de `DESIGN.md` declarados en `@theme`. Sin colores sueltos y sin `@astrojs/tailwind` (ADR-004).
 - **JavaScript:** mínimo, modular, sin dependencias innecesarias y con mejora progresiva. El contenido debe ser legible sin JavaScript.
 - **Movimiento:** respetar siempre `prefers-reduced-motion`.
-- **Logotipo:** idéntico al actual en apariencia y comportamiento (ADR-008 y `DESIGN.md`).
+- **Logotipo:** ícono, colores, frases y ritmo del efecto según `DESIGN.md` 3 (ADR-008, ADR-049 y ADR-057); nombre en Sora y renglón 2 en IBM Plex Mono (ADR-111). Sin cambios de comportamiento ni CLS.
 - **Almacenamiento local:** conservar las claves `theme`, `perfil-hero` y `rutas-progreso` (ADR-023).
 - **Rendimiento:** no empeorar los umbrales de ADR-015.
 - **Idioma del código:** identificadores en inglés; comentarios y documentación en español de Chile. No se traducen los slugs de `/es/`, las claves de `localStorage` ni los nombres propios de dominio (ADR-025).
