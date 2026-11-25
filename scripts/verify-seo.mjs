@@ -2510,6 +2510,38 @@ console.log('\nVersión única de la política');
   );
 }
 
+// Pie (E200-I04, ADR-112): en todas las páginas, el enlace `mailto:` muestra la etiqueta del
+// diccionario y no la dirección, y «Descargar CV» usa la variante Dorado.
+console.log('\nPie: correo y botón del CV (E200-I04)');
+{
+  const FOOTER_EMAIL = { es: 'Correo electrónico', en: 'Email' };
+  const pages = readdirSync(DIST, { recursive: true })
+    .map((f) => String(f).replaceAll('\\', '/'))
+    .filter((f) => /^(es|en)\/.*index\.html$/.test(f));
+  const badEmail = [];
+  const badCv = [];
+  for (const file of pages) {
+    const lang = file.startsWith('es/') ? 'es' : 'en';
+    const footer = /<footer class="footer"[\s\S]*<\/footer>/.exec(read(file))?.[0] ?? '';
+    const mail = /<a\b[^>]*href="mailto:contacto@felipecuevas\.dev"[^>]*>([\s\S]*?)<\/a>/.exec(
+      footer,
+    );
+    const text = (mail?.[1] ?? '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (text !== FOOTER_EMAIL[lang]) badEmail.push(`${file} («${text}»)`);
+    const cvLink = /<a\b[^>]*\sdownload[=\s>][^>]*>/.exec(footer)?.[0] ?? '';
+    if (!/class="[^"]*\bgold\b/.test(cvLink)) badCv.push(file);
+  }
+  check(pages.length >= 24, `páginas revisadas (${pages.length})`);
+  check(
+    badEmail.length === 0,
+    `el correo del pie dice «Correo electrónico» / «Email» (${badEmail.join(', ') || 'todas'})`,
+  );
+  check(badCv.length === 0, `«Descargar CV» del pie es dorado (${badCv.join(', ') || 'todas'})`);
+}
+
 // El pie de todas las páginas (también agradecimiento) enlaza a la política del idioma activo, la
 // navbar no cambia y el aviso de Giscus del Foro y de Recursos la enlaza.
 console.log('\nEnlace a la política (pie y avisos)');

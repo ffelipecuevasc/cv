@@ -21,6 +21,7 @@ export const symbolIcons = {
   'arrow-left': 'm6.921 12.5l5.793 5.792L12 19l-7-7l7-7l.714.708L6.92 11.5H19v1z', // arrow-back-outline
   'arrow-right': 'M17.079 12.5H5v-1h12.079l-5.792-5.792L12 5l7 7l-7 7l-.713-.708z', // arrow-forward-outline
   'arrow-up': 'M11.5 19V6.921l-5.792 5.793L5 12l7-7l7 7l-.708.714L12.5 6.92V19z', // arrow-upward-outline
+  'arrow-outward': 'M6.189 17.289L5.5 16.6L15.58 6.5H6.289v-1h11v11h-1V7.208z', // arrow-outward (E200-I04, pie)
   download:
     'm12 15.577l-3.539-3.538l.708-.72L11.5 13.65V5h1v8.65l2.33-2.33l.709.719zM6.616 19q-.691 0-1.153-.462T5 17.384v-2.423h1v2.423q0 .231.192.424t.423.192h10.77q.23 0 .423-.192t.192-.424v-2.423h1v2.423q0 .691-.462 1.153T17.384 19z', // download-outline
   'external-link':

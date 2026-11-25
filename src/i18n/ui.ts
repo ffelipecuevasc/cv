@@ -39,8 +39,9 @@ const es = {
     versionLink: 'Versión en español de esta página',
   },
   footer: {
-    // Máximo 40 caracteres (decidida por Felipe).
-    tagline: 'Instructor de Desarrollo Fullstack e IA.',
+    // Opción A de Felipe (E200-I04, ADR-112): dos oraciones, ancho máximo de 44 caracteres.
+    tagline:
+      'Ingeniero informático. Formo desarrolladores full stack en bootcamps y aulas universitarias, y construyo aplicaciones web con Java, Python e IA.',
     navTitle: 'Explorar',
     socialTitle: 'Redes',
     downloadCv: 'Descargar CV',
@@ -48,6 +49,8 @@ const es = {
     downloadCvLabel: 'Descargar CV (PDF)',
     privacy: 'Política de privacidad',
     newTab: '(se abre en una pestaña nueva)',
+    // Texto visible del enlace de correo del pie (E200-I04); el mailto: no cambia.
+    email: 'Correo electrónico',
   },
   // Formulario de contacto (E140-I01, ADR-035 y ADR-083). Textos en-US por validar (ADR-017).
   contactForm: {
@@ -147,8 +150,8 @@ const en: Dictionary = {
     versionLink: 'English version of this page',
   },
   footer: {
-    // Máximo 40 caracteres (decidida por Felipe).
-    tagline: 'Teaching AI and Fullstack Development.',
+    tagline:
+      'Computer engineer. I train full stack developers in bootcamps and university classrooms, and build web applications with Java, Python and AI.',
     navTitle: 'Explore',
     socialTitle: 'Social',
     downloadCv: 'Download CV',
@@ -156,6 +159,7 @@ const en: Dictionary = {
     downloadCvLabel: 'Download CV (PDF, Spanish)',
     privacy: 'Privacy policy',
     newTab: '(opens in a new tab)',
+    email: 'Email',
   },
   contactForm: {
     name: 'Full name',

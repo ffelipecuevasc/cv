@@ -6,7 +6,11 @@
  *   navegación centrada y redes alineadas a la izquierda.
  * - Navegación: 6 enlaces de footer-links.ts; el último es la política de privacidad (E155-I01).
  * - Redes: LinkedIn, GitHub, REUF y correo (ADR-044), de social-links.ts, con el ícono
- *   antes del texto.
+ *   antes del texto; el correo se muestra como «Correo electrónico» / «Email» (E200-I04).
+ * - Enlaces de navegación y redes: flecha decorativa al pasar el puntero o con foco
+ *   (→ interna y correo, ↗ pestaña nueva), desplazada 6 px; quieta con movimiento reducido
+ *   (E200-I04, ADR-112).
+ * - «Descargar CV» en la variante Dorado (ADR-112, sustituye en parte a ADR-057).
  * - Barra inferior: © con año y nombre.
  */
 import Icon from '../ui/Icon.astro';
@@ -33,7 +37,7 @@ const year = new Date().getFullYear();
         <Logo animated={false} />
         <p class="tagline">{t.footer.tagline}</p>
         <Button
-          variant="secondary"
+          variant="gold"
           href={cv.href}
           download={cv.file}
           icon="download"
@@ -55,6 +59,7 @@ const year = new Date().getFullYear();
             <li>
               <a class="link" href={getRoute(link.key, lang)}>
                 {link.label}
+                <Icon name="arrow-right" size={16} class="arrow" />
               </a>
             </li>
           ))}
@@ -76,8 +81,13 @@ const year = new Date().getFullYear();
                 rel={social.external ? 'noopener noreferrer' : undefined}
               >
                 <Icon name={social.icon} size={18} class="social-icon" />
-                {social.label}
+                {social.label ?? t.footer.email}
                 {social.external && <span class="sr-only">{t.footer.newTab}</span>}
+                <Icon
+                  name={social.external ? 'arrow-outward' : 'arrow-right'}
+                  size={16}
+                  class="arrow"
+                />
               </a>
             </li>
           ))}
@@ -139,7 +149,7 @@ const year = new Date().getFullYear();
   }
 
   .tagline {
-    max-width: 40ch;
+    max-width: 44ch;
     margin-top: 24px;
     font-size: 15.5px;
     font-weight: 400;
@@ -163,7 +173,7 @@ const year = new Date().getFullYear();
     display: block;
     margin-top: 12px;
   }
-  /* 7.9: botón secundario de 46 px bajo la frase de la marca. */
+  /* 7.9: botón dorado de 46 px bajo la frase de la marca (ADR-112). */
   .brand :global(.cv) {
     margin-top: 24px;
   }
@@ -185,7 +195,32 @@ const year = new Date().getFullYear();
   }
   .link:hover,
   .link:focus-visible {
-    color: var(--color-accent);
+    color: var(--color-text);
+  }
+  /* Flecha decorativa (ADR-112): oculta en reposo; con el puntero o el foco aparece y se
+     desliza 6 px a la derecha. No ocupa espacio extra al aparecer (sin CLS). */
+  .link :global(.arrow) {
+    flex: none;
+    margin-inline-start: -4px;
+    opacity: 0;
+    transform: translateX(0);
+    transition:
+      opacity var(--duration-base) ease,
+      transform var(--duration-base) var(--ease-out-soft);
+  }
+  .link:hover :global(.arrow),
+  .link:focus-visible :global(.arrow) {
+    opacity: 1;
+    transform: translateX(6px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .link :global(.arrow) {
+      transition: none;
+    }
+    .link:hover :global(.arrow),
+    .link:focus-visible :global(.arrow) {
+      transform: none;
+    }
   }
   .social-link :global(.social-icon) {
     flex: none;

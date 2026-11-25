@@ -1262,3 +1262,14 @@ Reglas del registro:
 - **Sustituye:** ADR-041 (Cinzel y Josefin Sans) y ADR-049 en la tipografía del logotipo (ícono, frases, ritmo y comportamiento no cambian).
 - **Consecuencias:** el sitio usa la misma tipografía que la identidad visual de Felipe. Se retira la regla de Josefin 300 de `DESIGN.md` 5.3. El logotipo pasa de unos 156 a 161 px bajo 640 px y la barra no desborda a 360, 419 ni 420 px (ADR-051 sin cambios). Felipe edita `DESIGN.md` y `AGENTS.md` con los bloques de `99_bitacora/2026-11-24_E200-I03.md` (ADR-033).
 - **Origen:** E200-I03, decisión de Felipe, 16-11-2026 y 24-11-2026. **Estado:** Aceptada.
+
+## ADR-112 · Pie: frase de marca, botón dorado, flecha en los enlaces y etiqueta del correo (sustituye en parte a ADR-057)
+- **Contexto:** E200-I04. Revisión de Felipe en producción el 16-11-2026: frase de una línea, botón de CV inadvertido (contorno sobre el mismo fondo), hover pobre en las columnas de enlaces y la dirección de correo completa como texto.
+- **Decisión (de Felipe, 16-11-2026, sobre la vista previa del chat; reconfirmada el 25-11-2026):**
+  - frase de la marca de dos oraciones (opción A), con ancho máximo de 44 caracteres, en Work Sans 400 y `text-muted`;
+  - «Descargar CV» en la variante Dorado en ambos temas (antes secundario), con el mismo `href`, atributo de descarga, ícono y nombre accesible;
+  - flecha decorativa (`aria-hidden`) al pasar el puntero o con foco en los 6 enlaces de navegación y los 4 de redes: → en los internos y el correo, ↗ (`arrow-outward` de Material Symbols Light) en LinkedIn, GitHub y REUF; aparece con opacidad y se desliza 6 px en `--duration-base`; con movimiento reducido aparece sin moverse. El texto del enlace pasa a `text` (antes `accent`);
+  - el correo del pie se muestra como «Correo electrónico» / «Email» (`footer.email` del diccionario); el `mailto:` no cambia y `social-links.ts` deja de tener etiqueta para el correo (el riel del hero ya usaba la suya).
+- **Sustituye en parte:** ADR-057 en la variante del botón de CV. La ubicación, la URL y el nombre accesible del CV no cambian.
+- **Consecuencias:** la variante Dorado pasa a tener dos usos (Instructor y pie). En claro, el dorado frente a `orient-50` mide 1,34:1; el botón se identifica por su texto (12,43:1) y en la revisión del 25-11-2026 destaca en ambos temas. `verify:seo` suma 3 controles (correo del pie y botón dorado en todas las páginas). Felipe edita `DESIGN.md` 7.3 y 7.9 (ADR-033).
+- **Origen:** E200-I04, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.

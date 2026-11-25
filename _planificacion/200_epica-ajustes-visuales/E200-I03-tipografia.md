@@ -1,5 +1,5 @@
 # E200-I03 · Tipografía: Sora, Work Sans e IBM Plex Mono
-- **Estado:** [~] En curso (fase 5 en local terminada el 25-11-2026; AT-158 y AT-159 resueltos; espera los bloques de `DESIGN.md` y la revisión de Felipe en la preview)
+- **Estado:** [x] Terminada (25-11-2026; revisión de Felipe en la preview `0fca7b1`)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-016, ADR-041, ADR-043, ADR-049, ADR-107, ADR-109
 
@@ -66,7 +66,7 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - [x] Sin desbordes del inglés en 360, 768, 1.366 y 1.920 px.
 - [x] Contrastes de 4.4 sin cambios (solo cambian las familias) y texto de cuerpo en 400 o más.
 - [x] PageSpeed Insights sin regresión frente a la línea base de E190-I04 (ADR-015).
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -89,10 +89,10 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - Toca todas las páginas: un error aquí se ve en todo el sitio. Se revisa en la URL de rama antes de cualquier merge.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
 
 ## Avance
 - **Fase 1 (24-11-2026):** roles, escala, fuentes y método presentados; visto bueno de Felipe el 24-11-2026 (tabla tal cual; frase destacada con el `clamp()` del h1, desde 2 rem; precarga solo de Sora y Work Sans).
@@ -100,3 +100,4 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - **Fase 3 en la preview (24-11-2026, `0d4ab31`):** fechas corregidas a 24-11-2026; precarga de solo Work Sans y Sora, sin peticiones a Google Fonts; 24 páginas (es, en y 404) en 4 anchos y 2 temas sin scroll horizontal; consola sin errores salvo los 404 esperados de las rutas inexistentes; matriz de ADR-016 correcta en 16 casos; logotipo con CLS 0, 0 saltos y cursor pegado; nota «traducido» con 7,20:1 (claro) y 8,72:1 (oscuro); PageSpeed Insights sin regresión (ver bitácora). **Bloqueo:** a 360 px «+2.000» choca con la cifra vecina en Docente (AT-158); I03 sigue `[~]` hasta que Felipe decida la corrección.
 - **Fase 4 (24-11-2026, local):** `clamp(1.75rem, 3vw, 2.6rem)` en `MentoringBand.astro` y `Achievements.astro` (aprobado por Felipe). No cumple el criterio: a 360 px «+2.000» queda a 9 px del «1» en Docente/Lecturer (mínimo 12 px) y a 320 px es más ancho que su columna (100 > 96 px). Además, a 320 px Desarrollador tiene scroll horizontal por la grilla de tecnologías (AT-159). I03 sigue `[~]`; opciones en la bitácora.
 - **Fase 5 (25-11-2026, local):** `clamp(1.625rem, 3vw, 2.6rem)` en las cifras de `MentoringBand.astro` y `Achievements.astro` y `overflow-wrap: anywhere` en `.role` de `TechnologyWall.astro` (decisiones de Felipe). A 360 px, 16,2 px de separación mínima entre cifras; a 320 px «+2.000» cabe en su columna (93,2 / 96 px) con 2,8 px de separación; sin scroll horizontal en las 24 páginas a 320 y 360 px; escritorio sin cambios. AT-158 y AT-159 resueltos. Falta que Felipe suba los bloques de `DESIGN.md` y confirme la revisión en la preview.
+- **Cierre (25-11-2026):** Felipe subió los bloques de `DESIGN.md` (fila «Cifra de banda de página», nota de 5.3 y línea 40) y revisó la preview sin observaciones (`0fca7b1`). E200-I03 terminada.
