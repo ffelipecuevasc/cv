@@ -2,6 +2,7 @@
 /*
  * Cabecera de Instructor (E90-I01, ADR-072): el único <h1>, con rótulo y bajada con énfasis
  * (ADR-068). Alineada a la izquierda (DESIGN.md 7.5), fondo `bg`, sin JavaScript.
+ * E200-I10 (ADR-118): campo de puntos y halo del hero en capas decorativas detrás del contenido.
  */
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
@@ -14,6 +15,8 @@ const { header } = await getInstructorPage();
 ---
 
 <div class="instructor-header">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader
       level={1}
@@ -31,8 +34,17 @@ const { header } = await getInstructorPage();
 
 <style>
   .instructor-header {
+    position: relative;
+    isolation: isolate;
     padding-block: 64px 56px;
     background-color: var(--color-bg);
+  }
+  /* Campo de puntos y halo del hero (4.5, ADR-118): capas decorativas detrás del contenido. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   .lead {
     max-width: 52ch;

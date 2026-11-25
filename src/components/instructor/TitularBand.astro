@@ -4,8 +4,11 @@
  * el texto del cargo, 2 cifras en un `dl` y la descarga del certificado REUF. «+3» y «+150»
  * salen de stats.json (ids reuf-years y reuf-modules, ADR-053). El PDF conserva la URL de main
  * (AT-043) y en en-US se avisa que está en español (ADR-017). Sin animación ni JavaScript.
+ * E200-I10 (ADR-118): curvas de nivel `valley` (dos flancos de valle en los bordes izquierdo y
+ * derecho) en lugar de la retícula; se apagan antes del texto, el botón y las barras degradadas.
  */
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import Button from '../ui/Button.astro';
 import { formatNumber, parseEmphasis } from '../home/hero-text';
 import { langFromLocale } from '../../i18n/lang';
@@ -23,7 +26,15 @@ const { certificate } = titular;
 const emphasis = (text: string) => parseEmphasis(text);
 ---
 
-<Band id="titular" kicker={titular.kicker[lang]} title={titular.title[lang]}>
+<Band id="titular" kicker={titular.kicker[lang]} title={titular.title[lang]} texture="contour">
+  <ContourLines
+    slot="decor"
+    pieces={[
+      { corner: 'middle-left', shape: 'valley' },
+      { corner: 'middle-right', shape: 'valley' },
+    ]}
+    mask="none"
+  />
   <div class="layout">
     <p class="text">
       {emphasis(titular.text[lang]).map((part) =>

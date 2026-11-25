@@ -4,6 +4,8 @@
  * en una tarjeta destacada a todo el ancho y los 7 bootcamps en tarjetas compactas con el ritmo
  * 7/5, 5/7, 6/6 y la última a todo el ancho, desde 1.024 px; una columna bajo esa medida.
  * Encabezado alineado a la izquierda, fondo `bg`, sin JavaScript.
+ * E200-I10 (ADR-118): campo de puntos y halo del hero detrás del mosaico; las tarjetas (`surface`)
+ * quedan por encima de la capa.
  */
 import Card from '../ui/Card.astro';
 import Container from '../ui/Container.astro';
@@ -20,6 +22,8 @@ const { featured } = courses;
 ---
 
 <section class="courses" aria-labelledby="courses-title">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader kicker={courses.kicker[lang]} title={courses.title[lang]} id="courses-title" />
     <div class="mosaic" data-courses>
@@ -76,8 +80,17 @@ const { featured } = courses;
 
 <style>
   .courses {
+    position: relative;
+    isolation: isolate;
     padding-block: 80px;
     background-color: var(--color-bg);
+  }
+  /* Campo de puntos y halo del hero (4.5, ADR-118): capas decorativas detrás del contenido. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   .mosaic {
     display: grid;

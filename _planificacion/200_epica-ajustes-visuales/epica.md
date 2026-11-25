@@ -41,7 +41,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | [E200-I07](E200-I07-experiencia.md) | Experiencia: hitos con el año como protagonista, línea de tiempo horizontal y campo de puntos | P1 | M | E200-I06 | [x] Terminada |
 | [E200-I08](E200-I08-desarrollador.md) | Desarrollador: campo de puntos en la sección principal y curvas de nivel en «Conjunto de Tecnologías» | P1 | S | E200-I07 | [x] Terminada |
 | [E200-I09](E200-I09-docente.md) | Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas | P1 | M | E200-I08 | [x] Terminada |
-| [E200-I10](E200-I10-instructor.md) | Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho | P1 | M | E200-I09 | [ ] Pendiente |
+| [E200-I10](E200-I10-instructor.md) | Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho | P1 | M | E200-I09 | [~] En curso (parte A, 25-11-2026) |
 | [E200-I11](E200-I11-talento-digital.md) | Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp | P1 | M | E200-I10 | [ ] Pendiente |
 | [E200-I12](E200-I12-foro.md) | Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos» | P1 | S | E200-I11 | [ ] Pendiente |
 | [E200-I13](E200-I13-contacto.md) | Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado | P1 | M | E200-I12 | [ ] Pendiente |

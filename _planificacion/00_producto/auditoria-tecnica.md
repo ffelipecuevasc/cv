@@ -1317,6 +1317,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   | Experiencia (E200-I07) | no medido con este método | no medido | — | cumple (revisión visual) |
   | Desarrollador (E200-I08) | 4,29:1 | 3,23:1; 2,63:1 (bajada en inglés a 360 px) | bajada y texto de «Aspectos técnicos» | 4,98:1 / 5,57:1 |
   | Docente (E200-I09) | 3,06:1 (signo «+» de 22,4 px en `accent`) | 2,11:1 (rótulo kicker de 12 px, punto dorado) | cifra de la cabecera y rótulos | 4,62:1 / 5,57:1 |
+  | Instructor (E200-I10) | 4,20:1 (kicker de 12 px a 360 px) | 1,47:1 (kicker de 12 px, punto dorado, a 360 px); 2,92:1 (bajada a 1.366 px) | rótulos y bajada | 4,98:1 / 5,57:1 |
   El peor caso de la épica es el punto dorado al 50 % bajo un rótulo kicker en oscuro (1,23:1 en Educación). Si al cierre se quiere mejorar, la opción (b) de este hallazgo (`--dots-mask` por uso) es la vía; obliga a correr la matriz del hero.
 
 ### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)

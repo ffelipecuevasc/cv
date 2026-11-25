@@ -6,6 +6,9 @@
  * destacado (PF1822) lleva el ícono `new-releases` y un tramo dorado; el resto, `task-alt`.
  * Encabezado alineado a la izquierda, fondo `bg` (pasa de `bg-alt` a `bg` con la relatoría, ADR-073),
  * sin JavaScript. Las horas de PF1163 salen de src/data/training-plans.ts (E100-I01).
+ * E200-I10 (ADR-118): campo de puntos y halo del hero detrás de la sección; la lista ocupa todo el
+ * ancho del contenedor y, desde 1.024 px, los planes de cada fecha van en dos columnas iguales,
+ * con tarjetas de igual alto por fila (un plan impar ocupa una columna). El HTML no cambia.
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -20,6 +23,8 @@ const { plans } = await getInstructorPage();
 ---
 
 <section class="plans" aria-labelledby="plans-title">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader kicker={plans.kicker[lang]} title={plans.title[lang]} id="plans-title" />
     <ol class="list" data-plans>
@@ -54,11 +59,19 @@ const { plans } = await getInstructorPage();
 
 <style>
   .plans {
+    position: relative;
+    isolation: isolate;
     padding-block: 80px;
     background-color: var(--color-bg);
   }
+  /* Campo de puntos y halo del hero (4.5, ADR-118): capas decorativas detrás del contenido. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
   .list {
-    max-width: 52rem;
     margin: 48px 0 0;
     padding: 0;
     list-style: none;
@@ -142,7 +155,10 @@ const { plans } = await getInstructorPage();
   .featured .plan-title :global(svg) {
     color: var(--color-accent);
   }
+  /* La tarjeta ocupa todo el ancho; el texto se limita a unos 75 caracteres por línea
+     (en una columna, entre 768 y 1.023 px, llegaba a 80). */
   .text {
+    max-width: 35em;
     margin: 10px 0 0;
     color: var(--color-text-muted);
     font-size: 15px;
@@ -156,6 +172,13 @@ const { plans } = await getInstructorPage();
   @media (min-width: 48rem) {
     .plans {
       padding-block: 96px;
+    }
+  }
+  /* Desde 1.024 px, dos columnas iguales por fecha; las tarjetas de una fila se estiran al mismo
+     alto y un plan impar ocupa una sola columna. */
+  @media (min-width: 64rem) {
+    .items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
