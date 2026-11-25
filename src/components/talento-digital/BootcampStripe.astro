@@ -6,8 +6,10 @@
  * nombre accesible porque hay titulares repetidos. Contenido: portada SVG de main en <img> (misma
  * URL, AT-043), texto con énfasis, etiquetas (7.7), «Logros» (h4) y «horas | años». Las horas
  * salen de src/data/training-plans.ts. Las impares van en tono band y en espejo. `texture` elige
- * el fondo de ThemeStripe (ADR-114).
+ * el fondo de ThemeStripe (ADR-114); con 'contour', `pieces` es la composición de curvas
+ * (ContourLines, E200-I11, ADR-119).
  */
+import ContourLines, { type ContourPiece } from '../ui/ContourLines.astro';
 import Icon from '../ui/Icon.astro';
 import Tag from '../ui/Tag.astro';
 import ThemeStripe from '../ui/ThemeStripe.astro';
@@ -21,9 +23,13 @@ interface Props {
   item: Bootcamp;
   index: number;
   texture: 'grid' | 'contour' | 'dots';
+  pieces?: ContourPiece[];
 }
 
-const { item, index, texture } = Astro.props;
+const { item, index, texture, pieces = [] } = Astro.props;
+if (texture === 'contour' && pieces.length === 0) {
+  throw new Error(`BootcampStripe ${item.id}: la textura contour necesita su composición`);
+}
 const lang = langFromLocale(Astro.currentLocale);
 const { bootcamps } = await getTalentoDigitalPage();
 const odd = index % 2 === 1;
@@ -41,6 +47,7 @@ const odd = index % 2 === 1;
   mirror={odd}
   texture={texture}
 >
+  {texture === 'contour' && <ContourLines slot="decor" pieces={pieces} mask="none" />}
   <div class="bootcamp" data-bootcamp={item.plan}>
     <img
       class="cover"

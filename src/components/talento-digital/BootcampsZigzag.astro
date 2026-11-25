@@ -6,11 +6,12 @@
  * E200-I11 (ADR-119): el encabezado y la franja de Java (pf1162) comparten una sola capa del campo
  * de puntos del hero (texture-dots y texture-halo), sin corte, como el encabezado y la primera
  * franja de Docente (ADR-117); las otras franjas `bg` (pf1164-1 y pf1479) usan `texture="dots"`
- * de ThemeStripe. Las franjas `band` conservan la retícula (sus curvas llegan en la parte B). Las
- * portadas quedan por encima de la capa.
+ * de ThemeStripe. Las portadas quedan por encima de la capa. Las franjas `band` (pf1487, pf1164-2 y
+ * pf1163) llevan curvas de nivel en vez de la retícula, cada una con su composición (ADR-119).
  */
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
+import type { ContourPiece } from '../ui/ContourLines.astro';
 import BootcampStripe from './BootcampStripe.astro';
 import { parseEmphasis } from '../home/hero-text';
 import { langFromLocale } from '../../i18n/lang';
@@ -20,8 +21,14 @@ const lang = langFromLocale(Astro.currentLocale);
 const { bootcamps } = await getTalentoDigitalPage();
 const [first, ...rest] = bootcamps.items;
 if (!first) throw new Error('Bootcamps realizados necesita al menos un bootcamp');
-// Fondo de cada franja después de la primera: `bg` con puntos; `band` con retícula por ahora.
-const textureOf = (index: number) => (index % 2 === 1 ? 'grid' : 'dots');
+// Fondo de cada franja después de la primera: `bg` con puntos y `band` con curvas de nivel.
+const textureOf = (index: number) => (index % 2 === 1 ? 'contour' : 'dots');
+// Composición de curvas de cada franja `band` (E200-I11, ADR-119), en el lado libre de texto.
+const CONTOURS: Record<string, ContourPiece[]> = {
+  pf1487: [{ corner: 'top-right', shape: 'dunes' }],
+  'pf1164-2': [{ corner: 'bottom-right', shape: 'twin' }],
+  pf1163: [{ corner: 'bottom-left', shape: 'ravine' }],
+};
 ---
 
 <section class="bootcamps" aria-labelledby="bootcamps-title" data-bootcamps>
@@ -45,7 +52,12 @@ const textureOf = (index: number) => (index % 2 === 1 ? 'grid' : 'dots');
     <BootcampStripe item={first} index={0} texture="grid" />
   </div>
   {rest.map((item, i) => (
-    <BootcampStripe item={item} index={i + 1} texture={textureOf(i + 1)} />
+    <BootcampStripe
+      item={item}
+      index={i + 1}
+      texture={textureOf(i + 1)}
+      pieces={CONTOURS[item.id]}
+    />
   ))}
 </section>
 
@@ -83,6 +95,59 @@ const textureOf = (index: number) => (index % 2 === 1 ? 'grid' : 'dots');
   /* La franja pinta su propio fondo `bg`, que taparía la capa: aquí lo pone el envoltorio. */
   .dots-zone > :global(.tone-bg) {
     background-color: transparent;
+  }
+  /* Curvas de las franjas band (E200-I11, ADR-119). Las formas dunes, twin y ravine se dibujan
+     en su orientación de pantalla, así que anulan el reflejo de su esquina. Viven aquí y no en
+     ContourLines para no pasar esa hoja del límite para insertarse en el HTML (AT-165). */
+  .bootcamps :global(.shape-dunes),
+  .bootcamps :global(.shape-twin) {
+    transform: none;
+  }
+  /* dunes: en la franja espejo el titular va a la derecha, centrado en vertical; la pieza ocupa
+     la franja libre sobre él y se desvanece antes. Bajo 1.024 px el titular sube al borde
+     superior y la pieza queda en el relleno superior. */
+  .bootcamps :global(.shape-dunes) {
+    mask-image: radial-gradient(ellipse 760px 260px at 100% 0, black 30%, transparent 100%);
+  }
+  /* twin: bajo el titular de la franja espejo; bajo 1.024 px, junto a la línea de horas, que es
+     corta y va a la izquierda; bajo 640 px, solo en el relleno inferior (56 px). */
+  .bootcamps :global(.shape-twin) {
+    mask-image: radial-gradient(ellipse 400px 250px at 100% 100%, black 35%, transparent 100%);
+  }
+  /* ravine: el contenido de la franja espejo va a la izquierda, así que la pieza solo se ve en el
+     margen libre del contenedor y en el relleno inferior (unión de dos máscaras). Bajo 768 px el
+     margen es de 16 px: no se dibuja. */
+  .bootcamps :global(.shape-ravine) {
+    mask-image:
+      linear-gradient(
+        to right,
+        black 0,
+        black calc(max(28px, 50vw - 600px) * 0.4),
+        transparent max(28px, 50vw - 600px)
+      ),
+      linear-gradient(to top, black 0, black 14px, transparent 50px);
+  }
+  @media (max-width: 63.999rem) {
+    .bootcamps :global(.shape-dunes) {
+      mask-image: radial-gradient(
+        ellipse min(60vw, 420px) 50px at 100% 0,
+        black 30%,
+        transparent 100%
+      );
+    }
+    .bootcamps :global(.shape-twin) {
+      mask-image: radial-gradient(ellipse 230px 100px at 100% 100%, black 30%, transparent 100%);
+    }
+  }
+  @media (max-width: 47.999rem) {
+    .bootcamps :global(.shape-ravine) {
+      display: none;
+    }
+  }
+  @media (max-width: 39.999rem) {
+    .bootcamps :global(.shape-twin) {
+      mask-image: radial-gradient(ellipse 140px 50px at 100% 100%, black 30%, transparent 100%);
+    }
   }
   @media (min-width: 48rem) {
     .intro {

@@ -10,10 +10,13 @@
  * texture-halo, 4.5) en capas decorativas detrás del contenido. Las 3 cifras van centradas, con
  * el rótulo arriba y la cifra debajo, en filas comunes (subgrid) como la banda de Inicio
  * (ADR-113): las cifras quedan en una misma línea aunque un rótulo ocupe más renglones. Estas
- * cifras no tienen línea de contexto, así que las filas comunes son dos.
+ * cifras no tienen línea de contexto, así que las filas comunes son dos. La banda lleva curvas de
+ * nivel en vez de la retícula: espolones (spurs) en las esquinas superior izquierda e inferior
+ * derecha, desvanecidos antes de las cifras (ADR-119).
  */
 import Band from '../ui/Band.astro';
 import Container from '../ui/Container.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import { formatNumber, parseEmphasis } from '../home/hero-text';
@@ -57,7 +60,15 @@ const stats = await Promise.all(
       </ul>
     </Container>
   </div>
-  <Band class="figures">
+  <Band class="figures" texture="contour">
+    <ContourLines
+      slot="decor"
+      pieces={[
+        { corner: 'top-left', shape: 'spurs' },
+        { corner: 'bottom-right', shape: 'spurs' },
+      ]}
+      mask="none"
+    />
     <dl class="stats" aria-label={achievements.statsLabel[lang]} data-achievement-stats>
       {stats.map((stat) => (
         <div class="stat">
@@ -206,6 +217,28 @@ const stats = await Promise.all(
     }
     .stat {
       padding-inline: 24px;
+    }
+  }
+  /* Curvas de la banda de cifras (E200-I11, ADR-119): spurs se dibuja para top-left y se gira en
+     bottom-right. Se desvanece desde la esquina antes de la cifra más cercana (`dl` centrado de
+     64 rem); bajo 1.024 px las cifras ocupan el ancho y la pieza queda en el relleno. Vive aquí y
+     no en ContourLines por el límite para insertar la hoja en el HTML (AT-165). */
+  .achievements :global(.shape-spurs) {
+    mask-image: radial-gradient(
+      ellipse clamp(100px, calc(50vw - 440px), 520px) 220px at 0 0,
+      black 30%,
+      transparent 100%
+    );
+  }
+  .achievements :global(.shape-spurs.top-left) {
+    transform: none;
+  }
+  .achievements :global(.shape-spurs.bottom-right) {
+    transform: scale(-1, -1);
+  }
+  @media (max-width: 63.999rem) {
+    .achievements :global(.shape-spurs) {
+      mask-image: radial-gradient(ellipse 25vw 50px at 0 0, black 30%, transparent 100%);
     }
   }
 </style>

@@ -1318,7 +1318,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
   | Desarrollador (E200-I08) | 4,29:1 | 3,23:1; 2,63:1 (bajada en inglés a 360 px) | bajada y texto de «Aspectos técnicos» | 4,98:1 / 5,57:1 |
   | Docente (E200-I09) | 3,06:1 (signo «+» de 22,4 px en `accent`) | 2,11:1 (rótulo kicker de 12 px, punto dorado) | cifra de la cabecera y rótulos | 4,62:1 / 5,57:1 |
   | Instructor (E200-I10) | 4,20:1 (kicker de 12 px a 360 px) | 1,47:1 (kicker de 12 px, punto dorado, a 360 px); 2,92:1 (bajada a 1.366 px) | rótulos y bajada | 4,98:1 / 5,57:1 |
-  | Talento Digital (E200-I11, parte A) | no medido por píxel; misma capa y colores, así que el peor punto teórico es el de las otras páginas (4,29:1) | no medido por píxel; peor teórico, punto dorado al 50 % bajo un kicker (como 1,23–1,47:1) | rótulos y bajadas de la cabecera, los encabezados, las franjas `pf1162`, `pf1164-1` y `pf1479`, y «Logros» | 4,98:1 (`text-soft`) / 5,00:1 (kicker de 12 px a 360 px, con el halo al 11 %) |
+  | Talento Digital (E200-I11; medido en la parte B) | 4,19:1 (kicker de 12 px de `pf1162` a 360 px) | 1,73:1 (kicker de 12 px «Instructor Senior», punto dorado, a 360 px) | rótulos kicker de la cabecera y de las franjas | 5,00:1 / 5,10:1 |
   El peor caso de la épica es el punto dorado al 50 % bajo un rótulo kicker en oscuro (1,23:1 en Educación). Si al cierre se quiere mejorar, la opción (b) de este hallazgo (`--dots-mask` por uso) es la vía; obliga a correr la matriz del hero.
 
 ### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)

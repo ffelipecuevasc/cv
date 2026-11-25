@@ -1224,6 +1224,10 @@ const BOOTCAMP_OTEC = [
   'Posiciona Capacitación',
 ];
 const BOOTCAMP_CONTEXT_PREFIX = { es: 'Plan formativo', en: 'Training plan' };
+// Curvas de nivel por franja (E200-I11, ADR-119): las band llevan su composición y ninguna la
+// retícula; las bg, ninguna curva.
+const BOOTCAMP_IDS = ['pf1162', 'pf1487', 'pf1164-1', 'pf1164-2', 'pf1479', 'pf1163'];
+const BOOTCAMP_CONTOURS = ['', 'dunes', '', 'twin', '', 'ravine'];
 // Logros (E100-I02): textos esperados por idioma; las cifras, las de stats.json.
 const TALENTO_ACHIEVEMENTS = {
   es: {
@@ -1378,6 +1382,19 @@ for (const [lang, info] of Object.entries(LANGS)) {
   const expectedContexts = BOOTCAMPS.map(
     ([plan], i) => `${BOOTCAMP_CONTEXT_PREFIX[lang]} ${plan} · ${BOOTCAMP_OTEC[i]}`,
   );
+  // Curvas de nivel (E200-I11, ADR-119): cada franja band lleva su composición, sin retícula.
+  const stripeShapes = BOOTCAMP_IDS.map((id) => {
+    const start = mainHtml.indexOf(`<section id="${id}"`);
+    const end = mainHtml.indexOf('</section>', start);
+    const stripe = start < 0 ? '' : mainHtml.slice(start, end);
+    const tag = /^<section[^>]*>/.exec(stripe)?.[0] ?? '';
+    const shapes = [...stripe.matchAll(/class="piece [^"]*shape-([a-z]+)/g)].map((m) => m[1]);
+    return `${/texture-band(?!-)/.test(tag) ? 'grid' : ''}${shapes.join('+')}`;
+  });
+  check(
+    same(stripeShapes, BOOTCAMP_CONTOURS),
+    `curvas por franja ${BOOTCAMP_CONTOURS.map((c) => c || '-').join(' / ')} (${stripeShapes.map((c) => c || '-').join(' / ')})`,
+  );
   check(
     same(contexts, expectedContexts),
     `línea de contexto «${BOOTCAMP_CONTEXT_PREFIX[lang]} {plan} · {OTEC}» en las 6 franjas (${contexts.join(' / ')})`,
@@ -1441,6 +1458,21 @@ for (const [lang, info] of Object.entries(LANGS)) {
       mainHtml.slice(mainHtml.indexOf('data-achievements')),
     ),
     'las cifras de Logros van en una banda (7.8)',
+  );
+  const figuresBand = mainHtml.slice(mainHtml.indexOf('data-achievements'));
+  const figuresTag =
+    /<section[^>]*class="[^"]*band[^"]*"[^>]*>(?=[\s\S]*?data-achievement-stats)/.exec(
+      figuresBand,
+    )?.[0] ?? '';
+  const figuresShapes = [
+    ...figuresBand
+      .slice(0, figuresBand.indexOf('data-achievement-stats'))
+      .matchAll(/class="piece ([a-z-]+) shape-([a-z]+)/g),
+  ].map((m) => `${m[1]}:${m[2]}`);
+  check(
+    figuresTag.includes('texture-band-contour') &&
+      same(figuresShapes, ['top-left:spurs', 'bottom-right:spurs']),
+    `banda de cifras con curvas (spurs arriba a la izquierda y abajo a la derecha) y sin retícula (${figuresShapes.join(', ')})`,
   );
   check(!/ld\+json/.test(html), 'sin JSON-LD propio (ADR-076, AT-093)');
 
