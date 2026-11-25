@@ -3,6 +3,9 @@
  * Cargos especiales (E80-I01, ADR-070): lista de 2 entradas con ícono decorativo (ADR-063),
  * cargo en Sora, detalle y «año · institución» en mayúsculas. El Examen Final de
  * Competencias es un solo hito, 2015 (el texto de INACAP ya no lleva año). Fondo `bg-alt`.
+ * E200-I09 (ADR-117): desde 1.024 px, las dos entradas van en una fila de dos columnas iguales y
+ * de igual alto. El año usa `data-role-year`, no `data-year`, porque el script del pie cambia el
+ * texto de todo `[data-year]` por el año actual (AT-163).
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -31,7 +34,7 @@ const { roles } = await getLecturerPage();
           <div>
             <h3 class="item-title">{item.title[lang]}</h3>
             <p class="detail">{item.detail[lang]}</p>
-            <p class="meta" data-year>
+            <p class="meta" data-role-year>
               {item.year} · {item.institution}
             </p>
           </div>
@@ -89,6 +92,13 @@ const { roles } = await getLecturerPage();
   @media (min-width: 48rem) {
     .roles {
       padding-block: 96px;
+    }
+  }
+  /* Desde 1.024 px, una fila de dos columnas iguales; las tarjetas se estiran al mismo alto. */
+  @media (min-width: 64rem) {
+    .list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 64rem;
     }
   }
 </style>

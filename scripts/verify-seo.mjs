@@ -955,11 +955,14 @@ for (const [lang, info] of Object.entries(LANGS)) {
 
   // Cargos especiales: 2 entradas; EFC en 2015 y hackatón en 2018, ambos en INACAP.
   const roles = /<ul[^>]*data-roles[^>]*>([\s\S]*?)<\/ul>/.exec(mainHtml)?.[1] ?? '';
-  const years = [...roles.matchAll(/data-year[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]));
+  // AT-163 (E200-I09): el año usa data-role-year; data-year es del script del pie, que cambia su
+  // texto por el año actual, así que no debe aparecer en el <main>.
+  const years = [...roles.matchAll(/data-role-year[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]));
   check(
     same(years, ['2015 · INACAP', '2018 · INACAP']),
     `cargos especiales 2015 y 2018 en INACAP (${years.join(' / ')})`,
   );
+  check(!/\sdata-year[\s=>]/.test(mainHtml), 'sin data-year en el <main> (AT-163)');
   check(!/<button|<input|<select|<script|<dialog/.test(mainHtml), 'sin controles ni scripts');
 
   lecturer[lang] = {

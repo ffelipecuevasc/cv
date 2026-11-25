@@ -6,6 +6,7 @@
  * «+» en `--metric-sign` (4.3). Sin animación.
  */
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import { formatNumber, parseEmphasis } from '../home/hero-text';
 import { langFromLocale } from '../../i18n/lang';
 import { getLecturerPage, getStat } from './lecturer-data';
@@ -21,7 +22,13 @@ const stats = await Promise.all(
 );
 ---
 
-<Band id="mentoring" kicker={mentoring.kicker[lang]} title={mentoring.title[lang]}>
+<Band
+  id="mentoring"
+  kicker={mentoring.kicker[lang]}
+  title={mentoring.title[lang]}
+  texture="contour"
+>
+  <ContourLines slot="decor" pieces={[{ corner: 'bottom-center', shape: 'mound' }]} mask="none" />
   <div class="layout">
     <div class="role">
       <h3 class="role-title">{mentoring.role[lang]}</h3>

@@ -1311,11 +1311,12 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Decisión (Felipe, 25-11-2026):** opción (a). Se acepta el campo de puntos como en el hero, sin cambios de código ni nueva matriz del hero. `DESIGN.md` 4.4 suma la nota de que los puntos se miden sobre el fondo promedio (bloque en la bitácora `2026-11-25_E200-I06.md`, lo pega Felipe).
 
 ### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)
-- **Severidad:** Media · **Estado:** Abierto, asignado a E200-I09 (decisión de Felipe, 25-11-2026) · **Resuelve:** E200-I09
+- **Severidad:** Media · **Estado:** Resuelto en E200-I09 (25-11-2026) · **Resuelve:** E200-I09
 - **Evidencia (25-11-2026):** `Footer.astro:107` recorre `document.querySelectorAll('[data-year]')` y cambia su texto por el año actual. `SpecialRoles.astro:34` marca `<p class="meta" data-year>{item.year} · {item.institution}</p>`, así que con JavaScript ese renglón muestra «2026» y pierde el año real y la institución. En E200-I07, la primera versión de la línea de tiempo usó `data-year` en cada hito y la página mostró «2026» en lugar de las tarjetas; se cambió a `data-start-year`.
 - **Impacto:** dato incorrecto visible en Docente con JavaScript (sin JavaScript se ve bien) y una trampa para cualquier componente que use `data-year`.
 - **Recomendación:** que el script del pie use un atributo propio (por ejemplo `[data-current-year]`) o se limite al pie (`footer [data-year]`), quitar `data-year` de `SpecialRoles.astro` y agregar a `verify:seo` que `data-year` solo aparezca en el pie.
 - **Decisión (Felipe, 25-11-2026):** se corrige en E200-I09 renombrando el atributo de `SpecialRoles.astro` (por ejemplo, `data-role-year`), **sin tocar el script del pie ni la CSP** (el hash del script en línea no cambia). Tarea agregada en `E200-I09-docente.md`; no se corrige en E200-I07.
+- **Resolución (E200-I09, parte A, 25-11-2026):** `SpecialRoles.astro` usa `data-role-year`; el script del pie y la CSP no cambiaron. Con JavaScript, «Cargos especiales» muestra «2015 · INACAP» y «2018 · INACAP» en `/es/docente/` y `/en/lecturer/`. `verify-seo.mjs` lee el año de `data-role-year` y exige que no haya `data-year` en el `<main>` de Docente. Llega a producción con el lote C.
 
 ### AT-164 · El pulso en bucle del punto vivo de Experiencia no tiene control para detenerlo (WCAG 2.2.2) (E200-I07)
 - **Severidad:** Baja · **Estado:** Aceptado como riesgo (decisión de Felipe, 25-11-2026, ADR-115) · **Resuelve:** —

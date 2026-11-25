@@ -4,6 +4,8 @@
  * periodo · modalidad iguales a la tarjeta de Experiencia (se leen de ella), la cifra
  * «Docente con +10 años de experiencia» (texto, no botón) y el índice de instituciones con
  * enlaces a cada franja. Alineada a la izquierda, fondo `bg`, sin JavaScript.
+ * E200-I09 (ADR-117): campo de puntos y halo del hero (texture-dots y texture-halo) en capas
+ * decorativas detrás del contenido, como la cabecera de Educación.
  */
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -20,6 +22,8 @@ const [before, after] = header.highlight[lang].split('{years}');
 ---
 
 <div class="lecturer-header">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader
       level={1}
@@ -59,8 +63,17 @@ const [before, after] = header.highlight[lang].split('{years}');
 
 <style>
   .lecturer-header {
+    position: relative;
+    isolation: isolate;
     padding-block: 64px 56px;
     background-color: var(--color-bg);
+  }
+  /* Campo de puntos y halo del hero (4.5, ADR-117): capas decorativas detrás de la cabecera. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   p {
     margin: 0;

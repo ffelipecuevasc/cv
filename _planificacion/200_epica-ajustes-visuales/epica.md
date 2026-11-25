@@ -24,6 +24,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 - **Rama de trabajo:** `ajustes-visuales`, creada desde `main` (autorizada por Felipe el 16-11-2026). Nunca se trabaja en `main`.
 - **Revisión:** cada push a `ajustes-visuales` genera una URL de preview de rama en workers.dev (E200-I01, ADR-108). Felipe revisa ahí, también desde el celular.
 - **Merge a `main`:** por lotes que Felipe aprueba en la preview, no por iteración ni al final. Tras cada merge, Felipe actualiza `ajustes-visuales` desde `main`.
+- **Lotes en producción:** lote A (E200-I02 a E200-I04, `main` en `76b6d56`) y lote B (E200-I05 a E200-I08, `main` y `ajustes-visuales` en `cb8494a`, merge fast-forward) están en producción desde el 25-11-2026; Felipe verificó en felipecuevas.dev la redirección de `/`, los 200 y 404, HSTS, CSP y las piezas nuevas de las 8 páginas del lote B. El lote C será E200-I09 a E200-I11.
 - **Excepción:** el bloque de `wrangler.jsonc` de E200-I01 llega a `main` por una rama corta propia (ADR-101 y ADR-108), porque la configuración de preview se aplica en cada despliegue de producción.
 - **`preview_urls` solo durante E200 (ADR-124):** `"preview_urls": true` publica en workers.dev las URL de versión de producción y las de las previews (públicas, con `noindex`). **Tarea de cierre de la épica:** antes de que Felipe cierre E200, una rama corta desde `main` deja `"preview_urls": false` (conservando `"previews": {}`), se mergea, se despliega y se comprueba que las URL de versión respondan 404 (AT-155).
 
@@ -39,7 +40,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | [E200-I06](E200-I06-educacion.md) | Educación: puntos en la cabecera y en la franja Cloud, curvas de nivel en las franjas con banda y bloque REUF con panel de cifras | P1 | M | E200-I05 | [x] Terminada (25-11-2026) |
 | [E200-I07](E200-I07-experiencia.md) | Experiencia: hitos con el año como protagonista, línea de tiempo horizontal y campo de puntos | P1 | M | E200-I06 | [x] Terminada |
 | [E200-I08](E200-I08-desarrollador.md) | Desarrollador: campo de puntos en la sección principal y curvas de nivel en «Conjunto de Tecnologías» | P1 | S | E200-I07 | [x] Terminada |
-| [E200-I09](E200-I09-docente.md) | Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas | P1 | M | E200-I08 | [ ] Pendiente |
+| [E200-I09](E200-I09-docente.md) | Docente: campo de puntos y curvas de nivel por sección, y cargos especiales en dos columnas | P1 | M | E200-I08 | [~] En curso (parte A, 25-11-2026) |
 | [E200-I10](E200-I10-instructor.md) | Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho | P1 | M | E200-I09 | [ ] Pendiente |
 | [E200-I11](E200-I11-talento-digital.md) | Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp | P1 | M | E200-I10 | [ ] Pendiente |
 | [E200-I12](E200-I12-foro.md) | Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos» | P1 | S | E200-I11 | [ ] Pendiente |
