@@ -190,6 +190,7 @@ Fórmula de luminancia relativa de WCAG 2.2, con la transparencia compuesta sobr
 | Relleno de estrella `gold` | `surface` | 10,97 | 3 | Cumple |
 
 Los bordes de 1 px (`border`, `border-strong`) son decorativos: los controles se identifican por su texto o su nombre accesible. El campo de puntos, la retícula, las curvas de nivel, la regla dorada y el halo son decorativos (`aria-hidden`).
+Donde el texto pasa sobre el campo de puntos (hero, cabecera de Educación y franjas con `texture="dots"`), el contraste se mide sobre el fondo promedio, igual que en el hero: un punto aislado de 1,1 o 1,2 px bajo una letra no cuenta como fondo del texto (AT-162, decisión de Felipe del 25-11-2026). Las curvas de nivel sí se miden en el peor píxel.
 
 ### 4.5 Fondos con textura
 - **Campo de puntos (hero, cabecera de Educación y franjas de tono `bg` con `texture="dots"`, ADR-114):** dos capas. Puntos de 1,1 px cada 22 px en `primary` al 30 % (oscuro: `vibrant` al 26 %) y puntos dorados de 1,2 px cada 132 px al 55 % (oscuro: 50 %), desplazados 11 px. Máscara radial elíptica centrada en 60 % / 45 %, que se desvanece hacia los bordes. Mismas utilidades (`texture-dots` y `texture-halo`) en capas absolutas, `aria-hidden`, detrás del contenido.
@@ -447,7 +448,7 @@ Todas las páginas comparten el sistema común (paleta, tipografía, espaciado, 
 Ritmo de fondos: claro `white` → `orient-50` → `stone` → `orient-50`; oscuro `orient-950` → banda → `orient-925` → `orient-950`.
 
 ### 11.4 Educación
-La página abre con el `<h1>` y su bajada, sigue con la formación y las certificaciones, y cierra con el bloque «Instructor REUF» y un llamado final con «Descargar CV» y «Envíame un mensaje» (ADR-061).
+La página abre con el `<h1>` y su bajada, alineados a la izquierda, sobre el campo de puntos y el halo del hero (4.5, ADR-114); sigue con la formación y las certificaciones, y cierra con el bloque «Instructor REUF» y un llamado final con «Descargar CV» y «Envíame un mensaje» (ADR-061).
 
 **Formación académica y diplomados** (encabezado alineado a la izquierda, ADR-060):
 - Patrón **mosaico por peso** (11.2), sin conmutador, filtros ni JavaScript. Orden fijo: el título universitario a todo el ancho; los diplomados y el técnico en tarjetas estándar; las 3 distinciones en tarjetas compactas aparte.
@@ -460,10 +461,15 @@ La página abre con el `<h1>` y su bajada, sigue con la formación y las certifi
 3. **Desarrollo y datos** (4): AWS Developer Associate, Python Institute PCEP, Oracle Data Science Professional y Oracle Developer Professional.
 
 - El orden dentro de cada franja lo fija el campo `position` de `src/data/certifications.ts`, que es la única lista de credenciales (11). La cifra del hero y el JSON-LD salen de esa lista (ADR-053) y no dependen de la franja.
-- Fondos alternos `band` / `bg` y zigzag; en móvil, una columna.
+- Fondos alternos `band` / `bg` y zigzag; en móvil, una columna. Cada franja lleva su textura (7.8, ADR-114): `ai`, curvas de nivel en relieve; `cloud`, campo de puntos; `dev-data`, curvas de nivel en cordillera.
 - Cada insignia abre su detalle en un `<dialog>` nativo, con foco atrapado, Escape que lo cierra y retorno del foco al botón. Sin JavaScript, los 11 detalles se ven en la propia franja y los botones no aparecen.
 - Las insignias van en tamaño pequeño, con carga diferida y ancho y alto declarados.
 - No se muestran vencimientos.
+- **Instructor REUF** (ADR-114): tarjeta con el ícono, el título y el párrafo, y un panel de 3 cifras en una lista de definiciones (`dl`): «+150 Módulos aprobados» (`reuf-modules`), «+10 Años de experiencia» (`teaching-years`) y «+5 Bootcamps de Talento Digital» (`bootcamps`); en `en-US`, «Approved modules», «Years of experience» y «Talento Digital bootcamps». Los valores y el «+» salen de `src/content/home/stats.json` por id (ADR-053), así que coinciden con Inicio. Cada cifra: rótulo arriba en IBM Plex Mono de 12 px, mayúsculas y `text-soft`; cifra en Sora de 2,5 rem con el «+» antepuesto en `primary` en claro y `gold` en oscuro (4.3).
+- Desde 1.024 px, dos columnas: el texto a la izquierda y el panel a la derecha (15 a 18 rem), separado por una barra vertical de 2 px con el degradado `gold` → `vibrant` (ADR-058), con las cifras apiladas y divisores `border` entre ellas.
+- Entre 768 y 1.023 px, el panel pasa bajo el texto como una fila de 3 cifras, con la barra en horizontal arriba, divisores verticales y rótulo y cifra en filas comunes (`subgrid`).
+- Bajo 768 px, las 3 cifras apiladas bajo el texto, con la barra arriba y divisores horizontales.
+- El párrafo no cambia y repite la cifra de módulos a propósito (lectura completa frente a lectura rápida).
 
 ### 11.5 Experiencia
 La página abre con el `<h1>` «Experiencia Laboral» (`en-US`: «Work Experience»), centrado, con rótulo «Resumen de experiencia» y bajada, sobre fondo `bg`. Sigue una **línea de tiempo compacta** y luego los tres perfiles en el patrón **grilla simétrica de tarjetas** (11.2, ADR-065 y ADR-066). Sin JavaScript, sin animación de entrada y sin «Descargar CV» (ADR-057). No lleva subtítulo h2: el `<h1>` y la bajada ya presentan la página.
