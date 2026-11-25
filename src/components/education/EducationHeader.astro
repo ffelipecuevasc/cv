@@ -1,7 +1,8 @@
 ---
 /*
  * Encabezado de Educación (E50-I01, DESIGN.md 7.5 y 11.4): el único <h1> de la página, con
- * rótulo y bajada, alineado a la izquierda. Fondo `bg`. Dentro de <main>.
+ * rótulo y bajada, alineado a la izquierda. Fondo `bg` con el campo de puntos y el halo del hero
+ * (texture-dots y texture-halo, E200-I06, ADR-114). Dentro de <main>.
  */
 import { getEntry } from 'astro:content';
 import Container from '../ui/Container.astro';
@@ -15,6 +16,8 @@ const { header } = page;
 ---
 
 <div class="education-header">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
   <Container>
     <SectionHeader
       level={1}
@@ -28,8 +31,17 @@ const { header } = page;
 
 <style>
   .education-header {
+    position: relative;
+    isolation: isolate;
     padding-block: 64px 56px;
     background-color: var(--color-bg);
+  }
+  /* Campo de puntos y halo del hero (4.5, ADR-114): capas decorativas detrás del encabezado. */
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   @media (min-width: 48rem) {
     .education-header {

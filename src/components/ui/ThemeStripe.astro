@@ -3,6 +3,10 @@
  * Franja temática (DESIGN.md 7.8, ADR-036): ancho completo, título de la categoría y
  * contenido. `reverse` cambia la orientación solo con CSS: el HTML siempre va título →
  * contenido, así que el orden de lectura no cambia. Fondo band o bg. Una columna bajo 1.024 px.
+ * `texture` (E200-I06, ADR-114): con tono band, 'contour' cambia la retícula por curvas de nivel
+ * (texture-band-contour; la composición llega por el slot `decor`, por ejemplo ContourLines); con
+ * tono bg, 'dots' monta el campo de puntos y el halo del hero (texture-dots y texture-halo) en
+ * capas decorativas detrás del contenido. Por defecto ('grid') la franja no cambia.
  */
 import Container from './Container.astro';
 import SectionHeader from './SectionHeader.astro';
@@ -23,6 +27,8 @@ interface Props {
    * (Talento Digital: dos ejecuciones de Python y dos de JavaScript, E100-I01).
    */
   labelWithLead?: boolean;
+  /** Fondo decorativo: 'contour' solo con tono band y 'dots' solo con tono bg (ADR-114). */
+  texture?: 'grid' | 'contour' | 'dots';
 }
 const {
   kicker,
@@ -34,15 +40,24 @@ const {
   level = 2,
   mirror = false,
   labelWithLead = false,
+  texture = 'grid',
 } = Astro.props;
+if ((texture === 'contour' && tone !== 'band') || (texture === 'dots' && tone !== 'bg')) {
+  throw new Error(`ThemeStripe ${id}: la textura ${texture} no corresponde al tono ${tone}`);
+}
+const toneClass =
+  tone === 'bg' ? 'tone-bg' : texture === 'contour' ? 'texture-band-contour' : 'texture-band';
 const labelledBy = labelWithLead && lead ? `${id}-title ${id}-lead` : `${id}-title`;
 ---
 
 <section
   id={id}
   aria-labelledby={labelledBy}
-  class:list={['stripe', tone === 'band' ? 'texture-band' : 'tone-bg', { reverse }]}
+  class:list={['stripe', toneClass, { reverse, 'has-dots': texture === 'dots' }]}
 >
+  {texture === 'contour' && <slot name="decor" />}
+  {texture === 'dots' && <div class="texture-dots layer" aria-hidden="true" />}
+  {texture === 'dots' && <div class="texture-halo layer" aria-hidden="true" />}
   <Container class="stripe-grid">
     <div class="stripe-title">
       <SectionHeader
@@ -67,6 +82,17 @@ const labelledBy = labelWithLead && lead ? `${id}-title ${id}-lead` : `${id}-tit
   }
   .tone-bg {
     background-color: var(--color-bg);
+  }
+  /* Capas del campo de puntos detrás del contenido, como en el hero (4.5). */
+  .has-dots {
+    position: relative;
+    isolation: isolate;
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
   }
   .stripe :global(.stripe-grid) {
     display: grid;

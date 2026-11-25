@@ -18,6 +18,7 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import ThemeStripe from '../ui/ThemeStripe.astro';
 import IconButton from '../ui/IconButton.astro';
 import Icon from '../ui/Icon.astro';
+import ContourLines, { type ContourPiece } from '../ui/ContourLines.astro';
 import { certifications, certificationCategories } from '../../data/certifications';
 import { issuerOrganizations } from '../seo/structured-data';
 import { langCodes, langFromLocale } from '../../i18n/lang';
@@ -42,9 +43,20 @@ const monthYear = new Intl.DateTimeFormat(langCodes[lang], {
   timeZone: 'UTC',
 });
 
+/*
+ * Fondos de las franjas (E200-I06, ADR-114): curvas de nivel en las de tono band, cada una con su
+ * composición (relieve en el borde derecho y cordillera desde la esquina inferior izquierda), y
+ * campo de puntos en la de tono bg.
+ */
+const CONTOURS: Partial<Record<(typeof certificationCategories)[number], ContourPiece[]>> = {
+  ai: [{ corner: 'center-right', shape: 'hill' }],
+  'dev-data': [{ corner: 'bottom-left', shape: 'range' }],
+};
+
 const stripes = certificationCategories.map((category) => ({
   category,
   title: text.categories[category][lang],
+  contour: CONTOURS[category],
   items: certifications
     .filter((item) => item.category === category)
     .sort((a, b) => a.position - b.position)
@@ -83,7 +95,9 @@ const stripes = certificationCategories.map((category) => ({
       reverse={index % 2 === 1}
       mirror={index % 2 === 1}
       tone={index % 2 === 0 ? 'band' : 'bg'}
+      texture={index % 2 === 0 ? 'contour' : 'dots'}
     >
+      {stripe.contour && <ContourLines slot="decor" mask="none" pieces={stripe.contour} />}
       <ul class="cert-list">
         {stripe.items.map((item) => (
           <li class="cert" data-cert>

@@ -1,5 +1,5 @@
 # E200-I06 · Educación: puntos en la cabecera y en la franja Cloud, curvas de nivel en las franjas con banda y bloque REUF con panel de cifras
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (parte A terminada el 25-11-2026: cabecera, franjas, composiciones y controles; falta la parte B: bloque REUF, 11.4, PageSpeed y revisión en la preview)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I05 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-036, ADR-053, ADR-058, ADR-061, ADR-072, ADR-107, ADR-109, ADR-111, ADR-113
 
@@ -47,12 +47,12 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
 - Las bandas de otras páginas, que conservan la cuadrícula.
 
 ## Tareas
-- [ ] **Cabecera:** montar en `EducationHeader.astro` las capas `texture-dots` y `texture-halo` del hero (absolutas, `aria-hidden`, detrás del contenido). Si hace falta ajustar la posición de la máscara o del halo al encabezado centrado, hacerlo con una variable y no con una copia de las utilidades.
-- [ ] **Franjas:** agregar a `ThemeStripe.astro` dos variantes de fondo: con curvas de nivel (conserva el fondo `band`, el degradado oscuro y los bordes, sin la cuadrícula), para `ai` y `dev-data`; y con campo de puntos (sobre el fondo `bg`, con la misma capa y la misma variable de máscara y halo que la cabecera), para `cloud`. Ambas quedan disponibles para otras páginas (Docente las usa en E200-I09).
-- [ ] **Composiciones:** dibujar en el componente de E200-I05 las dos composiciones nuevas (relieve en el borde derecho para `ai`; cordillera horizontal desde la esquina inferior izquierda para `dev-data`), con trazos suavizados, piezas ancladas y 10 KB o menos por composición. Comprobar que, con la franja apilada bajo 1.024 px, las curvas no tapan las insignias ni sus nombres.
+- [x] **Cabecera:** montar en `EducationHeader.astro` las capas `texture-dots` y `texture-halo` del hero (absolutas, `aria-hidden`, detrás del contenido). Si hace falta ajustar la posición de la máscara o del halo al encabezado centrado, hacerlo con una variable y no con una copia de las utilidades.
+- [x] **Franjas:** agregar a `ThemeStripe.astro` dos variantes de fondo: con curvas de nivel (conserva el fondo `band`, el degradado oscuro y los bordes, sin la cuadrícula), para `ai` y `dev-data`; y con campo de puntos (sobre el fondo `bg`, con la misma capa y la misma variable de máscara y halo que la cabecera), para `cloud`. Ambas quedan disponibles para otras páginas (Docente las usa en E200-I09).
+- [x] **Composiciones:** dibujar en el componente de E200-I05 las dos composiciones nuevas (relieve en el borde derecho para `ai`; cordillera horizontal desde la esquina inferior izquierda para `dev-data`), con trazos suavizados, piezas ancladas y 10 KB o menos por composición. Comprobar que, con la franja apilada bajo 1.024 px, las curvas no tapan las insignias ni sus nombres.
 - [ ] **REUF, contenido:** reemplazar en `page.json` los destacados por los rótulos de las 3 cifras (es y en) y tomar los valores de `getStat('reuf-modules')`, `getStat('teaching-years')` y `getStat('bootcamps')`, sin números escritos a mano (ADR-053).
 - [ ] **REUF, maquetación:** desde 1.024 px, dos columnas con el panel a la derecha (barra degradada, cifras en `font-display` con el «+» en `primary` en claro y `gold` en oscuro, rótulos en `font-mono`); entre 768 y 1.023 px, el panel pasa bajo el texto como una fila de 3 cifras; bajo 768 px, las 3 cifras apiladas. Las cifras van en una lista de definiciones (`dl`), como en la banda de Inicio.
-- [ ] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de los destacados o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
+- [x] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de los destacados o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [ ] **Revisión visual:** protocolo de la épica en `/es/educacion/` y `/en/education/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con el diálogo de una certificación abierto. Medir el contraste donde una curva pasa detrás del nombre de una insignia.
 - [ ] **Registro y bloques:** ADR-114, bloque de `DESIGN.md` 4.5, 7.8 y 11.4 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
@@ -90,6 +90,14 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
 - El halo del hero está calculado para un hero asimétrico (78 % / 40 %). La cabecera de Educación es centrada: puede necesitar otra posición, que se ajusta con una variable.
 - Las insignias de certificación son imágenes con fondo propio: las curvas no deben cruzarlas de forma que parezcan parte de la insignia.
 - El párrafo REUF ya dice «más de 150 módulos»; el panel repite la cifra. Es intencional (lectura rápida frente a lectura completa) y lo aprobó Felipe en la vista previa.
+
+## Avance
+- **Parte A (25-11-2026, local):**
+    - **Cabecera:** capas `texture-dots` y `texture-halo` en `EducationHeader.astro`. La cabecera está alineada a la izquierda (no centrada): con la máscara del hero (60 % / 45 %) los puntos quedan a la derecha del texto, así que no hizo falta variable y **las utilidades de `global.css` no cambiaron** (AT-151 resuelto).
+    - **Franjas:** `ThemeStripe` suma `texture` (`grid` por defecto, `contour` con tono `band` y `dots` con tono `bg`) y el slot `decor`; una combinación inválida corta el build. `ai` y `dev-data` usan `texture-band-contour`; `cloud`, el campo de puntos.
+    - **Composiciones:** formas `hill` (440 × 560, anclada en `center-right`) y `range` (960 × 300, anclada en `bottom-left`) en `ContourLines.astro`; 14 y 13 curvas, cada quinta en dorado; 5,7 KB y 8,7 KB de SVG. Máscaras por forma ajustadas para que `text-soft` de las insignias no baje de 4,5:1 (peor caso 4,50:1).
+    - **Controles:** `verify-seo.mjs` identifica las franjas por `id` (`certs-ai|cloud|dev-data`) y `check-i18n.mjs` no mira clases: ninguno depende de la cuadrícula. Sin ajustes.
+    - Hallazgo nuevo: AT-162 (campo de puntos bajo texto pequeño, heredado del hero).
 
 ## Cierre obligatorio
 - [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
