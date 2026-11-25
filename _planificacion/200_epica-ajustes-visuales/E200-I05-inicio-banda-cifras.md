@@ -1,5 +1,5 @@
 # E200-I05 · Inicio: curvas de nivel y cifras centradas en la banda de Resumen
-- **Estado:** [~] En curso (fase 1 terminada el 25-11-2026; falta la fase 2 en la preview de rama)
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I03 · **Hallazgos que cierra:** AT-161 (nuevo) · **ADR relacionados:** ADR-015, ADR-036, ADR-053, ADR-058, ADR-107, ADR-109, ADR-111
 
@@ -42,22 +42,22 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - [x] **Variante de la banda:** opción en `Band.astro` (o utilidad nueva en `global.css`) que conserve el fondo `band`, el degradado del tema oscuro y los bordes de 4.5, quite las líneas de la cuadrícula y monte las curvas como capa decorativa (`aria-hidden`, `focusable="false"`, sin eventos de puntero), detrás del contenido y con la máscara radial que despeja el centro. Solo `StatsBand.astro` la usa.
 - [x] **Centrado:** `text-align: center` en el rótulo (`dt`), la cifra y la línea de contexto de cada celda. Mantener 5 columnas desde 1.024 px y 2 columnas bajo esa medida, con la quinta en la fila completa; las barras siguen en el mismo lugar.
 - [x] **Alineación entre celdas:** el rótulo, la cifra y el contexto de las 5 celdas quedan en tres filas comunes (por ejemplo, `grid-template-rows: subgrid`), para que ninguna cifra baje cuando un rótulo o un contexto ocupa más líneas. Se comprueba sobre todo en inglés y a 1.024 px.
-- [~] **Revisión visual:** (local hecha; falta la preview de rama) protocolo de la épica en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Medir el contraste del texto en el peor punto donde una curva pasa detrás de una línea de contexto.
-- [~] **Registro y bloques:** (ADR-113 y bloques hechos; falta PageSpeed en la preview) ADR-113, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
+- [x] **Revisión visual:** protocolo de la épica en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px. Medir el contraste del texto en el peor punto donde una curva pasa detrás de una línea de contexto.
+- [x] **Registro y bloques:** ADR-113, bloque de `DESIGN.md` 4.5, 7.8 y 11.3 en la bitácora, y PageSpeed Insights de `/es/` y `/en/` en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Crear: un componente de curvas de nivel en `src/components/ui/` (por ejemplo `ContourLines.astro`) con las piezas SVG y la composición de Inicio.
 - Modificar: `src/components/home/StatsBand.astro`, `src/components/ui/Band.astro` y `src/styles/global.css`.
 
 ## Criterios de aceptación (verificables)
-- [ ] La banda de cifras de Inicio muestra curvas de nivel suavizadas en dos esquinas opuestas, sin cuadrícula, en claro y oscuro, en es y en.
-- [ ] Las demás bandas del sitio no cambian: misma cuadrícula y mismos estilos calculados que antes.
-- [ ] El rótulo, la cifra y el contexto de cada celda están centrados; las 5 cifras quedan en la misma línea desde 1.024 px, también en inglés.
-- [ ] Bajo 1.024 px: 2 columnas con la quinta cifra en la fila completa, todo centrado y sin desbordes a 360 px.
-- [ ] Las curvas no se anuncian en lectores de pantalla ni reciben foco o clics.
-- [ ] El texto mantiene los contrastes de 4.4 donde lo cruza una curva (medición en la bitácora).
-- [ ] Peso de las curvas de 10 KB o menos; sin JavaScript nuevo; CLS 0 en la portada; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La banda de cifras de Inicio muestra curvas de nivel suavizadas en dos esquinas opuestas, sin cuadrícula, en claro y oscuro, en es y en.
+- [x] Las demás bandas del sitio no cambian: misma cuadrícula y mismos estilos calculados que antes.
+- [x] El rótulo, la cifra y el contexto de cada celda están centrados; las 5 cifras quedan en la misma línea desde 1.024 px, también en inglés.
+- [x] Bajo 1.024 px: 2 columnas con la quinta cifra en la fila completa, todo centrado y sin desbordes a 360 px.
+- [x] Las curvas no se anuncian en lectores de pantalla ni reciben foco o clics.
+- [x] El texto mantiene los contrastes de 4.4 donde lo cruza una curva (medición en la bitácora).
+- [x] Peso de las curvas de 10 KB o menos; sin JavaScript nuevo; CLS 0 en la portada; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -81,10 +81,10 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - En la vista previa del chat, la cifra de la segunda celda quedó más abajo que las demás. Las filas comunes de la tarea 5 evitan que se repita.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
 
 ## Avance
 ### Fase 1 (25-11-2026, local)
@@ -95,3 +95,10 @@ En la banda de cifras de Inicio («Trayectoria profesional · Resumen»), reempl
 - Contraste: AT-161 (máscara reforzada); peor caso 4,51:1 en texto pequeño y 3,87:1 en el signo «+».
 - `build`, `check`, `lint`, `format:check`, `verify`, `check:i18n` y `verify:seo` (1195/1195) en verde.
 - Pendiente (fase 2): revisión en la preview de rama y PageSpeed Insights de `/es/` y `/en/` frente a la línea base.
+
+### Fase 2 (25-11-2026, preview de rama `2976451`)
+- Banda de cifras en `/es/` y `/en/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px: 2 piezas de curvas, cifras alineadas por fila, centradas, sin scroll horizontal. Felipe la revisó a ojo y la aprobó (sin subir el trazo).
+- Hero sin scroll en 1366×638 y 1920×950 (es y en, claro y oscuro). CLS 0 en `/es/` y `/en/`.
+- Las 10 bandas con cuadrícula de 5 páginas: estilos calculados idénticos a producción en ambos temas.
+- SVG de 6.344 bytes por portada; mismos archivos JS (nombres con hash) y mismas peticiones que producción.
+- PageSpeed Insights (`scripts/psi.mjs --category performance --only /es/,/en/`): `/es/` 98 móvil (LCP 0,99 s) y 100 escritorio; `/en/` 100 y 100 (una corrida previa de `/en/` móvil dio 98). Línea base 99 y 100; I03 de 98 a 100: sin regresión.

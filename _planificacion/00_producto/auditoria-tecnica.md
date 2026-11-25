@@ -1222,6 +1222,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Evidencia (24-11-2026):** `texture-dots` y `texture-halo` son utilidades de `src/styles/global.css:224-242` que hoy usa solo `Hero.astro`. `E200-I06-educacion.md` (tarea «Cabecera») pide ajustar la máscara y el halo «con una variable y no con una copia de las utilidades», es decir, tocar las utilidades que alimentan al hero; su revisión visual y su criterio de aceptación no incluyen la matriz sin scroll del hero (1366×638, 1440×770, 1536×734 y 1920×950, ADR-016), que `epica.md` exige solo «si la iteración afecta a la portada». Las iteraciones E200-I07 a I14 reutilizan la misma variable.
 - **Impacto:** un cambio en la máscara o el halo podría mover o cubrir algo del hero sin que ninguna iteración lo mida (el hero debe verse completo sin scroll, `DESIGN.md:38`).
 - **Recomendación:** E200-I06 agrega una tarea que repita la matriz del hero en ambos temas, idiomas y los 3 perfiles, o que compare los estilos calculados de `texture-dots` y `texture-halo` en el hero antes y después. Las iteraciones siguientes la repiten si cambian esas utilidades.
+- **Avance (E200-I05, 25-11-2026):** E200-I05 no tocó `texture-dots` ni `texture-halo`; aun así se midió el hero sin scroll en 1366×638 y 1920×950 en la preview (correcto). Sigue abierto: E200-I06 debe agregar la tarea de la matriz completa al empezar.
 
 ### AT-152 · E200-I03 puede superar el presupuesto de 120 KB de fuentes
 - **Severidad:** Media · **Estado:** Resuelto (E200-I03, fase 2, 24-11-2026) · **Resuelve:** E200-I03
