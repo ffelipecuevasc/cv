@@ -1,5 +1,5 @@
 # E200-I06 · Educación: puntos en la cabecera y en la franja Cloud, curvas de nivel en las franjas con banda y bloque REUF con panel de cifras
-- **Estado:** [~] En curso (partes A y B terminadas el 25-11-2026; falta la parte C: revisión en la preview y PageSpeed)
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I05 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-036, ADR-053, ADR-058, ADR-061, ADR-072, ADR-107, ADR-109, ADR-111, ADR-113
 
@@ -53,23 +53,23 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
 - [x] **REUF, contenido:** reemplazar en `page.json` los destacados por los rótulos de las 3 cifras (es y en) y tomar los valores de `getStat('reuf-modules')`, `getStat('teaching-years')` y `getStat('bootcamps')`, sin números escritos a mano (ADR-053).
 - [x] **REUF, maquetación:** desde 1.024 px, dos columnas con el panel a la derecha (barra degradada, cifras en `font-display` con el «+» en `primary` en claro y `gold` en oscuro, rótulos en `font-mono`); entre 768 y 1.023 px, el panel pasa bajo el texto como una fila de 3 cifras; bajo 768 px, las 3 cifras apiladas. Las cifras van en una lista de definiciones (`dl`), como en la banda de Inicio.
 - [x] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de los destacados o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
-- [ ] **Revisión visual:** protocolo de la épica en `/es/educacion/` y `/en/education/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con el diálogo de una certificación abierto. Medir el contraste donde una curva pasa detrás del nombre de una insignia.
-- [ ] **Registro y bloques:** ADR-114, bloque de `DESIGN.md` 4.5, 7.8 y 11.4 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Revisión visual:** protocolo de la épica en `/es/educacion/` y `/en/education/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con el diálogo de una certificación abierto. Medir el contraste donde una curva pasa detrás del nombre de una insignia.
+- [x] **Registro y bloques:** ADR-114, bloque de `DESIGN.md` 4.5, 7.8 y 11.4 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/education/EducationHeader.astro`, `CertificationsSection.astro`, `ReufClosing.astro`, `src/components/ui/ThemeStripe.astro`, el componente de curvas de E200-I05, `src/content/education/page.json`, `src/content.config.ts` (si cambia el esquema de `reuf`) y `src/styles/global.css` (si hace falta una variable para la cabecera).
 
 ## Criterios de aceptación (verificables)
-- [ ] La cabecera muestra el campo de puntos del hero en claro y oscuro (halo solo en oscuro), en es y en, sin tapar el texto.
-- [ ] Las franjas `ai` y `dev-data` muestran curvas de nivel suavizadas, cada una con su composición, distinta entre sí y distinta de la de Inicio.
-- [ ] La franja `cloud` muestra el campo de puntos (halo solo en oscuro) sin tapar las insignias ni sus nombres.
-- [ ] Las demás bandas del sitio conservan la cuadrícula.
-- [ ] Desde 1.024 px, el bloque REUF ocupa todo el ancho de la tarjeta, con el panel de 3 cifras a la derecha; sin desbordes del inglés.
-- [ ] Las cifras del panel salen de los datos compartidos y coinciden con las de Inicio.
-- [ ] Bajo 1.024 px, el panel se reordena como se describe en la tarea 5, sin desbordes a 360 px.
-- [ ] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
-- [ ] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La cabecera muestra el campo de puntos del hero en claro y oscuro (halo solo en oscuro), en es y en, sin tapar el texto.
+- [x] Las franjas `ai` y `dev-data` muestran curvas de nivel suavizadas, cada una con su composición, distinta entre sí y distinta de la de Inicio.
+- [x] La franja `cloud` muestra el campo de puntos (halo solo en oscuro) sin tapar las insignias ni sus nombres.
+- [x] Las demás bandas del sitio conservan la cuadrícula.
+- [x] Desde 1.024 px, el bloque REUF ocupa todo el ancho de la tarjeta, con el panel de 3 cifras a la derecha; sin desbordes del inglés.
+- [x] Las cifras del panel salen de los datos compartidos y coinciden con las de Inicio.
+- [x] Bajo 1.024 px, el panel se reordena como se describe en la tarea 5, sin desbordes a 360 px.
+- [x] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
+- [x] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -103,8 +103,10 @@ Aplicar los tres ajustes de Educación que pidió Felipe el 16-11-2026, en `es-C
     - **Maquetación:** `dl` `data-reuf-figures`. Desde 1.024 px, tercera columna de 15 a 18 rem con barra vertical gold → vibrant y divisores `border` entre cifras; entre 768 y 1.023 px, fila de 3 bajo el texto con la barra horizontal arriba, divisores verticales y `subgrid` para alinear las cifras; bajo 768 px, apiladas con la barra arriba.
     - **Controles:** el bloque «Destacados REUF» de `verify-seo.mjs` (`<ul class="highlights">`) se reemplaza por «Panel de cifras REUF»: rótulos por idioma, cifras derivadas de `stats.json` y sin la fila de destacados. Probado con un caso roto (rótulo y signo alterados en `dist/`): falla con 2 errores. `check-i18n.mjs` no dependía de los destacados.
 
+- **Parte C (25-11-2026, preview `147752f`):** 20 combinaciones (es/en, claro/oscuro, 360 a 1.920 px) con puntos en la cabecera y en `cloud`, curvas en `ai` y `dev-data`, panel REUF (barra horizontal bajo 1.024 px y vertical desde ahí) y sin scroll horizontal; diálogo abre y cierra con Escape; CLS 0. Hero sin scroll (contenido hasta 581/638 y 740/950, es/en, claro/oscuro). Curvas de 5.692 y 8.671 B. Mismo JavaScript y mismas peticiones que producción (salvo el beacon de Web Analytics, que solo existe en el dominio de producción). PageSpeed: preview móvil 98/98 y 98/99, escritorio 100; producción a la misma hora móvil 99/97 y 99/99, escritorio 100. La línea base del 16-11-2026 no incluye Educación. Sin regresión.
+
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
