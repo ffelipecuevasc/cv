@@ -1,5 +1,5 @@
 # E200-I07 · Experiencia: hitos con el año como protagonista, línea de tiempo horizontal y campo de puntos
-- **Estado:** [~] En curso (parte A terminada el 25-11-2026: implementación y verificación local; falta la parte B: preview de rama y PageSpeed)
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I06 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-063, ADR-065, ADR-066, ADR-107, ADR-109, ADR-111, ADR-114
 
@@ -56,8 +56,8 @@ Rediseñar la presentación de los 3 perfiles en la sección principal de Experi
 - [x] **Movimiento:** el pulso del punto vivo es una animación CSS suave e infinita que se detiene con `prefers-reduced-motion: reduce` (queda un halo quieto). Ninguna otra animación.
 - [x] **Fondo:** montar `texture-dots` y `texture-halo` detrás del encabezado y de la línea de tiempo como una sola capa (por ejemplo, envolviendo ambos componentes en una sección con la capa absoluta). Reutilizar la variable de E200-I06 para centrar la máscara y el halo; no copiar las utilidades. Las tarjetas de hito llevan fondo `bg`, para que los puntos no pasen por detrás del texto.
 - [x] **Controles:** actualizar `scripts/verify-seo.mjs` para que exija el orden 2011, 2013 y 2023, que el año de cada hito coincida con el periodo de su tarjeta (AT-081) y que se mantengan los 3 íconos decorativos y la «página sin controles ni scripts». Comprobar que el control falla ante un orden o un año roto.
-- [~] **Revisión visual:** protocolo de la épica en `/es/experiencia/` y `/en/experience/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con movimiento reducido. Medir el contraste del año translúcido frente al texto que tiene encima (debe quedar como decoración, sin tapar el título ni la modalidad).
-- [~] **Registro y bloques:** ADR-115, bloque de `DESIGN.md` 1.5 y 8 (excepción del pulso en bucle), 4.5 (campo de puntos también en Experiencia), 11.2 (variante horizontal de la línea de tiempo) y 11.5 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Revisión visual:** protocolo de la épica en `/es/experiencia/` y `/en/experience/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con movimiento reducido. Medir el contraste del año translúcido frente al texto que tiene encima (debe quedar como decoración, sin tapar el título ni la modalidad).
+- [x] **Registro y bloques:** ADR-115, bloque de `DESIGN.md` 1.5 y 8 (excepción del pulso en bucle), 4.5 (campo de puntos también en Experiencia), 11.2 (variante horizontal de la línea de tiempo) y 11.5 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/experience/ExperienceTimeline.astro`, `src/pages/es/experiencia.astro` y `src/pages/en/experience.astro` (si la capa de puntos envuelve ambos componentes), `src/content/experience/page.json`, `src/content.config.ts` (si cambia el esquema de `timeline`) y `scripts/verify-seo.mjs`.
@@ -94,7 +94,7 @@ Rediseñar la presentación de los 3 perfiles en la sección principal de Experi
 
 ## Avance
 - **Parte A (25-11-2026):** implementación y verificación local terminadas; ADR-115 registrado con la excepción acotada del pulso (decisión de Felipe del 25-11-2026) y el riesgo de WCAG 2.2.2 (AT-164); AT-163 abierto (fuera de alcance). Los 7 comandos en verde. Detalle, interpretación y bloques de `DESIGN.md` en `99_bitacora/2026-11-25_E200-I07.md`.
-- **Parte B (pendiente):** revisión en la preview de rama y PageSpeed Insights de las dos URL; cierre de la iteración.
+- **Parte B (25-11-2026):** preview revisada (Felipe y Playwright: 24 combinaciones, movimiento reducido, CLS 0); PageSpeed sin regresión frente a producción a la misma hora; AT-163 asignado a E200-I09; AT-165 (CSS de la página como archivo aparte) aceptado por Felipe. Iteración terminada.
 
 ## Riesgos y notas
 - El año grande translúcido no debe competir con el título: si en algún ancho lo cruza, se reduce su tamaño o su opacidad, no se mueve el texto.

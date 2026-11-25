@@ -1,0 +1,35 @@
+---
+/*
+ * Sección principal de Desarrollador (E200-I08, ADR-116): envuelve la cabecera y «Aspectos
+ * técnicos» para que el campo de puntos y el halo del hero (texture-dots y texture-halo,
+ * DESIGN.md 4.5) los cubran como una sola capa, decorativa y detrás del contenido. Usa las
+ * utilidades tal cual: su máscara (60 % / 45 %) y su halo (78 % / 40 %) ya se cargan a la
+ * derecha, donde está el espacio libre de la cabecera alineada a la izquierda. Dentro de <main>.
+ */
+---
+
+<div class="developer-intro">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
+  <slot />
+</div>
+
+<style>
+  .developer-intro {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--color-bg);
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  /* La cabecera y «Aspectos técnicos» pintan su propio fondo `bg`, que taparía la capa: dentro
+     de esta sección el fondo lo pone el envoltorio. Nada más cambia en ellos. */
+  .developer-intro > :global(.developer-header),
+  .developer-intro > :global(.aspects) {
+    background-color: transparent;
+  }
+</style>

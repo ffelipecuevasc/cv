@@ -7,9 +7,12 @@
  * src/assets/technologies/ (DESIGN.md 7.14): van como <img> decorativos (el nombre está en el
  * texto), con ancho y alto declarados y carga diferida. En oscuro van sobre una placa clara
  * (`--tech-plate-bg`, ADR-069). Sin JavaScript. Dentro de <main>.
+ * E200-I08 (ADR-116): curvas de nivel en lugar de la retícula, con la forma summit, centrada y
+ * colgada del borde superior, que se desvanece antes de la grilla.
  */
 import { getEntry } from 'astro:content';
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import { langFromLocale } from '../../i18n/lang';
 
 const lang = langFromLocale(Astro.currentLocale);
@@ -34,7 +37,9 @@ const iconUrl = (icon: string): string => {
   kicker={technologies.kicker[lang]}
   title={technologies.title[lang]}
   lead={technologies.lead[lang]}
+  texture="contour"
 >
+  <ContourLines slot="decor" pieces={[{ corner: 'top-center', shape: 'summit' }]} mask="none" />
   <div class="wall" data-technologies>
     {technologies.categories.map((category) => (
       <div class="category">

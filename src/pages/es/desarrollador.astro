@@ -5,6 +5,7 @@
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import DeveloperHeader from '../../components/developer/DeveloperHeader.astro';
+import DeveloperIntro from '../../components/developer/DeveloperIntro.astro';
 import TechnicalAspects from '../../components/developer/TechnicalAspects.astro';
 import TechnologyWall from '../../components/developer/TechnologyWall.astro';
 import Portfolio from '../../components/developer/Portfolio.astro';
@@ -19,8 +20,10 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 
 <BaseLayout title={title.es} description={description.es} route="developer" ogImage={og}>
   <DeveloperJsonLd slot="json-ld" />
-  <DeveloperHeader />
-  <TechnicalAspects />
+  <DeveloperIntro>
+    <DeveloperHeader />
+    <TechnicalAspects />
+  </DeveloperIntro>
   <TechnologyWall />
   <Portfolio />
 </BaseLayout>

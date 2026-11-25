@@ -1,5 +1,5 @@
 # E200-I08 · Desarrollador: campo de puntos en la sección principal y curvas de nivel en «Conjunto de Tecnologías»
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (parte A terminada el 25-11-2026 (campo de puntos en la sección principal y curvas de nivel `summit` en «Conjunto de Tecnologías», ADR-116); falta la parte B (preview, PageSpeed y preparación del lote B para el merge))
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I07 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-036, ADR-067, ADR-107, ADR-109, ADR-113, ADR-114, ADR-115
 
@@ -41,12 +41,12 @@ Aplicar en Desarrollador (`/es/desarrollador/` y `/en/developer/`) los dos fondo
 - Las bandas de otras páginas.
 
 ## Tareas
-- [ ] **Sección principal:** montar `texture-dots` y `texture-halo` como una sola capa absoluta (`aria-hidden`) detrás de `DeveloperHeader` y `TechnicalAspects`, por ejemplo envolviendo ambos componentes en las dos páginas. El encabezado está alineado a la izquierda: usar la variable de E200-I06 para llevar la máscara y el halo hacia el espacio libre de la derecha, sin copiar las utilidades.
-- [ ] **Legibilidad de «Aspectos técnicos»:** la máscara se desvanece antes de las 4 entradas o, si los puntos llegan hasta ellas, se comprueba que no bajen el contraste del texto de 4.4. Medir el peor punto.
-- [ ] **Curvas:** dibujar la composición nueva en el componente de E200-I05 (trazos suavizados, piezas ancladas al borde superior, 10 KB o menos) y aplicarla en `TechnologyWall.astro` con la variante de `Band.astro`, sin la cuadrícula.
-- [ ] **Grilla de tecnologías:** comprobar que las curvas no se confunden con los logos de las tarjetas, en claro y oscuro, a 360, 768, 1.024 y 1.920 px.
-- [ ] **Revisión visual:** protocolo de la épica en `/es/desarrollador/` y `/en/developer/`, incluidos los filtros del portafolio, para confirmar que no cambió nada fuera de las dos secciones.
-- [ ] **Registro y bloques:** ADR-116, bloque de `DESIGN.md` 4.5 (campo de puntos y curvas de nivel también en Desarrollador) y 11.6 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Sección principal:** montar `texture-dots` y `texture-halo` como una sola capa absoluta (`aria-hidden`) detrás de `DeveloperHeader` y `TechnicalAspects`, por ejemplo envolviendo ambos componentes en las dos páginas. El encabezado está alineado a la izquierda: usar la variable de E200-I06 para llevar la máscara y el halo hacia el espacio libre de la derecha, sin copiar las utilidades.
+- [x] **Legibilidad de «Aspectos técnicos»:** la máscara se desvanece antes de las 4 entradas o, si los puntos llegan hasta ellas, se comprueba que no bajen el contraste del texto de 4.4. Medir el peor punto.
+- [x] **Curvas:** dibujar la composición nueva en el componente de E200-I05 (trazos suavizados, piezas ancladas al borde superior, 10 KB o menos) y aplicarla en `TechnologyWall.astro` con la variante de `Band.astro`, sin la cuadrícula.
+- [x] **Grilla de tecnologías:** comprobar que las curvas no se confunden con los logos de las tarjetas, en claro y oscuro, a 360, 768, 1.024 y 1.920 px.
+- [~] **Revisión visual:** protocolo de la épica en `/es/desarrollador/` y `/en/developer/`, incluidos los filtros del portafolio, para confirmar que no cambió nada fuera de las dos secciones.
+- [~] **Registro y bloques:** ADR-116, bloque de `DESIGN.md` 4.5 (campo de puntos y curvas de nivel también en Desarrollador) y 11.6 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/pages/es/desarrollador.astro`, `src/pages/en/developer.astro` (si la capa envuelve ambos componentes), `src/components/developer/TechnologyWall.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
@@ -73,6 +73,10 @@ Aplicar en Desarrollador (`/es/desarrollador/` y `/en/developer/`) los dos fondo
     - la banda «Conjunto de Tecnologías» cambia la cuadrícula por curvas de nivel con una composición propia: un relieve que cae desde el borde superior, centrado detrás del encabezado de la banda.
 - **Consecuencias:** el campo de puntos queda como fondo común de las secciones principales (Inicio, Educación, Experiencia y Desarrollador), y las curvas de nivel suman un cuarto uso, siempre con composición propia. Felipe edita `DESIGN.md` 4.5 y 11.6 (ADR-033).
 - **Origen:** E200-I08, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.
+
+## Avance
+- **Parte A (25-11-2026):** implementación y verificación local terminadas: `DeveloperIntro.astro` con puntos y halo, sin variable nueva; forma `summit` en `ContourLines.astro` (8.000 B) aplicada en `TechnologyWall.astro`; ADR-116 registrado. Los 7 comandos en verde. Interpretación, mediciones y bloques de `DESIGN.md` en `99_bitacora/2026-11-25_E200-I08.md`.
+- **Parte B (pendiente):** preview de rama (Felipe valida la composición), PageSpeed y preparación del lote B (I05 a I08) para el merge.
 
 ## Riesgos y notas
 - «Aspectos técnicos» tiene texto pequeño y en peso ligero: es la zona más sensible a los puntos. Por eso la máscara se lleva hacia la derecha y arriba, donde está el espacio libre de la captura.
