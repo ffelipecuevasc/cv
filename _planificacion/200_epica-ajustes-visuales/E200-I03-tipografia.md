@@ -1,5 +1,5 @@
 # E200-I03 · Tipografía: Sora, Work Sans e IBM Plex Mono
-- **Estado:** [~] En curso (fase 4: AT-158 sin resolver con 1,75 rem y AT-159 nuevo; esperan la decisión de Felipe)
+- **Estado:** [~] En curso (fase 5 en local terminada el 25-11-2026; AT-158 y AT-159 resueltos; espera los bloques de `DESIGN.md` y la revisión de Felipe en la preview)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-016, ADR-041, ADR-043, ADR-049, ADR-107, ADR-109
 
@@ -49,8 +49,8 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - [x] **Escala:** aplicar los roles en los componentes que nombran familias o pesos (búsqueda de `font-display`, `font-sans`, `Cinzel`, `Josefin`, `font-weight: 300` y `italic` en `src/`), sin valores fuera de los tokens.
 - [x] **Logotipo:** nombre en Sora y renglón 2 en IBM Plex Mono; recalcular la reserva de ancho de la máquina de escribir y comprobar el umbral de 420 px de ADR-051 y que el cursor siga pegado al texto.
 - [x] **Hero:** recalcular el `clamp()` del h1 para que «Docente Universitario en» y su versión en inglés quepan según 5.2, y repetir la matriz sin scroll de ADR-016 en los dos temas e idiomas.
-- [ ] **Revisión visual:** protocolo de la épica en las 12 páginas por idioma y la 404, con foco en desbordes del inglés, botones, chips, pestañas, cifras y formularios.
-- [ ] **Registro y bloques:** ADR-111 y bloque de `DESIGN.md` (2.2, 3.2, 5.1 a 5.3 y 7.3) en la bitácora; PageSpeed Insights de `/es/` y `/en/` en la preview frente a la línea base de E190-I04.
+- [x] **Revisión visual:** protocolo de la épica en las 12 páginas por idioma y la 404, con foco en desbordes del inglés, botones, chips, pestañas, cifras y formularios.
+- [x] **Registro y bloques:** ADR-111 y bloque de `DESIGN.md` (2.2, 3.2, 5.1 a 5.3 y 7.3) en la bitácora; PageSpeed Insights de `/es/` y `/en/` en la preview frente a la línea base de E190-I04.
 
 ## Archivos previstos (crear / modificar)
 - Crear: `src/assets/fonts/` con los WOFF2 y las licencias OFL de Sora, Work Sans e IBM Plex Mono.
@@ -63,9 +63,9 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - [x] Ningún componente nombra Cinzel ni Josefin; ninguna familia se declara fuera de los tokens.
 - [x] La matriz de ADR-016 se cumple en claro y oscuro, en es y en.
 - [x] El logotipo anima con CLS 0, el cursor sigue al texto y el renglón 2 no salta.
-- [ ] Sin desbordes del inglés en 360, 768, 1.366 y 1.920 px.
-- [ ] Contrastes de 4.4 sin cambios (solo cambian las familias) y texto de cuerpo en 400 o más.
-- [ ] PageSpeed Insights sin regresión frente a la línea base de E190-I04 (ADR-015).
+- [x] Sin desbordes del inglés en 360, 768, 1.366 y 1.920 px.
+- [x] Contrastes de 4.4 sin cambios (solo cambian las familias) y texto de cuerpo en 400 o más.
+- [x] PageSpeed Insights sin regresión frente a la línea base de E190-I04 (ADR-015).
 - [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
@@ -99,3 +99,4 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - **Fase 2 en local (24-11-2026):** fuentes en `dist/_astro/fonts` = 113.520 B (110,9 KiB; AT-152 resuelto); precarga antes: Josefin normal y Cinzel, ahora: Work Sans y Sora; h1 `clamp(2rem, 3vw, 2.75rem)` (tope medido: 3,46 rem por «Docente Universitario en», 2,98 rem por la frase destacada más larga); matriz de ADR-016 correcta en 16 casos (h1 de 2 líneas como máximo, credenciales y riel dentro del área visible); logotipo de 161 px bajo 640 px y 203 px desde 640 px, barra sin desborde a 360, 419 y 420 px, CLS 0 y renglón 2 sin saltos en 16 s del ciclo; sin scroll horizontal en 24 páginas (es, en y 404) a 360, 768, 1.366 y 1.920 px; las cifras «+2.000» y «+150» de las bandas invaden unos 9 px el relleno de su celda sin tocar la vecina (se les aplica el −0,01 em de la escala); ningún hash de CSP cambia (sin bloque de `public/_headers`); ADR-111 registrado; bloques de `DESIGN.md` y `AGENTS.md` en la bitácora.
 - **Fase 3 en la preview (24-11-2026, `0d4ab31`):** fechas corregidas a 24-11-2026; precarga de solo Work Sans y Sora, sin peticiones a Google Fonts; 24 páginas (es, en y 404) en 4 anchos y 2 temas sin scroll horizontal; consola sin errores salvo los 404 esperados de las rutas inexistentes; matriz de ADR-016 correcta en 16 casos; logotipo con CLS 0, 0 saltos y cursor pegado; nota «traducido» con 7,20:1 (claro) y 8,72:1 (oscuro); PageSpeed Insights sin regresión (ver bitácora). **Bloqueo:** a 360 px «+2.000» choca con la cifra vecina en Docente (AT-158); I03 sigue `[~]` hasta que Felipe decida la corrección.
 - **Fase 4 (24-11-2026, local):** `clamp(1.75rem, 3vw, 2.6rem)` en `MentoringBand.astro` y `Achievements.astro` (aprobado por Felipe). No cumple el criterio: a 360 px «+2.000» queda a 9 px del «1» en Docente/Lecturer (mínimo 12 px) y a 320 px es más ancho que su columna (100 > 96 px). Además, a 320 px Desarrollador tiene scroll horizontal por la grilla de tecnologías (AT-159). I03 sigue `[~]`; opciones en la bitácora.
+- **Fase 5 (25-11-2026, local):** `clamp(1.625rem, 3vw, 2.6rem)` en las cifras de `MentoringBand.astro` y `Achievements.astro` y `overflow-wrap: anywhere` en `.role` de `TechnologyWall.astro` (decisiones de Felipe). A 360 px, 16,2 px de separación mínima entre cifras; a 320 px «+2.000» cabe en su columna (93,2 / 96 px) con 2,8 px de separación; sin scroll horizontal en las 24 páginas a 320 y 360 px; escritorio sin cambios. AT-158 y AT-159 resueltos. Falta que Felipe suba los bloques de `DESIGN.md` y confirme la revisión en la preview.

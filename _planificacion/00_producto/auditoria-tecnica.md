@@ -1273,14 +1273,16 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 
 
 ### AT-158 · Con Sora, «+2.000» choca con la cifra vecina a 360 px en Docente (E200-I03)
-- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E200-I03 (pendiente de la decisión de Felipe)
+- **Severidad:** Media · **Estado:** Resuelto (E200-I03, fase 5, 25-11-2026) · **Resuelve:** E200-I03
 - **Evidencia (24-11-2026, preview `0d4ab31`, Playwright):** a 360 px las bandas de cifras de 3 columnas (`MentoringBand.astro` en `/es/docente/` y `/en/lecturer/`; `Achievements.astro` en `/es/talento-digital/` y `/en/talento-digital/`) usan `clamp(1.9rem, 3vw, 2.6rem)` = 30,4 px; «+2.000» en Sora 400 mide 109 px en una columna de 109 px con 77 px de contenido. En Docente se lee «+2.0001» (toca el «1» de la celda siguiente); en Talento Digital cabe sin tocar a la vecina (16 px de separación). Desde 768 px solo invade el relleno (7–9 px), sin choque. Con Cinzel no pasaba: sus cifras eran más angostas.
 - **Impacto:** criterio «sin desbordes» de E200-I03 incumplido en móvil; lectura errónea de la cifra.
 - **Recomendación:** bajar el mínimo del `clamp()` de esas `dd` a 1,75 rem (28 px; «+2.000» ≈ 100 px) o menor, sin tocar la composición. Lo decide Felipe.
 - **Fase 4 (24-11-2026, local, `clamp(1.75rem, 3vw, 2.6rem)` aprobado por Felipe):** no alcanza. Con 28 px, «+2.000» mide 100 px: a 360 px queda a 9 px del «1» en Docente/Lecturer (criterio: 12 px) y a 320 px es más ancho que su columna (100 > 96) y choca (−4,3 px). Talento Digital: 25 px a 360 y 11,7 px a 320. Escritorio sin cambios (41 px desde 1.366). Sigue abierto; opciones en la bitácora.
+- **Resolución (E200-I03 fase 5, 25-11-2026):** Felipe elige `clamp(1.625rem, 3vw, 2.6rem)` en `MentoringBand.astro` y `Achievements.astro`. Medido en local (es y en, claro y oscuro): «+2.000» mide 93,2 px; a 360 px la separación mínima es de 16,2 px (Docente/Lecturer) y 32,2 px (Talento Digital); a 320 px cabe en su columna (93,2 / 96 px) con 2,8 px de separación en Docente/Lecturer y 18,8 px en Talento Digital. «+150» mide 69,3 px. Escritorio sin cambios (41 px a 1.366 y 41,6 px a 1.920).
 
 ### AT-159 · Con Work Sans, la grilla de tecnologías de Desarrollador desborda a 320 px (E200-I03)
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E200-I03 (pendiente de la decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto (E200-I03, fase 5, 25-11-2026) · **Resuelve:** E200-I03
 - **Evidencia (24-11-2026, local, Playwright):** a 320 px `/es/desarrollador/` y `/en/developer/` tienen scroll horizontal (`scrollWidth` 329 y 327). Lo causa `TechnologyWall.astro`: en mosaicos de 2 columnas, el texto del rol («Authentication» y similares, Work Sans 400 de 13 px) mide 93 px en una etiqueta de 58 px y empuja la grilla. Producción, todavía con Josefin, da 321 y 320 px: el desborde existía en 1 px y E200-I03 lo amplía a 7–9 px. A 360 px no hay scroll.
 - **Impacto:** scroll horizontal en móviles de 320 px (iPhone SE de 1.ª generación y similares), fuera de la matriz de E200 (360 px es el ancho mínimo revisado hasta ahora).
 - **Recomendación:** permitir el corte de palabra en el rol (`overflow-wrap: anywhere` o `min-width: 0` en la etiqueta) sin cambiar tamaños; lo decide Felipe.
+- **Resolución (E200-I03 fase 5, 25-11-2026):** `overflow-wrap: anywhere` en `.role` de `TechnologyWall.astro` (decisión de Felipe). A 320 px «Authentication» se parte en 2 líneas («Authenti / cation») dentro de su etiqueta de 58 px y Desarrollador/Developer ya no tiene scroll horizontal. Los nombres de los mosaicos («PostgreSQL», «Oracle Database») ya se partían igual en producción, porque su `overflow-wrap: anywhere` es anterior.
