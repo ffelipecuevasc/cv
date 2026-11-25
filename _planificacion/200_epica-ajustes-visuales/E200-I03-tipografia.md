@@ -1,5 +1,5 @@
 # E200-I03 · Tipografía: Sora, Work Sans e IBM Plex Mono
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (fase 1 presentada el 24-11-2026; espera visto bueno de Felipe)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I02 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-015, ADR-016, ADR-041, ADR-043, ADR-049, ADR-107, ADR-109
 
@@ -43,7 +43,7 @@ Reemplazar la tipografía de todo el sitio (Cinzel y Josefin Sans) por la combin
 - La imagen Open Graph (sigue sin texto traducible).
 
 ## Tareas
-- [ ] **Validar roles:** presentar a Felipe la tabla de roles y la escala propuesta (rol, familia, peso, tamaño, alto de línea, interletraje) y esperar su visto bueno antes de tocar código.
+- [~] **Validar roles:** presentar a Felipe la tabla de roles y la escala propuesta (rol, familia, peso, tamaño, alto de línea, interletraje) y esperar su visto bueno antes de tocar código.
 - [ ] **Fuentes:** obtener Sora y Work Sans variables e IBM Plex Mono (400 y 500) de sus repositorios oficiales con licencia OFL, con subconjunto latino (incluye á é í ó ú ñ ü ¿ ¡ « » – —), en WOFF2; dejar las licencias junto a los archivos y retirar Cinzel y Josefin. Medir el total: si pasa de 120 KB, detenerse y consultar a Felipe.
 - [ ] **Configuración:** `astro.config.mjs` (tres familias con `fontProviders.local()` y respaldos con métricas ajustadas) y `global.css` (`--font-display`, `--font-sans` y el token nuevo `--font-mono`).
 - [ ] **Escala:** aplicar los roles en los componentes que nombran familias o pesos (búsqueda de `font-display`, `font-sans`, `Cinzel`, `Josefin`, `font-weight: 300` y `italic` en `src/`), sin valores fuera de los tokens.

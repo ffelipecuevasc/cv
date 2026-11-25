@@ -1225,6 +1225,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 
 ### AT-152 · E200-I03 puede superar el presupuesto de 120 KB de fuentes
 - **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E200-I03
+- **Medición (E200-I03 fase 1, 24-11-2026):** WOFF2 latinos servidos por la API CSS2 de Google Fonts: Sora `wght 300..600` 33.652 B, Work Sans `wght 400..600` 50.316 B, IBM Plex Mono 400 14.648 B y 500 14.904 B; total 113.520 B (110,9 KiB), bajo el tope de 120 KiB con 9,1 KiB de holgura. Sigue abierto hasta medir `_astro/fonts` en el `dist/` (fase 2).
 - **Evidencia (24-11-2026):** `scripts/verify-seo.mjs:2743` fija `FONTS_MAX_KB = 120` y mide `_astro/fonts` en KiB (`:2744`, `:2771`). Las fuentes actuales de `src/assets/fonts/` suman 85.576 bytes (83,6 KiB: Cinzel 25.904, Josefin Sans 28.528 y su cursiva 31.144). E200-I03 las reemplaza por Sora y Work Sans variables y dos archivos estáticos de IBM Plex Mono (400 y 500), sin cursivas. **No verificado:** el peso de esos WOFF2 con subconjunto latino ni el del `dist/` actual.
 - **Impacto:** `verify:seo` fallaría si el total supera 120 KiB, y más peso de fuentes empeora el LCP frente a la línea base de ADR-015 (`/es/` móvil 1,68 s).
 - **Recomendación:** medir los cuatro archivos antes de fijar la escala (tarea «Fuentes» de E200-I03, que ya manda detenerse y consultar a Felipe si se pasa). Si no caben, reducir pesos o el subconjunto; no subir el límite sin un ADR.
