@@ -1288,7 +1288,8 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Resolución (E200-I03 fase 5, 25-11-2026):** `overflow-wrap: anywhere` en `.role` de `TechnologyWall.astro` (decisión de Felipe). A 320 px «Authentication» se parte en 2 líneas («Authenti / cation») dentro de su etiqueta de 58 px y Desarrollador/Developer ya no tiene scroll horizontal. Los nombres de los mosaicos («PostgreSQL», «Oracle Database») ya se partían igual en producción, porque su `overflow-wrap: anywhere` es anterior.
 
 ### AT-160 · La frase del pie ocupa más de 3 líneas entre 768 y 1.279 px (E200-I04)
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** E200-I04 (pendiente de la decisión de Felipe)
+- **Severidad:** Baja · **Estado:** Resuelto (E200-I04, decisión de Felipe, 25-11-2026) · **Resuelve:** E200-I04
 - **Evidencia (25-11-2026, local, Playwright):** con 3 columnas desde 768 px, la columna de marca mide 213 px a 768, 257 a 900, 299 a 1.024, 357 a 1.200 y 384 desde 1.280. La frase (opción A, Work Sans 400 de 15,5 px, 44 caracteres de ancho máximo) ocupa 6 líneas a 768, 5 a 900 y 1.024 (4 en inglés a 1.024), 4 a 1.100 y 1.200, y 3 desde 1.280, en es y en. A 320 y 360 px (una columna) ocupa 5 y 4 líneas, sin desbordes.
 - **Impacto:** el criterio de E200-I04 «3 líneas o menos desde 768 px» no se cumple; el pie se ve correcto, pero la columna de marca queda más alta que las otras entre 768 y 1.279 px.
 - **Recomendación:** ver las opciones en `99_bitacora/2026-11-25_E200-I04.md`; lo decide Felipe.
+- **Resolución (25-11-2026):** Felipe elige la opción 1: el criterio pasa a «3 líneas o menos desde 1.280 px; entre 768 y 1.279 px puede ocupar hasta 6». Entre 768 y 1.279 px la frase ocupa de 4 a 6 líneas, sin desbordes; desde 1.280 px, 3. Sin cambios de código.

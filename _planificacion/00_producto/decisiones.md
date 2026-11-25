@@ -1272,4 +1272,5 @@ Reglas del registro:
   - el correo del pie se muestra como «Correo electrónico» / «Email» (`footer.email` del diccionario); el `mailto:` no cambia y `social-links.ts` deja de tener etiqueta para el correo (el riel del hero ya usaba la suya).
 - **Sustituye en parte:** ADR-057 en la variante del botón de CV. La ubicación, la URL y el nombre accesible del CV no cambian.
 - **Consecuencias:** la variante Dorado pasa a tener dos usos (Instructor y pie). En claro, el dorado frente a `orient-50` mide 1,34:1; el botón se identifica por su texto (12,43:1) y en la revisión del 25-11-2026 destaca en ambos temas. `verify:seo` suma 3 controles (correo del pie y botón dorado en todas las páginas). Felipe edita `DESIGN.md` 7.3 y 7.9 (ADR-033).
+- **Complemento (25-11-2026, decisión de Felipe, AT-160):** la frase ocupa 3 líneas o menos desde 1.280 px; entre 768 y 1.279 px puede ocupar hasta 6 (medido de 4 a 6, sin desbordes). Sin cambios de código.
 - **Origen:** E200-I04, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.

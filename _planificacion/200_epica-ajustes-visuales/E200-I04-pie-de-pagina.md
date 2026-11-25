@@ -1,5 +1,5 @@
 # E200-I04 · Ajustes del pie de página
-- **Estado:** [~] En curso (25-11-2026; implementación local hecha; pendiente la decisión de Felipe sobre AT-160 y su visto bueno en la preview)
+- **Estado:** [x] Terminada (25-11-2026; revisión de Felipe en la preview, inglés validado)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I03 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-025, ADR-044, ADR-050, ADR-057, ADR-063, ADR-107, ADR-111
 
@@ -45,20 +45,20 @@ Aplicar los ajustes del pie que pidió Felipe el 16-11-2026: una frase de marca 
 - [x] **Flecha:** agregar al enlace de las columnas 2 y 3 una flecha decorativa (`aria-hidden`) que aparece con `:hover` y `:focus-visible`, con opacidad y desplazamiento de 6 px en `--duration-base`; sin desplazamiento con `prefers-reduced-motion`. Agregar la flecha diagonal de Material Symbols Light a `icons.ts` con su comentario de origen.
 - [x] **Correo:** sacar la etiqueta de `social-links.ts` hacia el diccionario (`footer.email`: «Correo electrónico» / «Email»), sin traducir los nombres propios de las otras redes (ADR-025).
 - [x] **Controles:** revisar `scripts/verify-seo.mjs` y `check-i18n.mjs`; ajustar solo lo que dependa del texto del correo o de la clase del botón, y comprobar que el control ajustado falla ante un caso roto.
-- [~] **Revisión visual:** protocolo de la épica en el pie de 3 páginas por idioma (Inicio, Contacto y 404), con hover y foco en cada enlace y en el botón, en claro y oscuro.
+- [x] **Revisión visual:** protocolo de la épica en el pie de 3 páginas por idioma (Inicio, Contacto y 404), con hover y foco en cada enlace y en el botón, en claro y oscuro.
 - [x] **Registro y bloques:** ADR-112 y bloque de `DESIGN.md` 7.3 (variante Dorado en dos usos) y 7.9 (frase, botón, flecha y etiqueta del correo) en la bitácora.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/layout/Footer.astro`, `src/components/layout/social-links.ts`, `src/i18n/ui.ts`, `src/components/ui/icons.ts` y, si hace falta, `scripts/verify-seo.mjs`.
 
 ## Criterios de aceptación (verificables)
-- [ ] La frase nueva se ve en es y en, en 3 líneas o menos desde 768 px y sin desbordes a 360 px.
+- [x] La frase nueva se ve en es y en, en 3 líneas o menos desde 1.280 px (entre 768 y 1.279 px, hasta 6) y sin desbordes a 360 px (criterio ajustado por Felipe el 25-11-2026, AT-160).
 - [x] «Descargar CV» es dorado en claro y oscuro, descarga el PDF y conserva su nombre accesible por idioma.
 - [x] Los 6 enlaces de navegación y los 4 de redes muestran la flecha con el puntero y con Tab, y la ocultan al salir; ↗ solo en los 3 externos.
 - [x] Con `prefers-reduced-motion: reduce`, la flecha aparece sin moverse.
 - [x] El correo dice «Correo electrónico» / «Email» y abre `mailto:contacto@felipecuevas.dev`.
 - [x] Lectores de pantalla: la flecha no se anuncia; los externos siguen anunciando que abren pestaña nueva.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -83,10 +83,11 @@ Aplicar los ajustes del pie que pidió Felipe el 16-11-2026: una frase de marca 
 - La frase depende de datos ya publicados en el sitio; no agrega afirmaciones nuevas.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
 
 ## Avance
 - **25-11-2026 (local):** frase A, botón dorado, flechas (→ interna y correo; ↗ en LinkedIn, GitHub y REUF; `aria-hidden`; 6 px; quieta con movimiento reducido), «Correo electrónico» / «Email» desde `footer.email` e ícono `arrow-outward` en `icons.ts`. `social-links.ts` deja sin etiqueta el correo (el riel del hero ya usaba la suya). `verify:seo` con 3 controles nuevos (1195/1195; la mutación del correo y del botón hace fallar 2). Revisión local en Inicio, Contacto y 404 (es y en; 320, 360, 768, 1.366 y 1.920 px; claro y oscuro): sin desbordes; el dorado destaca en ambos temas. **No se cumple** «frase en 3 líneas o menos desde 768 px»: 6 líneas a 768 y 3 desde 1.280 (AT-160, lo decide Felipe). ADR-112 registrado.
+- **Cierre (25-11-2026):** Felipe elige la opción 1 de AT-160 (criterio a 1.280 px), sube los bloques de `DESIGN.md` (7.3, 7.9 y línea 227), revisa el pie en la preview en es y en y valida el inglés (ADR-017). E200-I04 terminada.
