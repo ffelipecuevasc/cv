@@ -37,7 +37,7 @@
 - En escritorio, navbar + hero + las **4 certificaciones** (Oracle, AWS, Python Institute y Anthropic) + las **redes sociales** deben verse completos al cargar, sin scroll.
 - Matriz de verificación (ADR-016), en área visible: 1366×638, 1440×770, 1536×734 y 1920×950 px, en ambos temas y ambos idiomas.
 - No se elimina ningún elemento de la lista de conservación de E40-I01 sin ADR.
-- El h1 del hero usa `clamp(2rem, 3vw, 2.75rem)` en Sora 600 (5.2, ADR-111); la matriz se verificó completa el 25-11-2026.
+- El h1 del hero usa `clamp(2rem, 3vw, 2.75rem)` en Sora 600 (5.2, ADR-111); la matriz se verificó completa el 24-11-2026.
 
 ### 2.3 Tema claro y oscuro
 - Ambos temas son obligatorios y tienen el mismo nivel de terminación.
