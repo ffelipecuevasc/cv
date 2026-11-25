@@ -1224,9 +1224,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** E200-I06 agrega una tarea que repita la matriz del hero en ambos temas, idiomas y los 3 perfiles, o que compare los estilos calculados de `texture-dots` y `texture-halo` en el hero antes y después. Las iteraciones siguientes la repiten si cambian esas utilidades.
 
 ### AT-152 · E200-I03 puede superar el presupuesto de 120 KB de fuentes
-- **Severidad:** Media · **Estado:** Resuelto (E200-I03, fase 2, 25-11-2026) · **Resuelve:** E200-I03
+- **Severidad:** Media · **Estado:** Resuelto (E200-I03, fase 2, 24-11-2026) · **Resuelve:** E200-I03
 - **Medición (E200-I03 fase 1, 24-11-2026):** WOFF2 latinos servidos por la API CSS2 de Google Fonts: Sora `wght 300..600` 33.652 B, Work Sans `wght 400..600` 50.316 B, IBM Plex Mono 400 14.648 B y 500 14.904 B; total 113.520 B (110,9 KiB), bajo el tope de 120 KiB con 9,1 KiB de holgura. Sigue abierto hasta medir `_astro/fonts` en el `dist/` (fase 2).
-- **Resolución (E200-I03 fase 2, 25-11-2026):** `dist/_astro/fonts` con los cuatro WOFF2 suma 113.520 B (110,9 KiB); `verify:seo` 1192/1192 con el control de 120 KB en verde. Sin subir el límite.
+- **Resolución (E200-I03 fase 2, 24-11-2026):** `dist/_astro/fonts` con los cuatro WOFF2 suma 113.520 B (110,9 KiB); `verify:seo` 1192/1192 con el control de 120 KB en verde. Sin subir el límite.
 - **Evidencia (24-11-2026):** `scripts/verify-seo.mjs:2743` fija `FONTS_MAX_KB = 120` y mide `_astro/fonts` en KiB (`:2744`, `:2771`). Las fuentes actuales de `src/assets/fonts/` suman 85.576 bytes (83,6 KiB: Cinzel 25.904, Josefin Sans 28.528 y su cursiva 31.144). E200-I03 las reemplaza por Sora y Work Sans variables y dos archivos estáticos de IBM Plex Mono (400 y 500), sin cursivas. **No verificado:** el peso de esos WOFF2 con subconjunto latino ni el del `dist/` actual.
 - **Impacto:** `verify:seo` fallaría si el total supera 120 KiB, y más peso de fuentes empeora el LCP frente a la línea base de ADR-015 (`/es/` móvil 1,68 s).
 - **Recomendación:** medir los cuatro archivos antes de fijar la escala (tarea «Fuentes» de E200-I03, que ya manda detenerse y consultar a Felipe si se pasa). Si no caben, reducir pesos o el subconjunto; no subir el límite sin un ADR.
@@ -1270,3 +1270,10 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Recomendación:** si se vuelve a tocar `giscus.ts`, enviar el tema solo cuando cambie `.dark` (guardar el último valor enviado). Fuera del alcance de E200-I02.
 - **Avance (E200-I02 fase 2, 24-11-2026, preview de rama):** con el iframe de Giscus aún sin cargar (carga diferida), cada cambio de tema deja en la consola la advertencia «Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://giscus.app') does not match the recipient window's origin» (4 veces en el recorrido). Sin efecto visible: con el iframe cargado, el tema cambia bien (`light.css` ↔ `transparent_dark.css`). La misma recomendación lo resuelve: no enviar si el iframe no ha cargado.
 
+
+
+### AT-158 · Con Sora, «+2.000» choca con la cifra vecina a 360 px en Docente (E200-I03)
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** E200-I03 (pendiente de la decisión de Felipe)
+- **Evidencia (24-11-2026, preview `0d4ab31`, Playwright):** a 360 px las bandas de cifras de 3 columnas (`MentoringBand.astro` en `/es/docente/` y `/en/lecturer/`; `Achievements.astro` en `/es/talento-digital/` y `/en/talento-digital/`) usan `clamp(1.9rem, 3vw, 2.6rem)` = 30,4 px; «+2.000» en Sora 400 mide 109 px en una columna de 109 px con 77 px de contenido. En Docente se lee «+2.0001» (toca el «1» de la celda siguiente); en Talento Digital cabe sin tocar a la vecina (16 px de separación). Desde 768 px solo invade el relleno (7–9 px), sin choque. Con Cinzel no pasaba: sus cifras eran más angostas.
+- **Impacto:** criterio «sin desbordes» de E200-I03 incumplido en móvil; lectura errónea de la cifra.
+- **Recomendación:** bajar el mínimo del `clamp()` de esas `dd` a 1,75 rem (28 px; «+2.000» ≈ 100 px) o menor, sin tocar la composición. Lo decide Felipe.
