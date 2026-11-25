@@ -1250,3 +1250,15 @@ Reglas del registro:
     5. **Sin preview.** `preview_urls: false`, revisión local (`pnpm build && pnpm preview`) y merge por lotes sin URL de rama. Pierde la revisión desde el celular que pidió Felipe.
 - **Recomendación del agente:** primero el push de `ajustes-visuales` con la configuración actual (es inocuo respecto del hallazgo) para confirmar la creación de la preview, su URL, el `noindex` y que no hereda secretos; después la opción 3 (experimento). Si las previews exigen `preview_urls: true`, aceptar (opción 1) mientras no haya motivos para más, sabiendo que Access (opción 2) es la salida si Felipe quiere cerrar la exposición. Dependiendo del resultado, AT-100 se cierra como «sin efecto» o se redefine, y AT-147 se resuelve (la preview no manda correos reales).
 - **Origen:** E200-I01 fase 2, 24-11-2026 (premisa de ADR-108 verificada en vivo y contra la documentación). **Estado:** Pendiente.
+
+## ADR-111 · Tipografía Sora, Work Sans e IBM Plex Mono (sustituye a ADR-041 y en parte a ADR-049)
+- **Contexto:** E200-I03. Felipe comparó en el chat tres sistemas aplicados al hero (16-11-2026): Sora + Work Sans + IBM Plex Mono, Newsreader + Hanken Grotesk + JetBrains Mono, y Geist + Geist Mono. Cinzel en mayúsculas romanas cuesta en titulares largos y en inglés, y Josefin 300 obligó a reglas de contraste propias (AT-115).
+- **Decisión (de Felipe, 16-11-2026; roles, escala, fuentes y precarga validados el 25-11-2026):**
+  - Sora (variable `300 600`) para titulares, cifras, nombre del logotipo y frase destacada del hero; Work Sans (variable `400 600`) para el texto; IBM Plex Mono 400 y 500 (estáticas) para rótulos, `dt` de cifras, chips, pestañas del hero y el renglón 2 del logotipo. Tokens `--font-display`, `--font-sans` y el nuevo `--font-mono`.
+  - Las tres con licencia OFL 1.1, autoalojadas con la API de fuentes de Astro (ADR-043): WOFF2 con el subconjunto latino que sirve la API CSS2 de Google Fonts y `OFL.txt` de `google/fonts`. Total 113.520 B (110,9 KiB) en `_astro/fonts`, bajo el tope de 120 KiB. Sin cursivas cargadas.
+  - Precarga solo de Sora y Work Sans; Plex Mono sin precarga (antes: Josefin normal y Cinzel).
+  - Sora 300 solo en 28 px o más; el texto de cuerpo va en Work Sans 400 o más.
+  - h1 del hero: `clamp(2rem, 3vw, 2.75rem)`. Medido con Playwright: «Docente Universitario en» cabe en 680 px hasta 3,46 rem y la frase destacada más larga («Bootcamps de Talento Digital», Sora 300) hasta 2,98 rem; se conserva el tope de 2,75 rem.
+- **Sustituye:** ADR-041 (Cinzel y Josefin Sans) y ADR-049 en la tipografía del logotipo (ícono, frases, ritmo y comportamiento no cambian).
+- **Consecuencias:** el sitio usa la misma tipografía que la identidad visual de Felipe. Se retira la regla de Josefin 300 de `DESIGN.md` 5.3. El logotipo pasa de unos 156 a 161 px bajo 640 px y la barra no desborda a 360, 419 ni 420 px (ADR-051 sin cambios). Felipe edita `DESIGN.md` y `AGENTS.md` con los bloques de `99_bitacora/2026-11-24_E200-I03.md` (ADR-033).
+- **Origen:** E200-I03, decisión de Felipe, 16-11-2026 y 25-11-2026. **Estado:** Aceptada.

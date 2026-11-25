@@ -106,6 +106,8 @@ const items = stats.items.map((item) => {
   }
 
   dt {
+    font-weight: 400;
+    font-family: var(--font-mono);
     color: var(--color-text-soft);
     font-size: 12px;
     letter-spacing: 0.1em;
@@ -117,18 +119,19 @@ const items = stats.items.map((item) => {
      "Certificaciones" no cabría con ese interletraje. */
   @media (min-width: 30rem) {
     dt {
-      font-size: 12.5px;
-      letter-spacing: 0.16em;
+      font-size: 12px;
+      letter-spacing: 0.1em;
     }
   }
-  /* 5.2 Cifra: Cinzel 400, números tabulares. El tope baja a 3 rem para que "+2.000" quepa
-     en una de las 5 columnas desde 1.024 px. */
+  /* 5.2 Cifra: Sora 400, números tabulares (ADR-111). Tope de 2,75 rem para que "+2.000"
+     quepa en una de las 5 columnas desde 1.024 px. */
   .figure {
     display: block;
     margin-top: 12px;
     color: var(--color-heading);
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 3vw, 3rem);
+    font-size: clamp(2rem, 2.8vw, 2.75rem);
+    letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums lining-nums;
     line-height: 1;
   }

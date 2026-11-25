@@ -37,41 +37,53 @@ export default defineConfig({
   redirects: {
     '/': '/es/',
   },
-  // Fuentes autoalojadas con la API de fuentes y el proveedor local (ADR-041, ADR-043).
-  // Archivos WOFF2 variables, subconjunto latino, en src/assets/fonts/ (licencias OFL junto a ellos).
+  // Fuentes autoalojadas con la API de fuentes y el proveedor local (ADR-111, ADR-043).
+  // WOFF2 con subconjunto latino de Google Fonts en src/assets/fonts/ (licencias OFL junto a ellos):
+  // Sora y Work Sans variables, IBM Plex Mono en dos archivos estáticos (400 y 500). Sin cursivas.
   // Astro genera respaldos con métricas ajustadas a partir del último respaldo genérico.
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Cinzel',
-      cssVariable: '--font-cinzel',
-      fallbacks: ['Georgia', 'serif'],
+      name: 'Sora',
+      cssVariable: '--font-sora',
+      fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          { weight: '300 600', style: 'normal', src: ['./src/assets/fonts/sora-latin-wght.woff2'] },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Work Sans',
+      cssVariable: '--font-work-sans',
+      fallbacks: ['system-ui', 'sans-serif'],
       options: {
         variants: [
           {
             weight: '400 600',
             style: 'normal',
-            src: ['./src/assets/fonts/cinzel-latin-wght.woff2'],
+            src: ['./src/assets/fonts/work-sans-latin-wght.woff2'],
           },
         ],
       },
     },
     {
       provider: fontProviders.local(),
-      name: 'Josefin Sans',
-      cssVariable: '--font-josefin-sans',
-      fallbacks: ['system-ui', 'sans-serif'],
+      name: 'IBM Plex Mono',
+      cssVariable: '--font-ibm-plex-mono',
+      fallbacks: ['ui-monospace', 'monospace'],
       options: {
         variants: [
           {
-            weight: '300 600',
+            weight: '400',
             style: 'normal',
-            src: ['./src/assets/fonts/josefin-sans-latin-wght.woff2'],
+            src: ['./src/assets/fonts/ibm-plex-mono-latin-400.woff2'],
           },
           {
-            weight: '300 400',
-            style: 'italic',
-            src: ['./src/assets/fonts/josefin-sans-latin-wght-italic.woff2'],
+            weight: '500',
+            style: 'normal',
+            src: ['./src/assets/fonts/ibm-plex-mono-latin-500.woff2'],
           },
         ],
       },

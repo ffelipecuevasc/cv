@@ -75,7 +75,7 @@ const stats = await Promise.all(
     margin: 20px 0 0;
     color: var(--color-text-soft);
     font-size: 1.0625rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.7;
   }
   .lead strong {
@@ -117,8 +117,8 @@ const stats = await Promise.all(
     color: var(--color-heading);
     font-family: var(--font-display);
     font-size: 1.15rem;
-    font-weight: 400;
-    letter-spacing: 0.02em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     line-height: 1.4;
   }
   .stats {
@@ -148,6 +148,8 @@ const stats = await Promise.all(
     background: linear-gradient(180deg, var(--color-gold), var(--color-vibrant));
   }
   dt {
+    font-weight: 400;
+    font-family: var(--font-mono);
     color: var(--color-text-soft);
     font-size: 12px;
     letter-spacing: 0.1em;
@@ -159,6 +161,7 @@ const stats = await Promise.all(
     margin: 0;
     color: var(--color-heading);
     font-family: var(--font-display);
+    letter-spacing: -0.01em;
     font-size: clamp(1.9rem, 3vw, 2.6rem);
     font-variant-numeric: tabular-nums lining-nums;
     line-height: 1;

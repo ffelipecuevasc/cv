@@ -62,26 +62,27 @@ const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
     gap: 16px;
   }
   .kicker {
+    font-family: var(--font-mono);
     color: var(--color-kicker);
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     line-height: 1.4;
     text-transform: uppercase;
   }
   .title {
     margin-top: 20px;
     font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(2rem, 4.2vw, 3.1rem);
-    line-height: 1.2;
-    letter-spacing: 0.02em;
+    font-weight: 600;
+    font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
   .lead {
     margin-top: 20px;
     max-width: 52ch;
     color: var(--color-text-soft);
-    font-weight: 300;
+    font-weight: 400;
   }
   .center,
   .band {
@@ -96,8 +97,9 @@ const Heading = `h${level}` as 'h1' | 'h2' | 'h3';
     margin-inline: auto;
   }
   .band .title {
-    font-size: 1.9rem;
-    letter-spacing: 0.03em;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
   .band-rule {
     margin-top: 20px;

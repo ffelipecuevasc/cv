@@ -59,7 +59,7 @@ const { ui } = await getResourcesPage();
     margin: 0 auto;
     color: var(--color-text);
     font-size: 1.08rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.75;
     text-align: center;
   }
@@ -74,12 +74,14 @@ const { ui } = await getResourcesPage();
     border-top: 1px solid var(--color-border-strong);
   }
   dt {
+    font-weight: 400;
+    font-family: var(--font-mono);
     display: flex;
     align-items: center;
     gap: 10px;
     color: var(--color-text-soft);
-    font-size: 12.5px;
-    letter-spacing: 0.16em;
+    font-size: 12px;
+    letter-spacing: 0.1em;
     line-height: 1.4;
     text-transform: uppercase;
   }
@@ -91,7 +93,7 @@ const { ui } = await getResourcesPage();
     margin: 10px 0 0;
     color: var(--color-text);
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.6;
   }
   .progress {
@@ -125,7 +127,7 @@ const { ui } = await getResourcesPage();
     color: var(--color-text);
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
     transition: border-color var(--duration-base) ease;

@@ -225,10 +225,11 @@ const defaultId = ids[0];
     gap: 16px;
   }
   .kicker {
+    font-family: var(--font-mono);
     color: var(--color-kicker);
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     line-height: 1.4;
     text-transform: uppercase;
   }
@@ -254,9 +255,10 @@ const defaultId = ids[0];
     min-width: 44px;
     padding-inline: 8px;
     color: var(--color-text-muted);
+    font-family: var(--font-mono);
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
     transition: color var(--duration-base) ease;
@@ -274,8 +276,6 @@ const defaultId = ids[0];
     .tab {
       flex: none;
       padding-inline: 20px;
-      font-size: 12.5px;
-      letter-spacing: 0.12em;
     }
   }
 
@@ -304,30 +304,30 @@ const defaultId = ids[0];
     color: var(--profile-current-fg);
   }
 
-  /* 5.2 h1 del hero: Cinzel 500, 1,08, 0,02 em. El tope baja de 3,5 a 2,75 rem (7.4: se ajusta
-     el h1 antes que el retrato): la columna de texto mide 680 px desde 1.280 px y a 2,75 rem la
-     parte fija más larga ("Docente Universitario en") cabe en una línea, así el h1 no pasa de
-     2 líneas en toda la matriz de ADR-016. */
+  /* 5.2 h1 del hero: Sora 600, 1,1, −0,02 em (ADR-111). El tope (2.75rem) se midió con
+     Playwright: la columna de texto mide 680 px desde 1.280 px y con ese tope la parte fija más
+     larga ("Docente Universitario en" y su versión en inglés) cabe en una línea, así el h1 no
+     pasa de 2 líneas en toda la matriz de ADR-016. */
   .headline-stack {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     margin-top: 16px;
     font-family: var(--font-display);
-    font-size: clamp(2.25rem, 3.4vw, 2.75rem);
-    font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: 0.02em;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
-  /* La parte destacada: Josefin 300 cursiva, `accent`, en su propia línea. En pantallas
-     angostas puede partirse en varias líneas (el motor la deja en una sola por omisión). */
+  /* La parte destacada: Sora 300 recta, `accent`, en su propia línea, con el mismo tamaño
+     del h1 (32 px o más: Sora 300 solo en 28 px o más, ADR-111). En pantallas angostas puede
+     partirse en varias líneas (el motor la deja en una sola por omisión). */
   .accent {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     color: var(--color-accent);
-    font-family: var(--font-sans);
-    font-style: italic;
+    font-family: var(--font-display);
     font-weight: 300;
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
   }
   .accent :global(.typewriter-measure),
   .accent :global(.typewriter-text) {
@@ -353,7 +353,7 @@ const defaultId = ids[0];
     max-width: 62ch;
     color: var(--color-text-muted);
     font-size: 1.0625rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.7;
   }
   .lead :global(strong) {

@@ -62,11 +62,12 @@
   --color-border-strong: color-mix(in srgb, var(--color-orient-950) 25%, transparent);
   --color-focus: var(--color-primary);
 
-  /* 5.1 Familias (ADR-041, ADR-043, ADR-049). --font-cinzel y --font-josefin-sans
+  /* 5.1 Familias (ADR-111, ADR-043). --font-sora, --font-work-sans y --font-ibm-plex-mono
      las genera la API de fuentes de Astro, con sus respaldos métricos. */
   --font-*: initial;
-  --font-display: var(--font-cinzel);
-  --font-sans: var(--font-josefin-sans);
+  --font-display: var(--font-sora);
+  --font-sans: var(--font-work-sans);
+  --font-mono: var(--font-ibm-plex-mono);
 
   /* 7.13 Sombras. */
   --shadow-card:
@@ -166,7 +167,7 @@
     /* La navbar pegajosa mide 76 px (7.2): las anclas y el foco no quedan bajo ella. */
     scroll-padding-top: 76px;
   }
-  /* 5.2 Cuerpo base: Josefin 400, 17 px, alto de línea 1,6. El rem raíz sigue en 16 px. */
+  /* 5.2 Cuerpo base: Work Sans 400, 17 px, alto de línea 1,6. El rem raíz sigue en 16 px. */
   body {
     font-family: var(--font-sans);
     font-size: 1.0625rem;

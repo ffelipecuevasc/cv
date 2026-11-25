@@ -95,7 +95,7 @@ Hay dos caminos, de más rápido a más lento. Ambos los ejecuta Felipe desde el
 ## Créditos y licencias
 - Ícono del logotipo: «terminal» de [Material Symbols Light](https://fonts.google.com/icons) (Google), licencia [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). El aviso también está en `src/assets/logo/terminal-icon.svg` (ADR-057).
 - Íconos del sistema: trazados de contorno de [Material Symbols Light](https://fonts.google.com/icons) (Google, colección `material-symbols-light` de Iconify), licencia [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). El aviso está en `src/components/ui/icons.ts` (ADR-063).
-- Tipografías autoalojadas: Cinzel y Josefin Sans, licencia OFL 1.1 (ADR-041).
+- Tipografías autoalojadas: Sora, Work Sans e IBM Plex Mono, licencia OFL 1.1 (ADR-111).
 
 ## WebStorm
 Las configuraciones `pnpm dev`, `pnpm build` y `pnpm check` vienen en `.run/`. La carpeta `.idea/` no se versiona. Los ajustes recomendados (Node, PNPM, Prettier, ESLint y fin de línea LF) están en [`_planificacion/00_producto/guia-webstorm.md`](_planificacion/00_producto/guia-webstorm.md).
