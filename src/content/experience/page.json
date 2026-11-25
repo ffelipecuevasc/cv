@@ -9,6 +9,8 @@
   },
   "timeline": {
     "label": { "es": "Hitos de mi trayectoria", "en": "Career milestones" },
+    "since": { "es": "Desde", "en": "Since" },
+    "today": { "es": "Hoy", "en": "Today" },
     "items": [
       {
         "icon": "certificate",

@@ -522,33 +522,59 @@ for (const [lang, info] of Object.entries(LANGS)) {
     cards.every((card) => (card.match(/class="tag"/g) ?? []).length >= 3),
     'cada tarjeta con sus etiquetas',
   );
-  // Línea de tiempo compacta (E60-I02, ADR-066): 3 hitos con ícono decorativo y periodo.
+  // Línea de tiempo horizontal (E200-I07, ADR-115): 3 hitos en orden cronológico, con un ícono
+  // decorativo cada uno; la línea y sus adornos son decorativos (aria-hidden).
   const timeline = /<ol[^>]*data-timeline[^>]*>([\s\S]*?)<\/ol>/.exec(mainHtml)?.[1] ?? '';
   const milestones = [...timeline.matchAll(/<li[\s>][\s\S]*?<\/li>/g)].map((m) => m[0]);
   check(milestones.length === 3, `línea de tiempo con 3 hitos (${milestones.length})`);
   check(
-    milestones.every((item) => /<svg[^>]*aria-hidden="true"/.test(item)),
-    'cada hito con un ícono decorativo (aria-hidden)',
+    milestones.every((item) => (item.match(/<svg[^>]*aria-hidden="true"/g) ?? []).length === 1) &&
+      milestones.every((item) => (item.match(/<svg/g) ?? []).length === 1),
+    'cada hito con un solo ícono, decorativo (aria-hidden)',
   );
   const present = lang === 'es' ? 'Actualidad' : 'Present';
-  check(
-    same(
-      milestones.map((item) => /class="period[^"]*"[^>]*>([^<]*)</.exec(item)?.[1]),
-      [`2023 - ${present}`, `2013 - ${present}`, `2011 - ${present}`],
-    ),
-    'periodos de los hitos: 2023, 2013 y 2011, hasta la actualidad',
-  );
-  // AT-081: el hito toma el periodo de la tarjeta de su perfil. Las tarjetas van en el orden
-  // docente, desarrollador, instructor; los hitos, en el orden instructor, docente, desarrollador.
-  const cardPeriods = cards.map(
-    (card) => /class="meta"[^>]*>([^<]*?) · /.exec(card)?.[1]?.trim() ?? '',
+  const since = lang === 'es' ? 'Desde' : 'Since';
+  const sinceYears = milestones.map(
+    (item) => new RegExp(`class="since"[^>]*>${since} (\\d{4})<`).exec(item)?.[1],
   );
   check(
-    same(
-      milestones.map((item) => /class="period[^"]*"[^>]*>([^<]*)</.exec(item)?.[1]),
-      [cardPeriods[2], cardPeriods[0], cardPeriods[1]],
+    same(sinceYears, ['2011', '2013', '2023']),
+    `hitos en orden 2011, 2013 y 2023 con «${since} {año}» (${sinceYears.join(', ')})`,
+  );
+  // Año del nodo y año translúcido: decorativos e iguales al de «Desde».
+  check(
+    milestones.every((item, i) =>
+      ['node-year', 'watermark'].every((cls) =>
+        new RegExp(`class="${cls}" aria-hidden="true"[^>]*>${sinceYears[i]}<`).test(item),
+      ),
     ),
-    `periodos de los hitos = periodos de las tarjetas (${cardPeriods.join(' / ')}) (AT-081)`,
+    'año del nodo y año translúcido decorativos e iguales al de cada hito',
+  );
+  check(
+    /<div class="rail" aria-hidden="true"/.test(mainHtml) &&
+      !/<li[\s>]/.test(/<div class="rail"[\s\S]*?<\/div>/.exec(mainHtml)?.[0] ?? ''),
+    'línea, flecha, punto vivo y «Hoy» decorativos (aria-hidden)',
+  );
+  // AT-081: el hito toma el periodo y la modalidad de la tarjeta de su perfil. Las tarjetas van
+  // en el orden docente, desarrollador, instructor; los hitos, desarrollador, docente, instructor.
+  const cardMeta = cards.map((card) => {
+    const m = /class="meta"[^>]*>([^<]*?) · ([^<]*?)</.exec(card);
+    return { period: m?.[1]?.trim() ?? '', modality: m?.[2]?.trim() ?? '' };
+  });
+  const expected = [cardMeta[1], cardMeta[0], cardMeta[2]];
+  check(
+    same(
+      sinceYears,
+      expected.map((card) => /^(\d{4})/.exec(card.period)?.[1]),
+    ),
+    `año de cada hito = año del periodo de su tarjeta (${cardMeta.map((c) => c.period).join(' / ')}) (AT-081)`,
+  );
+  check(
+    same(
+      milestones.map((item) => /class="meta"[^>]*>([^<]*)</.exec(item)?.[1]?.trim()),
+      expected.map((card) => `${card.modality} · ${card.period.split(/\s*-\s*/)[1]}`),
+    ),
+    `modalidad y estado de cada hito = los de su tarjeta (${present})`,
   );
   check(
     cards.some((card) => card.includes(`2011 - ${present}`)) && !/2020/.test(mainHtml),

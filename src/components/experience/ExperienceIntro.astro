@@ -1,0 +1,35 @@
+---
+/*
+ * Apertura de Experiencia (E200-I07, ADR-115): envuelve el encabezado y la línea de tiempo para
+ * que el campo de puntos y el halo del hero (texture-dots y texture-halo, DESIGN.md 4.5) los
+ * cubran como una sola capa, decorativa y detrás del contenido. Usa las utilidades tal cual, sin
+ * copiarlas ni moverles la máscara. Dentro de <main>.
+ */
+---
+
+<div class="experience-intro">
+  <div class="texture-dots layer" aria-hidden="true"></div>
+  <div class="texture-halo layer" aria-hidden="true"></div>
+  <slot />
+</div>
+
+<style>
+  .experience-intro {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--color-bg);
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  /*
+   * El encabezado pinta su propio fondo `bg`, que taparía la capa: dentro de esta apertura el
+   * fondo lo pone el envoltorio. El encabezado no cambia en nada más.
+   */
+  .experience-intro > :global(.experience-header) {
+    background-color: transparent;
+  }
+</style>

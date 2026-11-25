@@ -296,10 +296,17 @@ const experiencePage = defineCollection({
   schema: ({ image }) =>
     z.object({
       header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
-      /** Línea de tiempo compacta (ADR-066): 3 hitos en el orden del sitio antiguo. */
+      /**
+       * Línea de tiempo horizontal (ADR-115): 3 hitos que el componente ordena por el año de
+       * inicio del periodo de su perfil (2011, 2013 y 2023).
+       */
       timeline: z.object({
         /** Nombre accesible de la lista de hitos. */
         label: localized(),
+        /** Rótulo antes del año de inicio de cada hito («Desde 2011»). */
+        since: localized(),
+        /** Rótulo decorativo del final de la línea, junto al punto vivo. */
+        today: localized(),
         items: z
           .array(
             z.object({

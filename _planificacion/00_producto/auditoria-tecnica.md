@@ -1309,3 +1309,15 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Impacto:** el criterio «el texto mantiene los contrastes de 4.4» se cumple en promedio, pero no en el peor píxel, que es como se midieron las curvas (AT-161). Afecta a toda página que reciba el campo de puntos en E200-I07 a I14.
 - **Recomendación:** que Felipe decida el criterio: (a) aceptar el campo de puntos como en el hero, con la nota en `DESIGN.md` 4.4 de que se mide sobre el fondo medio, o (b) una variable de máscara por uso (`--dots-mask`) que despeje la zona del texto, lo que obliga a correr la matriz del hero (AT-151).
 - **Decisión (Felipe, 25-11-2026):** opción (a). Se acepta el campo de puntos como en el hero, sin cambios de código ni nueva matriz del hero. `DESIGN.md` 4.4 suma la nota de que los puntos se miden sobre el fondo promedio (bloque en la bitácora `2026-11-25_E200-I06.md`, lo pega Felipe).
+
+### AT-163 · El script del pie reemplaza el texto de todo `[data-year]`, incluido «año · INACAP» de Cargos especiales en Docente (E200-I07)
+- **Severidad:** Media · **Estado:** Abierto · **Resuelve:** — (fuera del alcance de E200-I07; se propone para E200-I09, Docente)
+- **Evidencia (25-11-2026):** `Footer.astro:107` recorre `document.querySelectorAll('[data-year]')` y cambia su texto por el año actual. `SpecialRoles.astro:34` marca `<p class="meta" data-year>{item.year} · {item.institution}</p>`, así que con JavaScript ese renglón muestra «2026» y pierde el año real y la institución. En E200-I07, la primera versión de la línea de tiempo usó `data-year` en cada hito y la página mostró «2026» en lugar de las tarjetas; se cambió a `data-start-year`.
+- **Impacto:** dato incorrecto visible en Docente con JavaScript (sin JavaScript se ve bien) y una trampa para cualquier componente que use `data-year`.
+- **Recomendación:** que el script del pie use un atributo propio (por ejemplo `[data-current-year]`) o se limite al pie (`footer [data-year]`), quitar `data-year` de `SpecialRoles.astro` y agregar a `verify:seo` que `data-year` solo aparezca en el pie.
+
+### AT-164 · El pulso en bucle del punto vivo de Experiencia no tiene control para detenerlo (WCAG 2.2.2) (E200-I07)
+- **Severidad:** Baja · **Estado:** Aceptado como riesgo (decisión de Felipe, 25-11-2026, ADR-115) · **Resuelve:** —
+- **Evidencia:** el punto vivo de la línea de tiempo de Experiencia pulsa de forma infinita (ciclo de 2,4 s) sin control de pausa. Con `prefers-reduced-motion: reduce` no se anima (medido el 25-11-2026: sin `::after` y con un halo quieto de 4 px).
+- **Impacto:** WCAG 2.2.2 (nivel A) pide poder detener el movimiento automático de más de 5 s que se muestra junto a otro contenido. Es un adorno de 10 px, decorativo y no esencial, pero una auditoría estricta podría marcarlo.
+- **Recomendación:** si se exige el cumplimiento estricto, limitar el pulso a pocas iteraciones (`animation-iteration-count: 3`) o dejarlo quieto; es un cambio de una línea en `ExperienceTimeline.astro`.
