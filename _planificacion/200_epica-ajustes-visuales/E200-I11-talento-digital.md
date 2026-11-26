@@ -1,5 +1,5 @@
 # E200-I11 · Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp
-- **Estado:** [~] En curso (partes A y B terminadas el 25-11-2026; falta la parte C: preview, PageSpeed, cierre y lote C)
+- **Estado:** [x] Terminada (25-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I10 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-074, ADR-076, ADR-107, ADR-109, ADR-113, ADR-114, ADR-117, ADR-118
 
@@ -87,21 +87,21 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 - [x] **Banda de cifras** (cifras en la parte A, curvas en la parte B): variante de curvas de `Band` con su composición, y las 3 cifras centradas (rótulo, cifra y contexto), con filas comunes para que ninguna cifra baje cuando un texto ocupa más líneas, como en E200-I05. Bajo la medida en que hoy se apilan, siguen centradas.
 - [x] **Controles** (parte A): revisar `scripts/verify-seo.mjs` y `check-i18n.mjs` por dependencias de la línea de contexto, de la banda de cifras o de la cuadrícula de las franjas; ajustar solo lo necesario y comprobar que el control ajustado falla ante un caso roto.
 - [x] **Ritmo visual** (parte B): recorrer la página completa y comprobar que la alternancia de puntos y curvas en las 6 franjas se lee ordenada y no cargada. Medir el contraste en el peor punto donde una textura pasa detrás de texto pequeño.
-- [~] **Revisión visual** (local hecha en las partes A y B; la URL de rama, en la parte C): protocolo de la épica en `/es/talento-digital/` y `/en/talento-digital/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
-- [~] **Registro y bloques** (ADR-119 y bloques de `DESIGN.md` en la parte B; PageSpeed en la parte C): ADR-119, bloque de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Revisión visual** (local en las partes A y B; URL de rama en la parte C): protocolo de la épica en `/es/talento-digital/` y `/en/talento-digital/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px.
+- [x] **Registro y bloques** (ADR-119 y bloques de `DESIGN.md` en la parte B; PageSpeed en la parte C): ADR-119, bloque de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/content/talento-digital/page.json`, `src/components/talento-digital/TalentoDigitalHeader.astro`, `BootcampsZigzag.astro`, `Achievements.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css` y `scripts/verify-seo.mjs`.
 
 ## Criterios de aceptación (verificables)
-- [ ] La cabecera, «Bootcamps Realizados» con la franja de Java, las franjas `pf1164-1` y `pf1479`, y la parte lisa de «Logros» muestran el campo de puntos (halo solo en oscuro), en es y en.
-- [ ] Las franjas `pf1487`, `pf1164-2` y `pf1163` y la banda de cifras muestran curvas de nivel suavizadas, sin cuadrícula, con composiciones distintas entre sí y de las de las otras páginas.
-- [ ] Las 3 cifras de la banda final están centradas y alineadas en una misma línea, también en inglés.
-- [ ] Las 6 líneas de contexto siguen el formato «Plan formativo {plan} · {OTEC}», con los textos de la tabla, en es y en.
-- [ ] Ningún otro contenido de la página cambia.
-- [ ] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
-- [ ] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La cabecera, «Bootcamps Realizados» con la franja de Java, las franjas `pf1164-1` y `pf1479`, y la parte lisa de «Logros» muestran el campo de puntos (halo solo en oscuro), en es y en.
+- [x] Las franjas `pf1487`, `pf1164-2` y `pf1163` y la banda de cifras muestran curvas de nivel suavizadas, sin cuadrícula, con composiciones distintas entre sí y de las de las otras páginas.
+- [x] Las 3 cifras de la banda final están centradas y alineadas en una misma línea, también en inglés.
+- [x] Las 6 líneas de contexto siguen el formato «Plan formativo {plan} · {OTEC}», con los textos de la tabla, en es y en.
+- [x] Ningún otro contenido de la página cambia.
+- [x] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
+- [x] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -122,7 +122,7 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 ## Avance
 - **Parte A (25-11-2026):** contexto de 4 bootcamps en es y en; campo de puntos en la cabecera, en el encabezado con la franja de Java (una sola capa), en `pf1164-1` y `pf1479` (`texture="dots"`) y en la parte lisa de «Logros»; las 3 cifras centradas en filas comunes (rótulo y cifra), con la banda aún en retícula; control nuevo de la línea de contexto en `verify-seo.mjs`. La franja se extrajo a `BootcampStripe.astro` (como `InstitutionStripe` en I09). Detalle en ADR-119 y en la bitácora `2026-11-25_E200-I11.md`.
 - **Parte B (25-11-2026):** cuatro formas nuevas de `ContourLines` (`dunes` en `pf1487`, `twin` en `pf1164-2`, `ravine` en `pf1163` y `spurs` en las esquinas superior izquierda e inferior derecha de la banda de cifras), sin retícula; ninguna cruza texto, portadas, chips ni cifras (28 combinaciones medidas); control de curvas en `verify-seo.mjs`; peor punto aislado de los puntos medido (AT-162); bloques de `DESIGN.md` 4.5, 7.8 y 11.9 en la bitácora.
-- **Parte C:** preview, PageSpeed, cierre y lote C (I09 a I11) a `main`.
+- **Parte C (25-11-2026):** preview revisada en 24 combinaciones (es y en, claro y oscuro, 320 a 1.920 px): 5 capas de puntos, las 4 composiciones sin cruces, 6 contextos con su OTEC, cifras centradas, sin scroll horizontal y CLS 0. Mismas 2 hojas y scripts que producción; el `<main>` de Inicio, Educación, Desarrollador y Experiencia es idéntico a producción. PageSpeed sin regresión (preview móvil 98–100 y escritorio 100; producción 99–100 y 100, tres rondas). Lote C preparado; ver la bitácora.
 
 ## Riesgos y notas
 - Es la página más larga de la épica, con 6 franjas alternadas: si el recorrido completo se ve cargado en la URL de rama, se consulta a Felipe antes de cerrar (por ejemplo, para bajar la opacidad de las texturas en las franjas).
@@ -130,7 +130,7 @@ Aplicar en Talento Digital (`/es/talento-digital/` y `/en/talento-digital/`) la 
 - Las composiciones de curvas son propuestas del agente; si Felipe prefiere otras, se cambian en esta misma iteración.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)
