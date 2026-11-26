@@ -1,7 +1,8 @@
 ---
 /*
  * «Conversación» del Foro (E120-I01, ADR-022 y ADR-078): hilo general `foro-general` con la
- * sección común de Giscus.
+ * sección común de Giscus. E200-I12 (ADR-120): con el campo de puntos detrás del encabezado y del
+ * aviso (`texture="dots"`); el hilo de Recursos no lo usa.
  */
 import GiscusSection from './GiscusSection.astro';
 import { langFromLocale } from '../../i18n/lang';
@@ -16,4 +17,5 @@ const { conversation } = await getForumPage();
   kicker={conversation.kicker[lang]}
   title={conversation.title[lang]}
   id="conversation-title"
+  texture="dots"
 />

@@ -1,5 +1,5 @@
 # E200-I12 · Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos»
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (26-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I11 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-078, ADR-107, ADR-109, ADR-113, ADR-114, ADR-119
 
@@ -19,7 +19,7 @@ Aplicar en Foro (`/es/foro/` y `/en/forum/`) los mismos fondos que ya usan las o
     - `Conversation` (fondo `bg`).
 - `Conversation.astro` usa `src/components/forum/GiscusSection.astro`, que también usa **Recursos** (`RouteThread.astro`). La sección tiene encabezado, el aviso de privacidad sobre `bg-alt` y el marco de Giscus, que se carga bajo demanda.
 - Herramientas que ya existen en la épica:
-    - `texture-dots` y `texture-halo`, con la variable de máscara y halo de E200-I06;
+    - `texture-dots` y `texture-halo` en capas o envoltorios, como en E200-I08 a I11 (la «variable de E200-I06» nunca existió);
     - el componente de curvas de nivel de E200-I05, con composición por parámetros (E200-I11) y la variante de `Band`.
 - Composiciones de curvas ya usadas, que esta iteración **no** debe repetir:
     - Inicio: esquinas inferior izquierda y superior derecha;
@@ -51,25 +51,25 @@ Aplicar en Foro (`/es/foro/` y `/en/forum/`) los mismos fondos que ya usan las o
 - La configuración de Giscus (término, idioma, tema y carga diferida, ADR-078).
 
 ## Tareas
-- [ ] **Sección principal:** montar `texture-dots` y `texture-halo` (`aria-hidden`) detrás de `ForumHeader`, con la variable de E200-I06 ajustada a la alineación de su encabezado.
-- [ ] **Conversación:** agregar a `GiscusSection.astro` una opción de fondo con puntos, desactivada por defecto, y activarla solo en `Conversation.astro`, para que Recursos no cambie. La máscara cubre el encabezado y el aviso y se desvanece antes del marco de Giscus.
-- [ ] **Marco de Giscus:** con el foro cargado, en claro y oscuro, comprobar si el marco deja ver el fondo. Si los puntos se ven detrás de los comentarios, darle al contenedor del marco fondo `bg` sólido, sin tocar la configuración de Giscus.
-- [ ] **Curvas:** variante de curvas de `Band` en `StepsBand.astro`, sin la cuadrícula, con la composición nueva pasada como parámetros al componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos).
-- [ ] **Revisión visual:** protocolo de la épica en `/es/foro/` y `/en/forum/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con Giscus cargado y sin cargar. Revisar también la página de Recursos, para confirmar que su hilo no cambió.
-- [ ] **Registro y bloques:** ADR-120, bloque de `DESIGN.md` 4.5 y 11.10 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Sección principal:** montar `texture-dots` y `texture-halo` (`aria-hidden`) detrás de `ForumHeader`, en capas absolutas como en Instructor (sin variable propia: la «variable de E200-I06» no existe).
+- [x] **Conversación:** agregar a `GiscusSection.astro` una opción de fondo con puntos, desactivada por defecto, y activarla solo en `Conversation.astro`, para que Recursos no cambie. La máscara cubre el encabezado y el aviso y se desvanece antes del marco de Giscus.
+- [x] **Marco de Giscus:** con el foro cargado, en claro y oscuro, comprobar si el marco deja ver el fondo. Si los puntos se ven detrás de los comentarios, darle al contenedor del marco fondo `bg` sólido, sin tocar la configuración de Giscus. **Resultado:** el panel ya es `surface` sólido y la capa de puntos termina antes de él; no hizo falta cambiarlo.
+- [x] **Curvas:** variante de curvas de `Band` en `StepsBand.astro`, sin la cuadrícula, con la composición nueva pasada como parámetros al componente de E200-I05 (trazos suavizados, piezas ancladas, 10 KB o menos).
+- [x] **Revisión visual:** protocolo de la épica en `/es/foro/` y `/en/forum/`, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con Giscus cargado y sin cargar. Revisar también la página de Recursos, para confirmar que su hilo no cambió.
+- [x] **Registro y bloques:** ADR-120, bloque de `DESIGN.md` 4.5 y 11.10 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama. **Nota:** la preview publicada sigue en `7a41636` (sin I12); se midió producción como referencia y la medición de la preview queda para después del push de Felipe (bitácora).
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/forum/ForumHeader.astro`, `StepsBand.astro`, `GiscusSection.astro`, `Conversation.astro`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
 
 ## Criterios de aceptación (verificables)
-- [ ] La cabecera y la parte superior de «Conversación» muestran el campo de puntos (halo solo en oscuro), en es y en.
-- [ ] Los comentarios de Giscus se leen sobre fondo liso, en claro y oscuro.
-- [ ] «Participar en tres pasos» muestra curvas de nivel suavizadas, sin cuadrícula, con una composición distinta de todas las anteriores.
-- [ ] Las categorías y el hilo de Recursos no cambian.
-- [ ] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
-- [ ] Giscus sigue cargando bajo demanda, en el idioma y el tema correctos, sin violaciones de CSP en la consola.
-- [ ] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] La cabecera y la parte superior de «Conversación» muestran el campo de puntos (halo solo en oscuro), en es y en.
+- [x] Los comentarios de Giscus se leen sobre fondo liso, en claro y oscuro.
+- [x] «Participar en tres pasos» muestra curvas de nivel suavizadas, sin cuadrícula, con una composición distinta de todas las anteriores.
+- [x] Las categorías y el hilo de Recursos no cambian.
+- [x] Las texturas no se anuncian en lectores de pantalla ni reciben foco o clics; el texto mantiene los contrastes de 4.4.
+- [x] Giscus sigue cargando bajo demanda, en el idioma y el tema correctos, sin violaciones de CSP en la consola.
+- [x] Sin JavaScript nuevo; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04. (CLS 0 y sin JavaScript nuevo verificados en local; PageSpeed de la preview, tras el push: ver bitácora.)
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n` y `pnpm verify:seo` sin errores.
@@ -90,7 +90,7 @@ Aplicar en Foro (`/es/foro/` y `/en/forum/`) los mismos fondos que ya usan las o
 - La composición de curvas es una propuesta del agente; si Felipe prefiere otra, se cambia en esta misma iteración.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

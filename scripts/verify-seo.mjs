@@ -1866,6 +1866,42 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'sin claves privadas ni tokens en el HTML',
   );
 
+  // Fondos de E200-I12 (ADR-120): puntos en la cabecera y en «Conversación», curvas trail en
+  // «Participar en tres pasos» sin retícula; capas decorativas aria-hidden y sin JavaScript nuevo.
+  const forumHeader = /<div class="forum-header[^"]*"[^>]*>([\s\S]*?)<h1/.exec(mainHtml)?.[1] ?? '';
+  check(
+    /texture-dots layer[^>]*aria-hidden="true"/.test(forumHeader) &&
+      /texture-halo layer[^>]*aria-hidden="true"/.test(forumHeader),
+    'cabecera con campo de puntos y halo (aria-hidden)',
+  );
+  const stepsTag = /<section[^>]*id="forum-steps"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const stepsHtml = mainHtml.slice(mainHtml.indexOf(stepsTag), mainHtml.indexOf('data-steps'));
+  const stepShapes = [...stepsHtml.matchAll(/class="piece [^"]*shape-([a-z]+)/g)].map((m) => m[1]);
+  check(
+    /texture-band-contour/.test(stepsTag) &&
+      !/texture-band(?!-)/.test(stepsTag) &&
+      same(stepShapes, ['trail']),
+    `«Participar en tres pasos» con curvas trail y sin retícula (${stepShapes.join('+') || '-'})`,
+  );
+  check(
+    /<div class="contour-lines[^"]*"[^>]*aria-hidden="true"/.test(stepsHtml) &&
+      /focusable="false"/.test(stepsHtml),
+    'curvas decorativas: aria-hidden y focusable="false"',
+  );
+  const convTag = /<section[^>]*data-conversation-texture="[^"]*"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const convHtml = mainHtml.slice(mainHtml.indexOf(convTag), mainHtml.indexOf('data-forum-notice'));
+  check(
+    /data-conversation-texture="dots"/.test(convTag) &&
+      /texture-dots layer[^>]*aria-hidden="true"/.test(convHtml) &&
+      /texture-halo layer[^>]*aria-hidden="true"/.test(convHtml),
+    '«Conversación» con campo de puntos detrás del encabezado y del aviso',
+  );
+  const panelHtml = mainHtml.slice(
+    mainHtml.indexOf('data-forum-thread'),
+    mainHtml.indexOf('<noscript', mainHtml.indexOf('data-forum-thread')),
+  );
+  check(!/texture-(dots|halo)/.test(panelHtml), 'el panel de Giscus no lleva textura');
+
   forum[lang] = {
     giscus: Object.keys(FORUM_GISCUS).map((name) => panel[name]),
     steps: stepItems.length,
@@ -2061,6 +2097,16 @@ for (const [lang, info] of Object.entries(LANGS)) {
   check(panel['data-lang'] === lang, `Giscus: data-lang = ${lang}`);
   check(!/ruta-(python|empleabilidad|java)\b/.test(html), 'sin los hilos de las rutas retiradas');
   check(!/<script[^>]*giscus\.app/.test(html), 'giscus.app no se carga en el HTML');
+  check(
+    /data-conversation-texture="none"/.test(mainHtml) &&
+      !/texture-dots/.test(
+        mainHtml.slice(
+          mainHtml.indexOf('data-conversation-texture'),
+          mainHtml.indexOf('data-forum-thread'),
+        ),
+      ),
+    'el hilo de Recursos sigue liso, sin el campo de puntos del Foro (E200-I12)',
+  );
   check(
     mainHtml.indexOf('data-stages') < mainHtml.indexOf('data-forum-thread'),
     'orden: ficha → pasos → conversación',

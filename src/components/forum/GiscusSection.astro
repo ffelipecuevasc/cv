@@ -33,8 +33,13 @@ interface Props {
    * mapa de rutas con el texto del pie (E155-I01); se puede reemplazar o pasar `null` para quitarlo.
    */
   privacy?: { href: string; label: string } | null;
+  /*
+   * Fondo (E200-I12, ADR-120): 'dots' monta el campo de puntos y el halo del hero (4.5) detrás del
+   * encabezado y del aviso, desvanecidos antes del panel de Giscus. Por defecto, liso (Recursos).
+   */
+  texture?: 'none' | 'dots';
 }
-const { term, kicker, title, id } = Astro.props;
+const { term, kicker, title, id, texture = 'none' } = Astro.props;
 const lang = langFromLocale(Astro.currentLocale);
 const privacy =
   Astro.props.privacy === undefined
@@ -43,7 +48,13 @@ const privacy =
 const { conversation } = await getForumPage();
 ---
 
-<section class="conversation" aria-labelledby={id}>
+<section
+  class:list={['conversation', { 'has-dots': texture === 'dots' }]}
+  aria-labelledby={id}
+  data-conversation-texture={texture}
+>
+  {texture === 'dots' && <div class="texture-dots layer" aria-hidden="true" />}
+  {texture === 'dots' && <div class="texture-halo layer" aria-hidden="true" />}
   <Container>
     <SectionHeader {kicker} {title} {id} />
     <p class="notice" data-forum-notice>
@@ -112,6 +123,26 @@ const { conversation } = await getForumPage();
   .conversation {
     padding-block: 80px;
     background-color: var(--color-bg);
+  }
+  /* Campo de puntos (4.5, ADR-120): la capa cubre el encabezado y el aviso (altura fija desde el
+     borde superior) y se desvanece hacia abajo antes del panel, cuyo fondo `surface` es sólido. */
+  .has-dots {
+    position: relative;
+    isolation: isolate;
+  }
+  .layer {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 400px;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+  .layer.texture-dots {
+    mask-image:
+      linear-gradient(to bottom, black 55%, transparent 100%),
+      radial-gradient(ellipse at 60% 45%, black 30%, transparent 75%);
+    mask-composite: intersect;
   }
   .notice {
     display: flex;

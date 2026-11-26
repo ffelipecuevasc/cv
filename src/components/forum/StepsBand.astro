@@ -4,8 +4,13 @@
  * 3 pasos en una lista, 3 columnas desde 1.024 px y una bajo esa medida. Cada paso: ícono de
  * 32 px, h3 en Sora y texto; el enlace del paso es externo y avisado. Dentro de la banda el
  * texto pequeño no usa `accent` (4.3): los enlaces van en `text`, subrayados. Sin JavaScript.
+ * E200-I12 (ADR-120): curvas de nivel `trail` (sendero que sube en diagonal desde la esquina
+ * inferior izquierda) en lugar de la retícula. La máscara vive aquí, no en ContourLines (AT-165):
+ * deja ver las curvas solo en la zona libre a la derecha del encabezado y en la esquina inferior
+ * izquierda, y se apaga antes de los pasos, sus íconos y sus textos.
  */
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import ExternalLink from '../ui/ExternalLink.astro';
 import Icon from '../ui/Icon.astro';
 import { langFromLocale } from '../../i18n/lang';
@@ -15,7 +20,8 @@ const lang = langFromLocale(Astro.currentLocale);
 const { steps } = await getForumPage();
 ---
 
-<Band id="forum-steps" kicker={steps.kicker[lang]} title={steps.title[lang]}>
+<Band id="forum-steps" kicker={steps.kicker[lang]} title={steps.title[lang]} texture="contour">
+  <ContourLines slot="decor" pieces={[{ corner: 'bottom-left', shape: 'trail' }]} mask="none" />
   <ul class="steps" data-steps>
     {steps.items.map((step) => {
       const [before, after] = step.text[lang].split('{link}');
@@ -39,6 +45,39 @@ const { steps } = await getForumPage();
 </Band>
 
 <style>
+  /* Sendero (4.5, ADR-120): sin la máscara de esquina de la pieza. La capa se ve solo en las zonas
+     libres de texto: la columna del margen izquierdo (hasta 24 px antes del contenido), el relleno
+     inferior desde la izquierda y, desde 1.024 px, la esquina superior derecha junto al encabezado
+     centrado, hasta la regla de los pasos. Se apaga antes de íconos, titulares y textos. */
+  :global(#forum-steps .shape-trail) {
+    mask-image: none;
+  }
+  :global(#forum-steps .contour-lines) {
+    --trail-gutter: max(16px, 50vw - 600px);
+    mask-image:
+      linear-gradient(
+        to right,
+        black calc(var(--trail-gutter) - 48px),
+        transparent calc(var(--trail-gutter) - 20px)
+      ),
+      radial-gradient(ellipse 60vw 60px at 0 100%, black 30%, transparent 100%),
+      radial-gradient(
+        ellipse clamp(200px, 50vw - 290px, 40vw) 230px at 100% 0,
+        black 40%,
+        transparent 100%
+      );
+  }
+  @media (max-width: 63.999rem) {
+    :global(#forum-steps .contour-lines) {
+      mask-image:
+        linear-gradient(
+          to right,
+          black calc(var(--trail-gutter) - 48px),
+          transparent calc(var(--trail-gutter) - 20px)
+        ),
+        radial-gradient(ellipse 70vw 52px at 0 100%, black 35%, transparent 100%);
+    }
+  }
   .steps {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
