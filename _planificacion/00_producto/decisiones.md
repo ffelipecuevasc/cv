@@ -1483,3 +1483,12 @@ Reglas del registro:
     - Felipe quita de `public/_headers` el hash del script en línea retirado de Recursos;
     - Felipe edita `DESIGN.md` 4.5, 11.2 y 11.11 (ADR-033) con los bloques de la bitácora de E200-I14b.
 - **Origen:** E200-I14 y E200-I14b, decisión de Felipe, 16-11-2026 y 26-11-2026. **Estado:** Aceptada (implementada el 26-11-2026).
+
+## ADR-125 · Miniatura Open Graph nueva y «> whoami» decorativo sin traducir (sustituye en parte el criterio de `DESIGN.md` 2.4)
+- **Contexto:** E200-I15. La miniatura Open Graph anterior (1.424 × 752 px) no seguía el lenguaje visual de E200. `DESIGN.md` 2.4 establece que la imagen solo lleva el nombre propio y las insignias, para que sirva a los dos idiomas.
+- **Decisión (de Felipe, 26-11-2026):**
+    - nueva imagen Open Graph de estilo tecnológico sobre campo de puntos: retrato del hero en un panel tipo ventana a la izquierda; «> whoami» en IBM Plex Mono; «Felipe» y «Cuevas» en Sora 700 («Cuevas» sobre un bloque `vibrant`), y las 4 insignias de certificación del hero. Sin enlaces ni dominio;
+    - fuente de 2.400 × 1.260 px en `src/assets/og-portada.jpg`; el build sigue entregando 1.200 × 630 px (`home-og-image.ts`, `verify:seo`);
+    - «> whoami» es texto decorativo (un comando de terminal) que no se traduce, como el nombre propio y las insignias: la misma imagen sirve a `/es/` y `/en/`, y el texto alternativo se sigue declarando por idioma.
+- **Sustituye:** en parte el criterio de `DESIGN.md` 2.4 («solo lleva el nombre propio y las insignias»): se admite además «> whoami». El resto de 2.4 se mantiene. Felipe actualiza `DESIGN.md` con el bloque de la bitácora `99_bitacora/2026-11-26_E200-I15.md`.
+- **Consecuencias:** ningún otro texto visible entra en la imagen sin un ADR nuevo. Si cambia la imagen, se revisa `ogImageAlt` en `src/content/pages/*.json`.

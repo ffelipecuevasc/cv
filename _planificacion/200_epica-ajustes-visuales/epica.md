@@ -1,5 +1,5 @@
 # E200 · Ajustes visuales
-- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (80 de 80 iteraciones del proyecto terminadas: E200-I00 a E200-I14b, la última el 26-11-2026; E200-I00 terminada el 24-11-2026; la épica queda abierta y se cierra solo cuando Felipe lo decida, ADR-107)
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (81 de 81 iteraciones del proyecto terminadas: E200-I00 a E200-I15, la última el 26-11-2026; E200-I00 terminada el 24-11-2026; la épica queda abierta y se cierra solo cuando Felipe lo decida, ADR-107)
 
 ## Objetivo
 Corregir y mejorar el aspecto del sitio ya publicado en `https://felipecuevas.dev`, con cada ajuste en `es-CL` y `en-US`, revisado en una preview de rama antes de llegar a producción.
@@ -47,8 +47,9 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | [E200-I13](E200-I13-contacto.md) | Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado | P1 | M | E200-I12 | [x] Terminada |
 | [E200-I14](E200-I14-recursos.md) | Recursos: catálogo de rutas con página propia por ruta, «Más recursos» con logos y fondos de la épica | P1 | M | E200-I13 | [x] Terminada |
 | [E200-I14b](E200-I14b-recursos-temas-cierre.md) | Recursos: «Más recursos» con logos, campo de puntos en la cabecera y cierre de la épica | P1 | S | E200-I14 | [x] Terminada |
+| [E200-I15](E200-I15-miniatura-open-graph.md) | Miniatura Open Graph: retrato en panel tipo ventana, «> whoami», nombre e insignias | P1 | S | E200-I14b | [x] Terminada (26-11-2026) |
 
-Orden de ejecución: el de la tabla (I00 a I14b). La épica tiene 16 iteraciones (I00 a I14, más el complemento I14b, partido el 26-11-2026 por decisión de Felipe).
+Orden de ejecución: el de la tabla (I00 a I15). La épica tiene 17 iteraciones (I00 a I14, más el complemento I14b, partido el 26-11-2026 por decisión de Felipe, e I15, agregada el 26-11-2026).
 
 ## ADR previstos
 | ADR | Tema | Iteración |
@@ -71,6 +72,7 @@ Orden de ejecución: el de la tabla (I00 a I14b). La épica tiene 16 iteraciones
 | ADR-120 | Foro | E200-I12 |
 | ADR-121 | Contacto | E200-I13 |
 | ADR-122 | Recursos | E200-I14 |
+| ADR-125 | Miniatura Open Graph nueva y «> whoami» decorativo sin traducir (sustituye en parte el criterio de `DESIGN.md` 2.4) | E200-I15 |
 
 Los números se vuelven a verificar contra `decisiones.md` al ejecutar cada iteración. ADR-107, ADR-108 y ADR-109 se registraron en `decisiones.md` en la fase 1 de E200-I01 (24-11-2026); ADR-110 a ADR-122 siguen sin registrar: E200-I00 solo fijó la numeración y cada iteración registra el suyo.
 

@@ -1,7 +1,7 @@
 import { getImage } from 'astro:assets';
 import source from '../../assets/og-portada.jpg';
 
-// La fuente es la imagen que subió Felipe (1424 × 752 px); Open Graph pide 1200 × 630 px.
+// La fuente es la imagen de E200-I15 (2400 × 1260 px, ADR-125); Open Graph pide 1200 × 630 px.
 // Se optimiza en el build y es la misma para /es/ y /en/ (solo cambia el texto alternativo).
 const width = 1200;
 const height = 630;
