@@ -1492,3 +1492,10 @@ Reglas del registro:
     - «> whoami» es texto decorativo (un comando de terminal) que no se traduce, como el nombre propio y las insignias: la misma imagen sirve a `/es/` y `/en/`, y el texto alternativo se sigue declarando por idioma.
 - **Sustituye:** en parte el criterio de `DESIGN.md` 2.4 («solo lleva el nombre propio y las insignias»): se admite además «> whoami». El resto de 2.4 se mantiene. Felipe actualiza `DESIGN.md` con el bloque de la bitácora `99_bitacora/2026-11-26_E200-I15.md`.
 - **Consecuencias:** ningún otro texto visible entra en la imagen sin un ADR nuevo. Si cambia la imagen, se revisa `ogImageAlt` en `src/content/pages/*.json`.
+
+## ADR-126 · Permissions-Policy sin `browsing-topics` (sustituye en parte a ADR-092)
+- **Contexto:** cierre de E200, AT-169. Chrome avisa «Unrecognized feature: browsing-topics» por la `Permissions-Policy` que fijó ADR-092 en `public/_headers`. La API Topics ya no la reconoce el navegador, así que la directiva no aporta protección y solo ensucia la consola.
+- **Decisión (de Felipe, 26-11-2026):** quitar `browsing-topics=()` de `Permissions-Policy`. Se mantienen cámara, micrófono, geolocalización, pagos y USB desactivados. Felipe aplicó el cambio en `public/_headers` (ADR-033) en el commit `322f4e7`.
+- **Verificación (26-11-2026, dicho por Felipe, `curl` a producción):** `https://felipecuevas.dev` responde 200 y su `Permissions-Policy` ya no trae `browsing-topics`.
+- **Sustituye:** en parte a ADR-092, solo en la lista de funciones de `Permissions-Policy`. El resto de ADR-092 (CSP con hashes y demás cabeceras) sigue vigente. ADR-092 no se edita.
+- **Consecuencias:** AT-169 queda resuelto. Agregar de nuevo una directiva a `Permissions-Policy` exige un ADR.

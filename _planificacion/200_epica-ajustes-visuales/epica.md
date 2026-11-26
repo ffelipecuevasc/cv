@@ -1,5 +1,5 @@
 # E200 · Ajustes visuales
-- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (81 de 81 iteraciones del proyecto terminadas: E200-I00 a E200-I15, la última el 26-11-2026; E200-I00 terminada el 24-11-2026; la épica queda abierta y se cierra solo cuando Felipe lo decida, ADR-107)
+- **Prioridad de la épica:** P1 · **Estado:** [x] Terminada el 26-11-2026 (81 de 81 iteraciones del proyecto terminadas: E200-I00 a E200-I15; cierre final en `99_bitacora/2026-11-26_E200-cierre.md`, ADR-107)
 
 ## Objetivo
 Corregir y mejorar el aspecto del sitio ya publicado en `https://felipecuevas.dev`, con cada ajuste en `es-CL` y `en-US`, revisado en una preview de rama antes de llegar a producción.
@@ -107,11 +107,11 @@ Los ADR de E200 se redactaron con los números 104 a 119, que ya estaban ocupado
 - **Antes y después:** cada ajuste se describe en la bitácora con su estado anterior y el nuevo, en ambos temas.
 
 ## Criterios de aceptación de la épica
-- [ ] Cada iteración cumple sus criterios, el protocolo de revisión visual y la Definition of Done global.
-- [ ] Ningún ajuste queda en un solo idioma.
-- [ ] Core Web Vitals sin regresión frente a la línea base de E190-I04 (ADR-015), que es `_planificacion/00_producto/linea-base/2026-11-16/` (sustituye a la de agosto de 2026 como referencia; ADR-105 real).
-- [ ] `"preview_urls"` apagado en `main` y URL de versión de producción en 404 (ADR-124, AT-155).
-- [ ] La épica se cierra solo por decisión expresa de Felipe, registrada en `registro-log.md` (ADR-107).
+- [x] Cada iteración cumple sus criterios, el protocolo de revisión visual y la Definition of Done global.
+- [x] Ningún ajuste queda en un solo idioma.
+- [x] Core Web Vitals sin regresión frente a la línea base de E190-I04 (ADR-015), que es `_planificacion/00_producto/linea-base/2026-11-16/` (sustituye a la de agosto de 2026 como referencia; ADR-105 real).
+- [x] `"preview_urls"` apagado en `main` y URL de versión de producción en 404 (ADR-124, AT-155).
+- [x] La épica se cierra solo por decisión expresa de Felipe, registrada en `registro-log.md` (ADR-107).
 
 ## Riesgos
 - Una rama de vida larga se aleja de `main`: se mitiga con merges por lote y la actualización de la rama tras cada uno.
