@@ -1471,6 +1471,10 @@ Reglas del registro:
   - `RouteThread` retirado; `GISCUS_TERMS` queda en `foro-general`. El hilo `ruta-desarrollo-web-ia` sigue en GitHub Discussions. Política de privacidad: «El Foro usa Giscus…» y `PRIVACY_POLICY_VERSION` sube a `2026-11-26` (ADR-087); lo valida Felipe antes del merge.
   - AT-165: al retirar `RouteThread`, el CSS de `GiscusSection` deja de compartirse y el del Foro pasaba de 4 KB (4.496 B). Se recortó sin cambio visual (posición de las capas y grillas con utilidades de la hoja global, máscara de `StepsBand` con variables): el Foro vuelve a pedir una sola hoja, como producción.
   - Controles: `check:i18n` suma las páginas de ruta desde `page.json`; `verify-seo` revisa el catálogo, la página de ruta, el sitemap (24 URL) y el `Course`, y se comprobó que falla ante casos rotos.
+- **Implementación, parte B (E200-I14b, 26-11-2026):**
+  - «Más recursos» (opción 1): cada encabezado lleva el logo oficial a la izquierda en una placa de 44 px (`--tech-plate-bg`, ADR-069; `python.svg` y `java.svg` de `src/assets/technologies/` como `<img>` decorativos, y el ícono `linkedin` en `orient-600`), el h3 y, a la derecha, la cantidad en texto `text-soft` de 13 px («2 materiales» / «2 resources»; singular «1 material»), sin la insignia oculta. Las tarjetas no cambian. En `page.json`, `logo` por temática y `count` / `countOne`.
+  - `ResourcesHeader` con el campo de puntos y el halo (4.5), como el Foro y Contacto.
+  - `verify-seo` revisa logos, cantidades y capas de la cabecera (probado ante casos rotos). Recursos sigue pidiendo 2 hojas y el Foro 1 (AT-165); sin hashes nuevos.
 - **Sustituye en parte:** ADR-079 y ADR-080 en la composición de la ruta dentro de Recursos y en su conversación; ADR-081 en la presentación de las temáticas. La clave `rutas-progreso`, el enlace `?ruta=` (ahora hacia la página de la ruta) y el JSON-LD `Course` (ahora en la página de la ruta, ADR-082) se mantienen.
 - **Consecuencias:**
     - aparecen páginas nuevas por ruta, que entran al mapa de rutas, al sitemap y a los controles;
@@ -1478,4 +1482,4 @@ Reglas del registro:
     - Giscus queda solo en Foro, y la política de privacidad se actualiza con su regla de versión (ADR-087);
     - Felipe quita de `public/_headers` el hash del script en línea retirado de Recursos;
     - Felipe edita `DESIGN.md` 4.5, 11.2 y 11.11 (ADR-033) con los bloques de la bitácora de E200-I14b.
-- **Origen:** E200-I14, decisión de Felipe, 16-11-2026 y 26-11-2026. **Estado:** Aceptada (implementación en curso: parte B en E200-I14b).
+- **Origen:** E200-I14 y E200-I14b, decisión de Felipe, 16-11-2026 y 26-11-2026. **Estado:** Aceptada (implementada el 26-11-2026).

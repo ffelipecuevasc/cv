@@ -1,5 +1,5 @@
 # E200-I14 · Recursos: catálogo de rutas con página propia por ruta, «Más recursos» con logos y fondos de la épica
-- **Estado:** [~] En curso (parte A terminada el 26-11-2026; la parte B sigue en [E200-I14b](E200-I14b-recursos-temas-cierre.md))
+- **Estado:** [x] Terminada (26-11-2026; parte A aquí y parte B en [E200-I14b](E200-I14b-recursos-temas-cierre.md))
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M (la más grande de la épica; si no cabe en una sesión, se parte en complementos `E200-I14b`, como E180-I02b)
 - **Depende de:** E200-I13 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-020, ADR-023, ADR-025, ADR-078, ADR-079, ADR-080, ADR-081, ADR-082, ADR-087, ADR-107, ADR-109, ADR-113, ADR-114
 
@@ -78,12 +78,12 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
     - las páginas de ruta entran al mapa de rutas, al sitemap con sus alternativas es/en y a `check:i18n`;
     - el JSON-LD `Course` pasa a la página de su ruta.
 - [x] **Conversación:** retirar `RouteThread` de Recursos. Actualizar en la política de privacidad la frase que nombra a Giscus en Recursos, con la regla de versión vigente de la política (ADR-087), y dejar el texto nuevo para que Felipe lo valide. El hilo `ruta-desarrollo-web-ia` en GitHub Discussions no se borra.
-- [ ] **«Más recursos»:** (E200-I14b) encabezado de temática con el logo oficial (los tres archivos del proyecto), el nombre y la cantidad en texto, y tarjetas con formato, nivel, título, descripción y acción. Los logos son decorativos (`aria-hidden`), porque el nombre de la temática ya es el texto.
-- [~] **Fondos, controles y revisión:** (controles y revisión de la parte A hechos; campo de puntos y revisión final en E200-I14b)
+- [x] **«Más recursos»:** (E200-I14b) encabezado de temática con el logo oficial (los tres archivos del proyecto), el nombre y la cantidad en texto, y tarjetas con formato, nivel, título, descripción y acción. Los logos son decorativos (`aria-hidden`), porque el nombre de la temática ya es el texto.
+- [x] **Fondos, controles y revisión:** (controles y revisión de la parte A hechos; campo de puntos y revisión final en E200-I14b)
     - campo de puntos en `ResourcesHeader`;
     - ajustar `verify:seo`, `verify` y `check:i18n` a la estructura nueva y comprobar que fallan ante casos rotos;
     - protocolo de revisión visual de la épica en Recursos y en las páginas de ruta, es y en, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con progreso vacío, parcial y completo.
-- [~] **Registro y bloques:** (ADR-122 registrado; bloques y PageSpeed en E200-I14b) ADR-122, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
+- [x] **Registro y bloques:** (ADR-122 registrado; bloques y PageSpeed en E200-I14b) ADR-122, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Los decide el agente en la tarea 1. Como mínimo cambian:
@@ -98,16 +98,16 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
 - Se crean las páginas de ruta.
 
 ## Criterios de aceptación (verificables)
-- [ ] Recursos muestra el campo de puntos en la cabecera, el catálogo de rutas sobre curvas de nivel y «Más recursos» a poca distancia, sin la ruta desplegada; en es y en.
-- [ ] Cada ruta tiene su página en es y en con el diseño de índice y detalle; marcar un paso actualiza el avance de la etapa, el de la ruta y el de la tarjeta del catálogo.
-- [ ] El progreso guardado antes del cambio se conserva.
-- [ ] Los enlaces con `?ruta=desarrollo-web-ia` llegan a la página de la ruta.
-- [ ] No queda conversación de Giscus en Recursos ni en las páginas de ruta, y la política de privacidad ya no la menciona.
-- [ ] «Más recursos» muestra las 3 temáticas con su logo oficial, la cantidad en texto y las tarjetas, sin insignias de número.
-- [ ] Las páginas nuevas están en el sitemap con alternativas es/en; `verify`, `check:i18n` y `verify:seo` en verde.
-- [ ] Sin JavaScript, el contenido de Recursos y de las páginas de ruta se puede leer.
-- [ ] Sin dependencias nuevas; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
-- [ ] Cumple la Definition of Done global de `_planificacion/README.md`.
+- [x] Recursos muestra el campo de puntos en la cabecera, el catálogo de rutas sobre curvas de nivel y «Más recursos» a poca distancia, sin la ruta desplegada; en es y en.
+- [x] Cada ruta tiene su página en es y en con el diseño de índice y detalle; marcar un paso actualiza el avance de la etapa, el de la ruta y el de la tarjeta del catálogo.
+- [x] El progreso guardado antes del cambio se conserva.
+- [x] Los enlaces con `?ruta=desarrollo-web-ia` llegan a la página de la ruta.
+- [x] No queda conversación de Giscus en Recursos ni en las páginas de ruta, y la política de privacidad ya no la menciona.
+- [x] «Más recursos» muestra las 3 temáticas con su logo oficial, la cantidad en texto y las tarjetas, sin insignias de número.
+- [x] Las páginas nuevas están en el sitemap con alternativas es/en; `verify`, `check:i18n` y `verify:seo` en verde.
+- [x] Sin JavaScript, el contenido de Recursos y de las páginas de ruta se puede leer.
+- [x] Sin dependencias nuevas; CLS 0; PageSpeed Insights sin regresión frente a la línea base de E190-I04.
+- [x] Cumple la Definition of Done global de `_planificacion/README.md`.
 
 ## Verificación (comandos pnpm y comprobaciones manuales)
 - `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm format:check`, `pnpm verify`, `pnpm check:i18n`, `pnpm verify:seo` y `pnpm check:redirects` sin errores.
@@ -137,7 +137,7 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
 - El lienzo de diseño con las 3 alternativas de rutas queda como referencia visual: «Recursos · Ruta de aprendizaje: 3 alternativas».
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

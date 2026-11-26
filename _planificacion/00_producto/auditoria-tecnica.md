@@ -1353,7 +1353,7 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Decisión (Felipe, 26-11-2026):** opción (a). Se acepta el desplazamiento al mostrar el error; sin cambios de código.
 
 ### AT-167 · Al subir la versión de la política, un formulario de Contacto abierto con la versión anterior se rechaza (E200-I14)
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (antes del merge de E200-I14 a `main`)
+- **Severidad:** Baja · **Estado:** Aceptado (decisión de Felipe, 26-11-2026) · **Resuelve:** decisión de Felipe (E200-I14b)
 - **Evidencia (26-11-2026):** E200-I14 cambia el texto de la política (Giscus ya no se usa en Recursos) y, por ADR-087, `PRIVACY_POLICY_VERSION` pasa de `2026-11-07` a `2026-11-26`. El formulario envía la versión desde el HTML (`versionPolitica`) y el Worker exige que sea igual a la suya (`src/worker/contact.ts:119`).
 - **Impacto:** quien tenga Contacto abierto (o una copia en caché) desde antes del despliegue y envíe después recibe el error de política y debe recargar. El HTML y el Worker se publican juntos, así que la ventana es corta.
 - **Recomendación:** que Felipe elija: (a) aceptarlo; o (b) que el Worker acepte también la versión anterior durante unos días, con un ADR.

@@ -3,16 +3,30 @@
  * Temáticas de la bóveda (E130-I02, ADR-081): grilla simétrica de tarjetas (DESIGN.md 11.2)
  * sobre `bg-alt`, un h3 por temática y sus recursos en tarjetas `surface` con h4, chips,
  * descripción y enlace. Sin progreso ni JavaScript: todo se lee tal cual.
+ * E200-I14b (ADR-122, opción 1): cada encabezado lleva el logo oficial de la temática a la izquierda
+ * (decorativo; SVG de src/assets/technologies/ o ícono de marca), el nombre y, a la derecha, la
+ * cantidad en texto discreto, sin insignia. En oscuro el logo va sobre la placa clara (ADR-069).
  */
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import ResourceAction from './ResourceAction.astro';
 import ResourceChips from './ResourceChips.astro';
+import Icon from '../ui/Icon.astro';
+import type { IconName } from '../ui/icons';
 import { langFromLocale } from '../../i18n/lang';
 import { getThemes } from './resources-data';
 
 const lang = langFromLocale(Astro.currentLocale);
 const themes = await getThemes();
+
+const files = import.meta.glob<string>('../../assets/technologies/*.svg', {
+  eager: true,
+  query: '?no-inline',
+  import: 'default',
+});
+const logoUrl = (logo: string) => files[`../../assets/technologies/${logo}.svg`];
+const countText = (n: number) =>
+  n === 1 ? themes.countOne[lang] : themes.count[lang].replace('{n}', String(n));
 ---
 
 <section class="themes" aria-labelledby="themes-title">
@@ -25,12 +39,21 @@ const themes = await getThemes();
     />
     {themes.groups.map((group) => (
       <div class="group" data-theme={group.id}>
-        <h3 class="group-title" id={`theme-${group.id}`}>
-          {group.title[lang]}
-          <span class="count" aria-hidden="true">
-            {group.items.length}
+        <div class="group-head">
+          <span class="logo" aria-hidden="true" data-theme-logo={group.logo}>
+            {logoUrl(group.logo) ? (
+              <img src={logoUrl(group.logo)} alt="" width="24" height="24" loading="lazy" />
+            ) : (
+              <Icon name={group.logo as IconName} size={24} />
+            )}
           </span>
-        </h3>
+          <h3 class="group-title" id={`theme-${group.id}`}>
+            {group.title[lang]}
+          </h3>
+          <p class="count" data-theme-count>
+            {countText(group.items.length)}
+          </p>
+        </div>
         <ul class="grid" aria-labelledby={`theme-${group.id}`}>
           {group.items.map((item) => (
             <li class="card" data-resource={item.id}>
@@ -54,10 +77,28 @@ const themes = await getThemes();
   .group {
     margin-top: 48px;
   }
-  .group-title {
+  .group-head {
     display: flex;
-    align-items: baseline;
-    gap: 12px;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border);
+    background-color: var(--tech-plate-bg);
+    /* Ícono de marca en currentColor: tono oscuro de la paleta, legible sobre la placa clara. */
+    color: var(--color-orient-600);
+  }
+  .logo img {
+    display: block;
+  }
+  .group-title {
+    flex: 1;
+    min-width: 0;
     margin: 0;
     font-family: var(--font-display);
     font-size: 1.3rem;
@@ -66,6 +107,7 @@ const themes = await getThemes();
     line-height: 1.3;
   }
   .count {
+    margin: 0;
     color: var(--color-text-soft);
     font-family: var(--font-sans);
     font-size: 13px;

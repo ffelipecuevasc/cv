@@ -891,8 +891,18 @@ const resourcesPage = defineCollection({
       kicker: localized(),
       title: localized(),
       lead: localized(),
+      /** Cantidad de materiales de una temática (E200-I14b): «{n} materiales» y su singular. */
+      count: localized(),
+      countOne: localized(),
       groups: z
-        .array(z.object({ id: z.string().regex(/^[a-z-]+$/), title: localized() }))
+        .array(
+          z.object({
+            id: z.string().regex(/^[a-z-]+$/),
+            /** Logo oficial (E200-I14b): un SVG de src/assets/technologies/ o un ícono de marca. */
+            logo: z.string().regex(/^[a-z-]+$/),
+            title: localized(),
+          }),
+        )
         .min(1)
         .refine(
           (g) => new Set(g.map((x) => x.id)).size === g.length,

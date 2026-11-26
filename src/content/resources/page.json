@@ -283,9 +283,18 @@
       "es": "Materiales sueltos de talleres y clases, sin orden fijo: elige el que te sirva.",
       "en": "Standalone materials from workshops and classes, in no set order: pick whichever helps you."
     },
+    "count": {
+      "es": "{n} materiales",
+      "en": "{n} resources"
+    },
+    "countOne": {
+      "es": "1 material",
+      "en": "1 resource"
+    },
     "groups": [
       {
         "id": "empleabilidad",
+        "logo": "linkedin",
         "title": {
           "es": "Empleabilidad",
           "en": "Employability"
@@ -293,6 +302,7 @@
       },
       {
         "id": "python",
+        "logo": "python",
         "title": {
           "es": "Python",
           "en": "Python"
@@ -300,6 +310,7 @@
       },
       {
         "id": "java",
+        "logo": "java",
         "title": {
           "es": "Java",
           "en": "Java"

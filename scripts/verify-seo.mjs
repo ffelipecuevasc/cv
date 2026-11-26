@@ -2040,6 +2040,15 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'el selector de idioma lleva a la página equivalente',
   );
 
+  // Cabecera con campo de puntos y halo (E200-I14b, ADR-122), capas decorativas antes del h1.
+  const resourcesHeader =
+    /<div class="resources-header[^"]*"[^>]*>([\s\S]*?)<h1/.exec(mainHtml)?.[1] ?? '';
+  check(
+    /texture-dots[^"]*"[^>]*aria-hidden="true"/.test(resourcesHeader) &&
+      /texture-halo[^"]*"[^>]*aria-hidden="true"/.test(resourcesHeader),
+    'cabecera de Recursos con campo de puntos y halo (aria-hidden)',
+  );
+
   // Catálogo de rutas (ADR-122): banda con curvas saddle, una tarjeta por ruta con enlace a su
   // página, progreso solo con JavaScript, sin pasos desplegados, sin Giscus y sin JSON-LD Course.
   const catalogTag = /<section[^>]*id="routes"[^>]*>/.exec(mainHtml)?.[0] ?? '';
@@ -2118,6 +2127,33 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'un h3 por temática y un h4 por recurso',
   );
   check(!/type="checkbox"|data-step=/.test(themesHtml), 'las temáticas no tienen progreso');
+  // «Más recursos» con logos (E200-I14b, ADR-122): logo decorativo, cantidad en texto y sin insignia.
+  const logos = [
+    ...themesHtml.matchAll(
+      /<span class="logo[^"]*" aria-hidden="true" data-theme-logo="([a-z-]+)"[^>]*>\s*(<img[^>]*alt=""[^>]*>|<svg[\s\S]*?<\/svg>)/g,
+    ),
+  ].map((m) => m[1]);
+  check(
+    same(logos, ['linkedin', 'python', 'java']),
+    'logos LinkedIn, Python y Java decorativos (aria-hidden)',
+  );
+  const counts = [
+    ...themesHtml.matchAll(/<p class="count[^"]*" data-theme-count[^>]*>\s*([^<]+?)\s*<\/p>/g),
+  ].map((m) => m[1]);
+  check(
+    counts.length === THEMES.length &&
+      counts.every((text, i) => {
+        const n = THEMES[i][1].length;
+        return (
+          text ===
+          (n === 1 ? ['1 material', '1 resource'] : [`${n} materiales`, `${n} resources`]).find(
+            (t) => t === text,
+          )
+        );
+      }) &&
+      !/<span class="count[^"]*" aria-hidden/.test(themesHtml),
+    'cantidad en texto («N materiales» / «N resources»), sin insignia numérica',
+  );
   for (const path of Object.keys(THEME_FILES)) {
     check(
       new RegExp(`<a href="${path.replace(/\./g, '\\.')}" download`).test(themesHtml),

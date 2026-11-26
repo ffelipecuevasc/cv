@@ -1,5 +1,5 @@
 # E200-I14b · Recursos: «Más recursos» con logos, campo de puntos en la cabecera y cierre de la épica
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (26-11-2026)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** S
 - **Depende de:** E200-I14 (parte A) · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-081, ADR-107, ADR-109, ADR-122
 
@@ -19,12 +19,19 @@ Complemento de E200-I14, partido por decisión de Felipe del 26-11-2026 (como E1
 - Lo que ya resolvió E200-I14 (parte A).
 - Agregar o quitar materiales, cambiar rutas o pasos.
 
+## Resultado (26-11-2026)
+- «Más recursos»: logo decorativo en placa de 44 px (`--tech-plate-bg`; el ícono de LinkedIn en `orient-600`), h3 y cantidad en texto a la derecha («2 materiales», «5 materiales», «1 material»). Datos nuevos en `page.json`: `logo` por temática y `count` / `countOne`. Tarjetas sin cambios.
+- Cabecera con `texture-dots` y `texture-halo`, como el Foro.
+- `verify-seo` +6 comprobaciones (1276), probado ante logo, cantidad y puntos rotos.
+- Recursos sigue con 2 hojas CSS y el Foro con 1 (AT-165). Sin hashes nuevos.
+- PageSpeed en la preview: lo corre Felipe tras el push.
+
 ## Notas
 - AT-165: la hoja de `ThemeGrid` ya es aparte (Recursos pide 2 hojas, igual que producción); la de `ContourLines` sigue incrustada. Al sumar logos y estilos, comprobar que Recursos y Foro no ganan hojas.
 - Si cambia un hash de script en línea, entregar a Felipe la línea de `public/_headers`.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `E200-I14-recursos.md`, `epica.md`, `_planificacion/README.md` y `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y completar ADR-122 en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `E200-I14-recursos.md`, `epica.md`, `_planificacion/README.md` y `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y completar ADR-122 en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

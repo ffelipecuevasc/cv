@@ -2,6 +2,8 @@
 /*
  * Cabecera de Recursos (E130-I01, ADR-079): el único <h1>, «Bóveda de recursos» (AT-037), con
  * rótulo y bajada, alineada a la izquierda sobre `bg`. Sin JavaScript.
+ * E200-I14b (ADR-122): campo de puntos y halo del hero (texture-dots y texture-halo, DESIGN.md 4.5,
+ * halo solo en oscuro) en capas decorativas detrás del contenido, como el Foro y Contacto.
  */
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
@@ -13,6 +15,8 @@ const { header } = await getResourcesPage();
 ---
 
 <div class="resources-header">
+  <div class="texture-dots pointer-events-none absolute inset-0 -z-1" aria-hidden="true"></div>
+  <div class="texture-halo pointer-events-none absolute inset-0 -z-1" aria-hidden="true"></div>
   <Container>
     <SectionHeader
       level={1}
@@ -26,6 +30,8 @@ const { header } = await getResourcesPage();
 
 <style>
   .resources-header {
+    position: relative;
+    isolation: isolate;
     padding-block: 64px 56px;
     background-color: var(--color-bg);
   }
