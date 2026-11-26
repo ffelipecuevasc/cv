@@ -1,0 +1,15 @@
+---
+// Página de cada ruta de aprendizaje (E200-I14, ADR-122): una por ruta de
+// src/content/resources/page.json; agregar una ruta no exige código.
+import RoutePage from '../../../../components/resources/RoutePage.astro';
+import { getResourcesPage } from '../../../../components/resources/resources-data';
+
+export async function getStaticPaths() {
+  const { routes } = await getResourcesPage();
+  return routes.map(({ id }) => ({ params: { slug: id } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<RoutePage id={slug} />

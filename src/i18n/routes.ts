@@ -7,7 +7,11 @@
  * - La 404 vive en `internalRoutes` (`notFound`, ADR-088): su selector de idioma lleva a la 404
  *   del otro idioma. La 404 de la raíz (`/404/`) se resuelve como la de /es/.
  * Cambiar un slug después del cutover exige una 301 (E180-I01).
+ * - Las páginas de las rutas de aprendizaje (E200-I14, ADR-122) salen de los datos de Recursos:
+ *   una por ruta de `routes` en src/content/resources/page.json, con el id como slug en ambos
+ *   idiomas (/es/recursos/rutas/<id>/ ↔ /en/resources/paths/<id>/). Una ruta nueva no exige código.
  */
+import resourcesPage from '../content/resources/page.json';
 import { langs, otherLang, type Lang } from './lang';
 
 export const routes = {
@@ -37,9 +41,26 @@ export const internalRoutes = {
 
 export type RouteKey = keyof typeof routes;
 export type InternalRouteKey = keyof typeof internalRoutes;
-export type AnyRouteKey = RouteKey | InternalRouteKey;
+/** Página de una ruta de aprendizaje: `path:<id>`. */
+export type LearningPathKey = `path:${string}`;
+export type AnyRouteKey = RouteKey | InternalRouteKey | LearningPathKey;
 
-const allRoutes: Record<AnyRouteKey, Record<Lang, string>> = { ...routes, ...internalRoutes };
+/** Clave del mapa para la página de una ruta de aprendizaje. */
+export const learningPathKey = (id: string): LearningPathKey => `path:${id}`;
+
+/** Páginas de las rutas de aprendizaje, indexables y en el sitemap (ADR-122). */
+export const learningPathRoutes: Record<LearningPathKey, Record<Lang, string>> = Object.fromEntries(
+  resourcesPage.routes.map(({ id }) => [
+    learningPathKey(id),
+    { es: `/es/recursos/rutas/${id}/`, en: `/en/resources/paths/${id}/` },
+  ]),
+);
+
+const allRoutes: Record<AnyRouteKey, Record<Lang, string>> = {
+  ...routes,
+  ...internalRoutes,
+  ...learningPathRoutes,
+};
 
 // Validación al construir: si el mapa queda mal escrito, `pnpm build` falla.
 const seen = new Set<string>();

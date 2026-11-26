@@ -1,15 +1,14 @@
 ---
 // Página Recursos de /es/ (E130-I01, ADR-079): bóveda mixta. Título, descripción y texto
 // alternativo de la imagen OG vienen de src/content/pages/resources.json; el contenido, de
-// src/content/resources/. Temáticas de los recursos 1 al 8 y JSON-LD Course desde E130-I02.
+// src/content/resources/. Temáticas de los recursos 1 al 8 desde E130-I02.
+// E200-I14 (ADR-122): catálogo de rutas; cada ruta tiene su página (y su JSON-LD Course), sin
+// conversación propia.
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourcesHeader from '../../components/resources/ResourcesHeader.astro';
-import RouteBand from '../../components/resources/RouteBand.astro';
-import RouteSteps from '../../components/resources/RouteSteps.astro';
-import RouteThread from '../../components/resources/RouteThread.astro';
+import RouteCatalog from '../../components/resources/RouteCatalog.astro';
 import ThemeGrid from '../../components/resources/ThemeGrid.astro';
-import ResourcesJsonLd from '../../components/seo/ResourcesJsonLd.astro';
 import { getHomeOgImage } from '../../components/seo/home-og-image';
 
 const page = await getEntry('pages', 'resources');
@@ -20,9 +19,6 @@ const og = { ...(await getHomeOgImage()), alt: ogImageAlt?.es ?? title.es };
 
 <BaseLayout title={title.es} description={description.es} route="resources" ogImage={og}>
   <ResourcesHeader />
-  <RouteBand />
-  <RouteSteps />
-  <RouteThread />
+  <RouteCatalog />
   <ThemeGrid />
-  <ResourcesJsonLd slot="json-ld" />
 </BaseLayout>

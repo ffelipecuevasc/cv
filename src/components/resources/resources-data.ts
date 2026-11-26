@@ -1,7 +1,7 @@
 /*
  * Datos de la página Recursos (E130-I01, ADR-079). Los recursos viven en
- * src/content/resources/items.json con el id numérico de main; la ruta, en page.json, solo guarda
- * el orden de sus pasos. Si un paso no existe o no tiene etapa, `pnpm build` falla.
+ * src/content/resources/items.json con el id numérico de main; cada ruta, en page.json, solo guarda
+ * el orden de sus pasos (E200-I14: una lista de rutas, cada una con su página). Si un paso no existe o no tiene etapa, `pnpm build` falla.
  */
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
@@ -18,14 +18,15 @@ export async function getResources(): Promise<Resource[]> {
   return entries.map((entry) => ({ ...entry.data, id: Number(entry.id) }));
 }
 
-/** Pasos de la ruta agrupados por etapa, en el orden de `steps` (numeración de corrido). */
-export async function getRouteStages() {
-  const { route } = await getResourcesPage();
+type RouteData = Awaited<ReturnType<typeof getResourcesPage>>['routes'][number];
+
+/** Pasos de una ruta agrupados por etapa, en el orden de `steps` (numeración de corrido). */
+async function withStages(route: RouteData) {
   const byId = new Map((await getResources()).map((r) => [r.id, r]));
   const steps = route.steps.map((id, index) => {
     const resource = byId.get(id);
-    if (!resource) throw new Error(`El paso ${id} de la ruta no existe en items.json`);
-    if (!resource.stage) throw new Error(`El paso ${id} de la ruta no tiene etapa`);
+    if (!resource) throw new Error(`El paso ${id} de la ruta ${route.id} no existe en items.json`);
+    if (!resource.stage) throw new Error(`El paso ${id} de la ruta ${route.id} no tiene etapa`);
     return { ...resource, number: index + 1 };
   });
   const stages = route.stages.map((stage, index) => ({
@@ -37,9 +38,19 @@ export async function getRouteStages() {
   const order = steps.map((step) => step.stage);
   const blocks = order.filter((stage, i) => i === 0 || stage !== order[i - 1]);
   if (blocks.length !== stages.length || stages.some((s) => s.steps.length === 0)) {
-    throw new Error('Cada etapa de la ruta debe tener sus pasos seguidos y al menos uno');
+    throw new Error(
+      `Cada etapa de la ruta ${route.id} debe tener sus pasos seguidos y al menos uno`,
+    );
   }
   return { route, stages, total: steps.length };
+}
+
+export type RouteWithStages = Awaited<ReturnType<typeof withStages>>;
+
+/** Todas las rutas de aprendizaje con sus etapas (E200-I14, ADR-122), en el orden de page.json. */
+export async function getRoutes(): Promise<RouteWithStages[]> {
+  const { routes } = await getResourcesPage();
+  return Promise.all(routes.map(withStages));
 }
 
 /** Un archivo local se descarga; el resto abre en otra pestaña. */

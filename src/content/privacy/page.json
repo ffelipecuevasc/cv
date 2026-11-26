@@ -127,8 +127,8 @@
       },
       "paragraphs": [
         {
-          "es": "El Foro y la ruta de aprendizaje de Recursos usan Giscus, que muestra conversaciones alojadas en GitHub Discussions.",
-          "en": "The Forum and the learning path in Resources use Giscus, which shows conversations hosted on GitHub Discussions."
+          "es": "El Foro usa Giscus, que muestra conversaciones alojadas en GitHub Discussions.",
+          "en": "The Forum uses Giscus, which shows conversations hosted on GitHub Discussions."
         },
         {
           "es": "Se carga cuando la sección está por aparecer en pantalla. En ese momento tu navegador se conecta a giscus.app y a GitHub. Para comentar debes iniciar sesión en GitHub; tus comentarios son públicos, quedan en GitHub y los trata según su propia política.",

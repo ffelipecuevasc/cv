@@ -1870,8 +1870,8 @@ for (const [lang, info] of Object.entries(LANGS)) {
   // «Participar en tres pasos» sin retícula; capas decorativas aria-hidden y sin JavaScript nuevo.
   const forumHeader = /<div class="forum-header[^"]*"[^>]*>([\s\S]*?)<h1/.exec(mainHtml)?.[1] ?? '';
   check(
-    /texture-dots layer[^>]*aria-hidden="true"/.test(forumHeader) &&
-      /texture-halo layer[^>]*aria-hidden="true"/.test(forumHeader),
+    /texture-dots[^"]*"[^>]*aria-hidden="true"/.test(forumHeader) &&
+      /texture-halo[^"]*"[^>]*aria-hidden="true"/.test(forumHeader),
     'cabecera con campo de puntos y halo (aria-hidden)',
   );
   const stepsTag = /<section[^>]*id="forum-steps"[^>]*>/.exec(mainHtml)?.[0] ?? '';
@@ -1919,8 +1919,17 @@ check(
 );
 check(same(forum.es?.levels, forum.en?.levels), 'misma estructura de encabezados en /es/ y /en/');
 
-// --- Recursos (E130-I01, ADR-079): bóveda mixta, ruta Web & IA con progreso y su hilo ---
+// --- Recursos (E130-I01, ADR-079; E200-I14, ADR-122): catálogo de rutas y temáticas; cada ruta en su página ---
 const RESOURCES = { es: 'es/recursos', en: 'en/resources' };
+// Página de la ruta desarrollo-web-ia (ADR-122): mismo id como slug en ambos idiomas.
+const ROUTE_PAGE = {
+  es: 'es/recursos/rutas/desarrollo-web-ia',
+  en: 'en/resources/paths/desarrollo-web-ia',
+};
+const ROUTE_TEXT = {
+  es: { h1: 'Desarrollo Web & IA', anchor: 'etapa-' },
+  en: { h1: 'Web Development & AI', anchor: 'stage-' },
+};
 // Pasos de la ruta desarrollo-web-ia de main, en orden (ids de rutas-progreso, ADR-023).
 const ROUTE_STEPS = Array.from({ length: 25 }, (_, i) => i + 9);
 const ROUTE_STAGES = 6;
@@ -2031,93 +2040,58 @@ for (const [lang, info] of Object.entries(LANGS)) {
     'el selector de idioma lleva a la página equivalente',
   );
 
-  // Ruta: ficha en banda, pasos en orden, etapas y progreso solo con JavaScript.
-  check(
-    /texture-band[^>]*>[\s\S]*data-route-progress/.test(mainHtml),
-    'la ficha de la ruta va en una banda (7.8)',
+  // Catálogo de rutas (ADR-122): banda con curvas saddle, una tarjeta por ruta con enlace a su
+  // página, progreso solo con JavaScript, sin pasos desplegados, sin Giscus y sin JSON-LD Course.
+  const catalogTag = /<section[^>]*id="routes"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const catalogHtml = mainHtml.slice(
+    mainHtml.indexOf(catalogTag),
+    mainHtml.indexOf('<section class="themes'),
   );
   check(
-    /<dl class="facts[^"]*"[^>]*>/.test(mainHtml) &&
-      (mainHtml.match(/<dt[\s>]/g) ?? []).length === 3,
-    'ficha con 3 datos en <dl>',
+    /texture-band-contour/.test(catalogTag) &&
+      !/texture-band(?!-)/.test(catalogTag) &&
+      /class="piece middle-left [^"]*shape-saddle/.test(catalogHtml) &&
+      /<div class="contour-lines[^"]*"[^>]*aria-hidden="true"/.test(catalogHtml),
+    'catálogo de rutas en banda con curvas saddle, sin retícula (ADR-122)',
   );
-  const sectionTag = /<section[^>]*data-route="[^"]*"[^>]*>/.exec(mainHtml)?.[0] ?? '';
-  const section = attrs(sectionTag);
-  check(section['data-route'] === 'desarrollo-web-ia', 'data-route = desarrollo-web-ia (ADR-023)');
-  check(section['data-total'] === String(ROUTE_STEPS.length), `data-total = ${ROUTE_STEPS.length}`);
-  const stepIds = [...mainHtml.matchAll(/data-step="(\d+)"/g)].map((m) => Number(m[1]));
-  check(same(stepIds, ROUTE_STEPS), 'pasos 9 al 33 en el orden de main');
-  check(
-    (mainHtml.match(/data-stage="stage-\d+"/g) ?? []).length === ROUTE_STAGES,
-    `${ROUTE_STAGES} etapas`,
+  const cards = [...catalogHtml.matchAll(/<li[^>]*data-route-card="([a-z0-9-]+)"/g)].map(
+    (m) => m[1],
   );
+  check(same(cards, ['desarrollo-web-ia']), 'una tarjeta por ruta (desarrollo-web-ia)');
   check(
-    (mainHtml.match(/<input type="checkbox" value="(\d+)"/g) ?? []).length === ROUTE_STEPS.length,
-    'una casilla por paso, con el id como valor',
+    tags(catalogHtml, 'a').some((l) => l.href === `/${ROUTE_PAGE[lang]}/`),
+    `la tarjeta enlaza a /${ROUTE_PAGE[lang]}/`,
   );
   check(
-    [...mainHtml.matchAll(/<label[^>]*data-step-check[^>]*>/g)].every((m) =>
-      /\shidden/.test(m[0]),
-    ) &&
-      /<div[^>]*data-route-progress[^>]*hidden/.test(mainHtml) &&
-      /<div[^>]*data-route-search[^>]*hidden/.test(mainHtml),
-    'casillas, progreso y buscador nacen ocultos (sin JavaScript se lee la ruta)',
-  );
-  const starts = [...mainHtml.matchAll(/<ol class="steps[^"]*" start="(\d+)"/g)].map((m) =>
-    Number(m[1]),
-  );
-  check(starts.length === ROUTE_STAGES && starts[0] === 1, 'numeración de pasos de corrido');
-  for (const path of Object.keys(ROUTE_FILES)) {
-    check(
-      new RegExp(`<a href="${path.replace(/\./g, '\\.')}" download`).test(mainHtml),
-      `descarga ${path.split('/').pop()}`,
-    );
-  }
-  const routeHtml = mainHtml.slice(
-    mainHtml.indexOf('data-stages'),
-    mainHtml.indexOf('data-forum-thread'),
-  );
-  const external = [...routeHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)].filter(
-    ([, href]) => !href.startsWith('https://github.com/ffelipecuevasc/comunidad'),
+    /<div[^>]*data-card-progress[^>]*data-js-only/.test(catalogHtml),
+    'el progreso de la tarjeta nace oculto (sin JavaScript, la tarjeta y su enlace funcionan)',
   );
   check(
-    external.length === ROUTE_STEPS.length - Object.keys(ROUTE_FILES).length &&
-      external.every(([, , rest]) => rest.includes('target="_blank" rel="noopener noreferrer"')),
-    'pasos externos con pestaña nueva avisada',
+    !/data-step=|type="checkbox"/.test(mainHtml),
+    'Recursos ya no despliega los pasos de la ruta',
+  );
+  check(
+    !/data-forum-thread|data-conversation-texture|giscus/i.test(mainHtml),
+    'sin conversación de Giscus en Recursos (ADR-122)',
+  );
+  check(
+    !/application\/ld\+json/.test(html),
+    'sin JSON-LD en Recursos: el Course va en la página de su ruta',
+  );
+  check(
+    mainHtml.indexOf('id="routes"') < mainHtml.indexOf('<section class="themes'),
+    'orden: cabecera → catálogo → temáticas',
   );
   check(
     !/static\/js\/|rutas\.js|data-aos|animate-spin/.test(html),
     'sin JS de main, AOS ni spinner',
   );
 
-  // Hilo de la ruta con la sección común de Giscus.
-  const panel = attrs(/<div[^>]*data-forum-thread[^>]*>/.exec(mainHtml)?.[0] ?? '');
-  check(panel['data-term'] === 'ruta-desarrollo-web-ia', 'Giscus: término ruta-desarrollo-web-ia');
-  check(panel['data-repo'] === 'ffelipecuevasc/comunidad', 'Giscus: repo de main');
-  check(panel['data-lang'] === lang, `Giscus: data-lang = ${lang}`);
-  check(!/ruta-(python|empleabilidad|java)\b/.test(html), 'sin los hilos de las rutas retiradas');
-  check(!/<script[^>]*giscus\.app/.test(html), 'giscus.app no se carga en el HTML');
-  check(
-    /data-conversation-texture="none"/.test(mainHtml) &&
-      !/texture-dots/.test(
-        mainHtml.slice(
-          mainHtml.indexOf('data-conversation-texture'),
-          mainHtml.indexOf('data-forum-thread'),
-        ),
-      ),
-    'el hilo de Recursos sigue liso, sin el campo de puntos del Foro (E200-I12)',
-  );
-  check(
-    mainHtml.indexOf('data-stages') < mainHtml.indexOf('data-forum-thread'),
-    'orden: ficha → pasos → conversación',
-  );
-
   // Temáticas (E130-I02, ADR-081): grilla sobre bg-alt después del hilo, sin progreso.
   const themesHtml = mainHtml.slice(mainHtml.indexOf('<section class="themes'));
   check(
-    /<section class="themes[^"]*"[^>]*aria-labelledby="themes-title"/.test(mainHtml) &&
-      mainHtml.indexOf('data-forum-thread') < mainHtml.indexOf('<section class="themes'),
-    'orden: … → conversación → temáticas',
+    /<section class="themes[^"]*"[^>]*aria-labelledby="themes-title"/.test(mainHtml),
+    'temáticas en su sección',
   );
   const themeIds = [...themesHtml.matchAll(/data-theme="([a-z-]+)"/g)].map((m) => m[1]);
   check(
@@ -2161,7 +2135,7 @@ for (const [lang, info] of Object.entries(LANGS)) {
       /<a href="(\/static\/[^"]+)" download[^>]*data-bytes="(\d+)"[\s\S]*?<\/a>\s*<span class="file-meta[^"]*"[^>]*>([^<]*)<\/span>/g,
     ),
   ];
-  const allFiles = { ...ROUTE_FILES, ...THEME_FILES };
+  const allFiles = THEME_FILES;
   check(
     downloads.length === Object.keys(allFiles).length &&
       downloads.every(([, path, bytes]) => allFiles[path] === Number(bytes)),
@@ -2180,6 +2154,135 @@ for (const [lang, info] of Object.entries(LANGS)) {
     lang === 'en' ? 'aviso «In Spanish» en cada archivo (AT-034)' : 'sin aviso de idioma en /es/',
   );
 
+  resources[lang] = { levels, cards, themeItems };
+}
+check(same(resources.es?.levels, resources.en?.levels), 'misma estructura de encabezados');
+check(same(resources.es?.cards, resources.en?.cards), 'mismas rutas en el catálogo de /es/ y /en/');
+check(same(resources.es?.themeItems, resources.en?.themeItems), 'mismas temáticas en /es/ y /en/');
+
+const routePages = {};
+for (const [lang, info] of Object.entries(LANGS)) {
+  const route = ROUTE_PAGE[lang];
+  const other = ROUTE_PAGE[info.other];
+  console.log(`\n/${route}/ (${info.code})`);
+  if (!existsSync(join(DIST, route, 'index.html'))) {
+    check(false, `existe dist/${route}/index.html`);
+    continue;
+  }
+  const html = read(`${route}/index.html`);
+  const head = html.slice(html.indexOf('<head'), html.indexOf('</head>'));
+  const links = tags(head, 'link');
+  const canonical = `${SITE}/${route}/`;
+  check(html.includes(`<html lang="${info.code}"`), `<html lang="${info.code}">`);
+  check(links.find((l) => l.rel === 'canonical')?.href === canonical, `canonical = ${canonical}`);
+  check(
+    same(
+      links
+        .filter((l) => l.rel === 'alternate' && l.hreflang)
+        .map((l) => [l.hreflang, l.href])
+        .sort(),
+      [
+        [LANGS[lang].code, canonical],
+        [LANGS[info.other].code, `${SITE}/${other}/`],
+        ['x-default', `${SITE}/${ROUTE_PAGE.es}/`],
+      ].sort(),
+    ),
+    'hreflang recíprocos con barra final y x-default → /es/',
+  );
+  const body = html.slice(html.indexOf('<body'));
+  const mainHtml = body.slice(body.indexOf('<main'), body.indexOf('</main>'));
+  const levels = [...mainHtml.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+  check(
+    (body.match(/<h1[\s>]/g) ?? []).length === 1 &&
+      levels[0] === 1 &&
+      levels.every((level, i) => i === 0 || level - levels[i - 1] <= 1),
+    'un solo <h1>, que abre el <main>, y encabezados sin saltos',
+  );
+  const h1 = decode(
+    (/<h1[^>]*>([\s\S]*?)<\/h1>/.exec(mainHtml)?.[1] ?? '').replace(/<[^>]+>/g, ' '),
+  )
+    .replace(/\s+/g, ' ')
+    .trim();
+  check(h1 === ROUTE_TEXT[lang].h1, `<h1> = «${ROUTE_TEXT[lang].h1}»`);
+  check(
+    tags(body, 'a').some((a) => a.href === `/${other}/` && a.hreflang === LANGS[info.other].code),
+    'el selector de idioma lleva a la página equivalente',
+  );
+
+  // Ruta: ficha en banda, pasos en orden, etapas y progreso solo con JavaScript.
+  check(
+    /<div class="route-header[^"]*"[^>]*>[\s\S]*data-route-progress/.test(mainHtml),
+    'la cabecera de la ruta lleva el progreso',
+  );
+  check(
+    tags(mainHtml, 'a').some((l) => l.href === `/${RESOURCES[lang]}/#routes`),
+    'enlace para volver a todas las rutas',
+  );
+  check(
+    /<dl class="facts[^"]*"[^>]*>/.test(mainHtml) &&
+      (mainHtml.match(/<dt[\s>]/g) ?? []).length === 3,
+    'ficha con 3 datos en <dl>',
+  );
+  const sectionTag = /<section[^>]*data-route="[^"]*"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const section = attrs(sectionTag);
+  check(section['data-route'] === 'desarrollo-web-ia', 'data-route = desarrollo-web-ia (ADR-023)');
+  check(section['data-total'] === String(ROUTE_STEPS.length), `data-total = ${ROUTE_STEPS.length}`);
+  const stepIds = [...mainHtml.matchAll(/data-step="(\d+)"/g)].map((m) => Number(m[1]));
+  check(same(stepIds, ROUTE_STEPS), 'pasos 9 al 33 en el orden de main');
+  check(
+    (mainHtml.match(/data-stage="stage-\d+"/g) ?? []).length === ROUTE_STAGES,
+    `${ROUTE_STAGES} etapas`,
+  );
+  check(
+    (mainHtml.match(/<input type="checkbox" value="(\d+)"/g) ?? []).length === ROUTE_STEPS.length,
+    'una casilla por paso, con el id como valor',
+  );
+  check(
+    [
+      ...mainHtml.matchAll(
+        /<[^>]*data-(step-check|stage-count|stage-pager|route-progress)[\s>][^>]*>/g,
+      ),
+    ].every((m) => /data-js-only/.test(m[0]) && !/\shidden/.test(m[0])) &&
+      !/<section[^>]*data-stage="[^"]*"[^>]*\shidden/.test(mainHtml),
+    'casillas, contadores, botones y progreso con data-js-only (sin CLS); todas las etapas visibles sin JavaScript',
+  );
+  const starts = [...mainHtml.matchAll(/<ol class="steps[^"]*" start="(\d+)"/g)].map((m) =>
+    Number(m[1]),
+  );
+  check(starts.length === ROUTE_STAGES && starts[0] === 1, 'numeración de pasos de corrido');
+  for (const path of Object.keys(ROUTE_FILES)) {
+    check(
+      new RegExp(`<a href="${path.replace(/\./g, '\\.')}" download`).test(mainHtml),
+      `descarga ${path.split('/').pop()}`,
+    );
+  }
+  const routeHtml = mainHtml.slice(mainHtml.indexOf('data-stages'));
+  const external = [...routeHtml.matchAll(/<a href="(https:[^"]+)"([^>]*)>/g)];
+  const anchors = [...mainHtml.matchAll(/<section[^>]*id="([a-z]+-\d+)"[^>]*data-stage=/g)].map(
+    (m) => m[1],
+  );
+  check(
+    anchors.length === ROUTE_STAGES &&
+      anchors.every((id, i) => id === `${ROUTE_TEXT[lang].anchor}${i}`) &&
+      anchors.every((id) => tags(mainHtml, 'a').some((l) => l.href === `#${id}`)),
+    `índice de etapas con anclas ${ROUTE_TEXT[lang].anchor}N compartibles`,
+  );
+  check(!/data-forum-thread|giscus/i.test(mainHtml), 'sin conversación de Giscus en la ruta');
+  check(
+    external.length === ROUTE_STEPS.length - Object.keys(ROUTE_FILES).length &&
+      external.every(([, , rest]) => rest.includes('target="_blank" rel="noopener noreferrer"')),
+    'pasos externos con pestaña nueva avisada',
+  );
+  // Peso exacto de las descargas de la ruta (AT-034).
+  const downloads = [
+    ...mainHtml.matchAll(/<a href="(\/static\/[^"]+)" download[^>]*data-bytes="(\d+)"/g),
+  ];
+  check(
+    downloads.length === Object.keys(ROUTE_FILES).length &&
+      downloads.every(([, path, bytes]) => ROUTE_FILES[path] === Number(bytes)),
+    `${Object.keys(ROUTE_FILES).length} descargas con su peso exacto (data-bytes = archivo)`,
+  );
+
   // JSON-LD (ADR-082): un solo Course para la ruta, sin ItemList.
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   let course;
@@ -2191,9 +2294,9 @@ for (const [lang, info] of Object.entries(LANGS)) {
   check(blocks.length === 1 && course['@type'] === 'Course', 'un solo JSON-LD, de tipo Course');
   check(
     course['@context'] === 'https://schema.org' &&
-      course['@id'] === `${canonical}#ruta-desarrollo-web-ia` &&
-      course.url === `${canonical}?ruta=desarrollo-web-ia`,
-    'Course: @context, @id y url con ?ruta=',
+      course['@id'] === `${canonical}#curso` &&
+      course.url === canonical,
+    'Course: @context, @id y url de la página de la ruta',
   );
   check(
     [course.name, course.description, course.teaches, course.coursePrerequisites].every(
@@ -2216,16 +2319,17 @@ for (const [lang, info] of Object.entries(LANGS)) {
   );
   check(!/ItemList/.test(html), 'sin ItemList (las temáticas no se describen)');
 
-  resources[lang] = { stepIds, levels, term: panel['data-term'], starts, themeItems };
+  routePages[lang] = { stepIds, levels, starts };
 }
 check(
-  same(resources.es?.stepIds, resources.en?.stepIds) &&
-    same(resources.es?.starts, resources.en?.starts),
-  'mismos pasos y etapas en /es/ y /en/',
+  same(routePages.es?.stepIds, routePages.en?.stepIds) &&
+    same(routePages.es?.starts, routePages.en?.starts),
+  'mismos pasos y etapas en la ruta de /es/ y /en/',
 );
-check(same(resources.es?.levels, resources.en?.levels), 'misma estructura de encabezados');
-check(resources.es?.term === resources.en?.term, 'mismo hilo de Giscus en /es/ y /en/ (ADR-022)');
-check(same(resources.es?.themeItems, resources.en?.themeItems), 'mismas temáticas en /es/ y /en/');
+check(
+  same(routePages.es?.levels, routePages.en?.levels),
+  'misma estructura de encabezados en la ruta',
+);
 
 // --- Contacto (E140-I01, ADR-035 y ADR-083): metadatos, estructura, formulario y terceros ---
 const CONTACT_ROUTES = { es: 'es/contacto', en: 'en/contact' };
@@ -2762,8 +2866,6 @@ console.log('\nEnlace a la política (pie y avisos)');
   for (const [lang, file] of [
     ['es', 'es/foro/index.html'],
     ['en', 'en/forum/index.html'],
-    ['es', 'es/recursos/index.html'],
-    ['en', 'en/resources/index.html'],
   ]) {
     const notice = /<p[^>]*data-forum-notice[\s\S]*?<\/p>/.exec(read(file))?.[0] ?? '';
     check(
@@ -3066,8 +3168,8 @@ console.log('\nSitemap, robots.txt y canónicas');
   }));
   const locs = entries.map((e) => e.loc);
   check(
-    entries.length === 22,
-    `el sitemap lista 22 URL (11 páginas × 2 idiomas); hay ${entries.length}`,
+    entries.length === 24,
+    `el sitemap lista 24 URL (11 páginas y 1 ruta de aprendizaje × 2 idiomas, ADR-122); hay ${entries.length}`,
   );
   check(new Set(locs).size === locs.length, 'sin URL repetidas en el sitemap');
   check(

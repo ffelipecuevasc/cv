@@ -1346,7 +1346,14 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Seguimiento (E200-I12, 26-11-2026):** la forma `trail` suma 10.015 B de trazos al componente, pero su máscara vive en `StepsBand.astro`, así que la hoja de `ContourLines` sigue incrustada. Foro y Recursos piden las mismas hojas que producción (`home-og-image` y, en Recursos, `ResourcesJsonLd`), y Talento Digital, Instructor y Docente siguen igual que producción.
 
 ### AT-166 · El error del envío aparece sobre el botón y lo desplaza (CLS 0,0025) (E200-I13)
-- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir (fuera del alcance de E200-I13, que deja el error «como hoy»)
+- **Severidad:** Baja · **Estado:** Aceptado (decisión de Felipe, 26-11-2026) · **Resuelve:** decisión de Felipe (E200-I14)
 - **Evidencia (26-11-2026, local, envío simulado con respuesta 500):** el texto de error se escribe en la región `role="status"`, sobre el botón, y lo baja unas dos líneas; el `PerformanceObserver` mide 0,0025 de CLS, 1,5 s después del clic (fuera de la ventana de entrada reciente). Antes de E200-I13, el texto «Enviando tu mensaje…» también lo desplazaba; ahora solo lo hace el error.
 - **Impacto:** mínimo (bajo el umbral de ADR-015 y solo tras un fallo), pero no es CLS 0.
 - **Recomendación:** que Felipe decida si (a) se acepta; o (b) se mueve la región de estado bajo el botón o se le reserva alto, en una iteración propia.
+- **Decisión (Felipe, 26-11-2026):** opción (a). Se acepta el desplazamiento al mostrar el error; sin cambios de código.
+
+### AT-167 · Al subir la versión de la política, un formulario de Contacto abierto con la versión anterior se rechaza (E200-I14)
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** decisión de Felipe (antes del merge de E200-I14 a `main`)
+- **Evidencia (26-11-2026):** E200-I14 cambia el texto de la política (Giscus ya no se usa en Recursos) y, por ADR-087, `PRIVACY_POLICY_VERSION` pasa de `2026-11-07` a `2026-11-26`. El formulario envía la versión desde el HTML (`versionPolitica`) y el Worker exige que sea igual a la suya (`src/worker/contact.ts:119`).
+- **Impacto:** quien tenga Contacto abierto (o una copia en caché) desde antes del despliegue y envíe después recibe el error de política y debe recargar. El HTML y el Worker se publican juntos, así que la ventana es corta.
+- **Recomendación:** que Felipe elija: (a) aceptarlo; o (b) que el Worker acepte también la versión anterior durante unos días, con un ADR.

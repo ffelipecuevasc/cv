@@ -1,0 +1,421 @@
+---
+/*
+ * Pasos de una ruta de aprendizaje con índice y detalle (E200-I14, ADR-122; antes la línea de
+ * tiempo completa de Recursos, E130-I01, DESIGN.md 11.11).
+ * - Índice de etapas (a la izquierda desde 1.024 px, arriba bajo esa medida): número, título y
+ *   avance «n / total» de cada etapa. Cada entrada es un ancla a su etapa (#etapa-N / #stage-N).
+ * - Detalle: una sección por etapa (h3) con sus pasos en una lista ordenada de numeración de
+ *   corrido. Cada paso: casilla «Marcar como completado», chips, h4, descripción y enlace.
+ * - Con JavaScript solo se ve la etapa elegida: la del ancla de la URL (:target) o la primera. Lo
+ *   decide el CSS desde el primer pintado (sin CLS, también al abrir un enlace a una etapa); las
+ *   anclas del índice y de etapa anterior y siguiente cambian la etapa sin código. El script
+ *   (src/scripts/resources.ts) marca la etapa en el índice y guarda las casillas en `rutas-progreso`.
+ * - Sin JavaScript se ven todas las etapas y sus pasos, y el índice salta a cada una; las casillas,
+ *   los contadores y los botones llevan `data-js-only` (ocultos sin JavaScript y presentes desde el
+ *   primer pintado con él, sin CLS).
+ */
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import ResourceAction from './ResourceAction.astro';
+import ResourceChips from './ResourceChips.astro';
+import { langFromLocale } from '../../i18n/lang';
+import { fill, getResourcesPage, type RouteWithStages } from './resources-data';
+
+interface Props {
+  data: RouteWithStages;
+}
+
+const lang = langFromLocale(Astro.currentLocale);
+const { ui } = await getResourcesPage();
+const { route, stages, total } = Astro.props.data;
+const anchor = (n: number) => fill(ui.anchor[lang], { n });
+---
+
+<section
+  class="route-steps"
+  aria-labelledby="route-steps-title"
+  data-route={route.id}
+  data-total={total}
+  data-progress-template={ui.progress[lang]}
+  data-completed={ui.completed[lang]}
+>
+  <Container>
+    <SectionHeader
+      kicker={route.title[lang]}
+      title={route.stepsTitle[lang]}
+      id="route-steps-title"
+    />
+
+    <div class="explorer">
+      <nav class="stage-index" aria-labelledby="stage-index-label">
+        <p class="index-label" id="stage-index-label">
+          {ui.index[lang]}
+        </p>
+        <ol class="index-list">
+          {stages.map((stage) => (
+            <li>
+              <a class="index-link" href={`#${anchor(stage.number)}`} data-stage-link={stage.id}>
+                <span class="marker" aria-hidden="true">
+                  {stage.number}
+                </span>
+                <span class="index-text">
+                  <span class="index-name">{stage.title[lang]}</span>
+                  <span class="stage-count" data-stage-count data-js-only>
+                    0 / {stage.steps.length}
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div class="stages" data-stages>
+        {stages.map((stage, index) => (
+          <section
+            class="stage"
+            id={anchor(stage.number)}
+            data-stage={stage.id}
+            aria-labelledby={`stage-${stage.number}`}
+            tabindex="-1"
+          >
+            <h3 class="stage-title" id={`stage-${stage.number}`}>
+              <span class="stage-number">{fill(ui.stage[lang], { n: stage.number })}</span>
+              <span class="stage-name">{stage.title[lang]}</span>
+            </h3>
+            <ol
+              class="steps"
+              start={stage.steps[0].number}
+              aria-labelledby={`stage-${stage.number}`}
+            >
+              {stage.steps.map((step) => {
+                const titleId = `step-${step.id}-title`;
+                return (
+                  <li class="step" data-step={step.id}>
+                    <label class="check" data-step-check data-js-only>
+                      <input type="checkbox" value={step.id} aria-describedby={titleId} />
+                      <span class="sr-only">{ui.markDone[lang]}</span>
+                      <Icon name="check" size={24} class="check-on" />
+                    </label>
+                    <div class="step-body">
+                      <ResourceChips resource={step} {lang} />
+                      <h4 class="step-title" id={titleId}>
+                        <span class="step-number" aria-hidden="true">
+                          {String(step.number).padStart(2, '0')}
+                        </span>
+                        {step.title[lang]}
+                      </h4>
+                      <p class="text">{step.description[lang]}</p>
+                      <ResourceAction resource={step} {lang} />
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+            <div class="pager" data-stage-pager data-js-only>
+              {index > 0 && (
+                <a class="pager-link" href={`#${anchor(stages[index - 1].number)}`} data-stage-go>
+                  <Icon name="arrow-left" size={18} />
+                  {ui.prev[lang]}
+                </a>
+              )}
+              {index < stages.length - 1 && (
+                <a
+                  class="pager-link next"
+                  href={`#${anchor(stages[index + 1].number)}`}
+                  data-stage-go
+                >
+                  {ui.next[lang]}
+                  <Icon name="arrow-right" size={18} />
+                </a>
+              )}
+            </div>
+          </section>
+        ))}
+        {route.comingSoon && (
+          <p class="coming-soon">
+            <Icon name="more-horiz" size={20} />
+            {route.comingSoon[lang]}
+          </p>
+        )}
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  import { initRouteProgress } from '../../scripts/resources';
+
+  initRouteProgress();
+</script>
+
+<style>
+  .route-steps {
+    padding-block: 64px 80px;
+    background-color: var(--color-bg-alt);
+  }
+  [hidden] {
+    display: none !important;
+  }
+  .explorer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    margin-top: 40px;
+  }
+  /* Índice de etapas: arriba bajo 1.024 px; columna pegajosa a la izquierda desde esa medida. */
+  .index-label {
+    margin: 0 0 12px;
+    color: var(--color-text-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .index-list {
+    display: grid;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .index-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 56px;
+    padding: 6px 12px 6px 6px;
+    border: 1px solid transparent;
+    border-inline-start: 2px solid transparent;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: border-color var(--duration-base) ease;
+  }
+  .index-link:hover {
+    border-color: var(--color-border);
+  }
+  .index-link[aria-current='step'] {
+    border-color: var(--color-border);
+    border-inline-start-color: var(--color-gold);
+    background-color: var(--color-surface);
+  }
+  .marker {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-border-strong);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .index-link.is-done .marker {
+    box-shadow: 0 0 0 2px var(--color-gold);
+  }
+  .index-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .index-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .stage-count {
+    color: var(--color-text-soft);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .stages {
+    min-width: 0;
+  }
+  .stage {
+    scroll-margin-top: 96px;
+  }
+  .stage:focus {
+    outline: none;
+  }
+  .stage + .stage {
+    margin-top: 48px;
+  }
+  /* Con JavaScript, una etapa a la vez: la del ancla o, sin ancla de etapa, la primera. Sin
+     JavaScript se ven todas, una tras otra. */
+  @media (scripting: enabled) {
+    .stage + .stage {
+      margin-top: 0;
+    }
+    .stages:has(.stage:target) .stage:not(:target),
+    .stages:not(:has(.stage:target)) .stage:not(:first-child) {
+      display: none;
+    }
+  }
+  .stage-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .stage-number {
+    display: block;
+    color: var(--color-kicker);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .steps {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-inline-start: 2px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    transition: border-color var(--duration-base) ease;
+  }
+  .step.is-done {
+    border-inline-start-color: var(--color-gold);
+  }
+  .check {
+    position: relative;
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin: -8px 0 0 -8px;
+    cursor: pointer;
+  }
+  .check input {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    appearance: none;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 9999px;
+    background-color: var(--color-surface);
+    cursor: pointer;
+  }
+  .check input:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  .check :global(.check-on) {
+    position: absolute;
+    display: none;
+    color: var(--color-accent);
+    pointer-events: none;
+  }
+  .check input:checked {
+    border-color: transparent;
+  }
+  .check input:checked ~ :global(.check-on) {
+    display: block;
+  }
+  .step-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .step-title {
+    margin: 12px 0 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .step-number {
+    margin-inline-end: 8px;
+    color: var(--color-text-soft);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .text {
+    margin: 8px 0 0;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .pager-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding-inline: 20px;
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: border-color var(--duration-base) ease;
+  }
+  .pager-link:hover {
+    border-color: var(--color-vibrant);
+  }
+  .pager-link.next {
+    margin-inline-start: auto;
+  }
+  .coming-soon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0 0;
+    padding: 16px 20px;
+    border: 1px dashed var(--color-border-strong);
+    color: var(--color-text-muted);
+    font-size: 15px;
+  }
+  .coming-soon :global(svg) {
+    flex: none;
+    color: var(--color-icon);
+  }
+  /* Bajo 640 px se recortan rellenos para que el texto del paso respire. */
+  @media (max-width: 39.99rem) {
+    .step {
+      gap: 4px;
+      padding: 16px 16px 16px 8px;
+    }
+  }
+  @media (min-width: 48rem) {
+    .route-steps {
+      padding-block: 80px 96px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .explorer {
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 48px;
+      align-items: start;
+    }
+    .stage-index {
+      position: sticky;
+      top: 96px;
+    }
+  }
+</style>

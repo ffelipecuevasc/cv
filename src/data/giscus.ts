@@ -3,10 +3,10 @@
  * públicos de main (static/js/config/comunidad.config.js): no son secretos, Giscus los pide
  * escritos en la página. Cambiar el repositorio, la categoría o el término dejaría huérfana la
  * conversación existente.
- * - Cada hilo usa el mismo término en ambos idiomas: una sola conversación (ADR-022). El Foro usa
- *   `foro-general`; la ruta de Recursos, `ruta-desarrollo-web-ia` (ADR-079). Los hilos
- *   `ruta-python`, `ruta-empleabilidad` y `ruta-java` de main siguen en GitHub, pero el sitio ya no
- *   los muestra.
+ * - Cada hilo usa el mismo término en ambos idiomas: una sola conversación (ADR-022). Solo el Foro
+ *   usa Giscus, con `foro-general`. Desde E200-I14 (ADR-122) las rutas de Recursos no tienen
+ *   conversación: el hilo `ruta-desarrollo-web-ia` sigue en GitHub (no se borra), igual que
+ *   `ruta-python`, `ruta-empleabilidad` y `ruta-java` de main, pero el sitio ya no los muestra.
  * - Solo cambia `data-lang` según la página (AT-027).
  */
 import type { Lang } from '../i18n/lang';
@@ -29,5 +29,5 @@ export const GISCUS = {
 export const GISCUS_LANG: Record<Lang, string> = { es: 'es', en: 'en' };
 
 /** Hilos que muestra el sitio. */
-export const GISCUS_TERMS = ['foro-general', 'ruta-desarrollo-web-ia'] as const;
+export const GISCUS_TERMS = ['foro-general'] as const;
 export type GiscusTerm = (typeof GISCUS_TERMS)[number];

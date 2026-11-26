@@ -1,0 +1,37 @@
+---
+/*
+ * Página de una ruta de aprendizaje (E200-I14, ADR-122), común a /es/recursos/rutas/<id>/ y
+ * /en/resources/paths/<id>/. Cabecera con la ruta y su progreso, pasos con índice y detalle, y el
+ * JSON-LD `Course` de la ruta (ADR-082). Título y descripción salen de los datos de la ruta.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RouteExplorer from './RouteExplorer.astro';
+import RouteHeader from './RouteHeader.astro';
+import ResourcesJsonLd from '../seo/ResourcesJsonLd.astro';
+import { getHomeOgImage } from '../seo/home-og-image';
+import { langFromLocale } from '../../i18n/lang';
+import { learningPathKey } from '../../i18n/routes';
+import { getRoutes, getResourcesPage } from './resources-data';
+
+interface Props {
+  id: string;
+}
+
+const lang = langFromLocale(Astro.currentLocale);
+const data = (await getRoutes()).find(({ route }) => route.id === Astro.props.id);
+if (!data) throw new Error(`No existe la ruta ${Astro.props.id}`);
+const { ui } = await getResourcesPage();
+const { route } = data;
+const og = { ...(await getHomeOgImage()), alt: route.title[lang] };
+---
+
+<BaseLayout
+  title={`${route.title[lang]} · ${ui.pathKicker[lang]}`}
+  description={route.summary[lang]}
+  route={learningPathKey(route.id)}
+  ogImage={og}
+>
+  <RouteHeader {data} />
+  <RouteExplorer {data} />
+  <ResourcesJsonLd slot="json-ld" route={route} />
+</BaseLayout>

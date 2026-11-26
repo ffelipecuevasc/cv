@@ -2,7 +2,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import { internalRoutes, routes } from './src/i18n/routes.ts';
+import { internalRoutes, learningPathRoutes, routes } from './src/i18n/routes.ts';
 
 /**
  * Valores de un par de rutas como string[] (el mapa de rutas usa tipos literales).
@@ -104,7 +104,10 @@ export default defineConfig({
       },
       serialize: (item) => {
         const { pathname } = new URL(item.url);
-        const paths = Object.values(routes).find((entry) => pathsOf(entry).includes(pathname));
+        // Las páginas de las rutas de aprendizaje salen de los datos de Recursos (ADR-122).
+        const paths = [...Object.values(routes), ...Object.values(learningPathRoutes)].find(
+          (entry) => pathsOf(entry).includes(pathname),
+        );
         if (!paths) return undefined;
         item.links = [
           { url: new URL(paths.es, item.url).href, lang: 'es-CL' },

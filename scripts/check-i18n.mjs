@@ -10,6 +10,9 @@
  *   - el selector de idioma (`a[hreflang]`) lleva a la página equivalente;
  *   - la misma cantidad de `<h1>`, `<h2>` y `<h3>` en ambos idiomas.
  * Y al revés: no queda en `dist/` ninguna página de idioma fuera del mapa.
+ * Las páginas de las rutas de aprendizaje (E200-I14, ADR-122) se suman al mapa desde
+ * `src/content/resources/page.json`, con la misma regla de `routes.ts`: /es/recursos/rutas/<id>/ ↔
+ * /en/resources/paths/<id>/.
  * `DIST_DIR=<carpeta>` apunta a otra copia del build (para probar un caso roto).
  */
 import { readFileSync } from 'node:fs';
@@ -17,6 +20,9 @@ import { fileURLToPath } from 'node:url';
 import { SITE, listHtml, readMarkup, tagsOf } from './lib/dist-html.mjs';
 
 const ROUTES_FILE = fileURLToPath(new URL('../src/i18n/routes.ts', import.meta.url));
+const RESOURCES_FILE = fileURLToPath(
+  new URL('../src/content/resources/page.json', import.meta.url),
+);
 /** Pares esperados: 11 páginas indexables + Agradecimiento (sin Eventos, ADR-077; la muestra de tokens se retiró en E190-I03, ADR-091); la 404 va aparte. */
 const EXPECTED_PAIRS = 12;
 const LANGS = {
@@ -33,14 +39,26 @@ const check = (ok, message) => {
 
 // 1. Mapa de rutas (texto de routes.ts): { clave: { es, en } }
 const source = readFileSync(ROUTES_FILE, 'utf8');
-const pairs = [...source.matchAll(/(\w+):\s*\{\s*es:\s*'([^']+)',\s*en:\s*'([^']+)'\s*\}/g)].map(
-  ([, key, es, en]) => ({ key, es, en }),
-);
+const learningPaths = JSON.parse(readFileSync(RESOURCES_FILE, 'utf8')).routes.map(({ id }) => ({
+  key: `path:${id}`,
+  es: `/es/recursos/rutas/${id}/`,
+  en: `/en/resources/paths/${id}/`,
+}));
+const pairs = [
+  ...[...source.matchAll(/(\w+):\s*\{\s*es:\s*'([^']+)',\s*en:\s*'([^']+)'\s*\}/g)].map(
+    ([, key, es, en]) => ({ key, es, en }),
+  ),
+  ...learningPaths,
+];
 const notFound = pairs.find((p) => p.key === 'notFound');
 const pagePairs = pairs.filter((p) => p.key !== 'notFound');
 check(
-  pagePairs.length === EXPECTED_PAIRS,
-  `el mapa de rutas tiene ${pagePairs.length} pares de páginas y se esperaban ${EXPECTED_PAIRS}`,
+  learningPaths.length > 0 && source.includes('/es/recursos/rutas/${id}/'),
+  'routes.ts no genera las páginas de las rutas de aprendizaje con /es/recursos/rutas/<id>/',
+);
+check(
+  pagePairs.length === EXPECTED_PAIRS + learningPaths.length,
+  `el mapa de rutas tiene ${pagePairs.length} pares de páginas y se esperaban ${EXPECTED_PAIRS + learningPaths.length}`,
 );
 check(Boolean(notFound), 'el mapa de rutas no tiene el par `notFound` (404)');
 const privacy = pairs.find((p) => p.key === 'privacy');

@@ -198,6 +198,16 @@
   }
 }
 
+/*
+ * Controles que solo funcionan con JavaScript (E200-I14, ADR-122): se dibujan desde el primer
+ * pintado, así que no desplazan nada al cargar el script (CLS 0), y sin JavaScript no se muestran.
+ */
+@media (scripting: none) {
+  [data-js-only] {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

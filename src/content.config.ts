@@ -806,24 +806,46 @@ const resourcesPage = defineCollection({
   loader: glob({ pattern: 'page.json', base: './src/content/resources' }),
   schema: z.object({
     header: z.object({ kicker: localized(), title: localized(), lead: localized() }),
-    route: z.object({
-      /** Clave de la ruta en `rutas-progreso` y valor de `?ruta=` (ADR-023, ADR-025). */
-      id: z.literal('desarrollo-web-ia'),
+    /** Catálogo de rutas de Recursos (E200-I14, ADR-122). */
+    catalog: z.object({
       kicker: localized(),
       title: localized(),
-      summary: localized(),
-      facts: z
-        .array(z.object({ icon: z.enum(SYMBOL_NAMES), label: localized(), text: localized() }))
-        .length(3),
-      comingSoon: localized().optional(),
-      stepsTitle: localized(),
-      stages: z.array(z.object({ id: STAGE_ID, title: localized() })).min(1),
-      /** Ids de main en orden pedagógico. */
-      steps: z
-        .array(z.number().int().positive())
-        .min(1)
-        .refine((s) => new Set(s).size === s.length, 'Los pasos no se repiten'),
+      comingSoon: localized(),
+      count: localized().refine(
+        (t) => ['{stages}', '{steps}'].every((k) => t.es.includes(k) && t.en.includes(k)),
+        'Usa «{stages}» y «{steps}»',
+      ),
+      start: localized(),
+      continue: localized(),
     }),
+    /**
+     * Rutas de aprendizaje (E200-I14, ADR-122): cada una genera su página en /es/recursos/rutas/<id>/
+     * y /en/resources/paths/<id>/ y su tarjeta en el catálogo. Una ruta nueva se agrega aquí, sin
+     * código de página.
+     */
+    routes: z
+      .array(
+        z.object({
+          /** Clave de la ruta en `rutas-progreso`, valor de `?ruta=` y slug de su página (ADR-023, ADR-025). */
+          id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
+          title: localized(),
+          summary: localized(),
+          /** Qué logras, conocimientos previos y duración estimada, en ese orden. */
+          facts: z
+            .array(z.object({ icon: z.enum(SYMBOL_NAMES), label: localized(), text: localized() }))
+            .length(3),
+          comingSoon: localized().optional(),
+          stepsTitle: localized(),
+          stages: z.array(z.object({ id: STAGE_ID, title: localized() })).min(1),
+          /** Ids de main en orden pedagógico. */
+          steps: z
+            .array(z.number().int().positive())
+            .min(1)
+            .refine((s) => new Set(s).size === s.length, 'Los pasos no se repiten'),
+        }),
+      )
+      .min(1)
+      .refine((r) => new Set(r.map((x) => x.id)).size === r.length, 'Las rutas no se repiten'),
     ui: z.object({
       stage: localized().refine((t) => t.es.includes('{n}') && t.en.includes('{n}'), 'Usa «{n}»'),
       progress: localized().refine(
@@ -835,9 +857,13 @@ const resourcesPage = defineCollection({
       reset: localized(),
       markDone: localized(),
       localNotice: localized(),
-      search: localized(),
-      searchPlaceholder: localized(),
-      noResults: localized(),
+      pathKicker: localized(),
+      back: localized(),
+      index: localized(),
+      prev: localized(),
+      next: localized(),
+      /** Ancla de cada etapa en la página de la ruta: «etapa-{n}» / «stage-{n}». */
+      anchor: localized().refine((t) => t.es.includes('{n}') && t.en.includes('{n}'), 'Usa «{n}»'),
       formats: z.object(
         Object.fromEntries(RESOURCE_FORMATS.map((f) => [f, localized()])) as Record<
           (typeof RESOURCE_FORMATS)[number],
@@ -873,7 +899,6 @@ const resourcesPage = defineCollection({
           'Las temáticas no se repiten',
         ),
     }),
-    thread: z.object({ kicker: localized(), title: localized() }),
   }),
 });
 

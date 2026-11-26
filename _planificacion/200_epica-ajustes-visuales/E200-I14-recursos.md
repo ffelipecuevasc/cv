@@ -1,5 +1,5 @@
 # E200-I14 · Recursos: catálogo de rutas con página propia por ruta, «Más recursos» con logos y fondos de la épica
-- **Estado:** [ ] Pendiente
+- **Estado:** [~] En curso (parte A terminada el 26-11-2026; la parte B sigue en [E200-I14b](E200-I14b-recursos-temas-cierre.md))
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M (la más grande de la épica; si no cabe en una sesión, se parte en complementos `E200-I14b`, como E180-I02b)
 - **Depende de:** E200-I13 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-017, ADR-020, ADR-023, ADR-025, ADR-078, ADR-079, ADR-080, ADR-081, ADR-082, ADR-087, ADR-107, ADR-109, ADR-113, ADR-114
 
@@ -66,24 +66,24 @@ Todo en `es-CL` y `en-US` y en claro y oscuro.
 - Agregar o quitar materiales de «Más recursos».
 
 ## Tareas
-- [ ] **Diseño de la solución:** antes de programar, proponer a Felipe en una lista corta la URL de las páginas de ruta en es y en (por ejemplo, `/es/recursos/rutas/desarrollo-web-ia/` y su par en `/en/`), cómo se generan desde los datos para que una ruta nueva no exija código nuevo, y qué pasa con `?ruta=` y el JSON-LD `Course`. Esperar su visto bueno.
-- [ ] **Catálogo en Recursos:** reemplazar la ficha y los pasos desplegados por el catálogo de tarjetas. El progreso de cada tarjeta se lee de `rutas-progreso`, y la sección lleva curvas de nivel con composición propia, distinta de las de las otras páginas. Sin JavaScript, la tarjeta y su enlace siguen funcionando.
-- [ ] **Página de ruta:** página por ruta y por idioma con el diseño de índice y detalle:
+- [x] **Diseño de la solución:** (visto bueno de Felipe, 26-11-2026: ver ADR-122) antes de programar, proponer a Felipe en una lista corta la URL de las páginas de ruta en es y en (por ejemplo, `/es/recursos/rutas/desarrollo-web-ia/` y su par en `/en/`), cómo se generan desde los datos para que una ruta nueva no exija código nuevo, y qué pasa con `?ruta=` y el JSON-LD `Course`. Esperar su visto bueno.
+- [x] **Catálogo en Recursos:** reemplazar la ficha y los pasos desplegados por el catálogo de tarjetas. El progreso de cada tarjeta se lee de `rutas-progreso`, y la sección lleva curvas de nivel con composición propia, distinta de las de las otras páginas. Sin JavaScript, la tarjeta y su enlace siguen funcionando.
+- [x] **Página de ruta:** página por ruta y por idioma con el diseño de índice y detalle:
     - pasos marcables que guardan en la misma clave `rutas-progreso`, sin perder el progreso que ya tienen los visitantes;
     - etapa elegida en la URL (por ejemplo, con un ancla), para poder compartirla;
     - sin JavaScript, todas las etapas y sus pasos son legibles;
     - en móvil, el índice pasa arriba de los pasos.
-- [ ] **Compatibilidad y SEO:**
+- [x] **Compatibilidad y SEO:**
     - los enlaces antiguos con `?ruta=desarrollo-web-ia` llevan a la página de la ruta;
     - las páginas de ruta entran al mapa de rutas, al sitemap con sus alternativas es/en y a `check:i18n`;
     - el JSON-LD `Course` pasa a la página de su ruta.
-- [ ] **Conversación:** retirar `RouteThread` de Recursos. Actualizar en la política de privacidad la frase que nombra a Giscus en Recursos, con la regla de versión vigente de la política (ADR-087), y dejar el texto nuevo para que Felipe lo valide. El hilo `ruta-desarrollo-web-ia` en GitHub Discussions no se borra.
-- [ ] **«Más recursos»:** encabezado de temática con el logo oficial (los tres archivos del proyecto), el nombre y la cantidad en texto, y tarjetas con formato, nivel, título, descripción y acción. Los logos son decorativos (`aria-hidden`), porque el nombre de la temática ya es el texto.
-- [ ] **Fondos, controles y revisión:**
+- [x] **Conversación:** retirar `RouteThread` de Recursos. Actualizar en la política de privacidad la frase que nombra a Giscus en Recursos, con la regla de versión vigente de la política (ADR-087), y dejar el texto nuevo para que Felipe lo valide. El hilo `ruta-desarrollo-web-ia` en GitHub Discussions no se borra.
+- [ ] **«Más recursos»:** (E200-I14b) encabezado de temática con el logo oficial (los tres archivos del proyecto), el nombre y la cantidad en texto, y tarjetas con formato, nivel, título, descripción y acción. Los logos son decorativos (`aria-hidden`), porque el nombre de la temática ya es el texto.
+- [~] **Fondos, controles y revisión:** (controles y revisión de la parte A hechos; campo de puntos y revisión final en E200-I14b)
     - campo de puntos en `ResourcesHeader`;
     - ajustar `verify:seo`, `verify` y `check:i18n` a la estructura nueva y comprobar que fallan ante casos rotos;
     - protocolo de revisión visual de la épica en Recursos y en las páginas de ruta, es y en, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, con progreso vacío, parcial y completo.
-- [ ] **Registro y bloques:** ADR-122, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
+- [~] **Registro y bloques:** (ADR-122 registrado; bloques y PageSpeed en E200-I14b) ADR-122, bloque de `DESIGN.md` 4.5, 11.2 y 11.11 en la bitácora, y PageSpeed Insights de Recursos y de la página de ruta en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Los decide el agente en la tarea 1. Como mínimo cambian:

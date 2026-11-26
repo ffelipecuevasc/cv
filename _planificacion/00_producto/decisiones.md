@@ -1450,3 +1450,32 @@ Reglas del registro:
 - **Verificación (local, Playwright, 26-11-2026, todo simulado por decisión de Felipe):** fondos en es y en, claro y oscuro, a 360, 768, 1.024, 1.366 y 1.920 px, sin scroll horizontal y sin curvas sobre el encabezado ni las tarjetas. Estados con Turnstile y `/api/contacto` interceptados en el navegador: enviando, enviado (redirección a los 600 ms), error 500 (botón normal, error visible y anunciado) y cuatro clics o Enter seguidos con un solo POST; con movimiento reducido, trazo fijo y redirección inmediata. El botón no cambia de tamaño en ningún estado.
 - **Consecuencias:** el botón de envío deja de ser un `Button` primario sin estados. Felipe edita `DESIGN.md` 1.5, 4.5, 7.3, 7.10, 8 y 11.12 (ADR-033) con los bloques de `99_bitacora/2026-11-26_E200-I13.md`. La prueba con el formulario real queda para Felipe en producción (AT-100 y AT-147).
 - **Origen:** E200-I13, decisión de Felipe, 16-11-2026. **Estado:** Aceptada.
+
+## ADR-122 · Recursos: catálogo de rutas, página propia por ruta y «Más recursos» con logos (sustituye en parte a ADR-079, ADR-080 y ADR-081)
+- **Contexto:** E200-I14. La sección de la ruta despliega sus 25 pasos completos, empuja «Más recursos» muy abajo y está atada a una sola ruta. La conversación de la ruta no se mantendrá por ruta, y «Más recursos» muestra la cantidad de materiales en una insignia poco atractiva (revisión de Felipe en producción, 16-11-2026).
+- **Decisión (de Felipe, 16-11-2026, sobre un lienzo de diseño con 3 alternativas y 3 vistas previas en el chat):**
+    - Recursos muestra un catálogo de rutas en tarjetas (alternativa A);
+    - cada ruta tiene su propia página, con índice de etapas y detalle de la etapa elegida (diseño de la alternativa C);
+    - se elimina la conversación de la ruta;
+    - «Más recursos» lleva el logo oficial de cada temática y tarjetas (opción 1);
+    - la cabecera usa el campo de puntos y el catálogo usa curvas de nivel.
+- **Diseño de la solución (visto bueno de Felipe, 26-11-2026, E200-I14 tarea 1):**
+    - **URL:** `/es/recursos/rutas/<id>/` ↔ `/en/resources/paths/<id>/`; el slug es el id de la ruta (el mismo de `rutas-progreso`), sin traducir (ADR-025). Cada etapa tiene un ancla compartible: `#etapa-N` / `#stage-N`.
+    - **Generación desde los datos:** en `src/content/resources/page.json`, `route` pasa a la lista `routes`. Una página dinámica `[slug].astro` por idioma con `getStaticPaths`; `routes.ts` deriva `learningPathRoutes` de los mismos datos, así que cada ruta entra sola al selector de idioma, al sitemap con sus alternativas (`astro.config.mjs`) y a `check:i18n`. Una ruta nueva se agrega con datos, sin código.
+    - **Compatibilidad:** `?ruta=<id>` en Recursos lleva a la página de la ruta con `location.replace` (el `_redirects` de Workers no distingue la query: no hay línea nueva). Sin JavaScript, `?ruta=` muestra Recursos con la tarjeta de la ruta. `rutas-progreso` conserva su formato `{"<id>": [ids]}`, sin migración. El JSON-LD `Course` pasa a la página de su ruta (`@id` `<página>#curso`, `url` = la página) y Recursos queda sin JSON-LD.
+    - **Reparto:** E200-I14 (parte A) y E200-I14b («Más recursos», campo de puntos en la cabecera, revisión completa y cierre).
+- **Implementación, parte A (E200-I14, 26-11-2026):**
+  - `RouteCatalog.astro` (reemplaza a `RouteBand` y `RouteSteps` en Recursos): banda con curvas de nivel en collado (`saddle`, ContourLines: 13 curvas de un punto de silla en el borde izquierdo a media altura, lienzo de 560 × 640 px, 4.639 B), máscara en el componente (margen libre del contenedor hasta 20 px antes de las tarjetas; bajo 1.024 px no se dibuja, AT-165). Una tarjeta `surface` por ruta (rótulo, h3, resumen, duración y conocimientos previos, «6 etapas · 25 pasos», progreso y botón «Ver la ruta» / «Continuar la ruta») y un espacio de contorno discontinuo para las próximas rutas. 2 columnas desde 1.024 px.
+  - `RoutePage.astro`, `RouteHeader.astro` y `RouteExplorer.astro`: cabecera con «Todas las rutas», h1, resumen, 3 datos y progreso; índice de etapas (pegajoso a la izquierda desde 1.024 px, arriba bajo esa medida) con avance por etapa, y detalle con los pasos de la etapa elegida y enlaces de etapa anterior y siguiente. La etapa visible la decide el CSS con `:target` (sin ancla, la primera), solo con JavaScript (`@media (scripting: enabled)`): no hay CLS ni al abrir un enlace a una etapa, y atrás y adelante funcionan sin código. Se retira el buscador de la ruta, que no encaja con el detalle por etapa.
+  - Controles que solo existen con JavaScript (casillas, contadores, progreso y botones de etapa): atributo `data-js-only`, ocultos con `@media (scripting: none)` en `global.css` y presentes desde el primer pintado con JavaScript (CLS 0).
+  - `RouteThread` retirado; `GISCUS_TERMS` queda en `foro-general`. El hilo `ruta-desarrollo-web-ia` sigue en GitHub Discussions. Política de privacidad: «El Foro usa Giscus…» y `PRIVACY_POLICY_VERSION` sube a `2026-11-26` (ADR-087); lo valida Felipe antes del merge.
+  - AT-165: al retirar `RouteThread`, el CSS de `GiscusSection` deja de compartirse y el del Foro pasaba de 4 KB (4.496 B). Se recortó sin cambio visual (posición de las capas y grillas con utilidades de la hoja global, máscara de `StepsBand` con variables): el Foro vuelve a pedir una sola hoja, como producción.
+  - Controles: `check:i18n` suma las páginas de ruta desde `page.json`; `verify-seo` revisa el catálogo, la página de ruta, el sitemap (24 URL) y el `Course`, y se comprobó que falla ante casos rotos.
+- **Sustituye en parte:** ADR-079 y ADR-080 en la composición de la ruta dentro de Recursos y en su conversación; ADR-081 en la presentación de las temáticas. La clave `rutas-progreso`, el enlace `?ruta=` (ahora hacia la página de la ruta) y el JSON-LD `Course` (ahora en la página de la ruta, ADR-082) se mantienen.
+- **Consecuencias:**
+    - aparecen páginas nuevas por ruta, que entran al mapa de rutas, al sitemap y a los controles;
+    - una ruta nueva se agrega con datos, sin código de página nuevo;
+    - Giscus queda solo en Foro, y la política de privacidad se actualiza con su regla de versión (ADR-087);
+    - Felipe quita de `public/_headers` el hash del script en línea retirado de Recursos;
+    - Felipe edita `DESIGN.md` 4.5, 11.2 y 11.11 (ADR-033) con los bloques de la bitácora de E200-I14b.
+- **Origen:** E200-I14, decisión de Felipe, 16-11-2026 y 26-11-2026. **Estado:** Aceptada (implementación en curso: parte B en E200-I14b).

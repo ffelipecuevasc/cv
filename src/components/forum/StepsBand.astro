@@ -22,7 +22,7 @@ const { steps } = await getForumPage();
 
 <Band id="forum-steps" kicker={steps.kicker[lang]} title={steps.title[lang]} texture="contour">
   <ContourLines slot="decor" pieces={[{ corner: 'bottom-left', shape: 'trail' }]} mask="none" />
-  <ul class="steps" data-steps>
+  <ul class="m-0 grid list-none grid-cols-1 gap-10 p-0 lg:grid-cols-3" data-steps>
     {steps.items.map((step) => {
       const [before, after] = step.text[lang].split('{link}');
       return (
@@ -52,39 +52,29 @@ const { steps } = await getForumPage();
   :global(#forum-steps .shape-trail) {
     mask-image: none;
   }
+  /* E200-I14 (AT-165): las tres zonas van en variables para no repetir el degradado del margen; bajo
+     1.024 px cambia el relleno inferior y la esquina superior queda transparente. */
   :global(#forum-steps .contour-lines) {
-    --trail-gutter: max(16px, 50vw - 600px);
+    --gutter: max(16px, 50vw - 600px);
+    --foot: radial-gradient(ellipse 60vw 60px at 0 100%, black 30%, transparent 100%);
+    --corner: radial-gradient(
+      ellipse clamp(200px, 50vw - 290px, 40vw) 230px at 100% 0,
+      black 40%,
+      transparent 100%
+    );
     mask-image:
       linear-gradient(
         to right,
-        black calc(var(--trail-gutter) - 48px),
-        transparent calc(var(--trail-gutter) - 20px)
+        black calc(var(--gutter) - 48px),
+        transparent calc(var(--gutter) - 20px)
       ),
-      radial-gradient(ellipse 60vw 60px at 0 100%, black 30%, transparent 100%),
-      radial-gradient(
-        ellipse clamp(200px, 50vw - 290px, 40vw) 230px at 100% 0,
-        black 40%,
-        transparent 100%
-      );
+      var(--foot), var(--corner);
   }
   @media (max-width: 63.999rem) {
     :global(#forum-steps .contour-lines) {
-      mask-image:
-        linear-gradient(
-          to right,
-          black calc(var(--trail-gutter) - 48px),
-          transparent calc(var(--trail-gutter) - 20px)
-        ),
-        radial-gradient(ellipse 70vw 52px at 0 100%, black 35%, transparent 100%);
+      --foot: radial-gradient(ellipse 70vw 52px at 0 100%, black 35%, transparent 100%);
+      --corner: linear-gradient(transparent, transparent);
     }
-  }
-  .steps {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
   }
   .step {
     padding-top: 24px;
@@ -114,11 +104,5 @@ const { steps } = await getForumPage();
   }
   .step-text :global(a.step-link:hover) {
     color: var(--color-heading);
-  }
-  @media (min-width: 64rem) {
-    .steps {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 40px;
-    }
   }
 </style>

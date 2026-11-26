@@ -1,13 +1,15 @@
 /*
- * Progreso de la ruta «Desarrollo Web & IA» (E130-I01, ADR-023 y ADR-079). Mejora progresiva: sin
- * JavaScript la ruta se lee completa y las casillas, contadores, barra y buscador no aparecen.
- * - Clave `rutas-progreso` con el formato de main: {"<ruta>": [ids numéricos]}. Solo se lee y se
- *   escribe `desarrollo-web-ia`; las demás claves del objeto (python, empleabilidad, java…) se
- *   conservan tal cual. Se relee el almacenamiento antes de escribir, por si otra pestaña cambió.
+ * Rutas de aprendizaje de Recursos (E130-I01, ADR-023 y ADR-079; E200-I14, ADR-122). Mejora
+ * progresiva: sin JavaScript se leen todas las etapas y sus pasos, y las tarjetas del catálogo
+ * enlazan a su ruta; las casillas, contadores, barras y botones de etapa no aparecen.
+ * - Clave `rutas-progreso` con el formato de main: {"<ruta>": [ids numéricos]}. Cada ruta solo lee
+ *   y escribe su propia entrada; las demás (python, empleabilidad, java…) se conservan tal cual. Se
+ *   relee el almacenamiento antes de escribir, por si otra pestaña cambió.
  * - Un id que ya no es paso de la ruta se ignora al contar, pero no se borra.
- * - `?ruta=desarrollo-web-ia` lleva a la ficha de la ruta, como el enlace compartible de main;
- *   otro valor se ignora.
- * - El buscador filtra por título, descripción y tecnología, y oculta las etapas sin coincidencias.
+ * - Catálogo (`initRouteCatalog`): `?ruta=<id>` de una ruta existente lleva a su página (enlace
+ *   compartible de main); otro valor se ignora. Cada tarjeta muestra su avance.
+ * - Página de ruta (`initRouteProgress`): casillas, avance de la ruta y de cada etapa, y la etapa
+ *   actual marcada en el índice. Qué etapa se ve lo decide el CSS con :target (RouteExplorer).
  */
 const STORAGE_KEY = 'rutas-progreso';
 const PARAM = 'ruta';
@@ -38,6 +40,52 @@ function routeIds(route: string): number[] {
   return Array.isArray(value) ? value.map(Number).filter(Number.isInteger) : [];
 }
 
+const progressText = (template: string, completed: string, done: number, total: number) =>
+  done === total && total > 0
+    ? completed
+    : template.replace('{done}', String(done)).replace('{total}', String(total));
+
+/** Catálogo de Recursos: avance de cada tarjeta y redirección de `?ruta=`. */
+export function initRouteCatalog(): void {
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-route-card]')];
+  const wanted = new URLSearchParams(location.search).get(PARAM);
+  const target = cards.find((card) => card.dataset.routeCard === wanted);
+  const link = target?.querySelector<HTMLAnchorElement>('[data-card-cta]');
+  if (link) {
+    location.replace(link.href);
+    return;
+  }
+
+  const render = () => {
+    for (const card of cards) {
+      const steps = new Set((card.dataset.steps ?? '').split(' ').map(Number));
+      const done = routeIds(card.dataset.routeCard ?? '').filter((id) => steps.has(id)).length;
+      const total = steps.size;
+      const text = card.querySelector<HTMLElement>('[data-card-progress-text]');
+      const bar = card.querySelector<HTMLElement>('[data-card-bar]');
+      const fill = card.querySelector<HTMLElement>('[data-card-fill]');
+      const cta = card.querySelector<HTMLElement>('[data-card-cta-text]');
+      if (text) {
+        text.textContent = progressText(
+          card.dataset.progressTemplate ?? '',
+          card.dataset.completed ?? '',
+          done,
+          total,
+        );
+      }
+      bar?.setAttribute('aria-valuenow', String(done));
+      if (fill) fill.style.width = `${total ? (done / total) * 100 : 0}%`;
+      if (cta && done > 0 && card.dataset.continue) cta.textContent = card.dataset.continue;
+    }
+  };
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === STORAGE_KEY) render();
+  });
+  render();
+}
+
+/** Página de una ruta: casillas, avance de la ruta y de cada etapa, índice y detalle. */
 export function initRouteProgress(): void {
   const section = document.querySelector<HTMLElement>('[data-route]');
   if (!section) return;
@@ -48,17 +96,11 @@ export function initRouteProgress(): void {
   const steps = [...section.querySelectorAll<HTMLElement>('[data-step]')];
   const stepIds = new Set(steps.map((step) => Number(step.dataset.step)));
   const stages = [...section.querySelectorAll<HTMLElement>('[data-stage]')];
+  const links = [...section.querySelectorAll<HTMLAnchorElement>('[data-stage-link]')];
   const progress = document.querySelector<HTMLElement>('[data-route-progress]');
-  const progressText = progress?.querySelector<HTMLElement>('[data-progress-text]');
+  const text = progress?.querySelector<HTMLElement>('[data-progress-text]');
   const bar = progress?.querySelector<HTMLElement>('[data-progress-bar]');
   const fill = progress?.querySelector<HTMLElement>('[data-progress-fill]');
-
-  for (const el of section.querySelectorAll<HTMLElement>(
-    '[data-step-check], [data-stage-count], [data-route-search]',
-  )) {
-    el.hidden = false;
-  }
-  if (progress) progress.hidden = false;
 
   const render = () => {
     const done = new Set(routeIds(route).filter((id) => stepIds.has(id)));
@@ -68,24 +110,29 @@ export function initRouteProgress(): void {
       const input = step.querySelector<HTMLInputElement>('input[type="checkbox"]');
       if (input) input.checked = isDone;
     }
-    for (const stage of stages) {
+    stages.forEach((stage, index) => {
       const own = [...stage.querySelectorAll<HTMLElement>('[data-step]')];
-      const count = stage.querySelector<HTMLElement>('[data-stage-count]');
-      if (count) {
-        const n = own.filter((s) => done.has(Number(s.dataset.step))).length;
-        count.textContent = `${n} / ${own.length}`;
-      }
-    }
-    const n = done.size;
-    if (progressText) {
-      progressText.textContent =
-        n === total && total > 0
-          ? completedText
-          : template.replace('{done}', String(n)).replace('{total}', String(total));
-    }
-    bar?.setAttribute('aria-valuenow', String(n));
-    if (fill) fill.style.width = `${total ? (n / total) * 100 : 0}%`;
+      const n = own.filter((s) => done.has(Number(s.dataset.step))).length;
+      const link = links[index];
+      const count = link?.querySelector<HTMLElement>('[data-stage-count]');
+      if (count) count.textContent = `${n} / ${own.length}`;
+      link?.classList.toggle('is-done', n === own.length);
+    });
+    if (text) text.textContent = progressText(template, completedText, done.size, total);
+    bar?.setAttribute('aria-valuenow', String(done.size));
+    if (fill) fill.style.width = `${total ? (done.size / total) * 100 : 0}%`;
   };
+
+  // Detalle: la etapa visible la decide el CSS con :target (RouteExplorer); aquí solo se marca en el
+  // índice. Los enlaces del índice y de etapa anterior y siguiente son anclas normales.
+  const mark = () => {
+    const current = stages.find((stage) => `#${stage.id}` === location.hash) ?? stages[0];
+    links.forEach((link, index) => {
+      if (stages[index] === current) link.setAttribute('aria-current', 'step');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  window.addEventListener('hashchange', mark);
 
   section.addEventListener('change', (event) => {
     const input = event.target;
@@ -113,27 +160,6 @@ export function initRouteProgress(): void {
     if (event.key === STORAGE_KEY) render();
   });
 
-  const search = section.querySelector<HTMLInputElement>('#route-search');
-  const noResults = section.querySelector<HTMLElement>('[data-no-results]');
-  search?.addEventListener('input', () => {
-    const query = search.value.trim().toLowerCase();
-    let visible = 0;
-    for (const step of steps) {
-      const match = !query || (step.dataset.search ?? '').includes(query);
-      step.hidden = !match;
-      if (match) visible += 1;
-    }
-    for (const stage of stages) {
-      stage.hidden = ![...stage.querySelectorAll<HTMLElement>('[data-step]')].some(
-        (s) => !s.hidden,
-      );
-    }
-    if (noResults) noResults.hidden = visible > 0;
-  });
-
   render();
-
-  if (new URLSearchParams(location.search).get(PARAM) === route) {
-    document.getElementById('route')?.scrollIntoView();
-  }
+  mark();
 }

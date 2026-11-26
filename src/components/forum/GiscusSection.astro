@@ -1,7 +1,7 @@
 ---
 /*
- * Sección de conversación con Giscus (E120-I01 y E130-I01; ADR-022, ADR-078 y ADR-079). La usan el
- * Foro (hilo `foro-general`) y la ruta de Recursos (hilo `ruta-desarrollo-web-ia`): encabezado
+ * Sección de conversación con Giscus (E120-I01 y E130-I01; ADR-022, ADR-078 y ADR-079). La usa el
+ * Foro (hilo `foro-general`; la ruta de Recursos dejó de usarla en E200-I14, ADR-122): encabezado
  * alineado a la izquierda sobre `bg`, aviso de transparencia, panel de Giscus y enlace a GitHub.
  * Los textos comunes (aviso, marcador y alternativa) salen del contenido del Foro: un solo origen.
  * - Panel `surface` con alto mínimo reservado (520 px) antes de la carga: el contenido de abajo
@@ -53,8 +53,18 @@ const { conversation } = await getForumPage();
   aria-labelledby={id}
   data-conversation-texture={texture}
 >
-  {texture === 'dots' && <div class="texture-dots layer" aria-hidden="true" />}
-  {texture === 'dots' && <div class="texture-halo layer" aria-hidden="true" />}
+  {texture === 'dots' && (
+    <div
+      class="texture-dots layer pointer-events-none absolute inset-x-0 top-0 -z-1 h-[400px]"
+      aria-hidden="true"
+    />
+  )}
+  {texture === 'dots' && (
+    <div
+      class="texture-halo layer pointer-events-none absolute inset-x-0 top-0 -z-1 h-[400px]"
+      aria-hidden="true"
+    />
+  )}
   <Container>
     <SectionHeader {kicker} {title} {id} />
     <p class="notice" data-forum-notice>
@@ -130,12 +140,9 @@ const { conversation } = await getForumPage();
     position: relative;
     isolation: isolate;
   }
+  /* La posición va en utilidades de la hoja global para que el CSS del Foro siga incrustado
+     (AT-165, E200-I14); aquí solo la máscara. */
   .layer {
-    position: absolute;
-    inset: 0 0 auto;
-    z-index: -1;
-    height: 400px;
-    pointer-events: none;
     mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
   }
   .layer.texture-dots {
