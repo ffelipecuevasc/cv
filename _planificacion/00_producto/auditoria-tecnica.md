@@ -1344,3 +1344,9 @@ Severidades: Crítica · Alta · Media · Baja. Estados: Abierto · Resuelto (co
 - **Decisión (Felipe, 25-11-2026):** opción (a). Se acepta el CSS de Experiencia como archivo aparte, porque PageSpeed no cambia. Sin cambios de código.
 - **Seguimiento (E200-I11, 25-11-2026):** en la parte B, las reglas de las cuatro formas nuevas hacían pasar `ContourLines.css` del límite y lo volvían una hoja aparte en las 7 páginas con curvas. Se evitó moviéndolas a `BootcampsZigzag.astro` y `Achievements.astro`. En la preview (parte C), Talento Digital, Docente, Instructor, Inicio, Educación, Desarrollador y Experiencia piden las mismas hojas que producción; la única hoja aparte aceptada sigue siendo la de Experiencia.
 - **Seguimiento (E200-I12, 26-11-2026):** la forma `trail` suma 10.015 B de trazos al componente, pero su máscara vive en `StepsBand.astro`, así que la hoja de `ContourLines` sigue incrustada. Foro y Recursos piden las mismas hojas que producción (`home-og-image` y, en Recursos, `ResourcesJsonLd`), y Talento Digital, Instructor y Docente siguen igual que producción.
+
+### AT-166 · El error del envío aparece sobre el botón y lo desplaza (CLS 0,0025) (E200-I13)
+- **Severidad:** Baja · **Estado:** Abierto · **Resuelve:** por decidir (fuera del alcance de E200-I13, que deja el error «como hoy»)
+- **Evidencia (26-11-2026, local, envío simulado con respuesta 500):** el texto de error se escribe en la región `role="status"`, sobre el botón, y lo baja unas dos líneas; el `PerformanceObserver` mide 0,0025 de CLS, 1,5 s después del clic (fuera de la ventana de entrada reciente). Antes de E200-I13, el texto «Enviando tu mensaje…» también lo desplazaba; ahora solo lo hace el error.
+- **Impacto:** mínimo (bajo el umbral de ADR-015 y solo tras un fallo), pero no es CLS 0.
+- **Recomendación:** que Felipe decida si (a) se acepta; o (b) se mueve la región de estado bajo el botón o se le reserva alto, en una iteración propia.

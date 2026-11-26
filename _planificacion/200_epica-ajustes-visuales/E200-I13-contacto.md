@@ -1,5 +1,5 @@
 # E200-I13 · Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado
-- **Estado:** [ ] Pendiente
+- **Estado:** [x] Terminada (26-11-2026; la prueba real del envío queda para Felipe en producción)
 - **Épica:** E200 · Ajustes visuales · **Prioridad:** P1 · **Tamaño:** M
 - **Depende de:** E200-I12 · **Hallazgos que cierra:** — · **ADR relacionados:** ADR-083, ADR-084, ADR-086, ADR-092, ADR-107, ADR-109, ADR-113, ADR-114
 
@@ -59,21 +59,21 @@ Aplicar en Contacto (`/es/contacto/` y `/en/contact/`) los mismos fondos que ya 
 - El formulario sobre `ContactSection`: no lleva textura.
 
 ## Tareas
-- [ ] **Fondos:** campo de puntos (`aria-hidden`) detrás de `ContactHeader`, con la variable de E200-I06 ajustada a la alineación de su encabezado; variante de curvas de `Band` en `ChannelsBand.astro`, sin la cuadrícula, con la composición nueva pasada como parámetros al componente de E200-I05 (trazos suavizados, 10 KB o menos). Las tarjetas de canal quedan sobre su fondo `surface`.
-- [ ] **Marcado del botón:** en `ContactForm.astro`, el botón de envío suma tres capas decorativas (`aria-hidden`): el relleno dorado, un SVG con un `rect` de `pathLength="100"` y el degradado `gold` → `vibrant` para el trazo, y el par de íconos `send` / `check` superpuestos. El texto y el nombre accesible del botón no cambian. El `id` del degradado es único en la página.
-- [ ] **Estilos de los estados:** con clases o atributos (`data-state="sending"` / `"done"`), con los tokens del sitio y sin colores sueltos:
+- [x] **Fondos:** campo de puntos (`aria-hidden`) detrás de `ContactHeader`, con la variable de E200-I06 ajustada a la alineación de su encabezado; variante de curvas de `Band` en `ChannelsBand.astro`, sin la cuadrícula, con la composición nueva pasada como parámetros al componente de E200-I05 (trazos suavizados, 10 KB o menos). Las tarjetas de canal quedan sobre su fondo `surface`.
+- [x] **Marcado del botón:** en `ContactForm.astro`, el botón de envío suma tres capas decorativas (`aria-hidden`): el relleno dorado, un SVG con un `rect` de `pathLength="100"` y el degradado `gold` → `vibrant` para el trazo, y el par de íconos `send` / `check` superpuestos. El texto y el nombre accesible del botón no cambian. El `id` del degradado es único en la página.
+- [x] **Estilos de los estados:** con clases o atributos (`data-state="sending"` / `"done"`), con los tokens del sitio y sin colores sueltos:
     - **enviando:** contorno y trazo en bucle de 1,3 s, sin efecto de hover;
     - **enviado:** relleno con `scaleX` de 0 a 1 en 550 ms y cambio de `send` a `check`;
     - **movimiento reducido:** el trazo se muestra fijo alrededor del botón (sin recorrerlo), el relleno aparece sin desplazarse y el cambio de ícono es inmediato.
-- [ ] **Script (`contact.ts`):**
+- [x] **Script (`contact.ts`):**
     - al empezar el envío, marcar el botón como ocupado (`aria-busy="true"`), ignorar un segundo clic y aplicar «enviando»;
     - la región `role="status"` sigue recibiendo «Enviando tu mensaje…» para los lectores de pantalla, pero se oculta visualmente mientras no haya un error (clase `sr-only`);
     - si el envío sale bien, aplicar «enviado» y redirigir a Agradecimiento a los 600 ms, o de inmediato con movimiento reducido;
     - si falla, quitar el estado, `aria-busy` y `sr-only`, mostrar el error como hoy y pedir el token nuevo de Turnstile.
-- [ ] **Controles y CSP:** mantener la región `role="status"` con `data-form-status` que exige `verify:seo`. Si cambia un hash de script en línea, entregar a Felipe la línea exacta de `public/_headers` y verificar de nuevo cuando la pegue.
-- [ ] **Pruebas del envío en la URL de rama** (con el formulario real y Turnstile): envío correcto hasta Agradecimiento, error de validación, error del servidor y doble clic, en es y en, claro y oscuro, con teclado y con movimiento reducido. Revisar con NVDA o el lector disponible que se anuncie «Enviando tu mensaje…» y, si falla, el error.
-- [ ] **Revisión visual:** protocolo de la épica en `/es/contacto/` y `/en/contact/`, a 360, 768, 1.024, 1.366 y 1.920 px, incluida la carga de Calendly.
-- [ ] **Registro y bloques:** ADR-121, bloque de `DESIGN.md` 1.5 y 8 (excepción del trazo en bucle), 4.5, 7.3, 7.10 y 11.12 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
+- [x] **Controles y CSP:** mantener la región `role="status"` con `data-form-status` que exige `verify:seo`. Si cambia un hash de script en línea, entregar a Felipe la línea exacta de `public/_headers` y verificar de nuevo cuando la pegue.
+- [x] **Pruebas del envío en la URL de rama** (hechas en local y simuladas, por decisión de Felipe del 26-11-2026; la prueba real con Turnstile y correo la hace Felipe en producción: quedan pendientes 5b, 5c, AT-147 y AT-100) (con el formulario real y Turnstile): envío correcto hasta Agradecimiento, error de validación, error del servidor y doble clic, en es y en, claro y oscuro, con teclado y con movimiento reducido. Revisar con NVDA o el lector disponible que se anuncie «Enviando tu mensaje…» y, si falla, el error.
+- [x] **Revisión visual:** protocolo de la épica en `/es/contacto/` y `/en/contact/`, a 360, 768, 1.024, 1.366 y 1.920 px, incluida la carga de Calendly.
+- [x] **Registro y bloques:** ADR-121, bloque de `DESIGN.md` 1.5 y 8 (excepción del trazo en bucle), 4.5, 7.3, 7.10 y 11.12 en la bitácora, y PageSpeed Insights de las dos URL en la URL de rama.
 
 ## Archivos previstos (crear / modificar)
 - Modificar: `src/components/contact/ContactHeader.astro`, `ChannelsBand.astro`, `ContactForm.astro`, `src/scripts/contact.ts`, el componente de curvas de nivel de E200-I05 y, si hace falta, `src/styles/global.css`.
@@ -112,7 +112,7 @@ Aplicar en Contacto (`/es/contacto/` y `/en/contact/`) los mismos fondos que ya 
 - La composición de curvas es una propuesta del agente; si Felipe prefiere otra, se cambia en esta misma iteración.
 
 ## Cierre obligatorio
-- [ ] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
-- [ ] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
-- [ ] Escribir la bitácora en `99_bitacora/`
-- [ ] Sugerir mensaje de commit (máx. 200 caracteres)
+- [x] Actualizar estado en este archivo, en `epica.md`, en `_planificacion/README.md` y en `00_producto/registro-log.md`
+- [x] Registrar hallazgos nuevos en `auditoria-tecnica.md` y decisiones nuevas en `decisiones.md`
+- [x] Escribir la bitácora en `99_bitacora/`
+- [x] Sugerir mensaje de commit (máx. 200 caracteres)

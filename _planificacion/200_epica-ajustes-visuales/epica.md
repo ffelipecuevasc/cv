@@ -1,5 +1,5 @@
 # E200 · Ajustes visuales
-- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (77 de 79 iteraciones del proyecto terminadas: E200-I00 a E200-I12, la última el 26-11-2026; E200-I00 terminada el 24-11-2026; la épica queda abierta y se cierra solo cuando Felipe lo decida, ADR-107)
+- **Prioridad de la épica:** P1 · **Estado:** [~] En curso (78 de 79 iteraciones del proyecto terminadas: E200-I00 a E200-I13, la última el 26-11-2026; E200-I00 terminada el 24-11-2026; la épica queda abierta y se cierra solo cuando Felipe lo decida, ADR-107)
 
 ## Objetivo
 Corregir y mejorar el aspecto del sitio ya publicado en `https://felipecuevas.dev`, con cada ajuste en `es-CL` y `en-US`, revisado en una preview de rama antes de llegar a producción.
@@ -44,7 +44,7 @@ E190 (E190-I04 terminada) y E200-I00 (registro y renumeración de ADR).
 | [E200-I10](E200-I10-instructor.md) | Instructor: campo de puntos por sección, curvas de nivel en «Instructor Titular» y planes SENCE a todo el ancho | P1 | M | E200-I09 | [x] Terminada |
 | [E200-I11](E200-I11-talento-digital.md) | Talento Digital: puntos y curvas de nivel por franja, cifras centradas y OTEC en cada bootcamp | P1 | M | E200-I10 | [x] Terminada |
 | [E200-I12](E200-I12-foro.md) | Foro: campo de puntos en la cabecera y en «Conversación», y curvas de nivel en «Participar en tres pasos» | P1 | S | E200-I11 | [x] Terminada |
-| [E200-I13](E200-I13-contacto.md) | Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado | P1 | M | E200-I12 | [ ] Pendiente |
+| [E200-I13](E200-I13-contacto.md) | Contacto: campo de puntos en la cabecera, curvas de nivel en «Canales de contacto» y envío con contorno trazado | P1 | M | E200-I12 | [x] Terminada |
 | [E200-I14](E200-I14-recursos.md) | Recursos: catálogo de rutas con página propia por ruta, «Más recursos» con logos y fondos de la épica | P1 | M | E200-I13 | [ ] Pendiente |
 
 Orden de ejecución: el de la tabla (I00 a I14). La épica tiene 15 iteraciones (I00 a I14).

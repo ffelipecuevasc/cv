@@ -9,6 +9,11 @@
  * - Envío: POST JSON a /api/contacto (E140-I02), con la versión de la política y el idioma. Si
  *   responde bien, redirige a la página de agradecimiento del idioma (E150). Si falla, el error se
  *   anuncia en la región de estado, que queda asociada al botón con aria-describedby.
+ * - E200-I13 (ADR-121): el botón muestra el envío («contorno que se traza»). Mientras se envía lleva
+ *   aria-busy="true" y data-state="sending", y la región de estado anuncia «Enviando tu mensaje…»
+ *   solo a los lectores de pantalla (sr-only). Si sale bien, data-state="done" (relleno dorado y ✓)
+ *   y la redirección espera 600 ms (inmediata con movimiento reducido). Si falla, el botón vuelve a
+ *   la normalidad y el error se ve y se anuncia como antes.
  * - Calendly: no se descarga nada hasta que se pulsa «Cargar el calendario» (AT-024).
  */
 
@@ -21,6 +26,8 @@ declare global {
     turnstile?: TurnstileApi;
   }
 }
+
+const DONE_DELAY = 600;
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -91,9 +98,11 @@ export function initContactForm(): void {
   const data = form.dataset;
   let sending = false;
 
+  // Los avisos que no son errores (el envío en curso) se anuncian sin verse: el botón ya lo muestra.
   const say = (text: string, isError: boolean) => {
     if (!status) return;
     status.textContent = text;
+    status.classList.toggle('sr-only', !isError);
     if (!button) return;
     if (isError) button.setAttribute('aria-describedby', status.id);
     else button.removeAttribute('aria-describedby');
@@ -137,6 +146,26 @@ export function initContactForm(): void {
     });
   }
 
+  const setBusy = (state: 'sending' | 'done' | null) => {
+    if (!button) return;
+    if (state) {
+      button.dataset.state = state;
+      button.setAttribute('aria-busy', 'true');
+    } else {
+      delete button.dataset.state;
+      button.removeAttribute('aria-busy');
+    }
+  };
+
+  // Al volver con «Atrás» desde Agradecimiento (bfcache), el botón queda listo para otro envío.
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted || !sending) return;
+    setBusy(null);
+    say('', false);
+    turnstile.reset();
+    sending = false;
+  });
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (sending) return;
@@ -149,15 +178,18 @@ export function initContactForm(): void {
       return;
     }
 
+    // Desde aquí un segundo clic no hace nada, también mientras se descarga Turnstile.
+    sending = true;
     await turnstile.start();
     const token = turnstile.token();
     if (!token) {
+      sending = false;
       say(data.errorTurnstile ?? '', true);
       return;
     }
 
     const fields = new FormData(form);
-    sending = true;
+    setBusy('sending');
     say(data.sending ?? '', false);
     try {
       const response = await fetch(form.action, {
@@ -176,7 +208,12 @@ export function initContactForm(): void {
       });
       const result = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (response.ok && result.ok) {
-        window.location.href = data.thankYou ?? '/';
+        setBusy('done');
+        const go = () => {
+          window.location.href = data.thankYou ?? '/';
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) go();
+        else window.setTimeout(go, DONE_DELAY);
         return;
       }
       say(
@@ -186,6 +223,7 @@ export function initContactForm(): void {
     } catch {
       say(data.errorSend ?? '', true);
     }
+    setBusy(null);
     // El token de Turnstile es de un solo uso: se pide otro para el siguiente intento.
     turnstile.reset();
     sending = false;

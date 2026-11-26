@@ -5,8 +5,12 @@
  * 1.024 px, 2 desde 640 px y una bajo esa medida. Cada canal es un enlace `surface` con caja de
  * ícono de 44 px, nombre y detalle. Dentro de la banda el texto pequeño no usa `accent` (4.3).
  * Los externos abren pestaña nueva y lo avisan; el `mailto:` no. Sin JavaScript.
+ * E200-I13 (ADR-121): curvas de nivel `lobes` (dos lóbulos que asoman por el borde superior, a la
+ * izquierda y a la derecha) en lugar de la retícula. La máscara vive aquí, no en ContourLines
+ * (AT-165): deja libre el centro, donde va el encabezado, y se apaga antes de las tarjetas.
  */
 import Band from '../ui/Band.astro';
+import ContourLines from '../ui/ContourLines.astro';
 import Icon from '../ui/Icon.astro';
 import { langFromLocale } from '../../i18n/lang';
 import { useTranslations } from '../../i18n/ui';
@@ -17,7 +21,20 @@ const t = useTranslations(lang);
 const { channels } = await getContactPage();
 ---
 
-<Band id="contact-channels" kicker={channels.kicker[lang]} title={channels.title[lang]}>
+<Band
+  id="contact-channels"
+  kicker={channels.kicker[lang]}
+  title={channels.title[lang]}
+  texture="contour"
+>
+  <ContourLines
+    slot="decor"
+    pieces={[
+      { corner: 'top-left', shape: 'lobes' },
+      { corner: 'top-right', shape: 'lobes' },
+    ]}
+    mask="none"
+  />
   <ul class="channels" data-channels>
     {channels.items.map((item) => {
       const external = item.href.startsWith('https://');
@@ -50,6 +67,26 @@ const { channels } = await getContactPage();
 </Band>
 
 <style>
+  /* Lóbulos (4.5, ADR-121): sin la máscara de esquina de cada pieza. La capa se ve en las dos
+     esquinas superiores, deja libre el centro del encabezado (lado libre: 50vw − 250 px) y se
+     apaga antes de las tarjetas. Bajo 1.024 px el encabezado ocupa casi todo el ancho: solo
+     asoman en el relleno superior. */
+  :global(#contact-channels .shape-lobes) {
+    mask-image: none;
+  }
+  :global(#contact-channels .contour-lines) {
+    --lobe-side: clamp(120px, 50vw - 250px, 620px);
+    mask-image:
+      radial-gradient(ellipse var(--lobe-side) 190px at 0 0, black 45%, transparent 100%),
+      radial-gradient(ellipse var(--lobe-side) 190px at 100% 0, black 45%, transparent 100%);
+  }
+  @media (max-width: 63.999rem) {
+    :global(#contact-channels .contour-lines) {
+      mask-image:
+        radial-gradient(ellipse 42vw 52px at 0 0, black 35%, transparent 100%),
+        radial-gradient(ellipse 42vw 52px at 100% 0, black 35%, transparent 100%);
+    }
+  }
   .channels {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

@@ -2230,8 +2230,8 @@ check(same(resources.es?.themeItems, resources.en?.themeItems), 'mismas temátic
 // --- Contacto (E140-I01, ADR-035 y ADR-083): metadatos, estructura, formulario y terceros ---
 const CONTACT_ROUTES = { es: 'es/contacto', en: 'en/contact' };
 const CONTACT_TEXT = {
-  es: { h1: 'Contáctame', privacy: '/es/privacidad/' },
-  en: { h1: 'Get in touch', privacy: '/en/privacy/' },
+  es: { h1: 'Contáctame', privacy: '/es/privacidad/', submit: 'Enviar mensaje' },
+  en: { h1: 'Get in touch', privacy: '/en/privacy/', submit: 'Send message' },
 };
 // Canales de main:contacto.html, en orden, sin Discord (ADR-044).
 const CONTACT_CHANNELS = [
@@ -2391,6 +2391,42 @@ for (const [lang, info] of Object.entries(LANGS)) {
   check(!/<(input|textarea)[^>]*\sdisabled/.test(formHtml), 'ningún campo nace deshabilitado');
   check(/<noscript>[\s\S]*data-contact-noscript/.test(formHtml), 'aviso sin JavaScript');
   check(/role="status"[^>]*data-form-status/.test(formHtml), 'región de estado del envío');
+
+  // Fondos y botón de E200-I13 (ADR-121): puntos en la cabecera, curvas lobes sin retícula en
+  // «Canales de contacto» y capas decorativas del botón de envío, todas aria-hidden.
+  const contactHeader =
+    /<div class="contact-header[^"]*"[^>]*>([\s\S]*?)<h1/.exec(mainHtml)?.[1] ?? '';
+  check(
+    /texture-dots layer[^>]*aria-hidden="true"/.test(contactHeader) &&
+      /texture-halo layer[^>]*aria-hidden="true"/.test(contactHeader),
+    'cabecera con campo de puntos y halo (aria-hidden)',
+  );
+  const channelsTag = /<section[^>]*id="contact-channels"[^>]*>/.exec(mainHtml)?.[0] ?? '';
+  const channelsHtml = mainHtml.slice(
+    mainHtml.indexOf(channelsTag),
+    mainHtml.indexOf('data-channels'),
+  );
+  const channelShapes = [
+    ...channelsHtml.matchAll(/class="piece ([a-z-]+) [^"]*shape-([a-z]+)/g),
+  ].map((m) => `${m[1]}:${m[2]}`);
+  check(
+    /texture-band-contour/.test(channelsTag) &&
+      !/texture-band(?!-)/.test(channelsTag) &&
+      same(channelShapes, ['top-left:lobes', 'top-right:lobes']) &&
+      /<div class="contour-lines[^"]*"[^>]*aria-hidden="true"/.test(channelsHtml),
+    `«Canales de contacto» con curvas lobes y sin retícula (${channelShapes.join('+') || '-'})`,
+  );
+  const sendButton =
+    /<button[^>]*type="submit"[^>]*>([\s\S]*?)<\/button>/.exec(formHtml)?.[1] ?? '';
+  check(
+    /send-fill"[^>]*aria-hidden="true"/.test(sendButton) &&
+      /send-trace"[^>]*aria-hidden="true"/.test(sendButton) &&
+      /<rect[^>]*pathLength="100"/.test(sendButton) &&
+      /send-icons"[^>]*aria-hidden="true"/.test(sendButton) &&
+      (html.match(/id="contact-send-gradient"/g) ?? []).length === 1 &&
+      sendButton.replace(/<[^>]+>/g, '').trim() === CONTACT_TEXT[lang].submit,
+    'botón de envío: capas aria-hidden, degradado de id único y el mismo texto',
+  );
 
   // Terceros diferidos: ni Turnstile ni Calendly se cargan en el HTML (AT-024).
   check(
