@@ -1499,3 +1499,10 @@ Reglas del registro:
 - **Verificación (26-11-2026, dicho por Felipe, `curl` a producción):** `https://felipecuevas.dev` responde 200 y su `Permissions-Policy` ya no trae `browsing-topics`.
 - **Sustituye:** en parte a ADR-092, solo en la lista de funciones de `Permissions-Policy`. El resto de ADR-092 (CSP con hashes y demás cabeceras) sigue vigente. ADR-092 no se edita.
 - **Consecuencias:** AT-169 queda resuelto. Agregar de nuevo una directiva a `Permissions-Policy` exige un ADR.
+
+## ADR-127 · Se retira la utilidad de aparición al hacer scroll `reveal.ts` (sustituye en parte a ADR-045)
+- **Contexto:** auditoría de limpieza del 26-11-2026 (rama `limpieza-proyecto`). `src/scripts/reveal.ts` (`initReveal()`) y las reglas CSS de `[data-reveal]` nacieron en E20-I04 (ADR-045) para páginas que necesitaran aparición al hacer scroll. Ninguna página la adoptó: ningún módulo importa `initReveal`, ningún marcado usa `data-reveal` y la clase `reveal-ready` no aparece en `dist/`. La sección 8 de `DESIGN.md` sigue describiéndola como utilidad disponible.
+- **Decisión (de Felipe, 26-11-2026):** retirar `src/scripts/reveal.ts`, las reglas `.reveal-ready [data-reveal]` y la regla de impresión `[data-reveal]` de `src/styles/global.css`. Los tokens de movimiento (`--duration-slow`, `--ease-out-soft`) no se tocan: siguen en `@theme static` (ADR-045).
+- **Sustituye:** en parte a ADR-045, solo en la «utilidad de aparición» (el módulo, el atributo `data-reveal`, la clase `reveal-ready` y su punto de prueba de impresión). El resto de ADR-045 (sin AOS, movimiento reducido y tokens) sigue vigente. ADR-045 no se edita.
+- **Consecuencias:** si una página necesita aparición al hacer scroll, se vuelve a diseñar con un ADR nuevo. Felipe actualiza `DESIGN.md` 8 (ADR-033) con el bloque de la bitácora `99_bitacora/2026-11-26_limpieza-proyecto.md`. No se quitó ninguna dependencia: la auditoría confirmó que las 14 declaradas en `package.json` tienen uso.
+- **Origen:** auditoría de limpieza, decisión de Felipe, 26-11-2026. **Estado:** Aceptada.

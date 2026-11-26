@@ -272,23 +272,6 @@
 }
 
 /*
- * Aparición al hacer scroll: [data-reveal] solo se oculta cuando el script puso
- * `reveal-ready` en <html> (sin JavaScript, todo visible). Opacidad y 4 px con
- * `translate`, que no afecta el layout (sin CLS).
- */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal-ready [data-reveal] {
-    transition:
-      opacity var(--duration-slow) var(--ease-out-soft),
-      translate var(--duration-slow) var(--ease-out-soft);
-  }
-  .reveal-ready [data-reveal]:not(.is-revealed) {
-    opacity: 0;
-    translate: 0 4px;
-  }
-}
-
-/*
  * 4.5 Texturas. Son decorativas: se aplican a capas con aria-hidden.
  * texture-dots y texture-halo van en una capa absoluta detrás del hero.
  */
@@ -420,14 +403,6 @@
   :focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 2px;
-  }
-}
-
-/* ADR-045: al imprimir, ningún bloque con aparición queda oculto. */
-@media print {
-  [data-reveal] {
-    opacity: 1 !important;
-    translate: none !important;
   }
 }
 

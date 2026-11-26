@@ -8,7 +8,7 @@
  *   `src/i18n/routes.ts`), Agradecimiento ×2 y las 404 de idioma sin barra final (AT-109).
  *
  * Uso:
- *   node scripts/psi.mjs                         # mide la preview de workers.dev
+ *   node scripts/psi.mjs                         # mide producción (https://felipecuevas.dev)
  *   node scripts/psi.mjs --base https://otro.host
  *   node scripts/psi.mjs --category performance  # rendimiento: puntaje, LCP, CLS, TBT y peso
  *   node scripts/psi.mjs --only /es/foro/,/en/forum/
@@ -16,7 +16,7 @@
  */
 import { readFile, writeFile } from 'node:fs/promises';
 
-const DEFAULT_BASE = 'https://felipecuevas-dev.felipe-cuevas.workers.dev';
+const DEFAULT_BASE = 'https://felipecuevas.dev';
 const API = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
 const STRATEGIES = ['mobile', 'desktop'];
 const CONCURRENCY = 3;
